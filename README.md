@@ -34,6 +34,10 @@ We give a reinforcement-learning agent a *perfect* spatial population code, the 
 | **Training** (`popcode/train.py`) | A2C with the paper's hyperparameters (BPTT 100, entropy 8e-5, γ 0.99, reward clip 1), 300 M frames per run. |
 | **Evaluation** (`popcode/evaluate.py`) | 200 episodes with identical layouts across runs, plus probes that zero or alter parts of the code at test time (whole code, current code only, goal memory, the 169 PGCs, 169 random cells, …) and an untrained chance line. |
 
+![how the code is built](figures/fig0_grid_modules.png)
+
+*How the population code is built.* **(A)** One example cell from each of the four modules; the 128 cells of a module share one spacing (arrow) and one orientation. **(B)** Cells within a module differ only in phase, i.e. where the lattice sits (inset: the 128 phases of module 2, spread uniformly over one unit cell). **(C)** All 512 cells as the agent walks a straight line: each module repeats with its own period, and the four periods read together make position unambiguous across the 2.5 m arena. **(D)** A predictive grid cell is the same lattice read 20 cm ahead along the direction of travel. **(E, F)** The follow-up experiment varies how the 169 predictive cells are allotted to modules and how far ahead they look (a fixed 20 cm, or a fixed fraction of each module's spacing).
+
 ## 3. Design
 
 Three **arms** (what the agent is):
@@ -126,7 +130,7 @@ Every run's configuration, final evaluations and checkpoint probes are in `data/
 ```
 popcode/      codes.py (population code) · env.py (arena + vision) · nets.py (agent) · train.py · evaluate.py · analyze.py · validate_codes.py
 scripts/      launch_matrix.py (scheduler) · gcp_fleet.py (cloud fleet) · make_figures.py · package_data.py · status.py
-figures/      fig1–fig6 (png + svg)
+figures/      fig0–fig6 (png + svg)
 results/      RESULTS.md (all tables) · summary.json
 data/         per-run configs + evaluations (126 runs) · learning_curves.csv · validation_pgc33_s1.json
 docs/         LOG.md (day log, decisions, incidents) · pilot_4m_arena.md
