@@ -1,7 +1,7 @@
 #!/bin/bash
 # Wave C. When the concentration series (fleet v2b) has been collected and analysed by
 # auto_wave_b.sh, pick the best PGC percentage (scripts/pick_concentration.py). If it is not
-# 33 %, rerun every arrangement at that percentage at the same scale (9 codes x 8 seeds =
+# 33 % AND beats 33 % significantly (paired t, p < 0.05), rerun every arrangement at that percentage at the same scale (9 codes x 8 seeds =
 # 72 runs; the quarter-spacing code at that percentage already exists from the concentration
 # series): 48 runs on GCP (tag v2c, 16 L4 VMs, 3 per VM) and 24 locally (tmux popcode_wavec,
 # 12 concurrent, started once the band pilot is evaluated). Then analyse, make the figures,
@@ -16,11 +16,14 @@ log() { echo "$(TZ=America/Chicago date '+%Y-%m-%d %H:%M CST') $*" | tee -a $LOG
 log "wave C driver start"
 until grep -q "DONE:" runs/auto_wave_b.log 2>/dev/null; do sleep 300; done
 log "wave B done; picking the best concentration"
-$PY scripts/pick_concentration.py --runs_dir runs --out results/best_concentration.json > $W/pick.txt 2>&1
+$PY scripts/pick_concentration.py --runs_dir runs --out results/best_concentration.json --require_significant --alpha 0.05 > $W/pick.txt 2>&1
 cat $W/pick.txt >> $LOG
 P=$(tail -n 1 $W/pick.txt)
 if ! [[ "$P" =~ ^[0-9]+$ ]]; then log "picker failed (see $W/pick.txt)"; exit 1; fi
-if [ "$P" = "33" ]; then log "best concentration is 33 %: no rerun needed"; exit 0; fi
+RERUN=$($PY -c "import json; r=json.load(open('results/best_concentration.json')); print(r['rerun'])")
+REASON=$($PY -c "import json; print(json.load(open('results/best_concentration.json'))['reason'])")
+if [ "$RERUN" != "True" ]; then log "no rerun: $REASON"; exit 0; fi
+log "rerun justified: $REASON"
 log "best concentration: $P % -> rerunning all arrangements at $P % (9 codes x 8 seeds)"
 $PY scripts/make_matrix_v2.py rerun --frac $P --seeds 8 --out $W/waveC.json >> $LOG 2>&1
 $PY - "$W" <<'PYEOF' >> $LOG 2>&1
