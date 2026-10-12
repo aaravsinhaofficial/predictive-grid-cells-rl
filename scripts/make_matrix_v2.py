@@ -4,6 +4,7 @@ heading-only vision, where the code is load-bearing and PGCs helped).
   python scripts/make_matrix_v2.py arrangements --seeds 8 --out /tmp/waveA.json
   python scripts/make_matrix_v2.py concentrations --layout <best> --seeds 8 --out /tmp/waveB.json
   python scripts/make_matrix_v2.py bands --seeds 4 --out /tmp/waveBand.json
+  python scripts/make_matrix_v2.py rerun --frac 40 --seeds 8 --out /tmp/waveC.json
 
 Every run: 33% PGC unless stated, 20 cm shift unless stated, 300M frames,
 same population per seed as the main experiment (code_seed = seed), so each
@@ -28,6 +29,19 @@ BANDS = {
     'pband100': ['--cond', 'pgc100', '--cell_type', 'band'],
 }
 CONCENTRATIONS = {'pgc10': 0.10, 'pgc25': 0.25, 'pgc30': 0.30, 'pgc35': 0.35, 'pgc40': 0.40}
+# Rerun of every arrangement at another PGC percentage P (names pgc<P><suffix>; the
+# quarter-spacing code at P already exists from the concentration series as pgc<P>).
+RERUN = {
+    'unif': [],                                                   # uniform allotment, 20 cm everywhere
+    'fine': ['--pgc_layout', 'fine'],
+    'coarse': ['--pgc_layout', 'coarse'],
+    'middle': ['--pgc_layout', 'middle'],
+    'mec': ['--pgc_layout', 'weights', '--pgc_module_weights', '1,2,2,1'],
+    'phase': ['--pgc_shift_rule', 'spacing', '--pgc_shift_frac', '0.5'],      # half spacing
+    'jitter': ['--pgc_shift_jitter', '0.5'],
+    'bio': ['--pgc_shift_rule', 'spacing', '--pgc_shift_frac', '0.27', '--pgc_shift_jitter', '0.4'],
+    'retro': ['--pgc_shift', '-0.20'],
+}
 
 
 def spec(name, seed, frames, extra, cond='pgc33', prio=0):
@@ -37,11 +51,12 @@ def spec(name, seed, frames, extra, cond='pgc33', prio=0):
 
 def main():
   ap = argparse.ArgumentParser()
-  ap.add_argument('kind', choices=['arrangements', 'concentrations', 'bands'])
+  ap.add_argument('kind', choices=['arrangements', 'concentrations', 'bands', 'rerun'])
   ap.add_argument('--seeds', type=int, default=8)
   ap.add_argument('--frames', type=int, default=300_000_000)
   ap.add_argument('--layout', default='', help='concentrations: extra args of the winning arrangement, '
                                                'e.g. "--pgc_layout fine" (empty = uniform)')
+  ap.add_argument('--frac', type=int, default=None, help='rerun: PGC percentage, e.g. 40')
   ap.add_argument('--out', required=True)
   args = ap.parse_args()
   runs = []
@@ -55,6 +70,13 @@ def main():
     for name, frac in CONCENTRATIONS.items():
       for s in seeds:
         runs.append(spec(name, s, args.frames, ['--pgc_frac', str(frac)] + layout, cond='pgc33'))
+  elif args.kind == 'rerun':
+    if not args.frac:
+      raise SystemExit('rerun needs --frac <percent>')
+    for sfx, extra in RERUN.items():
+      for s in seeds:
+        runs.append(spec(f'pgc{args.frac}{sfx}', s, args.frames,
+                         ['--pgc_frac', str(args.frac / 100.0)] + extra, cond='pgc33'))
   else:
     for name, extra in BANDS.items():
       for s in seeds:

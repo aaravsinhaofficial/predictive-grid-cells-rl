@@ -501,23 +501,42 @@ def fig_reliance_over_training(runs_dir, out):
 
 # ----------------------------------------------- PGC arrangement follow-up
 DARK_ORANGE, PURPLE, DARK = '#9c3f14', '#8b5cf6', '#5f5e5a'
-ARR_LABEL = {
-    'pgc33': 'uniform (reference)',
-    'pgc33phase27': 'quarter-spacing shift',
-    'pgc33mec': 'MEC-weighted modules',
-    'pgc33bio': 'quarter-spacing + heterogeneous',
-    'pgc33jitter': 'heterogeneous 20 cm',
-    'pgc33coarse': 'coarse modules only',
-    'pgc33middle': 'middle modules only',
-    'pgc33retro': 'retrospective (20 cm behind)',
-    'pgc33phase': 'half-spacing shift',
-    'pgc33fine': 'fine modules only',
-}
-ARR_COLOR = {'pgc33': ORANGE, 'pgc33mec': AQUA, 'pgc33phase27': DARK_ORANGE, 'pgc33bio': PURPLE, 'gc100': BLUE}
+# role -> label; conditions are named pgc33<role> for the 33 % experiment (uniform = pgc33,
+# quarter-spacing = pgc33phase27) and pgc<P><role> for a rerun at P % (uniform = pgc<P>unif,
+# quarter-spacing = pgc<P>, which comes from the concentration series).
+ARR_ROLES = [('unif', 'uniform (reference)'), ('phase27', 'quarter-spacing shift'),
+             ('mec', 'MEC-weighted modules'), ('bio', 'quarter-spacing + heterogeneous'),
+             ('jitter', 'heterogeneous 20 cm'), ('coarse', 'coarse modules only'),
+             ('middle', 'middle modules only'), ('retro', 'retrospective (20 cm behind)'),
+             ('phase', 'half-spacing shift'), ('fine', 'fine modules only')]
+ROLE_COLOR = {'unif': ORANGE, 'mec': AQUA, 'phase27': DARK_ORANGE, 'bio': PURPLE}
 
 
-def arr_color(cond):
-  return ARR_COLOR.get(cond, DARK)
+def arr_cond(role, pct):
+  if pct == 33:
+    return 'pgc33' if role == 'unif' else f'pgc33{role}'
+  if role == 'unif':
+    return f'pgc{pct}unif'
+  return f'pgc{pct}' if role == 'phase27' else f'pgc{pct}{role}'
+
+
+def arr_set(pct):
+  """[(cond, role, label)] of the arrangement experiment at pct % PGCs."""
+  return [(arr_cond(r, pct), r, l) for r, l in ARR_ROLES]
+
+
+def arr_pcts(runs, arm='ffb'):
+  """PGC percentages for which an arrangement set exists (33 and any rerun with pgc<P>unif)."""
+  pcts = [33] if seeds_of(runs, 'pgc33', arm) else []
+  for (c, a, s) in runs:
+    m = re.match(r'^pgc(\d+)unif$', c)
+    if m and a == arm and int(m.group(1)) not in pcts:
+      pcts.append(int(m.group(1)))
+  return sorted(pcts)
+
+
+def arr_suffix(pct):
+  return '' if pct == 33 else f'_{pct}pct'
 
 
 def paired_vals(runs, cond, ref, arm, fn):
@@ -604,13 +623,17 @@ def slopegraph(ax, a, b, labels, colors, ylabel):
   return d
 
 
-def fig_arrangements(runs, out):
-  """Code-only arm: the nine PGC arrangements vs the uniform 33% code, paired by seed.
+def fig_arrangements(runs, out, pct=33):
+  """Code-only arm: the nine PGC arrangements vs the uniform code at pct % PGCs, paired by seed.
   A final score, B learning curves, C learning speed, D PGC-specific lesion cost."""
   arm = 'ffb'
-  present = [c for c in ARR_LABEL if seeds_of(runs, c, arm)]
+  aset = [(c, r, l) for c, r, l in arr_set(pct) if seeds_of(runs, c, arm)]
+  present = [c for c, _, _ in aset]
   if len(present) < 2:
     return
+  label = {c: l for c, _, l in aset}
+  color = {c: ROLE_COLOR.get(r, DARK) for c, r, _ in aset}
+  uni = arr_cond('unif', pct)
   means = {c: np.nanmean([score(runs, c, arm, s) for s in seeds_of(runs, c, arm)]) for c in present}
   order = sorted(present, key=lambda c: -means[c])
   y = np.arange(len(order))[::-1]
@@ -626,22 +649,22 @@ def fig_arrangements(runs, out):
     ax.axvline(gc.mean(), color=BLUE, ls=(0, (3, 3)), lw=1.2, zorder=0)
     ax.text(gc.mean(), 1.01, 'grid only', color=BLUE, fontsize=8, ha='center', va='bottom',
             transform=ax.get_xaxis_transform())
-  if 'pgc33' in means:
-    ax.axvline(means['pgc33'], color=ORANGE, lw=1.0, alpha=0.8, zorder=0)
-    ax.text(means['pgc33'], 1.01, 'uniform', color=ORANGE, fontsize=8, ha='center', va='bottom',
+  if uni in means:
+    ax.axvline(means[uni], color=ORANGE, lw=1.0, alpha=0.8, zorder=0)
+    ax.text(means[uni], 1.01, 'uniform', color=ORANGE, fontsize=8, ha='center', va='bottom',
             transform=ax.get_xaxis_transform())
   dot_rows(ax, y, [[score(runs, c, arm, s) for s in seeds_of(runs, c, arm)] for c in order],
-           [arr_color(c) for c in order], rng)
+           [color[c] for c in order], rng)
   for yi, c in zip(y, order):
-    if c == 'pgc33':
+    if c == uni:
       continue
-    a, b = paired_vals(runs, c, 'pgc33', arm, score)
+    a, b = paired_vals(runs, c, uni, arm, score)
     if len(a):
       ax.text(1.02, yi, f'{(a - b).mean():+.1f}', transform=ax.get_yaxis_transform(), fontsize=8,
               color=INK2, va='center', ha='left')
   ax.text(1.02, 1.01, 'Δ vs uniform', transform=ax.transAxes, fontsize=8, color=INK2, ha='left', va='bottom')
   ax.set_yticks(y)
-  ax.set_yticklabels([ARR_LABEL[c] for c in order], fontsize=9)
+  ax.set_yticklabels([label[c] for c in order], fontsize=9)
   ax.set_ylim(-0.7, len(order) - 0.3)
   ax.set_xlabel('final score (200 episodes)')
   letter_ax(ax, 'A', x=-0.42)
@@ -651,12 +674,12 @@ def fig_arrangements(runs, out):
   edges = np.arange(0, 300e6 + 10e6, 10e6)
   x = (edges[:-1] + edges[1:]) / 2 / 1e6
   for c in order:
-    if c in ARR_COLOR:
+    if color[c] != DARK:
       continue
     cs = np.array([binned(runs[(c, arm, s)]['ep'], edges) for s in seeds_of(runs, c, arm)])
     ax.plot(x, np.nanmean(cs, 0), color=GRAY, lw=0.8, alpha=0.7, zorder=1)
-  shown = [(c, ARR_COLOR[c], ARR_LABEL[c] if c != 'pgc33' else 'uniform')
-           for c in ('pgc33phase27', 'pgc33mec', 'pgc33bio', 'pgc33') if c in present]
+  shown = [(arr_cond(r, pct), ROLE_COLOR[r], 'uniform' if r == 'unif' else dict(ARR_ROLES)[r])
+           for r in ('phase27', 'mec', 'bio', 'unif') if arr_cond(r, pct) in present]
   shown.append(('gc100', BLUE, 'grid only'))
   curves(ax, runs, arm, shown, edges)
   ax.plot([], [], color=GRAY, lw=0.8, label='other arrangements')
@@ -669,15 +692,15 @@ def fig_arrangements(runs, out):
   ax.axvline(0, color=ORANGE, lw=1.0, alpha=0.8, zorder=0)
   rows, cols = [], []
   for c in order:
-    if c == 'pgc33':
+    if c == uni:
       rows.append([0.0])
     else:
-      a, b = paired_vals(runs, c, 'pgc33', arm, frames_to)
+      a, b = paired_vals(runs, c, uni, arm, frames_to)
       rows.append(a - b)
-    cols.append(arr_color(c))
+    cols.append(color[c])
   dot_rows(ax, y, rows, cols, rng)
   ax.set_yticks(y)
-  ax.set_yticklabels([ARR_LABEL[c] for c in order], fontsize=9)
+  ax.set_yticklabels([label[c] for c in order], fontsize=9)
   ax.set_ylim(-0.7, len(order) - 0.3)
   ax.set_xlabel('frames to reach a training score of 25, relative to uniform (millions)')
   ax.text(0.02, 0.985, 'faster  ◄', transform=ax.transAxes, fontsize=8, color=INK2, ha='left', va='top')
@@ -688,37 +711,40 @@ def fig_arrangements(runs, out):
   ax = fig.add_subplot(gs[1, 1])
   ax.axvline(0, color=GRAY, lw=0.8, zorder=0)
   dot_rows(ax, y, [[pgc_reliance(runs, c, arm, s) for s in seeds_of(runs, c, arm)] for c in order],
-           [arr_color(c) for c in order], rng)
+           [color[c] for c in order], rng)
   ax.set_yticks(y)
   ax.set_yticklabels([])
   ax.set_ylim(-0.7, len(order) - 0.3)
   ax.set_xlabel('PGC-specific lesion cost (score)')
   letter_ax(ax, 'D')
 
-  fig.savefig(os.path.join(out, 'fig7_arrangements.png'), bbox_inches='tight')
-  fig.savefig(os.path.join(out, 'fig7_arrangements.svg'), bbox_inches='tight')
+  fig.savefig(os.path.join(out, f'fig7_arrangements{arr_suffix(pct)}.png'), bbox_inches='tight')
+  fig.savefig(os.path.join(out, f'fig7_arrangements{arr_suffix(pct)}.svg'), bbox_inches='tight')
   plt.close(fig)
 
 
-def fig_arrangement_details(runs, out):
+def fig_arrangement_details(runs, out, pct=33):
   """One figure per PGC arrangement (figures/arrangements/<cond>.png): the population
   (cells per module, look-ahead per predictive cell), learning curve, paired final score
   and path efficiency against the reference, and test-time lesions."""
   from popcode.common import build_population
   arm = 'ffb'
-  sub = os.path.join(out, 'arrangements')
+  sub = os.path.join(out, 'arrangements' + arr_suffix(pct))
+  uni = arr_cond('unif', pct)
+  if not any(seeds_of(runs, c, arm) for c, _, _ in arr_set(pct)):
+    return
   os.makedirs(sub, exist_ok=True)
   edges = np.arange(0, 300e6 + 10e6, 10e6)
   rng = np.random.default_rng(3)
   lesions = [('intact', 'nothing'), ('sham', '169\nrandom'), ('no_pgc', 'predictive\n(169)'),
              ('no_gc', 'grid\n(343)'), ('no_code', 'whole\ncode')]
-  for cond, label in ARR_LABEL.items():
+  for cond, role, label in arr_set(pct):
     seeds = seeds_of(runs, cond, arm)
     if not seeds:
       continue
-    ref = 'gc100' if cond == 'pgc33' else 'pgc33'
+    ref = 'gc100' if cond == uni else uni
     ref_label = 'grid only' if ref == 'gc100' else 'uniform'
-    col, rcol = arr_color(cond), arr_color(ref)
+    col, rcol = ROLE_COLOR.get(role, DARK), (BLUE if ref == 'gc100' else ORANGE)
     cfg = runs[(cond, arm, seeds[0])]['cfg']
     pop = build_population(cfg, 'cpu')
     shifts, is_pgc, module, lam = pop._np['shifts'], pop._np['is_pgc'], pop.module, pop.spacings
@@ -727,7 +753,7 @@ def fig_arrangement_details(runs, out):
     xt = [f'module {m}\n{lam[m - 1]:.2f} m' for m in mods]
 
     fig = plt.figure(figsize=(12.5, 6.8))
-    fig.text(0.01, 0.985, label if cond != 'pgc33' else 'uniform 33 % (reference)', fontsize=13,
+    fig.text(0.01, 0.985, label if cond != uni else f'uniform {pct} % (reference)', fontsize=13,
              color=col, ha='left', va='top', fontweight='bold')
     gs = fig.add_gridspec(2, 3, hspace=0.6, wspace=0.38, top=0.9)
 
@@ -767,9 +793,9 @@ def fig_arrangement_details(runs, out):
 
     # C: learning curve
     ax = fig.add_subplot(gs[0, 2])
-    conds = [(cond, col, label if cond != 'pgc33' else 'uniform')]
-    if cond != 'pgc33':
-      conds.append(('pgc33', ORANGE, 'uniform'))
+    conds = [(cond, col, label if cond != uni else 'uniform')]
+    if cond != uni:
+      conds.append((uni, ORANGE, 'uniform'))
     conds.append(('gc100', BLUE, 'grid only'))
     curves(ax, runs, arm, conds, edges)
     ax.legend(fontsize=8, loc='upper left', handlelength=1.6)
@@ -817,10 +843,13 @@ def fig_arrangement_details(runs, out):
 
 
 def fig_concentration(runs, out):
-  """Code-only arm: final score vs fraction of predictive cells."""
+  """Code-only arm: final score vs fraction of predictive cells. The 10-40 % series uses the
+  quarter-spacing look-ahead (0.27 x module spacing); the 20 cm look-ahead codes of the main
+  experiment (33 % and 100 %) are shown as hollow markers. 0 % = grid only."""
   arm = 'ffb'
-  series = [('gc100', 0.0), ('pgc10', 0.10), ('pgc25', 0.25), ('pgc30', 0.30), ('pgc33', 0.33),
-            ('pgc35', 0.35), ('pgc40', 0.40), ('pgc100', 1.0)]
+  series = [('gc100', 0.0), ('pgc10', 0.10), ('pgc25', 0.25), ('pgc30', 0.30), ('pgc33phase27', 0.33),
+            ('pgc35', 0.35), ('pgc40', 0.40)]
+  twenty = [('pgc33', 0.33), ('pgc100', 1.0)]
   pts = []
   for cond, frac in series:
     vals = np.array([score(runs, cond, arm, s) for s in seeds_of(runs, cond, arm)], float)
@@ -829,18 +858,31 @@ def fig_concentration(runs, out):
       pts.append((frac, vals))
   if len(pts) < 3:
     return
-  fig, ax = plt.subplots(figsize=(5.2, 3.8))
+  fig, ax = plt.subplots(figsize=(5.4, 3.8))
   for frac, vals in pts:
     ax.scatter(np.full(len(vals), frac * 100), vals, s=16, color=ORANGE, alpha=0.4, edgecolor='none', zorder=2)
   x = [f * 100 for f, _ in pts]
   m = [v.mean() for _, v in pts]
   e = [sem(v) for _, v in pts]
-  ax.errorbar(x, m, yerr=e, fmt='-o', color=ORANGE, lw=2, ms=6, capsize=3, markeredgecolor='white', zorder=3)
+  ax.errorbar(x, m, yerr=e, fmt='-o', color=ORANGE, lw=2, ms=6, capsize=3, markeredgecolor='white', zorder=3,
+              label='look-ahead = 0.27 × spacing')
+  hx, hm, he = [], [], []
+  for cond, frac in twenty:
+    vals = np.array([score(runs, cond, arm, s) for s in seeds_of(runs, cond, arm)], float)
+    vals = vals[np.isfinite(vals)]
+    if len(vals):
+      hx.append(frac * 100)
+      hm.append(vals.mean())
+      he.append(sem(vals))
+  if hx:
+    ax.errorbar(hx, hm, yerr=he, fmt='o', color=DARK_ORANGE, ms=7, capsize=3, markerfacecolor='white',
+                markeredgewidth=1.6, lw=1.4, zorder=4, label='look-ahead = 20 cm')
   n = [score(runs, 'none', arm, s) for s in seeds_of(runs, 'none', arm)]
   n = [v for v in n if v is not None]
   if n:
     ax.axhline(np.mean(n), color=GRAY, ls=(0, (3, 3)), lw=1.2, zorder=0)
     ax.text(99, np.mean(n), 'no code', color=INK2, fontsize=8, va='bottom', ha='right')
+  ax.legend(fontsize=8, loc='lower right', handlelength=1.6)
   ax.set_xlabel('predictive grid cells (% of the 512-cell code)')
   ax.set_ylabel('score (code-only agent)')
   ax.set_xlim(-3, 103)
@@ -897,8 +939,9 @@ def main():
   fig_conditions(runs, args.out)
   fig_codes(args.runs_dir, args.out)
   fig_reliance_over_training(args.runs_dir, args.out)
-  fig_arrangements(runs, args.out)
-  fig_arrangement_details(runs, args.out)
+  for pct in arr_pcts(runs):
+    fig_arrangements(runs, args.out, pct)
+    fig_arrangement_details(runs, args.out, pct)
   fig_concentration(runs, args.out)
   fig_bands(runs, args.out)
   print('figures written to', args.out)
