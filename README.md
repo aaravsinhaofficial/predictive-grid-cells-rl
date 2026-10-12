@@ -121,7 +121,9 @@ Three **arms** (what the agent is):
 - Caveats: one arena difficulty (a harder 4 m arena was piloted and shelved: no homing by 100 M frames, see `docs/pilot_4m_arena.md`); 300 M frames per run (the paper used 10⁹); one PGC definition (spatial shift along the path; a time-lag definition is implemented but not run at scale); 3 seeds for the controls. In the two vision arms the seed-to-seed spread is large and the biggest paired differences come from seeds whose grid-only partner learned to use the code less, so those arms are honest nulls rather than hints. LSTM runs show a benign ≤ 0.4 % of saturated gates (an earlier optimizer setting saturated 87 % and made the code invisible; see `docs/LOG.md`).
 - Every statistic above was recomputed independently from the raw evaluation files by three separate checks (agreement to machine precision; audit of configs, checkpoints, population identity and episode pairing for all 72 primary runs).
 
-## 5. Follow-up: arranging the predictive cells
+## 5. Follow-up: arrangement, number and type of predictive cells
+
+### Arranging the predictive cells
 
 The uniform code scatters its 169 PGCs at random over the four modules, all with the same 20 cm look-ahead. Nine other arrangements were run in the code-only arm (8 seeds each, paired with the uniform and grid-only runs of the same seed, 72 runs): three module layouts (all PGCs in the finest, coarsest or middle modules), an MEC-like allotment (1:2:2:1 across modules), look-aheads proportional to each module's spacing (a quarter, the value measured by Ouchi & Fujisawa, or a half, the predicted worst case), cell-to-cell spread of the look-ahead, the quarter-spacing rule with spread (the closest match to the recorded population), and a retrospective control (20 cm *behind* the agent).
 
@@ -145,7 +147,49 @@ The uniform code scatters its 169 PGCs at random over the four modules, all with
 - **The shift is what matters**: backward, half-period, or concentrated in the finest module (where 20 cm *is* half a period) all fall back to grid-only level, and those agents stop relying on their predictive cells (lesion cost 1–3 points instead of 6–12).
 - **Secondary effects**: the MEC-weighted code learns fastest (20 M fewer frames to criterion, p = 0.016) but is the least consistent across seeds; the biology-matched code is the most consistent at the same mean as uniform.
 
-One figure per arrangement, with what each one changes and its numbers, is in [`docs/arrangements.md`](docs/arrangements.md). The concentration series (10–40 % PGCs on the quarter-spacing code) and a band-cell pilot are running; their results will be added here.
+One figure per arrangement, with what each one changes and its numbers, is in [`docs/arrangements.md`](docs/arrangements.md).
+
+### How many predictive cells?
+
+The quarter-spacing code (the arrangement with the highest mean) was run with 10, 25, 30, 35 and 40 % predictive cells, 8 seeds each, in the code-only arm, and compared within seed with the 33 % runs.
+
+![concentration](figures/fig8_concentration.png)
+
+*Figure 8. Final score vs. the fraction of predictive cells (dots = seeds, circles = mean ± SEM). The filled series is the quarter-spacing code; the hollow markers are the 20 cm-look-ahead codes of the main experiment (33 % and 100 %). 0 % = grid only.*
+
+| predictive cells | final score | paired Δ vs 33 % |
+|---|---|---|
+| 0 % (grid only) | 27.8 | −5.0 ± 1.8, p = 0.025 |
+| 10 % | 28.0 | **−4.8 ± 1.3, p = 0.009** |
+| 25 % | 32.7 | −0.0 ± 1.1, p = 0.97 |
+| 30 % | 29.9 | −2.8 ± 2.0, p = 0.20 |
+| **33 %** | **32.8** | reference |
+| 35 % | 31.3 | −1.5 ± 1.3, p = 0.28 |
+| 40 % | 30.6 | −2.1 ± 1.9, p = 0.29 |
+| 100 % (20 cm look-ahead, 3 seeds) | 36.0 | |
+
+Ten percent is not enough: it scores like the grid-only code. From 25 % to 40 % the score sits on a plateau around 31–33, where no two points differ by more than the seed noise, and 33 % is the best tested value with 25 % tied. The 100 % code from the main experiment is above the whole plateau, so the gain does not peak at a third. Because 33 % stayed the best, the planned rerun of all arrangements at another percentage (automated, conditional on a significant gain over 33 %) was not triggered.
+
+### Band cells
+
+A pilot with **band cells**: each cell is a single cosine along one of its module's three lattice directions (three orientations per module, same spacings and phases), so a cell is periodic along one axis instead of a hexagonal lattice. A predictive band cell is shifted along the direction of travel exactly like a PGC. Code-only arm, 4 seeds, run locally.
+
+![bands](figures/fig9_bands.png)
+
+*Figure 9. Band codes next to the grid codes of the main experiment (dots = seeds, bar = mean ± SEM).*
+
+| code (code-only arm, 4 paired seeds) | final score | paired Δ |
+|---|---|---|
+| grid (seeds 1–4) | 26.6 | |
+| band | 25.0 | vs grid −1.7 ± 1.3, p = 0.29 |
+| band + 33 % predictive | 30.4 | **vs band +5.4 ± 1.6, p = 0.041**, 4/4 seeds |
+| 100 % predictive band | 32.4 | **vs band +7.4 ± 1.2, p = 0.009**, 4/4 seeds |
+| grid + 33 % PGC (seeds 1–4) | 29.7 | band + 33 % vs this: +0.6 ± 2.0, p = 0.77 |
+| 100 % PGC (3 seeds) | 35.9 | 100 % predictive band vs this: −4.6 ± 1.1, p = 0.054 |
+
+A band code carries position about as well as a grid code for this agent, and predictive band cells help it as much as PGCs help the grid code: +5 points at 33 % and +7 at 100 %, in every seed, with the trained agents relying on the predictive cells specifically (PGC-specific lesion cost 7 and 22 points). The benefit of prediction is therefore not tied to the hexagonal structure; it comes from shifting a periodic spatial code forward along the path. At 100 % the predictive band code trails the 100 % PGC code by about 5 points (p = 0.05), so the hexagonal code remains the better substrate.
+
+**Cost of the follow-up:** 124 cloud runs (arrangements 72, concentrations 40, plus retries) ≈ $200 of the $300 budget; the band pilot ran locally.
 
 ## 6. Reproduce
 
@@ -170,9 +214,9 @@ Every run's configuration, final evaluations and checkpoint probes are in `data/
 ```
 code/         codes.py (population code) · env.py (arena + vision) · nets.py (agent) · train.py · evaluate.py · analyze.py · validate_codes.py
 scripts/      launch_matrix.py (scheduler) · gcp_fleet.py (cloud fleet) · make_figures.py · package_data.py · status.py
-figures/      fig0–fig7 (png + svg) · arrangements/ (one figure per PGC arrangement)
+figures/      fig0–fig9 (png + svg) · arrangements/ (one figure per PGC arrangement)
 results/      RESULTS.md (all tables) · summary.json
-data/         per-run configs + evaluations (126 runs) · learning_curves.csv · validation_pgc33_s1.json
+data/         per-run configs + evaluations (250 runs) · learning_curves.csv · validation_pgc33_s1.json
 docs/         LOG.md (day log, decisions, incidents) · arrangements.md (follow-up, one figure per arrangement) · pilot_4m_arena.md
 tests/
 ```

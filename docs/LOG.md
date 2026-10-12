@@ -243,3 +243,15 @@ until they finish; auto_wave_c was restarted with the new name. Note that
 `code` shadows the standard-library module of the same name when Python is
 started from the repository root (only matters for tools that import it, e.g.
 pdb); everything here is run via `python -m code.<module>` from the root.
+
+## 2026-10-12 ~2:50 am CST — concentration series + band pilot finished
+Fleet v2b (14 VMs, 40 runs) collected 2:46 am, VMs deleted 2:47 am (~$70).
+Quarter-spacing code, 8 seeds, paired vs 33 %: 10 % 28.0 (-4.8, p=0.009),
+25 % 32.7 (-0.0), 30 % 29.9 (-2.8, ns), 33 % 32.8, 35 % 31.3 (-1.5, ns),
+40 % 30.6 (-2.1, ns). Best = 33 % -> auto_wave_c: no rerun (guard: rerun only
+if another percentage beats 33 % with p < 0.05). Band pilot (local, 4 seeds)
+finished 1:02 am: band 25.0 vs grid 26.6 (ns); band + 33 % predictive 30.4
+(+5.4 vs band, p=0.04, 4/4); 100 % predictive band 32.4 (+7.4, p=0.009, 4/4);
+predictive bands ~= PGCs at 33 %, -4.6 at 100 % (p=0.05). auto_wave_b
+regenerated results/, figures/ (fig8, fig9) and data/ (250 runs). Follow-up
+spend ~$200 of $300. Nothing is running; all VMs deleted.
