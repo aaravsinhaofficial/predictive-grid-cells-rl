@@ -260,7 +260,7 @@ def fig_modules(out):
   spacing, random phases within a module, the code as a function of position,
   a grid cell next to its predictive counterpart, and how the PGCs are allotted
   and shifted per module in the arrangement experiment."""
-  from popcode.codes import GridPopulation
+  from code.codes import GridPopulation
   pop = GridPopulation(n_cells=512, pgc_frac=0.33, pgc_shift=0.20, seed=1, device='cpu')
   half, res = 1.25, 160
   maps = pop.ratemaps(res=res, half=half, dir=(1.0, 0.0), shift_scale=0.0)   # every cell as a grid cell
@@ -412,7 +412,7 @@ def fig_modules(out):
 
 
 def fig_codes(runs_dir, out):
-  from popcode.codes import GridPopulation
+  from code.codes import GridPopulation
   vpath = os.path.join(runs_dir, 'validation_pgc33_s1', 'validation.json')
   val = json.load(open(vpath)) if os.path.exists(vpath) else None
   pop = GridPopulation(n_cells=512, pgc_frac=0.33, pgc_shift=0.20, seed=1, device='cpu')
@@ -727,7 +727,7 @@ def fig_arrangement_details(runs, out, pct=33):
   """One figure per PGC arrangement (figures/arrangements/<cond>.png): the population
   (cells per module, look-ahead per predictive cell), learning curve, paired final score
   and path efficiency against the reference, and test-time lesions."""
-  from popcode.common import build_population
+  from code.common import build_population
   arm = 'ffb'
   sub = os.path.join(out, 'arrangements' + arr_suffix(pct))
   uni = arr_cond('unif', pct)

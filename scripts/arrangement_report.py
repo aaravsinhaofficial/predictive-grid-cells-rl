@@ -17,7 +17,7 @@ sys.argv, _argv = ['x'], sys.argv
 import make_figures as mf  # noqa: E402
 sys.argv = _argv
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from popcode.common import build_population  # noqa: E402
+from code.common import build_population  # noqa: E402
 
 
 def paired(runs, cond, ref, fn):

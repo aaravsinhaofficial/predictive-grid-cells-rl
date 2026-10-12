@@ -89,13 +89,13 @@ def matrix(wave, frames_pilot, frames):
 
 
 def train_cmd(r, out, train_args):
-  return ([PY, '-m', 'popcode.train', '--cond', r['cond'], '--seed', str(r['seed']),
+  return ([PY, '-m', 'code.train', '--cond', r['cond'], '--seed', str(r['seed']),
            '--frames', str(r['frames']), '--out', out, '--resume']
           + ARMS[r['arm']] + r['extra'] + train_args)
 
 
 def eval_cmd(out, episodes, probes, ckpt='final'):
-  return [PY, '-m', 'popcode.evaluate', '--run', out, '--probes', probes,
+  return [PY, '-m', 'code.evaluate', '--run', out, '--probes', probes,
           '--episodes', str(episodes), '--ckpt', ckpt]
 
 

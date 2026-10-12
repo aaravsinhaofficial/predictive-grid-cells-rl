@@ -107,7 +107,7 @@ def main():
   g = lambda c: sh([GCLOUD] + c + ['--project', args.project])
 
   if args.cmd == 'package':
-    sh(f'cd {ROOT} && tar czf /tmp/popcode_code.tar.gz popcode scripts tests README.md')
+    sh(f'cd {ROOT} && tar czf /tmp/popcode_code.tar.gz code scripts tests README.md')
     sh(f'{GSUTIL} ls gs://{args.bucket} >/dev/null 2>&1 || {GSUTIL} mb -p {args.project} -l us-central1 gs://{args.bucket}')
     sh(f'{GSUTIL} cp /tmp/popcode_code.tar.gz gs://{args.bucket}/popcode/code.tar.gz')
     print(f'code uploaded to gs://{args.bucket}/popcode/code.tar.gz')

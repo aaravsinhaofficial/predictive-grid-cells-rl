@@ -4,9 +4,9 @@ import argparse
 
 import torch
 
-from popcode.codes import GridPopulation
-from popcode.env import NUM_ACTIONS, ArenaEnv
-from popcode.nets import PolicyNet
+from code.codes import GridPopulation
+from code.env import NUM_ACTIONS, ArenaEnv
+from code.nets import PolicyNet
 
 CONDITIONS = {
     # name: (pgc_frac, code_mode)

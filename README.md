@@ -28,11 +28,11 @@ We give a reinforcement-learning agent a *perfect* spatial population code, the 
 
 | piece | what it is |
 |---|---|
-| **Population code** (`popcode/codes.py`) | 512 analytic cells in 4 modules (spacings 0.40, 0.57, 0.81, 1.15 m), random orientation per module, random phase per cell. A **PGC** is the same hexagonal pattern read out **20 cm ahead of the agent along its direction of travel** (the definition used by the PGC analysis pipeline). Validated with the paper's own gridness-vs-shift scorer: grid cells peak at 0 cm, PGCs at 19.5 ± 1.2 cm (Fig. 5). |
-| **Task** (`popcode/env.py`) | Banino's goal task in a 2.5 m square arena: hidden goal, +10 and random respawn on reaching it, 90 s episodes, six actions, first-person vision (walls, stripes and landmarks re-drawn every episode). Vectorised on the GPU. |
-| **Agent** (`popcode/nets.py`) | The paper's architecture: 4-layer conv vision net + 256-unit layer, policy LSTM (256) fed `[vision, code, goal code, previous action, previous reward]`, 6-way actor and critic. A feed-forward variant (same inputs, no memory) is used where the code must be the only position source. |
-| **Training** (`popcode/train.py`) | A2C with the paper's hyperparameters (BPTT 100, entropy 8e-5, γ 0.99, reward clip 1), 300 M frames per run. |
-| **Evaluation** (`popcode/evaluate.py`) | 200 episodes with identical layouts across runs, plus probes that zero or alter parts of the code at test time (whole code, current code only, goal memory, the 169 PGCs, 169 random cells, …) and an untrained chance line. |
+| **Population code** (`code/codes.py`) | 512 analytic cells in 4 modules (spacings 0.40, 0.57, 0.81, 1.15 m), random orientation per module, random phase per cell. A **PGC** is the same hexagonal pattern read out **20 cm ahead of the agent along its direction of travel** (the definition used by the PGC analysis pipeline). Validated with the paper's own gridness-vs-shift scorer: grid cells peak at 0 cm, PGCs at 19.5 ± 1.2 cm (Fig. 5). |
+| **Task** (`code/env.py`) | Banino's goal task in a 2.5 m square arena: hidden goal, +10 and random respawn on reaching it, 90 s episodes, six actions, first-person vision (walls, stripes and landmarks re-drawn every episode). Vectorised on the GPU. |
+| **Agent** (`code/nets.py`) | The paper's architecture: 4-layer conv vision net + 256-unit layer, policy LSTM (256) fed `[vision, code, goal code, previous action, previous reward]`, 6-way actor and critic. A feed-forward variant (same inputs, no memory) is used where the code must be the only position source. |
+| **Training** (`code/train.py`) | A2C with the paper's hyperparameters (BPTT 100, entropy 8e-5, γ 0.99, reward clip 1), 300 M frames per run. |
+| **Evaluation** (`code/evaluate.py`) | 200 episodes with identical layouts across runs, plus probes that zero or alter parts of the code at test time (whole code, current code only, goal memory, the 169 PGCs, 169 random cells, …) and an untrained chance line. |
 
 ![how the code is built](figures/fig0_grid_modules.png)
 
@@ -152,13 +152,13 @@ One figure per arrangement, with what each one changes and its numbers, is in [`
 ```bash
 PY=python            # needs torch (CUDA), numpy, scipy, matplotlib
 $PY -m pytest -q tests/                                                   # unit + smoke tests
-$PY -m popcode.validate_codes --cond pgc33 --seed 1 --out runs/validation_pgc33_s1
-$PY -m popcode.train --cond pgc33 --policy ff --vision heading_only --seed 1 \
+$PY -m code.validate_codes --cond pgc33 --seed 1 --out runs/validation_pgc33_s1
+$PY -m code.train --cond pgc33 --policy ff --vision heading_only --seed 1 \
     --frames 300000000 --encoder_norm layernorm --lr 3e-4 --rms_eps 1e-5 --out runs/pgc33_ffb_s1
-$PY -m popcode.evaluate --run runs/pgc33_ffb_s1 --probes intact,no_code,no_goal,untrained
+$PY -m code.evaluate --run runs/pgc33_ffb_s1 --probes intact,no_code,no_goal,untrained
 $PY scripts/launch_matrix.py --wave 2            # the whole matrix on one machine (slow)
 $PY scripts/gcp_fleet.py plan --wave 2 --vms 32 && $PY scripts/gcp_fleet.py launch --vms 32   # or on GCP
-$PY -m popcode.analyze --runs_dir runs --out results && $PY scripts/make_figures.py
+$PY -m code.analyze --runs_dir runs --out results && $PY scripts/make_figures.py
 ```
 
 Every run's configuration, final evaluations and checkpoint probes are in `data/evals/`, the binned training curves in `data/learning_curves.csv`, and the aggregate statistics in `data/summary.json`, so the tables and most figures can be regenerated without retraining (`python scripts/make_figures.py --runs_dir data/evals`).
@@ -168,7 +168,7 @@ Every run's configuration, final evaluations and checkpoint probes are in `data/
 ## 7. Layout
 
 ```
-popcode/      codes.py (population code) · env.py (arena + vision) · nets.py (agent) · train.py · evaluate.py · analyze.py · validate_codes.py
+code/         codes.py (population code) · env.py (arena + vision) · nets.py (agent) · train.py · evaluate.py · analyze.py · validate_codes.py
 scripts/      launch_matrix.py (scheduler) · gcp_fleet.py (cloud fleet) · make_figures.py · package_data.py · status.py
 figures/      fig0–fig7 (png + svg) · arrangements/ (one figure per PGC arrangement)
 results/      RESULTS.md (all tables) · summary.json

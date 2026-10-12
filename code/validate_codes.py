@@ -15,7 +15,7 @@ teleports), not the all-step mean, which is dominated by turning-in-place.
 
 Outputs <out>/validation.json and <out>/validation.png.
 
-  python -m popcode.validate_codes --cond pgc33 --seed 1 --out runs/validation
+  python -m code.validate_codes --cond pgc33 --seed 1 --out runs/validation
 """
 import argparse
 import json
@@ -27,7 +27,7 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, '/home/ec2-user/predictive-grid-cell-analysis/code')
-from popcode.common import (add_shared_args, build_env, build_population,  # noqa: E402
+from code.common import (add_shared_args, build_env, build_population,  # noqa: E402
                             resolve_cond)
 import scores as pgc_scores  # noqa: E402  (paper pipeline's GridScorer)
 

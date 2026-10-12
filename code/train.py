@@ -26,7 +26,7 @@ of motion); the goal code g* is the code at the position where the goal was
 last reached (zeros before the first goal of an episode), as in the paper.
 
 Example:
-  python -m popcode.train --cond pgc33 --policy lstm --seed 1 \
+  python -m code.train --cond pgc33 --policy lstm --seed 1 \
       --frames 300000000 --out runs/pgc33_lstm_s1
 """
 import argparse
@@ -39,7 +39,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from popcode.common import (EXPERIMENT_KEYS, CodeSource, add_shared_args,   # noqa: E402
+from code.common import (EXPERIMENT_KEYS, CodeSource, add_shared_args,   # noqa: E402
                             build_env, build_policy, build_population,
                             extra_from_obs, resolve_cond)
 

@@ -35,7 +35,7 @@ while true; do
   done
   if [ "$all_done" -eq 1 ]; then
     log "all fleets collected; running analysis"
-    $PY -m popcode.analyze --runs_dir runs --out results >> $LOG 2>&1
+    $PY -m code.analyze --runs_dir runs --out results >> $LOG 2>&1
     log "analysis written to results/RESULTS.md"
     break
   fi

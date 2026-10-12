@@ -5,7 +5,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from popcode.codes import GridPopulation  # noqa: E402
+from code.codes import GridPopulation  # noqa: E402
 
 
 def test_grid_periodicity_and_range():

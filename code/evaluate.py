@@ -24,7 +24,7 @@ Output files carry their provenance: eval/<probe>.json is written only for the
 final checkpoint at the canonical episode count; anything else is written as
 eval/<probe>@<frames>f_<episodes>ep.json and ignored by analyze.py.
 
-  python -m popcode.evaluate --run runs/pgc33_lstm_s1 --probes intact,no_code
+  python -m code.evaluate --run runs/pgc33_lstm_s1 --probes intact,no_code
 """
 import argparse
 import glob
@@ -36,7 +36,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from popcode.common import (PROBES, CodeSource, build_env, build_policy,  # noqa: E402
+from code.common import (PROBES, CodeSource, build_env, build_policy,  # noqa: E402
                             build_population, extra_from_obs)
 
 CANONICAL_EPISODES = 200

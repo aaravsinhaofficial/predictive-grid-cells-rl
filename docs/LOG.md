@@ -231,3 +231,15 @@ figures/arrangements/<cond>.png (one per arrangement); write-up in
 docs/arrangements.md. Follow-up code (pgc_layout / shift rules / band cells,
 make_matrix_v2.py, auto_wave_b.sh) committed; results/ and data/ will be
 refreshed when the concentration and band runs are in.
+
+## 2026-10-11 ~11:40 pm CST — package renamed popcode/ -> code/
+User request. `git mv popcode code`; every module path (`-m code.train`,
+`from code.common import ...`) updated in code/, tests/, scripts/ and README.
+Cloud resource names are unchanged (bucket connectome-ai-research-popcode,
+bucket prefix popcode/, VM names popcode-<tag>-NN) and so are tmux session
+names. A local, untracked symlink `popcode -> code` keeps the jobs that were
+already running (band-pilot scheduler, auto_wave_b, fleet_monitor_v2b) working
+until they finish; auto_wave_c was restarted with the new name. Note that
+`code` shadows the standard-library module of the same name when Python is
+started from the repository root (only matters for tools that import it, e.g.
+pdb); everything here is run via `python -m code.<module>` from the root.

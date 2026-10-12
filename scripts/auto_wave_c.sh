@@ -89,7 +89,7 @@ PYEOF
 }
 until local_done >> $LOG 2>&1; do sleep 900; done
 log "local part finished; final analysis"
-$PY -m popcode.analyze --runs_dir runs --out results >> $LOG 2>&1
+$PY -m code.analyze --runs_dir runs --out results >> $LOG 2>&1
 $PY scripts/make_figures.py --runs_dir runs --out figures >> $LOG 2>&1
 $PY scripts/arrangement_report.py --pct $P --runs_dir runs --out docs/arrangements_${P}pct.md >> $LOG 2>&1
 $PY scripts/package_data.py --runs_dir runs --out data >> $LOG 2>&1

@@ -5,8 +5,8 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from popcode.env import NUM_ACTIONS, ArenaEnv  # noqa: E402
-from popcode.nets import PolicyNet  # noqa: E402
+from code.env import NUM_ACTIONS, ArenaEnv  # noqa: E402
+from code.nets import PolicyNet  # noqa: E402
 
 DEV = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -89,7 +89,7 @@ def test_turn_in_place_keeps_motion_direction():
   for _ in range(20):
     obs, _, _, _ = env.step(torch.zeros(32, dtype=torch.long, device=DEV))  # turn_left
   assert torch.allclose(obs['dir'], d_hold), 'direction must hold while turning in place'
-  from popcode.env import wrap_pi
+  from code.env import wrap_pi
   assert float(wrap_pi(obs['hd'] - hd_hold).abs().min()) > 0.5, 'heading keeps turning'
 
 
@@ -153,7 +153,7 @@ def test_policy_prev_action_sentinel_and_embed_path():
 def test_paired_episode_layouts_are_policy_independent():
   """With paired=True the goal/spawn/texture sequence of each env slot depends
   only on (pair_seed, slot, episode, draw), not on the actions taken."""
-  from popcode.env import ArenaEnv as E
+  from code.env import ArenaEnv as E
   outs = []
   for actions_seed in (0, 1):
     env = E(4, episode_len=30, seed=actions_seed + 7, device=DEV, stagger=False,
@@ -176,7 +176,7 @@ def test_paired_episode_layouts_are_policy_independent():
 
 def test_probe_code_sources():
   import numpy as np
-  from popcode.common import CodeSource, build_population, resolve_cond, sham_indices
+  from code.common import CodeSource, build_population, resolve_cond, sham_indices
   cfg = resolve_cond(dict(cond='pgc33', pgc_frac=None, code_mode=None, code_seed=None, seed=3,
                           n_cells=128, n_modules=4, spacing_min=0.4, spacing_ratio=1.42,
                           pgc_shift=0.2, pgc_shift_mode='space', pgc_tau=0.5, pgc_shift_jitter=0.0,

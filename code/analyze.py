@@ -18,7 +18,7 @@ Pre-registered endpoints (see the design review in STATUS.md):
   reliance   intact - no_code, intact - no_current, learned gain intact - untrained
   PGC-specific lesion effect: sham (count-matched, mean of 5 draws) - no_pgc
 
-  python -m popcode.analyze --runs_dir runs --out results
+  python -m code.analyze --runs_dir runs --out results
 """
 import argparse
 import glob

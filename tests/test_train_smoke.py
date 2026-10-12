@@ -15,7 +15,7 @@ def _run(cmd, check=True):
 
 def test_train_and_eval_smoke(tmp_path):
   out = str(tmp_path / 'run')
-  base = [sys.executable, '-m', 'popcode.train', '--cond', 'pgc33', '--policy', 'lstm',
+  base = [sys.executable, '-m', 'code.train', '--cond', 'pgc33', '--policy', 'lstm',
           '--seed', '1', '--n_envs', '8', '--rollout', '30', '--episode_len', '40',
           '--log_every', '1', '--out', out, '--device', DEV, '--encoder_norm', 'layernorm',
           '--lr', '3e-4', '--rms_eps', '1e-5']
@@ -42,7 +42,7 @@ def test_train_and_eval_smoke(tmp_path):
   r = _run([a if a != 'pgc33' else 'gc100' for a in b2] + ['--frames', '1', '--resume'], check=False)
   assert r.returncode != 0 and 'refused' in (r.stdout + r.stderr)
   # evaluation probes run end to end; provenance naming for non-canonical evals
-  ev = [sys.executable, '-m', 'popcode.evaluate', '--run', out, '--episodes', '4',
+  ev = [sys.executable, '-m', 'code.evaluate', '--run', out, '--episodes', '4',
         '--n_envs', '4', '--probes', 'intact,no_code,no_pgc,pgc_as_gc,no_goal,untrained',
         '--device', DEV]
   _run(ev)
@@ -61,7 +61,7 @@ def test_ff_none_and_time_mode_variants(tmp_path):
                              ['--policy', 'ff', '--cond', 'pgc100', '--pgc_shift_mode', 'time',
                               '--extra_input', 'vel', '--goal_code_shift', 'zero'])):
     out = str(tmp_path / f'v{i}')
-    cmd = [sys.executable, '-m', 'popcode.train', '--seed', '2', '--n_envs', '4',
+    cmd = [sys.executable, '-m', 'code.train', '--seed', '2', '--n_envs', '4',
            '--rollout', '10', '--episode_len', '15', '--frames', str(4 * 4 * 10 * 2),
            '--log_every', '1', '--out', out, '--device', DEV] + extra
     _run(cmd)

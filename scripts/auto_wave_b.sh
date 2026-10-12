@@ -12,7 +12,7 @@ log() { echo "$(TZ=America/Chicago date '+%Y-%m-%d %H:%M CST') $*" | tee -a $LOG
 log "auto driver start"
 until grep -q "v2a: collected" runs/fleet_monitor_v2a.log 2>/dev/null && grep -q "v2a2: collected" runs/fleet_monitor_v2a2.log 2>/dev/null; do sleep 300; done
 log "arrangement waves (v2a + v2a2) collected; analysing"
-$PY -m popcode.analyze --runs_dir runs --out results >> $LOG 2>&1
+$PY -m code.analyze --runs_dir runs --out results >> $LOG 2>&1
 BEST=$($PY - <<'PYEOF'
 import json
 s = json.load(open('results/summary.json'))['groups']
@@ -52,7 +52,7 @@ if [ "$N" -lt 14 ]; then
 fi
 FLEET_LOG=runs/fleet_monitor_v2b.log ./scripts/fleet_monitor.sh v2b:$N
 log "concentration wave collected; final analysis"
-$PY -m popcode.analyze --runs_dir runs --out results >> $LOG 2>&1
+$PY -m code.analyze --runs_dir runs --out results >> $LOG 2>&1
 $PY scripts/make_figures.py --runs_dir runs --out figures >> $LOG 2>&1
 $PY scripts/package_data.py --runs_dir runs --out data >> $LOG 2>&1
 cp results/summary.json data/summary.json
