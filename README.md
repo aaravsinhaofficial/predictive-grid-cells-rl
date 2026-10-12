@@ -85,6 +85,20 @@ Three **arms** (what the agent is):
 
 (no-code agents: 21.4, 41.0, 41.9; untrained ≈ 1.)
 
+**Do PGCs help when the agent also has vision?** Not on the score, which varies by ~15 points from seed to seed in these arms (an effect of 3 points would need over a hundred seeds to detect). But the trained agents do read the predictive cells specifically, and their return trips are straighter:
+
+| code + vision, 8 paired seeds | grid | grid + 33 % PGC | paired Δ |
+|---|---|---|---|
+| final score (feed-forward) | 68.2 | 71.8 | +3.6 ± 5.5, p = 0.53 |
+| final score (LSTM) | 66.4 | 66.6 | +0.2 ± 6.4, p = 0.98 |
+| path efficiency (feed-forward) | | | **+0.043 ± 0.014, p = 0.018** |
+| path efficiency (LSTM) | | | +0.057 ± 0.030, p = 0.10 |
+| frames to 80 % of final score (feed-forward) | | | 35 M fewer, p = 0.09 |
+| PGC-specific lesion cost (feed-forward) | | | **6.5 ± 1.6 points, p = 0.005** |
+| PGC-specific lesion cost (LSTM) | | | **4.0 ± 1.5 points, p = 0.034** |
+
+(PGC-specific lesion cost = score lost when the 169 predictive cells are silenced at test time, minus the score lost when 169 random cells are silenced. Path efficiency = straight-line distance to the goal over distance walked.)
+
 ### Controls and probes
 
 ![probes](figures/fig3_probes.png)
