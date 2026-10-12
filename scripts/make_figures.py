@@ -499,39 +499,321 @@ def fig_reliance_over_training(runs_dir, out):
   plt.close(fig)
 
 
+# ----------------------------------------------- PGC arrangement follow-up
+DARK_ORANGE, PURPLE, DARK = '#9c3f14', '#8b5cf6', '#5f5e5a'
+ARR_LABEL = {
+    'pgc33': 'uniform (reference)',
+    'pgc33phase27': 'quarter-spacing shift',
+    'pgc33mec': 'MEC-weighted modules',
+    'pgc33bio': 'quarter-spacing + heterogeneous',
+    'pgc33jitter': 'heterogeneous 20 cm',
+    'pgc33coarse': 'coarse modules only',
+    'pgc33middle': 'middle modules only',
+    'pgc33retro': 'retrospective (20 cm behind)',
+    'pgc33phase': 'half-spacing shift',
+    'pgc33fine': 'fine modules only',
+}
+ARR_COLOR = {'pgc33': ORANGE, 'pgc33mec': AQUA, 'pgc33phase27': DARK_ORANGE, 'pgc33bio': PURPLE, 'gc100': BLUE}
+
+
+def arr_color(cond):
+  return ARR_COLOR.get(cond, DARK)
+
+
+def paired_vals(runs, cond, ref, arm, fn):
+  """Per-seed (variant, reference) values for the seeds present in both."""
+  seeds = sorted(set(seeds_of(runs, cond, arm)) & set(seeds_of(runs, ref, arm)))
+  a = np.array([fn(runs, cond, arm, s) for s in seeds], float)
+  b = np.array([fn(runs, ref, arm, s) for s in seeds], float)
+  ok = np.isfinite(a) & np.isfinite(b)
+  return a[ok], b[ok]
+
+
+def frames_to(runs, cond, arm, seed, thr=25.0, bin_frames=5e6, budget=300e6):
+  """Training frames (millions) until the 5M-frame binned training score first reaches thr."""
+  r = runs.get((cond, arm, seed))
+  if r is None or r['ep'] is None:
+    return np.nan
+  edges = np.arange(0, budget + bin_frames, bin_frames)
+  b = binned(r['ep'], edges)
+  i = np.where(b >= thr)[0]
+  return edges[i[0] + 1] / 1e6 if len(i) else budget / 1e6
+
+
+def pgc_reliance(runs, cond, arm, seed):
+  """PGC-specific lesion cost: (intact - no_pgc) - (intact - count-matched sham) = sham - no_pgc."""
+  r = runs.get((cond, arm, seed))
+  if r is None:
+    return np.nan
+  e = r['evals']
+  if 'no_pgc' not in e or 'sham' not in e:
+    return np.nan
+  return e['sham']['mean_score'] - e['no_pgc']['mean_score']
+
+
+def letter_ax(ax, s, x=-0.14, y=1.08):
+  ax.text(x, y, s, transform=ax.transAxes, fontsize=12, fontweight='bold', color=INK)
+
+
+def dot_rows(ax, y, vals_by_row, colors, rng):
+  for yi, vals, col in zip(y, vals_by_row, colors):
+    vals = np.asarray(vals, float)
+    vals = vals[np.isfinite(vals)]
+    if not len(vals):
+      continue
+    ax.scatter(vals, np.full(len(vals), yi) + rng.uniform(-0.16, 0.16, len(vals)), s=15, color=col,
+               alpha=0.4, edgecolor='none', zorder=2)
+    ax.errorbar(vals.mean(), yi, xerr=sem(vals), fmt='o', color=col, ms=6.5, lw=1.6, capsize=0,
+                markeredgecolor='white', markeredgewidth=0.8, zorder=4)
+
+
+def curves(ax, runs, arm, conds, edges, labels=True, lw=2):
+  x = (edges[:-1] + edges[1:]) / 2 / 1e6
+  handles = []
+  for cond, col, label in conds:
+    cs = np.array([binned(runs[(cond, arm, s)]['ep'], edges) for s in seeds_of(runs, cond, arm)])
+    if not len(cs):
+      continue
+    mu = np.nanmean(cs, 0)
+    se = np.nanstd(cs, 0) / np.sqrt(np.maximum((~np.isnan(cs)).sum(0), 1))
+    h, = ax.plot(x, mu, color=col, lw=lw, zorder=3, label=label)
+    ax.fill_between(x, mu - se, mu + se, color=col, alpha=0.14, lw=0)
+    handles.append(h)
+  ax.set_xlabel('training frames (millions)')
+  ax.set_xlim(0, 305)
+  return handles
+
+
+def slopegraph(ax, a, b, labels, colors, ylabel):
+  """Per-seed slopegraph reference (a) -> variant (b) with group means and the paired difference."""
+  for ai, bi in zip(a, b):
+    ax.plot([0, 1], [ai, bi], color=GRAY, lw=0.8, alpha=0.6, zorder=1)
+  ax.scatter(np.zeros(len(a)), a, s=28, color=colors[0], zorder=3, edgecolor='white', lw=0.6)
+  ax.scatter(np.ones(len(b)), b, s=28, color=colors[1], zorder=3, edgecolor='white', lw=0.6)
+  for xx, v, c in ((0, a, colors[0]), (1, b, colors[1])):
+    ax.hlines(v.mean(), xx - 0.22, xx + 0.22, color=c, lw=3, zorder=4)
+    ax.vlines(xx + (0.3 if xx == 0 else -0.3), v.mean() - sem(v), v.mean() + sem(v), color=c, lw=1.4, zorder=4)
+  d = b - a
+  ax.set_xticks([0, 1])
+  ax.set_xticklabels(labels, fontsize=9)
+  ax.set_xlim(-0.6, 1.6)
+  ax.set_ylabel(ylabel)
+  if len(d):
+    fmt = '{:+.1f} ± {:.1f}' if abs(d.mean()) >= 0.5 or sem(d) >= 0.5 else '{:+.3f} ± {:.3f}'
+    ax.set_title('Δ ' + fmt.format(d.mean(), sem(d)), fontsize=9, color=INK2, pad=6)
+  return d
+
+
 def fig_arrangements(runs, out):
-  """Code-only arm: each PGC arrangement vs the uniform 33% code, paired by seed."""
+  """Code-only arm: the nine PGC arrangements vs the uniform 33% code, paired by seed.
+  A final score, B learning curves, C learning speed, D PGC-specific lesion cost."""
   arm = 'ffb'
-  variants = [('pgc33', 'uniform\n(reference)'), ('pgc33fine', 'finest\nmodules'),
-              ('pgc33coarse', 'coarsest\nmodules'), ('pgc33middle', 'middle\nmodules'),
-              ('pgc33phase', 'shift = half\nspacing'), ('pgc33jitter', 'heterogeneous\nshifts'),
-              ('pgc33phase27', 'shift = 0.27\nspacing'), ('pgc33bio', '0.27 spacing +\nheterogeneous'),
-              ('pgc33mec', 'MEC-weighted\nmodules'), ('pgc33retro', 'retrospective\n(20 cm behind)')]
-  present = [(c, l) for c, l in variants if seeds_of(runs, c, arm)]
+  present = [c for c in ARR_LABEL if seeds_of(runs, c, arm)]
   if len(present) < 2:
     return
-  fig, ax = plt.subplots(figsize=(1.3 * len(present) + 2, 4.0))
-  ref = {s: score(runs, 'gc100', arm, s) for s in seeds_of(runs, 'gc100', arm)}
-  for i, (cond, label) in enumerate(present):
-    vals = np.array([score(runs, cond, arm, s) for s in seeds_of(runs, cond, arm)], float)
-    vals = vals[np.isfinite(vals)]
-    col = BLUE if cond == 'pgc33' else ORANGE
-    ax.scatter(np.full(len(vals), i) + np.random.default_rng(i).uniform(-0.12, 0.12, len(vals)),
-               vals, s=22, color=col, alpha=0.6, edgecolor='white', lw=0.5, zorder=2)
-    ax.hlines(vals.mean(), i - 0.3, i + 0.3, color=col, lw=3, zorder=3)
-    ax.vlines(i + 0.36, vals.mean() - sem(vals), vals.mean() + sem(vals), color=col, lw=1.4, zorder=3)
-  if ref:
-    ax.axhline(np.mean(list(ref.values())), color=GRAY, ls=(0, (3, 3)), lw=1.2, zorder=0)
-    ax.text(len(present) - 0.5, np.mean(list(ref.values())), 'grid only', color=INK2, fontsize=8,
-            va='bottom', ha='right')
-  ax.set_xticks(range(len(present)))
-  ax.set_xticklabels([l for _, l in present], fontsize=8.5)
-  ax.set_ylabel('score (code-only agent)')
-  ax.set_ylim(bottom=0)
-  fig.tight_layout()
-  fig.savefig(os.path.join(out, 'fig7_arrangements.png'))
-  fig.savefig(os.path.join(out, 'fig7_arrangements.svg'))
+  means = {c: np.nanmean([score(runs, c, arm, s) for s in seeds_of(runs, c, arm)]) for c in present}
+  order = sorted(present, key=lambda c: -means[c])
+  y = np.arange(len(order))[::-1]
+  rng = np.random.default_rng(7)
+  fig = plt.figure(figsize=(12, 8.4))
+  gs = fig.add_gridspec(2, 2, width_ratios=[1.2, 1], hspace=0.42, wspace=0.42)
+
+  # A: final score
+  ax = fig.add_subplot(gs[0, 0])
+  gc = np.array([score(runs, 'gc100', arm, s) for s in seeds_of(runs, 'gc100', arm)], float)
+  gc = gc[np.isfinite(gc)]
+  if len(gc):
+    ax.axvline(gc.mean(), color=BLUE, ls=(0, (3, 3)), lw=1.2, zorder=0)
+    ax.text(gc.mean(), 1.01, 'grid only', color=BLUE, fontsize=8, ha='center', va='bottom',
+            transform=ax.get_xaxis_transform())
+  if 'pgc33' in means:
+    ax.axvline(means['pgc33'], color=ORANGE, lw=1.0, alpha=0.8, zorder=0)
+    ax.text(means['pgc33'], 1.01, 'uniform', color=ORANGE, fontsize=8, ha='center', va='bottom',
+            transform=ax.get_xaxis_transform())
+  dot_rows(ax, y, [[score(runs, c, arm, s) for s in seeds_of(runs, c, arm)] for c in order],
+           [arr_color(c) for c in order], rng)
+  for yi, c in zip(y, order):
+    if c == 'pgc33':
+      continue
+    a, b = paired_vals(runs, c, 'pgc33', arm, score)
+    if len(a):
+      ax.text(1.02, yi, f'{(a - b).mean():+.1f}', transform=ax.get_yaxis_transform(), fontsize=8,
+              color=INK2, va='center', ha='left')
+  ax.text(1.02, 1.01, 'Δ vs uniform', transform=ax.transAxes, fontsize=8, color=INK2, ha='left', va='bottom')
+  ax.set_yticks(y)
+  ax.set_yticklabels([ARR_LABEL[c] for c in order], fontsize=9)
+  ax.set_ylim(-0.7, len(order) - 0.3)
+  ax.set_xlabel('final score (200 episodes)')
+  letter_ax(ax, 'A', x=-0.42)
+
+  # B: learning curves
+  ax = fig.add_subplot(gs[0, 1])
+  edges = np.arange(0, 300e6 + 10e6, 10e6)
+  x = (edges[:-1] + edges[1:]) / 2 / 1e6
+  for c in order:
+    if c in ARR_COLOR:
+      continue
+    cs = np.array([binned(runs[(c, arm, s)]['ep'], edges) for s in seeds_of(runs, c, arm)])
+    ax.plot(x, np.nanmean(cs, 0), color=GRAY, lw=0.8, alpha=0.7, zorder=1)
+  shown = [(c, ARR_COLOR[c], ARR_LABEL[c] if c != 'pgc33' else 'uniform')
+           for c in ('pgc33phase27', 'pgc33mec', 'pgc33bio', 'pgc33') if c in present]
+  shown.append(('gc100', BLUE, 'grid only'))
+  curves(ax, runs, arm, shown, edges)
+  ax.plot([], [], color=GRAY, lw=0.8, label='other arrangements')
+  ax.legend(fontsize=8, loc='upper left', handlelength=1.6)
+  ax.set_ylabel('episode score (training)')
+  letter_ax(ax, 'B')
+
+  # C: learning speed (paired vs uniform)
+  ax = fig.add_subplot(gs[1, 0])
+  ax.axvline(0, color=ORANGE, lw=1.0, alpha=0.8, zorder=0)
+  rows, cols = [], []
+  for c in order:
+    if c == 'pgc33':
+      rows.append([0.0])
+    else:
+      a, b = paired_vals(runs, c, 'pgc33', arm, frames_to)
+      rows.append(a - b)
+    cols.append(arr_color(c))
+  dot_rows(ax, y, rows, cols, rng)
+  ax.set_yticks(y)
+  ax.set_yticklabels([ARR_LABEL[c] for c in order], fontsize=9)
+  ax.set_ylim(-0.7, len(order) - 0.3)
+  ax.set_xlabel('frames to reach a training score of 25, relative to uniform (millions)')
+  ax.text(0.02, 0.985, 'faster  ◄', transform=ax.transAxes, fontsize=8, color=INK2, ha='left', va='top')
+  ax.text(0.98, 0.985, '►  slower', transform=ax.transAxes, fontsize=8, color=INK2, ha='right', va='top')
+  letter_ax(ax, 'C', x=-0.42)
+
+  # D: PGC-specific lesion cost
+  ax = fig.add_subplot(gs[1, 1])
+  ax.axvline(0, color=GRAY, lw=0.8, zorder=0)
+  dot_rows(ax, y, [[pgc_reliance(runs, c, arm, s) for s in seeds_of(runs, c, arm)] for c in order],
+           [arr_color(c) for c in order], rng)
+  ax.set_yticks(y)
+  ax.set_yticklabels([])
+  ax.set_ylim(-0.7, len(order) - 0.3)
+  ax.set_xlabel('PGC-specific lesion cost (score)')
+  letter_ax(ax, 'D')
+
+  fig.savefig(os.path.join(out, 'fig7_arrangements.png'), bbox_inches='tight')
+  fig.savefig(os.path.join(out, 'fig7_arrangements.svg'), bbox_inches='tight')
   plt.close(fig)
+
+
+def fig_arrangement_details(runs, out):
+  """One figure per PGC arrangement (figures/arrangements/<cond>.png): the population
+  (cells per module, look-ahead per predictive cell), learning curve, paired final score
+  and path efficiency against the reference, and test-time lesions."""
+  from popcode.common import build_population
+  arm = 'ffb'
+  sub = os.path.join(out, 'arrangements')
+  os.makedirs(sub, exist_ok=True)
+  edges = np.arange(0, 300e6 + 10e6, 10e6)
+  rng = np.random.default_rng(3)
+  lesions = [('intact', 'nothing'), ('sham', '169\nrandom'), ('no_pgc', 'predictive\n(169)'),
+             ('no_gc', 'grid\n(343)'), ('no_code', 'whole\ncode')]
+  for cond, label in ARR_LABEL.items():
+    seeds = seeds_of(runs, cond, arm)
+    if not seeds:
+      continue
+    ref = 'gc100' if cond == 'pgc33' else 'pgc33'
+    ref_label = 'grid only' if ref == 'gc100' else 'uniform'
+    col, rcol = arr_color(cond), arr_color(ref)
+    cfg = runs[(cond, arm, seeds[0])]['cfg']
+    pop = build_population(cfg, 'cpu')
+    shifts, is_pgc, module, lam = pop._np['shifts'], pop._np['is_pgc'], pop.module, pop.spacings
+    M = pop.n_modules
+    mods = np.arange(1, M + 1)
+    xt = [f'module {m}\n{lam[m - 1]:.2f} m' for m in mods]
+
+    fig = plt.figure(figsize=(12.5, 6.8))
+    fig.text(0.01, 0.985, label if cond != 'pgc33' else 'uniform 33 % (reference)', fontsize=13,
+             color=col, ha='left', va='top', fontweight='bold')
+    gs = fig.add_gridspec(2, 3, hspace=0.6, wspace=0.38, top=0.9)
+
+    # A: cells per module
+    ax = fig.add_subplot(gs[0, 0])
+    n_pgc = np.array([int((is_pgc & (module == m)).sum()) for m in range(M)])
+    n_gc = np.array([int((~is_pgc & (module == m)).sum()) for m in range(M)])
+    ax.bar(mods, n_gc, 0.62, color=BLUE, label='grid cells')
+    ax.bar(mods, n_pgc, 0.62, bottom=n_gc, color=ORANGE, label='predictive cells')
+    for m in range(M):
+      if n_pgc[m]:
+        ax.text(mods[m], n_gc[m] + n_pgc[m] / 2, str(n_pgc[m]), ha='center', va='center', fontsize=8, color='white')
+    ax.set_xticks(mods)
+    ax.set_xticklabels(xt, fontsize=8.5)
+    ax.set_ylabel('cells')
+    ax.set_ylim(0, 168)
+    ax.legend(fontsize=8, loc='upper left', ncol=2, columnspacing=0.8, handlelength=1.2, bbox_to_anchor=(0, 1.02))
+    letter_ax(ax, 'A')
+
+    # B: look-ahead per predictive cell
+    ax = fig.add_subplot(gs[0, 1])
+    ax.axhline(0, color=GRAY, lw=0.8, zorder=0)
+    ax.scatter(mods, 50 * lam, marker='_', s=260, color=GRAY, lw=1.2, zorder=1, label='half spacing')
+    for m in range(M):
+      v = 100 * shifts[is_pgc & (module == m)]
+      if not len(v):
+        continue
+      ax.scatter(np.full(len(v), m + 1) + rng.uniform(-0.2, 0.2, len(v)), v, s=9, color=ORANGE, alpha=0.45,
+                 edgecolor='none', zorder=2)
+      ax.hlines(v.mean(), m + 1 - 0.3, m + 1 + 0.3, color=DARK_ORANGE, lw=2.4, zorder=3)
+    ax.set_xticks(mods)
+    ax.set_xticklabels(xt, fontsize=8.5)
+    ax.set_xlim(0.4, M + 0.6)
+    ax.set_ylabel('look-ahead per predictive cell (cm)')
+    ax.legend(fontsize=8, loc='upper left', handlelength=1.2)
+    letter_ax(ax, 'B')
+
+    # C: learning curve
+    ax = fig.add_subplot(gs[0, 2])
+    conds = [(cond, col, label if cond != 'pgc33' else 'uniform')]
+    if cond != 'pgc33':
+      conds.append(('pgc33', ORANGE, 'uniform'))
+    conds.append(('gc100', BLUE, 'grid only'))
+    curves(ax, runs, arm, conds, edges)
+    ax.legend(fontsize=8, loc='upper left', handlelength=1.6)
+    ax.set_ylabel('episode score (training)')
+    letter_ax(ax, 'C')
+
+    # D: final score, paired
+    ax = fig.add_subplot(gs[1, 0])
+    a, b = paired_vals(runs, cond, ref, arm, score)
+    slopegraph(ax, b, a, [ref_label, 'this\narrangement'], [rcol, col], 'final score (200 episodes)')
+    letter_ax(ax, 'D')
+
+    # E: path efficiency, paired
+    ax = fig.add_subplot(gs[1, 1])
+    fn = lambda r, c, ar, s: score(r, c, ar, s, key='mean_path_eff')
+    a, b = paired_vals(runs, cond, ref, arm, fn)
+    slopegraph(ax, b, a, [ref_label, 'this\narrangement'], [rcol, col], 'path efficiency')
+    letter_ax(ax, 'E')
+
+    # F: test-time lesions (bars: this arrangement; hollow: reference)
+    ax = fig.add_subplot(gs[1, 2])
+    xs = np.arange(len(lesions))
+    for k, (probe, _) in enumerate(lesions):
+      v = np.array([score(runs, cond, arm, s, probe) for s in seeds], float)
+      v = v[np.isfinite(v)]
+      if len(v):
+        ax.bar(k, v.mean(), 0.62, color=col, alpha=0.9 if probe == 'intact' else 0.6, zorder=2)
+        ax.errorbar(k, v.mean(), yerr=sem(v), fmt='none', ecolor=INK2, lw=1, capsize=2, zorder=3)
+      w = np.array([score(runs, ref, arm, s, probe) for s in seeds_of(runs, ref, arm)], float)
+      w = w[np.isfinite(w)]
+      if len(w):
+        ax.scatter(k, w.mean(), s=36, facecolor='white', edgecolor=rcol, lw=1.5, zorder=4)
+    ax.scatter([], [], s=36, facecolor='white', edgecolor=rcol, lw=1.5, label=ref_label)
+    ax.legend(fontsize=8, loc='upper right', handlelength=1.2)
+    ax.set_xticks(xs)
+    ax.set_xticklabels([l for _, l in lesions], fontsize=8)
+    ax.set_xlabel('cells removed at test time')
+    ax.set_ylabel('score at test time')
+    ax.set_ylim(0, None)
+    letter_ax(ax, 'F')
+
+    fig.savefig(os.path.join(sub, f'{cond}.png'), bbox_inches='tight')
+    fig.savefig(os.path.join(sub, f'{cond}.svg'), bbox_inches='tight')
+    plt.close(fig)
 
 
 def fig_concentration(runs, out):
@@ -616,6 +898,7 @@ def main():
   fig_codes(args.runs_dir, args.out)
   fig_reliance_over_training(args.runs_dir, args.out)
   fig_arrangements(runs, args.out)
+  fig_arrangement_details(runs, args.out)
   fig_concentration(runs, args.out)
   fig_bands(runs, args.out)
   print('figures written to', args.out)

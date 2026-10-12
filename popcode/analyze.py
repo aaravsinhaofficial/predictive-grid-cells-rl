@@ -31,28 +31,50 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
+NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none|band|pband|pgc)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
 ARMS = ['ffb', 'ff', 'lstm']
 ARM_LABEL = {'ffb': 'FF policy, heading-only vision (code-only)',
              'ff': 'FF policy, raycast vision (vision + code)',
              'lstm': 'LSTM policy, raycast vision (paper)'}
 COND_ORDER = ['gc100', 'pgc33', 'pgc33goalzero', 'pgc100', 'none', 'gc100vel',
               'gc100lookahead', 'pgc33shift10', 'pgc33shift40']
-COND_LABEL = {'gc100': '100% grid cells', 'pgc33': '67% grid + 33% PGC',
+class _Default(dict):
+  def __missing__(self, k):
+    return k if self is COND_LABEL else 'tab:brown'
+
+
+COND_LABEL = _Default({'gc100': '100% grid cells', 'pgc33': '67% grid + 33% PGC',
               'pgc33goalzero': '33% PGC, position-only goal code', 'pgc100': '100% PGC',
               'none': 'no spatial code', 'gc100vel': 'grid cells + velocity input',
               'gc100lookahead': 'grid cells, look-ahead goal code',
-              'pgc33shift10': '33% PGC, shift 10 cm', 'pgc33shift40': '33% PGC, shift 40 cm'}
-COND_COLOR = {'gc100': 'tab:blue', 'pgc33': 'tab:red', 'pgc33goalzero': 'tab:pink',
-              'pgc100': 'tab:orange', 'none': 'tab:gray', 'gc100vel': 'tab:cyan',
-              'gc100lookahead': 'tab:purple', 'pgc33shift10': 'tab:brown',
-              'pgc33shift40': 'tab:olive'}
+              'pgc33shift10': '33% PGC, shift 10 cm', 'pgc33shift40': '33% PGC, shift 40 cm',
+              'pgc33fine': '33% PGC in finest modules', 'pgc33coarse': '33% PGC in coarsest modules',
+              'pgc33middle': '33% PGC in middle modules', 'pgc33phase': '33% PGC, shift = half spacing',
+              'pgc33jitter': '33% PGC, heterogeneous shifts', 'pgc10': '10% PGC', 'pgc25': '25% PGC',
+              'pgc33phase27': '33% PGC, shift = 0.27 spacing', 'pgc33bio': '33% PGC, 0.27 spacing + heterogeneous',
+              'pgc33mec': '33% PGC, MEC-weighted modules (1:2:2:1)', 'pgc33retro': '33% retrospective (20 cm behind)',
+              'pgc30': '30% PGC', 'pgc35': '35% PGC', 'pgc40': '40% PGC',
+              'band': '100% band cells', 'pband33': 'band + 33% predictive bands',
+              'pband100': '100% predictive band cells'})
+COND_COLOR = _Default({'gc100': 'tab:blue', 'pgc33': 'tab:red', 'pgc33goalzero': 'tab:pink',
+                       'pgc100': 'tab:orange', 'none': 'tab:gray', 'gc100vel': 'tab:cyan',
+                       'gc100lookahead': 'tab:purple', 'pgc33shift10': 'tab:brown',
+                       'pgc33shift40': 'tab:olive'})
 PROBES = ['intact', 'no_code', 'no_current', 'no_goal', 'no_pgc', 'no_gc', 'sham',
           'pgc_as_gc', 'fake_goal', 'shuffled_current', 'untrained']
 COMPARISONS = [('pgc33', 'gc100'), ('pgc33goalzero', 'gc100'), ('pgc33', 'pgc33goalzero'),
                ('gc100', 'none'), ('pgc33', 'none'), ('pgc100', 'gc100'),
                ('gc100lookahead', 'gc100'), ('gc100vel', 'gc100'),
-               ('pgc33shift10', 'gc100'), ('pgc33shift40', 'gc100')]
+               ('pgc33shift10', 'gc100'), ('pgc33shift40', 'gc100'),
+               ('pgc33fine', 'gc100'), ('pgc33coarse', 'gc100'), ('pgc33middle', 'gc100'),
+               ('pgc33phase', 'gc100'), ('pgc33jitter', 'gc100'),
+               ('pgc33fine', 'pgc33'), ('pgc33coarse', 'pgc33'), ('pgc33middle', 'pgc33'),
+               ('pgc33phase', 'pgc33'), ('pgc33jitter', 'pgc33'),
+               ('pgc33phase27', 'gc100'), ('pgc33bio', 'gc100'), ('pgc33mec', 'gc100'), ('pgc33retro', 'gc100'),
+               ('pgc33phase27', 'pgc33'), ('pgc33bio', 'pgc33'), ('pgc33mec', 'pgc33'), ('pgc33retro', 'pgc33'),
+               ('pgc10', 'gc100'), ('pgc25', 'gc100'), ('pgc30', 'gc100'), ('pgc35', 'gc100'),
+               ('pgc40', 'gc100'), ('band', 'gc100'), ('pband33', 'band'), ('pband100', 'band'),
+               ('pband33', 'pgc33')]
 
 
 # ----------------------------------------------------------------- loading
@@ -293,7 +315,8 @@ def main(argv=None):
   matplotlib.use('Agg')
   import matplotlib.pyplot as plt
   arms_present = [a for a in ARMS if any(k[0] == a for k in groups)]
-  conds_present = [c for c in COND_ORDER if any(k[1] == c for k in groups)]
+  conds_present = [c for c in COND_ORDER if any(k[1] == c for k in groups)] + \
+      sorted({k[1] for k in groups} - set(COND_ORDER))
   na = max(len(arms_present), 1)
   metrics = [('ret', 'episode return (10 / goal)'), ('n_goals', 'goals / episode'),
              ('first_goal_step', 'step of first goal (censored)'), ('path_eff', 'path efficiency')]

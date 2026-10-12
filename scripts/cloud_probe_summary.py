@@ -16,7 +16,7 @@ import numpy as np
 
 GSUTIL = os.path.expanduser('~/google-cloud-sdk/bin/gsutil')
 BUCKET = 'connectome-ai-research-popcode'
-NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
+NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none|band|pband|pgc)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
 
 
 def main():

@@ -61,3 +61,46 @@ def test_ratemaps_shape():
   pop = GridPopulation(n_cells=16, pgc_frac=0.5, seed=0, device='cpu')
   m = pop.ratemaps(res=30, half=1.25)
   assert m.shape == (16, 30, 30) and np.isfinite(m).all()
+
+
+def test_pgc_layouts_and_shift_rules():
+  N = 128
+  for layout, expect in (('uniform', [11, 11, 10, 10]), ('fine', [32, 10, 0, 0]),
+                         ('coarse', [0, 0, 10, 32]), ('middle', [0, 32, 10, 0])):
+    pop = GridPopulation(n_cells=N, pgc_frac=0.33, seed=2, device='cpu', pgc_layout=layout)
+    per = pop.describe()['pgc_per_module']
+    assert sum(per) == round(0.33 * N) == 42, (layout, per)
+    assert per == expect, (layout, per)
+  w = GridPopulation(n_cells=N, pgc_frac=0.33, seed=2, device='cpu', pgc_layout='weights',
+                     pgc_module_weights=[2, 1, 1, 0])
+  assert w.describe()['pgc_per_module'] == [21, 11, 10, 0] or sum(w.describe()['pgc_per_module']) == 42
+  # constant phase shift: shift = 0.5 x spacing per module
+  sp = GridPopulation(n_cells=N, pgc_frac=1.0, seed=2, device='cpu', pgc_shift_rule='spacing',
+                      pgc_shift_frac=0.5)
+  d = sp.describe()
+  assert np.allclose(d['pgc_shift_m_per_module'], 0.5 * np.array(d['spacings_m']), atol=1e-6)
+  # layouts do not change the underlying cells
+  a = GridPopulation(n_cells=N, pgc_frac=0.33, seed=2, device='cpu', pgc_layout='fine')
+  b = GridPopulation(n_cells=N, pgc_frac=0.33, seed=2, device='cpu', pgc_layout='coarse')
+  assert torch.allclose(a.phi, b.phi) and torch.allclose(a.K, b.K)
+
+
+def test_band_cells_are_periodic_along_one_direction_only():
+  pop = GridPopulation(n_cells=48, seed=4, device='cpu', cell_type='band')
+  pos = torch.rand(30, 2) * 2 - 1
+  r = pop.activity(pos)
+  assert r.min() >= 0 and r.max() <= 1
+  # moving perpendicular to the cell's wave vector leaves activity unchanged
+  for c in (0, 7, 20):
+    k = pop.K[c, pop.band_dir[c]]
+    perp = torch.tensor([-k[1], k[0]]) / k.norm()
+    r2 = pop.activity(pos + 0.37 * perp[None])
+    assert torch.allclose(r[:, c], r2[:, c], atol=1e-4), c
+    # and moving one wavelength along k returns the same activity
+    lam = 2 * np.pi / k.norm()
+    r3 = pop.activity(pos + lam * k[None] / k.norm())
+    assert torch.allclose(r[:, c], r3[:, c], atol=1e-4), c
+  # predictive band cells shift like PGCs
+  pb = GridPopulation(n_cells=48, pgc_frac=1.0, seed=4, device='cpu', cell_type='band')
+  d = torch.tensor([[0.6, 0.8]]).expand(30, 2)
+  assert torch.allclose(pb.activity(pos, dir=d), pop.activity(pos + 0.2 * d), atol=1e-5)

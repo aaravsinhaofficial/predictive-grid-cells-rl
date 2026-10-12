@@ -20,7 +20,7 @@ import shutil
 
 import numpy as np
 
-NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
+NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none|band|pband|pgc)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
 
 
 def main():

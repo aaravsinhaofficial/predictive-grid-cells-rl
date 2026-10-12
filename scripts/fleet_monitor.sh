@@ -6,13 +6,18 @@ export PATH=$PATH:/home/ec2-user/google-cloud-sdk/bin
 PY=/home/ec2-user/banino/.venv/bin/python
 cd /home/ec2-user/optimization
 LOG=runs/fleet_monitor.log
-declare -A EXPECT=( [main]=32 [dose]=6 [ext]=4 )
+LOG=${FLEET_LOG:-runs/fleet_monitor.log}
+# usage: fleet_monitor.sh tag:count [tag:count ...]   (default: main:32 dose:6 ext:4)
+declare -A EXPECT=()
+if [ $# -gt 0 ]; then for kv in "$@"; do EXPECT[${kv%%:*}]=${kv##*:}; done
+else EXPECT=( [main]=32 [dose]=6 [ext]=4 ); fi
+TAGS="${!EXPECT[@]}"
 declare -A COLLECTED=()
 log() { echo "$(TZ=America/Chicago date '+%Y-%m-%d %H:%M CST') $*" | tee -a $LOG; }
 log "monitor start"
 while true; do
   all_done=1
-  for tag in main dose ext; do
+  for tag in $TAGS; do
     [ -n "${COLLECTED[$tag]}" ] && continue
     prefix=runs; [ "$tag" != main ] && prefix=runs_$tag
     n=$(gsutil ls gs://connectome-ai-research-popcode/$prefix/popcode-$tag-*/DONE 2>/dev/null | wc -l)

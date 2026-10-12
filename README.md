@@ -107,7 +107,33 @@ Three **arms** (what the agent is):
 - Caveats: one arena difficulty (a harder 4 m arena was piloted and shelved: no homing by 100 M frames, see `docs/pilot_4m_arena.md`); 300 M frames per run (the paper used 10⁹); one PGC definition (spatial shift along the path; a time-lag definition is implemented but not run at scale); 3 seeds for the controls. In the two vision arms the seed-to-seed spread is large and the biggest paired differences come from seeds whose grid-only partner learned to use the code less, so those arms are honest nulls rather than hints. LSTM runs show a benign ≤ 0.4 % of saturated gates (an earlier optimizer setting saturated 87 % and made the code invisible; see `docs/LOG.md`).
 - Every statistic above was recomputed independently from the raw evaluation files by three separate checks (agreement to machine precision; audit of configs, checkpoints, population identity and episode pairing for all 72 primary runs).
 
-## 5. Reproduce
+## 5. Follow-up: arranging the predictive cells
+
+The uniform code scatters its 169 PGCs at random over the four modules, all with the same 20 cm look-ahead. Nine other arrangements were run in the code-only arm (8 seeds each, paired with the uniform and grid-only runs of the same seed, 72 runs): three module layouts (all PGCs in the finest, coarsest or middle modules), an MEC-like allotment (1:2:2:1 across modules), look-aheads proportional to each module's spacing (a quarter, the value measured by Ouchi & Fujisawa, or a half, the predicted worst case), cell-to-cell spread of the look-ahead, the quarter-spacing rule with spread (the closest match to the recorded population), and a retrospective control (20 cm *behind* the agent).
+
+![arrangements](figures/fig7_arrangements.png)
+
+*Figure 7. **(A)** Final score per arrangement (dots = seeds, circle = mean ± SEM; reference lines = grid-only and uniform means; right column = paired difference from uniform). **(B)** Training score. **(C)** Frames to reach a training score of 25, relative to uniform (negative = faster). **(D)** PGC-specific lesion cost: extra loss from silencing the 169 predictive cells versus 169 random cells.*
+
+| arrangement | final score | Δ vs uniform | Δ vs grid-only |
+|---|---|---|---|
+| quarter-spacing shift (11 / 15 / 22 / 31 cm) | 32.8 | +1.6 ± 1.8, ns | +5.0 ± 1.8, p = 0.025 |
+| MEC-weighted modules (28 / 57 / 56 / 28 PGCs) | 32.6 | +1.4 ± 2.4, ns | +4.8 ± 2.3, p = 0.07 |
+| quarter-spacing + heterogeneous | 31.4 | +0.3 ± 1.0, ns | +3.7 ± 0.6, p < 0.001 |
+| uniform (reference) | 31.2 | | +3.4 ± 0.9, p = 0.008 |
+| heterogeneous 20 cm | 31.1 | −0.1 ± 1.3, ns | +3.3 ± 1.1, p = 0.022 |
+| coarse / middle modules only | 30.5 / 29.7 | −0.7 / −1.4, ns | ns |
+| retrospective (−20 cm) | 28.2 | −2.9 ± 1.7, ns | 0 |
+| half-spacing shift (20 / 28 / 40 / 57 cm) | 27.6 | −3.5 ± 1.9, p = 0.11 | 0 |
+| fine modules only | 27.3 | −3.8 ± 1.1, p = 0.012 | 0 |
+
+- **Where the PGCs sit across modules barely matters**: every forward-looking arrangement with a look-ahead below half a period lands within ±1.6 points of uniform, none significantly.
+- **The shift is what matters**: backward, half-period, or concentrated in the finest module (where 20 cm *is* half a period) all fall back to grid-only level, and those agents stop relying on their predictive cells (lesion cost 1–3 points instead of 6–12).
+- **Secondary effects**: the MEC-weighted code learns fastest (20 M fewer frames to criterion, p = 0.016) but is the least consistent across seeds; the biology-matched code is the most consistent at the same mean as uniform.
+
+One figure per arrangement, with what each one changes and its numbers, is in [`docs/arrangements.md`](docs/arrangements.md). The concentration series (10–40 % PGCs on the quarter-spacing code) and a band-cell pilot are running; their results will be added here.
+
+## 6. Reproduce
 
 ```bash
 PY=python            # needs torch (CUDA), numpy, scipy, matplotlib
@@ -125,14 +151,14 @@ Every run's configuration, final evaluations and checkpoint probes are in `data/
 
 **Two things worth knowing before re-running.** With the paper's RMSProp ε = 0.1 the policy never leaves chance in 25 M frames (sparse reward); with a normalised step and no LayerNorm on the vision embedding, the LSTM saturates and silently ignores the code. The settings above avoid both; every log line carries saturation diagnostics. Details in `docs/LOG.md`.
 
-## 6. Layout
+## 7. Layout
 
 ```
 popcode/      codes.py (population code) · env.py (arena + vision) · nets.py (agent) · train.py · evaluate.py · analyze.py · validate_codes.py
 scripts/      launch_matrix.py (scheduler) · gcp_fleet.py (cloud fleet) · make_figures.py · package_data.py · status.py
-figures/      fig0–fig6 (png + svg)
+figures/      fig0–fig7 (png + svg) · arrangements/ (one figure per PGC arrangement)
 results/      RESULTS.md (all tables) · summary.json
 data/         per-run configs + evaluations (126 runs) · learning_curves.csv · validation_pgc33_s1.json
-docs/         LOG.md (day log, decisions, incidents) · pilot_4m_arena.md
+docs/         LOG.md (day log, decisions, incidents) · arrangements.md (follow-up, one figure per arrangement) · pilot_4m_arena.md
 tests/
 ```

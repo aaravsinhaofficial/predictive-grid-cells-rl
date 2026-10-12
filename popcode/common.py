@@ -26,6 +26,7 @@ EXPERIMENT_KEYS = (
     'cond', 'pgc_frac', 'code_mode', 'code_seed', 'n_cells', 'n_modules',
     'spacing_min', 'spacing_ratio', 'pgc_shift', 'pgc_shift_mode', 'pgc_tau',
     'pgc_shift_jitter', 'sharpness', 'code_noise', 'extra_input', 'goal_code_shift',
+    'pgc_layout', 'pgc_module_weights', 'pgc_shift_rule', 'pgc_shift_frac', 'cell_type',
     'arena_half', 'episode_len', 'action_repeat', 'v_max', 'rot_max', 'goal_radius',
     'vision', 'img_noise', 'randomize_textures', 'policy', 'conv_arch', 'nh',
     'encoder_norm', 'forward_bias', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
@@ -47,6 +48,15 @@ def add_shared_args(ap: argparse.ArgumentParser):
   g.add_argument('--pgc_tau', type=float, default=0.5, help='seconds (time mode)')
   g.add_argument('--pgc_shift_jitter', type=float, default=0.0,
                  help='lognormal sigma of per-cell shift heterogeneity (0 = all equal)')
+  g.add_argument('--pgc_layout', choices=['uniform', 'fine', 'coarse', 'middle', 'weights'],
+                 default='uniform', help='which modules hold the PGCs (see codes.py)')
+  g.add_argument('--pgc_module_weights', default=None,
+                 help="comma list, one weight per module, for --pgc_layout weights (e.g. '2,1,1,0')")
+  g.add_argument('--pgc_shift_rule', choices=['const', 'spacing'], default='const',
+                 help="'spacing': shift = pgc_shift_frac x module spacing (constant phase shift)")
+  g.add_argument('--pgc_shift_frac', type=float, default=0.5)
+  g.add_argument('--cell_type', choices=['grid', 'band'], default='grid',
+                 help="'band': stripe cells (one cosine per cell) instead of hexagonal grid cells")
   g.add_argument('--sharpness', type=float, default=2.0)
   g.add_argument('--code_noise', type=float, default=0.0)
   g.add_argument('--code_seed', type=int, default=None,
@@ -113,7 +123,12 @@ def build_population(cfg, device):
       pgc_frac=cfg['pgc_frac'], pgc_shift=cfg['pgc_shift'],
       pgc_shift_mode=cfg['pgc_shift_mode'], pgc_tau=cfg['pgc_tau'],
       pgc_shift_jitter=cfg['pgc_shift_jitter'], sharpness=cfg['sharpness'],
-      noise=cfg.get('code_noise', 0.0), seed=cfg['code_seed'], device=device)
+      noise=cfg.get('code_noise', 0.0), seed=cfg['code_seed'], device=device,
+      pgc_layout=cfg.get('pgc_layout', 'uniform'),
+      pgc_module_weights=([float(x) for x in str(cfg['pgc_module_weights']).split(',')]
+                          if cfg.get('pgc_module_weights') else None),
+      pgc_shift_rule=cfg.get('pgc_shift_rule', 'const'),
+      pgc_shift_frac=cfg.get('pgc_shift_frac', 0.5), cell_type=cfg.get('cell_type', 'grid'))
 
 
 def build_env(cfg, n, seed, device, stagger=True, paired=False):
