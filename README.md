@@ -1,6 +1,6 @@
 # Do predictive grid cells help an agent navigate?
 
-**Aarav Sinha & William Redman — first experiment of the project _Behavioral optimization reveals principles of neural coding_.**
+**First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
 We give a reinforcement-learning agent a *perfect* spatial population code, the way Banino et al. (2018) gave their agent a grid-cell code, and ask one question: does a code in which a third of the grid cells are **predictive grid cells** (PGCs; they fire for where the animal is *about to be*) help the agent more than a code of ordinary grid cells?
 
