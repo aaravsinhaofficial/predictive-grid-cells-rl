@@ -146,10 +146,6 @@ In the code-only arm, where the code is the agent's only way of knowing where it
 
 The gain shows up in how quickly the agent re-finds the goal: the PGC agents score 2.46 goals per 1000 steps after the first discovery against 2.12 for the grid agents (+0.34 ± 0.12, p = 0.025).
 
-![all conditions](figures/fig4_all_conditions.png)
-
-*Figure 4. Every condition of the main experiment in the three arms (mean ± SEM, faint dots = seeds). In the code-only arm the three highest-scoring conditions are the three predictive codes with a 20 cm look-ahead.*
-
 ### 3.3 Agents with vision read the predictive cells specifically and return on straighter paths
 
 With vision the agents have two sources of position, and the predictive cells make their mark on *how* the agents navigate. Silencing the 169 predictive cells at test time costs the trained agents far more than silencing 169 random cells of the same code, in all three arms (Fig. 3): the policies have learned to exploit the predictive cells in particular.
