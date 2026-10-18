@@ -125,10 +125,6 @@ The primary endpoint was fixed in advance: the within-seed paired difference (gr
 
 *Figure 2. Training score (mean ± SEM over seeds). Agents with a code pull away from the no-code agent, mostly after 100 M frames, when they start returning to the remembered goal.*
 
-![reliance](figures/fig6_reliance_over_training.png)
-
-*Figure 6. Score of intermediate checkpoints with the code intact (solid) or zeroed at test time (dashed). From 100 M frames on, every arm depends on its code.*
-
 Every trained agent relies on its code: zeroing it at test time costs the grid-cell agents 16 points in the code-only arm, 26 with vision and 23 in the LSTM arm (p ≤ 0.006 in each), and agents with a code beat agents without one by 28 points (code + vision, p = 0.005) and 35 points (LSTM + vision, p = 0.012). The two vision arms also learn to **home**: zeroing the goal memory costs them 30 and 27 points (p < 0.001), so after the first discovery they navigate back to the goal rather than search for it again. In the code-only arm the goal memory is not used (cost 0.0 ± 1.1) and the agents score by searching the arena efficiently.
 
 | grid-cell agents, 8 seeds | code only | code + vision | LSTM + vision |
