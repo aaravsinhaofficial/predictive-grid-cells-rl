@@ -33,30 +33,6 @@ We answer this the way Banino et al. (*Nature* 2018) built their grid-cell agent
 
 The agent lives in a 2.5 m square room, Banino's goal task reimplemented as a vectorised GPU environment (`code/env.py`). Each 90 s episode has one hidden goal at a random location. Reaching it earns +10 and teleports the agent to a random pose while the goal stays where it was, so a good agent finds the goal once and then returns to it as often as it can. There are six actions (turn left/right, move forward/backward, strafe left/right), chosen 15 times a second, with smoothed velocities and motor noise. Vision is a first-person 84 × 84 image of the room: four distinctly coloured walls that never change (the distal cues that make heading readable), plus dark stripes and one white landmark per wall whose positions are re-drawn every episode.
 
-### The population code
-
-![how the code is built](figures/fig0_grid_modules.png)
-
-*Figure 0. **(A)** One cell from each of the four modules; the 128 cells of a module share one spacing (arrow) and one orientation. **(B)** Cells within a module differ only in phase (inset: the 128 phases of module 2, spread uniformly over one unit cell). **(C)** All 512 cells as the agent walks a straight line: each module repeats with its own period, and the four periods read together make position unambiguous across the arena. **(D)** A predictive grid cell is the same lattice read 20 cm ahead along the direction of travel. **(E, F)** The follow-up experiment varies how the 169 predictive cells are allotted to modules and how far ahead they look.*
-
-The code (`code/codes.py`) has 512 cells in four modules of 128, with lattice spacings 0.40, 0.57, 0.81 and 1.15 m (a ratio of 1.42 between neighbouring modules, as between grid modules in rodent MEC), a random orientation per module and a random phase per cell. A grid cell's rate is the classic three-cosine hexagonal pattern, sharpened and scaled to [0, 1]:
-
-```
-grid cell i :   r_i(x) = ( (Σ_k cos(k_k · (x − φ_i)) + 1.5) / 4.5 )²      k = 0, 1, 2: wave vectors 60° apart
-```
-
-A **predictive grid cell** is the same cell evaluated 20 cm ahead of the agent along its direction of travel:
-
-```
-PGC j :         r_j(x + d · u)        d = 0.20 m,  u = unit direction of travel
-```
-
-This is the operational definition used for the recorded cells: a PGC's gridness peaks when its activity is aligned with the position *d* ahead on the trajectory. The 20 cm value is the median shift of the predictive units in our path-integration networks. Figure 5 checks the construction with the recordings' own gridness-versus-shift scorer, run on the agent's actual trajectories: grid cells peak at 0 cm, PGCs at 19.5 ± 1.2 cm.
-
-![codes](figures/fig5_codes.png)
-
-*Figure 5. Left: an example grid cell and a PGC from the same module; the PGC's lattice is displaced along the direction of travel. Right: gridness of the two cell types on the agent's own trajectories as a function of how far their activity is shifted along the path (mean ± SEM over 24 cells each), scored with the predictive-grid-cell pipeline.*
-
 ### Adding predictive cells
 
 The **grid + 33 % PGC** code takes the grid-cell population of a seed and turns 169 of its 512 cells (a third, 42 or 43 per module, chosen at random within each module) into PGCs by giving them the 20 cm forward shift. Nothing else changes: same spacings, same orientations, same phases. The grid-only and the PGC run of a seed therefore differ *only* in the shift of those 169 cells, and every comparison is made within a seed. Because g\* is the population's activity at the goal hit, the PGC units of the goal code encode the goal displaced along the arrival direction, exactly as a real predictive population would. A **100 % PGC** code shifts all 512 cells.
