@@ -57,31 +57,6 @@ This is the operational definition used for the recorded cells: a PGC's gridness
 
 *Figure 5. Left: an example grid cell and a PGC from the same module; the PGC's lattice is displaced along the direction of travel. Right: gridness of the two cell types on the agent's own trajectories as a function of how far their activity is shifted along the path (mean ± SEM over 24 cells each), scored with the predictive-grid-cell pipeline.*
 
-### How the code reaches the agent
-
-The agent (`code/nets.py`) is Banino's. A four-layer convolutional network embeds the image into 256 units. The embedding is concatenated with the current population code **g<sub>t</sub>**, the **goal code g\*** (the population's activity at the moment the goal was last reached, held until the next hit, zeros until the goal is first found in an episode), the previous action and the previous reward, and fed to a 256-unit policy LSTM. A six-way softmax actor and a linear critic read out the LSTM state.
-
-```
- true state at step t: position x_t, direction of travel u_t      first-person view, 84 x 84 RGB
-             |                                                                |
-             v                                                                v
-   population code g_t  (512 rates in [0, 1])                    4 conv layers + linear  ->  256
-      grid cell i :  r_i(x_t)                                                 |
-      PGC       j :  r_j(x_t + 0.20 m * u_t)                                  |
-             |                                                                |
-             +--> goal code g*: g frozen at the last goal hit                 |
-             |                  (zero until the goal is found)                |
-             v                        v                                       v
-   [ vision 256 | g_t 512 | g* 512 | previous action (one-hot, 6) | previous reward (1) ]
-                                          |
-                                          v
-                          policy LSTM, 256 units   (or a 2-layer MLP: no memory)
-                                          |
-                                actor (6 actions) + critic
-```
-
-In Banino et al. the two code vectors came from the hidden layer of a separately trained path-integration network. Here they come from the analytic population instead; the downstream agent, its inputs and the goal-code mechanism are unchanged. Nothing about the code is learned: at every step the environment reports the agent's true position and direction of travel, the 512 rates are computed from them, and the agent never sees the coordinates themselves.
-
 ### Adding predictive cells
 
 The **grid + 33 % PGC** code takes the grid-cell population of a seed and turns 169 of its 512 cells (a third, 42 or 43 per module, chosen at random within each module) into PGCs by giving them the 20 cm forward shift. Nothing else changes: same spacings, same orientations, same phases. The grid-only and the PGC run of a seed therefore differ *only* in the shift of those 169 cells, and every comparison is made within a seed. Because g\* is the population's activity at the goal hit, the PGC units of the goal code encode the goal displaced along the arrival direction, exactly as a real predictive population would. A **100 % PGC** code shifts all 512 cells.
