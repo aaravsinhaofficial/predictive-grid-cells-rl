@@ -59,14 +59,16 @@ Three **arms** differ in what the agent has besides the code:
 | grid + velocity input | 3 | grid cells plus the agent's velocity as an extra input |
 | grid, look-ahead goal memory | 3 | grid cells whose goal snapshot is taken 20 cm past the goal |
 | 33 % PGC, 10 cm / 40 cm shift | 3 + 3 | shift series |
+| 67 % grid (PGC slots silent) | 8 | the grid + 33 % PGC population of the seed with its 169 predictive slots held at zero |
+| 50 % PGC | 8 | 256 grid cells + 256 PGCs, 20 cm shift |
 
-The follow-up (Sections 3.4 to 3.6) adds nine arrangements of the 169 predictive cells, five PGC percentages and a band-cell code, all in the code-only arm (8 seeds each, 4 for the bands).
+The follow-up adds nine arrangements of the 169 predictive cells and five PGC percentages (Sections 3.4 and 3.5) and a band-cell code (summary above), all in the code-only arm (8 seeds each, 4 for the bands), and two control populations in every arm (Section 3.6).
 
 ### Training and evaluation
 
 A2C with the paper's hyperparameters (`code/train.py`: 32 parallel environments, 100-step rollouts, discount 0.99, entropy cost 8 × 10⁻⁵, gradient clip 40, rewards clipped to ±1 for learning, RMSProp), 300 M environment frames per run. Each trained agent is evaluated (`code/evaluate.py`) on 200 episodes whose goal, spawn and cue layouts are identical across runs, and then re-evaluated with parts of its code altered at test time: the whole code zeroed, the goal memory zeroed, 169 random cells silenced (a count-matched sham), the 169 PGCs silenced, and an untrained network for the chance level (≈ 1 point).
 
-The primary endpoint was fixed in advance: the within-seed paired difference (grid + PGC) − (grid) in the final score. p-values are from the paired t-test over seeds; bootstrap intervals and the Wilcoxon test are reported alongside in [`results/RESULTS.md`](results/RESULTS.md) and agree. Lesion costs are tested against zero with a one-sample t-test over seeds. In total 250 runs were trained, most of them on fleets of cloud GPUs (the 126-run main matrix took about 7 hours on 42 GPUs).
+The primary endpoint was fixed in advance: the within-seed paired difference (grid + PGC) − (grid) in the final score. p-values are from the paired t-test over seeds; bootstrap intervals and the Wilcoxon test are reported alongside in [`results/RESULTS.md`](results/RESULTS.md) and agree. Lesion costs are tested against zero with a one-sample t-test over seeds. In total 322 runs were trained at the 300 M budget, most of them on fleets of cloud GPUs (the 126-run main matrix took about 7 hours on 42 GPUs).
 
 ## 3. Results
 
@@ -163,3 +165,22 @@ Ten percent predictive cells is too few: the code scores like a grid-only code a
 
 
 
+
+### 3.6 More cells, or predictive cells? Two controls
+
+Two further populations were run in all three arms, 8 seeds each, paired with the main runs of the same seed: a **67 % grid code**, the grid + 33 % PGC population of that seed with its 169 predictive slots held at zero (343 active grid cells), and a **50 / 50 code** of 256 grid cells and 256 predictive cells, in which silencing half of either class removes the same number of cells. The 50 / 50 code was also run in the quarter-spacing, MEC-weighted and retrospective arrangements of Section 3.4 (code-only arm). For the lesions, three random halves of each class were silenced at test time and the costs averaged.
+
+![controls](figures/fig12_controls.png)
+
+*Figure 12. **(A–C)** Final score per seed (lines join the runs of one seed; bars = mean ± SEM) for the grid code, the 67 % grid code, grid + 33 % PGC and the 50 / 50 code, one panel per arm. **(D)** Class-matched lesion in the 50 / 50 code: the cost of silencing 128 predictive cells against 128 grid cells, paired within seed.*
+
+| code (8 seeds) | code only | code + vision | LSTM + vision |
+|---|---|---|---|
+| grid, 512 cells | 27.8 | 68.2 | 66.3 |
+| 67 % grid, 343 cells | 26.6 (−1.2 ± 1.5 vs grid) | 64.0 (−4.2 ± 7.7) | 58.3 (−8.1 ± 5.9) |
+| grid + 33 % PGC | 31.2 (**+4.6 ± 1.7 vs 67 % grid, p = 0.028**) | 71.8 (+7.8 ± 5.2, p = 0.18) | 66.6 (+8.3 ± 5.2, p = 0.16) |
+| 50 / 50 | 34.7 (**+6.9 ± 2.3 vs grid, p = 0.021**) | 68.2 (+0.0 ± 3.4) | 75.5 (+9.2 ± 6.5, p = 0.20) |
+
+- **The gain is not a cell-count effect.** Taking a third of the grid cells away costs little (code only: −1.2 ± 1.5), and putting predictive cells into those slots gains 4.6 ± 1.7 (p = 0.028), more than the gain over the full grid code. Against the 67 % grid code the predictive cells also give straighter returns (path efficiency +0.034 ± 0.010, p = 0.014) and more goal visits after discovery (+0.41 ± 0.15 per 1000 steps, p = 0.025). The vision arms show the same ordering, 67 % grid < grid < grid + 33 % PGC, with a seed-to-seed spread four times larger, and none of their differences is significant.
+- **A predictive cell costs more than a grid cell at equal class size.** In the 50 / 50 code, silencing 128 predictive cells costs more than silencing 128 grid cells in every arm: 5.0 vs 2.3 (code only, Δ +2.7 ± 1.0, p = 0.037), 5.5 vs 3.0 (code + vision, +2.5 ± 1.2, p = 0.08) and 8.9 vs 3.0 (LSTM + vision, +5.9 ± 1.7, p = 0.010). The per-cell lesion costs of the 33 % code (0.058 vs 0.036 points per cell in the code-only arm, [`results/relative_benefit.md`](results/relative_benefit.md)) are therefore not an artefact of the unequal class sizes.
+- **Half predictive cells.** In the code-only arm the 50 / 50 code scores 34.7, above the 33 % plateau of Section 3.5 (+3.5 ± 2.2 vs grid + 33 % PGC, p = 0.15), with the highest post-discovery goal rate of the 8-seed codes (+0.86 ± 0.27 per 1000 steps vs grid, p = 0.014). Its quarter-spacing and MEC-weighted versions score the same (34.9 and 34.7; +0.2 ± 1.3 and +0.0 ± 1.6 vs uniform), and its retrospective version falls to 25.4 (−9.2 ± 2.4 vs uniform, p = 0.006), below the grid code, with agents that barely use the shifted cells (lesion cost 4.8 against 16.9 for the forward shift). With vision, the 50 / 50 code gains nothing over grid in the feed-forward arm (+0.0 ± 3.4) and +9.2 ± 6.5 in the LSTM arm (p = 0.20).
