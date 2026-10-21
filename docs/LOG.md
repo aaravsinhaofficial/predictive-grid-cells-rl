@@ -256,3 +256,34 @@ finished 1:02 am: band 25.0 vs grid 26.6 (ns); band + 33 % predictive 30.4
 predictive bands ~= PGCs at 33 %, -4.6 at 100 % (p=0.05). auto_wave_b
 regenerated results/, figures/ (fig8, fig9) and data/ (250 runs). Follow-up
 spend ~$200 of $300. Nothing is running; all VMs deleted.
+
+## 2026-10-20 ~11:30 pm CST — wave E: controls, 600 M extensions, long runs
+Code: conditions `gc67` (the pgc33 population with its 169 PGC slots held at
+zero: tests whether the PGC advantage could come from having fewer grid-cell
+inputs) and `pgc50` (256 grid + 256 PGCs: class-size-matched lesions), probes
+`pgc_half0-2` / `gc_half0-2`, weights-only extension of finished runs
+(`train.py --resume` with `--warmup_updates 200` at lr 0; provenance in
+config.json `extensions`), `scripts/make_matrix_v3.py controls|extend`,
+`scripts/extension_report.py`, `scripts/auto_wave_d.sh` (post-processing),
+`scripts/auto_wave_e.sh` (fleet collection), `scripts/relative_benefit.py`
+(results/relative_benefit.md, Fig. 10: PGC/grid ratio per arm, per-cell lesion
+costs, secondary endpoints) and docs/shift_vs_spacing.md (source check of the
+shift-vs-spacing statements against Ouchi & Fujisawa 2024 and the RNN cohort).
+Runs (matrices in runs/waveE/): GCP fleet `ctl` (24 L4 VMs, 72 runs, 300 M):
+gc67 and pgc50 in all three arms x 8 seeds, pgc50phase27 / pgc50mec /
+pgc50retro in the code-only arm x 8 seeds -> runs/. Fleet `ext6` (8 VMs):
+gc100 / pgc33 x ffb, ff x seeds 3-8 extended 300 M -> 600 M. Fleet `long`
+(5 VMs): gc100 / pgc33 ff seeds 1-2 -> 1.5 B; gc100 / pgc33 / pgc33phase27 /
+pgc33mec / pgc33retro ffb seeds 1-2 -> 1 B. Local (tmux `popcode_ext_lstm`):
+gc100 / pgc33 lstm seeds 1-8 -> 600 M. Extended runs live in runs_ext/
+(copies of config, final checkpoint, logs and evaluations; the 300 M finals
+are kept as eval/<probe>@300006400f_200ep.json); runs/ keeps the canonical
+300 M results. us-central1 L4 quota was full after `ctl` + `ext6`, so the
+`long` VMs were placed in us-west1 / us-east1 by a retry loop (tmux
+`popcode_long_retry`). Driver: tmux `auto_wave_e` (runs/auto_wave_e.log)
+collects each fleet when its DONE markers are complete, deletes the VMs, waits
+for the local scheduler, then runs `scripts/auto_wave_d.sh --now` (200-episode
+evaluations of the 600 M and 1 B checkpoints of the long runs, analyze ->
+results/, extension_report -> results_ext/EXTENSION.md + Fig. 11, figures,
+data/). Projected cost ~$400 of a $500 budget; expected to finish Oct 22
+(controls, 600 M) and Oct 22-23 (long runs).
