@@ -11,9 +11,9 @@ canonical finals (eval/<probe>.json).
 Writes <out>/EXTENSION.md and <out>/extension.json with
   (a) per run, the 200-episode intact score at every milestone (300M, 600M,
       1B, ..., final) and the reliance intact - no_code at the same milestones
-  (b) per arm, the within-seed gap pgc33 - gc100 at 300M and at the latest
-      milestone both conditions reached, with code.analyze.paired_stats, and
-      the paired change of the gap between the two
+  (b) per arm, the within-seed gap pgc33 - gc100 at every milestone both
+      conditions reached, with code.analyze.paired_stats, and the paired
+      change of the gap from 300M to each later milestone
   (c) per run, a plateau estimate from the training return (metrics.jsonl
       avg_return_100 vs frames): a - b exp(-frames / tau) fitted to frames
       >= 100M, the frame count where the fit reaches 95 % of its asymptote,
@@ -135,7 +135,11 @@ def load_runs(runs_dir):
     r = dict(name=name, cond=m.group(1) + m.group(2), arm=m.group(3), seed=int(m.group(4)),
              target=int(cfg['frames']), episode_len=int(cfg.get('episode_len', 1350)),
              milestones={}, ckpt_probes={}, final_frames=final_frames(d), final_label=None)
-    for f in glob.glob(os.path.join(d, 'eval', '*.json')):
+    # Tagged files first (eval/<probe>@<frames>f_<episodes>ep.json), then the
+    # canonical finals (eval/<probe>.json), which win at their milestone.
+    files = sorted(glob.glob(os.path.join(d, 'eval', '*.json')),
+                   key=lambda f: '@' not in os.path.basename(f))
+    for f in files:
       base = os.path.basename(f)[:-5]
       try:
         ev = json.load(open(f))
@@ -151,8 +155,17 @@ def load_runs(runs_dir):
           r['milestones'].setdefault(milestone_label(frames), {})[probe] = ev
         else:
           r['ckpt_probes'].setdefault(probe, {})[frames] = ev.get('mean_score')
-      elif ev.get('canonical', True) and r['final_frames'] is not None:
-        lab = milestone_label(r['final_frames'])
+      elif ev.get('canonical', True):
+        # The file name is the probe; the milestone is the checkpoint's frame
+        # count stored in the file (the untrained probe stores 0, so it takes
+        # the final checkpoint's).
+        probe = base
+        frames = int(ev.get('frames') or 0)
+        if probe == 'untrained' or frames <= 0:
+          frames = r['final_frames'] or r['target']
+        if frames <= 0:
+          continue
+        lab = milestone_label(frames)
         r['final_label'] = lab
         r['milestones'].setdefault(lab, {})[probe] = ev
     r['metrics'] = read_metrics(os.path.join(d, 'metrics.jsonl'))
@@ -200,14 +213,15 @@ def gap_analysis(runs):
     base = '300M' if '300M' in per_label else labels[0]
     later = [lab for lab in labels if label_frames(lab) > label_frames(base)
              and len(per_label[lab]['pairs']) >= 2]
-    res = dict(labels=labels, per_label=per_label, base=base, latest=None, change=None)
-    if later:
-      latest = later[-1]
-      common = sorted(set(per_label[base]['pairs']) & set(per_label[latest]['pairs']))
-      if common:
-        res['latest'] = latest
-        res['change'] = an.paired_stats({s: per_label[latest]['pairs'][s]['gap'] for s in common},
-                                        {s: per_label[base]['pairs'][s]['gap'] for s in common})
+    res = dict(labels=labels, per_label=per_label, base=base, latest=None, change=None, changes={})
+    for lab in later:
+      common = sorted(set(per_label[base]['pairs']) & set(per_label[lab]['pairs']))
+      if len(common) >= 2:
+        res['changes'][lab] = an.paired_stats({s: per_label[lab]['pairs'][s]['gap'] for s in common},
+                                              {s: per_label[base]['pairs'][s]['gap'] for s in common})
+    if res['changes']:
+      res['latest'] = sorted(res['changes'], key=label_frames)[-1]
+      res['change'] = res['changes'][res['latest']]
     out[arm] = res
   return out
 
@@ -283,7 +297,9 @@ def fig_training_length(runs, gaps, fits, fig_dir, bin_frames=10e6):
       continue
     arm = arms[j]
     g = gaps[arm]
-    labels = g['labels']
+    labels = [lab for lab in g['labels'] if len(g['per_label'][lab]['pairs']) >= 2]
+    if not labels:
+      labels = g['labels']
     x_of = {lab: k for k, lab in enumerate(labels)}
     seeds = sorted({s for lab in labels for s in g['per_label'][lab]['pairs']})
     for s in seeds:
@@ -418,18 +434,19 @@ def main(argv=None):
       st = g['per_label'][lab]['stats']
       L.append(f'| {arm} | {lab} | {st["n_pairs"]} | {st["mean_b"]:.2f} | {st["mean_a"]:.2f} | '
                + ' | '.join(fmt_stats(st)) + ' |')
-  L += ['', '### Change of the gap from 300M to the latest common milestone', '',
+  L += ['', '### Change of the gap from 300M to each later milestone (seeds evaluated at both)', '',
         '| arm | from | to | pairs | gap at from | gap at to | change +/- SEM | bootstrap 95% CI | paired t p | Wilcoxon p |',
         '|---|---|---|---|---|---|---|---|---|---|']
   for arm, g in gaps.items():
-    if g['change'] is None:
+    if not g['changes']:
       base_gap = np.mean([v['gap'] for v in g['per_label'][g['base']]['pairs'].values()])
       L.append(f'| {arm} | {g["base"]} | - | {len(g["per_label"][g["base"]]["pairs"])} | {base_gap:+.2f} '
                '| - | no later milestone with >= 2 pairs yet | - | - | - |')
       continue
-    st = g['change']
-    L.append(f'| {arm} | {g["base"]} | {g["latest"]} | {st["n_pairs"]} | {st["mean_b"]:+.2f} | '
-             f'{st["mean_a"]:+.2f} | ' + ' | '.join(fmt_stats(st)) + ' |')
+    for lab in sorted(g['changes'], key=label_frames):
+      st = g['changes'][lab]
+      L.append(f'| {arm} | {g["base"]} | {lab} | {st["n_pairs"]} | {st["mean_b"]:+.2f} | '
+               f'{st["mean_a"]:+.2f} | ' + ' | '.join(fmt_stats(st)) + ' |')
   L += ['', '### Per seed', '', '| arm | seed | milestone | gc100 | pgc33 | gap |', '|---|---|---|---|---|---|']
   for arm, g in gaps.items():
     for lab in g['labels']:
