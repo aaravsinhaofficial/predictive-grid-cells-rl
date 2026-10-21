@@ -17,6 +17,11 @@ Endpoints (fixed before the run matrix was launched):
              path efficiency (reported with the number of returns)
   reliance   intact - no_code, intact - no_current, learned gain intact - untrained
   PGC-specific lesion effect: sham (count-matched, mean of 5 draws) - no_pgc
+  lesion costs: intact - no_pgc, intact - no_gc, and the half-class lesions
+             intact - pgc_half, intact - gc_half (mean of 3 draws each; absent
+             in runs evaluated without them), absolute and per lesioned cell
+             (class sizes n_pgc = round(pgc_frac * n_cells), n_gc = n_cells - n_pgc;
+             the half lesions remove floor(class / 2) cells)
 
   python -m code.analyze --runs_dir runs --out results
 """
@@ -31,12 +36,13 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-NAME_RE = re.compile(r'^(gc100|pgc33|pgc100|none|band|pband|pgc)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
+NAME_RE = re.compile(r'^(gc100|gc67|pgc33|pgc100|none|band|pband|pgc)([a-z0-9]*)_(ffb|ff|lstm)_s(\d+)$')
 ARMS = ['ffb', 'ff', 'lstm']
 ARM_LABEL = {'ffb': 'FF policy, heading-only vision (code-only)',
              'ff': 'FF policy, raycast vision (vision + code)',
              'lstm': 'LSTM policy, raycast vision (paper)'}
-COND_ORDER = ['gc100', 'pgc33', 'pgc33goalzero', 'pgc100', 'none', 'gc100vel',
+COND_ORDER = ['gc100', 'gc67', 'pgc33', 'pgc50', 'pgc50phase27', 'pgc50mec', 'pgc50retro',
+              'pgc33goalzero', 'pgc100', 'none', 'gc100vel',
               'gc100lookahead', 'pgc33shift10', 'pgc33shift40']
 class _Default(dict):
   def __missing__(self, k):
@@ -55,13 +61,25 @@ COND_LABEL = _Default({'gc100': '100% grid cells', 'pgc33': '67% grid + 33% PGC'
               'pgc33mec': '33% PGC, MEC-weighted modules (1:2:2:1)', 'pgc33retro': '33% retrospective (20 cm behind)',
               'pgc30': '30% PGC', 'pgc35': '35% PGC', 'pgc40': '40% PGC',
               'band': '100% band cells', 'pband33': 'band + 33% predictive bands',
-              'pband100': '100% predictive band cells'})
+              'pband100': '100% predictive band cells',
+              'gc67': '67% grid cells (PGC slots silent)', 'pgc50': '50% grid + 50% PGC',
+              'pgc50phase27': '50% PGC, shift = 0.27 spacing',
+              'pgc50mec': '50% PGC, MEC-weighted modules (1:2:2:1)',
+              'pgc50retro': '50% retrospective (20 cm behind)'})
 COND_COLOR = _Default({'gc100': 'tab:blue', 'pgc33': 'tab:red', 'pgc33goalzero': 'tab:pink',
                        'pgc100': 'tab:orange', 'none': 'tab:gray', 'gc100vel': 'tab:cyan',
                        'gc100lookahead': 'tab:purple', 'pgc33shift10': 'tab:brown',
-                       'pgc33shift40': 'tab:olive'})
+                       'pgc33shift40': 'tab:olive', 'gc67': 'steelblue', 'pgc50': 'firebrick',
+                       'pgc50phase27': 'darkorange', 'pgc50mec': 'tab:green',
+                       'pgc50retro': 'mediumpurple'})
 PROBES = ['intact', 'no_code', 'no_current', 'no_goal', 'no_pgc', 'no_gc', 'sham',
-          'pgc_as_gc', 'fake_goal', 'shuffled_current', 'untrained']
+          'pgc_half', 'gc_half', 'pgc_as_gc', 'fake_goal', 'shuffled_current', 'untrained']
+# Probes evaluated as several count-matched random draws (<name>0, <name>1, ...):
+# the draws are averaged into one entry <name>.
+DRAW_PROBES = ('sham', 'pgc_half', 'gc_half')
+LESION_KEYS = ('lesion_pgc', 'lesion_gc', 'lesion_pgc_half', 'lesion_gc_half',
+               'lesion_pgc_per_cell', 'lesion_gc_per_cell',
+               'lesion_pgc_half_per_cell', 'lesion_gc_half_per_cell')
 COMPARISONS = [('pgc33', 'gc100'), ('pgc33goalzero', 'gc100'), ('pgc33', 'pgc33goalzero'),
                ('gc100', 'none'), ('pgc33', 'none'), ('pgc100', 'gc100'),
                ('gc100lookahead', 'gc100'), ('gc100vel', 'gc100'),
@@ -74,7 +92,11 @@ COMPARISONS = [('pgc33', 'gc100'), ('pgc33goalzero', 'gc100'), ('pgc33', 'pgc33g
                ('pgc33phase27', 'pgc33'), ('pgc33bio', 'pgc33'), ('pgc33mec', 'pgc33'), ('pgc33retro', 'pgc33'),
                ('pgc10', 'gc100'), ('pgc25', 'gc100'), ('pgc30', 'gc100'), ('pgc35', 'gc100'),
                ('pgc40', 'gc100'), ('band', 'gc100'), ('pband33', 'band'), ('pband100', 'band'),
-               ('pband33', 'pgc33')]
+               ('pband33', 'pgc33'),
+               ('gc67', 'gc100'), ('pgc33', 'gc67'), ('gc67', 'none'),
+               ('pgc50', 'gc100'), ('pgc50', 'pgc33'),
+               ('pgc50phase27', 'gc100'), ('pgc50mec', 'gc100'), ('pgc50retro', 'gc100'),
+               ('pgc50phase27', 'pgc50'), ('pgc50mec', 'pgc50'), ('pgc50retro', 'pgc50')]
 
 
 # ----------------------------------------------------------------- loading
@@ -83,6 +105,33 @@ def _load_eval(f):
     return json.load(open(f))
   except Exception:
     return None
+
+
+def _aggregate_draws(evals, prefix):
+  """evals[prefix] = mean over the draws evals[prefix + '<k>'] (no entry when
+  the run has no such draws)."""
+  draws = [evals[k] for k in evals if k.startswith(prefix) and k[len(prefix):].isdigit()]
+  if not draws:
+    return
+  agg = dict(draws[0])
+  for k in ('mean_score', 'mean_goals', 'mean_first_goal_step', 'mean_path_eff',
+            'frac_found_goal', 'post_discovery_goal_rate', 'frac_two_goals'):
+    agg[k] = float(np.nanmean([s.get(k, np.nan) for s in draws]))
+  agg['sem_score'] = float(np.sqrt(np.mean([s['sem_score'] ** 2 for s in draws]) / len(draws)))
+  agg['n_draws'] = len(draws)
+  evals[prefix] = agg
+
+
+def class_sizes(cfg):
+  """(n_pgc, n_gc) of the run's population: round(pgc_frac * n_cells) PGCs
+  (the population's own count when the config stores it), the rest grid cells."""
+  n_cells = int(cfg.get('n_cells', 512))
+  pop = cfg.get('population') or {}
+  if pop.get('n_pgc') is not None:
+    n_pgc = int(pop['n_pgc'])
+  else:
+    n_pgc = int(round(float(cfg.get('pgc_frac') or 0.0) * n_cells))
+  return n_pgc, n_cells - n_pgc
 
 
 def load_runs(runs_dir, allow_nonfinal=False):
@@ -116,17 +165,13 @@ def load_runs(runs_dir, allow_nonfinal=False):
         ckpt_evals.setdefault(probe, {})[fr] = v['mean_score']
       elif v.get('canonical', False) or allow_nonfinal:
         evals[base] = v
-    shams = [evals[k] for k in evals if k.startswith('sham')]
-    if shams:
-      evals['sham'] = dict(shams[0])
-      for k in ('mean_score', 'mean_goals', 'mean_first_goal_step', 'mean_path_eff',
-                'frac_found_goal', 'post_discovery_goal_rate', 'frac_two_goals'):
-        evals['sham'][k] = float(np.nanmean([s.get(k, np.nan) for s in shams]))
-      evals['sham']['sem_score'] = float(np.sqrt(np.mean([s['sem_score'] ** 2 for s in shams]) / len(shams)))
-      evals['sham']['n_draws'] = len(shams)
+    for prefix in DRAW_PROBES:
+      _aggregate_draws(evals, prefix)
+    n_pgc, n_gc = class_sizes(cfg)
     runs.append(dict(name=name, cond=cond, arm=m.group(3), seed=int(m.group(4)),
                      budget=cfg['frames'], ep=ep, evals=evals, ckpt_evals=ckpt_evals,
                      episode_len=cfg.get('episode_len', 1350),
+                     n_pgc=n_pgc, n_gc=n_gc, code_mode=cfg.get('code_mode', 'full'),
                      final=os.path.exists(os.path.join(d, 'ckpt_final.pt')),
                      frames=float(ep['frames'].max())))
   return runs
@@ -250,6 +295,7 @@ def main(argv=None):
                   post_rate=v.get('post_discovery_goal_rate'), two_goals=v.get('frac_two_goals'))
           for p, v in e.items()}
     g = lambda p: ev[p]['score'] if p in ev else float('nan')
+    per_cell = lambda v, n: v / n if n > 0 else float('nan')
     per_run[r['name']] = dict(
         cond=r['cond'], arm=r['arm'], seed=r['seed'], final=r['final'], frames=r['frames'],
         episodes=int(len(ep)),
@@ -263,11 +309,21 @@ def main(argv=None):
         reliance_current=g('intact') - g('no_current'),
         homing=g('intact') - g('no_goal'),
         pgc_specific=g('sham') - g('no_pgc'),
+        n_pgc=r['n_pgc'], n_gc=r['n_gc'],
+        lesion_pgc=g('intact') - g('no_pgc'),
+        lesion_gc=g('intact') - g('no_gc'),
+        lesion_pgc_half=g('intact') - g('pgc_half'),
+        lesion_gc_half=g('intact') - g('gc_half'),
+        lesion_pgc_per_cell=per_cell(g('intact') - g('no_pgc'), r['n_pgc']),
+        lesion_gc_per_cell=per_cell(g('intact') - g('no_gc'), r['n_gc']),
+        lesion_pgc_half_per_cell=per_cell(g('intact') - g('pgc_half'), r['n_pgc'] // 2),
+        lesion_gc_half_per_cell=per_cell(g('intact') - g('gc_half'), r['n_gc'] // 2),
         ckpt_evals=r['ckpt_evals'])
 
   summary = dict(reference_gc100_final=ref, groups={}, comparisons={}, per_run=per_run)
   scalar_keys = ['train_final_return', 'train_early_auc', 'frames_to_50', 'frames_to_80',
-                 'learned_gain', 'reliance_code', 'reliance_current', 'homing', 'pgc_specific']
+                 'learned_gain', 'reliance_code', 'reliance_current', 'homing', 'pgc_specific',
+                 *LESION_KEYS]
   for (arm, cond), rs in sorted(groups.items()):
     gsum = dict(n=len(rs), seeds=[r['seed'] for r in rs], finished=int(sum(r['final'] for r in rs)))
     for key in scalar_keys:
@@ -293,7 +349,16 @@ def main(argv=None):
       'eval_intact_path_eff': lambda r: r['evals']['intact']['mean_path_eff'] if 'intact' in r['evals'] else None,
       'eval_intact_post_rate': lambda r: r['evals']['intact'].get('post_discovery_goal_rate') if 'intact' in r['evals'] else None,
       'eval_intact_first_goal': lambda r: r['evals']['intact']['mean_first_goal_step'] if 'intact' in r['evals'] else None,
+      'lesion_pgc': lambda r: per_run[r['name']]['lesion_pgc'],
+      'lesion_gc': lambda r: per_run[r['name']]['lesion_gc'],
   }
+
+  def has_class(rs, key):
+    # A lesion cost is compared only between groups whose runs all have cells of
+    # that class (and a code at all).
+    attr = 'n_pgc' if key == 'lesion_pgc' else 'n_gc'
+    return all(r[attr] > 0 and r['code_mode'] != 'none' for r in rs)
+
   for arm in ARMS:
     for ca, cb in COMPARISONS:
       ra, rb = groups.get((arm, ca), []), groups.get((arm, cb), [])
@@ -301,6 +366,8 @@ def main(argv=None):
         continue
       comp = {}
       for key, getter in metric_getters.items():
+        if key in ('lesion_pgc', 'lesion_gc') and not (has_class(ra, key) and has_class(rb, key)):
+          continue
         a = {r['seed']: getter(r) for r in ra if getter(r) is not None and np.isfinite(getter(r))}
         b = {r['seed']: getter(r) for r in rb if getter(r) is not None and np.isfinite(getter(r))}
         if a and b:
@@ -375,18 +442,19 @@ def main(argv=None):
     ax = axes[0, j]
     cs = [c for c in conds_present if (arm, c) in groups]
     w = 0.8 / max(len(cs), 1)
+    probes_fig = [p for p in PROBES if any(p in r['evals'] for r in runs)]
     for k, cond in enumerate(cs):
       rs = groups[(arm, cond)]
       means, sems = [], []
-      for p in PROBES:
+      for p in probes_fig:
         vals = [r['evals'][p]['mean_score'] for r in rs if p in r['evals']]
         means.append(np.mean(vals) if vals else np.nan)
         sems.append(sem(vals) if len(vals) > 1 else 0)
-      x = np.arange(len(PROBES)) + k * w
+      x = np.arange(len(probes_fig)) + k * w
       ax.bar(x, means, w, yerr=sems, color=COND_COLOR[cond], alpha=0.75, capsize=2,
              label=COND_LABEL[cond])
-    ax.set_xticks(np.arange(len(PROBES)) + 0.4 - w / 2)
-    ax.set_xticklabels(PROBES, rotation=30, fontsize=7, ha='right')
+    ax.set_xticks(np.arange(len(probes_fig)) + 0.4 - w / 2)
+    ax.set_xticklabels(probes_fig, rotation=30, fontsize=7, ha='right')
     ax.set_ylabel('eval score')
     ax.set_title('test-time probes: ' + ARM_LABEL[arm], fontsize=9)
     ax.legend(fontsize=6)
@@ -451,8 +519,8 @@ def main(argv=None):
           f1(g.get('eval_intact_first_goal'), 0), f1(g.get('eval_intact_post_rate')),
           f1(g.get('eval_intact_path_eff'), 3)]) + ' |')
   L += ['', '## Derived per-group quantities (mean +/- SEM over seeds)', '',
-        '| arm | condition | learned gain | reliance (no_code) | reliance (no_current) | homing (no_goal) | PGC-specific (sham - no_pgc) | train final | early AUC (<=100M) | frames to 50% (M) | frames to 80% (M) |',
-        '|---|---|---|---|---|---|---|---|---|---|---|']
+        '| arm | condition | learned gain | reliance (no_code) | reliance (no_current) | homing (no_goal) | PGC-specific (sham - no_pgc) | train final | early AUC (<=100M) | frames to 50% (M) | frames to 80% (M) | lesion PGC (intact - no_pgc) | lesion GC (intact - no_gc) | lesion half PGC | lesion half GC | lesion PGC / cell | lesion GC / cell | lesion half PGC / cell | lesion half GC / cell |',
+        '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|']
   for arm in arms_present:
     for cond in conds_present:
       g = summary['groups'].get(f'{arm}/{cond}')
@@ -462,7 +530,12 @@ def main(argv=None):
       L.append('| ' + ' | '.join([arm, COND_LABEL[cond], f1(g['learned_gain']), f1(g['reliance_code']),
                                    f1(g['reliance_current']), f1(g['homing']), f1(g['pgc_specific']),
                                    f1(g['train_final_return']), f1(g['train_early_auc']),
-                                   fm(g['frames_to_50']), fm(g['frames_to_80'])]) + ' |')
+                                   fm(g['frames_to_50']), fm(g['frames_to_80']),
+                                   f1(g['lesion_pgc']), f1(g['lesion_gc']),
+                                   f1(g['lesion_pgc_half']), f1(g['lesion_gc_half']),
+                                   f1(g['lesion_pgc_per_cell'], 4), f1(g['lesion_gc_per_cell'], 4),
+                                   f1(g['lesion_pgc_half_per_cell'], 4),
+                                   f1(g['lesion_gc_half_per_cell'], 4)]) + ' |')
   L += ['', '## Comparisons (paired within seed where both runs exist; a - b)', '',
         '| comparison | metric | pairs | mean a | mean b | mean diff +/- SEM | bootstrap 95% CI | paired t p | Welch p | Wilcoxon p (n>=6) | TOST p (equiv. within 10%) |',
         '|---|---|---|---|---|---|---|---|---|---|---|']

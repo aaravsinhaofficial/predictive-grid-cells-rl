@@ -12,13 +12,29 @@ CONDITIONS = {
     # name: (pgc_frac, code_mode)
     'gc100': (0.0, 'full'),      # 100 % grid cells
     'pgc33': (0.33, 'full'),     # 33 % predictive grid cells, 67 % grid cells
+    'pgc50': (0.5, 'full'),      # 50 % predictive grid cells, 50 % grid cells (256 / 256:
+                                 # equal class sizes for the class-matched lesion probes)
     'pgc100': (1.0, 'full'),     # 100 % predictive grid cells
+    'gc67': (0.33, 'full'),      # the pgc33 population with its 169 PGC slots held at
+                                 # zero (silence_pgc = 1), so only the 343 grid cells
+                                 # carry signal. Same code_seed -> same phases,
+                                 # orientations and PGC indices as pgc33 / gc100 of
+                                 # that seed: controls for the smaller grid-cell count
+                                 # of pgc33 rather than for the predictive cells
     'none': (0.0, 'none'),       # no spatial code at all (A3C-style baseline)
 }
+# Evaluation probes (see CodeSource). The six *_half<k> probes are appended after
+# the original set so existing probe lists keep their order.
 PROBES = ('intact', 'no_code', 'no_current', 'no_goal', 'no_pgc', 'no_gc', 'pgc_as_gc',
           'fake_goal', 'shuffled_current', 'sham0', 'sham1', 'sham2', 'sham3', 'sham4',
-          'untrained')
+          'untrained', 'pgc_half0', 'pgc_half1', 'pgc_half2', 'gc_half0', 'gc_half1', 'gc_half2')
 SHAM_FRAC = 0.33   # count-matched sham lesions remove round(SHAM_FRAC * n_cells) cells
+# sham0..4 remove round(SHAM_FRAC * n_cells) = 169 random grid cells (module-
+# stratified, one draw per index) in EVERY condition: the count-matched control
+# for no_pgc in pgc33 (169 PGCs). For pgc50 (256 PGCs / 256 grid cells) the
+# class-size-matched comparisons are no_pgc vs no_gc (256 vs 256) and
+# pgc_half<k> vs gc_half<k> (floor(n_class / 2) cells each: 128 vs 128); in
+# pgc33 the half probes remove 84 of 169 PGCs vs 171 of 343 grid cells.
 
 # Keys that define the experiment a checkpoint belongs to; a --resume whose
 # arguments differ in any of these from the stored config.json is refused.
@@ -27,6 +43,7 @@ EXPERIMENT_KEYS = (
     'spacing_min', 'spacing_ratio', 'pgc_shift', 'pgc_shift_mode', 'pgc_tau',
     'pgc_shift_jitter', 'sharpness', 'code_noise', 'extra_input', 'goal_code_shift',
     'pgc_layout', 'pgc_module_weights', 'pgc_shift_rule', 'pgc_shift_frac', 'cell_type',
+    'silence_pgc',
     'arena_half', 'episode_len', 'action_repeat', 'v_max', 'rot_max', 'goal_radius',
     'vision', 'img_noise', 'randomize_textures', 'policy', 'conv_arch', 'nh',
     'encoder_norm', 'forward_bias', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
@@ -57,6 +74,10 @@ def add_shared_args(ap: argparse.ArgumentParser):
   g.add_argument('--pgc_shift_frac', type=float, default=0.5)
   g.add_argument('--cell_type', choices=['grid', 'band'], default='grid',
                  help="'band': stripe cells (one cosine per cell) instead of hexagonal grid cells")
+  g.add_argument('--silence_pgc', type=int, default=0,
+                 help='1: hold the PGC slots of the population at zero in the current '
+                      'and the goal code under every probe, leaving the grid cells '
+                      'unchanged (set automatically for --cond gc67)')
   g.add_argument('--sharpness', type=float, default=2.0)
   g.add_argument('--code_noise', type=float, default=0.0)
   g.add_argument('--code_seed', type=int, default=None,
@@ -110,9 +131,14 @@ def resolve_cond(cfg):
     cfg['code_seed'] = cfg['seed']
   if cfg.get('code_mode') is None:
     cfg['code_mode'] = mode
+  # gc67 keeps pgc_frac 0.33, so build_population draws the pgc33 population of
+  # the seed (same PGC indices); CodeSource then holds those slots at zero.
+  cfg['silence_pgc'] = 1 if cfg['cond'] == 'gc67' else int(cfg.get('silence_pgc') or 0)
   # Make the label honest when a preset is overridden.
   if cfg['pgc_frac'] != frac or cfg['code_mode'] != mode:
     cfg['cond'] = f"{cfg['cond']}+frac{cfg['pgc_frac']}+{cfg['code_mode']}"
+  if cfg['silence_pgc'] and not cfg['cond'].startswith('gc67'):
+    cfg['cond'] += '+silenced'
   return cfg
 
 
@@ -174,6 +200,36 @@ def sham_indices(pop, k_draw, frac=SHAM_FRAC):
   return np.concatenate(out).astype(int)
 
 
+def half_indices(pop, cls, k_draw):
+  """Class-half lesion set: floor(n / 2) of the n cells of one class (cls 'pgc'
+  or 'gc'), module-stratified: floor(n_m / 2) from every module m, the odd
+  remainders topped up module by module so the total is exactly floor(n / 2).
+  Draw k_draw uses rng 2000 + k_draw for the PGC class and 3000 + k_draw for
+  the grid-cell class. An empty class gives an empty set (the probe then equals
+  intact). Class-size-matched counterpart of sham_indices: pgc_half<k> and
+  gc_half<k> remove the same number of cells when the classes are equal in
+  size (pgc50)."""
+  import numpy as np
+  rng = np.random.default_rng((2000 if cls == 'pgc' else 3000) + int(k_draw))
+  pool = np.asarray(pop.pgc_idx if cls == 'pgc' else pop.gc_idx, dtype=int)
+  n = len(pool) // 2
+  sizes = [int((pop.module[pool] == m).sum()) for m in range(pop.n_modules)]
+  per = [s // 2 for s in sizes]
+  extra = n - sum(per)
+  for m in range(pop.n_modules):
+    if extra <= 0:
+      break
+    if sizes[m] % 2:
+      per[m] += 1
+      extra -= 1
+  out = []
+  for m in range(pop.n_modules):
+    if per[m]:
+      cand = pool[pop.module[pool] == m]
+      out.append(rng.choice(cand, size=per[m], replace=False))
+  return np.concatenate(out).astype(int) if out else np.zeros(0, dtype=int)
+
+
 class CodeSource:
   """Turns env observations into the policy's population-code inputs, with
   the evaluation probes (masking subsets, de-shifting PGCs, scrambling) in
@@ -182,11 +238,21 @@ class CodeSource:
 
   Probes: no_code (g_t and g* zero), no_current (g_t zero, g* kept),
   no_goal (g* zero), no_pgc / no_gc (subset zeroed in both), sham0..4
-  (count-matched random subset zeroed in both; average them), pgc_as_gc
-  (PGCs de-shifted in both), shuffled_current (g_t from a random
-  position/direction: in-distribution but uninformative), fake_goal (g* from a
-  random position: the paper's 'fake goal grid code'), untrained (handled by
-  the caller)."""
+  (count-matched random subset zeroed in both; average them), pgc_half0..2 /
+  gc_half0..2 (a random half of the PGC class / of the grid-cell class zeroed
+  in both; class-size-matched lesions, see half_indices), pgc_as_gc (PGCs
+  de-shifted in both), shuffled_current (g_t from a random position/direction:
+  in-distribution but uninformative), fake_goal (g* from a random position:
+  the paper's 'fake goal grid code'), untrained (handled by the caller).
+
+  cfg['silence_pgc'] (condition gc67): the population's PGC slots are held at
+  zero in g_t and g* under every probe, on top of the probe's own mask, so
+  only the grid cells carry signal. intact, no_pgc, pgc_as_gc and pgc_half<k>
+  are then the same input (de-shifting a silenced cell changes nothing, so
+  pgc_as_gc takes the intact code path and the three are bit-identical), the
+  sham draws come from the live grid cells exactly as in pgc33, and no_gc
+  zeroes everything. n_masked counts every zeroed slot, silenced PGCs
+  included."""
 
   def __init__(self, cfg, pop, device, probe='intact'):
     if probe not in PROBES:
@@ -202,11 +268,19 @@ class CodeSource:
       mask[pop.gc_idx] = 0.0
     elif probe.startswith('sham'):
       mask[sham_indices(pop, int(probe[4:]))] = 0.0
+    elif probe.startswith('pgc_half'):
+      mask[half_indices(pop, 'pgc', int(probe[8:]))] = 0.0
+    elif probe.startswith('gc_half'):
+      mask[half_indices(pop, 'gc', int(probe[7:]))] = 0.0
+    self.silence_pgc = bool(cfg.get('silence_pgc'))
+    if self.silence_pgc:
+      mask[pop.pgc_idx] = 0.0
     self.mask = mask
     self.n_masked = int((mask == 0).sum())
-    self.shift_scale = 0.0 if probe == 'pgc_as_gc' else 1.0
+    deshift = probe == 'pgc_as_gc' and not self.silence_pgc
+    self.shift_scale = 0.0 if deshift else 1.0
     gcs = cfg.get('goal_code_shift', 'intact')
-    self.goal_shift_scale = 0.0 if (probe == 'pgc_as_gc' or gcs in ('zero', 'lookahead')) else 1.0
+    self.goal_shift_scale = 0.0 if (deshift or gcs in ('zero', 'lookahead')) else 1.0
     self.goal_lookahead = (cfg['pgc_shift'] if cfg['pgc_shift_mode'] == 'space' else None) \
         if gcs == 'lookahead' else None
     self.goal_lookahead_tau = cfg['pgc_tau'] if (gcs == 'lookahead' and

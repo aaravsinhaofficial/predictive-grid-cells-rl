@@ -4,7 +4,8 @@ Keeps up to --max_concurrent training processes alive on the GPU, resumes any
 run that has a resume.pt, extends finished runs whose budget was raised, skips
 finished runs, retries failures, probes every intermediate checkpoint
 (ckpt_*.pt, every 25M frames) with the reliance probes, and evaluates every
-finished run with the full probe set. Idempotent: relaunch it any time.
+finished run with the probes of the full set it still lacks (eval/<probe>.json
+missing). Idempotent: relaunch it any time.
 
   tmux new -d -s popcode "cd /home/ec2-user/optimization && \
      /home/ec2-user/banino/.venv/bin/python scripts/launch_matrix.py --wave 1"
@@ -36,8 +37,13 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = '/home/ec2-user/banino/.venv/bin/python'
+# Final evaluation of every finished run (code/common.py PROBES). The six
+# class-half probes come after the original set: a random half of the PGC
+# class vs a random half of the grid-cell class, three draws each
+# (class-size-matched lesions, 128 vs 128 cells for pgc50).
 FULL_PROBES = ('intact,no_code,no_current,no_goal,no_pgc,no_gc,pgc_as_gc,fake_goal,'
-               'shuffled_current,sham0,sham1,sham2,sham3,sham4,untrained')
+               'shuffled_current,sham0,sham1,sham2,sham3,sham4,untrained,'
+               'pgc_half0,pgc_half1,pgc_half2,gc_half0,gc_half1,gc_half2')
 CKPT_PROBES = 'intact,no_code,no_current,no_goal,untrained'
 CKPT_EPISODES = 64
 ARMS = {
@@ -149,7 +155,7 @@ def main():
     out = os.path.join(args.runs_dir, r['name'])
     os.makedirs(out, exist_ok=True)
     cmd = train_cmd(r, out, train_args) if stage == 'train' else \
-        eval_cmd(out, args.eval_episodes, FULL_PROBES)
+        eval_cmd(out, args.eval_episodes, ','.join(missing_probes(out)))
     logf = open(os.path.join(out, f'{stage}.log'), 'a')
     logf.write(f'\n===== {time.strftime("%Y-%m-%d %H:%M:%S")} {" ".join(cmd)}\n')
     logf.flush()
@@ -170,9 +176,15 @@ def main():
   def finished(r, out):
     return final_frames(out) >= r['frames']
 
+  def missing_probes(out):
+    """Probes of FULL_PROBES without a canonical eval/<probe>.json. Only these
+    are evaluated, so a relaunch over finished runs adds probes that were
+    appended to FULL_PROBES later without re-running (and rewriting) the rest."""
+    return [p for p in FULL_PROBES.split(',')
+            if not os.path.exists(os.path.join(out, 'eval', f'{p}.json'))]
+
   def evaluated(out):
-    return all(os.path.exists(os.path.join(out, 'eval', f'{p}.json'))
-               for p in FULL_PROBES.split(','))
+    return not missing_probes(out)
 
   def next_ckpt_to_probe():
     """(run dir, ckpt path) of an intermediate checkpoint lacking probe evals."""

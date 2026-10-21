@@ -24,6 +24,22 @@ The population code is a pure lookup from the true state (position + heading
 of motion); the goal code g* is the code at the position where the goal was
 last reached (zeros before the first goal of an episode), as in the paper.
 
+Resuming and extending (--resume): an interrupted run continues from
+resume.pt (policy, optimizer and RNG state). A finished run whose
+ckpt_final.pt lies below the requested --frames is extended: the final
+checkpoint is kept as ckpt_<frames>.pt, its canonical evaluations become
+checkpoint evaluations (eval/<probe>@<frames>f_200ep.json), config.json gets
+the new budget and an 'extensions' record {from_frames, to_frames, mode}, and
+training continues from resume.pt when it exists (mode 'resume') or, when it
+does not, from the checkpoint's weights alone (mode 'weights_only'): a fresh
+RMSProp optimizer runs --warmup_updates updates at learning rate 0 (no frames
+counted, no episodes logged) so its squared-gradient statistics are
+estimated on the frozen policy before any parameter changes; resume.pt is
+written when the warm-up ends. A run directory with intermediate checkpoints
+but neither ckpt_final.pt nor resume.pt (an extension interrupted during its
+warm-up) continues the same way from its latest checkpoint (mode
+'recover_weights_only') rather than restarting from zero.
+
 Example:
   python -m code.train --cond pgc33 --policy lstm --seed 1 \
       --frames 300000000 --out runs/pgc33_lstm_s1
@@ -41,6 +57,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from code.common import (EXPERIMENT_KEYS, CodeSource, add_shared_args,   # noqa: E402
                             build_env, build_policy, build_population,
                             extra_from_obs, resolve_cond)
+
+# Entries of the stored population description (config.json 'population') that
+# pin down the cells a run was trained with; compared on --resume when present.
+POPULATION_KEYS = ('n_cells', 'n_modules', 'spacings_m', 'orientation_deg', 'pgc_idx',
+                   'pgc_shift_mode', 'pgc_shift_m_per_module', 'pgc_shift_jitter',
+                   'sharpness', 'noise', 'seed', 'cell_type')
 
 
 def parse_args(argv=None):
@@ -66,6 +88,11 @@ def parse_args(argv=None):
   t.add_argument('--resume_every', type=int, default=200, help='updates')
   t.add_argument('--device', default='cuda:0')
   t.add_argument('--resume', action='store_true')
+  t.add_argument('--warmup_updates', type=int, default=200,
+                 help='weights-only extension of a finished run (ckpt_final.pt below '
+                      '--frames and no resume.pt): updates run at learning rate 0 so '
+                      'the fresh RMSProp statistics are estimated on the frozen policy '
+                      'before training continues (no frames or episodes are counted)')
   t.add_argument('--tf32', type=int, default=1,
                  help='TF32 for cuDNN convolutions (matmuls, incl. the code '
                       'lookup and the LSTM, stay full FP32)')
@@ -73,13 +100,35 @@ def parse_args(argv=None):
 
 
 def check_resume_config(cfg, path):
-  """Refuse to resume under a different experiment definition."""
+  """Refuse to resume under a different experiment definition. A stored None
+  stands for a key that did not exist when the config was written and is not
+  compared; every other stored experiment key must equal the requested value.
+  When the stored config carries the population description, the population
+  rebuilt from the requested arguments must reproduce it (same cells, PGC
+  indices and shifts)."""
   old = json.load(open(path))
   bad = {k: (old.get(k), cfg.get(k)) for k in EXPERIMENT_KEYS
-         if k in old and old.get(k) != cfg.get(k)}
+         if old.get(k) is not None and old.get(k) != cfg.get(k)}
   if bad:
     raise SystemExit(f'--resume refused: config.json in {cfg["out"]} differs in '
                      f'{bad} (stored, requested)')
+  stored = old.get('population') or {}
+  if stored:
+    now = build_population(cfg, 'cpu').describe()
+    for k in POPULATION_KEYS:
+      if k not in stored or k not in now:
+        continue
+      a, b = stored[k], now[k]
+      if isinstance(a, list) or isinstance(b, list):
+        same = (isinstance(a, list) and isinstance(b, list) and len(a) == len(b) and
+                np.allclose(np.asarray(a, dtype=float), np.asarray(b, dtype=float),
+                            rtol=1e-6, atol=1e-6))
+      else:
+        same = a == b
+      if not same:
+        raise SystemExit(f'--resume refused: the population rebuilt for {cfg["out"]} differs '
+                         f'from the stored one in {k!r} (stored {str(a)[:80]}, '
+                         f'rebuilt {str(b)[:80]})')
 
 
 def main(argv=None):
@@ -89,14 +138,20 @@ def main(argv=None):
   cfg_path = os.path.join(cfg['out'], 'config.json')
   resume_path = os.path.join(cfg['out'], 'resume.pt')
   final_path = os.path.join(cfg['out'], 'ckpt_final.pt')
+  extension = None       # provenance record when a finished run is continued
+  weights_ckpt = None    # weights-only extension: the checkpoint to start from
   if cfg['resume'] and os.path.exists(final_path):
     done_frames = int(torch.load(final_path, map_location='cpu').get('frames', 0))
-    if done_frames >= cfg['frames'] or not os.path.exists(resume_path):
+    if done_frames >= cfg['frames']:
       print(f'run already finished (ckpt_final.pt at {done_frames} frames)', flush=True)
       return
+    if os.path.exists(cfg_path):
+      check_resume_config(cfg, cfg_path)       # refuse before anything is renamed
+    mode = 'resume' if os.path.exists(resume_path) else 'weights_only'
     # Budget was raised: keep the old final checkpoint under its frame count,
     # demote its canonical evaluations to checkpoint evaluations, and continue.
-    os.replace(final_path, os.path.join(cfg['out'], f'ckpt_{done_frames:010d}.pt'))
+    demoted = os.path.join(cfg['out'], f'ckpt_{done_frames:010d}.pt')
+    os.replace(final_path, demoted)
     import glob as _glob
     for f in _glob.glob(os.path.join(cfg['out'], 'eval', '*.json')):
       base = os.path.basename(f)[:-5]
@@ -108,15 +163,43 @@ def main(argv=None):
         except Exception:
           pass
         os.replace(f, os.path.join(cfg['out'], 'eval', f'{base}@{done_frames}f_200ep.json'))
-    print(f'extending run from {done_frames} to {cfg["frames"]} frames', flush=True)
+    extension = dict(from_frames=done_frames, to_frames=cfg['frames'], mode=mode)
+    if mode == 'weights_only':
+      weights_ckpt = demoted
+    print(f'extending run from {done_frames} to {cfg["frames"]} frames ({mode})', flush=True)
+  elif cfg['resume'] and not os.path.exists(resume_path):
+    # Neither ckpt_final.pt nor resume.pt, but intermediate checkpoints: a run
+    # interrupted before its first resume.pt was written (e.g. a weights-only
+    # extension killed during its warm-up, then relaunched by the scheduler).
+    # Continue from the latest checkpoint's weights instead of restarting from
+    # zero in a directory that already holds the run's history.
+    import glob as _glob
+    cks = sorted(_glob.glob(os.path.join(cfg['out'], 'ckpt_0*.pt')))
+    if cks:
+      if os.path.exists(cfg_path):
+        check_resume_config(cfg, cfg_path)
+      weights_ckpt = cks[-1]
+      done_frames = int(torch.load(weights_ckpt, map_location='cpu').get('frames', 0))
+      extension = dict(from_frames=done_frames, to_frames=cfg['frames'], mode='recover_weights_only')
+      print(f'no resume.pt or ckpt_final.pt: continuing from {os.path.basename(weights_ckpt)} '
+            f'({done_frames} frames) with a fresh optimizer (recover_weights_only)', flush=True)
   resuming = cfg['resume'] and os.path.exists(resume_path)
-  if resuming and os.path.exists(cfg_path):
-    check_resume_config(cfg, cfg_path)
-    old = json.load(open(cfg_path))
-    if old.get('frames') != cfg['frames']:
-      old['frames'] = cfg['frames']
+  weights_only = weights_ckpt is not None
+  stored_cfg = None
+  if (resuming or weights_only) and os.path.exists(cfg_path):
+    if extension is None:
+      check_resume_config(cfg, cfg_path)
+    stored_cfg = json.load(open(cfg_path))
+    changed = False
+    if stored_cfg.get('frames') != cfg['frames']:
+      stored_cfg['frames'] = cfg['frames']
+      changed = True
+    if extension is not None:
+      stored_cfg['extensions'] = list(stored_cfg.get('extensions') or []) + [extension]
+      changed = True
+    if changed:
       with open(cfg_path, 'w') as f:
-        json.dump(old, f, indent=1)
+        json.dump(stored_cfg, f, indent=1)
 
   dev = torch.device(cfg['device'] if torch.cuda.is_available() else 'cpu')
   cfg['device_used'] = str(dev)
@@ -136,12 +219,15 @@ def main(argv=None):
   n_params = sum(p.numel() for p in policy.parameters())
   cfg['population'] = pop.describe()
   cfg['n_params'] = n_params
-  if not resuming:
+  if not resuming and stored_cfg is None:
+    if extension is not None:
+      cfg['extensions'] = [extension]
     with open(cfg_path, 'w') as f:
       json.dump(cfg, f, indent=1)
 
   T, gamma = cfg['rollout'], cfg['gamma']
   frames_done, update, episodes_seen = 0, 0, 0
+  warm_left = 0        # weights-only extension: updates left at learning rate 0
   if resuming:
     st = torch.load(resume_path, map_location='cpu')
     policy.load_state_dict(st['policy'])
@@ -153,6 +239,25 @@ def main(argv=None):
       torch.cuda.set_rng_state(st['cuda_rng'].cpu(), dev)
     env.gen.manual_seed(cfg['seed'] * 1000 + 1 + update)
     print(f'resumed at frames={frames_done} update={update}', flush=True)
+  elif weights_only:
+    ck = torch.load(weights_ckpt, map_location='cpu')
+    policy.load_state_dict(ck['policy'])
+    frames_done, update = int(ck['frames']), int(ck.get('update', 0))
+    episodes_seen = ck.get('episodes_seen')
+    if episodes_seen is None:       # older checkpoints: count the logged episodes
+      ep_path = os.path.join(cfg['out'], 'episodes.csv')
+      episodes_seen = 0
+      if os.path.exists(ep_path):
+        with open(ep_path) as f:
+          episodes_seen = max(0, sum(1 for _ in f) - 1)
+    episodes_seen = int(episodes_seen)
+    # Fresh random streams that do not replay the start of training.
+    torch.manual_seed(cfg['seed'] * 1000 + 1 + update)
+    env.gen.manual_seed(cfg['seed'] * 1000 + 1 + update)
+    warm_left = max(0, int(cfg['warmup_updates']))
+    print(f'weights-only extension from {os.path.basename(weights_ckpt)}: frames={frames_done} '
+          f'update={update} episodes={episodes_seen}; fresh optimizer, {warm_left} warm-up '
+          f'updates at lr 0', flush=True)
 
   def save_resume():
     tmp = resume_path + '.tmp'
@@ -174,13 +279,35 @@ def main(argv=None):
   if ep_f.tell() == 0:
     ep_f.write('frames,update,env,ret,n_goals,first_goal_step,path_eff,path_eff_n\n')
   metrics_f = open(os.path.join(cfg['out'], 'metrics.jsonl'), 'a')
-  print(f'{cfg["cond"]} policy={cfg["policy"]} seed={cfg["seed"]} n_pgc={pop.n_pgc}/'
+  print(f'{cfg["cond"]} policy={cfg["policy"]} seed={cfg["seed"]} n_pgc={pop.n_pgc}'
+        f'{" (silenced)" if cfg.get("silence_pgc") else ""}/'
         f'{pop.n_cells} params={n_params/1e6:.2f}M device={dev} lr={cfg["lr"]} '
         f'eps={cfg["rms_eps"]} encoder_norm={cfg["encoder_norm"]}', flush=True)
+
+  def set_lr(lr):
+    for g in opt.param_groups:
+      g['lr'] = lr
+
+  def param_checksum():
+    with torch.no_grad():
+      return round(float(sum(v.double().abs().sum().item() for v in policy.state_dict().values())), 4)
+
+  def log_warmup(event):
+    rec = dict(warmup=True, event=event, update=update, frames=frames_done,
+               episodes=episodes_seen, lr=opt.param_groups[0]['lr'], warmup_left=warm_left,
+               param_checksum=param_checksum())
+    print(json.dumps(rec), flush=True)
+    metrics_f.write(json.dumps(rec) + '\n')
+    metrics_f.flush()
+
+  if warm_left:
+    set_lr(0.0)
+    log_warmup('warmup_start')
 
   t0, f0 = time.time(), frames_done
   next_ckpt = (frames_done // cfg['ckpt_every'] + 1) * cfg['ckpt_every']
   while frames_done < cfg['frames']:
+    warm = warm_left > 0      # warm-up update: gradients feed RMSProp only (lr 0)
     # ---------------------------------------------------------- rollout
     roll = {k: [] for k in ('rgb', 'code', 'goal', 'pa', 'pr', 'extra',
                             'a', 'r', 'd')}
@@ -201,7 +328,8 @@ def main(argv=None):
         roll['a'].append(a)
 
         obs, r_raw, done, info = env.step(a)
-        frames_done += n * cfg['action_repeat']
+        if not warm:
+          frames_done += n * cfg['action_repeat']
         r = r_raw.clamp(-cfg['reward_clip'], cfg['reward_clip']) \
             if cfg['reward_clip'] > 0 else r_raw
         roll['r'].append(r)
@@ -220,7 +348,7 @@ def main(argv=None):
           prev_action = torch.where(done, torch.full_like(a, -1), a)
           prev_reward = prev_reward * keep
           es = info['ep_stats']
-          if es is not None:
+          if es is not None and not warm:
             for j in range(es['env'].numel()):
               ret, ng = float(es['ret'][j]), int(es['n_goals'][j])
               fg, pe, pen = int(es['first_goal_t'][j]), float(es['path_eff'][j]), int(es['path_eff_n'][j])
@@ -274,6 +402,16 @@ def main(argv=None):
     gn = torch.nn.utils.clip_grad_norm_(policy.parameters(), cfg['grad_clip'])
     opt.step()
     state = (state[0].detach(), state[1].detach())
+    if warm:
+      # Warm-up: the step above only updated RMSProp's square_avg (lr 0). It
+      # counts neither as a learning update nor towards the frame budget.
+      warm_left -= 1
+      if warm_left == 0:
+        set_lr(cfg['lr'])
+        log_warmup('warmup_end')
+        save_resume()      # a relaunch now resumes with the warmed-up optimizer
+        t0, f0 = time.time(), frames_done
+      continue
     update += 1
 
     # ---------------------------------------------------------- logging
@@ -303,12 +441,13 @@ def main(argv=None):
       save_resume()
     if frames_done >= next_ckpt:
       torch.save({'policy': policy.state_dict(), 'frames': frames_done,
-                  'update': update}, os.path.join(cfg['out'], f'ckpt_{frames_done:010d}.pt'))
+                  'update': update, 'episodes_seen': episodes_seen},
+                 os.path.join(cfg['out'], f'ckpt_{frames_done:010d}.pt'))
       next_ckpt += cfg['ckpt_every']
 
   save_resume()
-  torch.save({'policy': policy.state_dict(), 'frames': frames_done, 'update': update},
-             final_path)
+  torch.save({'policy': policy.state_dict(), 'frames': frames_done, 'update': update,
+              'episodes_seen': episodes_seen}, final_path)
   ep_f.close()
   metrics_f.close()
   print('done', flush=True)

@@ -6,14 +6,29 @@ Probes (applied at evaluation only, same weights, same env seeds):
   no_code    both the current code and the goal code zeroed  (reliance guard:
              if this costs nothing, the policy ignores the code and any
              gc-vs-pgc difference is uninterpretable)
+  no_current current code zeroed, goal code kept
+  no_goal    goal code zeroed (the paper's Extended Data Fig. 6c lesion)
   no_pgc     only the predictive cells zeroed (in g_t and g*)
   no_gc      only the plain grid cells zeroed
   pgc_as_gc  predictive cells evaluated with zero shift (they become ordinary
              grid cells): tests whether the policy exploits the SHIFT itself
-  no_goal    goal code zeroed (the paper's Extended Data Fig. 6c lesion)
+  sham0..4   round(0.33 x n_cells) = 169 random grid cells zeroed (module-
+             stratified, one draw per index): the count-matched control for
+             no_pgc in pgc33; average the draws
+  pgc_half0..2, gc_half0..2
+             a random half (floor(n_class / 2)) of the PGC class / of the
+             grid-cell class zeroed, module-stratified, one draw per index:
+             class-size-matched lesions (128 vs 128 cells in pgc50, 84 vs 171
+             in pgc33); an empty class leaves the input intact
+  fake_goal  goal code taken at a random position (the paper's fake goal code)
+  shuffled_current
+             current code taken at a random position and direction
+             (in-distribution but uninformative)
   untrained  the policy at its random initialisation: the chance line that
              every score must be judged against (an untrained network is not a
              uniform random walker)
+In condition gc67 (silence_pgc) the PGC slots are zero under every probe, so
+intact, no_pgc, pgc_as_gc and pgc_half<k> give the same input.
 
 Also reports goals/episode, step of first goal (censored at episode_len when
 no goal was found; see frac_found_goal), and path efficiency of goal returns
