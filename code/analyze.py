@@ -8,7 +8,7 @@ probes.png, reliance_over_training.png, summary.json and RESULTS.md.
 Run names are <cond><variant>_<arm>_s<seed> (see scripts/launch_matrix.py);
 groups are (arm, cond+variant).
 
-Pre-registered endpoints (see the design review in STATUS.md):
+Endpoints (fixed before the run matrix was launched):
   primary    within-seed paired difference pgc33 - gc100 in the final 200-episode
              evaluation score, in arms that pass the reliance guard
   learning   frames to 50 % / 80 % of the arm's pooled gc100 final score; early

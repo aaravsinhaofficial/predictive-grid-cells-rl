@@ -1,8 +1,9 @@
 # Session recovery notes
 
 Project: perfect grid-cell vs predictive-grid-cell population codes fed to a
-Banino-style RL agent (step 1 of Sinha & Redman, "Behavioral optimization
-reveals principles of neural coding"). See README.md for the layout.
+Banino-style RL agent (first experiment of the project "Behavioral
+optimization reveals principles of neural coding"). See README.md for the
+layout.
 
 ## 2026-10-10 — build day
 - Code written and unit/smoke-tested (`tests/`, 10 passing). Validation of the

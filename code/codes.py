@@ -1,10 +1,10 @@
 """Idealised grid-cell and predictive-grid-cell (PGC) population codes.
 
 Every cell is an analytic rate map, so the population's activity at any agent
-state is a lookup -- nothing is learned (the "perfect cells" design agreed with
-the PI on 2026-10-09: "we imagine we have a perfect grid cell or predictive grid
-cell and we have its map with respect to space ... we don't even have to
-simulate it").
+state is a lookup -- nothing is learned. The cells are "perfect": each has a
+fixed map with respect to space (or, for a predictive cell, with respect to
+the position ahead of the agent) and is read off that map every step rather
+than simulated.
 
 Grid cell
     Classic three-cosine hexagonal pattern with module spacing lambda, module

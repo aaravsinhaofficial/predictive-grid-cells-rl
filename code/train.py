@@ -9,17 +9,16 @@ steps with n-step returns over the same window, action repeat 4,
 gradient-norm clip 40, rewards clipped to [-1, 1] for learning (scores are
 logged raw).
 
-RMSProp eps: Mnih et al. 2016 used 0.1, which with this codebase's sparse
-rewards leaves every parameter in the eps-dominated (plain-SGD) regime and the
-policy uniform for >25M frames; the matrix therefore uses a normalised step
+RMSProp eps: Mnih et al. 2016 used 0.1, which with this task's sparse rewards
+leaves every parameter in the eps-dominated (plain-SGD) regime and the policy
+uniform for >25M frames; the run matrix therefore uses a normalised step
 (--rms_eps 1e-5, the standard A2C value) and, to keep the vision embedding
-bounded under normalised steps, --encoder_norm layernorm (see nets.py and
-STATUS.md for the saturation incident).
+bounded under normalised steps, --encoder_norm layernorm (see nets.py for the
+saturation mechanism).
 
 Loss reduction: SUM over the 100-step window, MEAN over environments (Mnih et
-al. 2016 accumulate per-step gradients along the rollout; the earlier .mean()
-over T*n in this codebase's history silently shrank every gradient 100x and
-kept policies uniform -- see banino/A3C_REPORT.md).
+al. 2016 accumulate per-step gradients along the rollout; a mean over T*n
+would shrink every gradient 100x and keep the policy uniform).
 
 The population code is a pure lookup from the true state (position + heading
 of motion); the goal code g* is the code at the position where the goal was

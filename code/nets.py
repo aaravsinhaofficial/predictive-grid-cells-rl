@@ -15,16 +15,15 @@ single linear unit.
 
 `recurrent=False` swaps the LSTM for a two-layer MLP of the same width (256):
 the agent then has NO memory across steps, so the supplied population code is
-its only source of position -- the condition under which the prior frozen-RNN
-experiment (banino/PGC_EXPERIMENT.md) recommended testing code dependence,
-because a policy LSTM fed its own previous action dead-reckons internally and
-can ignore an external spatial code.
+its only source of position. A policy LSTM fed its own previous action can
+dead-reckon internally and ignore an external spatial code; the feed-forward
+variant cannot, which makes it the cleaner test of code dependence.
 
 `encoder_norm='layernorm'` bounds the embedding scale. Without it, RMSProp
 with a small eps lets the conv/fc weights drift until |e| ~ 1e2, the LSTM
 gates saturate (exactly 0/1 in float32) and the policy output becomes exactly
-independent of every other input, including the population code (observed in
-the 2026-10-10 optimizer probe at lr >= 3e-4).
+independent of every other input, including the population code (this happens
+at lr >= 3e-4 with eps 1e-5).
 """
 import torch
 from torch import nn
