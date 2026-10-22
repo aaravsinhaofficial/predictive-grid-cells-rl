@@ -18,9 +18,10 @@ Writes <out>/EXTENSION.md and <out>/extension.json with
       avg_return_100 vs frames): a - b exp(-frames / tau) fitted to frames
       >= 100M, the frame count where the fit reaches 95 % of its asymptote,
       and the mean return over the last 50M frames
-and <figures>/fig11_training_length.png (+ .svg): left, the paired gap per
-seed at each milestone, one panel per arm; right, the training curves of the
-runs (binned 10M) with the 300M budget marked and the fitted plateaus.
+and <figures>/fig11_training_length.png (+ .svg), one column per arm: top, the
+paired gap per seed at each milestone; bottom, the training curves of the
+arm's runs (binned 10M) with the 300M budget marked and the reliable
+saturating fits.
 
 Runs without error on partial data (only the 300M evaluations) and prints a
 message when <runs_dir> does not exist yet.
@@ -67,9 +68,9 @@ BUDGET_300M = 300e6
 
 # ----------------------------------------------------------------- loading
 def milestone_label(frames):
-  """300006400 -> '300M', 600000000 -> '600M', 1000000000 -> '1B'."""
+  """300006400 -> '300M', 600000000 -> '600M', 1000000000 -> '1B', 1500006400 -> '1.5B'."""
   if frames >= 1e9:
-    return f'{frames / 1e9:g}B'
+    return f'{round(frames / 1e9, 2):g}B'
   return f'{int(round(frames / 1e6))}M'
 
 
@@ -282,84 +283,95 @@ def plateau_fit(frames, ret, fit_from=100e6, last=50e6, slope_window=100e6):
 
 # ------------------------------------------------------------------- figure
 def fig_training_length(runs, gaps, fits, fig_dir, bin_frames=10e6):
-  arms = [a for a in an.ARMS if a in gaps]
-  n_left = max(len(arms), 1)
-  fig, axes = plt.subplots(1, n_left + 1, figsize=(3.1 * n_left + 6.0, 3.8),
-                           gridspec_kw=dict(width_ratios=[1] * n_left + [1.9]))
-  axes = np.atleast_1d(axes)
-  # Left: the paired gap per seed at each milestone.
-  for j in range(n_left):
-    ax = axes[j]
+  """One column per arm. Top: the paired gap (grid + 33 % PGC) - grid per seed
+  at every milestone with at least two pairs. Bottom: the training return of
+  each extended run of the arm (10 M bins) with the 300 M budget marked; for
+  runs whose saturating fit is reliable the fit is drawn over the run's own
+  frame range, with a marker where it reaches 95 % of its asymptote when the
+  run got that far (the extrapolated numbers are in the report table)."""
+  arms = [a for a in an.ARMS if a in gaps or any(r['arm'] == a for r in runs)]
+  n = max(len(arms), 1)
+  fig, axes = plt.subplots(2, n, figsize=(3.7 * n + 0.5, 7.0), squeeze=False)
+  legend = {'gc100': 'grid cells', 'pgc33': 'grid + 33% PGC'}
+  for j in range(n):
+    ax = axes[0, j]
     if not arms:
-      ax.text(0.5, 0.5, 'no gc100 / pgc33 pairs\nwith 200-episode evaluations', ha='center',
-              va='center', fontsize=9, color=INK2, transform=ax.transAxes)
+      ax.text(0.5, 0.5, 'no extended runs', ha='center', va='center', fontsize=9, color=INK2,
+              transform=ax.transAxes)
       ax.set_axis_off()
+      axes[1, j].set_axis_off()
       continue
     arm = arms[j]
-    g = gaps[arm]
-    labels = [lab for lab in g['labels'] if len(g['per_label'][lab]['pairs']) >= 2]
-    if not labels:
+    g = gaps.get(arm)
+    labels = [lab for lab in g['labels'] if len(g['per_label'][lab]['pairs']) >= 2] if g else []
+    if g and not labels:
       labels = g['labels']
-    x_of = {lab: k for k, lab in enumerate(labels)}
-    seeds = sorted({s for lab in labels for s in g['per_label'][lab]['pairs']})
-    for s in seeds:
-      pts = [(x_of[lab], g['per_label'][lab]['pairs'][s]['gap']) for lab in labels
-             if s in g['per_label'][lab]['pairs']]
-      if len(pts) > 1:
-        ax.plot([p[0] for p in pts], [p[1] for p in pts], color=GRAY, lw=0.8, alpha=0.6, zorder=1)
-      ax.scatter([p[0] for p in pts], [p[1] for p in pts], s=26, color=ORANGE, zorder=3,
-                 edgecolor='white', lw=0.6)
-    for lab in labels:
-      d = np.array([v['gap'] for v in g['per_label'][lab]['pairs'].values()], float)
-      ax.hlines(d.mean(), x_of[lab] - 0.25, x_of[lab] + 0.25, color=INK, lw=2.5, zorder=4)
-      if len(d) > 1:
-        ax.vlines(x_of[lab] + 0.32, d.mean() - an.sem(d), d.mean() + an.sem(d), color=INK,
-                  lw=1.2, zorder=4)
-    ax.axhline(0, color=GRAY, ls=(0, (3, 3)), lw=1.0, zorder=0)
-    ax.set_xticks(list(x_of.values()))
-    ax.set_xticklabels([f'{lab}\n(n={len(g["per_label"][lab]["pairs"])})' for lab in labels],
-                       fontsize=8.5)
-    ax.set_xlim(-0.6, len(labels) - 0.4)
+    if not labels:
+      ax.text(0.5, 0.5, 'no gc100 / pgc33 pairs\nwith 200-episode evaluations', ha='center',
+              va='center', fontsize=9, color=INK2, transform=ax.transAxes)
+      ax.set_xticks([])
+      ax.set_yticks([])
+    else:
+      x_of = {lab: k for k, lab in enumerate(labels)}
+      seeds = sorted({s for lab in labels for s in g['per_label'][lab]['pairs']})
+      for s in seeds:
+        pts = [(x_of[lab], g['per_label'][lab]['pairs'][s]['gap']) for lab in labels
+               if s in g['per_label'][lab]['pairs']]
+        if len(pts) > 1:
+          ax.plot([p[0] for p in pts], [p[1] for p in pts], color=GRAY, lw=0.8, alpha=0.6, zorder=1)
+        ax.scatter([p[0] for p in pts], [p[1] for p in pts], s=26, color=ORANGE, zorder=3,
+                   edgecolor='white', lw=0.6)
+      for lab in labels:
+        d = np.array([v['gap'] for v in g['per_label'][lab]['pairs'].values()], float)
+        ax.hlines(d.mean(), x_of[lab] - 0.25, x_of[lab] + 0.25, color=INK, lw=2.5, zorder=4)
+        if len(d) > 1:
+          ax.vlines(x_of[lab] + 0.32, d.mean() - an.sem(d), d.mean() + an.sem(d), color=INK,
+                    lw=1.2, zorder=4)
+      ax.axhline(0, color=GRAY, ls=(0, (3, 3)), lw=1.0, zorder=0)
+      ax.set_xticks(list(x_of.values()))
+      ax.set_xticklabels([f'{lab}\n(n={len(g["per_label"][lab]["pairs"])})' for lab in labels],
+                         fontsize=8.5)
+      ax.set_xlim(-0.6, len(labels) - 0.4)
     ax.set_title(ARM_TITLE.get(arm, arm), color=INK, fontsize=11)
     if j == 0:
       ax.set_ylabel('score gap per seed\n(grid + 33% PGC) − grid')
-  # Right: training curves with the 300M budget marked and the fitted plateaus.
-  ax = axes[-1]
-  budget = max([r['frames'] for r in runs] + [BUDGET_300M])
-  f95 = [fits[r['name']]['frames_95pct_M'] * 1e6 for r in runs
-         if fits[r['name']].get('reliable') and np.isfinite(fits[r['name']].get('frames_95pct_M', np.nan))]
-  # fits are extrapolated to their 95 % point, but at most to twice the data range
-  x_max = max(budget, min(max(f95), 2 * budget) if f95 else 0) * 1.04
-  edges = np.arange(0, budget + bin_frames, bin_frames)
-  centers = (edges[:-1] + edges[1:]) / 2 / 1e6
-  legend = {'gc100': 'grid cells', 'pgc33': 'grid + 33% PGC'}
-  seen = set()
-  for r in runs:
-    col = COND_COLOR.get(r['cond'], GRAY)
-    label = legend.get(r['cond'], 'other conditions')
-    if r['ep'] is not None:
-      mu = an.binned_curve(r['ep'], 'ret', edges, r['episode_len'])
-      ax.plot(centers, mu, color=col, lw=1.3, alpha=0.85, zorder=2,
-              label=None if label in seen else label)
-      seen.add(label)
-    ft = fits[r['name']]
-    if ft.get('reliable') and np.isfinite(ft.get('asymptote', np.nan)):
-      xs = np.linspace(100.0, x_max / 1e6, 200)
-      ax.plot(xs, saturating(xs, ft['asymptote'], ft['b'], ft['tau_M']), color=col, lw=0.9,
-              ls=(0, (1.5, 2)), alpha=0.8, zorder=1)
-      if np.isfinite(ft.get('frames_95pct_M', np.nan)):
-        ax.scatter([ft['frames_95pct_M']], [0.95 * ft['asymptote']], marker='v', s=22, color=col,
-                   zorder=5, edgecolor='white', lw=0.5)
-  ax.axvline(BUDGET_300M / 1e6, color=GRAY, ls=(0, (3, 3)), lw=1.2, zorder=0)
-  ax.text(BUDGET_300M / 1e6, 1.0, ' 300M budget', transform=ax.get_xaxis_transform(), fontsize=8,
-          color=INK2, va='top', ha='left')
-  ax.set_xlim(0, x_max / 1e6)
-  if seen:
-    ax.legend(loc='lower right', fontsize=8.5)
-  ax.set_xlabel('training frames (millions)')
-  ax.set_ylabel('episode score (training, 10M bins)')
-  ax.set_title('training beyond 300M (dotted: saturating fit, ▾: 95 % of asymptote)',
-               color=INK, fontsize=9.5)
+    # Bottom: the training curves of this arm, with the fitted plateaus.
+    ax = axes[1, j]
+    arm_runs = [r for r in runs if r['arm'] == arm]
+    budget = max([r['frames'] for r in arm_runs] + [BUDGET_300M])
+    edges = np.arange(0, budget + bin_frames, bin_frames)
+    centers = (edges[:-1] + edges[1:]) / 2 / 1e6
+    seen = set()
+    for r in arm_runs:
+      col = COND_COLOR.get(r['cond'], GRAY)
+      label = legend.get(r['cond'], 'other conditions')
+      if r['ep'] is not None:
+        mu = an.binned_curve(r['ep'], 'ret', edges, r['episode_len'])
+        ax.plot(centers, mu, color=col, lw=1.1, alpha=0.85, zorder=2,
+                label=None if label in seen else label)
+        seen.add(label)
+      ft = fits.get(r['name'], {})
+      if ft.get('reliable') and np.isfinite(ft.get('asymptote', np.nan)):
+        x_end = max(ft.get('frames_max', 0.0) / 1e6, 100.0)
+        xs = np.linspace(100.0, x_end, 200)
+        ax.plot(xs, saturating(xs, ft['asymptote'], ft['b'], ft['tau_M']), color=col, lw=0.9,
+                ls=(0, (1.5, 2)), alpha=0.8, zorder=1)
+        f95 = ft.get('frames_95pct_M', np.nan)
+        if np.isfinite(f95) and f95 <= x_end:
+          ax.scatter([f95], [0.95 * ft['asymptote']], marker='v', s=24, color=col, zorder=5,
+                     edgecolor='white', lw=0.5)
+    ax.axvline(BUDGET_300M / 1e6, color=GRAY, ls=(0, (3, 3)), lw=1.2, zorder=0)
+    ax.text(BUDGET_300M / 1e6, 1.0, ' 300M budget', transform=ax.get_xaxis_transform(),
+            fontsize=8, color=INK2, va='top', ha='left')
+    ax.set_xlim(0, budget / 1e6 * 1.03)
+    if seen and j == 0:
+      ax.legend(loc='lower right', fontsize=8)
+    ax.set_xlabel('training frames (millions)')
+    if j == 0:
+      ax.set_ylabel('episode score (training, 10M bins)')
+    if j == n // 2:
+      ax.set_title('dotted: saturating fit over the run\'s frames, ▾: 95 % of its asymptote reached',
+                   color=INK2, fontsize=8.5)
   fig.tight_layout()
   os.makedirs(fig_dir, exist_ok=True)
   fig.savefig(os.path.join(fig_dir, 'fig11_training_length.png'))

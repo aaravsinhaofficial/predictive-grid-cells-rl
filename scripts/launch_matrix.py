@@ -189,7 +189,7 @@ def main():
   def next_ckpt_to_probe():
     """(run dir, ckpt path) of an intermediate checkpoint lacking probe evals."""
     for d in sorted(glob.glob(os.path.join(args.runs_dir, '*_s[0-9]*'))):
-      for ck in sorted(glob.glob(os.path.join(d, 'ckpt_0*.pt'))):
+      for ck in sorted(glob.glob(os.path.join(d, 'ckpt_[0-9]*.pt'))):
         if ck in probed:
           continue
         frames = int(os.path.basename(ck)[5:15])

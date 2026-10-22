@@ -72,3 +72,12 @@ def test_report_runs_end_to_end(tmp_path):
   summary = json.loads((out / 'extension.json').read_text())
   assert summary['runs']['pgc33_ff_s2']['milestones']['600M']['intact'] == 95.0
   assert (figs / 'fig11_training_length.png').exists()
+
+
+def test_milestone_labels_round_to_two_decimals():
+  import extension_report as er
+  assert er.milestone_label(300006400) == '300M'
+  assert er.milestone_label(600000000) == '600M'
+  assert er.milestone_label(1000000000) == '1B'
+  assert er.milestone_label(1500006400) == '1.5B'
+  assert er.label_frames('1.5B') == 1.5e9

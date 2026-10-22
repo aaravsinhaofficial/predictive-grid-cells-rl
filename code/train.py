@@ -174,7 +174,7 @@ def main(argv=None):
     # Continue from the latest checkpoint's weights instead of restarting from
     # zero in a directory that already holds the run's history.
     import glob as _glob
-    cks = sorted(_glob.glob(os.path.join(cfg['out'], 'ckpt_0*.pt')))
+    cks = sorted(_glob.glob(os.path.join(cfg['out'], 'ckpt_[0-9]*.pt')))
     if cks:
       if os.path.exists(cfg_path):
         check_resume_config(cfg, cfg_path)

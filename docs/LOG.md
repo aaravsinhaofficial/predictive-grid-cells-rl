@@ -287,3 +287,39 @@ evaluations of the 600 M and 1 B checkpoints of the long runs, analyze ->
 results/, extension_report -> results_ext/EXTENSION.md + Fig. 11, figures,
 data/). Projected cost ~$400 of a $500 budget; expected to finish Oct 22
 (controls, 600 M) and Oct 22-23 (long runs).
+
+## 2026-10-21 ~11 pm CST — wave E finished: controls, 600 M extensions, long runs
+All three fleets finished and were collected; the five `long` VMs were
+deleted at 10:45 pm CST. Cloud cost of the wave ~$235 (driver estimate; the
+controls and 600 M fleets ran faster than projected). runs/ now holds 322
+runs at 300 M (the 72 control runs added). runs_ext/ holds 54 extended runs:
+40 to 600 M (gc100 / pgc33: seeds 3-8 in the code-only and code+vision arms,
+seeds 1-8 in the LSTM arm), ten to 1 B (code only, seeds 1-2: gc100, pgc33,
+pgc33phase27, pgc33mec, pgc33retro) and four to 1.5 B (code+vision, seeds
+1-2: gc100, pgc33), each with the full probe set at its final checkpoint and,
+for the long runs, at 600 M and 1 B (200 episodes). Post-processing
+(scripts/auto_wave_d.sh --now): results/RESULTS.md and data/ regenerated over
+the 322 runs, results_ext/EXTENSION.md + extension.json, Fig. 11 (now two
+rows: paired gap per seed per budget on top, training curves per arm with the
+saturating fits below). Fixes: the checkpoint-probe scheduler in
+scripts/launch_matrix.py (and the recovery path in code/train.py) matched only
+`ckpt_0*.pt`, so the periodic 64-episode probes of the long runs stopped at
+975 M; the glob is now `ckpt_[0-9]*.pt`, and the missing probes of the four
+1.5 B runs (1.0-1.5 B) were evaluated locally. Milestone labels round to 2
+decimals ('1.5B', not '1.50001B').
+Results (README 3.7): the paired gap pgc33 - gc100 is significant at 600 M in
+every arm (code only +3.4 -> +11.5, wider in 8/8 seeds, change p 0.002;
+code+vision +3.6 -> +16.7, change p 0.065; LSTM +0.2 -> +10.0, change p
+0.016), with path efficiency and post-discovery goal rate following and the
+time to the first goal unchanged. At 600 M both vision arms are still rising
+(grid ~5, PGC ~8-9 points per 100 M); the two code+vision seeds trained to
+1.5 B level off (95 % of the fitted asymptote at ~450-600 M for grid,
+~650-800 M for PGC), their fitted plateaus 13.9 and 15.5 apart. Code only: at
+600 M (seeds 3-8) the grid code climbs about half as fast as pgc33 (2.9 vs
+5.9 points per 100 M, p 0.012); at 1 B (2 seeds) the predictive codes still
+climb 3-8 points per 100 M, one grid seed has been flat since 600 M and the
+other rose late (24.1 -> 40.0); gap +24.9 at 1 B. The retrospective code
+scores 63 / 46 at 1 B (grid 40 / 27), but its two extended seeds were
+already level with the forward shift at 300 M and its PGC-specific lesion
+cost is inconsistent (-8 / +11), so the 300 M conclusion of README 3.4
+stands.
