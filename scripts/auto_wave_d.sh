@@ -5,11 +5,13 @@
 # Waits until no scripts/launch_matrix.py process is running and both
 # runs/scheduler.log and runs_ext/scheduler.log end with a 'scheduler finished'
 # line written after this driver started; then
-#   (i)   evaluates, with the full probe set at 200 episodes, the 600M-frame
-#         checkpoint (ckpt_0600000000.pt) of every run in runs_ext whose budget
-#         exceeds 600M, and the 1B checkpoint (ckpt_1000000000.pt) of every run
-#         whose budget exceeds 1B; probes whose evaluation file already exists
-#         are skipped (files eval/<probe>@<frames>f_200ep.json)
+#   (i)   evaluates, with the full probe set at 200 episodes, the checkpoint at
+#         each milestone (600M, 1B, 1.5B) of every run in runs_ext whose budget
+#         exceeds that milestone: the first checkpoint at or after the milestone
+#         and less than 25M frames past it (ckpt_0600000000.pt,
+#         ckpt_1000000000.pt; ckpt_1500006400.pt for a run continued from 1B);
+#         probes whose evaluation file already exists are skipped (files
+#         eval/<probe>@<frames>f_200ep.json, <frames> = the checkpoint's)
 #   (ii)  python -m code.analyze --runs_dir runs --out results
 #   (iii) python scripts/extension_report.py --runs_dir runs_ext --out results_ext --figures figures
 #   (iv)  python scripts/make_figures.py --runs_dir runs --out figures
@@ -34,7 +36,7 @@ FIGURES=${FIGURES:-figures}
 DATA=${DATA:-data}
 EPISODES=${EPISODES:-200}
 POLL=${POLL:-300}
-MILESTONES="600000000 1000000000"
+MILESTONES="600000000 1000000000 1500000000"
 mkdir -p "$RUNS"
 LOG=$RUNS/auto_wave_d.log
 log() { echo "$(TZ=America/Chicago date '+%Y-%m-%d %H:%M CST') $*" | tee -a "$LOG"; }
@@ -88,12 +90,19 @@ for d in "$RUNS_EXT"/*_s[0-9]*/; do
   TARGET=$($PY -c "import json, sys; print(int(json.load(open(sys.argv[1]))['frames']))" "$d/config.json")
   for M in $MILESTONES; do
     [ "$TARGET" -gt "$M" ] || continue
-    CK=$(printf '%s/ckpt_%010d.pt' "$d" "$M")
-    if [ ! -f "$CK" ]; then
-      log "$(basename "$d"): no ${M}-frame checkpoint yet"
+    CK=$($PY - "$d" "$M" <<'PYEOF'
+import glob, os, sys
+d, m = sys.argv[1], int(sys.argv[2])
+cks = sorted((int(os.path.basename(f)[5:15]), f) for f in glob.glob(os.path.join(d, 'ckpt_[0-9]*.pt')))
+print(next((f for fr, f in cks if m <= fr < m + 25_000_000), ''))
+PYEOF
+)
+    if [ -z "$CK" ]; then
+      log "$(basename "$d"): no checkpoint within 25M frames of $M yet"
       continue
     fi
-    MISSING=$($PY - "$d" "$M" "$EPISODES" "$FULL_PROBES" <<'PYEOF'
+    F=$((10#$(basename "$CK" .pt | cut -c6-15)))
+    MISSING=$($PY - "$d" "$F" "$EPISODES" "$FULL_PROBES" <<'PYEOF'
 import os, sys
 d, m, ep, probes = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].split(',')
 print(','.join(p for p in probes
@@ -101,7 +110,7 @@ print(','.join(p for p in probes
 PYEOF
 )
     if [ -z "$MISSING" ]; then
-      log "$(basename "$d") @ $M: all probes evaluated"
+      log "$(basename "$d") @ $F: all probes evaluated"
       continue
     fi
     run $PY -m code.evaluate --run "$d" --ckpt "$CK" --probes "$MISSING" --episodes "$EPISODES"

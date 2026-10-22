@@ -323,3 +323,27 @@ scores 63 / 46 at 1 B (grid 40 / 27), but its two extended seeds were
 already level with the forward shift at 300 M and its PGC-specific lesion
 cost is inconsistent (-8 / +11), so the 300 M conclusion of README 3.4
 stands.
+
+## 2026-10-22 ~12:15 am CST — wave F launched: code-only runs to 2 B, LSTM runs to 1 B
+Code-only arm, seeds 1-2 (gc100, pgc33, pgc33phase27, pgc33mec, pgc33retro):
+1 B -> 2 B on fleet `long2` (5 L4 VMs, 2 runs each). LSTM arm, gc100 / pgc33
+seeds 1-8: 600 M -> 1 B, seeds 1-4 locally (tmux `popcode_ext_lstm2`, 8
+concurrent, ~9.8 k fps per run) and seeds 5-8 on fleet `lstm1b` (4 L4 VMs,
+2 runs each). All 16 LSTM runs were first started locally, but 16 concurrent
+runs saturate the local GPU (~5.3 k fps per run, ~21 h), so after 5 minutes
+they were stopped, their metrics and episode logs cut back to 600 M, and half
+moved to the cloud, where an LSTM run trained at ~13 k fps in the last wave.
+Both extensions continue in 'resume' mode from the resume.pt written at the
+end of the previous segment (optimizer and RNG state, checked identical to
+the final checkpoint's weights; for the code-only runs taken from the `long`
+fleet's bucket copy, since `collect` skips resume.pt), so every extended run
+has a single warm restart, at 300 M. Matrices in runs/waveF/; L4 stockouts
+handled by retry loops (runs/waveF/retry_*.sh). Driver: tmux `auto_wave_f`
+(scripts/auto_wave_e.sh long2:5:runs_ext lstm1b:4:runs_ext) collects both
+fleets into runs_ext, deletes the VMs, waits for the local scheduler and runs
+scripts/auto_wave_d.sh --now, which now also evaluates a 1.5 B milestone (the
+first checkpoint at or after each milestone, within 25 M); tmux
+`popcode_milestone_1500` evaluates the 1.5 B checkpoints of the code-only runs
+from the bucket while the fleet is still training. Expected: LSTM ~9 am CST
+(cloud) and ~12:30 pm CST (local), code-only fleet ~3:30 pm CST, results
+~4 pm CST Oct 22; cost ~$65 (long2) + ~$30 (lstm1b).
