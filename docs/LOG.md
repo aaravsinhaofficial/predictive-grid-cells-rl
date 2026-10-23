@@ -347,3 +347,23 @@ first checkpoint at or after each milestone, within 25 M); tmux
 from the bucket while the fleet is still training. Expected: LSTM ~9 am CST
 (cloud) and ~12:30 pm CST (local), code-only fleet ~3:30 pm CST, results
 ~4 pm CST Oct 22; cost ~$65 (long2) + ~$30 (lstm1b).
+
+## 2026-10-23 ~1 pm CST — wave F finished
+Cloud LSTM runs (seeds 5-8) reached 1 B at ~8 am CST Oct 22 and were
+collected and their VMs deleted at 8:09 am; local LSTM runs (seeds 1-4)
+finished at ~11:35 am - 12 pm and were evaluated by 12:22 pm CST. The code-only fleet finished between
+3:40 and 4:01 pm CST and the VMs stopped themselves, but the gcloud login had
+expired at 10:40 am, so collection, VM deletion and post-processing waited
+until the login was renewed (collected 1:02 pm CST Oct 23, post-processed by
+1:06 pm). Cloud cost of wave F about $90 (the driver's counter stopped at $69
+while the login was expired); waves E + F about $325.
+Results (README 3.7): LSTM gap +10.3 +/- 3.7 at 1 B (8 seeds, p = 0.026),
+unchanged from 600 M; late-checkpoint mean (64-episode probes every 25 M over
+800 M - 1 B) +13.3 +/- 3.1, all 8 seeds, p = 0.004; path efficiency and
+post-discovery goal rate higher in all 8 seeds. Code only at 2 B (2 seeds):
+predictive codes have slowed to under 2 points per 100 M and end at 63-85
+(late-checkpoint means over the last 300 M); grid ends at 63 (began climbing
+after 600 M) and 32 (stayed low); gap +12.6 / +42.3 in late-checkpoint
+means, +36.4 / +39.8 at the final checkpoint. At 2 B silencing the shifted
+cells no longer costs more than silencing 169 random cells in either the
+forward or the retrospective code.
