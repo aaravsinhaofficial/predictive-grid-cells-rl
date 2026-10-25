@@ -130,11 +130,7 @@ Checkpoints were tested on the same 200 episodes as the 300 M agents.
 
 ![training length](../figures/fig11_training_length.png)
 
-*One column per agent type. **Top:** score gap (grid + 33 % PGC) − grid per seed at each training length. Lines join the runs of one seed; bars are mean ± SEM. **Bottom:** training score of every long run (10 M-frame bins).*
-
-- *Blue: grid. Orange: grid + 33 % PGC. Grey: the quarter-spacing, MEC-weighted and backward codes.*
-- *The dashed vertical line marks the original 300 M budget.*
-- *Dotted curves are saturating fits; ▾ marks where a fit reaches 95 % of its plateau.*
+*Training score of grid (blue) and grid + 33 % PGC (orange) for each agent type (line style), averaged over seeds in 50 M-frame bins. Each curve averages the seeds trained to its end: seeds 1 and 2 for code only and code + vision (the code-only runs went on to 2 B; shown to 1.5 B), all 8 seeds for LSTM + vision. These are training-episode scores; the tables below use the separate 200-episode tests.*
 
 **Gap between the two codes** (grid + 33 % PGC − grid, mean ± SEM over seeds):
 

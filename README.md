@@ -193,7 +193,7 @@ Everything above is measured at the 300 M-frame budget of the main experiment. T
 
 ![training length](figures/fig11_training_length.png)
 
-*Figure 11. One column per arm. **Top:** the paired score gap (grid + 33 % PGC) − grid per seed at each training budget (lines join the seeds, bars = mean ± SEM). **Bottom:** training return of every extended run (10 M-frame bins) with the 300 M budget marked; grey curves are the quarter-spacing, MEC-weighted and retrospective codes. Dotted lines are saturating fits a − b·exp(−frames/τ), drawn only for runs whose curve has started to saturate, and a triangle marks where a fit reaches 95 % of its asymptote within the run's own frames.*
+*Figure 11. Training score of the grid code (blue) and grid + 33 % PGC (orange) in the three arms (line style), averaged over the seeds trained to the end of each curve, in 50 M-frame bins: seeds 1 and 2 in the code-only and code + vision arms (the two seeds trained past 600 M; the code-only runs continue to 2 B and are shown to 1.5 B), all 8 seeds in the LSTM arm. These are the scores of the training episodes, not the 200-episode evaluations in the table below; per-seed gaps, the 8-seed means and the plateau fits are in [`results_ext/EXTENSION.md`](results_ext/EXTENSION.md).*
 
 | arm | 300 M (8 seeds) | 600 M (8 seeds) | 1 B | 1.5 B (2 seeds) | 2 B (2 seeds) |
 |---|---|---|---|---|---|
