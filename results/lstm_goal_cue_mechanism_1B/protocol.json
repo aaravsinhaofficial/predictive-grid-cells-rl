@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "conditions": [
+    "pgc33",
+    "gc100"
+  ],
+  "episodes_per_seed_variant": 128,
+  "n_envs": 64,
+  "eval_seed": 737373,
+  "device": "mps",
+  "variants": {
+    "pgc33": [
+      "intact",
+      "all_at_ahead",
+      "all_at_hit",
+      "coherent_center",
+      "pgc_radial",
+      "pgc_tangent",
+      "pgc_reverse_radial"
+    ],
+    "gc100": [
+      "intact",
+      "coherent_center"
+    ]
+  },
+  "primary_score_contrasts": {
+    "all_ahead_minus_intact": [
+      "pgc33/intact",
+      "pgc33/all_at_ahead"
+    ],
+    "radial_minus_intact": [
+      "pgc33/intact",
+      "pgc33/pgc_radial"
+    ],
+    "radial_minus_tangent": [
+      "pgc33/pgc_tangent",
+      "pgc33/pgc_radial"
+    ],
+    "radial_minus_reverse": [
+      "pgc33/pgc_reverse_radial",
+      "pgc33/pgc_radial"
+    ]
+  },
+  "primary_family": "Four paired training-seed score contrasts; Holm separately for t and exact sign-flip.",
+  "intervention": "Only the goal snapshot changes and is refreshed at every pickup. Live code and trained RNN unchanged.",
+  "oracle_conditions": [
+    "coherent_center",
+    "pgc_radial",
+    "pgc_tangent",
+    "pgc_reverse_radial"
+  ],
+  "tangent": "Unit perpendicular to inward radial direction, choosing the sign aligned with the arrival tangential component; positive perpendicular if exactly tied.",
+  "shift_m": 0.2,
+  "goal_radius_m": 0.3,
+  "interpretation": "Input interventions test use by frozen trained models; out-of-distribution messages and changed trajectories limit claims about training mechanisms.",
+  "primary_selected_before_full_rollouts": true
+}

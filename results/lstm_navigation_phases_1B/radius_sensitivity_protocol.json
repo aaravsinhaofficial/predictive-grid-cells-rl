@@ -1,0 +1,34 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "radii_m": [
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.6
+  ],
+  "variants": [
+    "intact",
+    "goal_grid"
+  ],
+  "eligibility": "First original goal discovery before decision1050, leaving exactly300 decisions (20 seconds) observable after its respawn; same837episodecohort as the previous first-return endpoint.",
+  "endpoint": "First post-step pre-teleport distance strictly below radius, counted as (crossing_index+1)/15 seconds. If no crossing,20seconds. Scan ends at original first-return hit or20seconds. Initial spawn is held fixed, even if it lies inside an enlarged radius; reward still requires a post-step check.",
+  "primary": "One exploratory paired-training-seed contrast: [ordinary-minus-predictive capped-time penalty at0.30m] minus [same penalty at0.45m]. Specified before inspecting this radius analysis; positive means enlargement reduces the predictive-goal advantage. Paired t interval/test and exhaustive sign-flip test. No multiplicity correction needed within this one-contrast family; the broader investigation is exploratory.",
+  "other_points": "0.35,0.40,0.60m curve points and all per-radius means are descriptive.",
+  "causal_scope": "Counterfactual first-return reward criterion conditional on original discovery, goal message and spawn. Before the first threshold crossing the policies receive the original inputs, zero return reward, and original history. This does not simulate a new arena with larger goals during exploration, changed spawn rejection, or subsequent repeated returns.",
+  "checks": [
+    "0.30m distances must match actual hit flags exactly before first-return teleport.",
+    "0.30m times and episode eligibility must reproduce prior first-return summaries.",
+    "Matched variants share original discovery times and first-spawn distances.",
+    "Larger-radius capture times cannot increase within a recorded trajectory."
+  ]
+}

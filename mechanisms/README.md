@@ -1,5 +1,7 @@
 # What predictive inputs change in the RNN
 
+**Latest: [Why PGC models return to the goal better](navigation-explanation.md)** — new causal tests identify useful goal cues and live steering information, with a simple turn-or-move interpretation of the RNN output.
+
 **PGC models have larger activity shifts between episodes, and they use predictive spatial inputs to navigate. A new intervention tests whether a fixed episode-specific shift explains that benefit; it does not establish that link.**
 
 **New: [Add the activity shift back, subtract it, and examine the spectra](offsets-and-spectra.md)** — simple figures from eight-seed interventions and eigenvalue/eigenvector analyses.
@@ -42,7 +44,7 @@ Restored components receive predictive information again. This identifies a usef
 
 ## What fits these results?
 
-**Working explanation:** the learned use of the pickup and ahead/inward cues guides navigation. Their repeated input may also help establish the episode-dependent background activity. Restoring a fixed estimate of its predictive contribution did not restore the navigation benefit.
+**Working explanation:** the learned use of the pickup and ahead/inward cues guides navigation. New phase-specific input tests show that restoring predictive goal input during returns restores performance; live predictive input also improves near-goal steering. Their repeated input may help establish the episode-dependent background activity, but restoring a fixed estimate of its predictive contribution did not restore the navigation benefit.
 
 **Established:** predictive input → internal updates → navigation behavior.
 

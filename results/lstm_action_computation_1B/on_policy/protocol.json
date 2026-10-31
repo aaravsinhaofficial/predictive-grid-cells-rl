@@ -1,0 +1,16 @@
+{
+  "selection": "Native intact-policy states at decisions 600/900/1200, first32environment slots, known goal only. Saved by separate behavior analysis.",
+  "state_timing": "Saved h/c BEFORE this input, plus exact native embedding/current/goal input. Other goal variants are recomputed on CPU.",
+  "source": "results/lstm_navigation_phases_1B",
+  "metrics": "Expected noiseless one-step goal-disk progress in mm and target translation toward true center. Equal sampled-episode weights within each seed.",
+  "subsets": "All; near (<0.6m from true center); far (>=0.6m).",
+  "statistics": "Exploratory follow-up after scripted-replay analysis. Eight paired seed means. Holm within seven contrasts for each metric/subset; not across metrics/subsets.",
+  "current_extension": "Current-only, both-input and current-reversal variants added after inspecting initial seed3 goal-only results, before other on-policy models. Additional metric is translation alignment with actual motion direction.",
+  "ray_extension": "Exploratory diagnostic added after seeing two-action concentration in native snapshots3\u20138. Select dominant translation and turn identities from intact probabilities. Straight ray intersects true goal disk when forward projection>0 and absolute lateral distance<0.3m. Balanced agreement averages go-probability on ray hits and turn-probability on misses, each averaged within episode then over sampled episodes. This is not an optimal action/value oracle; it ignores inertia and future turning.",
+  "inertial_extension": "Also label near states by whether23noiselessdecisions (1.533seconds) holdingdominanttranslation wouldhittruegoaldisk, retaininginitialvf/vs/vr andwallcollisions. Norespawn ornewpolicydecisions. Samebalancedgo/turn diagnostic, notoptimalcontrol. PGCseed5isathree-actionexception; exclusionofpairedseed5reportedassensitivity.",
+  "limitations": [
+    "Native models visit different physical states; the native contrast is descriptive.",
+    "Goal-code interventions within each model hold its previous state and current experience fixed.",
+    "One-step utility undercounts useful turn actions and is not navigation performance."
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes": 128,
+  "n_envs": 64,
+  "eval_seed": 737373,
+  "near_radius": 0.6,
+  "variants": [
+    "grid",
+    "pgc_after_discovery",
+    "pgc_near",
+    "pgc_far"
+  ],
+  "primary_score_comparisons": [
+    [
+      "grid",
+      "pgc_after_discovery"
+    ],
+    [
+      "grid",
+      "pgc_near"
+    ],
+    [
+      "pgc_near",
+      "pgc_far"
+    ]
+  ],
+  "test_family": "Three primary paired seed contrasts, Holm t and exhaustive sign flips separately. Remaining comparisons exploratory.",
+  "design": "Every branch follows intact grid until first goal. Then select intact grid/PGC actor everywhere, only within0.6m of true goal, or only outside0.6m. Both frozen RNNs receive their native current/goal codes, the branch actual observations/actions/rewards, and maintain separate natural h/c. No neural state is transferred across models.",
+  "caveats": [
+    "Uses privileged goal distance to choose controller; diagnostic not deployable policy.",
+    "Switching controller changes future trajectories and both shadow-state histories.",
+    "PGC-after-discovery is not the original native PGC policy before discovery.",
+    "Localizes usefulness of learned controllers; does not identify individual neurons or fully explain training."
+  ],
+  "code_identity": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  }
+}

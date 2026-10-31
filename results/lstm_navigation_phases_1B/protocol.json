@@ -1,0 +1,66 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes": 128,
+  "n_envs": 64,
+  "eval_seed": 737373,
+  "phase_thresholds_m": [
+    0.6,
+    0.9
+  ],
+  "respawn_phase_steps": 15,
+  "fields": [
+    "distance_before",
+    "distance_after",
+    "distance_progress",
+    "speed",
+    "heading_toward_goal_cos",
+    "motion_toward_goal_cos",
+    "action",
+    "entropy",
+    "hit",
+    "wall",
+    "known",
+    "age",
+    "goal_count",
+    "absolute_turn_rate"
+  ],
+  "scope": "Descriptive localization of behavior on the existing evaluation set. Thresholds chosen before inspecting phase data. No model or input changes beyond the previously tested code-swap variants. Native condition comparisons do not hold trajectories fixed.",
+  "checks": "Require exact equality of all original per-episode records for all variants.",
+  "censoring": "All step exposures and censored return attempts retained. Complete-trip phase durations are conditional on successful returns; selection limits causal interpretation.",
+  "completed_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "first_return_20s": "Exploratory addition after first two phase seeds; eligibility first_goal_step<1050, exact300-decision followup, capped20s return time; before/afterfirstnear components; four-comparison Holm family.",
+  "rollout_batches": [
+    [
+      1,
+      2
+    ],
+    [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  ],
+  "snapshot_supplement": "Seeds1 and2 rerun as native-only branches to save before-input states; exact baselineepisode records required; fullphasefiles preserved.",
+  "turn_rate_scope": "The optional turn-rate mean excludes pickup and episode-reset steps, where env.step resets angular velocity to zero."
+}

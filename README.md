@@ -2,9 +2,9 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
-**New: [What changes inside the RNN?](mechanisms/README.md)** — a short visual guide to episode-dependent activity, predictive goal inputs, and causal interventions in the frozen 1B-frame LSTMs.
+**New: [Why PGC models return to the goal better](mechanisms/navigation-explanation.md)** — useful goal geometry, turn-or-move steering, and causal input interventions in all eight 1B-frame LSTM seed pairs.
 
-**Latest: [Do the episode shifts cause better navigation?](mechanisms/offsets-and-spectra.md)** — restoration and subtraction tests, plus eigenvalue and eigenvector spectra. A fixed episode-specific activity offset does not yet explain the benefit.
+**Related: [What changes inside the RNN?](mechanisms/README.md)** · [Episode shifts and eigenvalue/eigenvector spectra](mechanisms/offsets-and-spectra.md). A fixed episode-specific activity offset does not yet explain the benefit.
 
 Grid cells give the brain a periodic code for position. A subset of them, the **predictive grid cells** (PGCs) recently described in the medial entorhinal cortex, fire not for where the animal is but for where it is *about to be*. Is a code that contains predictive cells a better code to navigate with?
 

@@ -1,0 +1,33 @@
+{
+  "seeds": [
+    1,
+    2
+  ],
+  "episodes": 128,
+  "n_envs": 64,
+  "eval_seed": 737373,
+  "phase_thresholds_m": [
+    0.6,
+    0.9
+  ],
+  "respawn_phase_steps": 15,
+  "fields": [
+    "distance_before",
+    "distance_after",
+    "distance_progress",
+    "speed",
+    "heading_toward_goal_cos",
+    "motion_toward_goal_cos",
+    "action",
+    "entropy",
+    "hit",
+    "wall",
+    "known",
+    "age",
+    "goal_count",
+    "absolute_turn_rate"
+  ],
+  "scope": "Descriptive localization of behavior on the existing evaluation set. Thresholds chosen before inspecting phase data. No model or input changes beyond the previously tested code-swap variants. Native condition comparisons do not hold trajectories fixed.",
+  "checks": "Require exact equality of all original per-episode records for all variants.",
+  "censoring": "All step exposures and censored return attempts retained. Complete-trip phase durations are conditional on successful returns; selection limits causal interpretation."
+}
