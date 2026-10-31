@@ -1,0 +1,79 @@
+{
+  "episodes_per_seed_variant": 128,
+  "n_envs_per_variant": 64,
+  "eval_seed": 737373,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "device": "mps",
+  "variants": [
+    "both_grid",
+    "restore_input_forget"
+  ],
+  "code_identity_checks": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "intervention": "Both current and goal inputs use ordinary grid code. Selected LSTM components are replaced by their mixed-code values computed from the same actual preceding h/c. Recurrent state and behavior then evolve normally.",
+  "components": {
+    "input": 0,
+    "forget": 1,
+    "candidate": 2,
+    "output": 3
+  },
+  "controls": "intact restores all four components; both_grid restores none. All branches use the same explicit LSTM update, checked against the original cell, and share environmental layouts/noise and action uniforms.",
+  "interpretation": "Causal pathway intervention at evaluation, not retraining. Restored components have access to counterfactual predictive code; this is not a pure grid-input policy. Gate contributions interact."
+}

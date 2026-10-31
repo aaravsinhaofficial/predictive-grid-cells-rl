@@ -1,0 +1,364 @@
+{
+  "protocol": {
+    "family": [
+      "pc3",
+      "pc10",
+      "p50",
+      "p80",
+      "p90",
+      "p95",
+      "p99"
+    ],
+    "family_size": 7,
+    "alpha": 0.05,
+    "family_scope": "The seven rows explicitly selected by the user; exploratory post-hoc family, not a preregistered endpoint. Other analyses in this project are not covered by this correction.",
+    "independent_units": "Eight matched training seeds, not time samples; one shared diagnostic replay.",
+    "direction": "PGC minus grid; every test two-sided.",
+    "parametric": "Paired t test, df=7; small-sample validity relies on independent, approximately normal seed-wise differences.",
+    "exact": "Mean-difference paired sign-flip test enumerating all 2^8=256 assignments; assumes paired exchangeability/sign symmetry under the null. No Monte Carlo pseudocount.",
+    "multiplicity": "Holm across the same seven metrics, separately for each test method; controls within-family error even when metrics are dependent. Both methods reported.",
+    "intervals": "95% paired-t confidence intervals are marginal, not simultaneous and not multiplicity adjusted.",
+    "exact_resolution": "Smallest two-sided exact p is 2/256=.0078125. For this seven-test Holm family the smallest possible adjusted p is .0546875, just above .05.",
+    "interpretation": "Inference concerns PCA variance concentration under this replay, not gridness, topology, stability, or causal performance benefit."
+  },
+  "source": "results/lstm_variable_1B/pca_spectrum/summary.json",
+  "source_sha256": "c4360c7854e15cc106a924ae26949dc8ada765f2cbcfe15460de8a749d4280ec",
+  "results": [
+    {
+      "metric": "pc3",
+      "label": "Variance in first 3 PCs",
+      "units": "percentage points",
+      "n_pairs": 8,
+      "grid": [
+        24.85679365594422,
+        24.29778153728685,
+        22.62930885722979,
+        25.206333946093594,
+        23.587525458622448,
+        24.48797144063745,
+        21.213744278152692,
+        24.225026986744894
+      ],
+      "pgc": [
+        26.534786521233677,
+        27.110891245991375,
+        29.542933773089576,
+        30.899068501359217,
+        30.253388826930173,
+        33.142980255956395,
+        28.33908716558647,
+        29.508856807778443
+      ],
+      "differences": [
+        1.6779928652894576,
+        2.813109708704527,
+        6.913624915859785,
+        5.692734555265623,
+        6.6658633683077255,
+        8.655008815318947,
+        7.125342887433778,
+        5.2838298210335495
+      ],
+      "mean_difference": 5.603438367151674,
+      "sem": 0.8213533158179207,
+      "unadjusted_t_ci95": [
+        3.661246397442471,
+        7.545630336860877
+      ],
+      "t_statistic": 6.822202162259068,
+      "t_df": 7.0,
+      "paired_t_p": 0.0002481552578361017,
+      "exact_signflip_p": 0.0078125,
+      "paired_t_p_holm7": 0.0009926210313444068,
+      "exact_signflip_p_holm7": 0.0546875
+    },
+    {
+      "metric": "pc10",
+      "label": "Variance in first 10 PCs",
+      "units": "percentage points",
+      "n_pairs": 8,
+      "grid": [
+        44.8763288724096,
+        47.21242357258379,
+        45.62543115758463,
+        48.08109012507546,
+        45.58562874633868,
+        47.26755363979427,
+        46.09275388173758,
+        46.592401168550104
+      ],
+      "pgc": [
+        49.61893757229827,
+        51.4616431970522,
+        52.11501300010676,
+        53.949578886257946,
+        51.90044968877881,
+        55.05736688271629,
+        52.37892207495547,
+        52.11025330851386
+      ],
+      "differences": [
+        4.74260869988867,
+        4.2492196244684095,
+        6.489581842522128,
+        5.868488761182483,
+        6.314820942440129,
+        7.7898132429220155,
+        6.28616819321789,
+        5.5178521399637575
+      ],
+      "mean_difference": 5.907319180825685,
+      "sem": 0.3884822799219358,
+      "unadjusted_t_ci95": [
+        4.98870456040822,
+        6.825933801243151
+      ],
+      "t_statistic": 15.20614835253938,
+      "t_df": 7.0,
+      "paired_t_p": 1.2803596631964671e-06,
+      "exact_signflip_p": 0.0078125,
+      "paired_t_p_holm7": 8.96251764237527e-06,
+      "exact_signflip_p_holm7": 0.0546875
+    },
+    {
+      "metric": "p50",
+      "label": "PCs for 50% variance",
+      "units": "PCs",
+      "n_pairs": 8,
+      "grid": [
+        13,
+        12,
+        13,
+        11,
+        13,
+        12,
+        13,
+        12
+      ],
+      "pgc": [
+        11,
+        10,
+        10,
+        9,
+        10,
+        8,
+        9,
+        9
+      ],
+      "differences": [
+        -2,
+        -2,
+        -3,
+        -2,
+        -3,
+        -4,
+        -4,
+        -3
+      ],
+      "mean_difference": -2.875,
+      "sem": 0.29504842217604116,
+      "unadjusted_t_ci95": [
+        -3.572678654471653,
+        -2.177321345528347
+      ],
+      "t_statistic": -9.74416327596772,
+      "t_df": 7.0,
+      "paired_t_p": 2.5373669679448325e-05,
+      "exact_signflip_p": 0.0078125,
+      "paired_t_p_holm7": 0.00015224201807668996,
+      "exact_signflip_p_holm7": 0.0546875
+    },
+    {
+      "metric": "p80",
+      "label": "PCs for 80% variance",
+      "units": "PCs",
+      "n_pairs": 8,
+      "grid": [
+        52,
+        49,
+        48,
+        48,
+        52,
+        49,
+        49,
+        48
+      ],
+      "pgc": [
+        44,
+        42,
+        42,
+        43,
+        44,
+        41,
+        46,
+        44
+      ],
+      "differences": [
+        -8,
+        -7,
+        -6,
+        -5,
+        -8,
+        -8,
+        -3,
+        -4
+      ],
+      "mean_difference": -6.125,
+      "sem": 0.6927558836168151,
+      "unadjusted_t_ci95": [
+        -7.763107362833909,
+        -4.486892637166091
+      ],
+      "t_statistic": -8.841498347183911,
+      "t_df": 7.0,
+      "paired_t_p": 4.7875987467505075e-05,
+      "exact_signflip_p": 0.0078125,
+      "paired_t_p_holm7": 0.00023937993733752537,
+      "exact_signflip_p_holm7": 0.0546875
+    },
+    {
+      "metric": "p90",
+      "label": "PCs for 90% variance",
+      "units": "PCs",
+      "n_pairs": 8,
+      "grid": [
+        84,
+        81,
+        79,
+        81,
+        86,
+        84,
+        81,
+        80
+      ],
+      "pgc": [
+        76,
+        74,
+        76,
+        79,
+        77,
+        76,
+        83,
+        79
+      ],
+      "differences": [
+        -8,
+        -7,
+        -3,
+        -2,
+        -9,
+        -8,
+        2,
+        -1
+      ],
+      "mean_difference": -4.5,
+      "sem": 1.4267845968170128,
+      "unadjusted_t_ci95": [
+        -7.873809459432541,
+        -1.1261905405674586
+      ],
+      "t_statistic": -3.153944898227081,
+      "t_df": 7.0,
+      "paired_t_p": 0.016063397183937234,
+      "exact_signflip_p": 0.03125,
+      "paired_t_p_holm7": 0.0481901915518117,
+      "exact_signflip_p_holm7": 0.09375
+    },
+    {
+      "metric": "p95",
+      "label": "PCs for 95% variance",
+      "units": "PCs",
+      "n_pairs": 8,
+      "grid": [
+        112,
+        112,
+        109,
+        113,
+        117,
+        117,
+        113,
+        110
+      ],
+      "pgc": [
+        105,
+        105,
+        107,
+        112,
+        108,
+        109,
+        119,
+        112
+      ],
+      "differences": [
+        -7,
+        -7,
+        -2,
+        -1,
+        -9,
+        -8,
+        6,
+        2
+      ],
+      "mean_difference": -3.25,
+      "sem": 1.9062865921546452,
+      "unadjusted_t_ci95": [
+        -7.757651506295037,
+        1.257651506295037
+      ],
+      "t_statistic": -1.704885306005629,
+      "t_df": 7.0,
+      "paired_t_p": 0.13198804479030424,
+      "exact_signflip_p": 0.1328125,
+      "paired_t_p_holm7": 0.2639760895806085,
+      "exact_signflip_p_holm7": 0.265625
+    },
+    {
+      "metric": "p99",
+      "label": "PCs for 99% variance",
+      "units": "PCs",
+      "n_pairs": 8,
+      "grid": [
+        158,
+        165,
+        157,
+        168,
+        169,
+        172,
+        169,
+        161
+      ],
+      "pgc": [
+        155,
+        159,
+        159,
+        168,
+        165,
+        166,
+        181,
+        171
+      ],
+      "differences": [
+        -3,
+        -6,
+        2,
+        0,
+        -4,
+        -6,
+        12,
+        10
+      ],
+      "mean_difference": 0.625,
+      "sem": 2.470811752093978,
+      "unadjusted_t_ci95": [
+        -5.2175413901218795,
+        6.4675413901218795
+      ],
+      "t_statistic": 0.2529533055160197,
+      "t_df": 7.0,
+      "paired_t_p": 0.8075719452383693,
+      "exact_signflip_p": 0.84375,
+      "paired_t_p_holm7": 0.8075719452383693,
+      "exact_signflip_p_holm7": 0.84375
+    }
+  ]
+}

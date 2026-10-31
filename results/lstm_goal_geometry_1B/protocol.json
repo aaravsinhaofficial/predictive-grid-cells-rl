@@ -1,0 +1,98 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes_per_seed_variant": 128,
+  "n_envs_per_variant": 64,
+  "eval_seed": 737373,
+  "device": "mps",
+  "variants": {
+    "pgc33": [
+      "intact",
+      "plain_goal",
+      "center_pgc_goal",
+      "mirror_goal",
+      "reverse_goal"
+    ],
+    "gc100": [
+      "intact",
+      "lookahead_goal",
+      "center_goal"
+    ]
+  },
+  "invariant": "Only the supplied goal-memory vector changes; live code, network weights, vision, task and reward are retained.",
+  "oracle_conditions": [
+    "pgc33/center_pgc_goal",
+    "pgc33/mirror_goal",
+    "gc100/center_goal"
+  ],
+  "mirror_definition": "Reflect arrival direction about the hit-to-true-center radial axis. Preserve 20cm shift and distance of predictive point to true goal; flip tangential component only.",
+  "equivalence_before_running": {
+    "comparison": "pgc33 mirror_goal minus intact score",
+    "margin": 5.0,
+    "procedure": "90% paired t confidence interval inside [-5,+5], equivalent to 5%-level TOST.",
+    "meaning": "Exploratory coarse tolerance: half a goal per 90s episode; not absence of all arrival-direction use."
+  },
+  "caveats": [
+    "Center and mirror use privileged true goal center for diagnosis, not a realistic sensing improvement.",
+    "Mirror does not remove the radial arrival component and does not match wall proximity or all spatial relationships.",
+    "Evaluation-only changed goal messages, not retraining; input distribution effects remain possible."
+  ],
+  "code_identity_checks": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  }
+}

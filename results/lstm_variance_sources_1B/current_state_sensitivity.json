@@ -1,0 +1,157 @@
+{
+  "protocol": {
+    "samples": 3393,
+    "basis_rank": 35,
+    "covariates": "x,y, movement cos/sin, facing cos/sin, speed; all first- and second-order terms; previous-action indicators.",
+    "fitting": "One common centered orthonormal covariate basis for all models. Ordinary least-squares projection of centered h; all samples used. No goals, room IDs, episode IDs, actor outputs or future variables in basis.",
+    "status": "Post hoc descriptive sensitivity check, not part of the five primary comparisons. No extra significance screening. No held-out prediction or causal claim.",
+    "limitation": "A modest quadratic basis cannot remove arbitrary periodic spatial tuning or image features. Covariates correlate with goals/history, so projection can also absorb those signals. Residual episode offsets are not uniquely goal or room information."
+  },
+  "models": [
+    {
+      "condition": "gc100",
+      "seed": 1,
+      "fitted_current_state_share": 0.21014811186060664,
+      "residual_between_share_of_original_total": 0.12184862973920098,
+      "residual_episode_offset_fraction_retained": 0.8073023791024754
+    },
+    {
+      "condition": "pgc33",
+      "seed": 1,
+      "fitted_current_state_share": 0.17309510466013478,
+      "residual_between_share_of_original_total": 0.2184012316243637,
+      "residual_episode_offset_fraction_retained": 0.8261845785339994
+    },
+    {
+      "condition": "gc100",
+      "seed": 2,
+      "fitted_current_state_share": 0.1692513555140616,
+      "residual_between_share_of_original_total": 0.20096422012866572,
+      "residual_episode_offset_fraction_retained": 0.8010718640899691
+    },
+    {
+      "condition": "pgc33",
+      "seed": 2,
+      "fitted_current_state_share": 0.16276270947073013,
+      "residual_between_share_of_original_total": 0.23803234250950722,
+      "residual_episode_offset_fraction_retained": 0.7664772644435779
+    },
+    {
+      "condition": "gc100",
+      "seed": 3,
+      "fitted_current_state_share": 0.20886521093404534,
+      "residual_between_share_of_original_total": 0.1561042833703185,
+      "residual_episode_offset_fraction_retained": 0.7830692843329886
+    },
+    {
+      "condition": "pgc33",
+      "seed": 3,
+      "fitted_current_state_share": 0.2322694537613258,
+      "residual_between_share_of_original_total": 0.21408482360799844,
+      "residual_episode_offset_fraction_retained": 0.7121550621818441
+    },
+    {
+      "condition": "gc100",
+      "seed": 4,
+      "fitted_current_state_share": 0.21301806512697494,
+      "residual_between_share_of_original_total": 0.1546436523407412,
+      "residual_episode_offset_fraction_retained": 0.7255227374464212
+    },
+    {
+      "condition": "pgc33",
+      "seed": 4,
+      "fitted_current_state_share": 0.1459760890880181,
+      "residual_between_share_of_original_total": 0.2834007955439376,
+      "residual_episode_offset_fraction_retained": 0.833941277822171
+    },
+    {
+      "condition": "gc100",
+      "seed": 5,
+      "fitted_current_state_share": 0.19187442528640877,
+      "residual_between_share_of_original_total": 0.16066841323800768,
+      "residual_episode_offset_fraction_retained": 0.7790635573149305
+    },
+    {
+      "condition": "pgc33",
+      "seed": 5,
+      "fitted_current_state_share": 0.2122435448474084,
+      "residual_between_share_of_original_total": 0.17817222070911,
+      "residual_episode_offset_fraction_retained": 0.7629093115946781
+    },
+    {
+      "condition": "gc100",
+      "seed": 6,
+      "fitted_current_state_share": 0.2044991131977712,
+      "residual_between_share_of_original_total": 0.1691129800028264,
+      "residual_episode_offset_fraction_retained": 0.7763741664113162
+    },
+    {
+      "condition": "pgc33",
+      "seed": 6,
+      "fitted_current_state_share": 0.18468316210785618,
+      "residual_between_share_of_original_total": 0.24956949376211132,
+      "residual_episode_offset_fraction_retained": 0.7656732586833498
+    },
+    {
+      "condition": "gc100",
+      "seed": 7,
+      "fitted_current_state_share": 0.15243314900686175,
+      "residual_between_share_of_original_total": 0.1999885043762241,
+      "residual_episode_offset_fraction_retained": 0.8416489858509094
+    },
+    {
+      "condition": "pgc33",
+      "seed": 7,
+      "fitted_current_state_share": 0.13609034947198312,
+      "residual_between_share_of_original_total": 0.2990990606129108,
+      "residual_episode_offset_fraction_retained": 0.8588124046926339
+    },
+    {
+      "condition": "gc100",
+      "seed": 8,
+      "fitted_current_state_share": 0.19677734425941093,
+      "residual_between_share_of_original_total": 0.15803715394366086,
+      "residual_episode_offset_fraction_retained": 0.7875497667173349
+    },
+    {
+      "condition": "pgc33",
+      "seed": 8,
+      "fitted_current_state_share": 0.17395524202303028,
+      "residual_between_share_of_original_total": 0.23788921157420964,
+      "residual_episode_offset_fraction_retained": 0.8116086982194748
+    }
+  ],
+  "means": {
+    "fitted_current_state_share": {
+      "gc100": 0.19335834689826764,
+      "pgc33": 0.17763445692881086
+    },
+    "residual_between_share_of_original_total": {
+      "gc100": 0.1651709796424557,
+      "pgc33": 0.2398311474930186
+    },
+    "residual_episode_offset_fraction_retained": {
+      "gc100": 0.7877003426582931,
+      "pgc33": 0.7922202320214662
+    }
+  },
+  "source_sha256": {
+    "results/lstm_variable_1B/replay.npz": "e2ecf1832d2ba8f52d83235bfad6844075644bd03004026f339dff02abf1be55",
+    "results/lstm_variable_1B/gc100_s1_activity.npz": "25ee7ba68cf5a7867d0d68b5c698bdcd1aa6e2faf363a04d1ae3d87c0062a48f",
+    "results/lstm_variable_1B/pgc33_s1_activity.npz": "91a8294616e450c7ad1a61c5d4c10c2a6a313a3c3e4bbf63325dc2811a5d870c",
+    "results/lstm_variable_1B/gc100_s2_activity.npz": "4c2c920975d0e3630831f6ab09f9a91dc1a9de630ad6074315745ec4e52b566f",
+    "results/lstm_variable_1B/pgc33_s2_activity.npz": "95b29c601b328acad2bb05ba1507eb0eb123d1db6b64d800c164f8b325025a83",
+    "results/lstm_variable_1B/gc100_s3_activity.npz": "8a73bcd6a29b04389e460a900e3c4add4342112e99fc7cd0ca22cec8b7813a3a",
+    "results/lstm_variable_1B/pgc33_s3_activity.npz": "faf6a9db3c3d08f4a0db5f77eb317a5cdaabe5f0b1c2286902cdbd62a40beba6",
+    "results/lstm_variable_1B/gc100_s4_activity.npz": "4e211a4ee1cdd9a44ee7a1a94c2554e1d584911a9ee9807499c1f6067494c5fb",
+    "results/lstm_variable_1B/pgc33_s4_activity.npz": "3ca66ae022c8a77f062830931a0cd126193daf0bfb3bc641aa0b7670831d226f",
+    "results/lstm_variable_1B/gc100_s5_activity.npz": "bbce3dd96a006adf49ad9be286a7e71ecd0be67e668816a31c363d8883bc07df",
+    "results/lstm_variable_1B/pgc33_s5_activity.npz": "92adda8187320380f71960715f025bab4ef1e7a2b6672706f178d4c0ff647658",
+    "results/lstm_variable_1B/gc100_s6_activity.npz": "5f80bd6cab38a223ab60c4d9b4fc38cd98bf577c58317314af2c5511f7e693b2",
+    "results/lstm_variable_1B/pgc33_s6_activity.npz": "ef37e3af87c97ed9805bcb637d55c567fc42f63d46ab14c29e1f2acea9a61874",
+    "results/lstm_variable_1B/gc100_s7_activity.npz": "f54f1dcca38d6f44102818a05be6f5d21c996d4421f234adf61044bdd20345f8",
+    "results/lstm_variable_1B/pgc33_s7_activity.npz": "8d89af83a866ed288ae71a3cabfe0e3010aee96980a530b8b7007ef21ffecaad",
+    "results/lstm_variable_1B/gc100_s8_activity.npz": "cc9ac6faaf06ee146c8dfe7960e192f53377a925977a6e12abd8c9f6e6c161ad",
+    "results/lstm_variable_1B/pgc33_s8_activity.npz": "db5ae54048393a5f1d4a857486c9257996a5e96bca71c94ad5d20da0ef7fadf4"
+  }
+}

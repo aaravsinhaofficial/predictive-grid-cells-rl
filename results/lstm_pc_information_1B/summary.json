@@ -1,0 +1,8836 @@
+{
+  "protocol": {
+    "hypothesis": "Do the first 10 PCs of PGC hidden activity support better goal/movement readout, and lose less readout accuracy relative to all 256 PCs?",
+    "primary_pc_count": 10,
+    "pc_counts": [
+      3,
+      10,
+      20,
+      50,
+      100,
+      256
+    ],
+    "samples": 3392,
+    "episodes": 16,
+    "training_seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "targets": [
+      "Remembered pickup x,y (not physical goal center)",
+      "Movement direction cosine,sine"
+    ],
+    "selection": "Same 3392 known-goal states for both targets and all models; the one unknown-goal state is excluded.",
+    "method": "Linear ridge readouts of PCA prefixes. 4 whole-episode outer folds and 3 whole-episode inner folds. PCA, centering, and a scalar feature scale are fitted on each training fold only. No neuron/PC rescaling or whitening.",
+    "alphas": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0,
+      10000.0,
+      100000.0
+    ],
+    "alpha_selection": "Inner validation mean squared coordinate error, separately for each PC count and target.",
+    "full_anchor": "Fresh 256-PC readout on identical samples/alpha grid. Equivalent to ridge on all h; do not substitute the earlier full readout with its smaller alpha grid.",
+    "compression_penalty": "Error using 10 PCs minus error using 256 PCs. Lower means less loss when restricted to leading PCs. Negative values are allowed: finite-sample PCA denoising can improve generalization.",
+    "statistics": "Four primary contrasts: two targets times 10-PC error/compression penalty. Two-sided paired t and exhaustive sign-flip across 8 seeds, Holm corrected within these 4 contrasts separately per method. Pointwise t CIs are not simultaneous. Other PC counts are descriptive.",
+    "limitations": "Exploratory linear decodability on one scripted replay; goal code is externally supplied, movement/facing/vision are correlated. A result cannot establish causal use, recurrent attractors, gridness, or why reward improves. No new policy rollouts or model training."
+  },
+  "models": [
+    {
+      "condition": "gc100",
+      "seed": 1,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8804109795727398,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 57.53738902542026,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.7717971234922764
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.8535563771032593,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 35.87404670043641,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4870319822579785
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.8092608243422825,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 33.425498145638784,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.44295009159284177
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.7941451518938591,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 29.739558605449965,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.39062398049973224
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.7550283492986776,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.217701090533676,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.353851020002348
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.7410434670988905,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.293654028085754,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3270398083807167
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              100.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 1,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7882318446888636,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 65.79854470011826,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.8580645689169834
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.7853531856396536,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 42.43119386168398,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5747962542610037
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.7866861966077302,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.931289200807434,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5033868598796342
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.6938903460122097,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.98632283861287,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4119070218194561
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.6669049761289227,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 29.83179187459277,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3845831651077173
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.6727062907800385,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 28.39143208594749,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.36826496982857015
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 2,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7681672187874766,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 69.27791573339472,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.920955739680204
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.5632049985705967,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.81191724183303,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.44162150660967925
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.5357169902123889,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.800385769975556,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.42545270840575883
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.532576437378579,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.357062051002107,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.33570318475197686
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.5445729543592654,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 24.455709572903828,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.30046725313706196
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.5586949279778763,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 23.45076202543222,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2851275064754507
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 2,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7065362192580604,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 53.36285397053651,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.7394973604990414
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.60448582201379,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 39.62894352224942,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5644035030997022
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.5604441077829921,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.596465161886876,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5085267024982933
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.5367584114179824,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 29.470899007983135,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.383012657506429
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.5244097473292133,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 26.765597907758426,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3444773241515181
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.5875536870049323,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.930978241913106,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.327935119988472
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              0.1,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 3,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8607147364842382,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 49.59025723689299,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.6987457478635696
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.8038543119985516,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.687401282599176,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.43117692814032077
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.7192737839203724,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 29.510498394580235,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3848421955574517
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.7162515631066634,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 23.767545939101424,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.30480641588464
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.7164946453363583,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 21.922499434564234,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.27198877815640404
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.7011446001878826,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 21.290300719970958,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2599894526497302
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 3,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7825327928904073,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 40.07640236700255,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5430256965556188
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.7526837568329429,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.2506364221678,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.39588212592773686
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.7595993490357107,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.66707487983656,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3123257285561338
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.6810474301458269,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 22.778359718904102,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.26007522365269115
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.6587864878937114,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 19.730785128694613,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.21777529353642736
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.6627557311709299,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 18.545404885040675,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2036270642819704
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              10000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 4,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.6935029181675283,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 44.469222038556296,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5807363671821045
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.5673483174565969,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 28.139273560944943,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.35150043450142165
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.5772103041904348,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 26.009830948510146,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.32528889699490476
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.5021745319766995,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 22.275433211226428,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2606457793537445
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.4909159612358407,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 20.8385861639793,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2388538225516158
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.4813898597132448,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 19.4571569013534,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.22016892829729967
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 4,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.5727803407961757,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 89.90819227191338,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 1.0244352017173826
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.45163743021753966,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 38.940281429852234,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5359753604856127
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.4339335168097675,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.779572424207927,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4136101737477916
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.44045060166393807,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 26.58473752180504,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3319419095616849
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.4482027267026177,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 24.834934627265696,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.30850805229153555
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.4408757909271456,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 22.590283365833894,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.27876767238858485
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 5,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8173265391861342,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 59.41500921067028,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.7543842647231351
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.6843070063157008,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.770966866909376,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.44002406461993776
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.6557572994214627,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 30.528598326099136,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4005036431040736
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.6553390882396177,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.013228598808585,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.35512415448264173
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.6520678496634671,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 24.47160260494425,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3088396164313242
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.6680865329029179,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 21.588438414716165,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2648408250129056
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 5,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8230722537757247,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 56.23692926595227,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.7702369054189546
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.6547836971237564,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 42.520200228170665,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5704731502541835
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.6784239521663853,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.355836191339414,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4908297568077803
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.6922101753396865,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.088488855003106,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4144106474691701
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.6994203790652286,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.283075502341823,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3501930811877556
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.6892326944699871,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.11268528922161,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.33118001796491253
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 6,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7603398371925894,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 60.432319292936235,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.7937939206051821
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.6678316165320515,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 30.009411767343675,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3747631145224484
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.587363730855621,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 23.37034931042596,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.2832196953849382
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.5560496219312285,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 18.370268835746298,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.20766851473138861
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.5604888198528829,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 17.294211551070656,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.18745434530503838
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.5536360425116655,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 15.988005405724424,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.17611187230401265
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              100.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              100.0,
+              0.01
+            ],
+            [
+              100.0,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              100.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 6,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.5953550182441132,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 61.61084772384165,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.8233156593975341
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.47895209383438947,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 38.21934550378861,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5196729592275466
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.44433489450383395,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.96201339878388,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.43661959570083003
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.4510358239211988,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 29.25325179405693,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.37701215429905943
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.44241505128882225,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.393757579596638,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.34860550471111357
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.4402870731697704,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.628478701606486,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.32149813998669485
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              10.0,
+              100.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              100.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 7,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.897979461981786,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 89.98651732140192,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 1.008637617797775
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.8628655915348273,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 42.51485055094601,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5802103566420571
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.84263968904992,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.68544558626964,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5038622517560377
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.856517692595014,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 30.5553369361401,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4085460520898377
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.8604976129724068,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.465347135310694,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3627239116601207
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.8374919390585676,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 26.185175002027336,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3425995824595291
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              10000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              10000.0
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              1.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              100000.0
+            ],
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              10000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 7,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.7451441115135459,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 91.95101337720206,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 1.0383977357834135
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.6614408621538728,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 44.15931321611396,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.603521948134169
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.6178868393383635,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 38.31385493750768,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5236109829559211
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.5808540601376802,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 32.51251012596058,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4418667282066877
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.6045602735675843,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.140636261389155,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4095804498776932
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.598499270828939,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 28.620567675825406,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.3709196980947769
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              100.0,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              10000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              100.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              100000.0
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "gc100",
+      "seed": 8,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8601677560702999,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 62.48927248292804,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.8167250654471802
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.8415496111823598,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 38.93335007489283,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.5349573510848248
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.8161324612100898,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.1205244644141,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4947450804030447
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.8187635250783998,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.611573744040783,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.43202750292221925
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.8201505438743791,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 30.065619321763652,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.40040108054939105
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.8218116388596081,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.41870425948287,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.36209248162282
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              0.01
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ],
+            [
+              100000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "seed": 8,
+      "metrics": [
+        {
+          "pcs": 3,
+          "memory_position": {
+            "rmse_m": 0.8516929898709071,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 65.71396466324957,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.8591511208959384
+          }
+        },
+        {
+          "pcs": 10,
+          "memory_position": {
+            "rmse_m": 0.6733666893616885,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 36.293624030129536,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4796817109184992
+          }
+        },
+        {
+          "pcs": 20,
+          "memory_position": {
+            "rmse_m": 0.5828656487001723,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 33.70995978279263,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.449967025132275
+          }
+        },
+        {
+          "pcs": 50,
+          "memory_position": {
+            "rmse_m": 0.6122920055409382,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 31.462698576283326,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.4067455311506406
+          }
+        },
+        {
+          "pcs": 100,
+          "memory_position": {
+            "rmse_m": 0.5734277971129572,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 27.949116035799015,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.35026581587052785
+          }
+        },
+        {
+          "pcs": 256,
+          "memory_position": {
+            "rmse_m": 0.5497667782837333,
+            "baseline_rmse_m": 0.8694445837721774
+          },
+          "direction": {
+            "mae_deg": 25.85704664170923,
+            "baseline_mae_deg": 96.83495372390328,
+            "vector_mse": 0.32267441876278985
+          }
+        }
+      ],
+      "folds": [
+        {
+          "train_episodes": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              10.0,
+              1000.0
+            ],
+            [
+              10.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2553,
+          "test_samples": 839
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              0.01,
+              100.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2523,
+          "test_samples": 869
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "test_episodes": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                12,
+                13,
+                14,
+                15
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              100000.0,
+              100.0
+            ],
+            [
+              1000.0,
+              0.01
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              10000.0,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ]
+          ],
+          "train_samples": 2536,
+          "test_samples": 856
+        },
+        {
+          "train_episodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "test_episodes": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "inner_folds": [
+            {
+              "train_episodes": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                8,
+                9,
+                10,
+                11
+              ],
+              "test_episodes": [
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "train_episodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "test_episodes": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          ],
+          "alpha_by_pc_and_target": [
+            [
+              10000.0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              1000.0
+            ],
+            [
+              1000.0,
+              1000.0
+            ],
+            [
+              100.0,
+              100.0
+            ],
+            [
+              100.0,
+              100.0
+            ]
+          ],
+          "train_samples": 2564,
+          "test_samples": 828
+        }
+      ]
+    }
+  ],
+  "primary_comparisons": {
+    "memory_position_10pc_error": {
+      "grid_mean": 0.730564728836743,
+      "pgc_mean": 0.6328379421472041,
+      "grid": [
+        0.8535563771032593,
+        0.5632049985705967,
+        0.8038543119985516,
+        0.5673483174565969,
+        0.6843070063157008,
+        0.6678316165320515,
+        0.8628655915348273,
+        0.8415496111823598
+      ],
+      "pgc": [
+        0.7853531856396536,
+        0.60448582201379,
+        0.7526837568329429,
+        0.45163743021753966,
+        0.6547836971237564,
+        0.47895209383438947,
+        0.6614408621538728,
+        0.6733666893616885
+      ],
+      "pgc_minus_grid": [
+        -0.06820319146360565,
+        0.04128082344319328,
+        -0.051170555165608755,
+        -0.1157108872390572,
+        -0.029523309191944458,
+        -0.188879522697662,
+        -0.20142472938095457,
+        -0.1681829218206713
+      ],
+      "mean_difference": -0.09772678668953882,
+      "sem_difference": 0.03028540868516652,
+      "marginal_t_ci95": [
+        -0.16934039853588234,
+        -0.026113174843195322
+      ],
+      "pgc_lower_seeds": 7,
+      "paired_t_p": 0.01451473807447522,
+      "exact_signflip_p": 0.0234375,
+      "paired_t_p_holm4": 0.05805895229790088,
+      "exact_signflip_p_holm4": 0.09375
+    },
+    "memory_position_compression_penalty": {
+      "grid_mean": 0.06015235279791133,
+      "pgc_mean": 0.052628277567769645,
+      "grid": [
+        0.1125129100043688,
+        0.00451007059272035,
+        0.10270971181066901,
+        0.08595845774335203,
+        0.016220473412782987,
+        0.11419557402038594,
+        0.025373652476259778,
+        0.019737972322751762
+      ],
+      "pgc": [
+        0.1126468948596151,
+        0.016932135008857707,
+        0.08992802566201297,
+        0.010761639290394032,
+        -0.03444899734623075,
+        0.038665020664619076,
+        0.06294159132493382,
+        0.1235999110779552
+      ],
+      "pgc_minus_grid": [
+        0.0001339848552462941,
+        0.012422064416137357,
+        -0.012781686148656046,
+        -0.075196818452958,
+        -0.050669470759013735,
+        -0.07553055335576686,
+        0.03756793884867404,
+        0.10386193875520344
+      ],
+      "mean_difference": -0.0075240752301416886,
+      "sem_difference": 0.021543260914525297,
+      "marginal_t_ci95": [
+        -0.05846579244701915,
+        0.043417641986735776
+      ],
+      "pgc_lower_seeds": 4,
+      "paired_t_p": 0.7371689473566911,
+      "exact_signflip_p": 0.734375,
+      "paired_t_p_holm4": 0.7371689473566911,
+      "exact_signflip_p_holm4": 0.734375
+    },
+    "direction_10pc_error": {
+      "grid_mean": 34.21765225573818,
+      "pgc_mean": 39.305442276769526,
+      "grid": [
+        35.87404670043641,
+        32.81191724183303,
+        32.687401282599176,
+        28.139273560944943,
+        32.770966866909376,
+        30.009411767343675,
+        42.51485055094601,
+        38.93335007489283
+      ],
+      "pgc": [
+        42.43119386168398,
+        39.62894352224942,
+        32.2506364221678,
+        38.940281429852234,
+        42.520200228170665,
+        38.21934550378861,
+        44.15931321611396,
+        36.293624030129536
+      ],
+      "pgc_minus_grid": [
+        6.5571471612475705,
+        6.817026280416393,
+        -0.4367648604313743,
+        10.801007868907291,
+        9.74923336126129,
+        8.209933736444935,
+        1.64446266516795,
+        -2.639726044763293
+      ],
+      "mean_difference": 5.087790021031346,
+      "sem_difference": 1.7492788130422712,
+      "marginal_t_ci95": [
+        0.9514029169141507,
+        9.22417712514854
+      ],
+      "pgc_lower_seeds": 2,
+      "paired_t_p": 0.022708807937321905,
+      "exact_signflip_p": 0.046875,
+      "paired_t_p_holm4": 0.06812642381196571,
+      "exact_signflip_p_holm4": 0.140625
+    },
+    "direction_compression_penalty": {
+      "grid_mean": 11.63362766113904,
+      "pgc_mean": 14.220832665882288,
+      "grid": [
+        10.580392672350655,
+        9.36115521640081,
+        11.397100562628218,
+        8.682116659591543,
+        11.18252845219321,
+        14.02140636161925,
+        16.329675548918672,
+        11.51464581540996
+      ],
+      "pgc": [
+        14.03976177573649,
+        13.697965280336316,
+        13.705231537127126,
+        16.34999806401834,
+        17.407514938949056,
+        12.590866802182124,
+        15.538745540288552,
+        10.436577388420307
+      ],
+      "pgc_minus_grid": [
+        3.4593691033858356,
+        4.336810063935506,
+        2.3081309744989085,
+        7.667881404426797,
+        6.224986486755846,
+        -1.4305395594371273,
+        -0.7909300086301201,
+        -1.0780684269896526
+      ],
+      "mean_difference": 2.5872050047432493,
+      "sem_difference": 1.2242686888695113,
+      "marginal_t_ci95": [
+        -0.3077304274232988,
+        5.4821404369097975
+      ],
+      "pgc_lower_seeds": 3,
+      "paired_t_p": 0.07243827029402124,
+      "exact_signflip_p": 0.078125,
+      "paired_t_p_holm4": 0.14487654058804247,
+      "exact_signflip_p_holm4": 0.15625
+    }
+  },
+  "descriptive_by_pc": {
+    "memory_position": {
+      "3": {
+        "grid_mean": 0.817326180930349,
+        "pgc_mean": 0.7331681963797247,
+        "grid": [
+          0.8804109795727398,
+          0.7681672187874766,
+          0.8607147364842382,
+          0.6935029181675283,
+          0.8173265391861342,
+          0.7603398371925894,
+          0.897979461981786,
+          0.8601677560702999
+        ],
+        "pgc": [
+          0.7882318446888636,
+          0.7065362192580604,
+          0.7825327928904073,
+          0.5727803407961757,
+          0.8230722537757247,
+          0.5953550182441132,
+          0.7451441115135459,
+          0.8516929898709071
+        ],
+        "pgc_minus_grid": [
+          -0.09217913488387619,
+          -0.0616309995294162,
+          -0.0781819435938309,
+          -0.12072257737135261,
+          0.0057457145895905,
+          -0.16498481894847616,
+          -0.15283535046824015,
+          -0.008474766199392803
+        ],
+        "mean_difference": -0.08415798455062432,
+        "sem_difference": 0.02195965002149706,
+        "marginal_t_ci95": [
+          -0.13608430554794626,
+          -0.03223166355330236
+        ],
+        "pgc_lower_seeds": 7,
+        "paired_t_p": 0.006437780653210092,
+        "exact_signflip_p": 0.015625
+      },
+      "10": {
+        "grid_mean": 0.730564728836743,
+        "pgc_mean": 0.6328379421472041,
+        "grid": [
+          0.8535563771032593,
+          0.5632049985705967,
+          0.8038543119985516,
+          0.5673483174565969,
+          0.6843070063157008,
+          0.6678316165320515,
+          0.8628655915348273,
+          0.8415496111823598
+        ],
+        "pgc": [
+          0.7853531856396536,
+          0.60448582201379,
+          0.7526837568329429,
+          0.45163743021753966,
+          0.6547836971237564,
+          0.47895209383438947,
+          0.6614408621538728,
+          0.6733666893616885
+        ],
+        "pgc_minus_grid": [
+          -0.06820319146360565,
+          0.04128082344319328,
+          -0.051170555165608755,
+          -0.1157108872390572,
+          -0.029523309191944458,
+          -0.188879522697662,
+          -0.20142472938095457,
+          -0.1681829218206713
+        ],
+        "mean_difference": -0.09772678668953882,
+        "sem_difference": 0.03028540868516652,
+        "marginal_t_ci95": [
+          -0.16934039853588234,
+          -0.026113174843195322
+        ],
+        "pgc_lower_seeds": 7,
+        "paired_t_p": 0.01451473807447522,
+        "exact_signflip_p": 0.0234375
+      },
+      "20": {
+        "grid_mean": 0.6929193854003215,
+        "pgc_mean": 0.6080218131181194,
+        "grid": [
+          0.8092608243422825,
+          0.5357169902123889,
+          0.7192737839203724,
+          0.5772103041904348,
+          0.6557572994214627,
+          0.587363730855621,
+          0.84263968904992,
+          0.8161324612100898
+        ],
+        "pgc": [
+          0.7866861966077302,
+          0.5604441077829921,
+          0.7595993490357107,
+          0.4339335168097675,
+          0.6784239521663853,
+          0.44433489450383395,
+          0.6178868393383635,
+          0.5828656487001723
+        ],
+        "pgc_minus_grid": [
+          -0.02257462773455232,
+          0.024727117570603196,
+          0.04032556511533825,
+          -0.14327678738066735,
+          0.022666652744922633,
+          -0.14302883635178704,
+          -0.2247528497115565,
+          -0.23326681250991743
+        ],
+        "mean_difference": -0.08489757228220207,
+        "sem_difference": 0.040424737249833934,
+        "marginal_t_ci95": [
+          -0.1804868863474256,
+          0.010691741783021472
+        ],
+        "pgc_lower_seeds": 5,
+        "paired_t_p": 0.07385602260936702,
+        "exact_signflip_p": 0.1171875
+      },
+      "50": {
+        "grid_mean": 0.6789772015250076,
+        "pgc_mean": 0.5860673567724326,
+        "grid": [
+          0.7941451518938591,
+          0.532576437378579,
+          0.7162515631066634,
+          0.5021745319766995,
+          0.6553390882396177,
+          0.5560496219312285,
+          0.856517692595014,
+          0.8187635250783998
+        ],
+        "pgc": [
+          0.6938903460122097,
+          0.5367584114179824,
+          0.6810474301458269,
+          0.44045060166393807,
+          0.6922101753396865,
+          0.4510358239211988,
+          0.5808540601376802,
+          0.6122920055409382
+        ],
+        "pgc_minus_grid": [
+          -0.10025480588164948,
+          0.004181974039403458,
+          -0.035204132960836465,
+          -0.06172393031276141,
+          0.03687108710006881,
+          -0.10501379801002975,
+          -0.27566363245733383,
+          -0.20647151953746157
+        ],
+        "mean_difference": -0.09290984475257502,
+        "sem_difference": 0.03709738078464767,
+        "marginal_t_ci95": [
+          -0.18063121102652507,
+          -0.005188478478624983
+        ],
+        "pgc_lower_seeds": 6,
+        "paired_t_p": 0.04072409709615551,
+        "exact_signflip_p": 0.046875
+      },
+      "100": {
+        "grid_mean": 0.6750270920741598,
+        "pgc_mean": 0.5772659298861321,
+        "grid": [
+          0.7550283492986776,
+          0.5445729543592654,
+          0.7164946453363583,
+          0.4909159612358407,
+          0.6520678496634671,
+          0.5604888198528829,
+          0.8604976129724068,
+          0.8201505438743791
+        ],
+        "pgc": [
+          0.6669049761289227,
+          0.5244097473292133,
+          0.6587864878937114,
+          0.4482027267026177,
+          0.6994203790652286,
+          0.44241505128882225,
+          0.6045602735675843,
+          0.5734277971129572
+        ],
+        "pgc_minus_grid": [
+          -0.08812337316975483,
+          -0.020163207030052144,
+          -0.0577081574426469,
+          -0.04271323453322301,
+          0.04735252940176149,
+          -0.11807376856406065,
+          -0.25593733940482244,
+          -0.24672274676142192
+        ],
+        "mean_difference": -0.09776116218802755,
+        "sem_difference": 0.03766124602772852,
+        "marginal_t_ci95": [
+          -0.18681585789039684,
+          -0.00870646648565826
+        ],
+        "pgc_lower_seeds": 7,
+        "paired_t_p": 0.03564231074585731,
+        "exact_signflip_p": 0.03125
+      },
+      "256": {
+        "grid_mean": 0.6704123760388316,
+        "pgc_mean": 0.5802096645794346,
+        "grid": [
+          0.7410434670988905,
+          0.5586949279778763,
+          0.7011446001878826,
+          0.4813898597132448,
+          0.6680865329029179,
+          0.5536360425116655,
+          0.8374919390585676,
+          0.8218116388596081
+        ],
+        "pgc": [
+          0.6727062907800385,
+          0.5875536870049323,
+          0.6627557311709299,
+          0.4408757909271456,
+          0.6892326944699871,
+          0.4402870731697704,
+          0.598499270828939,
+          0.5497667782837333
+        ],
+        "pgc_minus_grid": [
+          -0.06833717631885194,
+          0.028858759027055925,
+          -0.03838886901695271,
+          -0.0405140687860992,
+          0.021146161567069277,
+          -0.11334896934189514,
+          -0.2389926682296286,
+          -0.27204486057587474
+        ],
+        "mean_difference": -0.09020271145939714,
+        "sem_difference": 0.03962924381734988,
+        "marginal_t_ci95": [
+          -0.18391098246218607,
+          0.003505559543391795
+        ],
+        "pgc_lower_seeds": 6,
+        "paired_t_p": 0.056957362138447334,
+        "exact_signflip_p": 0.046875
+      }
+    },
+    "direction": {
+      "3": {
+        "grid_mean": 61.6497377927751,
+        "pgc_mean": 65.58234354247703,
+        "grid": [
+          57.53738902542026,
+          69.27791573339472,
+          49.59025723689299,
+          44.469222038556296,
+          59.41500921067028,
+          60.432319292936235,
+          89.98651732140192,
+          62.48927248292804
+        ],
+        "pgc": [
+          65.79854470011826,
+          53.36285397053651,
+          40.07640236700255,
+          89.90819227191338,
+          56.23692926595227,
+          61.61084772384165,
+          91.95101337720206,
+          65.71396466324957
+        ],
+        "pgc_minus_grid": [
+          8.261155674697996,
+          -15.915061762858208,
+          -9.513854869890437,
+          45.43897023335708,
+          -3.1780799447180073,
+          1.1785284309054163,
+          1.96449605580014,
+          3.224692180321533
+        ],
+        "mean_difference": 3.9326057497019393,
+        "sem_difference": 6.517522037195299,
+        "marginal_t_ci95": [
+          -11.478884919740477,
+          19.344096419144353
+        ],
+        "pgc_lower_seeds": 3,
+        "paired_t_p": 0.5652802352769657,
+        "exact_signflip_p": 0.7265625
+      },
+      "10": {
+        "grid_mean": 34.21765225573818,
+        "pgc_mean": 39.305442276769526,
+        "grid": [
+          35.87404670043641,
+          32.81191724183303,
+          32.687401282599176,
+          28.139273560944943,
+          32.770966866909376,
+          30.009411767343675,
+          42.51485055094601,
+          38.93335007489283
+        ],
+        "pgc": [
+          42.43119386168398,
+          39.62894352224942,
+          32.2506364221678,
+          38.940281429852234,
+          42.520200228170665,
+          38.21934550378861,
+          44.15931321611396,
+          36.293624030129536
+        ],
+        "pgc_minus_grid": [
+          6.5571471612475705,
+          6.817026280416393,
+          -0.4367648604313743,
+          10.801007868907291,
+          9.74923336126129,
+          8.209933736444935,
+          1.64446266516795,
+          -2.639726044763293
+        ],
+        "mean_difference": 5.087790021031346,
+        "sem_difference": 1.7492788130422712,
+        "marginal_t_ci95": [
+          0.9514029169141507,
+          9.22417712514854
+        ],
+        "pgc_lower_seeds": 2,
+        "paired_t_p": 0.022708807937321905,
+        "exact_signflip_p": 0.046875
+      },
+      "20": {
+        "grid_mean": 30.931391368239193,
+        "pgc_mean": 34.0395082471453,
+        "grid": [
+          33.425498145638784,
+          31.800385769975556,
+          29.510498394580235,
+          26.009830948510146,
+          30.528598326099136,
+          23.37034931042596,
+          36.68544558626964,
+          36.1205244644141
+        ],
+        "pgc": [
+          36.931289200807434,
+          36.596465161886876,
+          25.66707487983656,
+          31.779572424207927,
+          36.355836191339414,
+          32.96201339878388,
+          38.31385493750768,
+          33.70995978279263
+        ],
+        "pgc_minus_grid": [
+          3.5057910551686504,
+          4.79607939191132,
+          -3.8434235147436766,
+          5.769741475697781,
+          5.827237865240278,
+          9.59166408835792,
+          1.6284093512380409,
+          -2.410564681621473
+        ],
+        "mean_difference": 3.108116878906105,
+        "sem_difference": 1.5839085100744228,
+        "marginal_t_ci95": [
+          -0.6372315963200692,
+          6.853465354132279
+        ],
+        "pgc_lower_seeds": 2,
+        "paired_t_p": 0.09051132357592079,
+        "exact_signflip_p": 0.1015625
+      },
+      "50": {
+        "grid_mean": 26.336250990189463,
+        "pgc_mean": 29.392158554826135,
+        "grid": [
+          29.739558605449965,
+          27.357062051002107,
+          23.767545939101424,
+          22.275433211226428,
+          27.013228598808585,
+          18.370268835746298,
+          30.5553369361401,
+          31.611573744040783
+        ],
+        "pgc": [
+          31.98632283861287,
+          29.470899007983135,
+          22.778359718904102,
+          26.58473752180504,
+          31.088488855003106,
+          29.25325179405693,
+          32.51251012596058,
+          31.462698576283326
+        ],
+        "pgc_minus_grid": [
+          2.2467642331629065,
+          2.1138369569810287,
+          -0.9891862201973218,
+          4.309304310578611,
+          4.075260256194522,
+          10.882982958310631,
+          1.9571731898204803,
+          -0.14887516775745624
+        ],
+        "mean_difference": 3.055907564636675,
+        "sem_difference": 1.290459745095124,
+        "marginal_t_ci95": [
+          0.004455155680501921,
+          6.107359973592848
+        ],
+        "pgc_lower_seeds": 2,
+        "paired_t_p": 0.04974674203188575,
+        "exact_signflip_p": 0.03125
+      },
+      "100": {
+        "grid_mean": 24.21640960938379,
+        "pgc_mean": 26.86621186467977,
+        "grid": [
+          27.217701090533676,
+          24.455709572903828,
+          21.922499434564234,
+          20.8385861639793,
+          24.47160260494425,
+          17.294211551070656,
+          27.465347135310694,
+          30.065619321763652
+        ],
+        "pgc": [
+          29.83179187459277,
+          26.765597907758426,
+          19.730785128694613,
+          24.834934627265696,
+          27.283075502341823,
+          27.393757579596638,
+          31.140636261389155,
+          27.949116035799015
+        ],
+        "pgc_minus_grid": [
+          2.614090784059094,
+          2.309888334854598,
+          -2.1917143058696205,
+          3.9963484632863953,
+          2.811472897397575,
+          10.099546028525982,
+          3.675289126078461,
+          -2.1165032859646367
+        ],
+        "mean_difference": 2.649802255295981,
+        "sem_difference": 1.367116344738583,
+        "marginal_t_ci95": [
+          -0.5829142082217538,
+          5.882518718813715
+        ],
+        "pgc_lower_seeds": 2,
+        "paired_t_p": 0.09377745768536261,
+        "exact_signflip_p": 0.0703125
+      },
+      "256": {
+        "grid_mean": 22.584024594599143,
+        "pgc_mean": 25.084609610887235,
+        "grid": [
+          25.293654028085754,
+          23.45076202543222,
+          21.290300719970958,
+          19.4571569013534,
+          21.588438414716165,
+          15.988005405724424,
+          26.185175002027336,
+          27.41870425948287
+        ],
+        "pgc": [
+          28.39143208594749,
+          25.930978241913106,
+          18.545404885040675,
+          22.590283365833894,
+          25.11268528922161,
+          25.628478701606486,
+          28.620567675825406,
+          25.85704664170923
+        ],
+        "pgc_minus_grid": [
+          3.097778057861735,
+          2.480216216480887,
+          -2.7448958349302828,
+          3.133126464480494,
+          3.524246874505444,
+          9.640473295882062,
+          2.43539267379807,
+          -1.5616576177736405
+        ],
+        "mean_difference": 2.5005850162880963,
+        "sem_difference": 1.3147798971531457,
+        "marginal_t_ci95": [
+          -0.6083754140268991,
+          5.609545446603091
+        ],
+        "pgc_lower_seeds": 2,
+        "paired_t_p": 0.0989286465708922,
+        "exact_signflip_p": 0.0859375
+      }
+    }
+  },
+  "source_sha256": {
+    "results/lstm_variable_1B/replay.npz": "e2ecf1832d2ba8f52d83235bfad6844075644bd03004026f339dff02abf1be55",
+    "results/lstm_variable_1B/gc100_s1_activity.npz": "25ee7ba68cf5a7867d0d68b5c698bdcd1aa6e2faf363a04d1ae3d87c0062a48f",
+    "results/lstm_variable_1B/pgc33_s1_activity.npz": "91a8294616e450c7ad1a61c5d4c10c2a6a313a3c3e4bbf63325dc2811a5d870c",
+    "results/lstm_variable_1B/gc100_s2_activity.npz": "4c2c920975d0e3630831f6ab09f9a91dc1a9de630ad6074315745ec4e52b566f",
+    "results/lstm_variable_1B/pgc33_s2_activity.npz": "95b29c601b328acad2bb05ba1507eb0eb123d1db6b64d800c164f8b325025a83",
+    "results/lstm_variable_1B/gc100_s3_activity.npz": "8a73bcd6a29b04389e460a900e3c4add4342112e99fc7cd0ca22cec8b7813a3a",
+    "results/lstm_variable_1B/pgc33_s3_activity.npz": "faf6a9db3c3d08f4a0db5f77eb317a5cdaabe5f0b1c2286902cdbd62a40beba6",
+    "results/lstm_variable_1B/gc100_s4_activity.npz": "4e211a4ee1cdd9a44ee7a1a94c2554e1d584911a9ee9807499c1f6067494c5fb",
+    "results/lstm_variable_1B/pgc33_s4_activity.npz": "3ca66ae022c8a77f062830931a0cd126193daf0bfb3bc641aa0b7670831d226f",
+    "results/lstm_variable_1B/gc100_s5_activity.npz": "bbce3dd96a006adf49ad9be286a7e71ecd0be67e668816a31c363d8883bc07df",
+    "results/lstm_variable_1B/pgc33_s5_activity.npz": "92adda8187320380f71960715f025bab4ef1e7a2b6672706f178d4c0ff647658",
+    "results/lstm_variable_1B/gc100_s6_activity.npz": "5f80bd6cab38a223ab60c4d9b4fc38cd98bf577c58317314af2c5511f7e693b2",
+    "results/lstm_variable_1B/pgc33_s6_activity.npz": "ef37e3af87c97ed9805bcb637d55c567fc42f63d46ab14c29e1f2acea9a61874",
+    "results/lstm_variable_1B/gc100_s7_activity.npz": "f54f1dcca38d6f44102818a05be6f5d21c996d4421f234adf61044bdd20345f8",
+    "results/lstm_variable_1B/pgc33_s7_activity.npz": "8d89af83a866ed288ae71a3cabfe0e3010aee96980a530b8b7007ef21ffecaad",
+    "results/lstm_variable_1B/gc100_s8_activity.npz": "cc9ac6faaf06ee146c8dfe7960e192f53377a925977a6e12abd8c9f6e6c161ad",
+    "results/lstm_variable_1B/pgc33_s8_activity.npz": "db5ae54048393a5f1d4a857486c9257996a5e96bca71c94ad5d20da0ef7fadf4"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "eval_seed": 737373,
+  "episodes_per_seed_variant": 128,
+  "n_envs_per_variant": 64,
+  "device": "mps",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "code_identity_checks": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "variants": {
+    "pgc33": [
+      "intact",
+      "current_grid",
+      "goal_grid",
+      "both_grid"
+    ],
+    "gc100": [
+      "intact",
+      "both_mixed"
+    ]
+  },
+  "common_randomness": "Layouts keyed by base slot and episode/draw; motor/image noise and action uniforms repeated across variants.",
+  "rnn_protocol": "Intact PGC policy trajectories; same sensory input, previous action/reward, and goal-hit history. Immediate forks share exact preceding h/c; sustained forks retain their altered recurrent states; pulse forks receive one altered step then intact inputs. Sustained and pulse effects are compared against same-batch-size no-op forks; their tiny numerical differences from the original rollout are also reported.",
+  "rnn_sampling": "Every 20 steps after step 40, after first goal. Pulses every 100 steps; horizons 0,1,5,15,30,60.",
+  "caveats": [
+    "Evaluation-only substitutions; input distribution changes relative to training.",
+    "RNN effects compare variants of the same model, not unaligned neurons across separately trained models.",
+    "Gate restorations are local causal interventions; their contributions need not sum because gates interact.",
+    "Off-policy shadow and pulse paths force intact experience; they isolate recurrence rather than predict independent behavior."
+  ]
+}
