@@ -1,6 +1,8 @@
 # What predictive inputs change in the RNN
 
-**PGC models have larger activity shifts between episodes, and they use predictive spatial inputs to navigate. Whether those activity shifts cause the performance benefit remains untested.**
+**PGC models have larger activity shifts between episodes, and they use predictive spatial inputs to navigate. A new intervention tests whether a fixed episode-specific shift explains that benefit; it does not establish that link.**
+
+**New: [Add the activity shift back, subtract it, and examine the spectra](offsets-and-spectra.md)** — simple figures from eight-seed interventions and eigenvalue/eigenvector analyses.
 
 Eight paired training seeds; the same RNN architecture, frozen after 1 billion frames. All interventions are evaluation-only: no retraining.
 
@@ -40,11 +42,11 @@ Restored components receive predictive information again. This identifies a usef
 
 ## What fits these results?
 
-**Working explanation:** the learned use of the pickup and ahead/inward cues guides navigation. Their repeated input may also help establish the episode-dependent background activity.
+**Working explanation:** the learned use of the pickup and ahead/inward cues guides navigation. Their repeated input may also help establish the episode-dependent background activity. Restoring a fixed estimate of its predictive contribution did not restore the navigation benefit.
 
 **Established:** predictive input → internal updates → navigation behavior.
 
-**Still untested:** predictive input → larger episode-average shifts → better navigation.
+**Still unresolved:** predictive input → larger episode-average shifts → better navigation. The [new fixed-offset tests](offsets-and-spectra.md) do not establish this mechanism; changing signals and recurrent interactions remain possible.
 
 The continuously supplied goal message could maintain those shifts. Autonomous goal memory, planning, and different attractors remain unproven.
 

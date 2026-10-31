@@ -1,0 +1,134 @@
+{
+  "protocol_version": 1,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes_per_seed_variant": 128,
+  "n_envs_per_variant": 64,
+  "eval_seed": 737373,
+  "device": "mps",
+  "episode_len": 1350,
+  "variants": [
+    "intact",
+    "remove_episode_mean",
+    "remove_wrong_episode_mean",
+    "remove_between_episode_mean",
+    "remove_episode_mean_feedback",
+    "remove_wrong_episode_mean_feedback"
+  ],
+  "calibration_start": 450,
+  "calibration_stop_exclusive": 600,
+  "handoff_step": 600,
+  "eligibility": "The goal was discovered before decision 450 in the common intact prefix.",
+  "primary_outcome": "Mean reward sum over decisions 600--1349, among eligible episodes only.",
+  "primary_contrasts": [],
+  "exploratory_ablation_contrasts": [
+    {
+      "name": "remove_episode_minus_intact",
+      "reference": "intact",
+      "intervention": "remove_episode_mean"
+    },
+    {
+      "name": "remove_episode_minus_remove_wrong",
+      "reference": "remove_wrong_episode_mean",
+      "intervention": "remove_episode_mean"
+    },
+    {
+      "name": "remove_between_minus_intact",
+      "reference": "intact",
+      "intervention": "remove_between_episode_mean"
+    },
+    {
+      "name": "remove_episode_feedback_minus_intact",
+      "reference": "intact",
+      "intervention": "remove_episode_mean_feedback"
+    },
+    {
+      "name": "remove_episode_feedback_minus_wrong_feedback",
+      "reference": "remove_wrong_episode_mean_feedback",
+      "intervention": "remove_episode_mean_feedback"
+    }
+  ],
+  "statistics": "Eight training-seed means are the replicates; paired t and exhaustive sign-flip tests. The three original primary rescue contrasts and five supplemental exploratory ablation contrasts are separate Holm families; only available contrasts are listed. Other comparisons are exploratory.",
+  "current_code": "Original mixed PGC code in every variant.",
+  "shadows": "Two RNN states per branch, receiving its identical actual images/actions/rewards/current code. One has mixed goal snapshots, the other ordinary-grid goal snapshots.",
+  "common_prefix": "All actions are copied from the intact branch for decisions 0--599. Sensor states, shadow states, rewards and hit records are checked exactly.",
+  "frozen_offset": "Mean mixed-minus-grid hidden difference over decisions 450--599. Grand mean over eligible slots is separated from each episode deviation.",
+  "wrong_offset": "Grand mean plus cyclic-next-eligible episode deviation, rescaled to the own episode deviation L2 norm; zero-donor failures are reported.",
+  "between_basis": "First 10 eigenvectors of weighted episode-mean covariance from the prior independent 16-episode replay.",
+  "random_control": "Fixed seeded rank-10 orthonormal basis in the complement of the between-episode basis. Its dynamic patch is rescaled each step to the corresponding between-basis patch L2 norm on that same branch experience.",
+  "feedback": "episode_mean_feedback and wrong_mean_feedback overwrite grid-shadow h after each step. remove_episode_mean_feedback and remove_wrong_episode_mean_feedback instead overwrite mixed-shadow h. Each c state remains untouched; all other patches affect the actor only.",
+  "ablation_followup": {
+    "active": true,
+    "timing": "Exploratory necessity follow-up planned after the first rescue seed had been inspected.",
+    "intervention": "Subtract the frozen correct or wrong CENTERED episode offset from mixed hidden activity; the between variant subtracts its first-10-between-PC projection. Mixed current and goal inputs remain supplied. Feedback repeats this subtraction in h before the next recurrent update; it does not literally clamp the actual future episode mean."
+  },
+  "future_validation": "After each episode, compare the frozen past offset with the mean intact-branch mixed-minus-grid hidden difference over decisions 600--1349. Record centered hidden and centered-action-logit cosine/R2 and future mean/dynamic energy fractions. These future accumulators never affect actions, offsets, or eligibility.",
+  "code_identity_checks": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "caveats": [
+    "A constant actor-only hidden patch is a fixed action-logit bias. A null rescue does not rule out recurrent or time-varying uses of episode information.",
+    "Between-subspace dynamic restoration includes moment-to-moment signals, not just average offsets.",
+    "All rescues reintroduce predictive information; none is a pure ordinary-grid success.",
+    "Feedback patches can leave the natural hidden-state range; violations are measured, not clipped.",
+    "Supplemental ablations subtract an estimate of predictive-input-induced episode differences, not every source of episode-associated activity. They are exploratory necessity tests added after initial rescue results.",
+    "The episode-specific offset comes from a finite past calibration window and remains frozen as goal snapshots update.",
+    "The global and wrong-episode controls use contemporaneous calibration from other batch episodes; they are diagnostic interventions, not a proposed deployable agent.",
+    "Eligibility is fixed before intervention from the common prefix. No future hidden activity enters calibration."
+  ]
+}

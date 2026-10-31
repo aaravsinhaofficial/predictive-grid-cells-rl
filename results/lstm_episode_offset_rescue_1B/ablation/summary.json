@@ -1,0 +1,3269 @@
+{
+  "protocol": {
+    "protocol_version": 1,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "episodes_per_seed_variant": 128,
+    "n_envs_per_variant": 64,
+    "eval_seed": 737373,
+    "device": "mps",
+    "episode_len": 1350,
+    "variants": [
+      "intact",
+      "remove_episode_mean",
+      "remove_wrong_episode_mean",
+      "remove_between_episode_mean",
+      "remove_episode_mean_feedback",
+      "remove_wrong_episode_mean_feedback"
+    ],
+    "calibration_start": 450,
+    "calibration_stop_exclusive": 600,
+    "handoff_step": 600,
+    "eligibility": "The goal was discovered before decision 450 in the common intact prefix.",
+    "primary_outcome": "Mean reward sum over decisions 600--1349, among eligible episodes only.",
+    "primary_contrasts": [],
+    "exploratory_ablation_contrasts": [
+      {
+        "name": "remove_episode_minus_intact",
+        "reference": "intact",
+        "intervention": "remove_episode_mean"
+      },
+      {
+        "name": "remove_episode_minus_remove_wrong",
+        "reference": "remove_wrong_episode_mean",
+        "intervention": "remove_episode_mean"
+      },
+      {
+        "name": "remove_between_minus_intact",
+        "reference": "intact",
+        "intervention": "remove_between_episode_mean"
+      },
+      {
+        "name": "remove_episode_feedback_minus_intact",
+        "reference": "intact",
+        "intervention": "remove_episode_mean_feedback"
+      },
+      {
+        "name": "remove_episode_feedback_minus_wrong_feedback",
+        "reference": "remove_wrong_episode_mean_feedback",
+        "intervention": "remove_episode_mean_feedback"
+      }
+    ],
+    "statistics": "Eight training-seed means are the replicates; paired t and exhaustive sign-flip tests. The three original primary rescue contrasts and five supplemental exploratory ablation contrasts are separate Holm families; only available contrasts are listed. Other comparisons are exploratory.",
+    "current_code": "Original mixed PGC code in every variant.",
+    "shadows": "Two RNN states per branch, receiving its identical actual images/actions/rewards/current code. One has mixed goal snapshots, the other ordinary-grid goal snapshots.",
+    "common_prefix": "All actions are copied from the intact branch for decisions 0--599. Sensor states, shadow states, rewards and hit records are checked exactly.",
+    "frozen_offset": "Mean mixed-minus-grid hidden difference over decisions 450--599. Grand mean over eligible slots is separated from each episode deviation.",
+    "wrong_offset": "Grand mean plus cyclic-next-eligible episode deviation, rescaled to the own episode deviation L2 norm; zero-donor failures are reported.",
+    "between_basis": "First 10 eigenvectors of weighted episode-mean covariance from the prior independent 16-episode replay.",
+    "random_control": "Fixed seeded rank-10 orthonormal basis in the complement of the between-episode basis. Its dynamic patch is rescaled each step to the corresponding between-basis patch L2 norm on that same branch experience.",
+    "feedback": "episode_mean_feedback and wrong_mean_feedback overwrite grid-shadow h after each step. remove_episode_mean_feedback and remove_wrong_episode_mean_feedback instead overwrite mixed-shadow h. Each c state remains untouched; all other patches affect the actor only.",
+    "ablation_followup": {
+      "active": true,
+      "timing": "Exploratory necessity follow-up planned after the first rescue seed had been inspected.",
+      "intervention": "Subtract the frozen correct or wrong CENTERED episode offset from mixed hidden activity; the between variant subtracts its first-10-between-PC projection. Mixed current and goal inputs remain supplied. Feedback repeats this subtraction in h before the next recurrent update; it does not literally clamp the actual future episode mean."
+    },
+    "future_validation": "After each episode, compare the frozen past offset with the mean intact-branch mixed-minus-grid hidden difference over decisions 600--1349. Record centered hidden and centered-action-logit cosine/R2 and future mean/dynamic energy fractions. These future accumulators never affect actions, offsets, or eligibility.",
+    "code_identity_checks": {
+      "1": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "2": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "3": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "4": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "5": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "6": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "7": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "8": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      }
+    },
+    "caveats": [
+      "A constant actor-only hidden patch is a fixed action-logit bias. A null rescue does not rule out recurrent or time-varying uses of episode information.",
+      "Between-subspace dynamic restoration includes moment-to-moment signals, not just average offsets.",
+      "All rescues reintroduce predictive information; none is a pure ordinary-grid success.",
+      "Feedback patches can leave the natural hidden-state range; violations are measured, not clipped.",
+      "Supplemental ablations subtract an estimate of predictive-input-induced episode differences, not every source of episode-associated activity. They are exploratory necessity tests added after initial rescue results.",
+      "The episode-specific offset comes from a finite past calibration window and remains frozen as goal snapshots update.",
+      "The global and wrong-episode controls use contemporaneous calibration from other batch episodes; they are diagnostic interventions, not a proposed deployable agent.",
+      "Eligibility is fixed before intervention from the common prefix. No future hidden activity enters calibration."
+    ]
+  },
+  "validation": {
+    "first_goal_episode_checks": 5120,
+    "prefix_score_episode_checks": 5120,
+    "first_goal_and_prefix_invariance": true,
+    "ineligible_records_identical": true,
+    "prior_intact_episode_checks": 1024,
+    "prior_intact_records_match_exactly": true,
+    "main_rescue_intact_episode_checks": 1024,
+    "main_rescue_intact_records_match_exactly": true,
+    "eligible_episodes_by_seed": {
+      "1": 70,
+      "2": 88,
+      "3": 95,
+      "4": 96,
+      "5": 82,
+      "6": 96,
+      "7": 81,
+      "8": 83
+    },
+    "max_full_rescue_logit_error": 1.9073486328125e-06
+  },
+  "estimates": {
+    "post_handoff_score": {
+      "intact": {
+        "values": [
+          76.14285714285714,
+          77.38636363636364,
+          83.89473684210526,
+          83.54166666666667,
+          92.5609756097561,
+          92.39583333333333,
+          72.46913580246914,
+          80.72289156626506
+        ],
+        "n": 8,
+        "mean": 82.38930757497704,
+        "sem": 2.578835487748967
+      },
+      "remove_episode_mean": {
+        "values": [
+          76.71428571428571,
+          77.04545454545455,
+          83.36842105263158,
+          79.89583333333333,
+          92.1951219512195,
+          88.95833333333333,
+          67.65432098765432,
+          78.07228915662651
+        ],
+        "n": 8,
+        "mean": 80.48800750931736,
+        "sem": 2.719249346744482
+      },
+      "remove_wrong_episode_mean": {
+        "values": [
+          75.85714285714286,
+          77.61363636363636,
+          78.63157894736842,
+          82.70833333333333,
+          90.36585365853658,
+          88.125,
+          70.74074074074075,
+          80.8433734939759
+        ],
+        "n": 8,
+        "mean": 80.61070742434177,
+        "sem": 2.2716955664781264
+      },
+      "remove_between_episode_mean": {
+        "values": [
+          77.0,
+          78.29545454545455,
+          83.26315789473684,
+          82.70833333333333,
+          92.3170731707317,
+          90.83333333333333,
+          71.60493827160494,
+          79.51807228915662
+        ],
+        "n": 8,
+        "mean": 81.94254535479391,
+        "sem": 2.4621477369503326
+      },
+      "remove_episode_mean_feedback": {
+        "values": [
+          70.28571428571429,
+          72.38636363636364,
+          75.15789473684211,
+          74.89583333333333,
+          86.46341463414635,
+          82.5,
+          59.75308641975309,
+          69.27710843373494
+        ],
+        "n": 8,
+        "mean": 73.83992693498597,
+        "sem": 2.9007540486032775
+      },
+      "remove_wrong_episode_mean_feedback": {
+        "values": [
+          69.28571428571429,
+          75.3409090909091,
+          74.42105263157895,
+          76.77083333333333,
+          85.0,
+          83.54166666666667,
+          68.0246913580247,
+          77.46987951807229
+        ],
+        "n": 8,
+        "mean": 76.23184336053743,
+        "sem": 2.1205462208745223
+      }
+    },
+    "mean_score": {
+      "intact": {
+        "values": [
+          80.078125,
+          103.203125,
+          109.921875,
+          112.890625,
+          105.625,
+          125.78125,
+          97.65625,
+          96.796875
+        ],
+        "n": 8,
+        "mean": 103.994140625,
+        "sem": 4.7362475830780735
+      },
+      "remove_episode_mean": {
+        "values": [
+          80.390625,
+          102.96875,
+          109.53125,
+          110.15625,
+          105.390625,
+          123.203125,
+          94.609375,
+          95.078125
+        ],
+        "n": 8,
+        "mean": 102.666015625,
+        "sem": 4.534001759796022
+      },
+      "remove_wrong_episode_mean": {
+        "values": [
+          79.921875,
+          103.359375,
+          106.015625,
+          112.265625,
+          104.21875,
+          122.578125,
+          96.5625,
+          96.875
+        ],
+        "n": 8,
+        "mean": 102.724609375,
+        "sem": 4.4134806600365275
+      },
+      "remove_between_episode_mean": {
+        "values": [
+          80.546875,
+          103.828125,
+          109.453125,
+          112.265625,
+          105.46875,
+          124.609375,
+          97.109375,
+          96.015625
+        ],
+        "n": 8,
+        "mean": 103.662109375,
+        "sem": 4.600770321906065
+      },
+      "remove_episode_mean_feedback": {
+        "values": [
+          76.875,
+          99.765625,
+          103.4375,
+          106.40625,
+          101.71875,
+          118.359375,
+          89.609375,
+          89.375
+        ],
+        "n": 8,
+        "mean": 98.193359375,
+        "sem": 4.477008455936827
+      },
+      "remove_wrong_episode_mean_feedback": {
+        "values": [
+          76.328125,
+          101.796875,
+          102.890625,
+          107.8125,
+          100.78125,
+          119.140625,
+          94.84375,
+          94.6875
+        ],
+        "n": 8,
+        "mean": 99.78515625,
+        "sem": 4.339172648863629
+      }
+    },
+    "eligible_mean_score": {
+      "intact": {
+        "values": [
+          129.14285714285714,
+          132.04545454545453,
+          136.94736842105263,
+          135.625,
+          152.8048780487805,
+          149.58333333333334,
+          120.0,
+          133.49397590361446
+        ],
+        "n": 8,
+        "mean": 136.2053584243866,
+        "sem": 3.7620060677955287
+      },
+      "remove_episode_mean": {
+        "values": [
+          129.71428571428572,
+          131.70454545454547,
+          136.42105263157896,
+          131.97916666666666,
+          152.4390243902439,
+          146.14583333333334,
+          115.18518518518519,
+          130.84337349397592
+        ],
+        "n": 8,
+        "mean": 134.30405835872688,
+        "sem": 3.9738487665125506
+      },
+      "remove_wrong_episode_mean": {
+        "values": [
+          128.85714285714286,
+          132.27272727272728,
+          131.68421052631578,
+          134.79166666666666,
+          150.609756097561,
+          145.3125,
+          118.27160493827161,
+          133.6144578313253
+        ],
+        "n": 8,
+        "mean": 134.42675827375132,
+        "sem": 3.498348576017501
+      },
+      "remove_between_episode_mean": {
+        "values": [
+          130.0,
+          132.95454545454547,
+          136.31578947368422,
+          134.79166666666666,
+          152.5609756097561,
+          148.02083333333334,
+          119.1358024691358,
+          132.289156626506
+        ],
+        "n": 8,
+        "mean": 135.75859620420346,
+        "sem": 3.6919464561415123
+      },
+      "remove_episode_mean_feedback": {
+        "values": [
+          123.28571428571429,
+          127.04545454545455,
+          128.21052631578948,
+          126.97916666666667,
+          146.70731707317074,
+          139.6875,
+          107.28395061728395,
+          122.04819277108433
+        ],
+        "n": 8,
+        "mean": 127.6559777843955,
+        "sem": 4.171363553635688
+      },
+      "remove_wrong_episode_mean_feedback": {
+        "values": [
+          122.28571428571429,
+          130.0,
+          127.47368421052632,
+          128.85416666666666,
+          145.2439024390244,
+          140.72916666666666,
+          115.55555555555556,
+          130.24096385542168
+        ],
+        "n": 8,
+        "mean": 130.04789420994695,
+        "sem": 3.3364295408914333
+      }
+    }
+  },
+  "exploratory_post_handoff": {
+    "correct_minus_intact": {
+      "reference_values": [
+        76.14285714285714,
+        77.38636363636364,
+        83.89473684210526,
+        83.54166666666667,
+        92.5609756097561,
+        92.39583333333333,
+        72.46913580246914,
+        80.72289156626506
+      ],
+      "intervention_values": [
+        76.71428571428571,
+        77.04545454545455,
+        83.36842105263158,
+        79.89583333333333,
+        92.1951219512195,
+        88.95833333333333,
+        67.65432098765432,
+        78.07228915662651
+      ],
+      "differences": [
+        0.5714285714285694,
+        -0.3409090909090935,
+        -0.526315789473685,
+        -3.645833333333343,
+        -0.3658536585365937,
+        -3.4375,
+        -4.814814814814824,
+        -2.6506024096385516
+      ],
+      "difference": -1.9013000656596901,
+      "ci95": [
+        -3.5508180751506204,
+        -0.25178205616876004
+      ],
+      "paired_t_p": 0.029527442237381105,
+      "exact_signflip_p": 0.0390625,
+      "positive_seeds": 1,
+      "negative_seeds": 7,
+      "reference": "intact",
+      "intervention": "remove_episode_mean",
+      "label": "Correct subtraction \u2212 intact",
+      "paired_t_p_holm": 0.11810976894952442,
+      "exact_signflip_p_holm": 0.15625
+    },
+    "correct_minus_wrong": {
+      "reference_values": [
+        75.85714285714286,
+        77.61363636363636,
+        78.63157894736842,
+        82.70833333333333,
+        90.36585365853658,
+        88.125,
+        70.74074074074075,
+        80.8433734939759
+      ],
+      "intervention_values": [
+        76.71428571428571,
+        77.04545454545455,
+        83.36842105263158,
+        79.89583333333333,
+        92.1951219512195,
+        88.95833333333333,
+        67.65432098765432,
+        78.07228915662651
+      ],
+      "differences": [
+        0.857142857142847,
+        -0.568181818181813,
+        4.73684210526315,
+        -2.8125,
+        1.8292682926829258,
+        0.8333333333333286,
+        -3.0864197530864317,
+        -2.771084337349393
+      ],
+      "difference": -0.12269991502442323,
+      "ci95": [
+        -2.412901892524555,
+        2.1675020624757084
+      ],
+      "paired_t_p": 0.9027502354293082,
+      "exact_signflip_p": 0.890625,
+      "positive_seeds": 4,
+      "negative_seeds": 4,
+      "reference": "remove_wrong_episode_mean",
+      "intervention": "remove_episode_mean",
+      "label": "Correct subtraction \u2212 wrong subtraction",
+      "paired_t_p_holm": 0.9027502354293082,
+      "exact_signflip_p_holm": 0.890625
+    },
+    "between_minus_intact": {
+      "reference_values": [
+        76.14285714285714,
+        77.38636363636364,
+        83.89473684210526,
+        83.54166666666667,
+        92.5609756097561,
+        92.39583333333333,
+        72.46913580246914,
+        80.72289156626506
+      ],
+      "intervention_values": [
+        77.0,
+        78.29545454545455,
+        83.26315789473684,
+        82.70833333333333,
+        92.3170731707317,
+        90.83333333333333,
+        71.60493827160494,
+        79.51807228915662
+      ],
+      "differences": [
+        0.8571428571428612,
+        0.9090909090909065,
+        -0.6315789473684248,
+        -0.8333333333333428,
+        -0.2439024390243958,
+        -1.5625,
+        -0.8641975308642031,
+        -1.2048192771084416
+      ],
+      "difference": -0.44676222018313005,
+      "ci95": [
+        -1.2049333273119824,
+        0.31140888694572244
+      ],
+      "paired_t_p": 0.20614614339432877,
+      "exact_signflip_p": 0.2109375,
+      "positive_seeds": 2,
+      "negative_seeds": 6,
+      "reference": "intact",
+      "intervention": "remove_between_episode_mean",
+      "label": "PCA subtraction \u2212 intact",
+      "paired_t_p_holm": 0.41229228678865754,
+      "exact_signflip_p_holm": 0.421875
+    },
+    "feedback_minus_intact": {
+      "reference_values": [
+        76.14285714285714,
+        77.38636363636364,
+        83.89473684210526,
+        83.54166666666667,
+        92.5609756097561,
+        92.39583333333333,
+        72.46913580246914,
+        80.72289156626506
+      ],
+      "intervention_values": [
+        70.28571428571429,
+        72.38636363636364,
+        75.15789473684211,
+        74.89583333333333,
+        86.46341463414635,
+        82.5,
+        59.75308641975309,
+        69.27710843373494
+      ],
+      "differences": [
+        -5.857142857142847,
+        -5.0,
+        -8.73684210526315,
+        -8.645833333333343,
+        -6.097560975609753,
+        -9.895833333333329,
+        -12.71604938271605,
+        -11.445783132530124
+      ],
+      "difference": -8.549380639991075,
+      "ci95": [
+        -10.859871320704631,
+        -6.238889959277518
+      ],
+      "paired_t_p": 5.122784587294727e-05,
+      "exact_signflip_p": 0.0078125,
+      "positive_seeds": 0,
+      "negative_seeds": 8,
+      "reference": "intact",
+      "intervention": "remove_episode_mean_feedback",
+      "label": "Correct feedback subtraction \u2212 intact",
+      "paired_t_p_holm": 0.00025613922936473636,
+      "exact_signflip_p_holm": 0.0390625
+    },
+    "feedback_minus_wrong": {
+      "reference_values": [
+        69.28571428571429,
+        75.3409090909091,
+        74.42105263157895,
+        76.77083333333333,
+        85.0,
+        83.54166666666667,
+        68.0246913580247,
+        77.46987951807229
+      ],
+      "intervention_values": [
+        70.28571428571429,
+        72.38636363636364,
+        75.15789473684211,
+        74.89583333333333,
+        86.46341463414635,
+        82.5,
+        59.75308641975309,
+        69.27710843373494
+      ],
+      "differences": [
+        1.0,
+        -2.9545454545454533,
+        0.7368421052631646,
+        -1.875,
+        1.4634146341463463,
+        -1.0416666666666714,
+        -8.271604938271608,
+        -8.192771084337352
+      ],
+      "difference": -2.3919164255514467,
+      "ci95": [
+        -5.65722353810477,
+        0.8733906870018759
+      ],
+      "paired_t_p": 0.12685305637758357,
+      "exact_signflip_p": 0.140625,
+      "positive_seeds": 3,
+      "negative_seeds": 5,
+      "reference": "remove_wrong_episode_mean_feedback",
+      "intervention": "remove_episode_mean_feedback",
+      "label": "Correct feedback \u2212 wrong feedback",
+      "paired_t_p_holm": 0.3805591691327507,
+      "exact_signflip_p_holm": 0.421875
+    }
+  },
+  "descriptive_full_score": {
+    "correct_minus_intact": {
+      "reference_values": [
+        80.078125,
+        103.203125,
+        109.921875,
+        112.890625,
+        105.625,
+        125.78125,
+        97.65625,
+        96.796875
+      ],
+      "intervention_values": [
+        80.390625,
+        102.96875,
+        109.53125,
+        110.15625,
+        105.390625,
+        123.203125,
+        94.609375,
+        95.078125
+      ],
+      "differences": [
+        0.3125,
+        -0.234375,
+        -0.390625,
+        -2.734375,
+        -0.234375,
+        -2.578125,
+        -3.046875,
+        -1.71875
+      ],
+      "difference": -1.328125,
+      "ci95": [
+        -2.4502036908053775,
+        -0.20604630919462252
+      ],
+      "paired_t_p": 0.02656858014769576,
+      "exact_signflip_p": 0.03125,
+      "positive_seeds": 1,
+      "negative_seeds": 7,
+      "label": "Correct subtraction \u2212 intact"
+    },
+    "correct_minus_wrong": {
+      "reference_values": [
+        79.921875,
+        103.359375,
+        106.015625,
+        112.265625,
+        104.21875,
+        122.578125,
+        96.5625,
+        96.875
+      ],
+      "intervention_values": [
+        80.390625,
+        102.96875,
+        109.53125,
+        110.15625,
+        105.390625,
+        123.203125,
+        94.609375,
+        95.078125
+      ],
+      "differences": [
+        0.46875,
+        -0.390625,
+        3.515625,
+        -2.109375,
+        1.171875,
+        0.625,
+        -1.953125,
+        -1.796875
+      ],
+      "difference": -0.05859375,
+      "ci95": [
+        -1.6686141350163024,
+        1.5514266350163024
+      ],
+      "paired_t_p": 0.9338315346572406,
+      "exact_signflip_p": 0.9375,
+      "positive_seeds": 4,
+      "negative_seeds": 4,
+      "label": "Correct subtraction \u2212 wrong subtraction"
+    },
+    "between_minus_intact": {
+      "reference_values": [
+        80.078125,
+        103.203125,
+        109.921875,
+        112.890625,
+        105.625,
+        125.78125,
+        97.65625,
+        96.796875
+      ],
+      "intervention_values": [
+        80.546875,
+        103.828125,
+        109.453125,
+        112.265625,
+        105.46875,
+        124.609375,
+        97.109375,
+        96.015625
+      ],
+      "differences": [
+        0.46875,
+        0.625,
+        -0.46875,
+        -0.625,
+        -0.15625,
+        -1.171875,
+        -0.546875,
+        -0.78125
+      ],
+      "difference": -0.33203125,
+      "ci95": [
+        -0.8460189274327232,
+        0.18195642743272322
+      ],
+      "paired_t_p": 0.1704706607870538,
+      "exact_signflip_p": 0.171875,
+      "positive_seeds": 2,
+      "negative_seeds": 6,
+      "label": "PCA subtraction \u2212 intact"
+    },
+    "feedback_minus_intact": {
+      "reference_values": [
+        80.078125,
+        103.203125,
+        109.921875,
+        112.890625,
+        105.625,
+        125.78125,
+        97.65625,
+        96.796875
+      ],
+      "intervention_values": [
+        76.875,
+        99.765625,
+        103.4375,
+        106.40625,
+        101.71875,
+        118.359375,
+        89.609375,
+        89.375
+      ],
+      "differences": [
+        -3.203125,
+        -3.4375,
+        -6.484375,
+        -6.484375,
+        -3.90625,
+        -7.421875,
+        -8.046875,
+        -7.421875
+      ],
+      "difference": -5.80078125,
+      "ci95": [
+        -7.447478505967255,
+        -4.154083994032745
+      ],
+      "paired_t_p": 7.036221776943604e-05,
+      "exact_signflip_p": 0.0078125,
+      "positive_seeds": 0,
+      "negative_seeds": 8,
+      "label": "Correct feedback subtraction \u2212 intact"
+    },
+    "feedback_minus_wrong": {
+      "reference_values": [
+        76.328125,
+        101.796875,
+        102.890625,
+        107.8125,
+        100.78125,
+        119.140625,
+        94.84375,
+        94.6875
+      ],
+      "intervention_values": [
+        76.875,
+        99.765625,
+        103.4375,
+        106.40625,
+        101.71875,
+        118.359375,
+        89.609375,
+        89.375
+      ],
+      "differences": [
+        0.546875,
+        -2.03125,
+        0.546875,
+        -1.40625,
+        0.9375,
+        -0.78125,
+        -5.234375,
+        -5.3125
+      ],
+      "difference": -1.591796875,
+      "ci95": [
+        -3.676868143556062,
+        0.49327439355606195
+      ],
+      "paired_t_p": 0.11401084172945078,
+      "exact_signflip_p": 0.1328125,
+      "positive_seeds": 3,
+      "negative_seeds": 5,
+      "label": "Correct feedback \u2212 wrong feedback"
+    }
+  },
+  "patch_diagnostics": {
+    "intact": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n": 8,
+          "mean": 0.0,
+          "sem": 0.0
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n": 8,
+          "mean": 0.0,
+          "sem": 0.0
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n": 8,
+          "mean": 0.0,
+          "sem": 0.0
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "n": 8,
+          "mean": 1.0,
+          "sem": 0.0
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 0.0,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0,
+          "samples_outside_unit_range_fraction": 0.0,
+          "maximum_absolute_actor_hidden": 1.0
+        }
+      }
+    },
+    "remove_episode_mean": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            1.561713392857143,
+            1.5533004261363637,
+            1.3920752192982455,
+            1.5349586588541666,
+            1.3975957825203251,
+            1.4241564670138889,
+            2.0324071502057612,
+            1.4793261797188755
+          ],
+          "n": 8,
+          "mean": 1.546941659575596,
+          "sem": 0.07343787885758185
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.028813392857142857,
+            0.037695608428030304,
+            0.03482406798245614,
+            0.03407600911458333,
+            0.03547884908536585,
+            0.027684299045138888,
+            0.03995081018518518,
+            0.028924385040160643
+          ],
+          "n": 8,
+          "mean": 0.0334309277172579,
+          "sem": 0.001591840897908107
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.9992190476190477,
+            0.9992727272727273,
+            0.9998456140350878,
+            1.0,
+            1.0,
+            0.9998333333333334,
+            0.9996707818930041,
+            0.9983614457831326
+          ],
+          "n": 8,
+          "mean": 0.9995253687420416,
+          "sem": 0.00019736979796944543
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            2.9170989990234375,
+            2.952014446258545,
+            2.72839093208313,
+            2.4272727966308594,
+            2.2858986854553223,
+            2.8832693099975586,
+            3.031104803085327,
+            2.493370532989502
+          ],
+          "n": 8,
+          "mean": 2.71480256319046,
+          "sem": 0.09833163347314677
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 1.561713392857143,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.028813392857142857,
+          "samples_outside_unit_range_fraction": 0.9992190476190477,
+          "maximum_absolute_actor_hidden": 2.9170989990234375
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 1.5533004261363637,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.037695608428030304,
+          "samples_outside_unit_range_fraction": 0.9992727272727273,
+          "maximum_absolute_actor_hidden": 2.952014446258545
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 1.3920752192982455,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03482406798245614,
+          "samples_outside_unit_range_fraction": 0.9998456140350878,
+          "maximum_absolute_actor_hidden": 2.72839093208313
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 1.5349586588541666,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03407600911458333,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.4272727966308594
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 1.3975957825203251,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03547884908536585,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.2858986854553223
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 1.4241564670138889,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.027684299045138888,
+          "samples_outside_unit_range_fraction": 0.9998333333333334,
+          "maximum_absolute_actor_hidden": 2.8832693099975586
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 2.0324071502057612,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03995081018518518,
+          "samples_outside_unit_range_fraction": 0.9996707818930041,
+          "maximum_absolute_actor_hidden": 3.031104803085327
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 1.4793261797188755,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.028924385040160643,
+          "samples_outside_unit_range_fraction": 0.9983614457831326,
+          "maximum_absolute_actor_hidden": 2.493370532989502
+        }
+      }
+    },
+    "remove_wrong_episode_mean": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            1.561713392857143,
+            1.5533005445075758,
+            1.3920752192982455,
+            1.5349586588541666,
+            1.3975957825203251,
+            1.4241564670138889,
+            2.0324071502057612,
+            1.4793261797188755
+          ],
+          "n": 8,
+          "mean": 1.5469416743719977,
+          "sem": 0.07343787904060853
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.030353199404761905,
+            0.0396015625,
+            0.03713580043859649,
+            0.03741015625,
+            0.03653747459349593,
+            0.029606174045138888,
+            0.043495241769547326,
+            0.02889539407630522
+          ],
+          "n": 8,
+          "mean": 0.035379375384730724,
+          "sem": 0.0018558727114389355
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.9998095238095238,
+            1.0,
+            0.9996491228070176,
+            1.0,
+            1.0,
+            0.9998888888888889,
+            1.0,
+            0.9996465863453815
+          ],
+          "n": 8,
+          "mean": 0.9998742652313515,
+          "sem": 5.512469915692277e-05
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            2.8094568252563477,
+            3.01237416267395,
+            2.6639907360076904,
+            2.6026220321655273,
+            2.2719886302948,
+            2.2126047611236572,
+            4.830989837646484,
+            2.1095075607299805
+          ],
+          "n": 8,
+          "mean": 2.8141918182373047,
+          "sem": 0.3084108530451898
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 1.561713392857143,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.030353199404761905,
+          "samples_outside_unit_range_fraction": 0.9998095238095238,
+          "maximum_absolute_actor_hidden": 2.8094568252563477
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 1.5533005445075758,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0396015625,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 3.01237416267395
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 1.3920752192982455,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03713580043859649,
+          "samples_outside_unit_range_fraction": 0.9996491228070176,
+          "maximum_absolute_actor_hidden": 2.6639907360076904
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 1.5349586588541666,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03741015625,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.6026220321655273
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 1.3975957825203251,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03653747459349593,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.2719886302948
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 1.4241564670138889,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.029606174045138888,
+          "samples_outside_unit_range_fraction": 0.9998888888888889,
+          "maximum_absolute_actor_hidden": 2.2126047611236572
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 2.0324071502057612,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.043495241769547326,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 4.830989837646484
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 1.4793261797188755,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.02889539407630522,
+          "samples_outside_unit_range_fraction": 0.9996465863453815,
+          "maximum_absolute_actor_hidden": 2.1095075607299805
+        }
+      }
+    },
+    "remove_between_episode_mean": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            0.6667683035714286,
+            0.6827907788825758,
+            0.5780506030701754,
+            0.6714219292534722,
+            0.5703086255081301,
+            0.5867005750868055,
+            0.9005819830246914,
+            0.6221311495983936
+          ],
+          "n": 8,
+          "mean": 0.6598442434994591,
+          "sem": 0.03783004482393239
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.02266458333333333,
+            0.029069898200757574,
+            0.025287554824561402,
+            0.0257109375,
+            0.02515282012195122,
+            0.023703016493055555,
+            0.030763760288065843,
+            0.024042168674698796
+          ],
+          "n": 8,
+          "mean": 0.025799342429552966,
+          "sem": 0.0009759488920405698
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.9978857142857143,
+            0.9986212121212121,
+            0.9991719298245614,
+            0.9954583333333333,
+            0.9994471544715448,
+            0.9977361111111112,
+            0.9992427983539095,
+            0.9959678714859438
+          ],
+          "n": 8,
+          "mean": 0.9979413906234162,
+          "sem": 0.0005352396270145662
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            2.2590131759643555,
+            2.077347993850708,
+            1.460705041885376,
+            2.1745996475219727,
+            1.6735200881958008,
+            2.252551794052124,
+            2.0562076568603516,
+            1.490851640701294
+          ],
+          "n": 8,
+          "mean": 1.9305996298789978,
+          "sem": 0.11867017837657576
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 0.6667683035714286,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.02266458333333333,
+          "samples_outside_unit_range_fraction": 0.9978857142857143,
+          "maximum_absolute_actor_hidden": 2.2590131759643555
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 0.6827907788825758,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.029069898200757574,
+          "samples_outside_unit_range_fraction": 0.9986212121212121,
+          "maximum_absolute_actor_hidden": 2.077347993850708
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 0.5780506030701754,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.025287554824561402,
+          "samples_outside_unit_range_fraction": 0.9991719298245614,
+          "maximum_absolute_actor_hidden": 1.460705041885376
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 0.6714219292534722,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.0257109375,
+          "samples_outside_unit_range_fraction": 0.9954583333333333,
+          "maximum_absolute_actor_hidden": 2.1745996475219727
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 0.5703086255081301,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.02515282012195122,
+          "samples_outside_unit_range_fraction": 0.9994471544715448,
+          "maximum_absolute_actor_hidden": 1.6735200881958008
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 0.5867005750868055,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.023703016493055555,
+          "samples_outside_unit_range_fraction": 0.9977361111111112,
+          "maximum_absolute_actor_hidden": 2.252551794052124
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 0.9005819830246914,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.030763760288065843,
+          "samples_outside_unit_range_fraction": 0.9992427983539095,
+          "maximum_absolute_actor_hidden": 2.0562076568603516
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 0.6221311495983936,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.024042168674698796,
+          "samples_outside_unit_range_fraction": 0.9959678714859438,
+          "maximum_absolute_actor_hidden": 1.490851640701294
+        }
+      }
+    },
+    "remove_episode_mean_feedback": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            1.561713392857143,
+            1.5533004261363637,
+            1.3920752192982455,
+            1.5349586588541666,
+            1.3975957825203251,
+            1.4241564670138889,
+            2.0324071502057612,
+            1.4793261797188755
+          ],
+          "n": 8,
+          "mean": 1.546941659575596,
+          "sem": 0.07343787885758185
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.030316964285714287,
+            0.038764382102272725,
+            0.03547313596491228,
+            0.03540614149305556,
+            0.03653976117886179,
+            0.028678927951388888,
+            0.04527469135802469,
+            0.030473581827309238
+          ],
+          "n": 8,
+          "mean": 0.03511594827019243,
+          "sem": 0.0019122126906711446
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.9992380952380953,
+            0.9994545454545455,
+            0.9999859649122808,
+            1.0,
+            1.0,
+            0.9995,
+            0.999917695473251,
+            0.9991967871485944
+          ],
+          "n": 8,
+          "mean": 0.9996616360283459,
+          "sem": 0.00012422761456405403
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            2.9170756340026855,
+            2.954913377761841,
+            2.7291653156280518,
+            2.513577461242676,
+            2.285897731781006,
+            2.883269786834717,
+            3.0311031341552734,
+            2.4905261993408203
+          ],
+          "n": 8,
+          "mean": 2.725691080093384,
+          "sem": 0.09458588772547608
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 1.561713392857143,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.030316964285714287,
+          "samples_outside_unit_range_fraction": 0.9992380952380953,
+          "maximum_absolute_actor_hidden": 2.9170756340026855
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 1.5533004261363637,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.038764382102272725,
+          "samples_outside_unit_range_fraction": 0.9994545454545455,
+          "maximum_absolute_actor_hidden": 2.954913377761841
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 1.3920752192982455,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03547313596491228,
+          "samples_outside_unit_range_fraction": 0.9999859649122808,
+          "maximum_absolute_actor_hidden": 2.7291653156280518
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 1.5349586588541666,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03540614149305556,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.513577461242676
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 1.3975957825203251,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03653976117886179,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.285897731781006
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 1.4241564670138889,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.028678927951388888,
+          "samples_outside_unit_range_fraction": 0.9995,
+          "maximum_absolute_actor_hidden": 2.883269786834717
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 2.0324071502057612,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.04527469135802469,
+          "samples_outside_unit_range_fraction": 0.999917695473251,
+          "maximum_absolute_actor_hidden": 3.0311031341552734
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 1.4793261797188755,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.030473581827309238,
+          "samples_outside_unit_range_fraction": 0.9991967871485944,
+          "maximum_absolute_actor_hidden": 2.4905261993408203
+        }
+      }
+    },
+    "remove_wrong_episode_mean_feedback": {
+      "estimates": {
+        "mean_patch_l2": {
+          "values": [
+            1.561713392857143,
+            1.5533005445075758,
+            1.3920752192982455,
+            1.5349586588541666,
+            1.3975957825203251,
+            1.4241564670138889,
+            2.0324071502057612,
+            1.4793261797188755
+          ],
+          "n": 8,
+          "mean": 1.5469416743719977,
+          "sem": 0.07343787904060853
+        },
+        "units_outside_unit_range_fraction": {
+          "values": [
+            0.031033333333333333,
+            0.04051213304924242,
+            0.03727763157894737,
+            0.037974229600694444,
+            0.03719016768292683,
+            0.030289171006944445,
+            0.044433256172839504,
+            0.029498368473895583
+          ],
+          "n": 8,
+          "mean": 0.03602603636235299,
+          "sem": 0.0018802199403151441
+        },
+        "samples_outside_unit_range_fraction": {
+          "values": [
+            0.9998476190476191,
+            1.0,
+            0.9994245614035088,
+            1.0,
+            1.0,
+            0.99975,
+            1.0,
+            0.999710843373494
+          ],
+          "n": 8,
+          "mean": 0.9998416279780777,
+          "sem": 7.316902020696538e-05
+        },
+        "maximum_absolute_actor_hidden": {
+          "values": [
+            2.809457778930664,
+            3.012706756591797,
+            2.6148200035095215,
+            2.6469600200653076,
+            2.2722549438476562,
+            2.2126235961914062,
+            4.949692249298096,
+            2.324282169342041
+          ],
+          "n": 8,
+          "mean": 2.855349689722061,
+          "sem": 0.31480004652513377
+        }
+      },
+      "by_seed": {
+        "1": {
+          "samples": 52500,
+          "mean_patch_l2": 1.561713392857143,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.031033333333333333,
+          "samples_outside_unit_range_fraction": 0.9998476190476191,
+          "maximum_absolute_actor_hidden": 2.809457778930664
+        },
+        "2": {
+          "samples": 66000,
+          "mean_patch_l2": 1.5533005445075758,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.04051213304924242,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 3.012706756591797
+        },
+        "3": {
+          "samples": 71250,
+          "mean_patch_l2": 1.3920752192982455,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03727763157894737,
+          "samples_outside_unit_range_fraction": 0.9994245614035088,
+          "maximum_absolute_actor_hidden": 2.6148200035095215
+        },
+        "4": {
+          "samples": 72000,
+          "mean_patch_l2": 1.5349586588541666,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.037974229600694444,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.6469600200653076
+        },
+        "5": {
+          "samples": 61500,
+          "mean_patch_l2": 1.3975957825203251,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.03719016768292683,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 2.2722549438476562
+        },
+        "6": {
+          "samples": 72000,
+          "mean_patch_l2": 1.4241564670138889,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.030289171006944445,
+          "samples_outside_unit_range_fraction": 0.99975,
+          "maximum_absolute_actor_hidden": 2.2126235961914062
+        },
+        "7": {
+          "samples": 60750,
+          "mean_patch_l2": 2.0324071502057612,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.044433256172839504,
+          "samples_outside_unit_range_fraction": 1.0,
+          "maximum_absolute_actor_hidden": 4.949692249298096
+        },
+        "8": {
+          "samples": 62250,
+          "mean_patch_l2": 1.4793261797188755,
+          "patch_reference": "mixed_hidden",
+          "units_outside_unit_range_fraction": 0.029498368473895583,
+          "samples_outside_unit_range_fraction": 0.999710843373494,
+          "maximum_absolute_actor_hidden": 2.324282169342041
+        }
+      }
+    }
+  },
+  "calibration": {
+    "by_seed": {
+      "1": {
+        "mean_delta_l2": 1.5830612343737962,
+        "grand_delta_l2": 0.28086529203823635,
+        "mean_episode_delta_l2": 1.5616973718888854,
+        "between_projection_energy_fraction": 0.21050283382441595,
+        "mean_delta_energy_fraction": 0.3611769515415744,
+        "episode_delta_energy_fraction": 0.3506074003657389,
+        "grand_centered_logit_energy": 0.03547112864208841,
+        "mean_episode_centered_logit_energy": 1.3175447412388117,
+        "mixed": {
+          "total_variance": 23.048778541558985,
+          "between_episode_variance": 10.6524000118858,
+          "between_episode_fraction": 0.46203439496830045
+        },
+        "grid": {
+          "total_variance": 23.753120214518926,
+          "between_episode_variance": 10.899190815600628,
+          "between_episode_fraction": 0.4586225332212585
+        }
+      },
+      "2": {
+        "mean_delta_l2": 1.5774239165027724,
+        "grand_delta_l2": 0.30110788345336914,
+        "mean_episode_delta_l2": 1.553318401405207,
+        "between_projection_energy_fraction": 0.22112227586826838,
+        "mean_delta_energy_fraction": 0.4359723619958743,
+        "episode_delta_energy_fraction": 0.4207134963145815,
+        "grand_centered_logit_energy": 0.047373904803370295,
+        "mean_episode_centered_logit_energy": 0.992995847657155,
+        "mixed": {
+          "total_variance": 20.59659747288571,
+          "between_episode_variance": 10.969392452458983,
+          "between_episode_fraction": 0.5325674157386249
+        },
+        "grid": {
+          "total_variance": 21.459517359997786,
+          "between_episode_variance": 11.312064563534118,
+          "between_episode_fraction": 0.5270841629927415
+        }
+      },
+      "3": {
+        "mean_delta_l2": 1.4117552229456518,
+        "grand_delta_l2": 0.2494864893587012,
+        "mean_episode_delta_l2": 1.3920602358420875,
+        "between_projection_energy_fraction": 0.18722945454087112,
+        "mean_delta_energy_fraction": 0.37288906869192984,
+        "episode_delta_energy_fraction": 0.36196656010708994,
+        "grand_centered_logit_energy": 0.01034781322534104,
+        "mean_episode_centered_logit_energy": 0.7583288223024479,
+        "mixed": {
+          "total_variance": 19.1127722331189,
+          "between_episode_variance": 8.778294140507285,
+          "between_episode_fraction": 0.45910037271544984
+        },
+        "grid": {
+          "total_variance": 20.05911532752471,
+          "between_episode_variance": 9.07581195383089,
+          "between_episode_fraction": 0.4522684748319793
+        }
+      },
+      "4": {
+        "mean_delta_l2": 1.5584547583957657,
+        "grand_delta_l2": 0.29622318781912327,
+        "mean_episode_delta_l2": 1.5349752244521966,
+        "between_projection_energy_fraction": 0.20615594144813185,
+        "mean_delta_energy_fraction": 0.35839162045418166,
+        "episode_delta_energy_fraction": 0.34621389596846625,
+        "grand_centered_logit_energy": 0.01578076468579163,
+        "mean_episode_centered_logit_energy": 0.6980457979507202,
+        "mixed": {
+          "total_variance": 24.515869743610242,
+          "between_episode_variance": 12.443977065409785,
+          "between_episode_fraction": 0.5075323757881212
+        },
+        "grid": {
+          "total_variance": 25.240090840429087,
+          "between_episode_variance": 12.27299635243893,
+          "between_episode_fraction": 0.4863581222527489
+        }
+      },
+      "5": {
+        "mean_delta_l2": 1.4202417714552962,
+        "grand_delta_l2": 0.26310618403481273,
+        "mean_episode_delta_l2": 1.397620013392665,
+        "between_projection_energy_fraction": 0.1898515303341144,
+        "mean_delta_energy_fraction": 0.3378604740730578,
+        "episode_delta_energy_fraction": 0.32672754074657967,
+        "grand_centered_logit_energy": 0.017893643305963366,
+        "mean_episode_centered_logit_energy": 0.9758797148125727,
+        "mixed": {
+          "total_variance": 22.204770407570987,
+          "between_episode_variance": 9.63330610117737,
+          "between_episode_fraction": 0.4339205074372158
+        },
+        "grid": {
+          "total_variance": 22.942761294295916,
+          "between_episode_variance": 9.946654327518766,
+          "between_episode_fraction": 0.43372210275023354
+        }
+      },
+      "6": {
+        "mean_delta_l2": 1.4488781486455953,
+        "grand_delta_l2": 0.28349160092572373,
+        "mean_episode_delta_l2": 1.4241470082009748,
+        "between_projection_energy_fraction": 0.19659348702444435,
+        "mean_delta_energy_fraction": 0.35169629884089965,
+        "episode_delta_energy_fraction": 0.3387361718213488,
+        "grand_centered_logit_energy": 0.004518429826210029,
+        "mean_episode_centered_logit_energy": 0.7509271824015377,
+        "mixed": {
+          "total_variance": 22.632145636743005,
+          "between_episode_variance": 10.772520162062293,
+          "between_episode_fraction": 0.4758061586085107
+        },
+        "grid": {
+          "total_variance": 22.98160744946492,
+          "between_episode_variance": 10.518463479345812,
+          "between_episode_fraction": 0.457574744754737
+        }
+      },
+      "7": {
+        "mean_delta_l2": 2.0570173505220777,
+        "grand_delta_l2": 0.36599843700726825,
+        "mean_episode_delta_l2": 2.032446787199489,
+        "between_projection_energy_fraction": 0.21731494238352034,
+        "mean_delta_energy_fraction": 0.45755239914081935,
+        "episode_delta_energy_fraction": 0.4439369677739609,
+        "grand_centered_logit_energy": 0.040829946724926076,
+        "mean_episode_centered_logit_energy": 1.1788999350514862,
+        "mixed": {
+          "total_variance": 29.700582102313962,
+          "between_episode_variance": 16.848014720296874,
+          "between_episode_fraction": 0.567251653554297
+        },
+        "grid": {
+          "total_variance": 30.763700235700384,
+          "between_episode_variance": 17.261061572340484,
+          "between_episode_fraction": 0.5610770521515076
+        }
+      },
+      "8": {
+        "mean_delta_l2": 1.5030379207701299,
+        "grand_delta_l2": 0.27720616165413914,
+        "mean_episode_delta_l2": 1.4793118353668635,
+        "between_projection_energy_fraction": 0.19291117460269988,
+        "mean_delta_energy_fraction": 0.3916146463841997,
+        "episode_delta_energy_fraction": 0.3790106174702355,
+        "grand_centered_logit_energy": 0.020291946362971738,
+        "mean_episode_centered_logit_energy": 0.6711372747660124,
+        "mixed": {
+          "total_variance": 22.373013520489316,
+          "between_episode_variance": 11.308843850810941,
+          "between_episode_fraction": 0.5054544146688029
+        },
+        "grid": {
+          "total_variance": 23.48302196789148,
+          "between_episode_variance": 12.007629081976697,
+          "between_episode_fraction": 0.5113265617058605
+        }
+      }
+    },
+    "estimates": {
+      "mean_delta_l2": {
+        "values": [
+          1.5830612343737962,
+          1.5774239165027724,
+          1.4117552229456518,
+          1.5584547583957657,
+          1.4202417714552962,
+          1.4488781486455953,
+          2.0570173505220777,
+          1.5030379207701299
+        ],
+        "n": 8,
+        "mean": 1.5699837904513858,
+        "sem": 0.07369922707520049
+      },
+      "grand_delta_l2": {
+        "values": [
+          0.28086529203823635,
+          0.30110788345336914,
+          0.2494864893587012,
+          0.29622318781912327,
+          0.26310618403481273,
+          0.28349160092572373,
+          0.36599843700726825,
+          0.27720616165413914
+        ],
+        "n": 8,
+        "mean": 0.2896856545364217,
+        "sem": 0.012386045859409707
+      },
+      "mean_episode_delta_l2": {
+        "values": [
+          1.5616973718888854,
+          1.553318401405207,
+          1.3920602358420875,
+          1.5349752244521966,
+          1.397620013392665,
+          1.4241470082009748,
+          2.032446787199489,
+          1.4793118353668635
+        ],
+        "n": 8,
+        "mean": 1.546947109718546,
+        "sem": 0.07344268259870541
+      },
+      "between_projection_energy_fraction": {
+        "values": [
+          0.21050283382441595,
+          0.22112227586826838,
+          0.18722945454087112,
+          0.20615594144813185,
+          0.1898515303341144,
+          0.19659348702444435,
+          0.21731494238352034,
+          0.19291117460269988
+        ],
+        "n": 8,
+        "mean": 0.20271020500330827,
+        "sem": 0.004557833241138352
+      },
+      "mean_delta_energy_fraction": {
+        "values": [
+          0.3611769515415744,
+          0.4359723619958743,
+          0.37288906869192984,
+          0.35839162045418166,
+          0.3378604740730578,
+          0.35169629884089965,
+          0.45755239914081935,
+          0.3916146463841997
+        ],
+        "n": 8,
+        "mean": 0.3833942276403171,
+        "sem": 0.015022986785086437
+      },
+      "episode_delta_energy_fraction": {
+        "values": [
+          0.3506074003657389,
+          0.4207134963145815,
+          0.36196656010708994,
+          0.34621389596846625,
+          0.32672754074657967,
+          0.3387361718213488,
+          0.4439369677739609,
+          0.3790106174702355
+        ],
+        "n": 8,
+        "mean": 0.37098908132100017,
+        "sem": 0.014619104054947334
+      },
+      "grand_centered_logit_energy": {
+        "values": [
+          0.03547112864208841,
+          0.047373904803370295,
+          0.01034781322534104,
+          0.01578076468579163,
+          0.017893643305963366,
+          0.004518429826210029,
+          0.040829946724926076,
+          0.020291946362971738
+        ],
+        "n": 8,
+        "mean": 0.024063447197082824,
+        "sem": 0.00542093821550878
+      },
+      "mean_episode_centered_logit_energy": {
+        "values": [
+          1.3175447412388117,
+          0.992995847657155,
+          0.7583288223024479,
+          0.6980457979507202,
+          0.9758797148125727,
+          0.7509271824015377,
+          1.1788999350514862,
+          0.6711372747660124
+        ],
+        "n": 8,
+        "mean": 0.917969914522593,
+        "sem": 0.08445291113455622
+      },
+      "mixed": {
+        "total_variance": {
+          "values": [
+            23.048778541558985,
+            20.59659747288571,
+            19.1127722331189,
+            24.515869743610242,
+            22.204770407570987,
+            22.632145636743005,
+            29.700582102313962,
+            22.373013520489316
+          ],
+          "n": 8,
+          "mean": 23.02306620728639,
+          "sem": 1.1119600370026568
+        },
+        "between_episode_variance": {
+          "values": [
+            10.6524000118858,
+            10.969392452458983,
+            8.778294140507285,
+            12.443977065409785,
+            9.63330610117737,
+            10.772520162062293,
+            16.848014720296874,
+            11.308843850810941
+          ],
+          "n": 8,
+          "mean": 11.425843563076167,
+          "sem": 0.8650591157160236
+        },
+        "between_episode_fraction": {
+          "values": [
+            0.46203439496830045,
+            0.5325674157386249,
+            0.45910037271544984,
+            0.5075323757881212,
+            0.4339205074372158,
+            0.4758061586085107,
+            0.567251653554297,
+            0.5054544146688029
+          ],
+          "n": 8,
+          "mean": 0.49295841168491533,
+          "sem": 0.015433755356215715
+        }
+      },
+      "grid": {
+        "total_variance": {
+          "values": [
+            23.753120214518926,
+            21.459517359997786,
+            20.05911532752471,
+            25.240090840429087,
+            22.942761294295916,
+            22.98160744946492,
+            30.763700235700384,
+            23.48302196789148
+          ],
+          "n": 8,
+          "mean": 23.8353668362279,
+          "sem": 1.1302366263776527
+        },
+        "between_episode_variance": {
+          "values": [
+            10.899190815600628,
+            11.312064563534118,
+            9.07581195383089,
+            12.27299635243893,
+            9.946654327518766,
+            10.518463479345812,
+            17.261061572340484,
+            12.007629081976697
+          ],
+          "n": 8,
+          "mean": 11.66173401832329,
+          "sem": 0.8812030509450074
+        },
+        "between_episode_fraction": {
+          "values": [
+            0.4586225332212585,
+            0.5270841629927415,
+            0.4522684748319793,
+            0.4863581222527489,
+            0.43372210275023354,
+            0.457574744754737,
+            0.5610770521515076,
+            0.5113265617058605
+          ],
+          "n": 8,
+          "mean": 0.4860042193326334,
+          "sem": 0.01546560134594691
+        }
+      }
+    },
+    "scope": "Descriptive eligible-count-weighted averages of two calibration batches per training seed. Batch covariance fractions are averaged, not recomputed from pooled samples. These are mixed-versus-grid goal inputs within the same PGC-trained network, not comparisons of separately trained populations."
+  },
+  "future_offset_validation": {
+    "by_seed": {
+      "1": {
+        "future_mean_energy_fraction": 0.2414357389717316,
+        "future_episode_mean_energy_fraction": 0.23444859298196993,
+        "future_dynamic_mean_squared_l2": 8.045097899433852,
+        "future_constant_mean_squared_l2": 1.9482336013263164,
+        "future_grand_delta_l2": 0.23704161378279207,
+        "past_grand_delta_l2": 0.2808652876471651,
+        "eligible_counts": [
+          36,
+          34
+        ],
+        "batches": [
+          {
+            "eligible_count": 36,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5162838760568639,
+              "mean_episode_cosine": 0.49803306756525234,
+              "prediction_r2": -0.17840442955368596,
+              "squared_error": 71.25538776125757,
+              "target_energy": 60.467684925662695,
+              "prediction_energy": 84.67139369013812,
+              "nonzero_episode_pairs": 36
+            },
+            "centered_actor_logits": {
+              "cosine": 0.4666365769383075,
+              "mean_episode_cosine": 0.3741284038850634,
+              "prediction_r2": -0.9882639409361671,
+              "squared_error": 30.202039933865134,
+              "target_energy": 15.19015625241617,
+              "prediction_energy": 37.1957001016456,
+              "nonzero_episode_pairs": 36
+            },
+            "future_mean_energy_fraction": 0.22471589906289385,
+            "future_episode_mean_energy_fraction": 0.217738148981138,
+            "future_dynamic_mean_squared_l2": 7.7141186441666925,
+            "future_constant_mean_squared_l2": 1.73348510660175,
+            "future_grand_delta_l2": 0.23200687920837254,
+            "past_grand_delta_l2": 0.262725392645322,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 34,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5580320033986589,
+              "mean_episode_cosine": 0.5157950597628472,
+              "prediction_r2": -0.0670697599152319,
+              "squared_error": 76.80082809048116,
+              "target_energy": 71.97357752559891,
+              "prediction_energy": 99.06949562951229,
+              "nonzero_episode_pairs": 34
+            },
+            "centered_actor_logits": {
+              "cosine": 0.5963721450565076,
+              "mean_episode_cosine": 0.3785858805289717,
+              "prediction_r2": -0.17687527938058056,
+              "squared_error": 36.828336918453175,
+              "target_energy": 31.293321869957936,
+              "prediction_energy": 55.03243136214998,
+              "nonzero_episode_pairs": 34
+            },
+            "future_mean_energy_fraction": 0.2591390988752068,
+            "future_episode_mean_energy_fraction": 0.2521420042769685,
+            "future_dynamic_mean_squared_l2": 8.395546522657906,
+            "future_constant_mean_squared_l2": 2.1756143604464455,
+            "future_grand_delta_l2": 0.24237250921453043,
+            "past_grand_delta_l2": 0.30007223529617544,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5365615379085928,
+          "mean_episode_cosine": 0.5066603209183699,
+          "prediction_r2": -0.12432759001500827,
+          "squared_error": 73.9488873497376,
+          "target_energy": 66.056261331346,
+          "prediction_energy": 91.66475748926273,
+          "nonzero_episode_pairs": 35.02857142857143,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.5296509957385762,
+          "mean_episode_cosine": 0.37629346396924745,
+          "prediction_r2": -0.5941608767520251,
+          "squared_error": 33.42052704066504,
+          "target_energy": 23.011693838079314,
+          "prediction_energy": 45.85925528531915,
+          "nonzero_episode_pairs": 35.02857142857143,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "2": {
+        "future_mean_energy_fraction": 0.2925141552355808,
+        "future_episode_mean_energy_fraction": 0.28142905025716963,
+        "future_dynamic_mean_squared_l2": 7.094825921593368,
+        "future_constant_mean_squared_l2": 2.0758970010167257,
+        "future_grand_delta_l2": 0.2799789882863537,
+        "past_grand_delta_l2": 0.3011078885783686,
+        "eligible_counts": [
+          44,
+          44
+        ],
+        "batches": [
+          {
+            "eligible_count": 44,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5345371068976367,
+              "mean_episode_cosine": 0.5133922457967364,
+              "prediction_r2": -0.07703221147955208,
+              "squared_error": 89.81645395664233,
+              "target_energy": 83.39254202365845,
+              "prediction_energy": 107.77590782417383,
+              "nonzero_episode_pairs": 44
+            },
+            "centered_actor_logits": {
+              "cosine": 0.37539705281799174,
+              "mean_episode_cosine": 0.34238569797586416,
+              "prediction_r2": -0.63379361891963,
+              "squared_error": 42.845436155049974,
+              "target_energy": 26.22450942327841,
+              "prediction_energy": 41.34224037488141,
+              "nonzero_episode_pairs": 44
+            },
+            "future_mean_energy_fraction": 0.29061488929590823,
+            "future_episode_mean_energy_fraction": 0.27871919165732845,
+            "future_dynamic_mean_squared_l2": 6.799980420158499,
+            "future_constant_mean_squared_l2": 1.9761755570187056,
+            "future_grand_delta_l2": 0.2844125718502395,
+            "past_grand_delta_l2": 0.3401851432453246,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 44,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.437013776600953,
+              "mean_episode_cosine": 0.4618499615581962,
+              "prediction_r2": -0.3133230901681734,
+              "squared_error": 121.33332327299797,
+              "target_energy": 92.38649969784741,
+              "prediction_energy": 121.57789594299227,
+              "nonzero_episode_pairs": 44
+            },
+            "centered_actor_logits": {
+              "cosine": 0.27949813189541695,
+              "mean_episode_cosine": 0.2185373945699917,
+              "prediction_r2": -0.8624010563175095,
+              "squared_error": 54.939733614045785,
+              "target_energy": 29.499410681540894,
+              "prediction_energy": 46.04139443081042,
+              "nonzero_episode_pairs": 44
+            },
+            "future_mean_energy_fraction": 0.2944134211752534,
+            "future_episode_mean_energy_fraction": 0.2841389088570108,
+            "future_dynamic_mean_squared_l2": 7.389671423028236,
+            "future_constant_mean_squared_l2": 2.175618445014746,
+            "future_grand_delta_l2": 0.2755454047224679,
+            "past_grand_delta_l2": 0.26203063391141257,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.4857754417492949,
+          "mean_episode_cosine": 0.48762110367746625,
+          "prediction_r2": -0.19517765082386276,
+          "squared_error": 105.57488861482015,
+          "target_energy": 87.88952086075292,
+          "prediction_energy": 114.67690188358306,
+          "nonzero_episode_pairs": 44.0,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.32744759235670434,
+          "mean_episode_cosine": 0.2804615462729279,
+          "prediction_r2": -0.7480973376185698,
+          "squared_error": 48.89258488454789,
+          "target_energy": 27.861960052409646,
+          "prediction_energy": 43.69181740284592,
+          "nonzero_episode_pairs": 44.0,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "3": {
+        "future_mean_energy_fraction": 0.24892296695142566,
+        "future_episode_mean_energy_fraction": 0.24280359809346866,
+        "future_dynamic_mean_squared_l2": 5.886788609872958,
+        "future_constant_mean_squared_l2": 1.4641838210650522,
+        "future_grand_delta_l2": 0.189066685717283,
+        "past_grand_delta_l2": 0.24948649986699992,
+        "eligible_counts": [
+          46,
+          49
+        ],
+        "batches": [
+          {
+            "eligible_count": 46,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.4753555437208059,
+              "mean_episode_cosine": 0.45863929555959676,
+              "prediction_r2": -0.21225903224660447,
+              "squared_error": 75.56764065267862,
+              "target_energy": 62.336215810769254,
+              "prediction_energy": 80.6343703225909,
+              "nonzero_episode_pairs": 46
+            },
+            "centered_actor_logits": {
+              "cosine": 0.4286095702722272,
+              "mean_episode_cosine": 0.3937083351025759,
+              "prediction_r2": -0.7573855148585791,
+              "squared_error": 30.777855999774147,
+              "target_energy": 17.513434439711375,
+              "prediction_energy": 34.263022196318786,
+              "nonzero_episode_pairs": 46
+            },
+            "future_mean_energy_fraction": 0.23237884326487596,
+            "future_episode_mean_energy_fraction": 0.227283263959745,
+            "future_dynamic_mean_squared_l2": 5.962318134260356,
+            "future_constant_mean_squared_l2": 1.385516591216615,
+            "future_grand_delta_l2": 0.1743027965798144,
+            "past_grand_delta_l2": 0.2325464273304236,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 49,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.6018743972495649,
+              "mean_episode_cosine": 0.5433261534125788,
+              "prediction_r2": -0.07089335246955875,
+              "squared_error": 78.54565548419635,
+              "target_energy": 73.3459175024892,
+              "prediction_energy": 116.44634242899929,
+              "nonzero_episode_pairs": 49
+            },
+            "centered_actor_logits": {
+              "cosine": 0.431941587858776,
+              "mean_episode_cosine": 0.3913052315646259,
+              "prediction_r2": -0.8030428092439579,
+              "squared_error": 33.4626333312958,
+              "target_energy": 18.558978832747275,
+              "prediction_energy": 37.77821596323706,
+              "nonzero_episode_pairs": 49
+            },
+            "future_mean_energy_fraction": 0.26445418510614577,
+            "future_episode_mean_energy_fraction": 0.25737370768839296,
+            "future_dynamic_mean_squared_l2": 5.8158833420807055,
+            "future_constant_mean_squared_l2": 1.5380346899023607,
+            "future_grand_delta_l2": 0.20292666327490658,
+            "past_grand_delta_l2": 0.26538942510541846,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5406126365935342,
+          "mean_episode_cosine": 0.502319885399556,
+          "prediction_r2": -0.13934410267739142,
+          "squared_error": 77.10366935525091,
+          "target_energy": 68.01490405176165,
+          "prediction_energy": 99.1058085669489,
+          "nonzero_episode_pairs": 47.54736842105263,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.4303281898694997,
+          "mean_episode_cosine": 0.392468839593528,
+          "prediction_r2": -0.7809350666994587,
+          "squared_error": 32.162635886558995,
+          "target_energy": 18.05271523190884,
+          "prediction_energy": 36.07612213925558,
+          "nonzero_episode_pairs": 47.54736842105263,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "4": {
+        "future_mean_energy_fraction": 0.23190773742204854,
+        "future_episode_mean_energy_fraction": 0.22348399546586206,
+        "future_dynamic_mean_squared_l2": 7.069081188336497,
+        "future_constant_mean_squared_l2": 1.645603794156376,
+        "future_grand_delta_l2": 0.2437815019251844,
+        "past_grand_delta_l2": 0.2962231950096969,
+        "eligible_counts": [
+          51,
+          45
+        ],
+        "batches": [
+          {
+            "eligible_count": 51,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5117039889360138,
+              "mean_episode_cosine": 0.4802910531679227,
+              "prediction_r2": -0.3394428586290301,
+              "squared_error": 95.44956813141508,
+              "target_energy": 71.26064954283402,
+              "prediction_energy": 118.05757999905973,
+              "nonzero_episode_pairs": 51
+            },
+            "centered_actor_logits": {
+              "cosine": 0.4657014856710865,
+              "mean_episode_cosine": 0.4100779236328368,
+              "prediction_r2": -1.035207196957042,
+              "squared_error": 31.82061338827919,
+              "target_energy": 15.6350731443246,
+              "prediction_energy": 39.26234646778474,
+              "nonzero_episode_pairs": 51
+            },
+            "future_mean_energy_fraction": 0.21970784033847623,
+            "future_episode_mean_energy_fraction": 0.21111357878477446,
+            "future_dynamic_mean_squared_l2": 6.618558816243969,
+            "future_constant_mean_squared_l2": 1.454149263670144,
+            "future_grand_delta_l2": 0.23849869093007536,
+            "past_grand_delta_l2": 0.30076901753919627,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 45,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5290862026058486,
+              "mean_episode_cosine": 0.5227129923841976,
+              "prediction_r2": -0.21494390758724347,
+              "squared_error": 98.4214565078484,
+              "target_energy": 81.00905391040112,
+              "prediction_energy": 123.06939532639089,
+              "nonzero_episode_pairs": 45
+            },
+            "centered_actor_logits": {
+              "cosine": 0.3481234222307005,
+              "mean_episode_cosine": 0.22275658081393337,
+              "prediction_r2": -0.7800443323175021,
+              "squared_error": 29.34327859532442,
+              "target_energy": 16.484577413373394,
+              "prediction_energy": 27.750049872869226,
+              "nonzero_episode_pairs": 45
+            },
+            "future_mean_energy_fraction": 0.2457342874500972,
+            "future_episode_mean_energy_fraction": 0.2375038010377613,
+            "future_dynamic_mean_squared_l2": 7.579673210041364,
+            "future_constant_mean_squared_l2": 1.8625855953741055,
+            "future_grand_delta_l2": 0.2497686877196414,
+            "past_grand_delta_l2": 0.2910712628095976,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5198519015937489,
+          "mean_episode_cosine": 0.5001763371755515,
+          "prediction_r2": -0.2810839753281926,
+          "squared_error": 96.8426408078682,
+          "target_energy": 75.8302140901311,
+          "prediction_energy": 120.4068684337462,
+          "nonzero_episode_pairs": 48.1875,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.4105867684334055,
+          "mean_episode_cosine": 0.3222710441864758,
+          "prediction_r2": -0.9155996041572577,
+          "squared_error": 30.659362704081644,
+          "target_energy": 16.033278270441222,
+          "prediction_energy": 33.86595743891809,
+          "nonzero_episode_pairs": 48.1875,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "5": {
+        "future_mean_energy_fraction": 0.19335319304018064,
+        "future_episode_mean_energy_fraction": 0.18611584467906384,
+        "future_dynamic_mean_squared_l2": 5.999343518620544,
+        "future_constant_mean_squared_l2": 1.1600524005570478,
+        "future_grand_delta_l2": 0.20829500750696353,
+        "past_grand_delta_l2": 0.2631061790585908,
+        "eligible_counts": [
+          46,
+          36
+        ],
+        "batches": [
+          {
+            "eligible_count": 46,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.610868475802905,
+              "mean_episode_cosine": 0.5850968954163812,
+              "prediction_r2": -0.14784881097366664,
+              "squared_error": 63.882912931979035,
+              "target_energy": 55.6544662687677,
+              "prediction_energy": 98.84404996552237,
+              "nonzero_episode_pairs": 46
+            },
+            "centered_actor_logits": {
+              "cosine": 0.47356781811333515,
+              "mean_episode_cosine": 0.46122368767128874,
+              "prediction_r2": -0.7697875699422752,
+              "squared_error": 34.089542719443756,
+              "target_energy": 19.261940415004524,
+              "prediction_energy": 41.65656872494383,
+              "nonzero_episode_pairs": 46
+            },
+            "future_mean_energy_fraction": 0.2084534946025146,
+            "future_episode_mean_energy_fraction": 0.2015639006597731,
+            "future_dynamic_mean_squared_l2": 6.00246223423285,
+            "future_constant_mean_squared_l2": 1.2512342289454552,
+            "future_grand_delta_l2": 0.2033581260990219,
+            "past_grand_delta_l2": 0.2620665584311011,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 36,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5422576860747997,
+              "mean_episode_cosine": 0.5326479079613627,
+              "prediction_r2": -0.39820360279827227,
+              "squared_error": 50.20887395326908,
+              "target_energy": 35.90955841680307,
+              "prediction_energy": 67.81958847855478,
+              "nonzero_episode_pairs": 36
+            },
+            "centered_actor_logits": {
+              "cosine": 0.3818135767659539,
+              "mean_episode_cosine": 0.47804891838442537,
+              "prediction_r2": -1.7964144613000235,
+              "squared_error": 34.03540407592043,
+              "target_energy": 12.171087135666482,
+              "prediction_energy": 38.365567657525375,
+              "nonzero_episode_pairs": 36
+            },
+            "future_mean_energy_fraction": 0.1740583632660872,
+            "future_episode_mean_energy_fraction": 0.16637666203704643,
+            "future_dynamic_mean_squared_l2": 5.9953584931159325,
+            "future_constant_mean_squared_l2": 1.0435422865051942,
+            "future_grand_delta_l2": 0.2146032448615556,
+            "past_grand_delta_l2": 0.26443458319371654,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5807466656783711,
+          "mean_episode_cosine": 0.5620705106800317,
+          "prediction_r2": -0.25776067079910325,
+          "squared_error": 57.87967630717954,
+          "target_energy": 46.98597013863689,
+          "prediction_energy": 85.22355467856099,
+          "nonzero_episode_pairs": 41.609756097560975,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.4332854682535092,
+          "mean_episode_cosine": 0.4686103743258366,
+          "prediction_r2": -1.2205018149286038,
+          "squared_error": 34.0657745344823,
+          "target_energy": 16.148882877734163,
+          "prediction_energy": 40.211738988028415,
+          "nonzero_episode_pairs": 41.609756097560975,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "6": {
+        "future_mean_energy_fraction": 0.22595325083245774,
+        "future_episode_mean_energy_fraction": 0.21537677514241005,
+        "future_dynamic_mean_squared_l2": 6.646300793522656,
+        "future_constant_mean_squared_l2": 1.5050707113293436,
+        "future_grand_delta_l2": 0.2638883674605319,
+        "past_grand_delta_l2": 0.2834916076789362,
+        "eligible_counts": [
+          52,
+          44
+        ],
+        "batches": [
+          {
+            "eligible_count": 52,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5487030921800848,
+              "mean_episode_cosine": 0.5034505404492322,
+              "prediction_r2": -0.20571423089562435,
+              "squared_error": 82.88431895215263,
+              "target_energy": 68.74292168765794,
+              "prediction_energy": 109.23926570856779,
+              "nonzero_episode_pairs": 52
+            },
+            "centered_actor_logits": {
+              "cosine": 0.20895098453989466,
+              "mean_episode_cosine": 0.25226582335170494,
+              "prediction_r2": -1.6871053832890497,
+              "squared_error": 37.72407838322458,
+              "target_energy": 14.038927768828273,
+              "prediction_energy": 32.629448481347495,
+              "nonzero_episode_pairs": 52
+            },
+            "future_mean_energy_fraction": 0.2173678169762603,
+            "future_episode_mean_energy_fraction": 0.20919564632113063,
+            "future_dynamic_mean_squared_l2": 6.31934405171538,
+            "future_constant_mean_squared_l2": 1.3736220212432877,
+            "future_grand_delta_l2": 0.22725043018462376,
+            "past_grand_delta_l2": 0.2413027150188921,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 44,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5035028715022152,
+              "mean_episode_cosine": 0.47655007148423445,
+              "prediction_r2": -0.2174046807351333,
+              "squared_error": 83.88699024885247,
+              "target_energy": 68.9064134353394,
+              "prediction_energy": 97.53554937679357,
+              "nonzero_episode_pairs": 44
+            },
+            "centered_actor_logits": {
+              "cosine": 0.3521844448514924,
+              "mean_episode_cosine": 0.2713767808169211,
+              "prediction_r2": -1.2570725569134744,
+              "squared_error": 38.17669118137409,
+              "target_energy": 16.91425074680823,
+              "prediction_energy": 39.45956101941037,
+              "nonzero_episode_pairs": 44
+            },
+            "future_mean_energy_fraction": 0.23609967266250925,
+            "future_episode_mean_energy_fraction": 0.22268174556755846,
+            "future_dynamic_mean_squared_l2": 7.032704215658529,
+            "future_constant_mean_squared_l2": 1.6604191632492276,
+            "future_grand_delta_l2": 0.3071877478775143,
+            "past_grand_delta_l2": 0.33335120809535196,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5279863243693946,
+          "mean_episode_cosine": 0.49112115884027485,
+          "prediction_r2": -0.2110723537387326,
+          "squared_error": 83.34387662980673,
+          "target_energy": 68.81785540534527,
+          "prediction_energy": 103.87506238983794,
+          "nonzero_episode_pairs": 48.333333333333336,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.27459965384937696,
+          "mean_episode_cosine": 0.261025012189929,
+          "prediction_r2": -1.4900070045335776,
+          "squared_error": 37.93152591570978,
+          "target_energy": 15.356784133735752,
+          "prediction_energy": 35.75991672795965,
+          "nonzero_episode_pairs": 48.333333333333336,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "7": {
+        "future_mean_energy_fraction": 0.33011084556522263,
+        "future_episode_mean_energy_fraction": 0.3191063985030012,
+        "future_dynamic_mean_squared_l2": 10.903711213778612,
+        "future_constant_mean_squared_l2": 3.597104436851987,
+        "future_grand_delta_l2": 0.3443936472949122,
+        "past_grand_delta_l2": 0.36599842016523465,
+        "eligible_counts": [
+          43,
+          38
+        ],
+        "batches": [
+          {
+            "eligible_count": 43,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5916350379156466,
+              "mean_episode_cosine": 0.5318636190286471,
+              "prediction_r2": 0.020000777348297638,
+              "squared_error": 157.7139732951065,
+              "target_energy": 160.9327534652127,
+              "prediction_energy": 218.84156286963056,
+              "nonzero_episode_pairs": 43
+            },
+            "centered_actor_logits": {
+              "cosine": 0.46459386480632625,
+              "mean_episode_cosine": 0.3256675853080601,
+              "prediction_r2": -0.6014292319965058,
+              "squared_error": 48.98900394453858,
+              "target_energy": 30.59080162004029,
+              "prediction_energy": 57.300886221940104,
+              "nonzero_episode_pairs": 43
+            },
+            "future_mean_energy_fraction": 0.32772553478087846,
+            "future_episode_mean_energy_fraction": 0.31807357415799425,
+            "future_dynamic_mean_squared_l2": 11.766529751857204,
+            "future_constant_mean_squared_l2": 3.856192255442519,
+            "future_grand_delta_l2": 0.33700160508953325,
+            "past_grand_delta_l2": 0.31376654455113273,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 38,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.6014157076135109,
+              "mean_episode_cosine": 0.524702984387265,
+              "prediction_r2": 0.07752439245203702,
+              "squared_error": 111.45399347154255,
+              "target_energy": 120.82053179465521,
+              "prediction_energy": 155.5063108822205,
+              "nonzero_episode_pairs": 38
+            },
+            "centered_actor_logits": {
+              "cosine": 0.5320994496684148,
+              "mean_episode_cosine": 0.4159985395194102,
+              "prediction_r2": -0.11077167839096713,
+              "squared_error": 31.540739154701484,
+              "target_energy": 28.395339715890593,
+              "prediction_energy": 38.19000816740308,
+              "nonzero_episode_pairs": 38
+            },
+            "future_mean_energy_fraction": 0.3328100130317173,
+            "future_episode_mean_energy_fraction": 0.32027512078814063,
+            "future_dynamic_mean_squared_l2": 9.927363920689679,
+            "future_constant_mean_squared_l2": 3.303926115815332,
+            "future_grand_delta_l2": 0.3527583266325778,
+            "past_grand_delta_l2": 0.4251029109917184,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5962235002430397,
+          "mean_episode_cosine": 0.528504308949974,
+          "prediction_r2": 0.04698716468091611,
+          "squared_error": 136.0117605383728,
+          "target_energy": 142.11467416297586,
+          "prediction_energy": 189.12872860393202,
+          "nonzero_episode_pairs": 40.65432098765432,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.4962631515317506,
+          "mean_episode_cosine": 0.36804506999980463,
+          "prediction_r2": -0.37124420684822834,
+          "squared_error": 40.803398240664386,
+          "target_energy": 29.560831837846607,
+          "prediction_energy": 48.335289109935076,
+          "nonzero_episode_pairs": 40.65432098765432,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      },
+      "8": {
+        "future_mean_energy_fraction": 0.2422622673090083,
+        "future_episode_mean_energy_fraction": 0.2349188270103309,
+        "future_dynamic_mean_squared_l2": 6.325352500834864,
+        "future_constant_mean_squared_l2": 1.542577143531782,
+        "future_grand_delta_l2": 0.21334784588000716,
+        "past_grand_delta_l2": 0.2772061584175467,
+        "eligible_counts": [
+          42,
+          41
+        ],
+        "batches": [
+          {
+            "eligible_count": 42,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5823402525362731,
+              "mean_episode_cosine": 0.5265321484469745,
+              "prediction_r2": -0.2009088711610998,
+              "squared_error": 62.75716508064019,
+              "target_energy": 52.25805769921857,
+              "prediction_energy": 90.66951259990495,
+              "nonzero_episode_pairs": 42
+            },
+            "centered_actor_logits": {
+              "cosine": 0.3666864818921608,
+              "mean_episode_cosine": 0.40192277991024217,
+              "prediction_r2": -1.3146614174619384,
+              "squared_error": 28.603984301428465,
+              "target_energy": 12.357740136694883,
+              "prediction_energy": 30.479247233967495,
+              "nonzero_episode_pairs": 42
+            },
+            "future_mean_energy_fraction": 0.22262019957559392,
+            "future_episode_mean_energy_fraction": 0.2138135721321936,
+            "future_dynamic_mean_squared_l2": 5.819272633730393,
+            "future_constant_mean_squared_l2": 1.2954876351058522,
+            "future_grand_delta_l2": 0.22638057795853142,
+            "past_grand_delta_l2": 0.2800404752658528,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          },
+          {
+            "eligible_count": 41,
+            "future_start": 600,
+            "future_stop_exclusive": 1350,
+            "future_steps": 750,
+            "centered_hidden": {
+              "cosine": 0.5647145788191011,
+              "mean_episode_cosine": 0.5276232231793081,
+              "prediction_r2": -0.07143516946965578,
+              "squared_error": 77.12561866223369,
+              "target_energy": 71.98346746486743,
+              "prediction_energy": 101.84752869295288,
+              "nonzero_episode_pairs": 41
+            },
+            "centered_actor_logits": {
+              "cosine": 0.1416220193104078,
+              "mean_episode_cosine": 0.2953873206487247,
+              "prediction_r2": -1.57541790638733,
+              "squared_error": 32.922107813057295,
+              "target_energy": 12.783209952608745,
+              "prediction_energy": 25.225146512315938,
+              "nonzero_episode_pairs": 41
+            },
+            "future_mean_energy_fraction": 0.26238340986518893,
+            "future_episode_mean_energy_fraction": 0.2565388442025691,
+            "future_dynamic_mean_squared_l2": 6.8437757793321286,
+            "future_constant_mean_squared_l2": 1.7956932253339548,
+            "future_grand_delta_l2": 0.1999972422873726,
+            "past_grand_delta_l2": 0.27430271189001365,
+            "scope": "Post-episode diagnostic of the intact branch only. Past and future episode offsets are separately centered over the same prefix-eligible episodes. R2 is 1-SSE/target-energy without fitting or rescaling and may be negative. Actor logits remove the action-common weight direction. No future measurement enters actions, frozen offsets, or eligibility."
+          }
+        ],
+        "centered_hidden": {
+          "cosine": 0.5736335944350195,
+          "mean_episode_cosine": 0.5270711130737898,
+          "prediction_r2": -0.13695198237375997,
+          "squared_error": 69.85483492215025,
+          "target_energy": 62.00193481237042,
+          "prediction_energy": 96.19118320008525,
+          "nonzero_episode_pairs": 41.506024096385545,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        },
+        "centered_actor_logits": {
+          "cosine": 0.255510060616837,
+          "mean_episode_cosine": 0.34929683015455276,
+          "prediction_r2": -1.443468839702192,
+          "squared_error": 30.737033265004147,
+          "target_energy": 12.56791197347161,
+          "prediction_energy": 27.883848082308287,
+          "nonzero_episode_pairs": 41.506024096385545,
+          "valid_batches": {
+            "cosine": 2,
+            "mean_episode_cosine": 2,
+            "prediction_r2": 2,
+            "squared_error": 2,
+            "target_energy": 2,
+            "prediction_energy": 2,
+            "nonzero_episode_pairs": 2
+          }
+        }
+      }
+    },
+    "estimates": {
+      "future_mean_energy_fraction": {
+        "values": [
+          0.2414357389717316,
+          0.2925141552355808,
+          0.24892296695142566,
+          0.23190773742204854,
+          0.19335319304018064,
+          0.22595325083245774,
+          0.33011084556522263,
+          0.2422622673090083
+        ],
+        "n_valid_seeds": 8,
+        "mean": 0.250807519415957,
+        "sem": 0.014921700517988046
+      },
+      "future_episode_mean_energy_fraction": {
+        "values": [
+          0.23444859298196993,
+          0.28142905025716963,
+          0.24280359809346866,
+          0.22348399546586206,
+          0.18611584467906384,
+          0.21537677514241005,
+          0.3191063985030012,
+          0.2349188270103309
+        ],
+        "n_valid_seeds": 8,
+        "mean": 0.24221038526665953,
+        "sem": 0.014505037591065525
+      },
+      "future_dynamic_mean_squared_l2": {
+        "values": [
+          8.045097899433852,
+          7.094825921593368,
+          5.886788609872958,
+          7.069081188336497,
+          5.999343518620544,
+          6.646300793522656,
+          10.903711213778612,
+          6.325352500834864
+        ],
+        "n_valid_seeds": 8,
+        "mean": 7.246312705749169,
+        "sem": 0.5775626249824389
+      },
+      "future_constant_mean_squared_l2": {
+        "values": [
+          1.9482336013263164,
+          2.0758970010167257,
+          1.4641838210650522,
+          1.645603794156376,
+          1.1600524005570478,
+          1.5050707113293436,
+          3.597104436851987,
+          1.542577143531782
+        ],
+        "n_valid_seeds": 8,
+        "mean": 1.8673403637293289,
+        "sem": 0.26695345878414806
+      },
+      "future_grand_delta_l2": {
+        "values": [
+          0.23704161378279207,
+          0.2799789882863537,
+          0.189066685717283,
+          0.2437815019251844,
+          0.20829500750696353,
+          0.2638883674605319,
+          0.3443936472949122,
+          0.21334784588000716
+        ],
+        "n_valid_seeds": 8,
+        "mean": 0.24747420723175348,
+        "sem": 0.01739914570346388
+      },
+      "past_grand_delta_l2": {
+        "values": [
+          0.2808652876471651,
+          0.3011078885783686,
+          0.24948649986699992,
+          0.2962231950096969,
+          0.2631061790585908,
+          0.2834916076789362,
+          0.36599842016523465,
+          0.2772061584175467
+        ],
+        "n_valid_seeds": 8,
+        "mean": 0.28968565455281736,
+        "sem": 0.01238604379403517
+      },
+      "centered_hidden": {
+        "cosine": {
+          "values": [
+            0.5365615379085928,
+            0.4857754417492949,
+            0.5406126365935342,
+            0.5198519015937489,
+            0.5807466656783711,
+            0.5279863243693946,
+            0.5962235002430397,
+            0.5736335944350195
+          ],
+          "n_valid_seeds": 8,
+          "mean": 0.5451739503213745,
+          "sem": 0.01284607267448629
+        },
+        "mean_episode_cosine": {
+          "values": [
+            0.5066603209183699,
+            0.48762110367746625,
+            0.502319885399556,
+            0.5001763371755515,
+            0.5620705106800317,
+            0.49112115884027485,
+            0.528504308949974,
+            0.5270711130737898
+          ],
+          "n_valid_seeds": 8,
+          "mean": 0.5131930923393768,
+          "sem": 0.008749970751331458
+        },
+        "prediction_r2": {
+          "values": [
+            -0.12432759001500827,
+            -0.19517765082386276,
+            -0.13934410267739142,
+            -0.2810839753281926,
+            -0.25776067079910325,
+            -0.2110723537387326,
+            0.04698716468091611,
+            -0.13695198237375997
+          ],
+          "n_valid_seeds": 8,
+          "mean": -0.16234139513439183,
+          "sem": 0.03612838160355315
+        },
+        "squared_error": {
+          "values": [
+            73.9488873497376,
+            105.57488861482015,
+            77.10366935525091,
+            96.8426408078682,
+            57.87967630717954,
+            83.34387662980673,
+            136.0117605383728,
+            69.85483492215025
+          ],
+          "n_valid_seeds": 8,
+          "mean": 87.57002931564827,
+          "sem": 8.72705496276048
+        },
+        "target_energy": {
+          "values": [
+            66.056261331346,
+            87.88952086075292,
+            68.01490405176165,
+            75.8302140901311,
+            46.98597013863689,
+            68.81785540534527,
+            142.11467416297586,
+            62.00193481237042
+          ],
+          "n_valid_seeds": 8,
+          "mean": 77.21391685666501,
+          "sem": 10.135451902441567
+        },
+        "prediction_energy": {
+          "values": [
+            91.66475748926273,
+            114.67690188358306,
+            99.1058085669489,
+            120.4068684337462,
+            85.22355467856099,
+            103.87506238983794,
+            189.12872860393202,
+            96.19118320008525
+          ],
+          "n_valid_seeds": 8,
+          "mean": 112.53410815574463,
+          "sem": 11.678042146448206
+        },
+        "nonzero_episode_pairs": {
+          "values": [
+            35.02857142857143,
+            44.0,
+            47.54736842105263,
+            48.1875,
+            41.609756097560975,
+            48.333333333333336,
+            40.65432098765432,
+            41.506024096385545
+          ],
+          "n_valid_seeds": 8,
+          "mean": 43.358359295569784,
+          "sem": 1.6323537715118248
+        }
+      },
+      "centered_actor_logits": {
+        "cosine": {
+          "values": [
+            0.5296509957385762,
+            0.32744759235670434,
+            0.4303281898694997,
+            0.4105867684334055,
+            0.4332854682535092,
+            0.27459965384937696,
+            0.4962631515317506,
+            0.255510060616837
+          ],
+          "n_valid_seeds": 8,
+          "mean": 0.39470898508120744,
+          "sem": 0.03531952584817272
+        },
+        "mean_episode_cosine": {
+          "values": [
+            0.37629346396924745,
+            0.2804615462729279,
+            0.392468839593528,
+            0.3222710441864758,
+            0.4686103743258366,
+            0.261025012189929,
+            0.36804506999980463,
+            0.34929683015455276
+          ],
+          "n_valid_seeds": 8,
+          "mean": 0.3523090225865378,
+          "sem": 0.02328698126152904
+        },
+        "prediction_r2": {
+          "values": [
+            -0.5941608767520251,
+            -0.7480973376185698,
+            -0.7809350666994587,
+            -0.9155996041572577,
+            -1.2205018149286038,
+            -1.4900070045335776,
+            -0.37124420684822834,
+            -1.443468839702192
+          ],
+          "n_valid_seeds": 8,
+          "mean": -0.9455018439049891,
+          "sem": 0.1426934275590862
+        },
+        "squared_error": {
+          "values": [
+            33.42052704066504,
+            48.89258488454789,
+            32.162635886558995,
+            30.659362704081644,
+            34.0657745344823,
+            37.93152591570978,
+            40.803398240664386,
+            30.737033265004147
+          ],
+          "n_valid_seeds": 8,
+          "mean": 36.084105308964276,
+          "sem": 2.2132195368380456
+        },
+        "target_energy": {
+          "values": [
+            23.011693838079314,
+            27.861960052409646,
+            18.05271523190884,
+            16.033278270441222,
+            16.148882877734163,
+            15.356784133735752,
+            29.560831837846607,
+            12.56791197347161
+          ],
+          "n_valid_seeds": 8,
+          "mean": 19.824257276953396,
+          "sem": 2.2087343878741557
+        },
+        "prediction_energy": {
+          "values": [
+            45.85925528531915,
+            43.69181740284592,
+            36.07612213925558,
+            33.86595743891809,
+            40.211738988028415,
+            35.75991672795965,
+            48.335289109935076,
+            27.883848082308287
+          ],
+          "n_valid_seeds": 8,
+          "mean": 38.96049314682127,
+          "sem": 2.415132387863962
+        },
+        "nonzero_episode_pairs": {
+          "values": [
+            35.02857142857143,
+            44.0,
+            47.54736842105263,
+            48.1875,
+            41.609756097560975,
+            48.333333333333336,
+            40.65432098765432,
+            41.506024096385545
+          ],
+          "n_valid_seeds": 8,
+          "mean": 43.358359295569784,
+          "sem": 1.6323537715118248
+        }
+      }
+    },
+    "scope": "Post-episode intact-branch diagnostic only; these future values never enter the policy, offset estimates, or eligibility. Within each seed, batch metrics are averaged using eligible counts; then seeds receive equal weight. R\u00b2 is the mean of batch-level 1-SSE/target-energy values, not pooled R\u00b2. Past and future episode offsets are separately centered over the same eligible episodes. No fitting or rescaling. Undefined zero-energy metrics are omitted from their average, with valid counts retained. All quantities are descriptive."
+  },
+  "checkpoint_sha256": {
+    "1": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "2": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+    "3": "e0df2eb601ca37672eff7e35153e181a14176fdba7eef70e46470e68880f9f73",
+    "4": "3622a1c85a6c20da3548166974f191161d447d1f3933562f332a53b686f6e497",
+    "5": "4ad113b7343ebad5bf26b9f325c9b77cfe2e5a10102d367f090424df222184c2",
+    "6": "e9ec574cf48afeb0ae05725ea29fb03c6f386e0e0bde333080a010dc975ea050",
+    "7": "b3ee5ce8bb075a5dc45360703f42d725fffd5587b9d529fcb267f58034b1f184",
+    "8": "5501f4e04163807e03bd000b4d78d63685fa1ea6ac89b266483b71968d5ab960"
+  },
+  "statistics": "Exploratory supplement added after observing the first rescue seed, before full rescue results. The five post-handoff score contrasts form one Holm family, corrected separately for paired t and exhaustive two-sided sign-flip tests. Eight training-seed means are the replicates. CIs are marginal paired 95% t intervals; figures use SEM. Full scores and patch diagnostics are descriptive.",
+  "intervention": "Subtract only the frozen centered predictive offset delta_e minus grand_delta, estimated as mixed-goal minus ordinary-goal hidden activity during the past common prefix. Underlying current and goal inputs remain predictive. This is not subtraction of the whole episode mean.",
+  "limitations": [
+    "The first four arms change only actor input; feedback arms additionally modify mixed-shadow h for the next recurrent step, while c and the grid shadow remain unchanged.",
+    "Correct and wrong offsets have matched norms. Harm from both without a clear difference does not establish episode-specific information use.",
+    "The fixed offset is an estimate from a 150-step prefix and may fail to represent later changing goal and history effects.",
+    "Subtracting the predictive contribution can move hidden activity outside its natural [-1,1] range; observed violations are reported without clipping.",
+    "This identifies effects within PGC-trained models, not the cause of their training advantage over separate grid-trained models.",
+    "No future hidden states or rewards are used to estimate the offset. Other contemporary batch episodes enter the diagnostic shared/wrong controls."
+  ]
+}

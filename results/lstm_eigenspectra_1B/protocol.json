@@ -1,0 +1,159 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "samples": 3393,
+  "episodes": 16,
+  "units": 256,
+  "leading_dimensions": 10,
+  "analysis": "Covariance eigenvalues/eigenvectors of saved hidden h, not recurrent-weight or dynamical-system eigenvalues. Divisor n; no neuron standardization.",
+  "decomposition": "Exact sample-weighted total covariance = covariance of episode means + covariance of within-episode deviations.",
+  "rank_measures": "Participation ratio=(sum lambda)^2/sum(lambda^2); effective rank=exp(entropy(lambda/sum lambda)).",
+  "actor": "Subtract the mean across the six rows of the linear actor weight matrix, removing the softmax-invariant common logit. PC j contributes lambda_j * ||A u_j||^2 to total centered-logit variance.",
+  "eigenvectors": "Compare subspaces only within the same network. Principal-angle overlap handles arbitrary eigenvector signs and rotations within degenerate spaces; 10-PC cutoff remains sensitive to small boundary gaps.",
+  "stability": "Early/late halves of selected steps within each episode; and 12 fixed balanced episode splits. Each half refits covariance independently. This is sampling reproducibility, not stability of recurrent dynamics.",
+  "episode_half_splits": [
+    [
+      0,
+      1,
+      3,
+      4,
+      6,
+      7,
+      10,
+      11
+    ],
+    [
+      0,
+      2,
+      3,
+      5,
+      10,
+      13,
+      14,
+      15
+    ],
+    [
+      0,
+      1,
+      2,
+      3,
+      6,
+      11,
+      13,
+      15
+    ],
+    [
+      0,
+      5,
+      6,
+      7,
+      9,
+      10,
+      13,
+      14
+    ],
+    [
+      0,
+      1,
+      2,
+      3,
+      5,
+      7,
+      10,
+      14
+    ],
+    [
+      0,
+      2,
+      3,
+      4,
+      5,
+      8,
+      10,
+      15
+    ],
+    [
+      0,
+      4,
+      6,
+      7,
+      10,
+      11,
+      12,
+      13
+    ],
+    [
+      0,
+      1,
+      3,
+      4,
+      11,
+      12,
+      14,
+      15
+    ],
+    [
+      0,
+      6,
+      7,
+      8,
+      9,
+      12,
+      13,
+      14
+    ],
+    [
+      0,
+      2,
+      4,
+      5,
+      7,
+      10,
+      11,
+      12
+    ],
+    [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      9,
+      12
+    ],
+    [
+      0,
+      4,
+      5,
+      7,
+      8,
+      10,
+      14,
+      15
+    ]
+  ],
+  "primary_comparisons": [
+    "total_participation_ratio",
+    "within_participation_ratio",
+    "top10_episode_subspace_overlap",
+    "top10_actor_variance_share",
+    "episode_actor_variance_share"
+  ],
+  "statistics": "Five exploratory primary paired contrasts over eight training seeds. Two-sided paired t and exhaustive sign flips, Holm corrected separately within this family. Other spectra, overlaps, and stability metrics are descriptive; pointwise SEM bands are not simultaneous confidence bands.",
+  "limitations": [
+    "Episode means confound goal, room, and history.",
+    "Shared scripted replay is off-policy and almost entirely post-discovery.",
+    "Readout-aligned covariance is not proof of causal behavioral necessity.",
+    "No between-network neuron or eigenvector coordinate alignment is assumed.",
+    "Covariance spectra do not identify attractors or dynamical stability."
+  ]
+}

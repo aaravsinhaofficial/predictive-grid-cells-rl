@@ -4,6 +4,8 @@
 
 **New: [What changes inside the RNN?](mechanisms/README.md)** — a short visual guide to episode-dependent activity, predictive goal inputs, and causal interventions in the frozen 1B-frame LSTMs.
 
+**Latest: [Do the episode shifts cause better navigation?](mechanisms/offsets-and-spectra.md)** — restoration and subtraction tests, plus eigenvalue and eigenvector spectra. A fixed episode-specific activity offset does not yet explain the benefit.
+
 Grid cells give the brain a periodic code for position. A subset of them, the **predictive grid cells** (PGCs) recently described in the medial entorhinal cortex, fire not for where the animal is but for where it is *about to be*. Is a code that contains predictive cells a better code to navigate with?
 
 We answer this the way Banino et al. (*Nature* 2018) built their grid-cell agent: a deep reinforcement-learning agent receives a spatial population code alongside its vision and learns to find a hidden goal. Here the code is *perfect*. It consists of 512 analytic cells whose activity is read directly off the agent's true state at every step. In one condition all 512 are ideal grid cells. In the other, the same cells, with the same phases and orientations, have a third of their number turned into PGCs that read their lattice 20 cm ahead of the agent along its direction of travel. Task, agent, training and cells are otherwise identical, so any difference in behaviour is due to the predictive shift alone.
