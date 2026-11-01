@@ -1,0 +1,14 @@
+{
+  "source": "results/lstm_navigation_phases_1B",
+  "models": "Frozen 1B checkpoints; 8 paired seeds",
+  "selection": "Existing native-policy snapshots, known-goal states at decisions 600/900/1200 and slots 0..31.",
+  "interventions": "Within each model: retain native pre-input h/c or clear both to zero; independently retain or deshift the current live code, goal code, or both. Only 169 predictive slots change.",
+  "retained": "Exact current visual embedding, external goal snapshot identity, previous action/reward, physical state, all network weights. No h/c cross-network swaps.",
+  "history_semantics": "Zero means no carried h/c before this current input, not no prior information: external goal memory and explicit previous action/reward remain.",
+  "statistics": "Four planned sensitivity contrasts; seed means use equal sampled-episode weighting. Holm correction across four contrasts, separately for t and exact sign-flip tests.",
+  "limitations": [
+    "Cleared states are out of training distribution.",
+    "Native states differ across populations.",
+    "Action changes are not navigation performance or an optimal-action test."
+  ]
+}

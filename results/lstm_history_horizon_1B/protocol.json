@@ -1,0 +1,87 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes": 128,
+  "n_envs": 64,
+  "eval_seed": 737373,
+  "variants": [
+    "full",
+    "k1",
+    "k15",
+    "k60",
+    "pickup_reset"
+  ],
+  "horizons_inputs": [
+    1,
+    15,
+    60
+  ],
+  "bank_replay_max_error": 1.1920928955078125e-07,
+  "primary": "Four paired differences in population score gap versus full history: K1, K15, K60, pickup_reset. Holm t and exhaustive sign flips separately. Other contrasts descriptive/exploratory.",
+  "design": "All branches follow common grid/full controller until first goal, then each model/variant controls its own trajectory. Full branches reproduce existing controller hybrid baselines. Exact rolling windows preserve every past input as originally experienced, including goal updates and previous action/reward. Both h and c are truncated. Pickup-reset clears both only at each reward/teleport. Native spatial inputs and externally saved goal remain available.",
+  "caveats": [
+    "K1 removes carried LSTM state, not external goal memory or explicit previous action/reward.",
+    "Zero initial states with a known goal are outside ordinary training resets; performance loss alone is not proof of useful memory.",
+    "PGC full branch shares grid discovery experience, not native PGC exploration.",
+    "No cross-model state transfer; same architecture does not mean same learned weights.",
+    "A finite-history failure does not establish a special attractor or link PCA offsets to reward."
+  ],
+  "code_identity": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  }
+}

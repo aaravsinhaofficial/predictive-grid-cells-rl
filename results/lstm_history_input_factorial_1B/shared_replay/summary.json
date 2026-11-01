@@ -1,0 +1,2563 @@
+{
+  "protocol": {
+    "models": "Eight frozen PGC+grid 1B LSTMs; grid codes have no predictive shift to remove.",
+    "replay": "Original 16-episode scripted replay; policies do not control actions.",
+    "history_variants": [
+      "native",
+      "current_ordinary",
+      "goal_ordinary",
+      "both_ordinary"
+    ],
+    "current_variants": [
+      "native",
+      "current_ordinary",
+      "goal_ordinary",
+      "both_ordinary"
+    ],
+    "intervention": "Full 4x4 history/current factorial. Each prior history starts at zero and processes the entire preceding physical replay with native or ordinary current/goal codes. Current-step inputs then independently vary. No h/c resets or cross-network states.",
+    "retained": "Identical physical trajectory, RGB, previous actions/rewards, goal snapshot identities and refresh times, ordinary code slots, and frozen weights.",
+    "selection": "Every eighth selected known-goal replay sample, taking its actual next input; identical to the existing shared-replay action probe.",
+    "statistics": "Eight seed means; equal episode weights within seed. Three planned prior-history TV minus immediate TV contrasts, with Holm correction separately for t and exact sign flips.",
+    "caveats": [
+      "Scripted off-policy action sensitivity, not navigation performance.",
+      "Changed past inputs can affect the operating regime; history sensitivity does not by itself prove useful memory.",
+      "The external goal message is present every step after discovery."
+    ],
+    "replay_sha256": "e2ecf1832d2ba8f52d83235bfad6844075644bd03004026f339dff02abf1be55",
+    "exact_replay_rgb_sha256": "c562bdea414499c64f477217a9f0b68ededdabe2fb5d6f622acf11e486fec86c",
+    "independent_grid_equivalence_checks": {
+      "1": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "2": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "3": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "4": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "5": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "6": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "7": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      },
+      "8": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      }
+    },
+    "interaction_metric": "Half-L1 norm of p(past changed,current changed)-p(past changed,current native)-p(past native,current changed)+p(both native). This signed four-condition contrast is not a conventional TV distance and need not be <=1."
+  },
+  "effects": {
+    "current_ordinary": {
+      "immediate_tv": {
+        "values": [
+          0.024021729826927185,
+          0.023279618471860886,
+          0.014580337330698967,
+          0.016817530617117882,
+          0.029222745448350906,
+          0.018559131771326065,
+          0.026643820106983185,
+          0.027406346052885056
+        ],
+        "n": 8,
+        "mean": 0.022566407453268766,
+        "sem": 0.0018892030043907015
+      },
+      "prior_history_tv": {
+        "values": [
+          0.04755249619483948,
+          0.03128235042095184,
+          0.02238617092370987,
+          0.02797124907374382,
+          0.04620291292667389,
+          0.02381226047873497,
+          0.039181165397167206,
+          0.04205796867609024
+        ],
+        "n": 8,
+        "mean": 0.035055821761488914,
+        "sem": 0.0035300774315168855
+      },
+      "sustained_tv": {
+        "values": [
+          0.05924764648079872,
+          0.047673240303993225,
+          0.03138893097639084,
+          0.03982909768819809,
+          0.06065380573272705,
+          0.03473549336194992,
+          0.054022908210754395,
+          0.05513341352343559
+        ],
+        "n": 8,
+        "mean": 0.04783556703478098,
+        "sem": 0.003991773290235375
+      },
+      "interaction_half_l1": {
+        "values": [
+          0.016636120155453682,
+          0.01124790869653225,
+          0.006402133032679558,
+          0.009067229926586151,
+          0.017992708832025528,
+          0.0077875275164842606,
+          0.013294633477926254,
+          0.013205310329794884
+        ],
+        "n": 8,
+        "mean": 0.01195419649593532,
+        "sem": 0.0014563043676368655
+      }
+    },
+    "goal_ordinary": {
+      "immediate_tv": {
+        "values": [
+          0.028383351862430573,
+          0.03164675086736679,
+          0.02136804908514023,
+          0.027775971218943596,
+          0.030744820833206177,
+          0.022191448137164116,
+          0.03161463513970375,
+          0.03333752974867821
+        ],
+        "n": 8,
+        "mean": 0.02838281961157918,
+        "sem": 0.0015762434586456893
+      },
+      "prior_history_tv": {
+        "values": [
+          0.09412685036659241,
+          0.08366546034812927,
+          0.061696767807006836,
+          0.0650935024023056,
+          0.09406445920467377,
+          0.055196620523929596,
+          0.10254687070846558,
+          0.09975660592317581
+        ],
+        "n": 8,
+        "mean": 0.08201839216053486,
+        "sem": 0.006613468032540861
+      },
+      "sustained_tv": {
+        "values": [
+          0.10482781380414963,
+          0.09817908704280853,
+          0.07328976690769196,
+          0.0824115127325058,
+          0.10548067092895508,
+          0.06141512840986252,
+          0.11278492212295532,
+          0.11428714543581009
+        ],
+        "n": 8,
+        "mean": 0.09408450592309237,
+        "sem": 0.00688668126167008
+      },
+      "interaction_half_l1": {
+        "values": [
+          0.02670508250594139,
+          0.02920019067823887,
+          0.02089931070804596,
+          0.023461172357201576,
+          0.03135736286640167,
+          0.021026773378252983,
+          0.03170638531446457,
+          0.03404385596513748
+        ],
+        "n": 8,
+        "mean": 0.027300016721710563,
+        "sem": 0.0017947416398573243
+      }
+    },
+    "both_ordinary": {
+      "immediate_tv": {
+        "values": [
+          0.0316171795129776,
+          0.03796566277742386,
+          0.02623814158141613,
+          0.029292257502675056,
+          0.04166879132390022,
+          0.029218237847089767,
+          0.040961869060993195,
+          0.04062261804938316
+        ],
+        "n": 8,
+        "mean": 0.034698094706982374,
+        "sem": 0.0022116461662256195
+      },
+      "prior_history_tv": {
+        "values": [
+          0.10026606917381287,
+          0.09080380201339722,
+          0.06358733773231506,
+          0.06965120136737823,
+          0.09154985100030899,
+          0.05559054762125015,
+          0.10921388119459152,
+          0.09990916401147842
+        ],
+        "n": 8,
+        "mean": 0.08507148176431656,
+        "sem": 0.0069142651258559855
+      },
+      "sustained_tv": {
+        "values": [
+          0.11377902328968048,
+          0.1095898225903511,
+          0.07965686172246933,
+          0.08753953129053116,
+          0.10864247381687164,
+          0.061042383313179016,
+          0.12630081176757812,
+          0.1157897412776947
+        ],
+        "n": 8,
+        "mean": 0.10029258113354445,
+        "sem": 0.007773219578710381
+      },
+      "interaction_half_l1": {
+        "values": [
+          0.034377604722976685,
+          0.03548556938767433,
+          0.025475483387708664,
+          0.026321962475776672,
+          0.04144250601530075,
+          0.02484947256743908,
+          0.04203405976295471,
+          0.0374433659017086
+        ],
+        "n": 8,
+        "mean": 0.03342875302769244,
+        "sem": 0.0024888483197615455
+      }
+    }
+  },
+  "comparisons": {
+    "current_ordinary_history_minus_immediate": {
+      "n": 8,
+      "a": [
+        0.024021729826927185,
+        0.023279618471860886,
+        0.014580337330698967,
+        0.016817530617117882,
+        0.029222745448350906,
+        0.018559131771326065,
+        0.026643820106983185,
+        0.027406346052885056
+      ],
+      "b": [
+        0.04755249619483948,
+        0.03128235042095184,
+        0.02238617092370987,
+        0.02797124907374382,
+        0.04620291292667389,
+        0.02381226047873497,
+        0.039181165397167206,
+        0.04205796867609024
+      ],
+      "mean_a": 0.022566407453268766,
+      "mean_b": 0.035055821761488914,
+      "difference": 0.012489414308220148,
+      "differences": [
+        0.023530766367912292,
+        0.008002731949090958,
+        0.007805833593010902,
+        0.011153718456625938,
+        0.016980167478322983,
+        0.005253128707408905,
+        0.012537345290184021,
+        0.014651622623205185
+      ],
+      "ci95": [
+        0.007563981688696836,
+        0.01741484692774346
+      ],
+      "paired_t_p": 0.0005444396504440124,
+      "exact_signflip_p": 0.0078125,
+      "holm_t_p": 0.0005444396504440124,
+      "holm_exact_p": 0.0234375
+    },
+    "goal_ordinary_history_minus_immediate": {
+      "n": 8,
+      "a": [
+        0.028383351862430573,
+        0.03164675086736679,
+        0.02136804908514023,
+        0.027775971218943596,
+        0.030744820833206177,
+        0.022191448137164116,
+        0.03161463513970375,
+        0.03333752974867821
+      ],
+      "b": [
+        0.09412685036659241,
+        0.08366546034812927,
+        0.061696767807006836,
+        0.0650935024023056,
+        0.09406445920467377,
+        0.055196620523929596,
+        0.10254687070846558,
+        0.09975660592317581
+      ],
+      "mean_a": 0.02838281961157918,
+      "mean_b": 0.08201839216053486,
+      "difference": 0.05363557254895568,
+      "differences": [
+        0.06574349850416183,
+        0.05201870948076248,
+        0.04032871872186661,
+        0.03731753118336201,
+        0.06331963837146759,
+        0.03300517238676548,
+        0.07093223556876183,
+        0.0664190761744976
+      ],
+      "ci95": [
+        0.04109703436687277,
+        0.06617411073103859
+      ],
+      "paired_t_p": 1.9839130354337605e-05,
+      "exact_signflip_p": 0.0078125,
+      "holm_t_p": 5.9517391063012816e-05,
+      "holm_exact_p": 0.0234375
+    },
+    "both_ordinary_history_minus_immediate": {
+      "n": 8,
+      "a": [
+        0.0316171795129776,
+        0.03796566277742386,
+        0.02623814158141613,
+        0.029292257502675056,
+        0.04166879132390022,
+        0.029218237847089767,
+        0.040961869060993195,
+        0.04062261804938316
+      ],
+      "b": [
+        0.10026606917381287,
+        0.09080380201339722,
+        0.06358733773231506,
+        0.06965120136737823,
+        0.09154985100030899,
+        0.05559054762125015,
+        0.10921388119459152,
+        0.09990916401147842
+      ],
+      "mean_a": 0.034698094706982374,
+      "mean_b": 0.08507148176431656,
+      "difference": 0.050373387057334185,
+      "differences": [
+        0.06864888966083527,
+        0.05283813923597336,
+        0.03734919615089893,
+        0.04035894386470318,
+        0.04988105967640877,
+        0.026372309774160385,
+        0.06825201213359833,
+        0.05928654596209526
+      ],
+      "ci95": [
+        0.03779185208515087,
+        0.0629549220295175
+      ],
+      "paired_t_p": 3.0653965369457604e-05,
+      "exact_signflip_p": 0.0078125,
+      "holm_t_p": 6.130793073891521e-05,
+      "holm_exact_p": 0.0234375
+    }
+  },
+  "models": [
+    {
+      "seed": 1,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.024021729826927185,
+          "action_tv_from_same_history_native_input": 0.024021729826927185,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06660877168178558,
+          "c_rms_from_native": 0.2039119005203247,
+          "chosen_action_changed": 0.018633750508750508
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.028383351862430573,
+          "action_tv_from_same_history_native_input": 0.028383351862430573,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.09818202257156372,
+          "c_rms_from_native": 0.34014278650283813,
+          "chosen_action_changed": 0.03083180708180708
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.0316171795129776,
+          "action_tv_from_same_history_native_input": 0.0316171795129776,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.11551399528980255,
+          "c_rms_from_native": 0.401424378156662,
+          "chosen_action_changed": 0.03048840048840049
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.04755249619483948,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.04755249619483948,
+          "h_rms_from_native": 0.06070191413164139,
+          "c_rms_from_native": 2.5808651447296143,
+          "chosen_action_changed": 0.04402676027676027
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.05924764648079872,
+          "action_tv_from_same_history_native_input": 0.024383239448070526,
+          "action_tv_from_same_input_native_history": 0.04576503485441208,
+          "h_rms_from_native": 0.09593389928340912,
+          "c_rms_from_native": 2.633603572845459,
+          "chosen_action_changed": 0.06728378103378103
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.05394526198506355,
+          "action_tv_from_same_history_native_input": 0.028429396450519562,
+          "action_tv_from_same_input_native_history": 0.04584583640098572,
+          "h_rms_from_native": 0.11798587441444397,
+          "c_rms_from_native": 2.5998082160949707,
+          "chosen_action_changed": 0.06051739926739926
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.06339388340711594,
+          "action_tv_from_same_history_native_input": 0.032455574721097946,
+          "action_tv_from_same_input_native_history": 0.0446256622672081,
+          "h_rms_from_native": 0.13536874949932098,
+          "c_rms_from_native": 2.65602970123291,
+          "chosen_action_changed": 0.07468050468050469
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.09412685036659241,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09412685036659241,
+          "h_rms_from_native": 0.13721567392349243,
+          "c_rms_from_native": 10.98460865020752,
+          "chosen_action_changed": 0.08852004477004477
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.092542365193367,
+          "action_tv_from_same_history_native_input": 0.02222442999482155,
+          "action_tv_from_same_input_native_history": 0.09032446146011353,
+          "h_rms_from_native": 0.15292370319366455,
+          "c_rms_from_native": 10.988227844238281,
+          "chosen_action_changed": 0.08601368538868538
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.10482781380414963,
+          "action_tv_from_same_history_native_input": 0.029974855482578278,
+          "action_tv_from_same_input_native_history": 0.09622291475534439,
+          "h_rms_from_native": 0.17903590202331543,
+          "c_rms_from_native": 11.096759796142578,
+          "chosen_action_changed": 0.10482549857549857
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.10369744896888733,
+          "action_tv_from_same_history_native_input": 0.030056148767471313,
+          "action_tv_from_same_input_native_history": 0.09105825424194336,
+          "h_rms_from_native": 0.18921709060668945,
+          "c_rms_from_native": 11.097532272338867,
+          "chosen_action_changed": 0.10010683760683761
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.10026606917381287,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.10026606917381287,
+          "h_rms_from_native": 0.14380422234535217,
+          "c_rms_from_native": 11.062055587768555,
+          "chosen_action_changed": 0.09544388481888483
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.10144267976284027,
+          "action_tv_from_same_history_native_input": 0.022726312279701233,
+          "action_tv_from_same_input_native_history": 0.09607727825641632,
+          "h_rms_from_native": 0.16005423665046692,
+          "c_rms_from_native": 11.077821731567383,
+          "chosen_action_changed": 0.09767602767602768
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.11444613337516785,
+          "action_tv_from_same_history_native_input": 0.030171362683176994,
+          "action_tv_from_same_input_native_history": 0.10577414184808731,
+          "h_rms_from_native": 0.1837572157382965,
+          "c_rms_from_native": 11.173545837402344,
+          "chosen_action_changed": 0.11203067765567765
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.11377902328968048,
+          "action_tv_from_same_history_native_input": 0.03204314038157463,
+          "action_tv_from_same_input_native_history": 0.09967684745788574,
+          "h_rms_from_native": 0.19479385018348694,
+          "c_rms_from_native": 11.183968544006348,
+          "chosen_action_changed": 0.11639880952380952
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.024021729826927185,
+          "prior_history_tv": 0.04755249619483948,
+          "sustained_tv": 0.05924764648079872,
+          "interaction_half_l1": 0.016636120155453682
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.028383351862430573,
+          "prior_history_tv": 0.09412685036659241,
+          "sustained_tv": 0.10482781380414963,
+          "interaction_half_l1": 0.02670508250594139
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.0316171795129776,
+          "prior_history_tv": 0.10026606917381287,
+          "sustained_tv": 0.11377902328968048,
+          "interaction_half_l1": 0.034377604722976685
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "activity_sha256": "91a8294616e450c7ad1a61c5d4c10c2a6a313a3c3e4bbf63325dc2811a5d870c",
+      "elapsed_seconds": 35.32281691697426
+    },
+    {
+      "seed": 2,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.023279618471860886,
+          "action_tv_from_same_history_native_input": 0.023279618471860886,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.05812922865152359,
+          "c_rms_from_native": 0.20814940333366394,
+          "chosen_action_changed": 0.01890160765160765
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.03164675086736679,
+          "action_tv_from_same_history_native_input": 0.03164675086736679,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.09400381147861481,
+          "c_rms_from_native": 0.3955267071723938,
+          "chosen_action_changed": 0.034933608058608054
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.03796566277742386,
+          "action_tv_from_same_history_native_input": 0.03796566277742386,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.1088266521692276,
+          "c_rms_from_native": 0.45500296354293823,
+          "chosen_action_changed": 0.03750915750915751
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.03128235042095184,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.03128235042095184,
+          "h_rms_from_native": 0.04242675006389618,
+          "c_rms_from_native": 3.276372194290161,
+          "chosen_action_changed": 0.032611670736670734
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.047673240303993225,
+          "action_tv_from_same_history_native_input": 0.0250299870967865,
+          "action_tv_from_same_input_native_history": 0.0335480272769928,
+          "h_rms_from_native": 0.07767531275749207,
+          "c_rms_from_native": 3.315783977508545,
+          "chosen_action_changed": 0.05122557997557997
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.05012553930282593,
+          "action_tv_from_same_history_native_input": 0.030659735202789307,
+          "action_tv_from_same_input_native_history": 0.034796759486198425,
+          "h_rms_from_native": 0.10578948259353638,
+          "c_rms_from_native": 3.3164241313934326,
+          "chosen_action_changed": 0.053814611314611314
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.06031673774123192,
+          "action_tv_from_same_history_native_input": 0.03954198583960533,
+          "action_tv_from_same_input_native_history": 0.03693067282438278,
+          "h_rms_from_native": 0.12122999131679535,
+          "c_rms_from_native": 3.3582942485809326,
+          "chosen_action_changed": 0.05132809320309321
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.08366546034812927,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.08366546034812927,
+          "h_rms_from_native": 0.11886183172464371,
+          "c_rms_from_native": 15.635847091674805,
+          "chosen_action_changed": 0.08875457875457876
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.08567313104867935,
+          "action_tv_from_same_history_native_input": 0.024179788306355476,
+          "action_tv_from_same_input_native_history": 0.07936889678239822,
+          "h_rms_from_native": 0.1340665966272354,
+          "c_rms_from_native": 15.639138221740723,
+          "chosen_action_changed": 0.08385709198209199
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.09817908704280853,
+          "action_tv_from_same_history_native_input": 0.034779127687215805,
+          "action_tv_from_same_input_native_history": 0.0858941376209259,
+          "h_rms_from_native": 0.1646767556667328,
+          "c_rms_from_native": 15.741575241088867,
+          "chosen_action_changed": 0.09624745624745626
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.10004051774740219,
+          "action_tv_from_same_history_native_input": 0.03994045406579971,
+          "action_tv_from_same_input_native_history": 0.08350823819637299,
+          "h_rms_from_native": 0.1735817939043045,
+          "c_rms_from_native": 15.743513107299805,
+          "chosen_action_changed": 0.09590328652828653
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.09080380201339722,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09080380201339722,
+          "h_rms_from_native": 0.12303319573402405,
+          "c_rms_from_native": 15.722503662109375,
+          "chosen_action_changed": 0.09829441391941392
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.09716443717479706,
+          "action_tv_from_same_history_native_input": 0.022925686091184616,
+          "action_tv_from_same_input_native_history": 0.08883059769868851,
+          "h_rms_from_native": 0.1392001211643219,
+          "c_rms_from_native": 15.734148025512695,
+          "chosen_action_changed": 0.09606227106227107
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.10496971756219864,
+          "action_tv_from_same_history_native_input": 0.0352196991443634,
+          "action_tv_from_same_input_native_history": 0.092399001121521,
+          "h_rms_from_native": 0.1670275330543518,
+          "c_rms_from_native": 15.8278226852417,
+          "chosen_action_changed": 0.09572522385022385
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.1095898225903511,
+          "action_tv_from_same_history_native_input": 0.038929421454668045,
+          "action_tv_from_same_input_native_history": 0.09252823889255524,
+          "h_rms_from_native": 0.17691461741924286,
+          "c_rms_from_native": 15.836402893066406,
+          "chosen_action_changed": 0.1029438848188848
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.023279618471860886,
+          "prior_history_tv": 0.03128235042095184,
+          "sustained_tv": 0.047673240303993225,
+          "interaction_half_l1": 0.01124790869653225
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.03164675086736679,
+          "prior_history_tv": 0.08366546034812927,
+          "sustained_tv": 0.09817908704280853,
+          "interaction_half_l1": 0.02920019067823887
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.03796566277742386,
+          "prior_history_tv": 0.09080380201339722,
+          "sustained_tv": 0.1095898225903511,
+          "interaction_half_l1": 0.03548556938767433
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+      "activity_sha256": "95b29c601b328acad2bb05ba1507eb0eb123d1db6b64d800c164f8b325025a83",
+      "elapsed_seconds": 55.106599000049755
+    },
+    {
+      "seed": 3,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.014580337330698967,
+          "action_tv_from_same_history_native_input": 0.014580337330698967,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.057156629860401154,
+          "c_rms_from_native": 0.18616965413093567,
+          "chosen_action_changed": 0.0164771571021571
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.02136804908514023,
+          "action_tv_from_same_history_native_input": 0.02136804908514023,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.09136920422315598,
+          "c_rms_from_native": 0.27624061703681946,
+          "chosen_action_changed": 0.030200702075702076
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.02623814158141613,
+          "action_tv_from_same_history_native_input": 0.02623814158141613,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10521277785301208,
+          "c_rms_from_native": 0.32886940240859985,
+          "chosen_action_changed": 0.030385887260887263
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.02238617092370987,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.02238617092370987,
+          "h_rms_from_native": 0.04412931948900223,
+          "c_rms_from_native": 2.4662256240844727,
+          "chosen_action_changed": 0.02316722629222629
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.03138893097639084,
+          "action_tv_from_same_history_native_input": 0.012487227097153664,
+          "action_tv_from_same_input_native_history": 0.021430041640996933,
+          "h_rms_from_native": 0.07797960191965103,
+          "c_rms_from_native": 2.507408618927002,
+          "chosen_action_changed": 0.03493284493284493
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.032171934843063354,
+          "action_tv_from_same_history_native_input": 0.01914220303297043,
+          "action_tv_from_same_input_native_history": 0.023952927440404892,
+          "h_rms_from_native": 0.10384181141853333,
+          "c_rms_from_native": 2.483508586883545,
+          "chosen_action_changed": 0.0396515059015059
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.039044566452503204,
+          "action_tv_from_same_history_native_input": 0.023730043321847916,
+          "action_tv_from_same_input_native_history": 0.02252129651606083,
+          "h_rms_from_native": 0.11873812973499298,
+          "c_rms_from_native": 2.520507335662842,
+          "chosen_action_changed": 0.03716498778998779
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.061696767807006836,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.061696767807006836,
+          "h_rms_from_native": 0.10890671610832214,
+          "c_rms_from_native": 12.489313125610352,
+          "chosen_action_changed": 0.06255163817663817
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.06292404234409332,
+          "action_tv_from_same_history_native_input": 0.011737575754523277,
+          "action_tv_from_same_input_native_history": 0.060911085456609726,
+          "h_rms_from_native": 0.12368998676538467,
+          "c_rms_from_native": 12.493057250976562,
+          "chosen_action_changed": 0.06735933048433049
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.07328976690769196,
+          "action_tv_from_same_history_native_input": 0.019673705101013184,
+          "action_tv_from_same_input_native_history": 0.059540826827287674,
+          "h_rms_from_native": 0.15397736430168152,
+          "c_rms_from_native": 12.5770902633667,
+          "chosen_action_changed": 0.06941341066341067
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.0755491703748703,
+          "action_tv_from_same_history_native_input": 0.022551339119672775,
+          "action_tv_from_same_input_native_history": 0.058762915432453156,
+          "h_rms_from_native": 0.16176293790340424,
+          "c_rms_from_native": 12.580385208129883,
+          "chosen_action_changed": 0.07430377492877493
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.06358733773231506,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.06358733773231506,
+          "h_rms_from_native": 0.11347320675849915,
+          "c_rms_from_native": 12.852425575256348,
+          "chosen_action_changed": 0.06727029914529914
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.06758739054203033,
+          "action_tv_from_same_history_native_input": 0.01169298030436039,
+          "action_tv_from_same_input_native_history": 0.06452974677085876,
+          "h_rms_from_native": 0.1298520714044571,
+          "c_rms_from_native": 12.866059303283691,
+          "chosen_action_changed": 0.07181725681725681
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.07515936344861984,
+          "action_tv_from_same_history_native_input": 0.018791954964399338,
+          "action_tv_from_same_input_native_history": 0.06066823750734329,
+          "h_rms_from_native": 0.1568058729171753,
+          "c_rms_from_native": 12.94005298614502,
+          "chosen_action_changed": 0.0671812678062678
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.07965686172246933,
+          "action_tv_from_same_history_native_input": 0.022758785635232925,
+          "action_tv_from_same_input_native_history": 0.06084626913070679,
+          "h_rms_from_native": 0.16626229882240295,
+          "c_rms_from_native": 12.951311111450195,
+          "chosen_action_changed": 0.0813507326007326
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.014580337330698967,
+          "prior_history_tv": 0.02238617092370987,
+          "sustained_tv": 0.03138893097639084,
+          "interaction_half_l1": 0.006402133032679558
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.02136804908514023,
+          "prior_history_tv": 0.061696767807006836,
+          "sustained_tv": 0.07328976690769196,
+          "interaction_half_l1": 0.02089931070804596
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.02623814158141613,
+          "prior_history_tv": 0.06358733773231506,
+          "sustained_tv": 0.07965686172246933,
+          "interaction_half_l1": 0.025475483387708664
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "e0df2eb601ca37672eff7e35153e181a14176fdba7eef70e46470e68880f9f73",
+      "activity_sha256": "faf6a9db3c3d08f4a0db5f77eb317a5cdaabe5f0b1c2286902cdbd62a40beba6",
+      "elapsed_seconds": 97.39177229208872
+    },
+    {
+      "seed": 4,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.016817530617117882,
+          "action_tv_from_same_history_native_input": 0.016817530617117882,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06534048914909363,
+          "c_rms_from_native": 0.19554176926612854,
+          "chosen_action_changed": 0.0164977614977615
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.027775971218943596,
+          "action_tv_from_same_history_native_input": 0.027775971218943596,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10597869008779526,
+          "c_rms_from_native": 0.3443123400211334,
+          "chosen_action_changed": 0.03726114163614164
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.029292257502675056,
+          "action_tv_from_same_history_native_input": 0.029292257502675056,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.12141884863376617,
+          "c_rms_from_native": 0.3913349509239197,
+          "chosen_action_changed": 0.0231743487993488
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.02797124907374382,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.02797124907374382,
+          "h_rms_from_native": 0.0465373657643795,
+          "c_rms_from_native": 3.518322467803955,
+          "chosen_action_changed": 0.02993996743996744
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.03982909768819809,
+          "action_tv_from_same_history_native_input": 0.017927510663866997,
+          "action_tv_from_same_input_native_history": 0.029162293300032616,
+          "h_rms_from_native": 0.08403287082910538,
+          "c_rms_from_native": 3.553088665008545,
+          "chosen_action_changed": 0.04420558608058608
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.037766262888908386,
+          "action_tv_from_same_history_native_input": 0.02731105126440525,
+          "action_tv_from_same_input_native_history": 0.02569541707634926,
+          "h_rms_from_native": 0.11775711178779602,
+          "c_rms_from_native": 3.5354723930358887,
+          "chosen_action_changed": 0.039479802604802605
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.04316156357526779,
+          "action_tv_from_same_history_native_input": 0.02815185859799385,
+          "action_tv_from_same_input_native_history": 0.02667304314672947,
+          "h_rms_from_native": 0.13346606492996216,
+          "c_rms_from_native": 3.5690181255340576,
+          "chosen_action_changed": 0.03252899877899878
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.0650935024023056,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0650935024023056,
+          "h_rms_from_native": 0.11921387910842896,
+          "c_rms_from_native": 19.94803810119629,
+          "chosen_action_changed": 0.0649753256003256
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.06855654716491699,
+          "action_tv_from_same_history_native_input": 0.017050594091415405,
+          "action_tv_from_same_input_native_history": 0.06745065748691559,
+          "h_rms_from_native": 0.13650977611541748,
+          "c_rms_from_native": 19.95085906982422,
+          "chosen_action_changed": 0.07227665852665852
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.0824115127325058,
+          "action_tv_from_same_history_native_input": 0.026320938020944595,
+          "action_tv_from_same_input_native_history": 0.06332338601350784,
+          "h_rms_from_native": 0.1704297959804535,
+          "c_rms_from_native": 20.032604217529297,
+          "chosen_action_changed": 0.09312271062271063
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.08299782872200012,
+          "action_tv_from_same_history_native_input": 0.028499938547611237,
+          "action_tv_from_same_input_native_history": 0.06516869366168976,
+          "h_rms_from_native": 0.17998480796813965,
+          "c_rms_from_native": 20.03466796875,
+          "chosen_action_changed": 0.08858211233211233
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.06965120136737823,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.06965120136737823,
+          "h_rms_from_native": 0.1239490807056427,
+          "c_rms_from_native": 20.38317108154297,
+          "chosen_action_changed": 0.06719398656898656
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.07436821609735489,
+          "action_tv_from_same_history_native_input": 0.015677839517593384,
+          "action_tv_from_same_input_native_history": 0.0732654482126236,
+          "h_rms_from_native": 0.1421482264995575,
+          "c_rms_from_native": 20.392621994018555,
+          "chosen_action_changed": 0.07681013431013431
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.08573153614997864,
+          "action_tv_from_same_history_native_input": 0.028155885636806488,
+          "action_tv_from_same_input_native_history": 0.06676140427589417,
+          "h_rms_from_native": 0.17358842492103577,
+          "c_rms_from_native": 20.46853256225586,
+          "chosen_action_changed": 0.09561558811558811
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.08753953129053116,
+          "action_tv_from_same_history_native_input": 0.02928350307047367,
+          "action_tv_from_same_input_native_history": 0.06950980424880981,
+          "h_rms_from_native": 0.18374162912368774,
+          "c_rms_from_native": 20.475788116455078,
+          "chosen_action_changed": 0.08642551892551892
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.016817530617117882,
+          "prior_history_tv": 0.02797124907374382,
+          "sustained_tv": 0.03982909768819809,
+          "interaction_half_l1": 0.009067229926586151
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.027775971218943596,
+          "prior_history_tv": 0.0650935024023056,
+          "sustained_tv": 0.0824115127325058,
+          "interaction_half_l1": 0.023461172357201576
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.029292257502675056,
+          "prior_history_tv": 0.06965120136737823,
+          "sustained_tv": 0.08753953129053116,
+          "interaction_half_l1": 0.026321962475776672
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "3622a1c85a6c20da3548166974f191161d447d1f3933562f332a53b686f6e497",
+      "activity_sha256": "3ca66ae022c8a77f062830931a0cd126193daf0bfb3bc641aa0b7670831d226f",
+      "elapsed_seconds": 83.2315062910784
+    },
+    {
+      "seed": 5,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.029222745448350906,
+          "action_tv_from_same_history_native_input": 0.029222745448350906,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06675247848033905,
+          "c_rms_from_native": 0.19115279614925385,
+          "chosen_action_changed": 0.02307819495319495
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.030744820833206177,
+          "action_tv_from_same_history_native_input": 0.030744820833206177,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10275060683488846,
+          "c_rms_from_native": 0.3474627733230591,
+          "chosen_action_changed": 0.020839692714692715
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.04166879132390022,
+          "action_tv_from_same_history_native_input": 0.04166879132390022,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.11980405449867249,
+          "c_rms_from_native": 0.4079588055610657,
+          "chosen_action_changed": 0.03956247456247457
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.04620291292667389,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.04620291292667389,
+          "h_rms_from_native": 0.059400200843811035,
+          "c_rms_from_native": 2.4325027465820312,
+          "chosen_action_changed": 0.04694647944647945
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.06065380573272705,
+          "action_tv_from_same_history_native_input": 0.02781667932868004,
+          "action_tv_from_same_input_native_history": 0.04509247839450836,
+          "h_rms_from_native": 0.09597949683666229,
+          "c_rms_from_native": 2.474468469619751,
+          "chosen_action_changed": 0.06514066951566952
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.06049349904060364,
+          "action_tv_from_same_history_native_input": 0.029716946184635162,
+          "action_tv_from_same_input_native_history": 0.047934383153915405,
+          "h_rms_from_native": 0.12199027091264725,
+          "c_rms_from_native": 2.4527032375335693,
+          "chosen_action_changed": 0.058526912901912906
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.07013911008834839,
+          "action_tv_from_same_history_native_input": 0.04091091454029083,
+          "action_tv_from_same_input_native_history": 0.04461568593978882,
+          "h_rms_from_native": 0.13959304988384247,
+          "c_rms_from_native": 2.4909610748291016,
+          "chosen_action_changed": 0.06781237281237282
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.09406445920467377,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09406445920467377,
+          "h_rms_from_native": 0.12029092758893967,
+          "c_rms_from_native": 12.961163520812988,
+          "chosen_action_changed": 0.095499592999593
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.098726287484169,
+          "action_tv_from_same_history_native_input": 0.024104617536067963,
+          "action_tv_from_same_input_native_history": 0.09668875485658646,
+          "h_rms_from_native": 0.13899517059326172,
+          "c_rms_from_native": 12.965845108032227,
+          "chosen_action_changed": 0.097999592999593
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.10548067092895508,
+          "action_tv_from_same_history_native_input": 0.030216556042432785,
+          "action_tv_from_same_input_native_history": 0.09006457030773163,
+          "h_rms_from_native": 0.17042221128940582,
+          "c_rms_from_native": 13.074617385864258,
+          "chosen_action_changed": 0.10512286324786324
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.10869596898555756,
+          "action_tv_from_same_history_native_input": 0.04156026616692543,
+          "action_tv_from_same_input_native_history": 0.09334400296211243,
+          "h_rms_from_native": 0.18067841231822968,
+          "c_rms_from_native": 13.077508926391602,
+          "chosen_action_changed": 0.10725885225885225
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.09154985100030899,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09154985100030899,
+          "h_rms_from_native": 0.12302906811237335,
+          "c_rms_from_native": 13.170822143554688,
+          "chosen_action_changed": 0.09791056166056167
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.09790180623531342,
+          "action_tv_from_same_history_native_input": 0.02511056512594223,
+          "action_tv_from_same_input_native_history": 0.09345077723264694,
+          "h_rms_from_native": 0.14333558082580566,
+          "c_rms_from_native": 13.18382453918457,
+          "chosen_action_changed": 0.09737484737484736
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.10212569683790207,
+          "action_tv_from_same_history_native_input": 0.02989589236676693,
+          "action_tv_from_same_input_native_history": 0.09029101580381393,
+          "h_rms_from_native": 0.17149412631988525,
+          "c_rms_from_native": 13.28525161743164,
+          "chosen_action_changed": 0.1021833028083028
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.10864247381687164,
+          "action_tv_from_same_history_native_input": 0.04186282306909561,
+          "action_tv_from_same_input_native_history": 0.09058254212141037,
+          "h_rms_from_native": 0.18323978781700134,
+          "c_rms_from_native": 13.294057846069336,
+          "chosen_action_changed": 0.10681929181929181
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.029222745448350906,
+          "prior_history_tv": 0.04620291292667389,
+          "sustained_tv": 0.06065380573272705,
+          "interaction_half_l1": 0.017992708832025528
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.030744820833206177,
+          "prior_history_tv": 0.09406445920467377,
+          "sustained_tv": 0.10548067092895508,
+          "interaction_half_l1": 0.03135736286640167
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.04166879132390022,
+          "prior_history_tv": 0.09154985100030899,
+          "sustained_tv": 0.10864247381687164,
+          "interaction_half_l1": 0.04144250601530075
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "4ad113b7343ebad5bf26b9f325c9b77cfe2e5a10102d367f090424df222184c2",
+      "activity_sha256": "92adda8187320380f71960715f025bab4ef1e7a2b6672706f178d4c0ff647658",
+      "elapsed_seconds": 68.72453966597095
+    },
+    {
+      "seed": 6,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.018559131771326065,
+          "action_tv_from_same_history_native_input": 0.018559131771326065,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06416879594326019,
+          "c_rms_from_native": 0.20685350894927979,
+          "chosen_action_changed": 0.016044719169719168
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.022191448137164116,
+          "action_tv_from_same_history_native_input": 0.022191448137164116,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10242089629173279,
+          "c_rms_from_native": 0.3482542037963867,
+          "chosen_action_changed": 0.028057590557590557
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.029218237847089767,
+          "action_tv_from_same_history_native_input": 0.029218237847089767,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.1178249716758728,
+          "c_rms_from_native": 0.39853769540786743,
+          "chosen_action_changed": 0.027968559218559216
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.02381226047873497,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.02381226047873497,
+          "h_rms_from_native": 0.04531977325677872,
+          "c_rms_from_native": 2.8556675910949707,
+          "chosen_action_changed": 0.02531033781033781
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.03473549336194992,
+          "action_tv_from_same_history_native_input": 0.016112541779875755,
+          "action_tv_from_same_input_native_history": 0.02220219373703003,
+          "h_rms_from_native": 0.08383803069591522,
+          "c_rms_from_native": 2.8954477310180664,
+          "chosen_action_changed": 0.0369798026048026
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.032416537404060364,
+          "action_tv_from_same_history_native_input": 0.022801212966442108,
+          "action_tv_from_same_input_native_history": 0.023101281374692917,
+          "h_rms_from_native": 0.11393976956605911,
+          "c_rms_from_native": 2.8782758712768555,
+          "chosen_action_changed": 0.04196632071632071
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.03863583505153656,
+          "action_tv_from_same_history_native_input": 0.028295466676354408,
+          "action_tv_from_same_input_native_history": 0.02127957157790661,
+          "h_rms_from_native": 0.13025107979774475,
+          "c_rms_from_native": 2.916281223297119,
+          "chosen_action_changed": 0.04187728937728938
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.055196620523929596,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.055196620523929596,
+          "h_rms_from_native": 0.10614480078220367,
+          "c_rms_from_native": 13.358970642089844,
+          "chosen_action_changed": 0.05390364265364265
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.05248318612575531,
+          "action_tv_from_same_history_native_input": 0.018879927694797516,
+          "action_tv_from_same_input_native_history": 0.04739421606063843,
+          "h_rms_from_native": 0.12420185655355453,
+          "c_rms_from_native": 13.35952091217041,
+          "chosen_action_changed": 0.04438364875864876
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.06141512840986252,
+          "action_tv_from_same_history_native_input": 0.024568630382418633,
+          "action_tv_from_same_input_native_history": 0.05246627330780029,
+          "h_rms_from_native": 0.15853138267993927,
+          "c_rms_from_native": 13.456894874572754,
+          "chosen_action_changed": 0.06325829263329263
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.060865987092256546,
+          "action_tv_from_same_history_native_input": 0.02921375259757042,
+          "action_tv_from_same_input_native_history": 0.04671839624643326,
+          "h_rms_from_native": 0.16827607154846191,
+          "c_rms_from_native": 13.457024574279785,
+          "chosen_action_changed": 0.05622481684981685
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.05559054762125015,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.05559054762125015,
+          "h_rms_from_native": 0.11272916197776794,
+          "c_rms_from_native": 13.685674667358398,
+          "chosen_action_changed": 0.05605311355311356
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.055312998592853546,
+          "action_tv_from_same_history_native_input": 0.017237182706594467,
+          "action_tv_from_same_input_native_history": 0.04833832383155823,
+          "h_rms_from_native": 0.13221748173236847,
+          "c_rms_from_native": 13.693929672241211,
+          "chosen_action_changed": 0.04651327838827839
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.06087886542081833,
+          "action_tv_from_same_history_native_input": 0.021765464916825294,
+          "action_tv_from_same_input_native_history": 0.05342048779129982,
+          "h_rms_from_native": 0.16289851069450378,
+          "c_rms_from_native": 13.781364440917969,
+          "chosen_action_changed": 0.060854446479446475
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.061042383313179016,
+          "action_tv_from_same_history_native_input": 0.025499550625681877,
+          "action_tv_from_same_input_native_history": 0.0478409081697464,
+          "h_rms_from_native": 0.1740022599697113,
+          "c_rms_from_native": 13.788134574890137,
+          "chosen_action_changed": 0.05158882783882784
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.018559131771326065,
+          "prior_history_tv": 0.02381226047873497,
+          "sustained_tv": 0.03473549336194992,
+          "interaction_half_l1": 0.0077875275164842606
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.022191448137164116,
+          "prior_history_tv": 0.055196620523929596,
+          "sustained_tv": 0.06141512840986252,
+          "interaction_half_l1": 0.021026773378252983
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.029218237847089767,
+          "prior_history_tv": 0.05559054762125015,
+          "sustained_tv": 0.061042383313179016,
+          "interaction_half_l1": 0.02484947256743908
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "e9ec574cf48afeb0ae05725ea29fb03c6f386e0e0bde333080a010dc975ea050",
+      "activity_sha256": "ef37e3af87c97ed9805bcb637d55c567fc42f63d46ab14c29e1f2acea9a61874",
+      "elapsed_seconds": 68.92199520813301
+    },
+    {
+      "seed": 7,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.026643820106983185,
+          "action_tv_from_same_history_native_input": 0.026643820106983185,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06247539073228836,
+          "c_rms_from_native": 0.18372690677642822,
+          "chosen_action_changed": 0.018627391127391126
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.03161463513970375,
+          "action_tv_from_same_history_native_input": 0.03161463513970375,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10292120277881622,
+          "c_rms_from_native": 0.35637366771698,
+          "chosen_action_changed": 0.022989163614163612
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.040961869060993195,
+          "action_tv_from_same_history_native_input": 0.040961869060993195,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.11790269613265991,
+          "c_rms_from_native": 0.40437135100364685,
+          "chosen_action_changed": 0.025330179080179076
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.039181165397167206,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.039181165397167206,
+          "h_rms_from_native": 0.06672781705856323,
+          "c_rms_from_native": 4.221076488494873,
+          "chosen_action_changed": 0.03706959706959707
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.054022908210754395,
+          "action_tv_from_same_history_native_input": 0.02630065754055977,
+          "action_tv_from_same_input_native_history": 0.041008301079273224,
+          "h_rms_from_native": 0.09957945346832275,
+          "c_rms_from_native": 4.257314682006836,
+          "chosen_action_changed": 0.048491809116809115
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.050132930278778076,
+          "action_tv_from_same_history_native_input": 0.03211108222603798,
+          "action_tv_from_same_input_native_history": 0.03890062868595123,
+          "h_rms_from_native": 0.12701265513896942,
+          "c_rms_from_native": 4.242358207702637,
+          "chosen_action_changed": 0.05096484533984534
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.06102752685546875,
+          "action_tv_from_same_history_native_input": 0.0416664183139801,
+          "action_tv_from_same_input_native_history": 0.04169682785868645,
+          "h_rms_from_native": 0.14262054860591888,
+          "c_rms_from_native": 4.278681755065918,
+          "chosen_action_changed": 0.04866351241351241
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.10254687070846558,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.10254687070846558,
+          "h_rms_from_native": 0.17265412211418152,
+          "c_rms_from_native": 16.367393493652344,
+          "chosen_action_changed": 0.09529990842490842
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.10502142459154129,
+          "action_tv_from_same_history_native_input": 0.024561438709497452,
+          "action_tv_from_same_input_native_history": 0.10179339349269867,
+          "h_rms_from_native": 0.18370015919208527,
+          "c_rms_from_native": 16.37013053894043,
+          "chosen_action_changed": 0.10920151607651607
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.11278492212295532,
+          "action_tv_from_same_history_native_input": 0.030344828963279724,
+          "action_tv_from_same_input_native_history": 0.10161224752664566,
+          "h_rms_from_native": 0.21333947777748108,
+          "c_rms_from_native": 16.45694351196289,
+          "chosen_action_changed": 0.1161451973951974
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.11557875573635101,
+          "action_tv_from_same_history_native_input": 0.037020936608314514,
+          "action_tv_from_same_input_native_history": 0.09941999614238739,
+          "h_rms_from_native": 0.21978753805160522,
+          "c_rms_from_native": 16.45809555053711,
+          "chosen_action_changed": 0.11818579568579568
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.10921388119459152,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.10921388119459152,
+          "h_rms_from_native": 0.18030902743339539,
+          "c_rms_from_native": 16.705419540405273,
+          "chosen_action_changed": 0.10910536223036223
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.1156006008386612,
+          "action_tv_from_same_history_native_input": 0.02370491251349449,
+          "action_tv_from_same_input_native_history": 0.10872240364551544,
+          "h_rms_from_native": 0.1931191384792328,
+          "c_rms_from_native": 16.71602439880371,
+          "chosen_action_changed": 0.11383750508750509
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.1223222091794014,
+          "action_tv_from_same_history_native_input": 0.03244412690401077,
+          "action_tv_from_same_input_native_history": 0.11128656566143036,
+          "h_rms_from_native": 0.21906307339668274,
+          "c_rms_from_native": 16.794795989990234,
+          "chosen_action_changed": 0.11828830891330891
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.12630081176757812,
+          "action_tv_from_same_history_native_input": 0.03816758096218109,
+          "action_tv_from_same_input_native_history": 0.10793674737215042,
+          "h_rms_from_native": 0.22727537155151367,
+          "c_rms_from_native": 16.802902221679688,
+          "chosen_action_changed": 0.12301332926332927
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.026643820106983185,
+          "prior_history_tv": 0.039181165397167206,
+          "sustained_tv": 0.054022908210754395,
+          "interaction_half_l1": 0.013294633477926254
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.03161463513970375,
+          "prior_history_tv": 0.10254687070846558,
+          "sustained_tv": 0.11278492212295532,
+          "interaction_half_l1": 0.03170638531446457
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.040961869060993195,
+          "prior_history_tv": 0.10921388119459152,
+          "sustained_tv": 0.12630081176757812,
+          "interaction_half_l1": 0.04203405976295471
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "b3ee5ce8bb075a5dc45360703f42d725fffd5587b9d529fcb267f58034b1f184",
+      "activity_sha256": "8d89af83a866ed288ae71a3cabfe0e3010aee96980a530b8b7007ef21ffecaad",
+      "elapsed_seconds": 73.7923431659583
+    },
+    {
+      "seed": 8,
+      "condition": "pgc33",
+      "samples": 430,
+      "episodes": 16,
+      "variants": {
+        "native/native": {
+          "action_tv_from_native": 0.0,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.0,
+          "c_rms_from_native": 0.0,
+          "chosen_action_changed": 0.0
+        },
+        "native/current_ordinary": {
+          "action_tv_from_native": 0.027406346052885056,
+          "action_tv_from_same_history_native_input": 0.027406346052885056,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.06421833485364914,
+          "c_rms_from_native": 0.1818428337574005,
+          "chosen_action_changed": 0.030277014652014652
+        },
+        "native/goal_ordinary": {
+          "action_tv_from_native": 0.03333752974867821,
+          "action_tv_from_same_history_native_input": 0.03333752974867821,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.10116183757781982,
+          "c_rms_from_native": 0.3236981928348541,
+          "chosen_action_changed": 0.039377289377289376
+        },
+        "native/both_ordinary": {
+          "action_tv_from_native": 0.04062261804938316,
+          "action_tv_from_same_history_native_input": 0.04062261804938316,
+          "action_tv_from_same_input_native_history": 0.0,
+          "h_rms_from_native": 0.11688551306724548,
+          "c_rms_from_native": 0.3706597089767456,
+          "chosen_action_changed": 0.04392424704924705
+        },
+        "current_ordinary/native": {
+          "action_tv_from_native": 0.04205796867609024,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.04205796867609024,
+          "h_rms_from_native": 0.04526703432202339,
+          "c_rms_from_native": 2.771770715713501,
+          "chosen_action_changed": 0.048828093203093205
+        },
+        "current_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.05513341352343559,
+          "action_tv_from_same_history_native_input": 0.027083348482847214,
+          "action_tv_from_same_input_native_history": 0.04023865610361099,
+          "h_rms_from_native": 0.08286069333553314,
+          "c_rms_from_native": 2.80651593208313,
+          "chosen_action_changed": 0.06487281237281237
+        },
+        "current_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.05760325491428375,
+          "action_tv_from_same_history_native_input": 0.03245091065764427,
+          "action_tv_from_same_input_native_history": 0.04393364489078522,
+          "h_rms_from_native": 0.11213567852973938,
+          "c_rms_from_native": 2.795666456222534,
+          "chosen_action_changed": 0.07404939967439966
+        },
+        "current_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.0637560784816742,
+          "action_tv_from_same_history_native_input": 0.03741341829299927,
+          "action_tv_from_same_input_native_history": 0.042721062898635864,
+          "h_rms_from_native": 0.12851427495479584,
+          "c_rms_from_native": 2.8307881355285645,
+          "chosen_action_changed": 0.06470110907610907
+        },
+        "goal_ordinary/native": {
+          "action_tv_from_native": 0.09975660592317581,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09975660592317581,
+          "h_rms_from_native": 0.1151900589466095,
+          "c_rms_from_native": 16.09231948852539,
+          "chosen_action_changed": 0.1065521978021978
+        },
+        "goal_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.10431279242038727,
+          "action_tv_from_same_history_native_input": 0.02384677343070507,
+          "action_tv_from_same_input_native_history": 0.09587778896093369,
+          "h_rms_from_native": 0.13280802965164185,
+          "c_rms_from_native": 16.091066360473633,
+          "chosen_action_changed": 0.10636065323565325
+        },
+        "goal_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.11428714543581009,
+          "action_tv_from_same_history_native_input": 0.030009638518095016,
+          "action_tv_from_same_input_native_history": 0.0977817252278328,
+          "h_rms_from_native": 0.165737122297287,
+          "c_rms_from_native": 16.203033447265625,
+          "chosen_action_changed": 0.11804995929995929
+        },
+        "goal_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.117713563144207,
+          "action_tv_from_same_history_native_input": 0.03710174188017845,
+          "action_tv_from_same_input_native_history": 0.09586568176746368,
+          "h_rms_from_native": 0.1757931113243103,
+          "c_rms_from_native": 16.202268600463867,
+          "chosen_action_changed": 0.12028286528286528
+        },
+        "both_ordinary/native": {
+          "action_tv_from_native": 0.09990916401147842,
+          "action_tv_from_same_history_native_input": 0.0,
+          "action_tv_from_same_input_native_history": 0.09990916401147842,
+          "h_rms_from_native": 0.11868033558130264,
+          "c_rms_from_native": 16.06106185913086,
+          "chosen_action_changed": 0.1040593203093203
+        },
+        "both_ordinary/current_ordinary": {
+          "action_tv_from_native": 0.10463689267635345,
+          "action_tv_from_same_history_native_input": 0.0218622088432312,
+          "action_tv_from_same_input_native_history": 0.09473474323749542,
+          "h_rms_from_native": 0.13702282309532166,
+          "c_rms_from_native": 16.066162109375,
+          "chosen_action_changed": 0.10396316646316646
+        },
+        "both_ordinary/goal_ordinary": {
+          "action_tv_from_native": 0.11209073662757874,
+          "action_tv_from_same_history_native_input": 0.029402194544672966,
+          "action_tv_from_same_input_native_history": 0.09716358780860901,
+          "h_rms_from_native": 0.1678624451160431,
+          "c_rms_from_native": 16.16967010498047,
+          "chosen_action_changed": 0.10851724664224663
+        },
+        "both_ordinary/both_ordinary": {
+          "action_tv_from_native": 0.1157897412776947,
+          "action_tv_from_same_history_native_input": 0.03370123356580734,
+          "action_tv_from_same_input_native_history": 0.09572607278823853,
+          "h_rms_from_native": 0.17858201265335083,
+          "c_rms_from_native": 16.174129486083984,
+          "chosen_action_changed": 0.12028286528286529
+        }
+      },
+      "effects": {
+        "current_ordinary": {
+          "immediate_tv": 0.027406346052885056,
+          "prior_history_tv": 0.04205796867609024,
+          "sustained_tv": 0.05513341352343559,
+          "interaction_half_l1": 0.013205310329794884
+        },
+        "goal_ordinary": {
+          "immediate_tv": 0.03333752974867821,
+          "prior_history_tv": 0.09975660592317581,
+          "sustained_tv": 0.11428714543581009,
+          "interaction_half_l1": 0.03404385596513748
+        },
+        "both_ordinary": {
+          "immediate_tv": 0.04062261804938316,
+          "prior_history_tv": 0.09990916401147842,
+          "sustained_tv": 0.1157897412776947,
+          "interaction_half_l1": 0.0374433659017086
+        }
+      },
+      "validation": {
+        "h": 0.0,
+        "c": 0.0,
+        "logits": 0.0,
+        "native_pre_input_h_vs_previous_saved_h": 0.0,
+        "native_pre_input_c_vs_previous_saved_c": 0.0
+      },
+      "checkpoint_sha256": "5501f4e04163807e03bd000b4d78d63685fa1ea6ac89b266483b71968d5ab960",
+      "activity_sha256": "db5ae54048393a5f1d4a857486c9257996a5e96bca71c94ad5d20da0ef7fadf4",
+      "elapsed_seconds": 55.56467262492515
+    }
+  ],
+  "exploratory_state_geometry": {
+    "estimates": {
+      "native": {
+        "episode_fraction": {
+          "values": [
+            0.27086374997957513,
+            0.3145422451841106,
+            0.3020154207210877,
+            0.34765610148404125,
+            0.24237675432935943,
+            0.3334163684527039,
+            0.3557191747674977,
+            0.2986297156982962
+          ],
+          "n": 8,
+          "mean": 0.308152441327084,
+          "sem": 0.013593237375148596
+        },
+        "pc10_fraction": {
+          "values": [
+            0.4974288698750074,
+            0.5180151117991971,
+            0.5255957856066771,
+            0.5439231490744523,
+            0.5206044574865528,
+            0.5520977389922684,
+            0.5276404216514358,
+            0.5188845193623794
+          ],
+          "n": 8,
+          "mean": 0.5255237567309963,
+          "sem": 0.005920878651661206
+        },
+        "between_variance_per_neuron": {
+          "values": [
+            0.025805184955257875,
+            0.026339828451412094,
+            0.02423533448520387,
+            0.03626775470797661,
+            0.02268595879401932,
+            0.032297248392689715,
+            0.041097504116427507,
+            0.026137426278395083
+          ],
+          "n": 8,
+          "mean": 0.02935828002267276,
+          "sem": 0.0023031873593092216
+        },
+        "total_variance_per_neuron": {
+          "values": [
+            0.09526998336692803,
+            0.08374019342296815,
+            0.08024535445024605,
+            0.10432077720816713,
+            0.09359791477029174,
+            0.09686761493616104,
+            0.11553356420353028,
+            0.08752453257130502
+          ],
+          "n": 8,
+          "mean": 0.09463749186619969,
+          "sem": 0.0040385309205211335
+        }
+      },
+      "current_ordinary": {
+        "episode_fraction": {
+          "values": [
+            0.2694880212433985,
+            0.31210272087655166,
+            0.2957757548950649,
+            0.3470746801148836,
+            0.24009007719317227,
+            0.33335964718840605,
+            0.36085734781434964,
+            0.2994868992726549
+          ],
+          "n": 8,
+          "mean": 0.3072793935748102,
+          "sem": 0.014200952467400368
+        },
+        "pc10_fraction": {
+          "values": [
+            0.4962494722864855,
+            0.5156521321812393,
+            0.5223037064778404,
+            0.5437713965119545,
+            0.5140317611894449,
+            0.5488433912968874,
+            0.534660808847228,
+            0.514983514865734
+          ],
+          "n": 8,
+          "mean": 0.5238120229571017,
+          "sem": 0.006188686769107574
+        },
+        "between_variance_per_neuron": {
+          "values": [
+            0.025812878254631202,
+            0.026026797953493296,
+            0.02391930624515464,
+            0.036013251742351086,
+            0.022506295686125645,
+            0.03229513282094279,
+            0.041429015088234995,
+            0.026128310385205092
+          ],
+          "n": 8,
+          "mean": 0.029266373522017344,
+          "sem": 0.002349704764761465
+        },
+        "total_variance_per_neuron": {
+          "values": [
+            0.09578488177519887,
+            0.08339176883942602,
+            0.08086973272586427,
+            0.10376225580739713,
+            0.09374104898145155,
+            0.09687775078154687,
+            0.11480718167210216,
+            0.08724358377164838
+          ],
+          "n": 8,
+          "mean": 0.09455977554432941,
+          "sem": 0.003936676475658052
+        }
+      },
+      "goal_ordinary": {
+        "episode_fraction": {
+          "values": [
+            0.24882813379510546,
+            0.3080630959912229,
+            0.28692914750972953,
+            0.31968422318001816,
+            0.24348922437138512,
+            0.30243633586599344,
+            0.33403987567518256,
+            0.2916404369158341
+          ],
+          "n": 8,
+          "mean": 0.2918888091630589,
+          "sem": 0.011294401920920091
+        },
+        "pc10_fraction": {
+          "values": [
+            0.49619835410843033,
+            0.5176086035083135,
+            0.5184064893904661,
+            0.5397334043673175,
+            0.519612399223757,
+            0.533307320418492,
+            0.5232777258041126,
+            0.5098514467542722
+          ],
+          "n": 8,
+          "mean": 0.5197494679468951,
+          "sem": 0.004733341368021084
+        },
+        "between_variance_per_neuron": {
+          "values": [
+            0.02420971926548405,
+            0.02706914321247067,
+            0.024597959977975217,
+            0.03402044015538551,
+            0.02409930867520687,
+            0.030110244274460442,
+            0.0408883679443032,
+            0.027277821357898947
+          ],
+          "n": 8,
+          "mean": 0.02903412560789811,
+          "sem": 0.0020736315029700157
+        },
+        "total_variance_per_neuron": {
+          "values": [
+            0.09729494368759463,
+            0.08786882805735974,
+            0.08572834161834716,
+            0.10641888991884399,
+            0.09897484678192199,
+            0.09955895077303804,
+            0.12240564951012821,
+            0.09353237036114846
+          ],
+          "n": 8,
+          "mean": 0.09897285258854778,
+          "sem": 0.00408834059798279
+        }
+      },
+      "both_ordinary": {
+        "episode_fraction": {
+          "values": [
+            0.2515045965560413,
+            0.3083115518409604,
+            0.2858116671912965,
+            0.3164645784585941,
+            0.24141883457765895,
+            0.3031112584071426,
+            0.3395995049184651,
+            0.29380420268605223
+          ],
+          "n": 8,
+          "mean": 0.2925032743295264,
+          "sem": 0.011566277629955022
+        },
+        "pc10_fraction": {
+          "values": [
+            0.4930041390361317,
+            0.5175011400759749,
+            0.5144834416240373,
+            0.5359330425926381,
+            0.5133686793159379,
+            0.5295031797157758,
+            0.5270254281671797,
+            0.506550182377641
+          ],
+          "n": 8,
+          "mean": 0.5171711541131645,
+          "sem": 0.0048547384694805126
+        },
+        "between_variance_per_neuron": {
+          "values": [
+            0.02453482422148628,
+            0.02701261078484521,
+            0.02463385996069692,
+            0.03354533172976513,
+            0.023919032650880037,
+            0.030111042150120372,
+            0.041628934711186574,
+            0.027449124862916917
+          ],
+          "n": 8,
+          "mean": 0.02910434513398718,
+          "sem": 0.0021232954349920934
+        },
+        "total_variance_per_neuron": {
+          "values": [
+            0.09755219012873718,
+            0.08761465674429031,
+            0.08618913357448503,
+            0.10600027305790295,
+            0.09907691209231577,
+            0.09933990016852118,
+            0.12258243639425011,
+            0.09342659026647072
+          ],
+          "n": 8,
+          "mean": 0.09897276155337166,
+          "sem": 0.004079902901524494
+        }
+      },
+      "grid_native": {
+        "episode_fraction": {
+          "values": [
+            0.16085000644778222,
+            0.25888612425336766,
+            0.20660930311165845,
+            0.22241971232998142,
+            0.21174474872653576,
+            0.22671685807205666,
+            0.24525877744008298,
+            0.2096961556634566
+          ],
+          "n": 8,
+          "mean": 0.21777271075561522,
+          "sem": 0.010362856085897593
+        },
+        "pc10_fraction": {
+          "values": [
+            0.45113038334956335,
+            0.4753689038740166,
+            0.46235023246262436,
+            0.47987258290250584,
+            0.4582897231065123,
+            0.48029091187019796,
+            0.4607983112004456,
+            0.4666579975538011
+          ],
+          "n": 8,
+          "mean": 0.4668448807899584,
+          "sem": 0.0037799038376033363
+        },
+        "between_variance_per_neuron": {
+          "values": [
+            0.011433006308443482,
+            0.02204193788678404,
+            0.015117123052365334,
+            0.017396458140134557,
+            0.0152740432297345,
+            0.016963719368719467,
+            0.020805970070152946,
+            0.014633249710006343
+          ],
+          "n": 8,
+          "mean": 0.016708188470792584,
+          "sem": 0.001213766919047305
+        },
+        "total_variance_per_neuron": {
+          "values": [
+            0.07107868107021216,
+            0.08514144182255187,
+            0.07316767843796242,
+            0.07821455192930565,
+            0.07213422444520988,
+            0.07482337005273752,
+            0.08483272357188468,
+            0.06978310910711873
+          ],
+          "n": 8,
+          "mean": 0.07614697255462285,
+          "sem": 0.0021277680860628733
+        }
+      }
+    },
+    "comparisons": {
+      "current_ordinary_minus_native": {
+        "n": 8,
+        "a": [
+          0.27086374997957513,
+          0.3145422451841106,
+          0.3020154207210877,
+          0.34765610148404125,
+          0.24237675432935943,
+          0.3334163684527039,
+          0.3557191747674977,
+          0.2986297156982962
+        ],
+        "b": [
+          0.2694880212433985,
+          0.31210272087655166,
+          0.2957757548950649,
+          0.3470746801148836,
+          0.24009007719317227,
+          0.33335964718840605,
+          0.36085734781434964,
+          0.2994868992726549
+        ],
+        "mean_a": 0.308152441327084,
+        "mean_b": 0.3072793935748102,
+        "difference": -0.0008730477522737971,
+        "differences": [
+          -0.0013757287361766402,
+          -0.002439524307558949,
+          -0.006239665826022811,
+          -0.0005814213691576198,
+          -0.0022866771361871596,
+          -5.672126429784319e-05,
+          0.005138173046851935,
+          0.0008571835743587108
+        ],
+        "ci95": [
+          -0.003579952136610498,
+          0.0018338566320629038
+        ],
+        "paired_t_p": 0.47058398903172294,
+        "exact_signflip_p": 0.4609375,
+        "holm_t_p": 0.47058398903172294,
+        "holm_exact_p": 0.4609375
+      },
+      "goal_ordinary_minus_native": {
+        "n": 8,
+        "a": [
+          0.27086374997957513,
+          0.3145422451841106,
+          0.3020154207210877,
+          0.34765610148404125,
+          0.24237675432935943,
+          0.3334163684527039,
+          0.3557191747674977,
+          0.2986297156982962
+        ],
+        "b": [
+          0.24882813379510546,
+          0.3080630959912229,
+          0.28692914750972953,
+          0.31968422318001816,
+          0.24348922437138512,
+          0.30243633586599344,
+          0.33403987567518256,
+          0.2916404369158341
+        ],
+        "mean_a": 0.308152441327084,
+        "mean_b": 0.2918888091630589,
+        "difference": -0.01626363216402509,
+        "differences": [
+          -0.02203561618446967,
+          -0.006479149192887723,
+          -0.015086273211358192,
+          -0.02797187830402309,
+          0.0011124700420256928,
+          -0.03098003258671045,
+          -0.02167929909231514,
+          -0.006989278782462138
+        ],
+        "ci95": [
+          -0.02575040726731817,
+          -0.006776857060732005
+        ],
+        "paired_t_p": 0.004847516624198152,
+        "exact_signflip_p": 0.015625,
+        "holm_t_p": 0.014542549872594457,
+        "holm_exact_p": 0.03125
+      },
+      "both_ordinary_minus_native": {
+        "n": 8,
+        "a": [
+          0.27086374997957513,
+          0.3145422451841106,
+          0.3020154207210877,
+          0.34765610148404125,
+          0.24237675432935943,
+          0.3334163684527039,
+          0.3557191747674977,
+          0.2986297156982962
+        ],
+        "b": [
+          0.2515045965560413,
+          0.3083115518409604,
+          0.2858116671912965,
+          0.3164645784585941,
+          0.24141883457765895,
+          0.3031112584071426,
+          0.3395995049184651,
+          0.29380420268605223
+        ],
+        "mean_a": 0.308152441327084,
+        "mean_b": 0.2925032743295264,
+        "difference": -0.0156491669975576,
+        "differences": [
+          -0.019359153423533837,
+          -0.00623069334315024,
+          -0.0162037535297912,
+          -0.031191523025447143,
+          -0.0009579197517004812,
+          -0.0303051100455613,
+          -0.016119669849032625,
+          -0.004825513012243987
+        ],
+        "ci95": [
+          -0.025088359490379786,
+          -0.006209974504735417
+        ],
+        "paired_t_p": 0.005746876091757303,
+        "exact_signflip_p": 0.0078125,
+        "holm_t_p": 0.014542549872594457,
+        "holm_exact_p": 0.0234375
+      }
+    },
+    "population_comparisons": {
+      "native_minus_native_grid": {
+        "n": 8,
+        "a": [
+          0.16085000644778222,
+          0.25888612425336766,
+          0.20660930311165845,
+          0.22241971232998142,
+          0.21174474872653576,
+          0.22671685807205666,
+          0.24525877744008298,
+          0.2096961556634566
+        ],
+        "b": [
+          0.27086374997957513,
+          0.3145422451841106,
+          0.3020154207210877,
+          0.34765610148404125,
+          0.24237675432935943,
+          0.3334163684527039,
+          0.3557191747674977,
+          0.2986297156982962
+        ],
+        "mean_a": 0.21777271075561522,
+        "mean_b": 0.308152441327084,
+        "difference": 0.09037973057146878,
+        "differences": [
+          0.11001374353179291,
+          0.05565612093074296,
+          0.09540611760942927,
+          0.12523638915405982,
+          0.03063200560282367,
+          0.10669951038064723,
+          0.11046039732741472,
+          0.08893356003483963
+        ],
+        "ci95": [
+          0.06380507416907277,
+          0.11695438697386479
+        ],
+        "paired_t_p": 8.814881447074703e-05,
+        "exact_signflip_p": 0.0078125,
+        "holm_t_p": 8.814881447074703e-05,
+        "holm_exact_p": 0.015625
+      },
+      "both_ordinary_minus_native_grid": {
+        "n": 8,
+        "a": [
+          0.16085000644778222,
+          0.25888612425336766,
+          0.20660930311165845,
+          0.22241971232998142,
+          0.21174474872653576,
+          0.22671685807205666,
+          0.24525877744008298,
+          0.2096961556634566
+        ],
+        "b": [
+          0.2515045965560413,
+          0.3083115518409604,
+          0.2858116671912965,
+          0.3164645784585941,
+          0.24141883457765895,
+          0.3031112584071426,
+          0.3395995049184651,
+          0.29380420268605223
+        ],
+        "mean_a": 0.21777271075561522,
+        "mean_b": 0.2925032743295264,
+        "difference": 0.07473056357391117,
+        "differences": [
+          0.09065459010825908,
+          0.04942542758759272,
+          0.07920236407963807,
+          0.09404486612861268,
+          0.02967408585112319,
+          0.07639440033508593,
+          0.0943407274783821,
+          0.08410804702259564
+        ],
+        "ci95": [
+          0.05527157447650194,
+          0.0941895526713204
+        ],
+        "paired_t_p": 4.023681482771032e-05,
+        "exact_signflip_p": 0.0078125,
+        "holm_t_p": 8.047362965542064e-05,
+        "holm_exact_p": 0.015625
+      }
+    },
+    "models": [
+      {
+        "seed": 1,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.27086374997957513,
+            "pc10_fraction": 0.4974288698750074,
+            "between_variance_per_neuron": 0.025805184955257875,
+            "total_variance_per_neuron": 0.09526998336692803
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.2694880212433985,
+            "pc10_fraction": 0.4962494722864855,
+            "between_variance_per_neuron": 0.025812878254631202,
+            "total_variance_per_neuron": 0.09578488177519887
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.24882813379510546,
+            "pc10_fraction": 0.49619835410843033,
+            "between_variance_per_neuron": 0.02420971926548405,
+            "total_variance_per_neuron": 0.09729494368759463
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.2515045965560413,
+            "pc10_fraction": 0.4930041390361317,
+            "between_variance_per_neuron": 0.02453482422148628,
+            "total_variance_per_neuron": 0.09755219012873718
+          },
+          "grid_native": {
+            "episode_fraction": 0.16085000644778222,
+            "pc10_fraction": 0.45113038334956335,
+            "between_variance_per_neuron": 0.011433006308443482,
+            "total_variance_per_neuron": 0.07107868107021216
+          }
+        },
+        "grid_activity_sha256": "25ee7ba68cf5a7867d0d68b5c698bdcd1aa6e2faf363a04d1ae3d87c0062a48f"
+      },
+      {
+        "seed": 2,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.3145422451841106,
+            "pc10_fraction": 0.5180151117991971,
+            "between_variance_per_neuron": 0.026339828451412094,
+            "total_variance_per_neuron": 0.08374019342296815
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.31210272087655166,
+            "pc10_fraction": 0.5156521321812393,
+            "between_variance_per_neuron": 0.026026797953493296,
+            "total_variance_per_neuron": 0.08339176883942602
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.3080630959912229,
+            "pc10_fraction": 0.5176086035083135,
+            "between_variance_per_neuron": 0.02706914321247067,
+            "total_variance_per_neuron": 0.08786882805735974
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.3083115518409604,
+            "pc10_fraction": 0.5175011400759749,
+            "between_variance_per_neuron": 0.02701261078484521,
+            "total_variance_per_neuron": 0.08761465674429031
+          },
+          "grid_native": {
+            "episode_fraction": 0.25888612425336766,
+            "pc10_fraction": 0.4753689038740166,
+            "between_variance_per_neuron": 0.02204193788678404,
+            "total_variance_per_neuron": 0.08514144182255187
+          }
+        },
+        "grid_activity_sha256": "4c2c920975d0e3630831f6ab09f9a91dc1a9de630ad6074315745ec4e52b566f"
+      },
+      {
+        "seed": 3,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.3020154207210877,
+            "pc10_fraction": 0.5255957856066771,
+            "between_variance_per_neuron": 0.02423533448520387,
+            "total_variance_per_neuron": 0.08024535445024605
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.2957757548950649,
+            "pc10_fraction": 0.5223037064778404,
+            "between_variance_per_neuron": 0.02391930624515464,
+            "total_variance_per_neuron": 0.08086973272586427
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.28692914750972953,
+            "pc10_fraction": 0.5184064893904661,
+            "between_variance_per_neuron": 0.024597959977975217,
+            "total_variance_per_neuron": 0.08572834161834716
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.2858116671912965,
+            "pc10_fraction": 0.5144834416240373,
+            "between_variance_per_neuron": 0.02463385996069692,
+            "total_variance_per_neuron": 0.08618913357448503
+          },
+          "grid_native": {
+            "episode_fraction": 0.20660930311165845,
+            "pc10_fraction": 0.46235023246262436,
+            "between_variance_per_neuron": 0.015117123052365334,
+            "total_variance_per_neuron": 0.07316767843796242
+          }
+        },
+        "grid_activity_sha256": "8a73bcd6a29b04389e460a900e3c4add4342112e99fc7cd0ca22cec8b7813a3a"
+      },
+      {
+        "seed": 4,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.34765610148404125,
+            "pc10_fraction": 0.5439231490744523,
+            "between_variance_per_neuron": 0.03626775470797661,
+            "total_variance_per_neuron": 0.10432077720816713
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.3470746801148836,
+            "pc10_fraction": 0.5437713965119545,
+            "between_variance_per_neuron": 0.036013251742351086,
+            "total_variance_per_neuron": 0.10376225580739713
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.31968422318001816,
+            "pc10_fraction": 0.5397334043673175,
+            "between_variance_per_neuron": 0.03402044015538551,
+            "total_variance_per_neuron": 0.10641888991884399
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.3164645784585941,
+            "pc10_fraction": 0.5359330425926381,
+            "between_variance_per_neuron": 0.03354533172976513,
+            "total_variance_per_neuron": 0.10600027305790295
+          },
+          "grid_native": {
+            "episode_fraction": 0.22241971232998142,
+            "pc10_fraction": 0.47987258290250584,
+            "between_variance_per_neuron": 0.017396458140134557,
+            "total_variance_per_neuron": 0.07821455192930565
+          }
+        },
+        "grid_activity_sha256": "4e211a4ee1cdd9a44ee7a1a94c2554e1d584911a9ee9807499c1f6067494c5fb"
+      },
+      {
+        "seed": 5,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.24237675432935943,
+            "pc10_fraction": 0.5206044574865528,
+            "between_variance_per_neuron": 0.02268595879401932,
+            "total_variance_per_neuron": 0.09359791477029174
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.24009007719317227,
+            "pc10_fraction": 0.5140317611894449,
+            "between_variance_per_neuron": 0.022506295686125645,
+            "total_variance_per_neuron": 0.09374104898145155
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.24348922437138512,
+            "pc10_fraction": 0.519612399223757,
+            "between_variance_per_neuron": 0.02409930867520687,
+            "total_variance_per_neuron": 0.09897484678192199
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.24141883457765895,
+            "pc10_fraction": 0.5133686793159379,
+            "between_variance_per_neuron": 0.023919032650880037,
+            "total_variance_per_neuron": 0.09907691209231577
+          },
+          "grid_native": {
+            "episode_fraction": 0.21174474872653576,
+            "pc10_fraction": 0.4582897231065123,
+            "between_variance_per_neuron": 0.0152740432297345,
+            "total_variance_per_neuron": 0.07213422444520988
+          }
+        },
+        "grid_activity_sha256": "bbce3dd96a006adf49ad9be286a7e71ecd0be67e668816a31c363d8883bc07df"
+      },
+      {
+        "seed": 6,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.3334163684527039,
+            "pc10_fraction": 0.5520977389922684,
+            "between_variance_per_neuron": 0.032297248392689715,
+            "total_variance_per_neuron": 0.09686761493616104
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.33335964718840605,
+            "pc10_fraction": 0.5488433912968874,
+            "between_variance_per_neuron": 0.03229513282094279,
+            "total_variance_per_neuron": 0.09687775078154687
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.30243633586599344,
+            "pc10_fraction": 0.533307320418492,
+            "between_variance_per_neuron": 0.030110244274460442,
+            "total_variance_per_neuron": 0.09955895077303804
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.3031112584071426,
+            "pc10_fraction": 0.5295031797157758,
+            "between_variance_per_neuron": 0.030111042150120372,
+            "total_variance_per_neuron": 0.09933990016852118
+          },
+          "grid_native": {
+            "episode_fraction": 0.22671685807205666,
+            "pc10_fraction": 0.48029091187019796,
+            "between_variance_per_neuron": 0.016963719368719467,
+            "total_variance_per_neuron": 0.07482337005273752
+          }
+        },
+        "grid_activity_sha256": "5f80bd6cab38a223ab60c4d9b4fc38cd98bf577c58317314af2c5511f7e693b2"
+      },
+      {
+        "seed": 7,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.3557191747674977,
+            "pc10_fraction": 0.5276404216514358,
+            "between_variance_per_neuron": 0.041097504116427507,
+            "total_variance_per_neuron": 0.11553356420353028
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.36085734781434964,
+            "pc10_fraction": 0.534660808847228,
+            "between_variance_per_neuron": 0.041429015088234995,
+            "total_variance_per_neuron": 0.11480718167210216
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.33403987567518256,
+            "pc10_fraction": 0.5232777258041126,
+            "between_variance_per_neuron": 0.0408883679443032,
+            "total_variance_per_neuron": 0.12240564951012821
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.3395995049184651,
+            "pc10_fraction": 0.5270254281671797,
+            "between_variance_per_neuron": 0.041628934711186574,
+            "total_variance_per_neuron": 0.12258243639425011
+          },
+          "grid_native": {
+            "episode_fraction": 0.24525877744008298,
+            "pc10_fraction": 0.4607983112004456,
+            "between_variance_per_neuron": 0.020805970070152946,
+            "total_variance_per_neuron": 0.08483272357188468
+          }
+        },
+        "grid_activity_sha256": "f54f1dcca38d6f44102818a05be6f5d21c996d4421f234adf61044bdd20345f8"
+      },
+      {
+        "seed": 8,
+        "variants": {
+          "native": {
+            "episode_fraction": 0.2986297156982962,
+            "pc10_fraction": 0.5188845193623794,
+            "between_variance_per_neuron": 0.026137426278395083,
+            "total_variance_per_neuron": 0.08752453257130502
+          },
+          "current_ordinary": {
+            "episode_fraction": 0.2994868992726549,
+            "pc10_fraction": 0.514983514865734,
+            "between_variance_per_neuron": 0.026128310385205092,
+            "total_variance_per_neuron": 0.08724358377164838
+          },
+          "goal_ordinary": {
+            "episode_fraction": 0.2916404369158341,
+            "pc10_fraction": 0.5098514467542722,
+            "between_variance_per_neuron": 0.027277821357898947,
+            "total_variance_per_neuron": 0.09353237036114846
+          },
+          "both_ordinary": {
+            "episode_fraction": 0.29380420268605223,
+            "pc10_fraction": 0.506550182377641,
+            "between_variance_per_neuron": 0.027449124862916917,
+            "total_variance_per_neuron": 0.09342659026647072
+          },
+          "grid_native": {
+            "episode_fraction": 0.2096961556634566,
+            "pc10_fraction": 0.4666579975538011,
+            "between_variance_per_neuron": 0.014633249710006343,
+            "total_variance_per_neuron": 0.06978310910711873
+          }
+        },
+        "grid_activity_sha256": "cc9ac6faaf06ee146c8dfe7960e192f53377a925977a6e12abd8c9f6e6c161ad"
+      }
+    ],
+    "definition": "Equal episode weights; h before current input. Episode fraction is between-episode variance divided by total variance. Top10PC uses weighted centered covariance.",
+    "status": "Exploratory follow-up proposed after launching the shadow experiment, before viewing these covariance values. Three history-minus-native contrasts for episode fraction form a separate Holm family. After seeing those results, the existing grid activity reference was added at exactly the same rows; its two population comparisons form another exploratory Holm family.",
+    "population_caveat": "Shared external inputs do not mean identical RNN input vectors: trained visual encoders differ. Persistent activity differences can arise from the learned encoder and recurrent network; this does not isolate recurrent weights alone."
+  }
+}

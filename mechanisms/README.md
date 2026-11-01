@@ -1,6 +1,8 @@
 # What predictive inputs change in the RNN
 
-**Latest: [Why PGC models return to the goal better](navigation-explanation.md)** — new causal tests identify useful goal cues and live steering information, with a simple turn-or-move interpretation of the RNN output.
+**Latest: [What changed in the network, and what comes from the inputs?](history-versus-inputs.md)** — matched-input activity comparisons and new tests of recurrent history versus current-input processing.
+
+**Navigation mechanism: [Why PGC models return to the goal better](navigation-explanation.md)** — causal tests identify useful goal cues and live steering information, with a simple turn-or-move interpretation of the RNN output.
 
 **PGC models have larger activity shifts between episodes, and they use predictive spatial inputs to navigate. A new intervention tests whether a fixed episode-specific shift explains that benefit; it does not establish that link.**
 

@@ -1,0 +1,78 @@
+{
+  "models": "Eight frozen PGC+grid 1B LSTMs; grid codes have no predictive shift to remove.",
+  "replay": "Original 16-episode scripted replay; policies do not control actions.",
+  "history_variants": [
+    "native",
+    "current_ordinary",
+    "goal_ordinary",
+    "both_ordinary"
+  ],
+  "current_variants": [
+    "native",
+    "current_ordinary",
+    "goal_ordinary",
+    "both_ordinary"
+  ],
+  "intervention": "Full 4x4 history/current factorial. Each prior history starts at zero and processes the entire preceding physical replay with native or ordinary current/goal codes. Current-step inputs then independently vary. No h/c resets or cross-network states.",
+  "retained": "Identical physical trajectory, RGB, previous actions/rewards, goal snapshot identities and refresh times, ordinary code slots, and frozen weights.",
+  "selection": "Every eighth selected known-goal replay sample, taking its actual next input; identical to the existing shared-replay action probe.",
+  "statistics": "Eight seed means; equal episode weights within seed. Three planned prior-history TV minus immediate TV contrasts, with Holm correction separately for t and exact sign flips.",
+  "caveats": [
+    "Scripted off-policy action sensitivity, not navigation performance.",
+    "Changed past inputs can affect the operating regime; history sensitivity does not by itself prove useful memory.",
+    "The external goal message is present every step after discovery."
+  ],
+  "replay_sha256": "e2ecf1832d2ba8f52d83235bfad6844075644bd03004026f339dff02abf1be55",
+  "exact_replay_rgb_sha256": "c562bdea414499c64f477217a9f0b68ededdabe2fb5d6f622acf11e486fec86c",
+  "independent_grid_equivalence_checks": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "interaction_metric": "Half-L1 norm of p(past changed,current changed)-p(past changed,current native)-p(past native,current changed)+p(both native). This signed four-condition contrast is not a conventional TV distance and need not be <=1."
+}

@@ -2,6 +2,8 @@
 
 **PGCs support better steering during return trips.** The saved code supplies an inward goal cue; the live code helps the RNN decide when to correct its movement. These are results from eight paired, frozen 1B-frame LSTMs.
 
+[New follow-up: separate the learned network response, current predictive input, and recurrent history.](history-versus-inputs.md)
+
 ![Illustration of the inward goal cue and a movement that misses the reward area](figures/07_navigation_cues.png)
 
 ## 1. The saved code contains a useful goal cue

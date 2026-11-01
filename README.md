@@ -2,7 +2,9 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
-**New: [Why PGC models return to the goal better](mechanisms/navigation-explanation.md)** — useful goal geometry, turn-or-move steering, and causal input interventions in all eight 1B-frame LSTM seed pairs.
+**New: [What changed in the network, and what comes from the inputs?](mechanisms/history-versus-inputs.md)** — matched-input comparisons and new tests separating recurrent history from processing the current cue.
+
+**Navigation mechanism: [Why PGC models return to the goal better](mechanisms/navigation-explanation.md)** — useful goal geometry, turn-or-move steering, and causal input interventions in all eight 1B-frame LSTM seed pairs.
 
 **Related: [What changes inside the RNN?](mechanisms/README.md)** · [Episode shifts and eigenvalue/eigenvector spectra](mechanisms/offsets-and-spectra.md). A fixed episode-specific activity offset does not yet explain the benefit.
 
