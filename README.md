@@ -2,6 +2,8 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
+[Proposed transfer experiment with the 1B LSTMs](docs/lstm_transfer.md)
+
 **New: [What changed in the network, and what comes from the inputs?](mechanisms/history-versus-inputs.md)** — matched-input comparisons and new tests separating recurrent history from processing the current cue.
 
 **Navigation mechanism: [Why PGC models return to the goal better](mechanisms/navigation-explanation.md)** — useful goal geometry, turn-or-move steering, and causal input interventions in all eight 1B-frame LSTM seed pairs.

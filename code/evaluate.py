@@ -58,7 +58,8 @@ CANONICAL_EPISODES = 200
 
 
 def run_eval(cfg, policy, pop, dev, probe='intact', episodes=200, n_envs=32,
-             seed=424242, greedy=False, code_noise=None, paired=True):
+             seed=424242, greedy=False, code_noise=None, paired=True, action_hook=None):
+  """Optional action_hook(obs, sampled_action) records or replays a trajectory."""
   torch.manual_seed(seed)
   n = n_envs
   env = build_env(cfg, n, seed=seed, device=dev, stagger=False, paired=paired)
@@ -81,6 +82,8 @@ def run_eval(cfg, policy, pop, dev, probe='intact', episodes=200, n_envs=32,
         a = logits.argmax(-1)
       else:
         a = torch.distributions.Categorical(logits=logits).sample()
+      if action_hook is not None:
+        a = action_hook(obs, a)
       obs, r_raw, done, info = env.step(a)
       r = r_raw.clamp(-cfg['reward_clip'], cfg['reward_clip']) if cfg['reward_clip'] > 0 else r_raw
       hit = info['hit']

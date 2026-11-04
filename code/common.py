@@ -46,7 +46,7 @@ EXPERIMENT_KEYS = (
     'silence_pgc',
     'arena_half', 'episode_len', 'action_repeat', 'v_max', 'rot_max', 'goal_radius',
     'vision', 'img_noise', 'randomize_textures', 'policy', 'conv_arch', 'nh',
-    'encoder_norm', 'forward_bias', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
+    'encoder_norm', 'forward_bias', 'paired_layouts', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
     'rms_alpha', 'rms_eps', 'entropy', 'value_coef', 'grad_clip', 'reward_clip')
 
 
