@@ -87,6 +87,10 @@ def parse_args(argv=None):
   t.add_argument('--ckpt_every', type=int, default=25_000_000, help='frames')
   t.add_argument('--resume_every', type=int, default=200, help='updates')
   t.add_argument('--device', default='cuda:0')
+  t.add_argument('--paired_layouts', action='store_true',
+                 help='Key training layouts by slot, episode and respawn for paired adaptation')
+  t.add_argument('--init_weights', help='Start a new adaptation run from policy weights, '
+                 'with a fresh optimizer and frame counter. Requires an empty output directory.')
   t.add_argument('--resume', action='store_true')
   t.add_argument('--warmup_updates', type=int, default=200,
                  help='weights-only extension of a finished run (ckpt_final.pt below '
@@ -135,6 +139,8 @@ def main(argv=None):
   args = parse_args(argv)
   cfg = resolve_cond(vars(args))
   os.makedirs(cfg['out'], exist_ok=True)
+  if cfg['init_weights'] and (cfg['resume'] or os.listdir(cfg['out'])):
+    raise ValueError('--init_weights requires a fresh output directory and cannot resume')
   cfg_path = os.path.join(cfg['out'], 'config.json')
   resume_path = os.path.join(cfg['out'], 'resume.pt')
   final_path = os.path.join(cfg['out'], 'ckpt_final.pt')
@@ -211,8 +217,17 @@ def main(argv=None):
 
   pop = build_population(cfg, dev)
   n = cfg['n_envs']
-  env = build_env(cfg, n, seed=cfg['seed'] * 1000 + 1, device=dev, stagger=True)
+  env = build_env(cfg, n, seed=cfg['seed'] * 1000 + 1, device=dev, stagger=True,
+                  paired=cfg['paired_layouts'])
   policy = build_policy(cfg, dev)
+  if cfg['init_weights']:
+    import hashlib
+    from pathlib import Path
+    parent = Path(cfg['init_weights'])
+    ck = torch.load(parent, map_location='cpu', weights_only=True)
+    policy.load_state_dict(ck['policy'], strict=True)
+    cfg['parent_frames'] = int(ck['frames'])
+    cfg['parent_sha256'] = hashlib.sha256(parent.read_bytes()).hexdigest()
   code_src = CodeSource(cfg, pop, dev)
   opt = torch.optim.RMSprop(policy.parameters(), lr=cfg['lr'],
                             alpha=cfg['rms_alpha'], eps=cfg['rms_eps'])
