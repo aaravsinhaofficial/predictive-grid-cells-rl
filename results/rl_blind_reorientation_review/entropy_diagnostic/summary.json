@@ -1,0 +1,4468 @@
+{
+  "protocol_sha256": "655e90e387d09094af13ba401bb8cb6e7d9b4344a80653115ba5e6d2075cada6",
+  "action_names": [
+    "left",
+    "right",
+    "forward",
+    "backward",
+    "strafe_left",
+    "strafe_right"
+  ],
+  "missing": {
+    "gc100": [
+      "stage4"
+    ],
+    "pgc33": [
+      "stage3",
+      "stage4"
+    ]
+  },
+  "checkpoints": [
+    {
+      "endpoint": "incoming",
+      "condition": "gc100",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/incoming.pt",
+      "checkpoint_sha256": "54b036b136f6b4dfc8a8b2c18340da9f18d67fdd142ea0a4d90c4e9d78de9e5e",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 0,
+      "total_training_updates": 0,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "70cff160cded75f775f618d0f9225308349bd91d8717fb774c953d8d14388ac2",
+      "private_runtime_start_digest": "de3799a90a55c15b47b362d930098bad348d7ea6fd0c7d09ba0d0edbf1d12781",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b608000000003000000000000000",
+        "action_rng": "1a3b0200000000000000000000000000",
+        "noise_rng": "1d3b0200000000000000000000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 5055,
+          "entropy_nats": {
+            "mean": 0.12979187060290184,
+            "median": 0.016003633886056075,
+            "min": 1.0993809747953062e-06,
+            "max": 0.698376345591703
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1385913843238873,
+          "mean_action_probability": [
+            9.381545547743382e-07,
+            0.19347632213293292,
+            1.380734301195281e-06,
+            2.442110211047852e-05,
+            1.985911612489892e-06,
+            0.8064949519644882
+          ],
+          "actual_action_counts": [
+            0,
+            981,
+            0,
+            0,
+            0,
+            4074
+          ],
+          "turn_probability": 0.19347726028748768,
+          "translation_probability": 0.8065227397125122,
+          "maximum_action_probability_mean": 0.9462616823913961,
+          "probability_above99percent_fraction": 0.6300692383778437,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 15,
+          "entropy_nats": {
+            "mean": 0.0005543789983705553,
+            "median": 0.0002281072307227347,
+            "min": 9.256107563997708e-05,
+            "max": 0.002610501158691884
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0005545326948082,
+          "mean_action_probability": [
+            1.6778399965621856e-08,
+            0.9999458073548421,
+            4.685850555394924e-08,
+            2.557381721452077e-06,
+            7.94115120354459e-08,
+            5.1492215018890084e-05
+          ],
+          "actual_action_counts": [
+            0,
+            15,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9999458241332421,
+          "translation_probability": 5.417586675793156e-05,
+          "maximum_action_probability_mean": 0.9999458073548421,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "turn_a": {
+          "updates": 6,
+          "entropy_nats": {
+            "mean": 0.055393817511891104,
+            "median": 0.030257570438251467,
+            "min": 0.021426073212874923,
+            "max": 0.15498220876657226
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0569567808129554,
+          "mean_action_probability": [
+            2.4497203169356885e-07,
+            0.9891179847730739,
+            1.1354085844069809e-06,
+            3.818495596647778e-05,
+            1.004387737067275e-06,
+            0.010841445502606517
+          ],
+          "actual_action_counts": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9891182297451055,
+          "translation_probability": 0.01088177025489447,
+          "maximum_action_probability_mean": 0.9891179847730739,
+          "probability_above99percent_fraction": 0.6666666666666666,
+          "slots_with_exposure": 1
+        },
+        "turn_b": {
+          "updates": 6,
+          "entropy_nats": {
+            "mean": 0.45205774181638697,
+            "median": 0.3824154671959217,
+            "min": 0.19219024614403643,
+            "max": 0.687201046651802
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.5715426896872777,
+          "mean_action_probability": [
+            8.145053756739964e-07,
+            0.7684692074323026,
+            4.006169237209065e-06,
+            0.00013422938986531682,
+            3.1007818475638935e-06,
+            0.23138864172137144
+          ],
+          "actual_action_counts": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.7684700219376784,
+          "translation_probability": 0.2315299780623216,
+          "maximum_action_probability_mean": 0.7888961504326408,
+          "probability_above99percent_fraction": 0.0,
+          "slots_with_exposure": 1
+        },
+        "forward_probe": {
+          "updates": 4,
+          "entropy_nats": {
+            "mean": 0.6139520736671509,
+            "median": 0.6069670366758307,
+            "min": 0.6047128634089338,
+            "max": 0.6269019793719547
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.8477193109460834,
+          "mean_action_probability": [
+            9.227518578914771e-07,
+            0.30224489367734597,
+            4.503563187732146e-06,
+            0.00014224247910735066,
+            3.3723396499576487e-06,
+            0.697604065188851
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.3022458164292039,
+          "translation_probability": 0.6977541835707961,
+          "maximum_action_probability_mean": 0.6976040651888511,
+          "probability_above99percent_fraction": 0.0,
+          "slots_with_exposure": 1
+        },
+        "left_delay": {
+          "updates": 4,
+          "entropy_nats": {
+            "mean": 0.50578970502857,
+            "median": 0.48188567283190703,
+            "min": 0.48007890277692644,
+            "max": 0.5391595553033417
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.6582945670709413,
+          "mean_action_probability": [
+            8.73373503934982e-07,
+            0.2037613889010781,
+            4.12413250251833e-06,
+            0.00012227754862476916,
+            3.017710386905001e-06,
+            0.7961083183339038
+          ],
+          "actual_action_counts": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.20376226227458202,
+          "translation_probability": 0.796237737725418,
+          "maximum_action_probability_mean": 0.7961083183339037,
+          "probability_above99percent_fraction": 0.0,
+          "slots_with_exposure": 1
+        },
+        "free_blind": {
+          "updates": 30,
+          "entropy_nats": {
+            "mean": 0.5632559934359932,
+            "median": 0.5593107616807839,
+            "min": 0.4107374832078453,
+            "max": 0.6849022622413297
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.7563819684169282,
+          "mean_action_probability": [
+            8.945747640332591e-07,
+            0.2608202011549315,
+            4.331651945831301e-06,
+            0.00013079502663351919,
+            3.1649493785992954e-06,
+            0.7390406126423466
+          ],
+          "actual_action_counts": [
+            0,
+            10,
+            0,
+            0,
+            0,
+            20
+          ],
+          "turn_probability": 0.26082109572969553,
+          "translation_probability": 0.7391789042703045,
+          "maximum_action_probability_mean": 0.7390406126423464,
+          "probability_above99percent_fraction": 0.0,
+          "slots_with_exposure": 1
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 5100,
+        "entropy_nats": {
+          "mean": 0.13196154929131848,
+          "median": 0.016269286659876904,
+          "min": 1.0993809747953062e-06,
+          "max": 0.698376345591703
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.141064443687206,
+        "mean_action_probability": [
+          9.351882731970122e-07,
+          0.19624443167195027,
+          1.394169476176548e-06,
+          2.498252601829339e-05,
+          1.9872397755244936e-06,
+          0.8037262692045066
+        ],
+        "actual_action_counts": [
+          0,
+          1006,
+          0,
+          0,
+          0,
+          4094
+        ],
+        "turn_probability": 0.19624536686022348,
+        "translation_probability": 0.8037546331397766,
+        "maximum_action_probability_mean": 0.9452006294074705,
+        "probability_above99percent_fraction": 0.6274509803921569,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 1,
+      "total_slots": 32,
+      "free_update_fraction": 0.005859375,
+      "logged_entropy_equivalent": 0.13144604861736298,
+      "logged_policy_fraction_equivalent": 0.99609375,
+      "schedule_delta": {
+        "admitted": 1,
+        "completed": 1,
+        "interrupted_reward": 0,
+        "interrupted_done": 0,
+        "wait_segment": 174,
+        "wait_cap": 0,
+        "wait_episode": 0,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "after_warmup",
+      "condition": "gc100",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/after_warmup.pt",
+      "checkpoint_sha256": "45ab87c2cf174f0b516eebc92eede2c55be5d4794d92f9d60b123739e3e175d7",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 0,
+      "total_training_updates": 200,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "427f001114ce8b08e1d757178d69551922efbe272d4d8a0096c504591f546e6c",
+      "private_runtime_start_digest": "2e33c3f70a426f5988de35c1eaa8972ba8e6095570f577d6093873f1b3ecd188",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b608000000003067100000000000",
+        "action_rng": "1a3b02000000000000f4010000000000",
+        "noise_rng": "1d3b02000000000020f7010000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3877,
+          "entropy_nats": {
+            "mean": 0.14542122899754636,
+            "median": 0.01865923914953932,
+            "min": 1.5496527287216208e-06,
+            "max": 0.6967617686081178
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.156526630232018,
+          "mean_action_probability": [
+            6.249350026309237e-07,
+            0.2583418354080136,
+            1.5150279678855315e-06,
+            3.423059074360158e-05,
+            1.5290854138802555e-06,
+            0.7416202649528584
+          ],
+          "actual_action_counts": [
+            0,
+            1036,
+            0,
+            0,
+            0,
+            2841
+          ],
+          "turn_probability": 0.25834246034301617,
+          "translation_probability": 0.7416575396569838,
+          "maximum_action_probability_mean": 0.9375528061606713,
+          "probability_above99percent_fraction": 0.6094918751612071,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 297,
+          "entropy_nats": {
+            "mean": 0.15181202734282526,
+            "median": 0.01967774469650976,
+            "min": 2.5493655771682082e-05,
+            "max": 0.6967206986024586
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1639414267048602,
+          "mean_action_probability": [
+            1.1641928811617032e-06,
+            0.2653165882240113,
+            3.448689104022803e-06,
+            6.523360019844746e-05,
+            2.7877973521390984e-06,
+            0.734610777496453
+          ],
+          "actual_action_counts": [
+            0,
+            80,
+            0,
+            0,
+            0,
+            217
+          ],
+          "turn_probability": 0.2653177524168924,
+          "translation_probability": 0.7346822475831076,
+          "maximum_action_probability_mean": 0.9294554147990578,
+          "probability_above99percent_fraction": 0.6397306397306397,
+          "slots_with_exposure": 20
+        },
+        "turn_a": {
+          "updates": 132,
+          "entropy_nats": {
+            "mean": 0.21692970329906558,
+            "median": 0.06648136392616816,
+            "min": 9.586326724017128e-05,
+            "max": 0.695001765993286
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2422567725154865,
+          "mean_action_probability": [
+            8.528834481171826e-07,
+            0.6829596499242157,
+            3.1101642308030655e-06,
+            6.808417765544584e-05,
+            3.010186669728017e-06,
+            0.31696529266378026
+          ],
+          "actual_action_counts": [
+            65,
+            67,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.6829605028076637,
+          "translation_probability": 0.31703949719233626,
+          "maximum_action_probability_mean": 0.9082931676626116,
+          "probability_above99percent_fraction": 0.44696969696969696,
+          "slots_with_exposure": 18
+        },
+        "turn_b": {
+          "updates": 142,
+          "entropy_nats": {
+            "mean": 0.22234749811260374,
+            "median": 0.06556243047752917,
+            "min": 7.222207134063979e-05,
+            "max": 0.6938959918932157
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.249005329455855,
+          "mean_action_probability": [
+            8.452457579588863e-07,
+            0.7112581670033112,
+            3.1981187899222654e-06,
+            6.650179320565198e-05,
+            3.1046196710582295e-06,
+            0.28866818321926424
+          ],
+          "actual_action_counts": [
+            73,
+            69,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.7112590122490692,
+          "translation_probability": 0.2887409877509309,
+          "maximum_action_probability_mean": 0.8992550124157433,
+          "probability_above99percent_fraction": 0.4788732394366197,
+          "slots_with_exposure": 18
+        },
+        "forward_probe": {
+          "updates": 72,
+          "entropy_nats": {
+            "mean": 0.22511931392326112,
+            "median": 0.07085222360855088,
+            "min": 3.756580780308849e-05,
+            "max": 0.6939046583871796
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2524721446425924,
+          "mean_action_probability": [
+            9.638954268131092e-07,
+            0.6823399604222493,
+            3.6773160982739953e-06,
+            7.383202641708664e-05,
+            3.525546757731625e-06,
+            0.31757804079305074
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            72,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.6823409243176761,
+          "translation_probability": 0.31765907568232393,
+          "maximum_action_probability_mean": 0.8997642524475771,
+          "probability_above99percent_fraction": 0.4722222222222222,
+          "slots_with_exposure": 18
+        },
+        "left_delay": {
+          "updates": 60,
+          "entropy_nats": {
+            "mean": 0.19184888128996852,
+            "median": 0.049607703971363146,
+            "min": 3.7522569642390655e-05,
+            "max": 0.690675308364122
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2114874247140746,
+          "mean_action_probability": [
+            9.72675143655404e-07,
+            0.6911066180734177,
+            3.6413428872218778e-06,
+            7.188510948141937e-05,
+            3.4191540206469086e-06,
+            0.30881346364504936
+          ],
+          "actual_action_counts": [
+            60,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.6911075907485613,
+          "translation_probability": 0.30889240925143874,
+          "maximum_action_probability_mean": 0.9138566329787523,
+          "probability_above99percent_fraction": 0.5333333333333333,
+          "slots_with_exposure": 18
+        },
+        "free_blind": {
+          "updates": 540,
+          "entropy_nats": {
+            "mean": 0.22629511479859754,
+            "median": 0.09072439514272677,
+            "min": 4.471671485240701e-05,
+            "max": 0.6938843351784334
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2539456686022152,
+          "mean_action_probability": [
+            9.766438413647953e-07,
+            0.684018693887895,
+            3.7443392850055946e-06,
+            7.532132007180019e-05,
+            3.5060676206655126e-06,
+            0.31589775774128626
+          ],
+          "actual_action_counts": [
+            0,
+            373,
+            0,
+            0,
+            0,
+            167
+          ],
+          "turn_probability": 0.6840196705317363,
+          "translation_probability": 0.3159803294682637,
+          "maximum_action_probability_mean": 0.9005988103648532,
+          "probability_above99percent_fraction": 0.412962962962963,
+          "slots_with_exposure": 18
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4714,
+        "entropy_nats": {
+          "mean": 0.15508817117852125,
+          "median": 0.024618316996069416,
+          "min": 1.5496527287216208e-06,
+          "max": 0.6967617686081178
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.1677609194225769,
+        "mean_action_probability": [
+          6.991993986512742e-07,
+          0.3075435760031529,
+          1.8922289582711067e-06,
+          4.08909402653064e-05,
+          1.834857123113797e-06,
+          0.6924111067711016
+        ],
+        "actual_action_counts": [
+          0,
+          1489,
+          0,
+          0,
+          0,
+          3225
+        ],
+        "turn_probability": 0.3075442752025516,
+        "translation_probability": 0.6924557247974483,
+        "maximum_action_probability_mean": 0.9328094707843158,
+        "probability_above99percent_fraction": 0.5888841747984727,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 18,
+      "total_slots": 32,
+      "free_update_fraction": 0.10546875,
+      "logged_entropy_equivalent": 0.14279015362262726,
+      "logged_policy_fraction_equivalent": 0.920703113079071,
+      "schedule_delta": {
+        "admitted": 20,
+        "completed": 18,
+        "interrupted_reward": 2,
+        "interrupted_done": 0,
+        "wait_segment": 2128,
+        "wait_cap": 0,
+        "wait_episode": 64,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "stage1",
+      "condition": "gc100",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/stage1_delay4.pt",
+      "checkpoint_sha256": "af343136898efd931c80e07b53c3c190b0529b782de0452acbe2c32ad8f9fc75",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 10014720,
+      "total_training_updates": 689,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "337ff72266752cf4db594cd20f5795e34b939a99a17aae23fb671ddc0df214cf",
+      "private_runtime_start_digest": "5633915397b5a697955c5f93e27e7603dc7f1cb391f18d05dd5583807322de9c",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b6080000000050a7380000000000",
+        "action_rng": "1a3b02000000000080ba060000000000",
+        "noise_rng": "1d3b02000000000044c5060000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3800,
+          "entropy_nats": {
+            "mean": 0.1570218357472193,
+            "median": 0.037857850842089834,
+            "min": 1.851870829808432e-06,
+            "max": 0.6977638993592693
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1700211619083154,
+          "mean_action_probability": [
+            9.329880691755815e-07,
+            0.3101722494052895,
+            2.2119420879496974e-06,
+            4.699992769145976e-05,
+            1.6482416370340917e-06,
+            0.6897759574952249
+          ],
+          "actual_action_counts": [
+            0,
+            1190,
+            0,
+            0,
+            0,
+            2610
+          ],
+          "turn_probability": 0.31017318239335867,
+          "translation_probability": 0.6898268176066413,
+          "maximum_action_probability_mean": 0.9341729606965715,
+          "probability_above99percent_fraction": 0.555,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 322,
+          "entropy_nats": {
+            "mean": 0.19651910867627181,
+            "median": 0.03941243291692174,
+            "min": 3.1622345551907444e-05,
+            "max": 0.695197127189079
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2171585789452344,
+          "mean_action_probability": [
+            9.089870537294369e-07,
+            0.33079355233988966,
+            3.1573056113336594e-06,
+            6.223896269652648e-05,
+            1.8275563207566838e-06,
+            0.6691383148484279
+          ],
+          "actual_action_counts": [
+            0,
+            101,
+            0,
+            0,
+            0,
+            221
+          ],
+          "turn_probability": 0.33079446132694346,
+          "translation_probability": 0.6692055386730565,
+          "maximum_action_probability_mean": 0.9077377109990559,
+          "probability_above99percent_fraction": 0.5279503105590062,
+          "slots_with_exposure": 22
+        },
+        "turn_a": {
+          "updates": 148,
+          "entropy_nats": {
+            "mean": 0.2031190768544069,
+            "median": 0.07062860294144989,
+            "min": 3.138265482413609e-05,
+            "max": 0.6941443691530642
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2252183547091167,
+          "mean_action_probability": [
+            6.201541133033155e-07,
+            0.16493501361880417,
+            1.928368018916429e-06,
+            4.647450928485445e-05,
+            1.0228975036403105e-06,
+            0.8350149404522751
+          ],
+          "actual_action_counts": [
+            62,
+            86,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.16493563377291745,
+          "translation_probability": 0.8350643662270826,
+          "maximum_action_probability_mean": 0.906169046080801,
+          "probability_above99percent_fraction": 0.47297297297297297,
+          "slots_with_exposure": 20
+        },
+        "turn_b": {
+          "updates": 159,
+          "entropy_nats": {
+            "mean": 0.22417315356157547,
+            "median": 0.07707006992026441,
+            "min": 0.000325152363522627,
+            "max": 0.6949786442838372
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2512876655871459,
+          "mean_action_probability": [
+            6.769775447457085e-07,
+            0.1799486994124956,
+            2.138973677578654e-06,
+            5.093190553645152e-05,
+            1.1043669468904943e-06,
+            0.8199964483637987
+          ],
+          "actual_action_counts": [
+            88,
+            71,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.17994937639004036,
+          "translation_probability": 0.8200506236099596,
+          "maximum_action_probability_mean": 0.8919493824119378,
+          "probability_above99percent_fraction": 0.42138364779874216,
+          "slots_with_exposure": 20
+        },
+        "forward_probe": {
+          "updates": 80,
+          "entropy_nats": {
+            "mean": 0.2056371271589489,
+            "median": 0.06879944816833909,
+            "min": 0.002829653801609136,
+            "max": 0.6937655877082581
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2283074037185258,
+          "mean_action_probability": [
+            6.951342922492431e-07,
+            0.18341246921150645,
+            2.1536474701197133e-06,
+            4.887154993544571e-05,
+            1.1154178623535597e-06,
+            0.8165346950389335
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            80,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.18341316434579868,
+          "translation_probability": 0.8165868356542013,
+          "maximum_action_probability_mean": 0.9009278455566083,
+          "probability_above99percent_fraction": 0.425,
+          "slots_with_exposure": 20
+        },
+        "left_delay": {
+          "updates": 60,
+          "entropy_nats": {
+            "mean": 0.19402073344504422,
+            "median": 0.08503066193317901,
+            "min": 0.0012267129579077106,
+            "max": 0.6922001994956022
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2141214556157511,
+          "mean_action_probability": [
+            7.467736654486293e-07,
+            0.17407861097434374,
+            2.224822099173074e-06,
+            4.867279102792058e-05,
+            1.2037907556606108e-06,
+            0.825868540848108
+          ],
+          "actual_action_counts": [
+            60,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.17407935774800923,
+          "translation_probability": 0.8259206422519908,
+          "maximum_action_probability_mean": 0.907933473875885,
+          "probability_above99percent_fraction": 0.45,
+          "slots_with_exposure": 20
+        },
+        "free_blind": {
+          "updates": 551,
+          "entropy_nats": {
+            "mean": 0.2446037872241139,
+            "median": 0.13214571243191625,
+            "min": 0.0009316259637248671,
+            "max": 0.6947644401716253
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2771152035880196,
+          "mean_action_probability": [
+            8.592965019330786e-07,
+            0.21022386207462632,
+            2.6094792624931376e-06,
+            5.8608898107004746e-05,
+            1.3837630389529578e-06,
+            0.7897126764884633
+          ],
+          "actual_action_counts": [
+            0,
+            107,
+            0,
+            0,
+            0,
+            444
+          ],
+          "turn_probability": 0.2102247213711283,
+          "translation_probability": 0.7897752786288716,
+          "maximum_action_probability_mean": 0.8904358827062717,
+          "probability_above99percent_fraction": 0.294010889292196,
+          "slots_with_exposure": 20
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4673,
+        "entropy_nats": {
+          "mean": 0.17007036498901767,
+          "median": 0.04635952267402144,
+          "min": 1.851870829808432e-06,
+          "max": 0.6977638993592693
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.1853882582176396,
+        "mean_action_probability": [
+          9.226451672872275e-07,
+          0.29980813601469364,
+          2.323957931669593e-06,
+          4.9418826037403857e-05,
+          1.629412538086086e-06,
+          0.7001375691436319
+        ],
+        "actual_action_counts": [
+          0,
+          1398,
+          0,
+          0,
+          0,
+          3275
+        ],
+        "turn_probability": 0.299809058659861,
+        "translation_probability": 0.700190941340139,
+        "maximum_action_probability_mean": 0.9271943002267974,
+        "probability_above99percent_fraction": 0.5223625080248234,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 3,
+      "free_goals_per_100_free_updates": 0.5444646098003629,
+      "free_slots": 20,
+      "total_slots": 32,
+      "free_update_fraction": 0.10761718451976776,
+      "logged_entropy_equivalent": 0.15522241592407227,
+      "logged_policy_fraction_equivalent": 0.9126952886581421,
+      "schedule_delta": {
+        "admitted": 22,
+        "completed": 17,
+        "interrupted_reward": 5,
+        "interrupted_done": 0,
+        "wait_segment": 2504,
+        "wait_cap": 0,
+        "wait_episode": 32,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "stage2",
+      "condition": "gc100",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/stage2_delay15.pt",
+      "checkpoint_sha256": "8e6fa2bc615c55c51372013bd56e43709bd86039ba2b95df58c553d067795870",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 15,
+      "extra_frames": 20029440,
+      "total_training_updates": 1178,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "f149f5c4a8d40060880dde1a4c77409cf41d1b76aab6be688dde39142380d3fa",
+      "private_runtime_start_digest": "c40861600599bee4e823ce9d0894dfe5da2e670b975c562fa4ab91251d3710e5",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b608000000005cb4600000000000",
+        "action_rng": "1a3b02000000000000810b0000000000",
+        "noise_rng": "1d3b02000000000068930b0000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3748,
+          "entropy_nats": {
+            "mean": 0.1819154673620989,
+            "median": 0.06277650562804608,
+            "min": 2.0023474040625077e-05,
+            "max": 0.6984542441624999
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.199512791613557,
+          "mean_action_probability": [
+            5.765092943389114e-07,
+            0.2852677159469818,
+            1.6993744739081672e-06,
+            2.9229455968364785e-05,
+            1.2599992796412599e-06,
+            0.714699518714002
+          ],
+          "actual_action_counts": [
+            0,
+            1083,
+            0,
+            1,
+            0,
+            2664
+          ],
+          "turn_probability": 0.2852682924562762,
+          "translation_probability": 0.7147317075437238,
+          "maximum_action_probability_mean": 0.9226852796014324,
+          "probability_above99percent_fraction": 0.4815901814300961,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 285,
+          "entropy_nats": {
+            "mean": 0.1813794135721952,
+            "median": 0.08499958811354573,
+            "min": 5.834182373377084e-05,
+            "max": 0.6941684339629661
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1988699605469826,
+          "mean_action_probability": [
+            8.163032330530311e-07,
+            0.3189648905646878,
+            2.6113012259391444e-06,
+            4.262036699899354e-05,
+            1.820681188264539e-06,
+            0.680987240782666
+          ],
+          "actual_action_counts": [
+            0,
+            92,
+            0,
+            0,
+            0,
+            193
+          ],
+          "turn_probability": 0.3189657068679208,
+          "translation_probability": 0.6810342931320792,
+          "maximum_action_probability_mean": 0.9278392326803665,
+          "probability_above99percent_fraction": 0.4421052631578947,
+          "slots_with_exposure": 19
+        },
+        "turn_a": {
+          "updates": 144,
+          "entropy_nats": {
+            "mean": 0.31415243888617717,
+            "median": 0.301505540474214,
+            "min": 0.009705381739766246,
+            "max": 0.6938836381219887
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.3690984244797881,
+          "mean_action_probability": [
+            8.226651610180916e-07,
+            0.5501515455801699,
+            2.704521916961339e-06,
+            5.30735000121077e-05,
+            1.881220059757449e-06,
+            0.44978997251268027
+          ],
+          "actual_action_counts": [
+            42,
+            102,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.550152368245331,
+          "translation_probability": 0.44984763175466913,
+          "maximum_action_probability_mean": 0.8605615447042209,
+          "probability_above99percent_fraction": 0.2847222222222222,
+          "slots_with_exposure": 19
+        },
+        "turn_b": {
+          "updates": 140,
+          "entropy_nats": {
+            "mean": 0.2595952509127441,
+            "median": 0.22859294938906805,
+            "min": 0.007981626030629303,
+            "max": 0.6925037964559299
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.296405261615354,
+          "mean_action_probability": [
+            6.912867830034713e-07,
+            0.5611088297947717,
+            2.3072078846428386e-06,
+            4.679599468493812e-05,
+            1.5901633804969085e-06,
+            0.4388397855524953
+          ],
+          "actual_action_counts": [
+            67,
+            73,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.5611095210815547,
+          "translation_probability": 0.43889047891844535,
+          "maximum_action_probability_mean": 0.8958033014174022,
+          "probability_above99percent_fraction": 0.35714285714285715,
+          "slots_with_exposure": 19
+        },
+        "forward_probe": {
+          "updates": 75,
+          "entropy_nats": {
+            "mean": 0.23763781107611598,
+            "median": 0.18549903657181005,
+            "min": 0.008678003943070525,
+            "max": 0.6882689308887193
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.268249763612748,
+          "mean_action_probability": [
+            6.628667013185936e-07,
+            0.5525736609751175,
+            2.1586658907532223e-06,
+            4.41234883616481e-05,
+            1.4788400444590488e-06,
+            0.44737791516388437
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            75,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.5525743238418188,
+          "translation_probability": 0.44742567615818124,
+          "maximum_action_probability_mean": 0.909765235087595,
+          "probability_above99percent_fraction": 0.29333333333333333,
+          "slots_with_exposure": 19
+        },
+        "left_delay": {
+          "updates": 217,
+          "entropy_nats": {
+            "mean": 0.24035357221662923,
+            "median": 0.26683877283576557,
+            "min": 0.003682112157662073,
+            "max": 0.6915846870525751
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.2716987081722713,
+          "mean_action_probability": [
+            7.090951487487071e-07,
+            0.5557762764547987,
+            2.2773634619153245e-06,
+            4.2978562920529107e-05,
+            1.4827904588561285e-06,
+            0.4441762757332112
+          ],
+          "actual_action_counts": [
+            217,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.5557769855499475,
+          "translation_probability": 0.44422301445005247,
+          "maximum_action_probability_mean": 0.9162960266952935,
+          "probability_above99percent_fraction": 0.2626728110599078,
+          "slots_with_exposure": 18
+        },
+        "free_blind": {
+          "updates": 511,
+          "entropy_nats": {
+            "mean": 0.306813483363993,
+            "median": 0.34053213095625695,
+            "min": 0.004928849866099939,
+            "max": 0.6930238646959923
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.3590874520106457,
+          "mean_action_probability": [
+            7.611917941996124e-07,
+            0.5557667679654986,
+            2.45670174996029e-06,
+            4.905036407629892e-05,
+            1.6505980453532912e-06,
+            0.4441793131788356
+          ],
+          "actual_action_counts": [
+            0,
+            286,
+            0,
+            0,
+            0,
+            225
+          ],
+          "turn_probability": 0.5557675291572929,
+          "translation_probability": 0.44423247084270717,
+          "maximum_action_probability_mean": 0.87983979559441,
+          "probability_above99percent_fraction": 0.18003913894324852,
+          "slots_with_exposure": 18
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4544,
+        "entropy_nats": {
+          "mean": 0.1959273755590279,
+          "median": 0.080952662359824,
+          "min": 2.0023474040625077e-05,
+          "max": 0.6984542441624999
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.2164385589559807,
+        "mean_action_probability": [
+          6.123178396651312e-07,
+          0.31780044269599333,
+          1.8417365695048802e-06,
+          3.2298314614245844e-05,
+          1.3390904577302744e-06,
+          0.6821634658445255
+        ],
+        "actual_action_counts": [
+          0,
+          1461,
+          0,
+          1,
+          0,
+          3082
+        ],
+        "turn_probability": 0.317801055013833,
+        "translation_probability": 0.6821989449861671,
+        "maximum_action_probability_mean": 0.9181903047554616,
+        "probability_above99percent_fraction": 0.4452024647887324,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 1,
+      "free_goals_per_100_free_updates": 0.19569471624266144,
+      "free_slots": 18,
+      "total_slots": 32,
+      "free_update_fraction": 0.09980468451976776,
+      "logged_entropy_equivalent": 0.1738855391740799,
+      "logged_policy_fraction_equivalent": 0.887499988079071,
+      "schedule_delta": {
+        "admitted": 19,
+        "completed": 17,
+        "interrupted_reward": 2,
+        "interrupted_done": 0,
+        "wait_segment": 1685,
+        "wait_cap": 0,
+        "wait_episode": 32,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "stage3",
+      "condition": "gc100",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/stage3_delay30.pt",
+      "checkpoint_sha256": "4ffa1c26aaf953e4a30088b8cdc6c1ada705cbde4f6a85c22e2324c14afbc19e",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 30,
+      "extra_frames": 30044160,
+      "total_training_updates": 1667,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "2bcd6f42fcedb36f03b03a5763ca0f4806a1ae8687e3315143db9e544d5f3db9",
+      "private_runtime_start_digest": "0c46143d16b2555401823ec638b76f4e114f718131da567d0ec17f62c8753359",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b60800000000d89f880000000000",
+        "action_rng": "1a3b0200000000008047100000000000",
+        "noise_rng": "1d3b0200000000008c61100000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3985,
+          "entropy_nats": {
+            "mean": 0.16703030108419448,
+            "median": 0.0608271778681374,
+            "min": 1.1224258062357419e-05,
+            "max": 0.6949431374151952
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1817900742863745,
+          "mean_action_probability": [
+            5.946881382689786e-07,
+            0.261895828254339,
+            1.7075599630565232e-06,
+            2.9090916455282588e-05,
+            1.2033747482263328e-06,
+            0.7380715752063561
+          ],
+          "actual_action_counts": [
+            0,
+            1073,
+            0,
+            1,
+            0,
+            2911
+          ],
+          "turn_probability": 0.26189642294247734,
+          "translation_probability": 0.7381035770575227,
+          "maximum_action_probability_mean": 0.93322015976363,
+          "probability_above99percent_fraction": 0.4868255959849435,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 226,
+          "entropy_nats": {
+            "mean": 0.16461547517633307,
+            "median": 0.05929969138976563,
+            "min": 3.651265055325345e-05,
+            "max": 0.695293831608833
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1789396999613535,
+          "mean_action_probability": [
+            7.010211313044602e-07,
+            0.2979568241616779,
+            2.743069536479444e-06,
+            6.069499998146832e-05,
+            1.813659558134564e-06,
+            0.7019772230881147
+          ],
+          "actual_action_counts": [
+            0,
+            70,
+            0,
+            0,
+            0,
+            156
+          ],
+          "turn_probability": 0.29795752518280916,
+          "translation_probability": 0.7020424748171907,
+          "maximum_action_probability_mean": 0.9350498901446882,
+          "probability_above99percent_fraction": 0.49557522123893805,
+          "slots_with_exposure": 16
+        },
+        "turn_a": {
+          "updates": 95,
+          "entropy_nats": {
+            "mean": 0.2746655198594225,
+            "median": 0.19431462605609756,
+            "min": 0.001070154794934102,
+            "max": 0.6943992637241928
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.3160903951389349,
+          "mean_action_probability": [
+            9.055550438239735e-07,
+            0.2631832478992968,
+            2.9303165171996522e-06,
+            5.0880493559284535e-05,
+            1.4299710438893157e-06,
+            0.7367606057645391
+          ],
+          "actual_action_counts": [
+            68,
+            27,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.2631841534543406,
+          "translation_probability": 0.7368158465456595,
+          "maximum_action_probability_mean": 0.8842005322904605,
+          "probability_above99percent_fraction": 0.25263157894736843,
+          "slots_with_exposure": 13
+        },
+        "turn_b": {
+          "updates": 100,
+          "entropy_nats": {
+            "mean": 0.27974824427630246,
+            "median": 0.201380616738358,
+            "min": 0.0027041695513725338,
+            "max": 0.6905320720426751
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.3227967487610761,
+          "mean_action_probability": [
+            9.019107081239497e-07,
+            0.326937035761637,
+            2.992811419208745e-06,
+            5.237413662090032e-05,
+            1.4618661834926868e-06,
+            0.6730052335134313
+          ],
+          "actual_action_counts": [
+            33,
+            67,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.3269379376723452,
+          "translation_probability": 0.6730620623276548,
+          "maximum_action_probability_mean": 0.8811811968165313,
+          "probability_above99percent_fraction": 0.18,
+          "slots_with_exposure": 13
+        },
+        "forward_probe": {
+          "updates": 52,
+          "entropy_nats": {
+            "mean": 0.31996333248038433,
+            "median": 0.26387225984106916,
+            "min": 0.004986189749875874,
+            "max": 0.6933632163834318
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.3770772694024127,
+          "mean_action_probability": [
+            1.065359120300264e-06,
+            0.3404945213039519,
+            3.5366738272549162e-06,
+            6.033588980321814e-05,
+            1.691896731442401e-06,
+            0.6594388488765659
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            52,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.34049558666307217,
+          "translation_probability": 0.6595044133369279,
+          "maximum_action_probability_mean": 0.8657600510027035,
+          "probability_above99percent_fraction": 0.15384615384615385,
+          "slots_with_exposure": 13
+        },
+        "left_delay": {
+          "updates": 292,
+          "entropy_nats": {
+            "mean": 0.370546680232736,
+            "median": 0.28378750896078603,
+            "min": 0.020957001087670915,
+            "max": 0.6938718516811657
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.448526278933296,
+          "mean_action_probability": [
+            1.2663693396939094e-06,
+            0.4291495871489018,
+            4.1004672251730336e-06,
+            7.043604847584008e-05,
+            2.0595309634755096e-06,
+            0.570772550435094
+          ],
+          "actual_action_counts": [
+            292,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.4291508535182415,
+          "translation_probability": 0.5708491464817586,
+          "maximum_action_probability_mean": 0.8391870622797494,
+          "probability_above99percent_fraction": 0.09246575342465753,
+          "slots_with_exposure": 13
+        },
+        "free_blind": {
+          "updates": 370,
+          "entropy_nats": {
+            "mean": 0.40628306468008457,
+            "median": 0.43148633132267905,
+            "min": 0.03340489799082473,
+            "max": 0.6946278251034549
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.5012274367844376,
+          "mean_action_probability": [
+            1.1640069317970716e-06,
+            0.39326925514629935,
+            3.887891028179718e-06,
+            7.045298219635318e-05,
+            1.9037159997385981e-06,
+            0.6066533362575446
+          ],
+          "actual_action_counts": [
+            0,
+            139,
+            0,
+            0,
+            0,
+            231
+          ],
+          "turn_probability": 0.3932704191532312,
+          "translation_probability": 0.6067295808467688,
+          "maximum_action_probability_mean": 0.8115420410066414,
+          "probability_above99percent_fraction": 0.08108108108108109,
+          "slots_with_exposure": 13
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4581,
+        "entropy_nats": {
+          "mean": 0.1862352283654219,
+          "median": 0.07317774952221492,
+          "min": 1.1224258062357419e-05,
+          "max": 0.695293831608833
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.2047056079816063,
+        "mean_action_probability": [
+          6.459169551280515e-07,
+          0.27428568920720603,
+          1.9347478385616887e-06,
+          3.399082634419638e-05,
+          1.2900481012275986e-06,
+          0.7256764492535549
+        ],
+        "actual_action_counts": [
+          0,
+          1282,
+          0,
+          1,
+          0,
+          3298
+        ],
+        "turn_probability": 0.2742863351241612,
+        "translation_probability": 0.7257136648758388,
+        "maximum_action_probability_mean": 0.9234826821661694,
+        "probability_above99percent_fraction": 0.4544859201047806,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 1,
+      "free_goals_per_100_free_updates": 0.2702702702702703,
+      "free_slots": 13,
+      "total_slots": 32,
+      "free_update_fraction": 0.072265625,
+      "logged_entropy_equivalent": 0.1666295826435089,
+      "logged_policy_fraction_equivalent": 0.894726574420929,
+      "schedule_delta": {
+        "admitted": 16,
+        "completed": 12,
+        "interrupted_reward": 4,
+        "interrupted_done": 0,
+        "wait_segment": 1721,
+        "wait_cap": 0,
+        "wait_episode": 36,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "incoming",
+      "condition": "pgc33",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/incoming.pt",
+      "checkpoint_sha256": "932ea8a7a7faf305c4930291d8ca473d1d78be66b45a9011ef2ec3832e9f4567",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 0,
+      "total_training_updates": 0,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "70cff160cded75f775f618d0f9225308349bd91d8717fb774c953d8d14388ac2",
+      "private_runtime_start_digest": "de3799a90a55c15b47b362d930098bad348d7ea6fd0c7d09ba0d0edbf1d12781",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b608000000003000000000000000",
+        "action_rng": "1a3b0200000000000000000000000000",
+        "noise_rng": "1d3b0200000000000000000000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 5055,
+          "entropy_nats": {
+            "mean": 0.16746097575435565,
+            "median": 0.04227709504189062,
+            "min": 5.677763328315257e-05,
+            "max": 0.7532163352928791
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1822991509521614,
+          "mean_action_probability": [
+            1.6459809291056627e-06,
+            0.2242155032367886,
+            1.5506187068096639e-06,
+            9.164075891346932e-05,
+            1.7671213289009907e-06,
+            0.775687892283333
+          ],
+          "actual_action_counts": [
+            0,
+            1139,
+            0,
+            1,
+            0,
+            3915
+          ],
+          "turn_probability": 0.22421714921771774,
+          "translation_probability": 0.7757828507822823,
+          "maximum_action_probability_mean": 0.9298100336224393,
+          "probability_above99percent_fraction": 0.5349159248269041,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 15,
+          "entropy_nats": {
+            "mean": 0.0005975817189619487,
+            "median": 0.0004262659839946312,
+            "min": 0.00010567592915559476,
+            "max": 0.0016909645793809626
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.000597760306489,
+          "mean_action_probability": [
+            9.142346355745966e-08,
+            0.9999460410976467,
+            6.826994625547777e-08,
+            3.2245355050940126e-05,
+            1.422829293464688e-07,
+            2.1411570963242938e-05
+          ],
+          "actual_action_counts": [
+            0,
+            15,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9999461325211102,
+          "translation_probability": 5.386747888978502e-05,
+          "maximum_action_probability_mean": 0.9999460410976468,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "turn_a": {
+          "updates": 6,
+          "entropy_nats": {
+            "mean": 0.0027433852249228795,
+            "median": 0.0028063939422849206,
+            "min": 0.0019970577188945606,
+            "max": 0.0032670319683585224
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0027471517497244,
+          "mean_action_probability": [
+            1.5043406502949338e-07,
+            0.999719643052091,
+            1.440376034850636e-07,
+            8.154963269202879e-05,
+            3.776271321340315e-07,
+            0.0001981352164161347
+          ],
+          "actual_action_counts": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9997197934861561,
+          "translation_probability": 0.00028020651384378254,
+          "maximum_action_probability_mean": 0.999719643052091,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "turn_b": {
+          "updates": 6,
+          "entropy_nats": {
+            "mean": 0.0034507500145444323,
+            "median": 0.0031977856258329843,
+            "min": 0.00280870368158816,
+            "max": 0.005080353217111323
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.00345671070669,
+          "mean_action_probability": [
+            2.438003882799658e-07,
+            0.9996379710792089,
+            2.44147088953641e-07,
+            0.0001107287094536552,
+            6.505126719148686e-07,
+            0.00025016175118820847
+          ],
+          "actual_action_counts": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9996382148795971,
+          "translation_probability": 0.00036178512040273216,
+          "maximum_action_probability_mean": 0.9996379710792089,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "forward_probe": {
+          "updates": 4,
+          "entropy_nats": {
+            "mean": 0.004190581569387007,
+            "median": 0.004098512182718143,
+            "min": 0.0033610140190241796,
+            "max": 0.004860427610938457
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0041993743343076,
+          "mean_action_probability": [
+            2.9967443131531163e-07,
+            0.9995503393692586,
+            3.035528063212514e-07,
+            0.00012977866077325606,
+            7.96819813702129e-07,
+            0.00031848192291687087
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9995506390436899,
+          "translation_probability": 0.0004493609563101503,
+          "maximum_action_probability_mean": 0.9995503393692586,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "left_delay": {
+          "updates": 4,
+          "entropy_nats": {
+            "mean": 0.017680721700635428,
+            "median": 0.01399505855492604,
+            "min": 0.013525635784728426,
+            "max": 0.028671686382918025
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0178379509357642,
+          "mean_action_probability": [
+            6.219863716501674e-07,
+            0.9975730306279321,
+            7.013969120536771e-07,
+            0.00026447175612848465,
+            1.5883705842979222e-06,
+            0.0021595858620714467
+          ],
+          "actual_action_counts": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9975736526143038,
+          "translation_probability": 0.0024263473856962828,
+          "maximum_action_probability_mean": 0.9975730306279321,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 1
+        },
+        "free_blind": {
+          "updates": 30,
+          "entropy_nats": {
+            "mean": 0.051851453423860196,
+            "median": 0.05264038943730562,
+            "min": 0.014282031129319117,
+            "max": 0.08001984053514678
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0532192787747898,
+          "mean_action_probability": [
+            9.360232130648458e-07,
+            0.991114142692966,
+            1.06248936798474e-06,
+            0.000423870835279685,
+            2.4057385891781194e-06,
+            0.00845758222058415
+          ],
+          "actual_action_counts": [
+            0,
+            29,
+            0,
+            0,
+            0,
+            1
+          ],
+          "turn_probability": 0.991115078716179,
+          "translation_probability": 0.008884921283820997,
+          "maximum_action_probability_mean": 0.9911141426929659,
+          "probability_above99percent_fraction": 0.6,
+          "slots_with_exposure": 1
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 5100,
+        "entropy_nats": {
+          "mean": 0.1662901450523075,
+          "median": 0.04238816438538435,
+          "min": 5.677763328315257e-05,
+          "max": 0.7532163352928791
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.180915688865207,
+        "mean_action_probability": [
+          1.6372324794067515e-06,
+          0.231008232109651,
+          1.543387508462005e-06,
+          9.342036111602785e-05,
+          1.7660989645509905e-06,
+          0.7688934008102805
+        ],
+        "actual_action_counts": [
+          0,
+          1183,
+          0,
+          1,
+          0,
+          3916
+        ],
+        "turn_probability": 0.23100986934213044,
+        "translation_probability": 0.7689901306578696,
+        "maximum_action_probability_mean": 0.9303769284036638,
+        "probability_above99percent_fraction": 0.5366666666666666,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 1,
+      "total_slots": 32,
+      "free_update_fraction": 0.005859375,
+      "logged_entropy_equivalent": 0.16564054787158966,
+      "logged_policy_fraction_equivalent": 0.99609375,
+      "schedule_delta": {
+        "admitted": 1,
+        "completed": 1,
+        "interrupted_reward": 0,
+        "interrupted_done": 0,
+        "wait_segment": 333,
+        "wait_cap": 0,
+        "wait_episode": 0,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "after_warmup",
+      "condition": "pgc33",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/after_warmup.pt",
+      "checkpoint_sha256": "bdc8e09b8b1611c5f795f96c970fe9f5dfa60dddeb15ecf9ff2e36bc288804fd",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 0,
+      "total_training_updates": 200,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "f2a4f85b34cd5f105f9c47c3fbe0123c18ca6e42f1f4f6cdf6978f12aa08d3bd",
+      "private_runtime_start_digest": "2eeb36cd4d4c52220f77b4ac0dbbdafb7d48b3e6147064494a0622a59d037ce5",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b60800000000a870100000000000",
+        "action_rng": "1a3b02000000000000f4010000000000",
+        "noise_rng": "1d3b02000000000020f7010000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 4116,
+          "entropy_nats": {
+            "mean": 0.18039848179507795,
+            "median": 0.052377864193956396,
+            "min": 7.460827108273437e-06,
+            "max": 0.7869098774447655
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1976945275101125,
+          "mean_action_probability": [
+            9.166663232836537e-06,
+            0.2825834081261434,
+            7.772490544034222e-06,
+            0.0006837726813571164,
+            1.0723395661252602e-05,
+            0.7167051566430613
+          ],
+          "actual_action_counts": [
+            0,
+            1164,
+            0,
+            2,
+            0,
+            2950
+          ],
+          "turn_probability": 0.28259257478937627,
+          "translation_probability": 0.7174074252106238,
+          "maximum_action_probability_mean": 0.9240314528502405,
+          "probability_above99percent_fraction": 0.5116618075801749,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 262,
+          "entropy_nats": {
+            "mean": 0.19696951705032012,
+            "median": 0.08112918527895722,
+            "min": 9.905812664081582e-05,
+            "max": 0.7683632143430735
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.217706920841357,
+          "mean_action_probability": [
+            2.757007145799281e-05,
+            0.30079005505010453,
+            1.798295432620842e-05,
+            0.0016035019555204811,
+            2.373352388591149e-05,
+            0.6975371564447048
+          ],
+          "actual_action_counts": [
+            0,
+            86,
+            0,
+            0,
+            0,
+            176
+          ],
+          "turn_probability": 0.3008176251215625,
+          "translation_probability": 0.6991823748784375,
+          "maximum_action_probability_mean": 0.9181192543670302,
+          "probability_above99percent_fraction": 0.46564885496183206,
+          "slots_with_exposure": 18
+        },
+        "turn_a": {
+          "updates": 114,
+          "entropy_nats": {
+            "mean": 0.17721326806728885,
+            "median": 0.006324940856489267,
+            "min": 7.780201441600738e-05,
+            "max": 0.6992644046148642
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1938856836704774,
+          "mean_action_probability": [
+            6.018752148644914e-06,
+            0.8098443703137401,
+            6.439801880967703e-06,
+            0.000471156082879528,
+            8.468848679022868e-06,
+            0.1896635462006719
+          ],
+          "actual_action_counts": [
+            88,
+            26,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.8098503890658886,
+          "translation_probability": 0.1901496109341114,
+          "maximum_action_probability_mean": 0.9161042048166751,
+          "probability_above99percent_fraction": 0.6666666666666666,
+          "slots_with_exposure": 15
+        },
+        "turn_b": {
+          "updates": 108,
+          "entropy_nats": {
+            "mean": 0.1822388872349516,
+            "median": 0.0012586151863624704,
+            "min": 5.6826980538897894e-05,
+            "max": 0.702928294637369
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.199900800629637,
+          "mean_action_probability": [
+            3.2847612131097565e-06,
+            0.7884861845650177,
+            5.350823176746069e-06,
+            0.0004059053963843907,
+            6.164664587741779e-06,
+            0.21109310978962023
+          ],
+          "actual_action_counts": [
+            65,
+            43,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.7884894693262309,
+          "translation_probability": 0.21151053067376913,
+          "maximum_action_probability_mean": 0.9134082515180019,
+          "probability_above99percent_fraction": 0.6944444444444444,
+          "slots_with_exposure": 15
+        },
+        "forward_probe": {
+          "updates": 59,
+          "entropy_nats": {
+            "mean": 0.16569427157647293,
+            "median": 0.0008789091562907574,
+            "min": 3.8372950701202005e-05,
+            "max": 0.7071318336208218
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.180212222138412,
+          "mean_action_probability": [
+            3.110911732136021e-06,
+            0.8477332246031981,
+            5.279541691703709e-06,
+            0.00038558470035765383,
+            5.659745032639114e-06,
+            0.1518671404979878
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            59,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.8477363355149302,
+          "translation_probability": 0.1522636644850698,
+          "maximum_action_probability_mean": 0.9085146237469633,
+          "probability_above99percent_fraction": 0.7457627118644068,
+          "slots_with_exposure": 15
+        },
+        "left_delay": {
+          "updates": 41,
+          "entropy_nats": {
+            "mean": 0.14600350415280144,
+            "median": 0.0005293040035412336,
+            "min": 4.979151671740665e-05,
+            "max": 0.700089470440305
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1572002430501651,
+          "mean_action_probability": [
+            2.372424047596019e-06,
+            0.8441814174662886,
+            4.43599143886667e-06,
+            0.00033461004759968184,
+            5.728518913142306e-06,
+            0.15547143555171208
+          ],
+          "actual_action_counts": [
+            41,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.8441837898903363,
+          "translation_probability": 0.1558162101096638,
+          "maximum_action_probability_mean": 0.9276392942215828,
+          "probability_above99percent_fraction": 0.7073170731707317,
+          "slots_with_exposure": 14
+        },
+        "free_blind": {
+          "updates": 420,
+          "entropy_nats": {
+            "mean": 0.14188431430232132,
+            "median": 0.0005210432626193238,
+            "min": 4.848980595357264e-05,
+            "max": 0.7052199995868115
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1524433196155641,
+          "mean_action_probability": [
+            2.1452832245249416e-06,
+            0.8844389523850011,
+            3.650805016692772e-06,
+            0.00032011565797070385,
+            4.715210220651186e-06,
+            0.1152304206585664
+          ],
+          "actual_action_counts": [
+            0,
+            366,
+            0,
+            0,
+            0,
+            54
+          ],
+          "turn_probability": 0.8844410976682257,
+          "translation_probability": 0.11555890233177443,
+          "maximum_action_probability_mean": 0.9209046448038426,
+          "probability_above99percent_fraction": 0.780952380952381,
+          "slots_with_exposure": 14
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4798,
+        "entropy_nats": {
+          "mean": 0.17793196676588158,
+          "median": 0.04525621529752773,
+          "min": 7.460827108273437e-06,
+          "max": 0.7869098774447655
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.1947440361690649,
+        "mean_action_probability": [
+          9.556974477417624e-06,
+          0.3362619137707449,
+          7.969246190021348e-06,
+          0.000702162243676522,
+          1.0907892474468115e-05,
+          0.6630074898724366
+        ],
+        "actual_action_counts": [
+          0,
+          1616,
+          0,
+          2,
+          0,
+          3180
+        ],
+        "turn_probability": 0.3362714707452223,
+        "translation_probability": 0.6637285292547778,
+        "maximum_action_probability_mean": 0.9234349010824022,
+        "probability_above99percent_fraction": 0.5327219674864527,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 14,
+      "total_slots": 32,
+      "free_update_fraction": 0.08203125,
+      "logged_entropy_equivalent": 0.16674168407917023,
+      "logged_policy_fraction_equivalent": 0.9371093511581421,
+      "schedule_delta": {
+        "admitted": 18,
+        "completed": 14,
+        "interrupted_reward": 4,
+        "interrupted_done": 0,
+        "wait_segment": 1925,
+        "wait_cap": 0,
+        "wait_episode": 64,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "stage1",
+      "condition": "pgc33",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/stage1_delay4.pt",
+      "checkpoint_sha256": "d55c83ff2b1057b3387800b765c97130f729c29ab1c198eaf63e10a588f005ef",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 4,
+      "extra_frames": 10014720,
+      "total_training_updates": 689,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "ef520cda1991a0dbfee350c5eaef324dfb76a77a8c5ed12d4e686d7ef31603c9",
+      "private_runtime_start_digest": "1b84dab8b64f51abef41ed3b7020ebb2dd1556458cf2a7e9e9a126a19fc2453b",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b60800000000c0c1380000000000",
+        "action_rng": "1a3b02000000000080ba060000000000",
+        "noise_rng": "1d3b02000000000044c5060000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3848,
+          "entropy_nats": {
+            "mean": 0.14889406884511458,
+            "median": 0.03764375039498106,
+            "min": 2.121437971668458e-05,
+            "max": 0.7676630307341302
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.1605500442908578,
+          "mean_action_probability": [
+            6.208388621042865e-06,
+            0.3279484762587102,
+            4.783978387258042e-06,
+            0.0005638476182515441,
+            4.31378346673429e-06,
+            0.6714723699725633
+          ],
+          "actual_action_counts": [
+            0,
+            1267,
+            0,
+            1,
+            0,
+            2580
+          ],
+          "turn_probability": 0.3279546846473312,
+          "translation_probability": 0.6720453153526688,
+          "maximum_action_probability_mean": 0.9405703934981142,
+          "probability_above99percent_fraction": 0.5657484407484408,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 296,
+          "entropy_nats": {
+            "mean": 0.2134086868339985,
+            "median": 0.06360589297430733,
+            "min": 5.9851510596619097e-05,
+            "max": 0.7209932816423891
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.237890457410276,
+          "mean_action_probability": [
+            1.0820943963718931e-05,
+            0.32498973312740764,
+            8.33872460429998e-06,
+            0.0010206867598922646,
+            6.585667211429476e-06,
+            0.6739638347769207
+          ],
+          "actual_action_counts": [
+            0,
+            100,
+            0,
+            0,
+            0,
+            196
+          ],
+          "turn_probability": 0.32500055407137135,
+          "translation_probability": 0.6749994459286286,
+          "maximum_action_probability_mean": 0.9099698740776461,
+          "probability_above99percent_fraction": 0.47635135135135137,
+          "slots_with_exposure": 21
+        },
+        "turn_a": {
+          "updates": 150,
+          "entropy_nats": {
+            "mean": 0.049006681765796145,
+            "median": 0.00033600259093662896,
+            "min": 7.64671617036272e-06,
+            "max": 0.5595466686041267
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0502273680898904,
+          "mean_action_probability": [
+            5.889795329100646e-07,
+            0.8863043068377109,
+            6.310441252729764e-07,
+            0.0001037266541671618,
+            5.196404751107396e-07,
+            0.11359022684398863
+          ],
+          "actual_action_counts": [
+            88,
+            62,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.8863048958172438,
+          "translation_probability": 0.11369510418275615,
+          "maximum_action_probability_mean": 0.9845680292679587,
+          "probability_above99percent_fraction": 0.8533333333333334,
+          "slots_with_exposure": 19
+        },
+        "turn_b": {
+          "updates": 151,
+          "entropy_nats": {
+            "mean": 0.028780879032057585,
+            "median": 0.00013077856337353837,
+            "min": 7.1047313877675825e-06,
+            "max": 0.4081908894536679
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0291990506731563,
+          "mean_action_probability": [
+            2.8434791202889137e-07,
+            0.915168646101303,
+            3.2736512389492513e-07,
+            5.192441118793135e-05,
+            2.501244996484883e-07,
+            0.08477856764997345
+          ],
+          "actual_action_counts": [
+            81,
+            70,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9151689304492151,
+          "translation_probability": 0.08483106955078493,
+          "maximum_action_probability_mean": 0.9917011572254344,
+          "probability_above99percent_fraction": 0.9072847682119205,
+          "slots_with_exposure": 19
+        },
+        "forward_probe": {
+          "updates": 74,
+          "entropy_nats": {
+            "mean": 0.04223510253305632,
+            "median": 0.00010767266277471237,
+            "min": 8.996524298723716e-06,
+            "max": 0.42997143148493466
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.043139694708745,
+          "mean_action_probability": [
+            3.4584204122058016e-07,
+            0.9053283735487216,
+            4.005026838946217e-07,
+            6.062703907849167e-05,
+            2.892957842202657e-07,
+            0.09460996377169058
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            74,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9053287193907628,
+          "translation_probability": 0.09467128060923719,
+          "maximum_action_probability_mean": 0.9862195115167712,
+          "probability_above99percent_fraction": 0.8918918918918919,
+          "slots_with_exposure": 19
+        },
+        "left_delay": {
+          "updates": 61,
+          "entropy_nats": {
+            "mean": 0.04010416072945432,
+            "median": 0.00010329944750710104,
+            "min": 1.0124042805137442e-05,
+            "max": 0.6739092541674213
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0409191914481641,
+          "mean_action_probability": [
+            3.139986653507846e-07,
+            0.9172841671446907,
+            3.657537718772059e-07,
+            5.466256546447118e-05,
+            2.7701431744066974e-07,
+            0.08266021352309012
+          ],
+          "actual_action_counts": [
+            61,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.917284481143356,
+          "translation_probability": 0.08271551885664391,
+          "maximum_action_probability_mean": 0.9840173926708665,
+          "probability_above99percent_fraction": 0.9016393442622951,
+          "slots_with_exposure": 18
+        },
+        "free_blind": {
+          "updates": 540,
+          "entropy_nats": {
+            "mean": 0.043611679264294635,
+            "median": 0.00011212681103150694,
+            "min": 9.478869405533336e-06,
+            "max": 0.49398292800602867
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0445766453494059,
+          "mean_action_probability": [
+            3.525060965449189e-07,
+            0.9010190065424988,
+            4.0347579373670844e-07,
+            6.940102329605577e-05,
+            3.2475617628942497e-07,
+            0.0989105116961387
+          ],
+          "actual_action_counts": [
+            0,
+            486,
+            0,
+            0,
+            0,
+            54
+          ],
+          "turn_probability": 0.9010193590485953,
+          "translation_probability": 0.09898064095140478,
+          "maximum_action_probability_mean": 0.9863711848691393,
+          "probability_above99percent_fraction": 0.8851851851851852,
+          "slots_with_exposure": 18
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4684,
+        "entropy_nats": {
+          "mean": 0.14083340201143968,
+          "median": 0.027742368356688234,
+          "min": 9.478869405533336e-06,
+          "max": 0.7676630307341302
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.1512328389323558,
+        "mean_action_probability": [
+          5.824772015193853e-06,
+          0.39382855704145575,
+          4.503605517860709e-06,
+          0.000535714233249343,
+          3.997473230096704e-06,
+          0.6056214028745318
+        ],
+        "actual_action_counts": [
+          0,
+          1853,
+          0,
+          1,
+          0,
+          2830
+        ],
+        "turn_probability": 0.39383438181347097,
+        "translation_probability": 0.6061656181865291,
+        "maximum_action_probability_mean": 0.9439168225313966,
+        "probability_above99percent_fraction": 0.5969257045260461,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 18,
+      "total_slots": 32,
+      "free_update_fraction": 0.10546875,
+      "logged_entropy_equivalent": 0.12884053587913513,
+      "logged_policy_fraction_equivalent": 0.914843738079071,
+      "schedule_delta": {
+        "admitted": 21,
+        "completed": 18,
+        "interrupted_reward": 3,
+        "interrupted_done": 0,
+        "wait_segment": 2313,
+        "wait_cap": 0,
+        "wait_episode": 32,
+        "coverage_violations": 0
+      }
+    },
+    {
+      "endpoint": "stage2",
+      "condition": "pgc33",
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/stage2_delay15.pt",
+      "checkpoint_sha256": "abfb01f697c64c4f0710757817f3167119df513098db40b668c9a5113235f35b",
+      "source_sha256": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+      "max_training_delay": 15,
+      "extra_frames": 20029440,
+      "total_training_updates": 1178,
+      "entropy_coefficient": 8e-05,
+      "checkpoint_and_policy_unchanged": true,
+      "optimizer_constructed": false,
+      "saved_runtime_digest": "587f836f5f241fcf4406a601b20f0ca892049228e0b0f920150515d1a5158628",
+      "private_runtime_start_digest": "ccce8e49e051b04f6cfc8a6059da20b8bfcdea30268604d0fcc6f872f8c63e57",
+      "exact_non_rng_runtime_restoration": true,
+      "private_cpu_seeds": {
+        "environment_rng": 199201,
+        "action_rng": 199202,
+        "noise_rng": 199203
+      },
+      "original_cuda_rng_hex": {
+        "environment_rng": "a9d9b60800000000fced600000000000",
+        "action_rng": "1a3b02000000000000810b0000000000",
+        "noise_rng": "1d3b02000000000068930b0000000000"
+      },
+      "interpretation": "Fresh160-update CPU rollout from an exact saved non-RNG runtime, with declared private CPU RNG substitution; not CUDA future replay; one nested diagnostic sample per fixed checkpoint",
+      "recurrent_noise": "Unchanged task.collect: sigma.02 on blind updates, sampled from private CPU noise stream",
+      "phases": {
+        "waiting": {
+          "updates": 3958,
+          "entropy_nats": {
+            "mean": 0.13800443857558825,
+            "median": 0.027329597611850238,
+            "min": 8.032472389337839e-06,
+            "max": 0.7542729386142079
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.14798064566174,
+          "mean_action_probability": [
+            6.930726136652091e-06,
+            0.29548178619027926,
+            4.910196985533706e-06,
+            0.000300181241599749,
+            3.866403060400075e-06,
+            0.7042023252419385
+          ],
+          "actual_action_counts": [
+            0,
+            1184,
+            0,
+            0,
+            0,
+            2774
+          ],
+          "turn_probability": 0.29548871691641587,
+          "translation_probability": 0.704511283083584,
+          "maximum_action_probability_mean": 0.9445529571823029,
+          "probability_above99percent_fraction": 0.6081354219302678,
+          "slots_with_exposure": 32
+        },
+        "visible": {
+          "updates": 253,
+          "entropy_nats": {
+            "mean": 0.21938083954040055,
+            "median": 0.09508234261038671,
+            "min": 3.319958477353451e-05,
+            "max": 0.7174445292013661
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.245305447944672,
+          "mean_action_probability": [
+            2.6252030635136587e-05,
+            0.365121434411036,
+            1.9779525206118503e-05,
+            0.0012122329125509588,
+            1.4965059308632729e-05,
+            0.6336053360612631
+          ],
+          "actual_action_counts": [
+            0,
+            84,
+            0,
+            1,
+            0,
+            168
+          ],
+          "turn_probability": 0.3651476864416711,
+          "translation_probability": 0.6348523135583288,
+          "maximum_action_probability_mean": 0.9073685752447259,
+          "probability_above99percent_fraction": 0.44664031620553357,
+          "slots_with_exposure": 18
+        },
+        "turn_a": {
+          "updates": 105,
+          "entropy_nats": {
+            "mean": 0.0018759355934050029,
+            "median": 0.0001513995770359525,
+            "min": 7.0594668071942e-06,
+            "max": 0.018828857733620252
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0018776962613747,
+          "mean_action_probability": [
+            3.354932969271642e-07,
+            0.9997761671183572,
+            3.24103818734301e-07,
+            5.0813584839134155e-05,
+            3.2503664475262457e-07,
+            0.000172034663043241
+          ],
+          "actual_action_counts": [
+            40,
+            65,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9997765026116543,
+          "translation_probability": 0.0002234973883458621,
+          "maximum_action_probability_mean": 0.9997761671183572,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 15
+        },
+        "turn_b": {
+          "updates": 118,
+          "entropy_nats": {
+            "mean": 0.0008579742970955744,
+            "median": 5.766119827029219e-05,
+            "min": 5.171407662644276e-06,
+            "max": 0.018090736208560054
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0008583424623274,
+          "mean_action_probability": [
+            1.3704005574928368e-07,
+            0.9998965735851316,
+            1.669248373054076e-07,
+            2.5458029666501917e-05,
+            1.5758068267936584e-07,
+            7.750683962616723e-05
+          ],
+          "actual_action_counts": [
+            41,
+            77,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9998967106251874,
+          "translation_probability": 0.00010328937481265393,
+          "maximum_action_probability_mean": 0.9998965735851315,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 15
+        },
+        "forward_probe": {
+          "updates": 60,
+          "entropy_nats": {
+            "mean": 0.00098152196109121,
+            "median": 4.607283169547957e-05,
+            "min": 5.398215328318837e-06,
+            "max": 0.014643893309090982
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0009820038114072,
+          "mean_action_probability": [
+            1.535737147952813e-07,
+            0.9998810710279947,
+            2.0099980378885985e-07,
+            2.8039380980047935e-05,
+            1.862461447338381e-07,
+            9.03487713618735e-05
+          ],
+          "actual_action_counts": [
+            0,
+            0,
+            60,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9998812246017096,
+          "translation_probability": 0.00011877539829044415,
+          "maximum_action_probability_mean": 0.9998810710279947,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 15
+        },
+        "left_delay": {
+          "updates": 176,
+          "entropy_nats": {
+            "mean": 0.0008290840354472851,
+            "median": 3.8341584150618784e-05,
+            "min": 5.074143700692369e-06,
+            "max": 0.012153469338987415
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0008294278206187,
+          "mean_action_probability": [
+            1.270682618443626e-07,
+            0.9999037848235338,
+            1.7963486153356962e-07,
+            2.3209338604149274e-05,
+            1.6058760739858132e-07,
+            7.253854713121975e-05
+          ],
+          "actual_action_counts": [
+            176,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9999039118917956,
+          "translation_probability": 9.608810820430116e-05,
+          "maximum_action_probability_mean": 0.9999037848235339,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 15
+        },
+        "free_blind": {
+          "updates": 450,
+          "entropy_nats": {
+            "mean": 0.0026043135997926587,
+            "median": 4.548087629996143e-05,
+            "min": 4.661681779998935e-06,
+            "max": 0.05380078847756255
+          },
+          "maximum_entropy_nats": 1.791759469228055,
+          "effective_actions_from_mean_entropy": 1.0026077077703108,
+          "mean_action_probability": [
+            2.072617779116394e-07,
+            0.9996008722295363,
+            3.121365424814148e-07,
+            3.528293141941926e-05,
+            2.4250554659065414e-07,
+            0.0003630829351773635
+          ],
+          "actual_action_counts": [
+            0,
+            450,
+            0,
+            0,
+            0,
+            0
+          ],
+          "turn_probability": 0.9996010794913143,
+          "translation_probability": 0.0003989205086858547,
+          "maximum_action_probability_mean": 0.9996008722295361,
+          "probability_above99percent_fraction": 1.0,
+          "slots_with_exposure": 15
+        }
+      },
+      "all_policy_controlled": {
+        "updates": 4661,
+        "entropy_nats": {
+          "mean": 0.12934925153525131,
+          "median": 0.021379875687264436,
+          "min": 4.661681779998935e-06,
+          "max": 0.7542729386142079
+        },
+        "maximum_entropy_nats": 1.791759469228055,
+        "effective_actions_from_mean_entropy": 1.1380875335821217,
+        "mean_action_probability": [
+          7.330368075438484e-06,
+          0.36724158445621297,
+          5.273383606523711e-06,
+          0.0003241127655580215,
+          4.1189682072759865e-06,
+          0.6324175800583398
+        ],
+        "actual_action_counts": [
+          0,
+          1718,
+          0,
+          1,
+          0,
+          2942
+        ],
+        "turn_probability": 0.3672489148242884,
+        "translation_probability": 0.6327510851757117,
+        "maximum_action_probability_mean": 0.9478492268971812,
+        "probability_above99percent_fraction": 0.637202317099335,
+        "slots_with_exposure": 32
+      },
+      "free_goal_hits": 0,
+      "free_goals_per_100_free_updates": 0.0,
+      "free_slots": 15,
+      "total_slots": 32,
+      "free_update_fraction": 0.087890625,
+      "logged_entropy_equivalent": 0.11775326728820801,
+      "logged_policy_fraction_equivalent": 0.910351574420929,
+      "schedule_delta": {
+        "admitted": 18,
+        "completed": 15,
+        "interrupted_reward": 3,
+        "interrupted_done": 0,
+        "wait_segment": 1790,
+        "wait_cap": 78,
+        "wait_episode": 32,
+        "coverage_violations": 0
+      }
+    }
+  ],
+  "training_logs": {
+    "gc100": {
+      "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/metrics.jsonl",
+      "captured_file_sha256": "340244409cbad903583392549486d0182d18170aa4108eb87dcc99910e9efa43",
+      "incomplete_final_lines_retained_as_count": 0,
+      "groups": {
+        "warmup": {
+          "logged_rollouts": 10,
+          "first_update": 20,
+          "last_update": 200,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.15375547409057616,
+            "min": 0.12697426974773407,
+            "max": 0.1661698818206787
+          },
+          "policy_controlled_entropy_nats_mean": 0.16570025181580164
+        },
+        "stage1": {
+          "logged_rollouts": 24,
+          "first_update": 220,
+          "last_update": 680,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.15317246317863464,
+            "min": 0.13138625025749207,
+            "max": 0.1782718151807785
+          },
+          "policy_controlled_entropy_nats_mean": 0.16429275896672355
+        },
+        "stage2": {
+          "logged_rollouts": 24,
+          "first_update": 700,
+          "last_update": 1160,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.17089333447317281,
+            "min": 0.1470000147819519,
+            "max": 0.18983204662799835
+          },
+          "policy_controlled_entropy_nats_mean": 0.1883006605780484
+        },
+        "stage3": {
+          "logged_rollouts": 25,
+          "first_update": 1180,
+          "last_update": 1660,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.15936367511749266,
+            "min": 0.13493458926677704,
+            "max": 0.18388061225414276
+          },
+          "policy_controlled_entropy_nats_mean": 0.18320155304470911
+        },
+        "stage4": {
+          "logged_rollouts": 7,
+          "first_update": 1680,
+          "last_update": 1800,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.14862310779946192,
+            "min": 0.12462802976369858,
+            "max": 0.162713885307312
+          },
+          "policy_controlled_entropy_nats_mean": 0.18575884990003294
+        }
+      },
+      "rows": [
+        {
+          "update": 20,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.15128359198570251,
+          "free_policy_fraction": 0.934374988079071,
+          "entropy_conditional_on_policy_controlled": 0.16190886305370603
+        },
+        {
+          "update": 40,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.160854309797287,
+          "free_policy_fraction": 0.935351550579071,
+          "entropy_conditional_on_policy_controlled": 0.17197203521788462
+        },
+        {
+          "update": 60,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.16500972211360931,
+          "free_policy_fraction": 0.921093761920929,
+          "entropy_conditional_on_policy_controlled": 0.17914541269879378
+        },
+        {
+          "update": 80,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.1603856384754181,
+          "free_policy_fraction": 0.926562488079071,
+          "entropy_conditional_on_policy_controlled": 0.1730974872595221
+        },
+        {
+          "update": 100,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.1534344106912613,
+          "free_policy_fraction": 0.929882824420929,
+          "entropy_conditional_on_policy_controlled": 0.1650040270254592
+        },
+        {
+          "update": 120,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.15238261222839355,
+          "free_policy_fraction": 0.9351562857627869,
+          "entropy_conditional_on_policy_controlled": 0.16294881887480267
+        },
+        {
+          "update": 140,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.1641370952129364,
+          "free_policy_fraction": 0.9283203482627869,
+          "entropy_conditional_on_policy_controlled": 0.17681083423421076
+        },
+        {
+          "update": 160,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.1661698818206787,
+          "free_policy_fraction": 0.914257824420929,
+          "entropy_conditional_on_policy_controlled": 0.18175385255896181
+        },
+        {
+          "update": 180,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.13692320883274078,
+          "free_policy_fraction": 0.923828125,
+          "entropy_conditional_on_policy_controlled": 0.14821286030097947
+        },
+        {
+          "update": 200,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.12697426974773407,
+          "free_policy_fraction": 0.9326171875,
+          "entropy_conditional_on_policy_controlled": 0.136148326933696
+        },
+        {
+          "update": 220,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 409600,
+          "entropy": 0.15673504769802094,
+          "free_policy_fraction": 0.9326171875,
+          "entropy_conditional_on_policy_controlled": 0.16805936004478894
+        },
+        {
+          "update": 240,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 819200,
+          "entropy": 0.1585022509098053,
+          "free_policy_fraction": 0.932421863079071,
+          "entropy_conditional_on_policy_controlled": 0.169989848142765
+        },
+        {
+          "update": 260,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 1228800,
+          "entropy": 0.15478114783763885,
+          "free_policy_fraction": 0.924609363079071,
+          "entropy_conditional_on_policy_controlled": 0.16740166606381449
+        },
+        {
+          "update": 280,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 1638400,
+          "entropy": 0.14988932013511658,
+          "free_policy_fraction": 0.9609375,
+          "entropy_conditional_on_policy_controlled": 0.155982381929227
+        },
+        {
+          "update": 300,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2048000,
+          "entropy": 0.14081989228725433,
+          "free_policy_fraction": 0.952343761920929,
+          "entropy_conditional_on_policy_controlled": 0.1478666610922226
+        },
+        {
+          "update": 320,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2457600,
+          "entropy": 0.13138625025749207,
+          "free_policy_fraction": 0.920703113079071,
+          "entropy_conditional_on_policy_controlled": 0.1427020810411971
+        },
+        {
+          "update": 340,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2867200,
+          "entropy": 0.1467771977186203,
+          "free_policy_fraction": 0.94140625,
+          "entropy_conditional_on_policy_controlled": 0.1559127079500697
+        },
+        {
+          "update": 360,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 3276800,
+          "entropy": 0.15061655640602112,
+          "free_policy_fraction": 0.9111328125,
+          "entropy_conditional_on_policy_controlled": 0.16530691721303925
+        },
+        {
+          "update": 380,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 3686400,
+          "entropy": 0.13969700038433075,
+          "free_policy_fraction": 0.9146484732627869,
+          "entropy_conditional_on_policy_controlled": 0.1527329946618678
+        },
+        {
+          "update": 400,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4096000,
+          "entropy": 0.15056176483631134,
+          "free_policy_fraction": 0.943164050579071,
+          "entropy_conditional_on_policy_controlled": 0.15963475785985637
+        },
+        {
+          "update": 420,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4505600,
+          "entropy": 0.16244985163211823,
+          "free_policy_fraction": 0.936328113079071,
+          "entropy_conditional_on_policy_controlled": 0.17349671484060167
+        },
+        {
+          "update": 440,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4915200,
+          "entropy": 0.14874528348445892,
+          "free_policy_fraction": 0.9453125,
+          "entropy_conditional_on_policy_controlled": 0.1573503825290144
+        },
+        {
+          "update": 460,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 5324800,
+          "entropy": 0.1371205598115921,
+          "free_policy_fraction": 0.9468750357627869,
+          "entropy_conditional_on_policy_controlled": 0.14481378707078285
+        },
+        {
+          "update": 480,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 5734400,
+          "entropy": 0.15961633622646332,
+          "free_policy_fraction": 0.927929699420929,
+          "entropy_conditional_on_policy_controlled": 0.1720133931763056
+        },
+        {
+          "update": 500,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6144000,
+          "entropy": 0.13608388602733612,
+          "free_policy_fraction": 0.939257800579071,
+          "entropy_conditional_on_policy_controlled": 0.14488448852214772
+        },
+        {
+          "update": 520,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6553600,
+          "entropy": 0.16505120694637299,
+          "free_policy_fraction": 0.9400390982627869,
+          "entropy_conditional_on_policy_controlled": 0.17557908735008074
+        },
+        {
+          "update": 540,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6963200,
+          "entropy": 0.1782718151807785,
+          "free_policy_fraction": 0.906445324420929,
+          "entropy_conditional_on_policy_controlled": 0.1966713384446714
+        },
+        {
+          "update": 560,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 7372800,
+          "entropy": 0.16447816789150238,
+          "free_policy_fraction": 0.921679675579071,
+          "entropy_conditional_on_policy_controlled": 0.17845480620820284
+        },
+        {
+          "update": 580,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 7782400,
+          "entropy": 0.1625918596982956,
+          "free_policy_fraction": 0.9224609732627869,
+          "entropy_conditional_on_policy_controlled": 0.1762587951262596
+        },
+        {
+          "update": 600,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 8192000,
+          "entropy": 0.16367237269878387,
+          "free_policy_fraction": 0.939257800579071,
+          "entropy_conditional_on_policy_controlled": 0.17425713430101578
+        },
+        {
+          "update": 620,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 8601600,
+          "entropy": 0.1605437695980072,
+          "free_policy_fraction": 0.9341797232627869,
+          "entropy_conditional_on_policy_controlled": 0.17185533532806715
+        },
+        {
+          "update": 640,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9011200,
+          "entropy": 0.17414967715740204,
+          "free_policy_fraction": 0.9234375357627869,
+          "entropy_conditional_on_policy_controlled": 0.18858847557409417
+        },
+        {
+          "update": 660,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9420800,
+          "entropy": 0.14699111878871918,
+          "free_policy_fraction": 0.9281250238418579,
+          "entropy_conditional_on_policy_controlled": 0.15837426533363766
+        },
+        {
+          "update": 680,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9830400,
+          "entropy": 0.13660678267478943,
+          "free_policy_fraction": 0.943164050579071,
+          "entropy_conditional_on_policy_controlled": 0.1448388353976357
+        },
+        {
+          "update": 700,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 10240000,
+          "entropy": 0.1770281195640564,
+          "free_policy_fraction": 0.916015625,
+          "entropy_conditional_on_policy_controlled": 0.19325884267973747
+        },
+        {
+          "update": 720,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 10649600,
+          "entropy": 0.16738970577716827,
+          "free_policy_fraction": 0.8773437738418579,
+          "entropy_conditional_on_policy_controlled": 0.19079146711690284
+        },
+        {
+          "update": 740,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11059200,
+          "entropy": 0.16586558520793915,
+          "free_policy_fraction": 0.9037109613418579,
+          "entropy_conditional_on_policy_controlled": 0.18353831291551095
+        },
+        {
+          "update": 760,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11468800,
+          "entropy": 0.15753071010112762,
+          "free_policy_fraction": 0.902148425579071,
+          "entropy_conditional_on_policy_controlled": 0.17461728650694236
+        },
+        {
+          "update": 780,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11878400,
+          "entropy": 0.1567811816930771,
+          "free_policy_fraction": 0.9117187857627869,
+          "entropy_conditional_on_policy_controlled": 0.1719622148203369
+        },
+        {
+          "update": 800,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 12288000,
+          "entropy": 0.17373302578926086,
+          "free_policy_fraction": 0.875195324420929,
+          "entropy_conditional_on_policy_controlled": 0.19850771701072664
+        },
+        {
+          "update": 820,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 12697600,
+          "entropy": 0.17926816642284393,
+          "free_policy_fraction": 0.902148425579071,
+          "entropy_conditional_on_policy_controlled": 0.19871249712349193
+        },
+        {
+          "update": 840,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13107200,
+          "entropy": 0.17578867077827454,
+          "free_policy_fraction": 0.9169921875,
+          "entropy_conditional_on_policy_controlled": 0.19170138325554115
+        },
+        {
+          "update": 860,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13516800,
+          "entropy": 0.183230921626091,
+          "free_policy_fraction": 0.9136719107627869,
+          "entropy_conditional_on_policy_controlled": 0.2005434548963195
+        },
+        {
+          "update": 880,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13926400,
+          "entropy": 0.17276810109615326,
+          "free_policy_fraction": 0.9091796875,
+          "entropy_conditional_on_policy_controlled": 0.19002635394464118
+        },
+        {
+          "update": 900,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 14336000,
+          "entropy": 0.16864381730556488,
+          "free_policy_fraction": 0.9164062738418579,
+          "entropy_conditional_on_policy_controlled": 0.18402734913474342
+        },
+        {
+          "update": 920,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 14745600,
+          "entropy": 0.150290384888649,
+          "free_policy_fraction": 0.9263672232627869,
+          "entropy_conditional_on_policy_controlled": 0.16223629367985035
+        },
+        {
+          "update": 940,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15155200,
+          "entropy": 0.16140960156917572,
+          "free_policy_fraction": 0.8876953125,
+          "entropy_conditional_on_policy_controlled": 0.18182995820333986
+        },
+        {
+          "update": 960,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15564800,
+          "entropy": 0.18129388988018036,
+          "free_policy_fraction": 0.9248046875,
+          "entropy_conditional_on_policy_controlled": 0.1960347869454115
+        },
+        {
+          "update": 980,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15974400,
+          "entropy": 0.15341554582118988,
+          "free_policy_fraction": 0.9085937738418579,
+          "entropy_conditional_on_policy_controlled": 0.1688494355101008
+        },
+        {
+          "update": 1000,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 16384000,
+          "entropy": 0.17646344006061554,
+          "free_policy_fraction": 0.925585925579071,
+          "entropy_conditional_on_policy_controlled": 0.1906505222086381
+        },
+        {
+          "update": 1020,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 16793600,
+          "entropy": 0.18779000639915466,
+          "free_policy_fraction": 0.8974609375,
+          "entropy_conditional_on_policy_controlled": 0.20924588308240955
+        },
+        {
+          "update": 1040,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 17203200,
+          "entropy": 0.17666353285312653,
+          "free_policy_fraction": 0.9097656607627869,
+          "entropy_conditional_on_policy_controlled": 0.19418575625837997
+        },
+        {
+          "update": 1060,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 17612800,
+          "entropy": 0.171878844499588,
+          "free_policy_fraction": 0.890429675579071,
+          "entropy_conditional_on_policy_controlled": 0.19302910629950698
+        },
+        {
+          "update": 1080,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18022400,
+          "entropy": 0.1470000147819519,
+          "free_policy_fraction": 0.9125000238418579,
+          "entropy_conditional_on_policy_controlled": 0.16109590240123428
+        },
+        {
+          "update": 1100,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18432000,
+          "entropy": 0.17466169595718384,
+          "free_policy_fraction": 0.8998047113418579,
+          "entropy_conditional_on_policy_controlled": 0.19411067063286977
+        },
+        {
+          "update": 1120,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18841600,
+          "entropy": 0.18983204662799835,
+          "free_policy_fraction": 0.924609363079071,
+          "entropy_conditional_on_policy_controlled": 0.20531053892406262
+        },
+        {
+          "update": 1140,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 19251200,
+          "entropy": 0.17035804688930511,
+          "free_policy_fraction": 0.917773425579071,
+          "entropy_conditional_on_policy_controlled": 0.18562102817677179
+        },
+        {
+          "update": 1160,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 19660800,
+          "entropy": 0.18235497176647186,
+          "free_policy_fraction": 0.914843738079071,
+          "entropy_conditional_on_policy_controlled": 0.19932909214569133
+        },
+        {
+          "update": 1180,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20070400,
+          "entropy": 0.1837148219347,
+          "free_policy_fraction": 0.872851550579071,
+          "entropy_conditional_on_policy_controlled": 0.2104765945742081
+        },
+        {
+          "update": 1200,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20480000,
+          "entropy": 0.1652187556028366,
+          "free_policy_fraction": 0.8541015982627869,
+          "entropy_conditional_on_policy_controlled": 0.19344157175081494
+        },
+        {
+          "update": 1220,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20889600,
+          "entropy": 0.16902665793895721,
+          "free_policy_fraction": 0.8359375,
+          "entropy_conditional_on_policy_controlled": 0.2022001141699675
+        },
+        {
+          "update": 1240,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 21299200,
+          "entropy": 0.17972581088542938,
+          "free_policy_fraction": 0.861523449420929,
+          "entropy_conditional_on_policy_controlled": 0.20861395125835713
+        },
+        {
+          "update": 1260,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 21708800,
+          "entropy": 0.16825738549232483,
+          "free_policy_fraction": 0.879687488079071,
+          "entropy_conditional_on_policy_controlled": 0.19126949942159568
+        },
+        {
+          "update": 1280,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22118400,
+          "entropy": 0.16376398503780365,
+          "free_policy_fraction": 0.8880859613418579,
+          "entropy_conditional_on_policy_controlled": 0.18440105143691682
+        },
+        {
+          "update": 1300,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22528000,
+          "entropy": 0.17182666063308716,
+          "free_policy_fraction": 0.8960937857627869,
+          "entropy_conditional_on_policy_controlled": 0.19175075573905714
+        },
+        {
+          "update": 1320,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22937600,
+          "entropy": 0.18388061225414276,
+          "free_policy_fraction": 0.895703136920929,
+          "entropy_conditional_on_policy_controlled": 0.20529191500461988
+        },
+        {
+          "update": 1340,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 23347200,
+          "entropy": 0.17005936801433563,
+          "free_policy_fraction": 0.865429699420929,
+          "entropy_conditional_on_policy_controlled": 0.19650281025498054
+        },
+        {
+          "update": 1360,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 23756800,
+          "entropy": 0.15996091067790985,
+          "free_policy_fraction": 0.879687488079071,
+          "entropy_conditional_on_policy_controlled": 0.18183833787065493
+        },
+        {
+          "update": 1380,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 24166400,
+          "entropy": 0.13493458926677704,
+          "free_policy_fraction": 0.8958984613418579,
+          "entropy_conditional_on_policy_controlled": 0.15061370801404753
+        },
+        {
+          "update": 1400,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 24576000,
+          "entropy": 0.1531524807214737,
+          "free_policy_fraction": 0.8531250357627869,
+          "entropy_conditional_on_policy_controlled": 0.1795193837964662
+        },
+        {
+          "update": 1420,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 24985600,
+          "entropy": 0.1526275873184204,
+          "free_policy_fraction": 0.8851562738418579,
+          "entropy_conditional_on_policy_controlled": 0.1724301028291518
+        },
+        {
+          "update": 1440,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 25395200,
+          "entropy": 0.14362667500972748,
+          "free_policy_fraction": 0.856249988079071,
+          "entropy_conditional_on_policy_controlled": 0.1677391848284197
+        },
+        {
+          "update": 1460,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 25804800,
+          "entropy": 0.17227521538734436,
+          "free_policy_fraction": 0.8525390625,
+          "entropy_conditional_on_policy_controlled": 0.202073104875877
+        },
+        {
+          "update": 1480,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 26214400,
+          "entropy": 0.15421481430530548,
+          "free_policy_fraction": 0.8818359375,
+          "entropy_conditional_on_policy_controlled": 0.1748792578611659
+        },
+        {
+          "update": 1500,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 26624000,
+          "entropy": 0.16334103047847748,
+          "free_policy_fraction": 0.853515625,
+          "entropy_conditional_on_policy_controlled": 0.19137438811208346
+        },
+        {
+          "update": 1520,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 27033600,
+          "entropy": 0.14051830768585205,
+          "free_policy_fraction": 0.8988281488418579,
+          "entropy_conditional_on_policy_controlled": 0.1563350100538242
+        },
+        {
+          "update": 1540,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 27443200,
+          "entropy": 0.15104761719703674,
+          "free_policy_fraction": 0.8662109375,
+          "entropy_conditional_on_policy_controlled": 0.17437740700086315
+        },
+        {
+          "update": 1560,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 27852800,
+          "entropy": 0.14142918586730957,
+          "free_policy_fraction": 0.841601550579071,
+          "entropy_conditional_on_policy_controlled": 0.1680476773955538
+        },
+        {
+          "update": 1580,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 28262400,
+          "entropy": 0.13856972754001617,
+          "free_policy_fraction": 0.841992199420929,
+          "entropy_conditional_on_policy_controlled": 0.16457364763630353
+        },
+        {
+          "update": 1600,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 28672000,
+          "entropy": 0.14387190341949463,
+          "free_policy_fraction": 0.922070324420929,
+          "entropy_conditional_on_policy_controlled": 0.15603137809455897
+        },
+        {
+          "update": 1620,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 29081600,
+          "entropy": 0.1540345847606659,
+          "free_policy_fraction": 0.843945324420929,
+          "entropy_conditional_on_policy_controlled": 0.1825172559209998
+        },
+        {
+          "update": 1640,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 29491200,
+          "entropy": 0.1678135246038437,
+          "free_policy_fraction": 0.8726562857627869,
+          "entropy_conditional_on_policy_controlled": 0.19230197196959198
+        },
+        {
+          "update": 1660,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 29900800,
+          "entropy": 0.1571996659040451,
+          "free_policy_fraction": 0.866406261920929,
+          "entropy_conditional_on_policy_controlled": 0.1814387462476485
+        },
+        {
+          "update": 1680,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 30310400,
+          "entropy": 0.12462802976369858,
+          "free_policy_fraction": 0.778124988079071,
+          "entropy_conditional_on_policy_controlled": 0.16016453869623604
+        },
+        {
+          "update": 1700,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 30720000,
+          "entropy": 0.13514827191829681,
+          "free_policy_fraction": 0.7669922113418579,
+          "entropy_conditional_on_policy_controlled": 0.1762055336674854
+        },
+        {
+          "update": 1720,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 31129600,
+          "entropy": 0.162713885307312,
+          "free_policy_fraction": 0.7894531488418579,
+          "entropy_conditional_on_policy_controlled": 0.2061096159360644
+        },
+        {
+          "update": 1740,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 31539200,
+          "entropy": 0.14717018604278564,
+          "free_policy_fraction": 0.8257812857627869,
+          "entropy_conditional_on_policy_controlled": 0.17821932826540418
+        },
+        {
+          "update": 1760,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 31948800,
+          "entropy": 0.1552008092403412,
+          "free_policy_fraction": 0.805859386920929,
+          "entropy_conditional_on_policy_controlled": 0.19259043421128444
+        },
+        {
+          "update": 1780,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 32358400,
+          "entropy": 0.15883442759513855,
+          "free_policy_fraction": 0.7876953482627869,
+          "entropy_conditional_on_policy_controlled": 0.2016444910401439
+        },
+        {
+          "update": 1800,
+          "warmup": false,
+          "stage": 4,
+          "max_delay": 60,
+          "learning_frames": 32768000,
+          "entropy": 0.15666614472866058,
+          "free_policy_fraction": 0.8451172113418579,
+          "entropy_conditional_on_policy_controlled": 0.1853780074836124
+        }
+      ]
+    },
+    "pgc33": {
+      "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/metrics.jsonl",
+      "captured_file_sha256": "5f50f65786f7497168b93671b64ffaa7dbddb012f65c39414b831683adc6fb63",
+      "incomplete_final_lines_retained_as_count": 0,
+      "groups": {
+        "warmup": {
+          "logged_rollouts": 10,
+          "first_update": 20,
+          "last_update": 200,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.1573944628238678,
+            "min": 0.13885322213172913,
+            "max": 0.17975513637065887
+          },
+          "policy_controlled_entropy_nats_mean": 0.16819860649016166
+        },
+        "stage1": {
+          "logged_rollouts": 24,
+          "first_update": 220,
+          "last_update": 680,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.12815490396072468,
+            "min": 0.10432260483503342,
+            "max": 0.15264534950256348
+          },
+          "policy_controlled_entropy_nats_mean": 0.1369584718771152
+        },
+        "stage2": {
+          "logged_rollouts": 24,
+          "first_update": 700,
+          "last_update": 1160,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.12698514914760986,
+            "min": 0.10882105678319931,
+            "max": 0.14823606610298157
+          },
+          "policy_controlled_entropy_nats_mean": 0.13985023536829488
+        },
+        "stage3": {
+          "logged_rollouts": 12,
+          "first_update": 1180,
+          "last_update": 1400,
+          "masked_per_all_step_entropy_nats": {
+            "mean": 0.11502781758705775,
+            "min": 0.0969347283244133,
+            "max": 0.13598982989788055
+          },
+          "policy_controlled_entropy_nats_mean": 0.13024977043177813
+        }
+      },
+      "rows": [
+        {
+          "update": 20,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.16118383407592773,
+          "free_policy_fraction": 0.9271484613418579,
+          "entropy_conditional_on_policy_controlled": 0.1738490013159781
+        },
+        {
+          "update": 40,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.1556699573993683,
+          "free_policy_fraction": 0.9189453125,
+          "entropy_conditional_on_policy_controlled": 0.1694006762773147
+        },
+        {
+          "update": 60,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.15212808549404144,
+          "free_policy_fraction": 0.930468738079071,
+          "entropy_conditional_on_policy_controlled": 0.16349618129901494
+        },
+        {
+          "update": 80,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.15264229476451874,
+          "free_policy_fraction": 0.960742175579071,
+          "entropy_conditional_on_policy_controlled": 0.15887956066102354
+        },
+        {
+          "update": 100,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.15487918257713318,
+          "free_policy_fraction": 0.927734375,
+          "entropy_conditional_on_policy_controlled": 0.16694345574629935
+        },
+        {
+          "update": 120,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.14791639149188995,
+          "free_policy_fraction": 0.94140625,
+          "entropy_conditional_on_policy_controlled": 0.15712280590009886
+        },
+        {
+          "update": 140,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.16388066112995148,
+          "free_policy_fraction": 0.949414074420929,
+          "entropy_conditional_on_policy_controlled": 0.17261242017073145
+        },
+        {
+          "update": 160,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.13885322213172913,
+          "free_policy_fraction": 0.9169921875,
+          "entropy_conditional_on_policy_controlled": 0.15142247014152357
+        },
+        {
+          "update": 180,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.16703586280345917,
+          "free_policy_fraction": 0.941601574420929,
+          "entropy_conditional_on_policy_controlled": 0.1773954795117922
+        },
+        {
+          "update": 200,
+          "warmup": true,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 0,
+          "entropy": 0.17975513637065887,
+          "free_policy_fraction": 0.9417968988418579,
+          "entropy_conditional_on_policy_controlled": 0.19086401387783983
+        },
+        {
+          "update": 220,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 409600,
+          "entropy": 0.14155466854572296,
+          "free_policy_fraction": 0.9332031607627869,
+          "entropy_conditional_on_policy_controlled": 0.15168687215977517
+        },
+        {
+          "update": 240,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 819200,
+          "entropy": 0.1280267834663391,
+          "free_policy_fraction": 0.9419922232627869,
+          "entropy_conditional_on_policy_controlled": 0.1359106586070229
+        },
+        {
+          "update": 260,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 1228800,
+          "entropy": 0.13943417370319366,
+          "free_policy_fraction": 0.9341797232627869,
+          "entropy_conditional_on_policy_controlled": 0.14925840310063176
+        },
+        {
+          "update": 280,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 1638400,
+          "entropy": 0.1346421241760254,
+          "free_policy_fraction": 0.9535156488418579,
+          "entropy_conditional_on_policy_controlled": 0.14120599314710985
+        },
+        {
+          "update": 300,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2048000,
+          "entropy": 0.15264534950256348,
+          "free_policy_fraction": 0.9361328482627869,
+          "entropy_conditional_on_policy_controlled": 0.16305949501273517
+        },
+        {
+          "update": 320,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2457600,
+          "entropy": 0.12546563148498535,
+          "free_policy_fraction": 0.919921875,
+          "entropy_conditional_on_policy_controlled": 0.13638726819599256
+        },
+        {
+          "update": 340,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 2867200,
+          "entropy": 0.12933872640132904,
+          "free_policy_fraction": 0.935742199420929,
+          "entropy_conditional_on_policy_controlled": 0.1382204697846998
+        },
+        {
+          "update": 360,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 3276800,
+          "entropy": 0.10432260483503342,
+          "free_policy_fraction": 0.9208984375,
+          "entropy_conditional_on_policy_controlled": 0.11328350726519006
+        },
+        {
+          "update": 380,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 3686400,
+          "entropy": 0.11460679024457932,
+          "free_policy_fraction": 0.927929699420929,
+          "entropy_conditional_on_policy_controlled": 0.12350805272867034
+        },
+        {
+          "update": 400,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4096000,
+          "entropy": 0.12864769995212555,
+          "free_policy_fraction": 0.9306640625,
+          "entropy_conditional_on_policy_controlled": 0.1382321560870688
+        },
+        {
+          "update": 420,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4505600,
+          "entropy": 0.14119049906730652,
+          "free_policy_fraction": 0.9185547232627869,
+          "entropy_conditional_on_policy_controlled": 0.1537094040143689
+        },
+        {
+          "update": 440,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 4915200,
+          "entropy": 0.14203126728534698,
+          "free_policy_fraction": 0.950976550579071,
+          "entropy_conditional_on_policy_controlled": 0.14935306995620548
+        },
+        {
+          "update": 460,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 5324800,
+          "entropy": 0.12277591228485107,
+          "free_policy_fraction": 0.9410156607627869,
+          "entropy_conditional_on_policy_controlled": 0.13047169925453628
+        },
+        {
+          "update": 480,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 5734400,
+          "entropy": 0.11746115982532501,
+          "free_policy_fraction": 0.922656238079071,
+          "entropy_conditional_on_policy_controlled": 0.12730760924553428
+        },
+        {
+          "update": 500,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6144000,
+          "entropy": 0.1178002879023552,
+          "free_policy_fraction": 0.938671886920929,
+          "entropy_conditional_on_policy_controlled": 0.125496767873563
+        },
+        {
+          "update": 520,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6553600,
+          "entropy": 0.13325349986553192,
+          "free_policy_fraction": 0.940234363079071,
+          "entropy_conditional_on_policy_controlled": 0.1417237075117682
+        },
+        {
+          "update": 540,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 6963200,
+          "entropy": 0.13562966883182526,
+          "free_policy_fraction": 0.9175781607627869,
+          "entropy_conditional_on_policy_controlled": 0.14781266014338845
+        },
+        {
+          "update": 560,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 7372800,
+          "entropy": 0.12254462391138077,
+          "free_policy_fraction": 0.9535156488418579,
+          "entropy_conditional_on_policy_controlled": 0.1285187338668471
+        },
+        {
+          "update": 580,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 7782400,
+          "entropy": 0.1228906661272049,
+          "free_policy_fraction": 0.925585925579071,
+          "entropy_conditional_on_policy_controlled": 0.13277067285819114
+        },
+        {
+          "update": 600,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 8192000,
+          "entropy": 0.12419722229242325,
+          "free_policy_fraction": 0.928906261920929,
+          "entropy_conditional_on_policy_controlled": 0.13370264297238127
+        },
+        {
+          "update": 620,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 8601600,
+          "entropy": 0.11294938623905182,
+          "free_policy_fraction": 0.9486328363418579,
+          "entropy_conditional_on_policy_controlled": 0.11906544019139177
+        },
+        {
+          "update": 640,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9011200,
+          "entropy": 0.12468989193439484,
+          "free_policy_fraction": 0.9263672232627869,
+          "entropy_conditional_on_policy_controlled": 0.1346009323335304
+        },
+        {
+          "update": 660,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9420800,
+          "entropy": 0.1291075050830841,
+          "free_policy_fraction": 0.953320324420929,
+          "entropy_conditional_on_policy_controlled": 0.13542930091363287
+        },
+        {
+          "update": 680,
+          "warmup": false,
+          "stage": 1,
+          "max_delay": 4,
+          "learning_frames": 9830400,
+          "entropy": 0.1305115520954132,
+          "free_policy_fraction": 0.9576172232627869,
+          "entropy_conditional_on_policy_controlled": 0.13628780782652922
+        },
+        {
+          "update": 700,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 10240000,
+          "entropy": 0.12431015819311142,
+          "free_policy_fraction": 0.8935546875,
+          "entropy_conditional_on_policy_controlled": 0.13911869069917607
+        },
+        {
+          "update": 720,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 10649600,
+          "entropy": 0.13697446882724762,
+          "free_policy_fraction": 0.9058594107627869,
+          "entropy_conditional_on_policy_controlled": 0.15120941196814092
+        },
+        {
+          "update": 740,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11059200,
+          "entropy": 0.12281469255685806,
+          "free_policy_fraction": 0.9037109613418579,
+          "entropy_conditional_on_policy_controlled": 0.13590041264355035
+        },
+        {
+          "update": 760,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11468800,
+          "entropy": 0.12278085201978683,
+          "free_policy_fraction": 0.9212890863418579,
+          "entropy_conditional_on_policy_controlled": 0.13327071148461123
+        },
+        {
+          "update": 780,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 11878400,
+          "entropy": 0.13618206977844238,
+          "free_policy_fraction": 0.913867175579071,
+          "entropy_conditional_on_policy_controlled": 0.149017355494961
+        },
+        {
+          "update": 800,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 12288000,
+          "entropy": 0.12441974133253098,
+          "free_policy_fraction": 0.9150390625,
+          "entropy_conditional_on_policy_controlled": 0.1359720545619122
+        },
+        {
+          "update": 820,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 12697600,
+          "entropy": 0.12369086593389511,
+          "free_policy_fraction": 0.9281250238418579,
+          "entropy_conditional_on_policy_controlled": 0.13326961643797963
+        },
+        {
+          "update": 840,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13107200,
+          "entropy": 0.11807461082935333,
+          "free_policy_fraction": 0.91015625,
+          "entropy_conditional_on_policy_controlled": 0.12973004451637105
+        },
+        {
+          "update": 860,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13516800,
+          "entropy": 0.10882105678319931,
+          "free_policy_fraction": 0.8876953125,
+          "entropy_conditional_on_policy_controlled": 0.12258829719031474
+        },
+        {
+          "update": 880,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 13926400,
+          "entropy": 0.11758393049240112,
+          "free_policy_fraction": 0.8955078125,
+          "entropy_conditional_on_policy_controlled": 0.13130419282902808
+        },
+        {
+          "update": 900,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 14336000,
+          "entropy": 0.1283251792192459,
+          "free_policy_fraction": 0.9046875238418579,
+          "entropy_conditional_on_policy_controlled": 0.1418447539480798
+        },
+        {
+          "update": 920,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 14745600,
+          "entropy": 0.136897474527359,
+          "free_policy_fraction": 0.9095703363418579,
+          "entropy_conditional_on_policy_controlled": 0.15050784865955294
+        },
+        {
+          "update": 940,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15155200,
+          "entropy": 0.1405928134918213,
+          "free_policy_fraction": 0.892382800579071,
+          "entropy_conditional_on_policy_controlled": 0.15754765040360483
+        },
+        {
+          "update": 960,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15564800,
+          "entropy": 0.13036870956420898,
+          "free_policy_fraction": 0.916210949420929,
+          "entropy_conditional_on_policy_controlled": 0.14229114992197558
+        },
+        {
+          "update": 980,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 15974400,
+          "entropy": 0.1328064650297165,
+          "free_policy_fraction": 0.9183593988418579,
+          "entropy_conditional_on_policy_controlled": 0.14461273570804478
+        },
+        {
+          "update": 1000,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 16384000,
+          "entropy": 0.1218382865190506,
+          "free_policy_fraction": 0.922656238079071,
+          "entropy_conditional_on_policy_controlled": 0.13205165855997728
+        },
+        {
+          "update": 1020,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 16793600,
+          "entropy": 0.11085083335638046,
+          "free_policy_fraction": 0.879687488079071,
+          "entropy_conditional_on_policy_controlled": 0.12601160623352708
+        },
+        {
+          "update": 1040,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 17203200,
+          "entropy": 0.12459906190633774,
+          "free_policy_fraction": 0.889453113079071,
+          "entropy_conditional_on_policy_controlled": 0.14008502536463782
+        },
+        {
+          "update": 1060,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 17612800,
+          "entropy": 0.13103492558002472,
+          "free_policy_fraction": 0.9144531488418579,
+          "entropy_conditional_on_policy_controlled": 0.1432932083464075
+        },
+        {
+          "update": 1080,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18022400,
+          "entropy": 0.1338248997926712,
+          "free_policy_fraction": 0.9072265625,
+          "entropy_conditional_on_policy_controlled": 0.14750990030968278
+        },
+        {
+          "update": 1100,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18432000,
+          "entropy": 0.14823606610298157,
+          "free_policy_fraction": 0.919921875,
+          "entropy_conditional_on_policy_controlled": 0.16113984255780586
+        },
+        {
+          "update": 1120,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 18841600,
+          "entropy": 0.11566219478845596,
+          "free_policy_fraction": 0.89453125,
+          "entropy_conditional_on_policy_controlled": 0.1292992221215927
+        },
+        {
+          "update": 1140,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 19251200,
+          "entropy": 0.12804727256298065,
+          "free_policy_fraction": 0.931445300579071,
+          "entropy_conditional_on_policy_controlled": 0.13747159654289395
+        },
+        {
+          "update": 1160,
+          "warmup": false,
+          "stage": 2,
+          "max_delay": 15,
+          "learning_frames": 19660800,
+          "entropy": 0.1289069503545761,
+          "free_policy_fraction": 0.911914050579071,
+          "entropy_conditional_on_policy_controlled": 0.14135866233524902
+        },
+        {
+          "update": 1180,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20070400,
+          "entropy": 0.12390466034412384,
+          "free_policy_fraction": 0.8716797232627869,
+          "entropy_conditional_on_policy_controlled": 0.14214470870142068
+        },
+        {
+          "update": 1200,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20480000,
+          "entropy": 0.13485251367092133,
+          "free_policy_fraction": 0.8939453363418579,
+          "entropy_conditional_on_policy_controlled": 0.15085096167373677
+        },
+        {
+          "update": 1220,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 20889600,
+          "entropy": 0.10816194862127304,
+          "free_policy_fraction": 0.8818359375,
+          "entropy_conditional_on_policy_controlled": 0.12265541017517563
+        },
+        {
+          "update": 1240,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 21299200,
+          "entropy": 0.1052515059709549,
+          "free_policy_fraction": 0.859570324420929,
+          "entropy_conditional_on_policy_controlled": 0.12244664919285132
+        },
+        {
+          "update": 1260,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 21708800,
+          "entropy": 0.10787458717823029,
+          "free_policy_fraction": 0.8628906607627869,
+          "entropy_conditional_on_policy_controlled": 0.12501536067486257
+        },
+        {
+          "update": 1280,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22118400,
+          "entropy": 0.1122598797082901,
+          "free_policy_fraction": 0.898632824420929,
+          "entropy_conditional_on_policy_controlled": 0.12492296815512985
+        },
+        {
+          "update": 1300,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22528000,
+          "entropy": 0.1019275113940239,
+          "free_policy_fraction": 0.8531250357627869,
+          "entropy_conditional_on_policy_controlled": 0.11947546622270859
+        },
+        {
+          "update": 1320,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 22937600,
+          "entropy": 0.0969347283244133,
+          "free_policy_fraction": 0.8697265982627869,
+          "entropy_conditional_on_policy_controlled": 0.11145425300092361
+        },
+        {
+          "update": 1340,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 23347200,
+          "entropy": 0.11994858086109161,
+          "free_policy_fraction": 0.8763672113418579,
+          "entropy_conditional_on_policy_controlled": 0.13687022895052317
+        },
+        {
+          "update": 1360,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 23756800,
+          "entropy": 0.13598982989788055,
+          "free_policy_fraction": 0.9248046875,
+          "entropy_conditional_on_policy_controlled": 0.14704708111449807
+        },
+        {
+          "update": 1380,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 24166400,
+          "entropy": 0.1250118464231491,
+          "free_policy_fraction": 0.903124988079071,
+          "entropy_conditional_on_policy_controlled": 0.13842142347212297
+        },
+        {
+          "update": 1400,
+          "warmup": false,
+          "stage": 3,
+          "max_delay": 30,
+          "learning_frames": 24576000,
+          "entropy": 0.10821621865034103,
+          "free_policy_fraction": 0.8892578482627869,
+          "entropy_conditional_on_policy_controlled": 0.12169273384738437
+        }
+      ]
+    }
+  }
+}

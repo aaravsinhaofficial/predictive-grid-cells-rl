@@ -1,0 +1,110 @@
+{
+  "version": "blind_reorientation_matched_entropy_continuation_v1",
+  "status": "DRAFT until separately reviewed and frozen; no launch authorization implied",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "arms": {
+    "original": 8e-05,
+    "explore": 0.01
+  },
+  "workers": 4,
+  "original_training_seed": 1,
+  "question": "Does stronger entropy regularization improve exploration and free blind rewards in the same task?",
+  "factor": "Only config.entropy: original8e-5 versus0.01. It acts on all policy-controlled updates (visible/waiting and free), with the existing forced-action entropy/policy masks unchanged.",
+  "unchanged": "Original task, input timing, goal/current codes, reward, architecture, all trainable weights, learning rate/RMSProp,160-update BPTT,100/160 loss scaling, sigma.02 h/c noise and exact stored-noise replay; no ring/angle target or reward reshaping",
+  "parent_protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+  "parent_assets": {
+    "gc100": {
+      "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01",
+      "sha256": {
+        "final.pt": null,
+        "final_evaluation.json": null
+      }
+    },
+    "pgc33": {
+      "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02",
+      "sha256": {
+        "final.pt": null,
+        "final_evaluation.json": null
+      }
+    }
+  },
+  "resume": "Exact completed40,058,880-learning-frame final.pt only, preserving policy, full RMSProp, all captured simulator/observation/h/c/goal/action/reward/clock/plan/input-audit/private RNG tensors and recent scores. No new warmup, seed substitution, native-state reset or curriculum restart.",
+  "parent_global_rng_scope": "Parent snapshots contain all three task-used private RNG streams and deterministic per-slot clock plans. They do not save unused global torch/NumPy RNG state; no substitute is claimed for an absent parent field.",
+  "learning": {
+    "blocks": 5,
+    "updates_per_block": 489,
+    "n_envs": 32,
+    "bptt": 160,
+    "action_repeat": 4,
+    "frames_per_block": 10014720,
+    "extension_learning_frames": 50073600,
+    "parent_learning_frames": 40058880,
+    "total_learning_frames_beyond_1B": 90132480,
+    "extension_warmup_updates": 0,
+    "parent_warmup_updates": 200,
+    "parent_warmup_exposure_frames": 4096000,
+    "delay": "Unchanged final-stage uniform integer30\u201360, constantLEFT delay, throughout all five blocks",
+    "pairing": "Within each population both entropy arms start from identical policy/optimizer/runtime/private RNG states. Streams can diverge after outcomes differ; no claim of identical later trajectories."
+  },
+  "evaluation": {
+    "variants": [
+      "blind_native",
+      "blind_ordinary",
+      "blind_plus60",
+      "blind_minus60",
+      "blind_reset_after_glimpse",
+      "blind_reset_every_blind",
+      "seen_native",
+      "seen_ordinary",
+      "seen_plus60",
+      "seen_minus60",
+      "seen_reset_after_glimpse",
+      "seen_reset_every_blind"
+    ],
+    "episodes": 64,
+    "n_envs": 32,
+    "seed": 148201,
+    "clean": true,
+    "max_delay": 60,
+    "endpoints": "Parent baseline and every one of five fixed blocks; all retained; no checkpoint selection",
+    "baseline": "Same CUDA backend; all12 complete raw episode, free-event and window rows plus schedules/probe counters must equal parent final reference exactly before training",
+    "invariance": "Every evaluation must leave policy, optimizer and the training runtime/private RNG snapshot unchanged",
+    "reporting": "Whole-episode score; free-window hits/progress per original episode including zero-event episodes; opportunity/phase/forced-reward counts; paired slot-cluster uncertainty, no trained-seed significance"
+  },
+  "interpretation": "Continued original-seed exploration pilot, not entropy-optimum estimation and not ring-target training. Existing40M endpoints and their fixed mechanistic assays remain separate and unchanged.",
+  "selection": "Fixed five blocks per arm; all baselines/stages and incomplete attempts retained; no outcome-based stopping or stage selection",
+  "budget": {
+    "workers": 4,
+    "accelerator": "T4",
+    "worker_guard_seconds": 7200,
+    "process_max_seconds": 6600,
+    "planned_reservation_usd": 11.25,
+    "original_user_total_authorization_usd": 500.0,
+    "launch": "Separate root approval after tests/review and exact final parent hashes; draft never authorizes launch"
+  },
+  "source_sha256": {
+    "scripts/rl_blind_reorientation.py": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb",
+    "scripts/rl_blind_reorientation_train.py": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70",
+    "tests/test_rl_blind_reorientation.py": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_visual_memory_noise.py": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4",
+    "scripts/rl_visual_memory_extend.py": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "scripts/rl_blind_reorientation_entropy_extend.py": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a",
+    "tests/test_rl_blind_reorientation_entropy_extend.py": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+  },
+  "original_asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+  }
+}

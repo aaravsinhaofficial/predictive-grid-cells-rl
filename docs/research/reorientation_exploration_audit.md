@@ -1,0 +1,19 @@
+# Why examine exploration before changing the task?
+
+The reward-allocation audit found very little PGC movement during the first-stage blind free windows. A simple possibility is that the actor rarely tries translation. The diagnostic measures that directly: how probable each of the six actions is, how often each is chosen, and how concentrated the action distribution becomes during **FREE** steps.
+
+The original A3C paper motivates policy entropy as a way to keep exploration from collapsing prematurely into a nearly deterministic policy. Its gradient includes an entropy term weighted by a coefficient β. This is the relevant precedent for examining an exploration failure before adding a new task or representation loss. [Mnih et al., ICML 2016, section 4](https://proceedings.mlr.press/v48/mniha16.pdf).
+
+The supplement uses **β = 0.01 for Atari and TORCS**, while its continuous-control experiments use a different entropy convention and coefficient. OpenAI’s A2C implementation also defaults to **0.01** for its discrete policy. These are concrete working precedents, not a universal setting for every navigation task. [A3C supplement, section 2](https://proceedings.mlr.press/v48/mniha16-supp.pdf), [OpenAI A2C implementation](https://github.com/openai/baselines/blob/master/baselines/a2c/a2c.py).
+
+Both agents here retain their original coefficient **0.00008**, numerically 125 times smaller than 0.01. The frozen task loss scales the summed policy, value and entropy terms together by `100/160`. Forced actions receive neither actor nor entropy loss; waiting, visible and free actions retain both. That shared scaling does not change the entropy coefficient relative to the policy term. Reward scale, advantages, optimizer behavior, pretrained logits and rollout conventions still affect the resulting gradient, so the numerical coefficient ratio alone is not an estimate of exploration strength.
+
+The existing log field is easy to misread. It averages **masked entropy over all 160 updates**, including zeros for forced updates. Dividing it by `free_policy_fraction` recovers the average over all policy-controlled updates, including waiting and visible navigation. Neither quantity isolates the blind free window. For six actions, a uniform policy has entropy `ln(6) ≈ 1.792` nats; a nearly certain single action has entropy near zero.
+
+The separate diagnostic is frozen before its checkpoint rollouts. It reads every available original/incoming, post-warmup and prescribed stage checkpoint, restores a copy of the complete saved physical, recurrent, goal, observation and event-clock state, and calls the unchanged collector for one 160-update segment at that checkpoint’s training delay. It constructs no optimizer and verifies that weights, the saved snapshot and the checkpoint file are unchanged. Zero-FREE segments remain in the results.
+
+The saved cloud generators use CUDA state blobs incompatible with CPU generators. The original blobs are retained; only future RNG streams are replaced with three prespecified private CPU streams. Consequently this is a **fresh short rollout from a saved state**, not a replay of the cloud worker’s exact future. Training state noise and the native physical equations remain active. Steps and checkpoints are nested observations from one original seed pair.
+
+If the diagnostic finds a nearly certain turning action with very little translation probability, it identifies an exploration bottleneck worth testing with an entropy-only continuation. Such a test would keep the task, reward and representation objective fixed. The active 40M runs are unchanged; this audit launches no learning or cloud work.
+
+[Frozen diagnostic](../../results/rl_blind_reorientation_review/entropy_diagnostic/protocol.json) · [Diagnostic source](../../scripts/lstm_reorientation_entropy_diagnostic.py) · [Reward allocation](../../results/rl_blind_reorientation_review/reward_allocation/README.md)

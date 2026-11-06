@@ -1,0 +1,68 @@
+{
+  "version": "saved_state_free_action_entropy_diagnostic_v1",
+  "frozen_before_first_checkpoint_rollout": true,
+  "scope": "No optimizer, no learning, no VM; one160-update rollout per every fixed incoming/after-warmup/stage checkpoint in both originalseed1 populations; latest checkpoints excluded",
+  "checkpoint_stage_delays": [
+    [
+      "incoming",
+      "incoming.pt",
+      4,
+      0,
+      0
+    ],
+    [
+      "after_warmup",
+      "after_warmup.pt",
+      4,
+      0,
+      200
+    ],
+    [
+      "stage1",
+      "stage1_delay4.pt",
+      4,
+      10014720,
+      689
+    ],
+    [
+      "stage2",
+      "stage2_delay15.pt",
+      15,
+      20029440,
+      1178
+    ],
+    [
+      "stage3",
+      "stage3_delay30.pt",
+      30,
+      30044160,
+      1667
+    ],
+    [
+      "stage4",
+      "stage4_delay60.pt",
+      60,
+      40058880,
+      2156
+    ]
+  ],
+  "private_cpu_seeds": {
+    "environment_rng": 199201,
+    "action_rng": 199202,
+    "noise_rng": 199203
+  },
+  "rng": "Preserve all original CUDA RNG blobs; restore all other runtime fields byte-exact, substitute private CPU streams because CUDA16byte generator state is incompatible with CPU5056byte state",
+  "metrics": "FREE entropy in nats, six actor probabilities/actual action counts, turn versus translation, free reward and phase/event exposure; all zero-FREE cases retained; per-phase and all-policy-controlled comparisons",
+  "logs": "All complete saved log rows; entropy field is policy-masked and divided by160, not FREE-specific; conditional policy entropy recovered by dividing policy-controlled fraction",
+  "replication": "Single saved-state future rollout per checkpoint, one original trained-seed pair; sampled steps are not independent model replications",
+  "source_sha256": {
+    "scripts/lstm_reorientation_entropy_diagnostic.py": "5a672d83ec6100a9d5cfec2ab08ca883e003de1f9b441f485a67a1d7f49c85fc",
+    "scripts/rl_blind_reorientation.py": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb",
+    "scripts/rl_visual_memory_noise.py": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  }
+}
