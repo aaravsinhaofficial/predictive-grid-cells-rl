@@ -45,6 +45,8 @@ Only after the behavioral gate, apply the existing full-state and prespecified f
 
 Use source seed 1 as the bounded implementation/feasibility pilot. Seed 2 is a separately identified development replication if changes are needed. Freeze the final task, behavioral gates, cue timing, geometry maps and endpoints before **source seeds 3–8** are trained as six matched confirmation pairs. Include every confirmation seed and failed learner; average trials within model and compare effects across paired models. Contexts, headings and cue variants are repeated measurements, not independent trained networks. A pilot that learns memory alone is not a population claim about PGCs.
 
+Prospective confirmation requirement: seal a **fresh physical evaluation bank** after the pilot/development design is settled and before confirmation training or outcomes. The pilot bank will already have been examined, so it remains a developmental result rather than the primary confirmation test. Apply the same physical construction and independent certificate to the fresh bank, retain all its failures and freeze its hashes and analysis plan. This requirement does not change the already frozen pilot bank or gates.
+
 This study asks whether a memory-relevant task can train a useful directional mechanism from the repository's original features, and whether predictive inputs repair or improve that mechanism. It does not retroactively attribute the original 1B navigation advantage to the newly learned mechanism.
 
 ## Primary literature used

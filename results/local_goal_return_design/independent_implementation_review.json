@@ -1,0 +1,35 @@
+{
+  "status": "core_review_passed_runner_and_baseline_pending",
+  "passed_core_review": true,
+  "complete_study_review": false,
+  "reviewed_utc": "2026-11-06T10:09:41.346481+00:00",
+  "source_sha256": {
+    "scripts/local_goal_return_training.py": "2c0fe2c85568d5eda1a8f698f802ff488dab38c79e1edbf777fa4616a25f0f77",
+    "tests/test_local_goal_return_training.py": "e619cbf69aa700e0241facec6ad6986d74b2902c1910ca090434085adc8fedaf",
+    "tests/test_local_goal_return_audit.py": "0892ffc733da2b40afb5696bacc50f2f2db1f0ec1a5c35088bb1b483dbf2a6b0"
+  },
+  "test_command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_goal_return_training.py tests/test_local_goal_return_audit.py",
+  "tests_passed": 11,
+  "checked": [
+    "Original nonhead tensors preserved; matched nonzero native actor/value initialization; CPU/MPS global RNG unchanged",
+    "Setup native pickup/code occurs without policy processing and never enters learner reward or previous reward",
+    "One entire trial is replayed; forced actor/entropy gradients masked, forced critic gradients retained, all padded losses masked",
+    "Hit and timeout returns ignore bootstrap and cannot cross trial boundaries; h/c starts at zero each trial",
+    "Native first-hit physics/reward and pre-teleport endpoint retained; trial suppresses only post-terminal respawn",
+    "Exact stored blind state-noise replay and cue-to-FREE gradient path; post-cue reset cuts that path",
+    "Antipodal first-FREE inputs, position, motors and erased state byte-identical under shared private tapes",
+    "Near-stage forced-path clearance: four braked probe steps .0432586628m, minimum goal clearance atD=.36 is .0167413372m",
+    "Both frozen banks regenerated exactly; every sealed tensor hash and shared-context/tape identity checked separately"
+  ],
+  "fixed_pre_freeze_findings": [
+    "Replaced all-device torch.manual_seed inside CPU-only fork with CPU default_generator seed and explicit CPU float32 heads",
+    "Removed reuse of endpoint uniform as fourth texture phase; generator draws19 independent uniforms"
+  ],
+  "pending": [
+    "Runner exact checkpoint initialization and trainability validation",
+    "Evaluation branch pairing, certificate extraction at each context FREE onset and denominator preservation",
+    "Persist failing plan/tapes or reconstructible pre-draw RNG state before assertion failures",
+    "Frozen-bank actual reset-head learning-opportunity baseline and all physical certificates; no baseline outcome executed by this reviewer"
+  ],
+  "scope": "New reward-only task transferring original1B CNN/LSTM with explicitly reset actor/value heads. No retrospective original-agent ring claim. Conditional50percent bound applies only to certified final pairs; near curriculum is easier by design. No cloud launch or training performed by this reviewer."
+}

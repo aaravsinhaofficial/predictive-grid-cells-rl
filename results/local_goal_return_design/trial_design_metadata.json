@@ -1,0 +1,58 @@
+{
+  "protocol_sha256": "4c7ba90dd79c8c0b5f8ac13ba89e4a7d6ed5bf0287556982ade07f911fc16e48",
+  "source_sha256": "0a65f52f3a28429db7636bb613ffad7345e84e5c6f3f6889f71537dc188401d0",
+  "design_only": true,
+  "no_training_or_behavior_results": true,
+  "stages": [
+    {
+      "low": 0.36,
+      "high": 0.4,
+      "delay": 4
+    },
+    {
+      "low": 0.44,
+      "high": 0.48,
+      "delay": 15
+    },
+    {
+      "low": 0.52,
+      "high": 0.56,
+      "delay": 30
+    },
+    {
+      "low": 0.58,
+      "high": 0.62,
+      "delay": 60
+    }
+  ],
+  "goal_radius_m": 0.3,
+  "maximum_phase_updates": [
+    15,
+    20,
+    4,
+    60,
+    30
+  ],
+  "phase_boundaries": [
+    0,
+    15,
+    35,
+    39,
+    99,
+    129
+  ],
+  "cue_input_update": 39,
+  "free_start_update": 99,
+  "maximum_total_updates": 129,
+  "policy_updates_per_second": 15,
+  "phase_names": [
+    "visible_forced_turns",
+    "blind_labelled_turns",
+    "forward_probe",
+    "left_delay",
+    "free_actor"
+  ],
+  "cue_counted_inside_delay": true,
+  "reward": "Only an actual FREE goal hit receives+10; terminate then or after30FREEactions",
+  "preserved_archive_files": "No archived bankREADME, protocol or PTbank was modified"
+}
