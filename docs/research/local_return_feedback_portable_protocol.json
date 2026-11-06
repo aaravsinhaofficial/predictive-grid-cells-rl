@@ -1,0 +1,316 @@
+{
+  "version": "feedback_acquisition_reward_only_v2",
+  "original_seed": 1,
+  "arms": [
+    {
+      "condition": "gc100",
+      "actor_mode": "retained_actor"
+    },
+    {
+      "condition": "gc100",
+      "actor_mode": "reset_actor"
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "retained_actor"
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "reset_actor"
+    }
+  ],
+  "scope": "Prospective feedback-supported fast-steering acquisition control. No memory/ring claim or causal attribution to an individual changed training setting.",
+  "initialization": "Original1B nonhead tensors; retained original actor or exact archived untrained actor; exact common archived untrained critic in all four arms. No new QR initialization.",
+  "all_parameters_trainable": true,
+  "stage": {
+    "low": 0.58,
+    "high": 0.62,
+    "delay": 4
+  },
+  "observations": "Fresh native RGB and current code at every active input; genuine saved pickup goal unchanged; actual previous action, zero previous reward; no special pulse or midtrial state reset.",
+  "noise": {
+    "state_sigma": 0.0,
+    "free_translation_sigma": 0.03,
+    "free_rotation_sigma": 0.15,
+    "preparation_and_image_noise": 0.0,
+    "state_tape": "Drawn and archived in plan; deliberately unused"
+  },
+  "learning": {
+    "updates": 1024,
+    "trials_per_batch": 32,
+    "trials_per_arm": 32768,
+    "learning_rate": 0.0003,
+    "rms_alpha": 0.99,
+    "rms_eps": 1e-05,
+    "gamma": 0.99,
+    "entropy": 8e-05,
+    "value_coef": 0.5,
+    "grad_clip": 40.0,
+    "reward_clip": 1.0,
+    "optimizer": "Fresh RMSProp on every network parameter",
+    "credit": "Native FREE +10 clipped1; zero terminal/timeout bootstrap; actor/entropy FREE only, critic all active; fixed100/160 scaling; no setup/forced reward, padding loss or planner in learning"
+  },
+  "randomness": {
+    "train_seed": 494801,
+    "streams": [
+      "plan",
+      "motor",
+      "action",
+      "state"
+    ],
+    "complete_tapes_before_outcomes": true,
+    "resume": "Exact policy/RMSProp/private and global CPU/CUDA/MPS RNG, counters, and pending evaluations at complete-trial boundaries"
+  },
+  "evaluation": {
+    "manifest_path": "docs/research/local_return_feedback_behavior_protocol.json",
+    "manifest_sha256": "cbff4aa96b6eea2868481ccaed81fc2f8aebbac63f7671baec297190fd428b9d",
+    "bank": {
+      "path": "results/local_return_feedback_design/banks/feedback_hard.pt",
+      "sha256": "8f701405df1e7434889519fe5c0c0007c92e11354edfbdf30b9b4411a68cf711",
+      "bytes": 84577215,
+      "tensor_schema": {
+        "/endpoint": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0bb7ebd560089599f2c38f9aa7da3f63776d9ca08fce94d33acc9108bee7cb29",
+          "bytes": 2048
+        },
+        "/goal": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "336c424510ea91ca618a778af29470bdce73ff82923b03a3c2f5cf16554ca8ec",
+          "bytes": 2048
+        },
+        "/radius": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "99a8e74348e4cbf7eff476a7bb372b431cef11b82d32390af3994d18af55565c",
+          "bytes": 1024
+        },
+        "/heading": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "da4454c7b9c00e1051e9109a3b490aa3e6209f2c4013fc491c970d76d1fec9c8",
+          "bytes": 1024
+        },
+        "/pickup_angle": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "1ed72921cddacff9149ff02d42fcfd98ae2197dbe7cebe415c7408db8d497f95",
+          "bytes": 1024
+        },
+        "/duration_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "b9638e9fc0caef2e1249c08b741062c9f71248aaebfa1b4dfa38a10bbdb726dc",
+          "bytes": 2048
+        },
+        "/duration_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "41d3163043ad1e069053d57abbfbc935f7727e6b755dd9e65228124dfec7a001",
+          "bytes": 2048
+        },
+        "/turn_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "e94bfb2388b5021477ef8ebb5adca983a5126e398d47676be9712ed09def4f46",
+          "bytes": 2048
+        },
+        "/turn_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "ff7960199b421b18864a060618822b05d30ff5007338e72dd4b41bdb3fa49f65",
+          "bytes": 2048
+        },
+        "/delay": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "7bfd4d4110cf4b3abcb46fc0557dbee7f0eff291dbb784f5db2c2b4b9d1695c9",
+          "bytes": 2048
+        },
+        "/land_pos": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "453d7dc9ebe6117322ff77b97517ad2aa22d4a72275c8cdd6a1c4a94583da4ee",
+          "bytes": 4096
+        },
+        "/stripe_phase": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "8ac6e61d4fee7b10f23ad5de8b357f39bef1b8c7683eb82b2a5e9513aeb893f9",
+          "bytes": 4096
+        },
+        "/context": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728",
+          "bytes": 2048
+        },
+        "/heading_index": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e",
+          "bytes": 2048
+        },
+        "/motor": {
+          "shape": [
+            160,
+            3,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e0cfbc942f40f5fa75b50e2532a901ad707c685cd226f071e1b9bb332af1a51d",
+          "bytes": 491520
+        },
+        "/action": {
+          "shape": [
+            160,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "07fc0b1ecd9013f7e0cd7aa93d508910d7cfc969e181e756a5c08743fe6280f1",
+          "bytes": 163840
+        },
+        "/state": {
+          "shape": [
+            160,
+            2,
+            256,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "3436bbef97cef2f99ba73b8771b97c67ec4a7005bf45e5824d4fd0273bb83e87",
+          "bytes": 83886080
+        }
+      }
+    },
+    "endpoints": [
+      "baseline",
+      "final"
+    ],
+    "trials_per_endpoint": 256,
+    "final_success_threshold": 192,
+    "no_common_information_certificate": true,
+    "policy_trials_total": 2048,
+    "physical_reference_trials_once": 512,
+    "references": "Uniform six-action and native physical planner once outside learning; separate artifact tree.",
+    "raw": "Lossless gzip level1 torch tensors with compressed SHA and full uncompressed tensor schema/hash. Exact RGB/code/logits, masks, actions, poses, goal, motor/input timing, firstFREE state; failed plans retained without replacement."
+  },
+  "checkpoints": [
+    "incoming.pt",
+    "baseline_before_evaluation.pt",
+    "baseline.pt",
+    "latest.pt",
+    "final_before_evaluation.pt",
+    "final.pt"
+  ],
+  "latest_every_updates": 128,
+  "counting": "Fixed attempted trials and optimizer updates. Actual active physical updates\u00d74 separately from forced/FREE/setup/padding; no best checkpoint selection.",
+  "infrastructure": {
+    "process_max_seconds": 12600,
+    "provider_delete_seconds": 14400,
+    "workers": 4,
+    "maximum_reservation_usd": 25.0,
+    "original_cumulative_budget_usd": 500.0,
+    "no_automatic_retry_or_extension": true
+  },
+  "source_sha256": {
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "scripts/audit_local_goal_return_baseline.py": "2d105aecaffdc69b5aa44031551e26d64b59d4ffef5b34769c43d80502e128c5",
+    "scripts/audit_local_goal_return_training.py": "f02e1a4a357ccff06120e1ae5789b07a0ae78ac02862e2bced548f3ac1e471f8",
+    "scripts/audit_local_return_feedback.py": "fef3d5914ef27d4a4878af64b4c7395cf5eebc0c69730d71f21c055f22bc3b13",
+    "scripts/certify_local_goal_return.py": "83b6ccef847fb8296319f08de1649d3b8613b43e2e70b1e11ea767352809d53c",
+    "scripts/local_goal_return_training.py": "000a83106949781d7b83e1ffb4811cfdd5fca6cd44ff50c4ed6de13e137f7dde",
+    "scripts/local_goal_return_training_certificate.py": "382af123209ef2a90c9fef2674a8c89854161dcdc70eedf6360dc61be43c2876",
+    "scripts/local_goal_return_training_evaluate.py": "dfe054db9c31da53cc5138064d307afefac375eaa70cb9fa4404f5b179e1ddb1",
+    "scripts/local_goal_return_training_run.py": "cb9fed599cb6aab07bc96eb4e08d96ec8f74e39d78a52927edef1de7e10ecbbd",
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "scripts/local_return_feedback_evaluate.py": "dc6e8aa9883a1c67da48d6b5b20fb942eb3b0eaafda54354803dbafc9eb1f62c",
+    "scripts/local_return_feedback_run.py": "a74a08aa415fa2d3705c3c7f9cce9c67e8ec8bb361abd2c8428398b74a859aee",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_visual_memory_extend.py": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba",
+    "tests/test_audit_local_return_feedback.py": "6fc76782c0b7265d45d696eb2c923a48a33805215fcb09ad6625469de4952560",
+    "tests/test_local_goal_return_audit.py": "82dd41d93c8cfef024ab1a28e90250745e4b0d03b7af2766ed005530a5acd0f0",
+    "tests/test_local_goal_return_resume.py": "d4448573f4a6e5b1048e10f7bbe22749586574e1b47e18f79312a8af2126730d",
+    "tests/test_local_goal_return_training.py": "e619cbf69aa700e0241facec6ad6986d74b2902c1910ca090434085adc8fedaf",
+    "tests/test_local_goal_return_training_certificate.py": "92c3df9c92899c977cac042bc4bf8481457e93e49a6544148b71ebc27cee5ced",
+    "tests/test_local_return_feedback.py": "b6b1bcdc4d34f4b1a50a5332ee248403165a71fa083aa9302ed073262637791a",
+    "tests/test_local_return_feedback_evaluate.py": "f79d0f0d4c74df4a6e8b604542dcd1c682c8283e47b767b836f262d187741563",
+    "tests/test_local_return_feedback_run.py": "de21aa26811968719b89712fa7260ca5b3d517f83d41ffc7b9fd59dcfe540b66",
+    "scripts/local_return_feedback_portable_evaluate.py": "35f7f682eb54bff18308c4ea7ad0bd3d125fb8b8c44905900335d3a226d724a9",
+    "scripts/local_return_feedback_portable_run.py": "0d618108df1be17086adae03f31d9c5da5e9cb0b8e66fe5cec1b0a79d4414acc",
+    "tests/test_local_return_feedback_portable.py": "e4bc4396f13bc800d0a4f0782df5f7adbfcde6f9eb2a8eb57387f6889eaad61c"
+  },
+  "input_assets": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "docs/research/local_return_feedback_initialization.json": "471ab69f6167966c2bf1efb5a05e27d5fbc290308c13851dab4bc966b1c8eb82",
+    "results/local_return_feedback_design/initialization/gc100_retained_actor.pt": "9b8a6f19dabaf557e8f965657acf59a2565188c90c2fecc65abe423e7d3c9e41",
+    "results/local_return_feedback_design/initialization/gc100_reset_actor.pt": "3f2862514d3643e6dd01d3ac3b57961e5868dec3fe565db5ee23e8fb982ef435",
+    "results/local_return_feedback_design/initialization/pgc33_retained_actor.pt": "7084627f7e2e3672ccb28e0be0cf92cb322452339bf8380680ea8f1ec0ca61db",
+    "results/local_return_feedback_design/initialization/pgc33_reset_actor.pt": "55614e58c310b7576b9212ccb1a97bef8243df93df7e0f2fadd0e3932f3b8917",
+    "results/local_goal_return_baseline/gc100/initialized_policy.pt": "1a278378d3aeea9472fa8ad324f37e75754fd0471ed76e56042cd4cfe9fadcd7",
+    "results/local_goal_return_baseline/pgc33/initialized_policy.pt": "0ddd7b1b81c656fda4f8ab90ef92a8fcb95acb6bfcd6786ebf3f7376664b80e7",
+    "docs/research/local_goal_return_training_protocol.json": "0768cb770943c41a5dc44773abd450f9978f9f54ed6f7fedb2e504a71a125038",
+    "docs/research/local_return_feedback_acquisition_spec_v2.md": "b4b87ea91c66738a37fc659afefd5e38391ae943307783dff6f64e6031d08e93",
+    "docs/research/local_return_feedback_behavior_protocol.json": "cbff4aa96b6eea2868481ccaed81fc2f8aebbac63f7671baec297190fd428b9d",
+    "results/local_return_feedback_design/banks/feedback_hard.pt": "8f701405df1e7434889519fe5c0c0007c92e11354edfbdf30b9b4411a68cf711",
+    "docs/research/local_return_feedback_training_protocol.json": "ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7",
+    "results/local_return_feedback_design/bank_validation.json": "701f999c646acb6265378b8b9abfff2ecedadc0cd53251417df108dbf883507c"
+  },
+  "specification_sha256": "b4b87ea91c66738a37fc659afefd5e38391ae943307783dff6f64e6031d08e93",
+  "portability": {
+    "parent_protocol_path": "docs/research/local_return_feedback_training_protocol.json",
+    "parent_protocol_sha256": "ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7",
+    "origin_validation_path": "results/local_return_feedback_design/bank_validation.json",
+    "origin_validation_sha256": "701f999c646acb6265378b8b9abfff2ecedadc0cd53251417df108dbf883507c",
+    "bank_authentication": "Exact original file SHA/bytes, uncompressed tensor schema/SHA, manifest seed/stage/class pins and hash-pinned creation-time exact seed-regeneration evidence. No worker regeneration or tolerance-based acceptance.",
+    "same_saved_bank": true,
+    "same_training_computation": true,
+    "same_evaluate_plan": true,
+    "raw_evaluator_source": "scripts/local_return_feedback_evaluate.py",
+    "infrastructure_correction_only": true
+  },
+  "frozen_utc": "2026-11-06T13:54:23.544660+00:00"
+}
