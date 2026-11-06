@@ -1,0 +1,58 @@
+{
+  "status": "prospective_task_review_and_completed_read_only_physical_certificate",
+  "training_launched": false,
+  "proposal_sha256": "389dd4035b186886220f8760426c323364f1a1b7aacfe93d7422c16f592f5025",
+  "certificate_source_sha256": "83b6ccef847fb8296319f08de1649d3b8613b43e2e70b1e11ea767352809d53c",
+  "certificate_sha256": "50a066f1193b73eb4d74d055141d2201d4ef318fba03abd6259cc3e823e8b3b5",
+  "test_command": "/opt/anaconda3/bin/python -m pytest -q tests/test_local_goal_return_certificate.py tests/test_local_goal_return_preflight.py",
+  "tests_passed": 12,
+  "independent_theorem_review": "Literature/physical-preflight agent independently reviewed native speed recurrence, paired symmetry, first-hit continuation,3(D-R) bound, leakage assumptions and numerical margins; no blocker reported.",
+  "scope": "An information requirement for success above50% on fixed paired test tapes, not proof of a learned ring or of memory use at lower success. No change to active90M runs.",
+  "physical_cases": {
+    "unique_contexts": 8,
+    "unique_opposite_heading_pairs": 64,
+    "heading_trials_per_population": 128,
+    "model_input_validation_rows": 16,
+    "all_certified": true,
+    "common_information_success_upper_bound": 0.5,
+    "all_action_path_bound_range_m": [
+      0.6831492893885236,
+      0.7015169442326478
+    ],
+    "minimum_three_gap_margin_m": 0.14094406646174418,
+    "minimum_whole_path_wall_margin_m": 0.20252201557739635,
+    "maximum_antipodal_heading_error_rad": 4.204111643946865e-06
+  },
+  "why_six_constant_actions_are_insufficient": "A policy with a clock and previous-action memory can implement a search sequence, switch translations or randomize. Six repeated-action baselines do not optimize that class. The3dcertificate bounds every such common-information controller on the prescribed paired tapes.",
+  "rigorous_assumptions": [
+    "Same free-start position, true goal, body vf/vs/vr and opposite body headings; all are audited on the saved preparations.",
+    "Black RGB and the ordinary current snapshot stay held during the entire free interval. Updating current position code, giving heading/velocity/wall signals or returning vision would break the common-input argument.",
+    "Saved native goal code is exactly identical within each opposite-heading pair and generated independently of the heading label. It can provide allocentric goal information without resolving the missing body orientation.",
+    "Previous action is initially the sameLEFT value, previous reward is0, and both update identically before a hit under the common-action coupling. A clock or arbitrary memory of these common actions is allowed.",
+    "The null controller has no heading-informed h/c or other private state at free onset. Post-glimpse erasure yields byte-identical h/c here. Any policy/state/action-sampling noise is coupled with the same heading-independent law; a retained RNG identifier or slot/plan variable correlated with heading must not be exposed as an additional input.",
+    "Motor noise is native body-frame noise, identical within each pair. Shared rotational noise preserves the pi heading gap. Independent actual draws have the same marginal law, but this certificate is conditional on the saved coupled tape.",
+    "Every possible30-step action path stays away from walls because its path upper bound is below the nearest wall distance. Merely observing no walls for the tested planner would not suffice.",
+    "Terminate at first actual goal hit before respawn. If both paired cases hit, extending the still-active case supplies the common path through both reflected goal disks, so asymmetric stopping does not evade the bound.",
+    "Native Gaussian noise has unbounded support. A universal\u226450% claim is not valid without a bounded event or a separately bounded failure probability; an unconditional bound can be\u2264.5+.5Pr(certificate event fails)."
+  ],
+  "mathematical_reason": "Let D be start-to-goal-center distance and R goal radius. Under the paired symmetry the common displacement path faces disks at\u00b1(G-P). Reaching one costs\u2265D\u2212R; going from that disk to the other costs\u22652(D\u2212R). Both successes require length\u22653(D\u2212R). The native motor-norm envelope bounds all actions below that length, so at most one case succeeds.",
+  "v1_vs_v2": "The original.45\u2013.55m proposal does not uniformly satisfy this sufficient bound: zero-noise30-step path from rest is.623674m, requiring D>.507891m. V2 was prospectively changed to.58\u2013.62m with endpoints in[-.30,.30]^2 and common body-noise/action tapes. Every resulting context was retained, and all pass with>.14m path margin and>.20m wall margin.",
+  "reward_and_training_requirements_before_any_future_launch": [
+    "The setup pickup generates a real native+10 and code, but begins.02m inside the goal disk rather than at the usual first crossing. Record that distribution change explicitly. Exclude the setup transition/reward from scored return, BPTT loss and bootstrap; initialize trial pa/pr/h/c as specified.",
+    "Make first-hit and30-free-step failure genuine terminal transitions for value bootstrapping. Otherwise later reset/visible rewards can reintroduce the original incentive shortcut.",
+    "Retain every forced-phase hit/interruption separately. They must not be counted as free-navigation success or silently discarded; externally forced prefixes supply no policy-controlled way to earn them, but they reduce learning opportunities and affect critic targets.",
+    "Force the visible refresh and all prescribed prefixes with both policy and entropy masks; retain recurrent gradient flow and critic accounting as explicitly frozen. Only FREE choices can produce the intended controllable reward.",
+    "The physical preflight disables preparatory motor/image noise for exact endpoint aliases. A future training method must state whether it adopts that schedule or whether the certificate is a separate controlled evaluation. Native noisy preparation cannot be assumed to leave identical free-start positions/motors.",
+    "The local joint start/goal distribution, forced-visible control, known-goal initialization and trial termination are substantive task amendments. Keep them separate from original1B and completed40M/90M findings; do not describe them as solely an entropy change.",
+    "Freeze paired held-out evaluation and all failure/zero-hit denominators. Demonstrating high intact success above the common-information bound plus a matched erasure deficit would make remembered information useful; ring geometry and PGC-specific recovery still require their separate frozen interventions."
+  ],
+  "planner_scope": "The greedy analysis planner uses actual current position, heading and body motor state. Its128/128success establishes physical feasibility in the bounded sample; it is stronger information than the blind network receives and is not an oracle proof that the learned policy can infer every noisy state.",
+  "final_provenance_guard": "CLI additionally verifies producer source/helper hashes and exact per-context equality with the completed producer summary. Certificate mathematics and thresholds unchanged; all16rows reran successfully.",
+  "root_independent_review": {
+    "theorem_and_native_physics_inspected": true,
+    "certificate_cli_reproduced_all_16_rows": true,
+    "certificate_output_comparison": "All fixed inputs certified; source/producer metadata guards passed.",
+    "tests_passed": 14,
+    "scope": "Fixed coupled tapes and held observations; no unconditional Gaussian-noise or learned-memory claim."
+  }
+}
