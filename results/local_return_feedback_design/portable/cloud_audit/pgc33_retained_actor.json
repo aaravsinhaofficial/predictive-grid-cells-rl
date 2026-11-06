@@ -1,0 +1,752 @@
+{
+  "version": "feedback_acquisition_independent_saved_audit_v2",
+  "condition": "pgc33",
+  "actor_mode": "retained_actor",
+  "folder": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment",
+  "auditor_sha256": "fef3d5914ef27d4a4878af64b4c7395cf5eebc0c69730d71f21c055f22bc3b13",
+  "scope": {
+    "no_policy_or_environment_rollout": true,
+    "physics": "Independent native FREE recurrence from saved first-FREE pose, actions and exact tapes.",
+    "recurrent": "First-FREE actor/value readout independently recomputed; every recorded training logit/value replay error checked. Full CNN/LSTM histories not independently rerun.",
+    "initial_state": "Zero initial h/c follows the hash-locked collector and its tests; no pre-first-input state is archived. Initial pa/pr, no midtrial reset and zero state-noise arrays checked directly.",
+    "rgb": "Pure native raycast at every active saved pose/layout. Every frame must have >=50% unambiguous pixels. Discontinuous boundary pixels remain exactly archived/hash checked but are excluded from cross-device numerical equality.",
+    "rgb_atol": 0.0001,
+    "code_atol": 5e-05,
+    "boundary_margins": {
+      "ray_wall_choice_metres": 5e-05,
+      "landmark_wall_coordinate_metres": 5e-05,
+      "stripe_fraction_of_period": 5e-05,
+      "projected_vertical_coordinate": 5e-05
+    },
+    "summary": "Success denominator always includes all 256 trials. Producer path/progress/entropy means also use all rows, assigning zero to invalid missing values; invalid counts are reported explicitly.",
+    "no_common_information_certificate": true
+  },
+  "created_utc": "2026-11-06T14:08:02.609905+00:00",
+  "protocol_sha256": "4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19",
+  "checks": {
+    "initialization": {
+      "exact_original_nonheads": true,
+      "exact_actor_mode": "retained_actor",
+      "exact_archived_fresh_critic": true,
+      "full_policy_hash": "542691b3f45f32aee6aeb121d1d0805b67135e69318395e3ba505e111f2c1b07"
+    },
+    "metrics": {
+      "accepted_updates": 46,
+      "rolled_back_rows": 0,
+      "partial_last_row": false
+    },
+    "incoming": {
+      "updates": 0,
+      "trials": 0,
+      "evaluation_records": [],
+      "completed": false,
+      "active_physics_frames": 0,
+      "policy_hash": "542691b3f45f32aee6aeb121d1d0805b67135e69318395e3ba505e111f2c1b07"
+    },
+    "baseline_before_evaluation": {
+      "updates": 0,
+      "trials": 0,
+      "evaluation_records": [],
+      "completed": false,
+      "active_physics_frames": 0,
+      "policy_hash": "542691b3f45f32aee6aeb121d1d0805b67135e69318395e3ba505e111f2c1b07"
+    },
+    "baseline": {
+      "updates": 0,
+      "trials": 0,
+      "evaluation_records": [
+        "baseline"
+      ],
+      "completed": false,
+      "active_physics_frames": 0,
+      "policy_hash": "542691b3f45f32aee6aeb121d1d0805b67135e69318395e3ba505e111f2c1b07"
+    },
+    "evaluations": {
+      "baseline": {
+        "complete": true,
+        "contexts": [
+          {
+            "context": 0,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 2.8701566270883383e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.8363066123239236e-08,
+              "observation_heading_max_error": 4.889710059075014e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 5.960464477539063e-08,
+              "pixels": 7782768,
+              "excluded_boundary_pixels": 3653,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 1.1920928955078125e-07,
+              "current_code_max_abs_error": 8.940696716308594e-07,
+              "goal_code_max_abs_error": 4.76837158203125e-07,
+              "first_free_actor_max_abs_error": 1.5664983088470308e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 1,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 3.857454582284481e-07,
+              "saved_path_reconciliation_max_error_m": 1.1920928955078125e-07,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.519261094706792e-08,
+              "observation_heading_max_error": 5.295578846542526e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7380576,
+              "excluded_boundary_pixels": 2806,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.7881393432617188e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 8.344650268554688e-07,
+              "goal_code_max_abs_error": 3.5762786865234375e-07,
+              "first_free_actor_max_abs_error": 1.330885694983408e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 2,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 2.263031388671788e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.2929000675621083e-08,
+              "observation_heading_max_error": 5.56339426083241e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7401744,
+              "excluded_boundary_pixels": 2824,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 5.960464477539062e-07,
+              "goal_code_max_abs_error": 2.980232238769531e-07,
+              "first_free_actor_max_abs_error": 1.7909602618715326e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 3,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 4.559813331639351e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.954211614751955e-08,
+              "observation_heading_max_error": 5.56339426083241e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7331184,
+              "excluded_boundary_pixels": 2744,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 2.980232238769531e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 5.364418029785156e-07,
+              "goal_code_max_abs_error": 2.384185791015625e-07,
+              "first_free_actor_max_abs_error": 1.489160474932305e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 4,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 6.205640278311719e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.6700352156728826e-08,
+              "observation_heading_max_error": 5.033426679901254e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7302960,
+              "excluded_boundary_pixels": 2658,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 8.642673492431641e-07,
+              "goal_code_max_abs_error": 4.172325134277344e-07,
+              "first_free_actor_max_abs_error": 1.6153000643726045e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 5,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 5.481057475942297e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 5.960464477539063e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.578978725547131e-08,
+              "observation_heading_max_error": 5.223461094772119e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 6766704,
+              "excluded_boundary_pixels": 2973,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 7.450580596923828e-07,
+              "goal_code_max_abs_error": 3.8743019104003906e-07,
+              "first_free_actor_max_abs_error": 2.1126817077998794e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 6,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 3.032462545238257e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.8043756766505936e-08,
+              "observation_heading_max_error": 4.889710059075014e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7359408,
+              "excluded_boundary_pixels": 2012,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 8.344650268554688e-07,
+              "goal_code_max_abs_error": 2.980232238769531e-07,
+              "first_free_actor_max_abs_error": 1.5694137385224849e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 7,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 1.9275400572893453e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.6924993462286153e-08,
+              "observation_heading_max_error": 5.030096730251898e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7288848,
+              "excluded_boundary_pixels": 3558,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 7.748603820800781e-07,
+              "goal_code_max_abs_error": 4.76837158203125e-07,
+              "first_free_actor_max_abs_error": 2.3462896994175253e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 8,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 1.9094552344833815e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 5.960464477539063e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.739013161250469e-08,
+              "observation_heading_max_error": 5.246411323156508e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7465248,
+              "excluded_boundary_pixels": 3024,
+              "boundary_mismatches_above_atol": 1,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 0.2351427972316742,
+              "current_code_max_abs_error": 8.344650268554688e-07,
+              "goal_code_max_abs_error": 8.344650268554688e-07,
+              "first_free_actor_max_abs_error": 1.5165777718095796e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 9,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 1.5027946387302649e-07,
+              "saved_path_reconciliation_max_error_m": 1.1920928955078125e-07,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.752393280485265e-08,
+              "observation_heading_max_error": 5.033426679901254e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7133616,
+              "excluded_boundary_pixels": 2898,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 8.940696716308594e-08,
+              "current_code_max_abs_error": 6.556510925292969e-07,
+              "goal_code_max_abs_error": 2.384185791015625e-07,
+              "first_free_actor_max_abs_error": 1.2666789039883497e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 10,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 3.6805079794977047e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 5.960464477539063e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 3.1964245472693165e-08,
+              "observation_heading_max_error": 4.889710059075014e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7514640,
+              "excluded_boundary_pixels": 3426,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.4901161193847656e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 5.960464477539062e-07,
+              "goal_code_max_abs_error": 3.2782554626464844e-07,
+              "first_free_actor_max_abs_error": 1.3099843219066543e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 11,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 3.1365337263555837e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.2738701316017398e-08,
+              "observation_heading_max_error": 5.56339426083241e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7183008,
+              "excluded_boundary_pixels": 2516,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.7881393432617188e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 5.662441253662109e-07,
+              "goal_code_max_abs_error": 7.152557373046875e-07,
+              "first_free_actor_max_abs_error": 1.6214278044657249e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 12,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 1.8856212204154676e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 5.960464477539063e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.3878262539179786e-08,
+              "observation_heading_max_error": 5.033426679901254e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7422912,
+              "excluded_boundary_pixels": 4184,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 1.1920928955078125e-07,
+              "current_code_max_abs_error": 7.152557373046875e-07,
+              "goal_code_max_abs_error": 4.76837158203125e-07,
+              "first_free_actor_max_abs_error": 1.4471888398759347e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 13,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 2.424721643745631e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.646845454450485e-08,
+              "observation_heading_max_error": 4.889710059075014e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 6950160,
+              "excluded_boundary_pixels": 2490,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 1.1920928955078125e-07,
+              "current_code_max_abs_error": 8.344650268554688e-07,
+              "goal_code_max_abs_error": 4.76837158203125e-07,
+              "first_free_actor_max_abs_error": 1.5849547843060918e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 14,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 2.628260657444592e-07,
+              "saved_path_reconciliation_max_error_m": 5.960464477539063e-08,
+              "saved_progress_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 2.0044205961688988e-08,
+              "observation_heading_max_error": 5.033426679901254e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7521696,
+              "excluded_boundary_pixels": 2064,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.1920928955078125e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 8.940696716308594e-07,
+              "goal_code_max_abs_error": 3.8743019104003906e-07,
+              "first_free_actor_max_abs_error": 1.2847129013948688e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          },
+          {
+            "context": 15,
+            "valid": true,
+            "checks": {
+              "trials": 16,
+              "all_row_counts_and_terminals_exact": true,
+              "forced_rewards": 0,
+              "native_free_physics_max_abs_position_error_m": 2.7785821343773165e-07,
+              "saved_path_reconciliation_max_error_m": 2.9802322387695312e-08,
+              "saved_progress_reconciliation_max_error_m": 0.0,
+              "zero_cross_trial_bootstrap_and_padding_masks": true,
+              "observation_position_max_error": 1.4900560507680183e-08,
+              "observation_heading_max_error": 5.56339426083241e-07,
+              "observation_velocity_max_error": 2.9802322387695312e-08,
+              "observation_travel_direction_max_error": 1.1920928955078125e-07,
+              "pixels": 7444080,
+              "excluded_boundary_pixels": 3491,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 1.4901161193847656e-07,
+              "boundary_max_abs_error": 5.960464477539063e-08,
+              "current_code_max_abs_error": 8.046627044677734e-07,
+              "goal_code_max_abs_error": 7.152557373046875e-07,
+              "first_free_actor_max_abs_error": 1.4451154317640658e-06,
+              "all_free_action_cdf_and_row_statistics_checked": true
+            }
+          }
+        ],
+        "totals": {
+          "trials": 256,
+          "valid_trials": 256,
+          "descriptive_mean_convention": "Means use all prescribed rows; invalid trials contribute zero. Invalid/valid counts are explicit; invalid trials remain failures.",
+          "successes": 79,
+          "invalid_trials": 0,
+          "success_fraction": 0.30859375,
+          "mean_path_m": 0.24044115219658124,
+          "mean_progress_m": 0.15656535816378891,
+          "mean_free_entropy": 0.17238995064735718,
+          "mean_initial_free_entropy": 0.10791576047765261,
+          "action_counts": [
+            0,
+            3947,
+            0,
+            9,
+            0,
+            3093
+          ],
+          "free_updates": 7049
+        },
+        "all_physical_checks": true,
+        "criterion_pass": false
+      }
+    }
+  },
+  "failures": [],
+  "pending": [
+    "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment/final.pt",
+    "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment/final_before_evaluation.pt",
+    "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment/final_evaluation/summary.json",
+    "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment/latest.pt",
+    "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02/experiment/summary.json"
+  ],
+  "passed": true,
+  "complete": false,
+  "status": "pending",
+  "artifacts": {
+    "baseline.pt": {
+      "sha256": "21d267b4fea1d99f64ff84d70dd262b34292b220cd6c913e97079efd5f5345b3",
+      "bytes": 12193173
+    },
+    "baseline_before_evaluation.pt": {
+      "sha256": "21840fe8fe6783daaa22dc7c77423a58d0b85d02c172628d074e059decee56ea",
+      "bytes": 12193493
+    },
+    "baseline_evaluation/context0/input.json": {
+      "sha256": "e64e21d446206874dfeef4afa726d83abaa0f602fba5de52c927a751b6ae3d43",
+      "bytes": 493
+    },
+    "baseline_evaluation/context0/raw.pt.gz": {
+      "sha256": "9ee672b96d73b71dd5679fd907cb253ff221c366ce98ce8838c8164076da1b67",
+      "bytes": 7823618
+    },
+    "baseline_evaluation/context0/result.json": {
+      "sha256": "aa25036c413d2366f2aa248c442433103b8fd18f849f2c00eae9efb051de9cad",
+      "bytes": 56085
+    },
+    "baseline_evaluation/context1/input.json": {
+      "sha256": "a8c9abf8bb3ff41ac19ce84125371c1f15969989bfcf7678425aa0a4cf93f8c4",
+      "bytes": 493
+    },
+    "baseline_evaluation/context1/raw.pt.gz": {
+      "sha256": "f03b3d33ac24bd8cf23dad06f02089326f1d3766a85ca20627888f081dd5e263",
+      "bytes": 7689547
+    },
+    "baseline_evaluation/context1/result.json": {
+      "sha256": "1cb896524be6b9c8bf654ad32c36927dd2d7d887bbc47222dfd6b230d294cfb0",
+      "bytes": 56131
+    },
+    "baseline_evaluation/context10/input.json": {
+      "sha256": "816a9084d0dd3fa208228c9e4627e12e89c22c7925180c3739c9d79b61f39d7e",
+      "bytes": 510
+    },
+    "baseline_evaluation/context10/raw.pt.gz": {
+      "sha256": "25d2cc75cb564c7ca94a98c73002c1b6f49c74100c03ed6b47a130323ead1d27",
+      "bytes": 7749049
+    },
+    "baseline_evaluation/context10/result.json": {
+      "sha256": "61bc4c0899ab6e385e14b267930ce358d7dbdc6c2db93b25190b966851e96862",
+      "bytes": 56140
+    },
+    "baseline_evaluation/context11/input.json": {
+      "sha256": "47ae1fa00b3b2b3e05f5a758dd0238c4e8808c393af89ca6f66231148463e441",
+      "bytes": 510
+    },
+    "baseline_evaluation/context11/raw.pt.gz": {
+      "sha256": "50fd367afbdf090c9d560f067246f0bb9182e9514f6e50acb064f35f934a72a2",
+      "bytes": 7656613
+    },
+    "baseline_evaluation/context11/result.json": {
+      "sha256": "e55d42e460b03231cef5238e790d19dbc7806dc6ffdbe78c66a8bfc8bd0125c5",
+      "bytes": 56139
+    },
+    "baseline_evaluation/context12/input.json": {
+      "sha256": "588098c61d95b23e1ec5c6a51cec0927af14a34fadf2e3030a3e463203acf563",
+      "bytes": 510
+    },
+    "baseline_evaluation/context12/raw.pt.gz": {
+      "sha256": "ae8b1adf88a3ca8d7e1a55890a9e6db7b703e130b1ec038795c279cfa89a61e9",
+      "bytes": 7648314
+    },
+    "baseline_evaluation/context12/result.json": {
+      "sha256": "27d519bd7d239a5bce2ec5462316c838e12f7be12ffebd5c97424136951c0a2f",
+      "bytes": 56097
+    },
+    "baseline_evaluation/context13/input.json": {
+      "sha256": "71e193d1468060e0085cc3d0de35d13744bd1caf6c8f9165d5156e3d6b7e04ee",
+      "bytes": 510
+    },
+    "baseline_evaluation/context13/raw.pt.gz": {
+      "sha256": "270f0eb607f12039534c68102992f367fd04b2813968a3389d5a08490d48f575",
+      "bytes": 7517071
+    },
+    "baseline_evaluation/context13/result.json": {
+      "sha256": "1025457874d9e716e44708420532212c9fb49452c90e49c0ae776b4ddae41d27",
+      "bytes": 56109
+    },
+    "baseline_evaluation/context14/input.json": {
+      "sha256": "a85cf65d35d90c0db8b9a2f5d0840d0786265ce962e349695fc0ceb973b1ddab",
+      "bytes": 510
+    },
+    "baseline_evaluation/context14/raw.pt.gz": {
+      "sha256": "0312daa5fb3ebe153d26318366605f5201f5e6ffd3e1b8a6e311e9b774d6d8f0",
+      "bytes": 7687609
+    },
+    "baseline_evaluation/context14/result.json": {
+      "sha256": "ca9d49dec7010c226a1b7e446f16fe287aa2d968abcb552805f52cfc457606ff",
+      "bytes": 56070
+    },
+    "baseline_evaluation/context15/input.json": {
+      "sha256": "09166f2f718d6f5e4dd4f417c350378e0f0f6d6e41a0ab8111909940afc138c4",
+      "bytes": 510
+    },
+    "baseline_evaluation/context15/raw.pt.gz": {
+      "sha256": "fd69e4b20185f01d1e0e8e2c3ee090c6211d5762d0088ce545d4bd5bdec4e8f2",
+      "bytes": 7662386
+    },
+    "baseline_evaluation/context15/result.json": {
+      "sha256": "df399d5f7fe41c855ba2e7a5de950fee2cd3f4702af052e77be1914808c3878f",
+      "bytes": 56125
+    },
+    "baseline_evaluation/context2/input.json": {
+      "sha256": "d7ed20ddbc445d3fe3cbfa5fe84092856d087687d729f074bcd939b13ac6feba",
+      "bytes": 493
+    },
+    "baseline_evaluation/context2/raw.pt.gz": {
+      "sha256": "b425902e764f7c18fd39055939ddcdf85a5e6b5eb0ed841163b2428036209349",
+      "bytes": 7640134
+    },
+    "baseline_evaluation/context2/result.json": {
+      "sha256": "19bf82a97f581fcab053ca41b4f284529c1872363472e463e113cf4223f2b07f",
+      "bytes": 56115
+    },
+    "baseline_evaluation/context3/input.json": {
+      "sha256": "fdccf2c2cd9b36b9ac5426b168278d83337456415e47146f2b7ece5f8ed578f2",
+      "bytes": 493
+    },
+    "baseline_evaluation/context3/raw.pt.gz": {
+      "sha256": "6d1478ebbb660bbcb26575a6c8c33d8036cdcd69651594af09fb535e94056ea1",
+      "bytes": 7680951
+    },
+    "baseline_evaluation/context3/result.json": {
+      "sha256": "864376906fe603ac12c7662bc02cd2a8221f7eec0a9c48c15dff4fc93b14796c",
+      "bytes": 56096
+    },
+    "baseline_evaluation/context4/input.json": {
+      "sha256": "3c25c626463642148f00b73ba56021c2db466442c3d1843c34e6f1d22a282799",
+      "bytes": 493
+    },
+    "baseline_evaluation/context4/raw.pt.gz": {
+      "sha256": "3790bdb8d4bbfec49a9234a02a8c7a634e6fa302f9c6a4ecbaaaf039545c2719",
+      "bytes": 7716082
+    },
+    "baseline_evaluation/context4/result.json": {
+      "sha256": "975fe8cadcb49515951463de686f5cfd548bc32f7a78ffda12d63a6b8cde345d",
+      "bytes": 56084
+    },
+    "baseline_evaluation/context5/input.json": {
+      "sha256": "35b634ac64550cc4c168f5209ed985c27a2aed77fbeb077c63ecf4614ba7ae2a",
+      "bytes": 493
+    },
+    "baseline_evaluation/context5/raw.pt.gz": {
+      "sha256": "eba1073f159109a3c81afbe4dc284d32ea58e6534297441654972da15ed7d33e",
+      "bytes": 7556637
+    },
+    "baseline_evaluation/context5/result.json": {
+      "sha256": "bdce5bc0dc8d038baa9945c5a379bbe002df4cf8b538830eeb8496701ad3632f",
+      "bytes": 56133
+    },
+    "baseline_evaluation/context6/input.json": {
+      "sha256": "cacc4f915070dcc353958cf471043adaf247e3855ef4fae8a16efe9d03beb9c9",
+      "bytes": 493
+    },
+    "baseline_evaluation/context6/raw.pt.gz": {
+      "sha256": "d71ec87473bf2f6e643988d3fe123dcdc92d1e1591e3671990ce0efd93a5241b",
+      "bytes": 7718788
+    },
+    "baseline_evaluation/context6/result.json": {
+      "sha256": "1923373ba17a437660736e6d72a225d9f67460ab90f5cf05da1ed0fabc21baf5",
+      "bytes": 56133
+    },
+    "baseline_evaluation/context7/input.json": {
+      "sha256": "cdce58f67b384c626126d2086ea520182f408b2b0120af9be48604d7c5912974",
+      "bytes": 493
+    },
+    "baseline_evaluation/context7/raw.pt.gz": {
+      "sha256": "4c7636ea714ba5607ce2b58933691fa3a7955f86c270c1810da74eeb9196ecf2",
+      "bytes": 7644731
+    },
+    "baseline_evaluation/context7/result.json": {
+      "sha256": "8c2ffefec7397eb616ff937eebdbb505146c6fd647a34250dbef8eac25157a53",
+      "bytes": 56090
+    },
+    "baseline_evaluation/context8/input.json": {
+      "sha256": "3010d4b5e1a1f831f84ff7bd5b13867e542741e45b149fd761fee1b683f5c84e",
+      "bytes": 493
+    },
+    "baseline_evaluation/context8/raw.pt.gz": {
+      "sha256": "cdf77b8195241d4de3dda92647ea370a7b15216b7911bfeef3ad8a57e3a7bca0",
+      "bytes": 7676261
+    },
+    "baseline_evaluation/context8/result.json": {
+      "sha256": "a5828a73b7c3600468f6230529448bd2d29329752769c323a88a1d713c5b25eb",
+      "bytes": 56116
+    },
+    "baseline_evaluation/context9/input.json": {
+      "sha256": "a71065ab9b442e32f79d9da23e190e952f2b3d7201bce1e47560f544c41df302",
+      "bytes": 493
+    },
+    "baseline_evaluation/context9/raw.pt.gz": {
+      "sha256": "068ae6d45fd1ab5dd00f8a07132814832d8dc09225aeb09fdbb0dbefd8672927",
+      "bytes": 7627873
+    },
+    "baseline_evaluation/context9/result.json": {
+      "sha256": "5a577f98ff8d8de8261a43781f5e4818853f82e2da643876e618413a964dd17b",
+      "bytes": 56145
+    },
+    "baseline_evaluation/summary.json": {
+      "sha256": "4e858f0e91ccb8c9c28d304e3b36e1e74a5c3bfcea73d8697155a2164d8da9e0",
+      "bytes": 1311777
+    },
+    "baseline_evaluation_integrity.json": {
+      "sha256": "f3aaeeff3d55adcbd466abc7949dc1fade9bf98c4cfde85b9c71ce23d48bafab",
+      "bytes": 307
+    },
+    "incoming.pt": {
+      "sha256": "37b71306feebd8c74c922419a52f37225fc72d15acbf4d0285a3d2bdb1aaf4e6",
+      "bytes": 12192789
+    },
+    "initialization.json": {
+      "sha256": "6f623fe0b807c7654f515913a1df3e9beb978abcd5224b22813aa078e9f75fbe",
+      "bytes": 2774
+    },
+    "metrics.jsonl": {
+      "sha256": "cc077065e5228fa1ddf2ec69edb692b5591ae31746e8afb9131bf07a1c1a5f9f",
+      "bytes": 50019
+    },
+    "protocol.json": {
+      "sha256": "dba24422bec846c6189b60c3a6c2b15445f76fc1ce5c915efe323334b416f78a",
+      "bytes": 15452
+    },
+    "training_config.json": {
+      "sha256": "12dcbef88e34b23477df150637e4aea90a4478898b6a7b52c3d592f726819dd8",
+      "bytes": 3762
+    }
+  }
+}

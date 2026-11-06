@@ -1,0 +1,10 @@
+import subprocess,shlex,json,datetime
+from pathlib import Path
+code="""import sys,json,platform,hashlib\nfrom pathlib import Path\nr=Path('/work/ring_repo');sys.path[:0]=[str(r),str(r/'scripts')]\nimport torch,numpy\nimport local_return_feedback as f\nfrom rl_visual_memory_extend import tree_equal\np=torch.load(r/'results/local_return_feedback_design/banks/feedback_hard.pt',map_location='cpu',weights_only=True)\nc=json.loads((r/'models/gc100/gc100_lstm_s1_1000M.json').read_text());g=f.TrialStreams(491801).draw(16,f.STAGE,c,headings=16)\nrows={}\nfor k,v in p.items():\n if isinstance(v,torch.Tensor):\n  other=g[k];diff=v!=other;rows[k]={'equal':torch.equal(v,other),'different_values':int(diff.sum()),'shape':list(v.shape),'dtype':str(v.dtype),'saved_sha256':hashlib.sha256(v.numpy().tobytes()).hexdigest(),'generated_sha256':hashlib.sha256(other.numpy().tobytes()).hexdigest(),'max_abs_difference':float((v.double()-other.double()).abs().max())}\n else:rows[k]={'equal':v==g[k]}\nprint(json.dumps({'python':sys.version,'torch':str(torch.__version__),'numpy':numpy.__version__,'machine':platform.machine(),'system':platform.system(),'threads':torch.get_num_threads(),'tree_equal':tree_equal(p,g),'fields':rows,'no_policy_forward':True,'no_environment_step':True,'no_optimizer_update':True}))\n"""
+name='ring-20261105-feedback-grid-reset-01'
+r=subprocess.run(['gcloud','compute','ssh',name,'--project','connectome-ai-research','--zone','us-central1-a','--quiet','--command','/usr/bin/python3 -c '+shlex.quote(code)],capture_output=True,text=True,timeout=90)
+out=Path('results/local_return_feedback_design/cloud_audit')
+(out/(name+'_bank_diagnostic.log')).write_text(r.stdout+'\n'+r.stderr)
+print(r.returncode);print(r.stdout);print(r.stderr[-500:])
+if r.returncode==0:
+ data=json.loads(r.stdout.strip().splitlines()[-1]);data['worker']=name;data['utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();(out/'bank_regeneration_failure_diagnostic.json').write_text(json.dumps(data,indent=2)+'\n')

@@ -1,0 +1,31 @@
+{
+  "status": "review_ready",
+  "created_utc": "2026-11-06T13:58:23.630749+00:00",
+  "parent_review": {
+    "path": "results/local_return_feedback_design/reporter_implementation_review.json",
+    "sha256": "126b650804de20d161423e02377d92de94d4f24bcf6d357a315098cbd5e42827",
+    "unchanged": true
+  },
+  "source_sha256": {
+    "scripts/plot_local_return_feedback.py": "759011c7f158114a3e65b2ba4c260aa6606632b8424a0581696c80c0dbf155a5",
+    "tests/test_plot_local_return_feedback.py": "8af82a12af6e5df16cf30d85a6bcbdc26452e044f58a02afc122ecae051f6a0b"
+  },
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_plot_local_return_feedback.py",
+    "passed": 11,
+    "seconds": 0.98,
+    "scope": "Existing7synthetic reporting tests plus both exact protocol allowlist branches, changed protocol/parent rejection and mismatched model-audit protocol rejection. No model/bank execution."
+  },
+  "reference_reuse_read_only": {
+    "original_and_portable_resolve_identically": true,
+    "canonical_audit_sha256": "340b280b740de8e612828e89fe183b82d6e2e09e4997f2bee35099ec4f3f99aa",
+    "policy_or_reference_rerun": false
+  },
+  "default_command": "python scripts/plot_local_return_feedback.py",
+  "default_protocol": "docs/research/local_return_feedback_portable_protocol.json",
+  "default_routing": "docs/research/local_return_feedback_portable_launch.json",
+  "default_audits": "results/local_return_feedback_design/portable/cloud_audit",
+  "original_mode_command": "python scripts/plot_local_return_feedback.py --protocol docs/research/local_return_feedback_training_protocol.json --routing docs/research/local_return_feedback_launch.json --audit-root results/local_return_feedback_design/cloud_audit --out results/local_return_feedback_acquisition/report",
+  "numerical_summary_and_plots_unchanged": true,
+  "production_report_executed": false
+}

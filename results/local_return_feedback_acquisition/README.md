@@ -4,7 +4,7 @@ The previous blind-return recipe struggled to learn goalward movement. This cont
 
 Four arms compare Grid and PGC, each with its original or reset action readout. Every arm receives exactly 1,024 updates and the same 256-trial baseline/final evaluation bank. All network weights can learn. The fixed fast-steering criterion is **192/256 final successes** with complete physical and input checks. Neural outcomes are pending.
 
-The first cloud attempt stopped during input validation, before a model or learning update ran. It exposed a cross-platform rounding mismatch in an unnecessary bank-regeneration check. The exact saved test inputs passed their checksum checks. All affected workers are deleted; a separate reviewed loader will use those same saved values directly. [Failure evidence and repair](../local_return_feedback_design/PORTABILITY.md).
+The first cloud attempt stopped during input validation, before a model or learning update ran. It exposed a cross-platform rounding mismatch in an unnecessary bank-regeneration check. The exact saved test inputs passed their checksum checks. All affected workers are deleted. A separate reviewed loader now uses those same saved values directly; the first replacement worker has passed its Linux input check and begun training. [Failure evidence and repair](../local_return_feedback_design/PORTABILITY.md) · [Portable reproduction guide](../local_return_feedback_design/PORTABLE_REPRODUCE.md).
 
 The physical references are complete:
 

@@ -1,0 +1,21 @@
+{
+  "status": "review_ready",
+  "created_utc": "2026-11-06T14:03:53.853290+00:00",
+  "previous_addendum": {
+    "path": "results/local_return_feedback_design/reporter_portable_addendum.json",
+    "sha256": "8a3f2f54a5a136509045f1f76a212486635e69842a781fbc742645922d422863",
+    "unchanged": true
+  },
+  "source_sha256": {
+    "scripts/plot_local_return_feedback.py": "a62ff13d02988b56348de8c4c98ada40bb1a0b2b93b28faa480f8cc0fe83d990",
+    "tests/test_plot_local_return_feedback.py": "78ca5f311961309512c405fddaf7326992a6b8b9813a8d6d8d4cd68e16660816"
+  },
+  "change": "Canonical reference audit SHA remains fixed. Its known original absolute path is validated by the exact results/local_return_feedback_acquisition/references suffix and rebased to the supplied checkout root. Local used artifacts still require exact recorded hashes. Model audit paths retain their original strict per-checkout check.",
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_plot_local_return_feedback.py",
+    "passed": 12,
+    "scope": "Prior11checks plus one focused original-path rebase/wrong-path rejection regression; synthetic outputs and protocol metadata only."
+  },
+  "numerical_methods_unchanged": true,
+  "production_report_executed": false
+}

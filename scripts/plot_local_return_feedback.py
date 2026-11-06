@@ -19,13 +19,38 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import audit_local_return_feedback as auditor
 
-PROTOCOL=ROOT/'docs/research/local_return_feedback_training_protocol.json'
-PROTOCOL_SHA256='ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7'
+ORIGINAL_PROTOCOL=ROOT/'docs/research/local_return_feedback_training_protocol.json'
+PORTABLE_PROTOCOL=ROOT/'docs/research/local_return_feedback_portable_protocol.json'
+ORIGINAL_SHA256='ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7'
+PORTABLE_SHA256='4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19'
+ALLOWED_PROTOCOLS={ORIGINAL_SHA256:'original',PORTABLE_SHA256:'portable'}
+REFERENCE_AUDIT_SHA256='340b280b740de8e612828e89fe183b82d6e2e09e4997f2bee35099ec4f3f99aa'
 ARMS=tuple((condition,mode) for condition in ('gc100','pgc33') for mode in ('retained_actor','reset_actor'))
 LABELS={'gc100':'Grid','pgc33':'PGC + grid'}
 MODE_LABELS={'retained_actor':'Original actor','reset_actor':'Reset actor'}
 COLORS={'gc100':'#2878b5','pgc33':'#e27932'}
 sha=auditor.sha;read=auditor.read
+
+
+def selected_protocol(path,root=ROOT):
+    """Only the two reviewed protocols; portable references retain parent identity."""
+    path=Path(path);root=Path(root);digest=sha(path)
+    assert digest in ALLOWED_PROTOCOLS,'Unapproved feedback protocol hash'
+    design=read(path);kind=ALLOWED_PROTOCOLS[digest]
+    inputs={str(path.resolve()):digest};reference_design=design
+    if kind=='portable':
+        portability=design['portability'];name=portability['parent_protocol_path']
+        parent=auditor.checked_path(root,name)
+        assert sha(parent)==portability['parent_protocol_sha256']==ORIGINAL_SHA256
+        assert design['input_assets'][name]==ORIGINAL_SHA256
+        reference_design=read(parent);inputs[str(parent.resolve())]=ORIGINAL_SHA256
+        for field in ('manifest_path','manifest_sha256','bank'):
+            assert design['evaluation'][field]==reference_design['evaluation'][field],field
+        for name in ('scripts/local_return_feedback.py','scripts/local_return_feedback_evaluate.py','scripts/audit_local_return_feedback.py'):
+            assert design['source_sha256'][name]==reference_design['source_sha256'][name],name
+        assert portability['same_saved_bank'] and portability['same_training_computation'] and portability['same_evaluate_plan']
+        assert portability['raw_evaluator_source']=='scripts/local_return_feedback_evaluate.py'
+    return design,reference_design,digest,kind,inputs
 
 
 def audited_file(folder,record,relative):
@@ -90,17 +115,25 @@ def apply_worker_failure(result,worker):
         result['final_qualified']=False
 
 
+def reference_folder(root,recorded_folder):
+    """Rebase hash-pinned published evidence without editing its original path."""
+    relative=Path('results/local_return_feedback_acquisition/references')
+    original=Path(recorded_folder)
+    assert original.is_absolute() and original.parts[-len(relative.parts):]==relative.parts
+    return Path(root)/relative
+
+
 def reference_values(root,design,inputs):
     path=root/'results/local_return_feedback_design/reference_audit.json'
     result=dict(status='pending',uniform=None,planner=None)
     if not path.exists():return result
+    assert sha(path)==REFERENCE_AUDIT_SHA256,'Canonical once-only physical-reference audit differs'
     record=read(path);inputs[str(path.resolve())]=sha(path)
     assert record['auditor_sha256']==design['source_sha256']['scripts/audit_local_return_feedback.py']
     if not record['passed'] or not record['complete']:
         result.update(status=record['status'],failures=record['failures']);return result
-    assert record['protocol_sha256']==PROTOCOL_SHA256
-    folder=root/'results/local_return_feedback_acquisition/references'
-    assert Path(record['folder']).resolve()==folder.resolve()
+    assert record['protocol_sha256']==ORIGINAL_SHA256
+    folder=reference_folder(root,record['folder'])
     top_path=audited_file(folder,record,'summary.json');top=read(top_path)
     assert top['complete'] and top['no_policy_or_optimization'] and top['reference_trials']==512
     inputs[str(top_path.resolve())]=sha(top_path)
@@ -108,6 +141,10 @@ def reference_values(root,design,inputs):
         path=audited_file(folder,record,f'{controller}/summary.json');report=read(path)
         assert report['controller']==controller and report['actor_mode'] is None
         assert report['complete'] and not report['criterion_pass'] and report['no_optimization']
+        assert report['source_sha256']==design['source_sha256']['scripts/local_return_feedback_evaluate.py']
+        assert report['collector_sha256']==design['source_sha256']['scripts/local_return_feedback.py']
+        assert report['reference']['manifest_sha256']==design['evaluation']['manifest_sha256']
+        assert report['reference']['bank_sha256']==design['evaluation']['bank']['sha256']
         assert report['totals']==record['checks'][controller]['totals']==top['results'][controller]['totals']
         assert report['totals']['trials']==256
         result[controller]=dict(successes=report['totals']['successes'],trials=256,
@@ -116,14 +153,15 @@ def reference_values(root,design,inputs):
     result['status']='complete';return result
 
 
-def load_report(routing_path,audit_root,root=ROOT):
+def load_report(routing_path,audit_root,root=ROOT,protocol_path=None):
     root=Path(root);audit_root=Path(audit_root)
-    protocol=root/PROTOCOL.relative_to(ROOT)
-    assert sha(protocol)==PROTOCOL_SHA256,'Frozen feedback protocol differs'
-    design=read(protocol);routing=read(routing_path)
+    protocol=Path(protocol_path) if protocol_path is not None else root/PORTABLE_PROTOCOL.relative_to(ROOT)
+    design,reference_design,protocol_hash,protocol_kind,inputs=selected_protocol(protocol,root)
+    routing=read(routing_path)
+    assert routing['protocol_sha256']==protocol_hash,'Worker routing differs from selected protocol'
     workers=routing['workers'];identities=[(r['condition'],r['actor_mode']) for r in workers]
     assert len(identities)==4 and set(identities)==set(ARMS),'Every prescribed arm must have a routing row'
-    rows=[];inputs={str(Path(routing_path).resolve()):sha(routing_path),str(protocol.resolve()):sha(protocol)}
+    rows=[];inputs[str(Path(routing_path).resolve())]=sha(routing_path)
     for condition,mode in ARMS:
         worker=next(r for r in workers if (r['condition'],r['actor_mode'])==(condition,mode))
         name=worker['name'];assert isinstance(name,str) and '/' not in name and name not in ('','.','..')
@@ -147,7 +185,7 @@ def load_report(routing_path,audit_root,root=ROOT):
         if not record['passed']:
             # Failed validation is an explicit arm outcome/status, never a zero score.
             rows.append(result);continue
-        assert record.get('protocol_sha256')==PROTOCOL_SHA256
+        assert record.get('protocol_sha256')==protocol_hash
         assert record['status'] in ('pending','complete') and record['complete']==(record['status']=='complete')
         checks=record['checks']
         for endpoint in ('baseline','final'):
@@ -179,8 +217,8 @@ def load_report(routing_path,audit_root,root=ROOT):
                 path=audited_file(folder,record,name);inputs[str(path.resolve())]=sha(path)
             result['final_qualified']=result['final']['criterion_pass'] and not result['worker_terminal_failure']
         rows.append(result)
-    references=reference_values(root,design,inputs)
-    return dict(version='feedback_acquisition_display_v1',synthetic=False,protocol_sha256=PROTOCOL_SHA256,
+    references=reference_values(root,reference_design,inputs)
+    return dict(version='feedback_acquisition_display_v1',synthetic=False,protocol_sha256=protocol_hash,protocol_kind=protocol_kind,
         all_arms_complete=all(r['audit_complete'] and not r['worker_terminal_failure'] for r in rows),arms=rows,input_sha256=inputs,
         references=references,
         criterion=dict(successes=192,trials=256,percent=75,requires_complete_strict_audit=True),
@@ -269,15 +307,17 @@ def synthetic_preview():
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--routing',type=Path,default=ROOT/'docs/research/local_return_feedback_launch.json')
-    p.add_argument('--audit-root',type=Path,default=ROOT/'results/local_return_feedback_design/cloud_audit')
-    p.add_argument('--out',type=Path,default=ROOT/'results/local_return_feedback_acquisition/report')
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--protocol',type=Path,default=PORTABLE_PROTOCOL)
+    p.add_argument('--routing',type=Path,default=ROOT/'docs/research/local_return_feedback_portable_launch.json')
+    p.add_argument('--audit-root',type=Path,default=ROOT/'results/local_return_feedback_design/portable/cloud_audit')
+    p.add_argument('--out',type=Path,default=ROOT/'results/local_return_feedback_acquisition/portable/report')
     p.add_argument('--synthetic-preview',action='store_true');args=p.parse_args()
     if args.synthetic_preview:
         assert str(args.out.resolve()).startswith('/private/tmp/') or str(args.out.resolve()).startswith('/tmp/'),'Synthetic previews stay outside study results'
         report=synthetic_preview()
     else:
-        assert args.routing;report=load_report(args.routing,args.audit_root)
+        assert args.routing;report=load_report(args.routing,args.audit_root,protocol_path=args.protocol)
     write_report(report,args.out)
     print(json.dumps(dict(synthetic=report['synthetic'],all_arms_complete=report['all_arms_complete'],out=str(args.out))))
 
