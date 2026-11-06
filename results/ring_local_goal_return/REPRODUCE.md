@@ -1,17 +1,17 @@
 # Reproduce the fixed local-return training results
 
-**Prepared while training is running.** The final-output archive will be generated only after both prescribed endpoints pass complete independent audits and the cloud owner verifies that every associated VM and disk is absent. No final asset or isolated final-output reproduction is claimed by this preparation guide.
+**Both prescribed endpoints are complete and independently audited.** Each model scores 0/256 on every final condition. Every associated VM and boot disk is verified absent. The final-output archive preserves all four stages and the failed endpoints. Archive creation and isolated extraction are recorded separately in `docs/research/local_return_outputs_archive.json` and the release verification records; this guide supplies the reproduction procedure.
 
 This is adaptation of the original seed-1 Grid/PGC spatial, visual and recurrent weights with **explicitly reset, identical new action/value heads**. Training has four fixed stages and 131,072 trials per model. Every stage and failure remains part of the evidence; the last prescribed checkpoint is the final endpoint.
 
 ## Three required assets and source checkout
 
-Use the tooling commit `0132d6ad5c03b56c209c764faa0f868ec3c40373`, or the later final source commit recorded in `docs/research/local_return_outputs_archive.json`. The final asset records its exact source commit and includes the runtime/audit/report source files with hashes.
+Use tooling commit `4f73dd99f1ce94773a7495c2da93aef01672913c`, also recorded in `docs/research/local_return_outputs_archive.json`. The final asset records its exact source commit and includes the runtime/audit/report source files with hashes.
 
 ```bash
 git clone https://github.com/aaravsinhaofficial/predictive-grid-cells-rl.git
 cd predictive-grid-cells-rl
-git checkout 0132d6ad5c03b56c209c764faa0f868ec3c40373
+git checkout 4f73dd99f1ce94773a7495c2da93aef01672913c
 ```
 
 Download all three assets from the study release and verify the published SHA256/byte counts before extracting into this fresh checkout:
@@ -26,7 +26,7 @@ The first two assets remain required for unchanged source, parent, baseline and 
 
 - Banks: `d7c42a9294020b389034cd2d01f0441227b8aae0cd0b285e48c5c8b7ff7f3123` (10,954,659 bytes).
 - Training inputs: `9f0c3c5c0bbd62b5a16e2f9bf2c78080f8185885036ae4b2c067b5ae63401b4f` (81,090,261 bytes).
-- Final outputs: pending; use the completed archive record accompanying the eventual release.
+- Final outputs: use the archive SHA256 and byte count in the completed archive record accompanying the release. Its own digest is kept outside the archive to avoid a circular hash dependency.
 
 ```bash
 tar -xzf /path/to/downloads/local-return-behavior-banks-v1.tar.gz
@@ -124,4 +124,4 @@ Conditional ring analysis is separately specified in [the mechanism design](../.
 
 The packager is `scripts/package_local_goal_return_outputs.py`. It refuses incomplete audits, missing stages, unresolved cleanup, unsafe paths and symlinks; includes whole experiment trees; hashes every archived byte; and writes a deterministic tar.gz plus the final manifest/record. It performs no cloud, training or publication action. A final-source pin can be supplied with `--source-commit`; that commit must contain the exact runtime/audit/report source bytes.
 
-After actual finals arrive, the owner will separately test extraction of **all three actual assets** into an isolated source checkout, reproduce the audits/report and record the validation. This guide makes no claim that this final-output extraction has already succeeded. The already completed input-only extraction check concerns the two earlier assets.
+Extraction of **all three actual assets** is checked separately in an isolated source checkout by reproducing the audits, private-stream comparison and report. Consult the release's extraction-validation record for that execution and its outcome. The earlier input-only extraction check concerns the two earlier assets and is retained as history.

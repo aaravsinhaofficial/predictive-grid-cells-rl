@@ -2,7 +2,7 @@
 
 **The experiments point to persistent direction traces that sometimes control movement. Predictive cues have produced little lasting repair of displaced memories in these tests.** We tested the original agents, including six held-out seed pairs, and fixed reward-only continuations with blackouts, activity noise and increased exploration. None meets the complete ring criteria in the tested conditions.
 
-This study is active. The fixed 75-million-frame continuations, 40-million-frame blind-reorientation pair and all four matched 90-million-frame exploration endpoints are complete. Two local goal-return models are now training on a curriculum with an audited memory requirement. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
+This study is active. The fixed 75-million-frame continuations, 40-million-frame blind-reorientation pair, all four matched 90-million-frame exploration endpoints, and both local goal-return models are complete. The local-return recipe failed to acquire the required blind navigation. A bounded control with normal sensory feedback is being prepared. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
 
 ## What we tested
 
@@ -131,5 +131,23 @@ The predictive pulse supplies a fresh direction-dependent pattern. Ordinary inpu
 **The initial reward check passes.** With the new readouts, Grid reaches 31/256 nearby goals and PGC reaches 32/256, exceeding the predeclared 13/256 requirement. Both reach zero on the hard trials. The physical planner reaches all 256 in both settings. Every hard antipodal pair passes the saved-tape memory certificate, giving a 50% ceiling for common-information controllers. These are initialization and task checks, before local-task learning. [All baseline conditions and independent audit](../results/local_goal_return_baseline/report/README.md).
 
 The [frozen training study](../docs/research/local_goal_return_training_protocol.json) uses 1,024 batches of 32 complete trials at each of four stages: 131,072 trials per model. It loads the exact initialized weights tested above, retains every stage and supplies only the original goal-hit reward. The fixed final behavioral gate requires at least 65% hard-trial success and a memory-erasure cost of at least 15 percentage points before the more expensive ring tests.
+
+## What happened during local-return training
+
+**Both models completed 131,072 trials and finished with 0/256 successful returns in all 12 test conditions.** Earlier fixed stages reached 3, 8 and 17 successes for Grid and 4, 10 and 15 for PGC. The final stage lost those gains. Every stage and failed endpoint is retained. [All stages, controls and counts](../results/ring_local_goal_return/report/README.md).
+
+![Learning and action randomness](../results/ring_local_goal_return/report/training.png)
+
+The left panel shows training success falling as distance and delay increase. In the final stage, success falls to zero while action entropy approaches `log(6)`, the value for equal probabilities over six actions. Sparse goal rewards and pressure to keep exploring are a plausible learning bottleneck. The source review found no reward-sign, loss-mask or recurrent-replay error; the individual gradient contributions have not been measured. [Learning review](../docs/research/local_return_learning_review.md).
+
+![Do action choices favor the goal?](../results/local_return_action_use/first_action_use.png)
+
+We then asked a simple question: **given the saved position and movement state, did the first action probabilities favor moving toward the goal?** We calculated the next step for all six actions under the same recorded motor noise. The chosen step matched the recorded position for all 38,912 saved trial records. The first-action averages remain close to uniform choices throughout training; the dotted line is a noise-informed physical best-action reference, not information available to the agent.
+
+The full paths tell the same practical story. At stage 3, Grid and PGC traveled **33.92 and 33.09 cm** on average but ended **4.41 and 4.56 cm farther from the goal**. At the final stage they traveled about 19.5 cm and reached no goals. A first-step measure alone can miss a useful turn, so every full-response outcome remains alongside it. These are descriptive results from one original seed pair.
+
+The new recipe therefore has a **steering-acquisition problem before it can provide a useful memory test**. Its frozen behavioral gate fails, so the conditional ring assay is recorded as not run. This failure concerns the new short blind-return task; the original agents' navigation advantage remains documented separately.
+
+The next bounded control is being prepared with **fresh vision and fresh spatial codes throughout**, the unchanged native LSTM and goal reward, and all weights trainable. It compares retained and reset actors with identical fresh critics. The fixed test asks whether the agent can learn this fast two-second return before feedback is withdrawn. No angle target, circular activity target or designed ring is added. [Reviewed prospective specification](../docs/research/local_return_feedback_acquisition_spec_v2.md).
 
 The [literature audit](../docs/research/endogenous_ring_literature.md), [research log](../docs/research/endogenous_ring_run_log.md), [fixed-point and numerical-precision audit](../results/lstm_endogenous_ring/fixed_points_and_saturation.md), and [compute ledger](../docs/research/ring_cloud_budget.json) retain the full method and outcome history. All cloud work draws from the original cumulative $500 authorization.
