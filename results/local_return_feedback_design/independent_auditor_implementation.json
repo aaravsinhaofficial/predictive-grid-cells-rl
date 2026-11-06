@@ -1,0 +1,81 @@
+{
+  "status": "review_ready",
+  "created_utc": "2026-11-06T13:32:35.711633+00:00",
+  "source_sha256": {
+    "scripts/audit_local_return_feedback.py": "fef3d5914ef27d4a4878af64b4c7395cf5eebc0c69730d71f21c055f22bc3b13",
+    "tests/test_audit_local_return_feedback.py": "6fc76782c0b7265d45d696eb2c923a48a33805215fcb09ad6625469de4952560",
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "scripts/local_return_feedback_evaluate.py": "dc6e8aa9883a1c67da48d6b5b20fb942eb3b0eaafda54354803dbafc9eb1f62c",
+    "scripts/local_return_feedback_run.py": "80f6e2a1ada2d833ae6f365f14101ba03fce80c34c9992a8ccede40e6afc9404"
+  },
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_audit_local_return_feedback.py",
+    "passed": 18,
+    "seconds": 1.96,
+    "scope": "Synthetic-policy/native-physics fixtures, temporary initialization files and corrupted records only; no sealed bank, study policy execution, learner update or cloud action."
+  },
+  "scope": {
+    "no_policy_or_environment_rollout": true,
+    "physics": "Independent native FREE recurrence from saved first-FREE pose, actions and exact tapes.",
+    "recurrent": "First-FREE actor/value readout independently recomputed; every recorded training logit/value replay error checked. Full CNN/LSTM histories not independently rerun.",
+    "initial_state": "Zero initial h/c follows the hash-locked collector and its tests; no pre-first-input state is archived. Initial pa/pr, no midtrial reset and zero state-noise arrays checked directly.",
+    "rgb": "Pure native raycast at every active saved pose/layout. Every frame must have >=50% unambiguous pixels. Discontinuous boundary pixels remain exactly archived/hash checked but are excluded from cross-device numerical equality.",
+    "rgb_atol": 0.0001,
+    "code_atol": 5e-05,
+    "boundary_margins": {
+      "ray_wall_choice_metres": 5e-05,
+      "landmark_wall_coordinate_metres": 5e-05,
+      "stripe_fraction_of_period": 5e-05,
+      "projected_vertical_coordinate": 5e-05
+    },
+    "summary": "Success denominator always includes all 256 trials. Producer path/progress/entropy means also use all rows, assigning zero to invalid missing values; invalid counts are reported explicitly.",
+    "no_common_information_certificate": true
+  },
+  "cli": "python scripts/audit_local_return_feedback.py --folder ARTIFACT/experiment --condition gc100 --actor-mode retained_actor --out AUDIT.json [--require-complete]",
+  "references_cli": "python scripts/audit_local_return_feedback.py --references --folder REFERENCE_ROOT --out REFERENCE_AUDIT.json --require-complete",
+  "frozen": false,
+  "actual_study_audit_run": false,
+  "prepared_initialization_read_only_check": {
+    "passed": true,
+    "manifest_sha256": "471ab69f6167966c2bf1efb5a05e27d5fbc290308c13851dab4bc966b1c8eb82",
+    "rows": [
+      {
+        "condition": "gc100",
+        "actor_mode": "retained_actor",
+        "artifact_sha256": "9b8a6f19dabaf557e8f965657acf59a2565188c90c2fecc65abe423e7d3c9e41",
+        "exact_original_nonheads": true,
+        "exact_actor_mode": "retained_actor",
+        "exact_archived_fresh_critic": true,
+        "full_policy_hash": "99504d2196825360cb87c0a2f8073c234db8e8b041131c852fa2245dfdd89627"
+      },
+      {
+        "condition": "gc100",
+        "actor_mode": "reset_actor",
+        "artifact_sha256": "3f2862514d3643e6dd01d3ac3b57961e5868dec3fe565db5ee23e8fb982ef435",
+        "exact_original_nonheads": true,
+        "exact_actor_mode": "reset_actor",
+        "exact_archived_fresh_critic": true,
+        "full_policy_hash": "6a87cb72efd4107adc597b107772c9a5e3c44d8eaedc9f6260eb8c8ca5a8c015"
+      },
+      {
+        "condition": "pgc33",
+        "actor_mode": "retained_actor",
+        "artifact_sha256": "7084627f7e2e3672ccb28e0be0cf92cb322452339bf8380680ea8f1ec0ca61db",
+        "exact_original_nonheads": true,
+        "exact_actor_mode": "retained_actor",
+        "exact_archived_fresh_critic": true,
+        "full_policy_hash": "542691b3f45f32aee6aeb121d1d0805b67135e69318395e3ba505e111f2c1b07"
+      },
+      {
+        "condition": "pgc33",
+        "actor_mode": "reset_actor",
+        "artifact_sha256": "55614e58c310b7576b9212ccb1a97bef8243df93df7e0f2fadd0e3932f3b8917",
+        "exact_original_nonheads": true,
+        "exact_actor_mode": "reset_actor",
+        "exact_archived_fresh_critic": true,
+        "full_policy_hash": "afd78fac6437dd870c18b4c4d683bf53b3b4d1c1f67e606415c9cd1506d1004a"
+      }
+    ],
+    "no_policy_forward_or_bank_access": true
+  }
+}

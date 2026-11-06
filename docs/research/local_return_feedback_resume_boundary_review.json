@@ -1,0 +1,28 @@
+{
+  "version": "feedback_resume_final_boundary_review_addendum_v1",
+  "passed": true,
+  "reviewed_utc": "2026-11-06T13:33:00.190233+00:00",
+  "extends_review": {
+    "path": "docs/research/local_return_feedback_runner_review.json",
+    "sha256": "570b402ec449750fc4228e4526f3500cc57118cca6e0508ef97a544573e5d359",
+    "reviewed_source_commit": "41714fd30217994d47b4610dfd1a2c95eeaac192"
+  },
+  "change": "On a nonzero-update resume, copy the exact supplied checkpoint to the fresh output latest.pt role and retain its source/copy hash in lineage. A final-before-evaluation resume otherwise has no remaining optimizer update that would create latest.pt.",
+  "assessment": "No policy, optimizer, RNG, counters, endpoint or learning-budget change. Pending final evaluation still runs and no extra optimizer update is introduced. The copied latest is explicitly the supplied boundary, not a fabricated later checkpoint.",
+  "sha256": {
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "scripts/local_return_feedback_run.py": "80f6e2a1ada2d833ae6f365f14101ba03fce80c34c9992a8ccede40e6afc9404",
+    "scripts/local_return_feedback_evaluate.py": "dc6e8aa9883a1c67da48d6b5b20fb942eb3b0eaafda54354803dbafc9eb1f62c",
+    "tests/test_local_return_feedback.py": "b6b1bcdc4d34f4b1a50a5332ee248403165a71fa083aa9302ed073262637791a",
+    "tests/test_local_return_feedback_run.py": "33c8af2733adbcdadcf42ef001d97ee96da0d80364868858537d2f1d4041309d",
+    "tests/test_local_return_feedback_evaluate.py": "f79d0f0d4c74df4a6e8b604542dcd1c682c8283e47b767b836f262d187741563"
+  },
+  "blocking_findings": [],
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_return_feedback_run.py tests/test_local_return_feedback_evaluate.py",
+    "tests_passed": 12,
+    "new_case": "test_final_boundary_resume_preserves_latest_when_no_learning_remains verifies exact copied bytes, final-pending state and lineage hash at update1024.",
+    "scope": "Synthetic fixtures and read-only diff review only. No study bank, actual policy outcome, study training or cloud execution."
+  },
+  "earlier_review_preserved": true
+}

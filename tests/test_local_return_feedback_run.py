@@ -99,3 +99,43 @@ def test_production_config_rejects_old_entropy_and_architecture():
     for key,value in [('entropy',.01),('nh',8),('rollout',100),('reward_clip',10)]:
         broken=dict(cfg,**{key:value})
         with pytest.raises(AssertionError):runner.assert_config(broken)
+
+
+def test_final_boundary_resume_preserves_latest_when_no_learning_remains(tmp_path):
+    parent=tmp_path/'parent';out=tmp_path/'resumed';parent.mkdir();out.mkdir()
+    checkpoint=parent/'final_before_evaluation.pt';checkpoint.write_bytes(b'exact update1024 boundary')
+    (parent/'metrics.jsonl').write_bytes(b'complete raw accepted learning history')
+    (parent/'baseline_evaluation').mkdir();(parent/'baseline_evaluation/summary.json').write_bytes(b'baseline result')
+    for name in ('baseline_before_evaluation.pt','baseline.pt','baseline_evaluation_integrity.json'):
+        (parent/name).write_bytes(name.encode())
+    counters=runner.fresh_counters();counters.update(updates=1024,trials=32768)
+    counters['evaluation_records']['baseline']={
+        'checkpoint_before_sha256':runner.sha(parent/'baseline_before_evaluation.pt'),
+        'summary_sha256':runner.sha(parent/'baseline_evaluation/summary.json')}
+    assert runner.pending_evaluation(counters)=='final'
+    runner.inherit_resume_artifacts(checkpoint,out,counters)
+    assert (out/'latest.pt').read_bytes()==checkpoint.read_bytes()
+    lineage=json.loads((out/'resume_lineage.json').read_text())
+    assert lineage['restored_updates']==1024 and lineage['pending_evaluation']=='final'
+    assert any(r['copied']=='latest.pt' and r['sha256']==runner.sha(checkpoint) for r in lineage['copied_artifacts'])
+
+
+def test_intermediate_resume_does_not_pin_a_later_mutable_latest_role(tmp_path):
+    parent=tmp_path/'parent';out=tmp_path/'resumed';parent.mkdir();out.mkdir()
+    checkpoint=parent/'latest.pt';checkpoint.write_bytes(b'exact update128 boundary')
+    (parent/'metrics.jsonl').write_bytes(b'raw accepted prefix')
+    (parent/'baseline_evaluation').mkdir();(parent/'baseline_evaluation/summary.json').write_bytes(b'baseline result')
+    for name in ('baseline_before_evaluation.pt','baseline.pt','baseline_evaluation_integrity.json'):
+        (parent/name).write_bytes(name.encode())
+    counters=runner.fresh_counters();counters.update(updates=128,trials=4096)
+    counters['evaluation_records']['baseline']={
+        'checkpoint_before_sha256':runner.sha(parent/'baseline_before_evaluation.pt'),
+        'summary_sha256':runner.sha(parent/'baseline_evaluation/summary.json')}
+    runner.inherit_resume_artifacts(checkpoint,out,counters)
+    assert not (out/'latest.pt').exists()
+    lineage=json.loads((out/'resume_lineage.json').read_text())
+    assert not any(r['copied']=='latest.pt' for r in lineage['copied_artifacts'])
+    assert (out/'resume_parent_evidence/checkpoint.pt').read_bytes()==checkpoint.read_bytes()
+    # Later periodic saves cannot invalidate any supposedly immutable copied evidence.
+    (out/'latest.pt').write_bytes(b'later update256 boundary')
+    for item in lineage['copied_artifacts']:assert runner.sha(out/item['copied'])==item['sha256']

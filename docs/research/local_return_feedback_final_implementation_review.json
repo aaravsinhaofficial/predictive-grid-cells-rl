@@ -1,0 +1,110 @@
+{
+  "version": "feedback_acquisition_final_independent_implementation_review_v2",
+  "passed": true,
+  "ready_for_owner_freeze": true,
+  "blocking_findings": [],
+  "reviewed_utc": "2026-11-06T13:37:04.336020+00:00",
+  "scope": "Independent integration/source review and focused synthetic tests only; no study bank generation, actual policy outcomes, study training, cloud operation or protocol freeze performed by reviewer.",
+  "source_and_input_sha256": {
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "scripts/local_return_feedback_run.py": "a74a08aa415fa2d3705c3c7f9cce9c67e8ec8bb361abd2c8428398b74a859aee",
+    "scripts/local_return_feedback_evaluate.py": "dc6e8aa9883a1c67da48d6b5b20fb942eb3b0eaafda54354803dbafc9eb1f62c",
+    "scripts/audit_local_return_feedback.py": "fef3d5914ef27d4a4878af64b4c7395cf5eebc0c69730d71f21c055f22bc3b13",
+    "tests/test_local_return_feedback.py": "b6b1bcdc4d34f4b1a50a5332ee248403165a71fa083aa9302ed073262637791a",
+    "tests/test_local_return_feedback_run.py": "de21aa26811968719b89712fa7260ca5b3d517f83d41ffc7b9fd59dcfe540b66",
+    "tests/test_local_return_feedback_evaluate.py": "f79d0f0d4c74df4a6e8b604542dcd1c682c8283e47b767b836f262d187741563",
+    "tests/test_audit_local_return_feedback.py": "6fc76782c0b7265d45d696eb2c923a48a33805215fcb09ad6625469de4952560",
+    "docs/research/local_return_feedback_acquisition_spec_v2.md": "b4b87ea91c66738a37fc659afefd5e38391ae943307783dff6f64e6031d08e93",
+    "docs/research/local_return_feedback_initialization.json": "471ab69f6167966c2bf1efb5a05e27d5fbc290308c13851dab4bc966b1c8eb82",
+    "results/local_return_feedback_design/initialization_roundtrip_validation.json": "df7f5aa71169bdbab3c84fafa6dcd34859ba8b229f543055f5a24943c4b9f975"
+  },
+  "original_frozen_sources_checked": 18,
+  "original_frozen_sources_unchanged": true,
+  "settings": {
+    "original_seed": 1,
+    "conditions": [
+      "gc100",
+      "pgc33"
+    ],
+    "actor_modes": [
+      "retained_actor",
+      "reset_actor"
+    ],
+    "arms": 4,
+    "all_parameters_trainable": true,
+    "updates_per_arm": 1024,
+    "trials_per_batch": 32,
+    "trials_per_arm": 32768,
+    "total_trials": 131072,
+    "goal_center_distance_m": [
+      0.58,
+      0.62
+    ],
+    "goal_radius_m": 0.3,
+    "delay_updates_inclusive": [
+      2,
+      4
+    ],
+    "free_updates": 30,
+    "feedback": "Native fresh RGB and current spatial code at every active input",
+    "state_noise_sigma": 0.0,
+    "entropy": 8e-05,
+    "learning_rate": 0.0003,
+    "gamma": 0.99,
+    "value_coef": 0.5,
+    "reward_clip": 1.0,
+    "train_private_seed": 494801,
+    "evaluation_bank_seed": 491801,
+    "evaluation_trials_per_endpoint": 256,
+    "criterion_successes": 192,
+    "process_max_seconds": 12600,
+    "provider_delete_seconds": 14400,
+    "maximum_reservation_usd": 25.0
+  },
+  "validation": [
+    {
+      "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_return_feedback_run.py tests/test_local_return_feedback_evaluate.py",
+      "tests_passed": 13,
+      "scope": "Synthetic exact optimizer/policy/private/global RNG resume, both native-shaped random CNN/LSTM256 population configurations, pending endpoint states, final/intermediate resume lineage, lossless raw inputs and failure denominators."
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_audit_local_return_feedback.py",
+      "tests_passed": 18,
+      "elapsed_seconds": 1.96,
+      "scope": "Synthetic saved-input/physics/readout checks and adversarial raw/checkpoint/metric/provenance corruptions; independent control-action and rendering-boundary tests."
+    }
+  ],
+  "integration_findings": [
+    {
+      "issue": "Intermediate resumes could pin mutable latest.pt as immutable lineage evidence and fail the later audit after normal overwrite.",
+      "resolved": true,
+      "fix": "Copy supplied checkpoint to latest.pt only at update1024, where no optimizer updates remain. All resumes preserve immutable resume_parent_evidence/checkpoint.pt. Both final-boundary and intermediate-overwrite regressions pass."
+    },
+    {
+      "issue": "Earlier resumed-failure evidence omitted failed_plan.pt and failed_predraw_streams.pt.",
+      "resolved": true,
+      "fix": "Both optional files retained exactly with lineage hashes."
+    },
+    {
+      "issue": "Strict source packages need every input file read by protocol().",
+      "resolved": true,
+      "fix": "Acquisition specification is now an explicit input_assets member as well as specification_sha256; no scientific setting changed."
+    }
+  ],
+  "auditor_scope": {
+    "independent_checks": "Compressed bytes and every uncompressed tensor hash; actual saved observation physics; fresh native spatial/goal codes; native raycast away from prespecified numerical boundaries; first-FREE actor/value readout; sampled-action CDF; rewards, masks, denominators, optimizer state/counters, evaluation preservation and accepted resume history.",
+    "not_claimed": "Full CNN/LSTM histories are not independently rerun. Training replay residuals are checked from saved logs plus hash-locked producer/tests. Initial h/c zero follows the collector/tests rather than an archived pre-input state.",
+    "renderer": "Boundary pixels are losslessly archived/hash checked but excluded from cross-device numerical comparison. Every active frame must retain at least50percent unambiguous checked pixels. Fixed RGB tolerance1e-4, code tolerance5e-5, geometric boundary margin5e-5."
+  },
+  "material_limits": [
+    "One original training seed pair; four acquisition arms do not establish trained-seed generalization.",
+    "The75percent endpoint is fast two-second local steering, not generic navigation, useful memory or ring evidence. Actor initialization also changes exploration.",
+    "Exact learning-resume tests use CPU synthetic/random-weight models; no live CUDA interruption/resume or actual study trajectory has been executed in this review."
+  ],
+  "prior_reviews_preserved": {
+    "docs/research/local_return_feedback_runner_review.json": "570b402ec449750fc4228e4526f3500cc57118cca6e0508ef97a544573e5d359",
+    "docs/research/local_return_feedback_resume_boundary_review.json": "110593500ac643099cac39a80419a0a6a6b6729f88bcbeb8a5490c7103854dc5"
+  },
+  "supersedes": "The earlier boundary addendum approved a copy for any nonzero resume before strict auditor integration. This final review narrows that approval to update1024 and preserves the historical record.",
+  "disposition": "No remaining material implementation blocker. Freeze the reviewed source/settings and proceed only through the owner-authorized bounded acquisition workflow; no unrelated checks or changed ring criteria are requested."
+}

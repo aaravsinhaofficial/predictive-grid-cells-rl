@@ -130,6 +130,8 @@ def protocol(manifest=evaluator.BEHAVIOR):
         assert sha(ROOT/name) == parent['passed_baseline_assets'][name]
         assets[name] = parent['passed_baseline_assets'][name]
     assets[feedback.PARENT_PROTOCOL] = feedback.PARENT_PROTOCOL_SHA256
+    specification = 'docs/research/local_return_feedback_acquisition_spec_v2.md'
+    assets[specification] = sha(ROOT/specification)
     assets[str(Path(manifest).resolve().relative_to(ROOT))] = sha(manifest)
     assets[bank['path']] = bank['sha256']
     for name, expected in assets.items(): assert sha(ROOT/name) == expected, name
@@ -160,7 +162,7 @@ def protocol(manifest=evaluator.BEHAVIOR):
         infrastructure=dict(process_max_seconds=MAX_SECONDS, provider_delete_seconds=PROVIDER_SECONDS,
             workers=4, maximum_reservation_usd=25., original_cumulative_budget_usd=500.,
             no_automatic_retry_or_extension=True), source_sha256={name:sha(ROOT/name) for name in sources},
-        input_assets=assets, specification_sha256=sha(ROOT/'docs/research/local_return_feedback_acquisition_spec_v2.md'))
+        input_assets=assets, specification_sha256=assets[specification])
 
 
 def fresh_counters():
@@ -223,6 +225,9 @@ def inherit_resume_artifacts(checkpoint, out, counters):
             copied.append(dict(source=str(path.resolve()), copied=str(dest.relative_to(out)), sha256=sha(path)))
     assert (parent/'metrics.jsonl').exists()
     copy_item(checkpoint, evidence/'checkpoint.pt')
+    # A resume at update1024 has no further update that would create latest.pt.
+    # Preserve the exact supplied completed-trial boundary under that role too.
+    if counters['updates'] == UPDATES: copy_item(checkpoint, out/'latest.pt')
     for name in ('incoming.pt', 'metrics.jsonl', 'protocol.json', 'initialization.json', 'training_config.json',
                  'incomplete.json', 'summary.json', 'resume_lineage.json', 'failed_plan.pt', 'failed_predraw_streams.pt'):
         if (parent/name).exists(): copy_item(parent/name, evidence/name)
