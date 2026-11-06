@@ -200,6 +200,8 @@ def inventory(root=ROOT, source_commit=COMMIT):
         worker_result = worker_root/'WORKER_RESULT.json'
         assert read(worker_result)['exit_code'] == 0
         paths += [audit_path, worker_result]
+        environment = root/f"results/local_goal_return_design/cloud_audit/{row['name']}_environment.json"
+        if environment.exists(): paths.append(environment)
         if (worker_root/'worker.log').exists(): paths.append(worker_root/'worker.log')
         models.append(dict(condition=row['condition'], folder=str(folder.relative_to(root)),
             final_sha256=sha(folder/'final.pt'), final_audit_sha256=sha(audit_path),
