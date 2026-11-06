@@ -1,0 +1,33 @@
+{
+  "status": "independently_reviewed_no_study_execution",
+  "recorded_utc": "2026-11-06T11:42:51.917065+00:00",
+  "source_sha256": {
+    "scripts/audit_local_return_mechanism.py": "ffc84dfe97d1b6c7083d53397d6c1beba64e70fa585d30b2967c4f02981a9694",
+    "tests/test_audit_local_return_mechanism.py": "a51b2575b234d5cf137db0675e3a4a5919458646f11b60b4beaf286b9d08a5af",
+    "scripts/plot_local_return_mechanism.py": "64bb6ad1466691085326e070f6809c8709b59e712dc4f2bb6865a8128548a80a",
+    "tests/test_plot_local_return_mechanism.py": "1325e0ab9808bceb206bc2ed610f605c1721be922508635d5240daedc63a9f4a"
+  },
+  "protocol_sha256": "012825b8278ab571a3a2aa30dee544985c537031d5d113269229ac9d8af4f72a",
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest tests/test_audit_local_return_mechanism.py tests/test_plot_local_return_mechanism.py -q",
+    "passed": 30,
+    "scope": "Synthetic arrays and private TinyPolicy only; no trained endpoint, sealed-bank neural outcome, geometry probe, or optimization."
+  },
+  "review_corrections": [
+    "Semantic angle reprojects rounded closest point with frozen1e-30 denominator; tiny-edge and large-baseline regression tests pass.",
+    "Literal frozen mechanism protocol hash required.",
+    "Existing failed context evidence remains unresolved despite any stale success files.",
+    "Collector source field is sources, validated against current files."
+  ],
+  "audit_scope": {
+    "independent": "Saved causal cue-to-state60 replay; firstFREE actor and tape; all FREE physical paths, masks, rewards and row arithmetic; donor/radial/isotropic state edits; reset and Grid identities; phase/navigation summaries and contrasts; dense reset certificate tape indices; gate arithmetic and provenance.",
+    "not_remeasured": "Individual geometric perturbation responses. Observable radial/tangent80% nontrivial flags are provenance-checked only because samples/fractions were not saved. LaterFREE recurrent states were not saved; firstFREE actor and all FREE physics are checked, not later actor-value/entropy traces.",
+    "positive_followup": "Actual nativefloat32 criteria replication and retained/reconciled underlying perturbation samples are required before interpreting a positive candidate."
+  },
+  "root_review": {
+    "test_command": "/opt/anaconda3/bin/python -m pytest -q tests/test_audit_local_return_mechanism.py tests/test_plot_local_return_mechanism.py",
+    "passed": 30,
+    "seconds": 2.05,
+    "checks": "Reviewed independent arithmetic, timing, frozen-protocol guards and all-context display guard. Visually inspected both watermarked synthetic layouts; axes, legends and labels readable. No trained endpoint executed."
+  }
+}
