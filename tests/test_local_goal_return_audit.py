@@ -6,6 +6,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / 'scripts'))
 import torch
 from torch import nn
+import json
+import pytest
 from code.env import ArenaEnv
 import local_goal_return_training as task
 
@@ -92,3 +94,36 @@ def test_terminal_no_respawn_keeps_native_pre_hit_physics_and_reward():
             break
         assert torch.equal(local.pos, native.pos)
     assert hit
+
+
+def test_resuming_a_boundary_requires_its_evaluation_before_more_learning():
+    import local_goal_return_training_run as runner
+    assert runner.pending_stage(dict(updates=0, completed_stages=0)) is None
+    assert runner.pending_stage(dict(updates=1024, completed_stages=0)) == 1
+    assert runner.pending_stage(dict(updates=4096, completed_stages=3)) == 4
+    assert runner.pending_stage(dict(updates=4096, completed_stages=4)) is None
+    with pytest.raises(AssertionError, match='skipping'):
+        runner.pending_stage(dict(updates=1025, completed_stages=0))
+    with pytest.raises(AssertionError, match='Multiple missing'):
+        runner.pending_stage(dict(updates=2048, completed_stages=0))
+
+
+def test_resume_preserves_rolled_back_metrics_and_partial_evaluation(tmp_path):
+    import local_goal_return_training_run as runner
+    parent=tmp_path/'parent'; parent.mkdir(); out=tmp_path/'resumed'; out.mkdir()
+    checkpoint=parent/'latest.pt';checkpoint.write_bytes(b'exact-checkpoint-placeholder')
+    metrics=b'{"update":1024}\n{"update":1025,"rolled_back_attempt":true}\n'
+    (parent/'metrics.jsonl').write_bytes(metrics)
+    partial=parent/'stage1_evaluation';partial.mkdir();(partial/'context0.json').write_text('{"partial":true}')
+    ancestor=parent/'resume_parent_evidence';ancestor.mkdir();(ancestor/'metrics.jsonl').write_text('{"update":1}\n')
+    counters=dict(updates=1024,completed_stages=0,evaluation_records=[])
+    runner.inherit_resume_artifacts(checkpoint,out,counters)
+    assert (out/'resume_parent_evidence/metrics.jsonl').read_bytes()==metrics
+    assert (out/'resume_parent_evidence/checkpoint.pt').read_bytes()==checkpoint.read_bytes()
+    assert (out/'resume_parent_evidence/ancestor_evidence/metrics.jsonl').read_bytes()==(ancestor/'metrics.jsonl').read_bytes()
+    assert (out/'parent_incomplete_evaluation/context0.json').read_bytes()==(partial/'context0.json').read_bytes()
+    lineage=json.loads((out/'resume_lineage.json').read_text())
+    assert lineage['restored_updates']==1024 and lineage['pending_stage']==1
+    assert 'rolled-back attempt evidence' in lineage['parent_metrics_scope']
+    for record in lineage['copied_artifacts']:
+        assert runner.sha(out/record['copied'])==record['sha256']

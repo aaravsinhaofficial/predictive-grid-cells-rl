@@ -1,0 +1,496 @@
+{
+  "version": "standalone_local_return_reward_only_v1",
+  "original_model_seeds": [
+    1
+  ],
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "scope": "New episodic reward-only task adaptation. Retained original1B CNN/LSTM spatial weights; action/value heads explicitly reset. No claim of an attractor in the incoming policies.",
+  "architecture": "Unchanged native RGB CNN embedding256, input1287, LSTM256, six15Hz actions, linear pi/v. All network parameters trainable; no ring/angle/decoder loss.",
+  "initialization": {
+    "head_seed_formula": "291800+original_model_seed",
+    "native_actor_orthogonal_gain": 0.01,
+    "native_value_orthogonal_gain": 1.0,
+    "biases_zero": true,
+    "reset_fields": [
+      "pi.weight",
+      "pi.bias",
+      "v.weight",
+      "v.bias"
+    ],
+    "exact_original_nonhead_bytes": true,
+    "common_heads_within_population_pair": true
+  },
+  "goal": "Actual native +10 setup pickup at goal\u2212.02*independent arrival direction, through CodeSource.goal and NativeGoal.advance; exclude setup reward/pose/history from learner; fixed saved snapshot throughout the new trial.",
+  "task": {
+    "central_endpoints": [
+      -0.3,
+      0.3
+    ],
+    "stages": [
+      {
+        "low": 0.36,
+        "high": 0.4,
+        "delay": 4
+      },
+      {
+        "low": 0.44,
+        "high": 0.48,
+        "delay": 15
+      },
+      {
+        "low": 0.52,
+        "high": 0.56,
+        "delay": 30
+      },
+      {
+        "low": 0.58,
+        "high": 0.62,
+        "delay": 60
+      }
+    ],
+    "independently_uniform": "Endpoint x/y, local goal bearing, desired endpoint heading, setup arrival direction, four landmarks and four stripe phases; every training slot is a fresh context.",
+    "preparation": "15visible forcedLEFT; two independent left/right blocks5\u201310updates; actual4forward probe; one native endpoint glimpse as first delay input; LEFT delay uniformly ceil(max/2)..max; motors braked at blind entry, beforeprobe,afterprobe.",
+    "physical_guards": "Actual native preparatory path, rotated wall and goal clearance strictly>.01m; record/stop any failure without retry; endpoint roundoff correction must<1e\u22125m.",
+    "free_updates": 30,
+    "termination": "First actual FREE pickup or timeout is a true terminal. No future visible reward and no respawn exposure. h/c=0, pa=-1/pr=0 before each new trial.",
+    "observations": "Native current code while visible; ordinary snapshot held through blindturns, updated at actual probe endpoint; native current pulse once; ordinary endpoint snapshot held duringremainingdelay/FREE. Saved native goal unmodified; actuallastaction, zero previousreward until terminal. No extraheading/goalcoordinate input.",
+    "noise": "Preparation and images noiseless as physicalcertificate. NativeFREE body motor noise sigma_v.03/sigma_r.15,tau.25. Raw independent Gaussianh/c noise sigma.02 afterLSTMbeforeheads onlyblackactiveinputs, replay exactsavednoise.",
+    "resets": "One complete trial/unroll; padding never carries state or losses. No clocks/resetlabels supplied to policy."
+  },
+  "learning": {
+    "optimizer": "Fresh native RMSProp; no optimizer warmup or resumed source-task optimizer",
+    "original_learning_rate": 0.0003,
+    "original_rms_alpha": 0.99,
+    "original_rms_eps": 1e-05,
+    "gamma": 0.99,
+    "entropy": 0.01,
+    "value_coef": 0.5,
+    "grad_clip": 40.0,
+    "reward_clip": 1.0,
+    "reward": "Only native actualFREE+10 pickup; learner clips to1 exactly as originalconfig. No distance,setup,forced or futurevisible reward.",
+    "losses": "Actor andentropy onlyFREE; critic allactiveforced/FREE. Sum over160 slots,mean across32trials,multiply100/160 fixed atallstages; maskallpadding. Complete MonteCarlo discountedreturns,terminalandtimeoutbootstrap identicallyzero.",
+    "action_sampling": "Ordinary six-action categorical eachupdate; no temperature, actionholds, actionprior or planner intraining",
+    "stages": 4,
+    "batches_per_stage": 1024,
+    "trials_per_batch": 32,
+    "total_optimizer_updates": 4096,
+    "total_trials": 131072,
+    "counting": "Report activeforced/FREEphysicalupdates\u00d74 separately; setup,padding,planningphysics nevercalled experiencedlearningframes. Same attemptedtrial/optimizercount acrosspopulations."
+  },
+  "randomness": {
+    "training_seed_formula": "294800+original_model_seed",
+    "private_streams": "CPUplan,motor,action,state generators; entire160update tapes drawn beforeoutcomes; keyedbyfixedbatchorder, neverprevioushitcount. Layouts explicit; setup usesseparatefixednativeenv generator.",
+    "resume": "Save exactpolicy,RMSProp,privategeneratorstates,counters,CPU/CUDAglobalRNG at complete-trial boundaries. No in-flighttrial state is lost because none persists."
+  },
+  "evaluation": {
+    "behavior_protocol_sha256": "4c7ba90dd79c8c0b5f8ac13ba89e4a7d6ed5bf0287556982ade07f911fc16e48",
+    "sealed_banks": {
+      "near_baseline": {
+        "path": "results/local_goal_return_design/banks/near_baseline.pt",
+        "sha256": "9e8cda37677a93124b21ac43c2a55c67b765d52212463ad3199c9f6969016870",
+        "bytes": 84577146,
+        "seed": 391801,
+        "stage_index": 0,
+        "stage": {
+          "low": 0.36,
+          "high": 0.4,
+          "delay": 4
+        },
+        "contexts": 16,
+        "headings_per_context": 16,
+        "trials": 256,
+        "antipodal_pairs": 128,
+        "tensors": {
+          "endpoint": {
+            "shape": [
+              256,
+              2
+            ],
+            "dtype": "torch.float32",
+            "sha256": "e0f370389ddad28eff06fe45f179ba066ec9663f83ea9ea36fe04ef48130d266"
+          },
+          "goal": {
+            "shape": [
+              256,
+              2
+            ],
+            "dtype": "torch.float32",
+            "sha256": "86e554d07d11480617f956b97e2f0fbe90d824e98b98fe8d7531686b13cfb17c"
+          },
+          "radius": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "a4e215d9345271a52215402a29cc9fccf64fb0aa8b20a82469173ee99c7cf693"
+          },
+          "heading": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "10703890eae44b10d4453d1e801d1debf590bf193f36e7c888fc35d6749fa7b8"
+          },
+          "pickup_angle": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "803f8d7c9ac6ce8a875177ae8402c74c4e50d742e1e54b2ab9d2679007e254e5"
+          },
+          "duration_a": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "1267a532c2ea1e825c0ef28df721e663857da32347221a476837bbd9f53b0cc4"
+          },
+          "duration_b": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "e3a94db34285cb9d4a210c8237cf7d769feb03b36e06bbdfc7f25dbd0d83fa65"
+          },
+          "turn_a": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "f9f58c01df964d823624341c7ac4defde60d3503480dd21c29cfbcc39b8b14d2"
+          },
+          "turn_b": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "fcd7aaf3d2f1a98ab0ead9619fd02e05c8488101945f88dfafa2504bd0b4b441"
+          },
+          "delay": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "f01954a93e3a690dbf2e17d2c4372779ca283f1ea0ef8621290d5752a03f51b6"
+          },
+          "land_pos": {
+            "shape": [
+              256,
+              4
+            ],
+            "dtype": "torch.float32",
+            "sha256": "1aef693ee08ee302fe973735ac62d36bee3e8d7107bdbf5d595c4b2865b8e8ba"
+          },
+          "stripe_phase": {
+            "shape": [
+              256,
+              4
+            ],
+            "dtype": "torch.float32",
+            "sha256": "e7ceda4bc45fec37e75bc829ebc7ed1b361af0ca2b8ae2cc04e3586e96354c97"
+          },
+          "context": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728"
+          },
+          "heading_index": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e"
+          },
+          "motor": {
+            "shape": [
+              160,
+              3,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "7525bbebbc90e1827e9e688f1fc8832de84971bffeba45305b7f455488a0efa8"
+          },
+          "action": {
+            "shape": [
+              160,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "163ac5d2c3c7dd5d90e650472032ce30f2ef6536c57082d4f1f76c85ca43def9"
+          },
+          "state": {
+            "shape": [
+              160,
+              2,
+              256,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "b166a8ce26e00d3ec7a8a8f82fd83734e88c2d9c4d4caf1ae09784488e9277b7"
+          }
+        },
+        "non_tensor_fields": {
+          "stage": {
+            "low": 0.36,
+            "high": 0.4,
+            "delay": 4
+          },
+          "n_contexts": 16,
+          "headings": 16,
+          "batch": 0
+        }
+      },
+      "final_hard": {
+        "path": "results/local_goal_return_design/banks/final_hard.pt",
+        "sha256": "c90ad38bff3f1364398925ef08abda9136ef5cc04b2d39c7ace38b5ce6b60524",
+        "bytes": 84577077,
+        "seed": 391901,
+        "stage_index": 3,
+        "stage": {
+          "low": 0.58,
+          "high": 0.62,
+          "delay": 60
+        },
+        "contexts": 16,
+        "headings_per_context": 16,
+        "trials": 256,
+        "antipodal_pairs": 128,
+        "tensors": {
+          "endpoint": {
+            "shape": [
+              256,
+              2
+            ],
+            "dtype": "torch.float32",
+            "sha256": "2f01cb16318dbb47e9b976fb61c183bf20c6b188f373cdedf203da7860a4ccea"
+          },
+          "goal": {
+            "shape": [
+              256,
+              2
+            ],
+            "dtype": "torch.float32",
+            "sha256": "a73ca82b4f2f38436dcf035c965c175dc29fe5330ccc4498e9db44141f5cc38e"
+          },
+          "radius": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "d5ae5b1240fe6eff4ff276b8b198ad741188194675d44aecfebc62e30347930b"
+          },
+          "heading": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "45eddeded94e4f9eeddeb0d804528f0c2fa4bb33977d59d1b8711354ba4bb604"
+          },
+          "pickup_angle": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "fee18b9607e47751d356e152861c9571fee835d8e486adefdd66a1d15bc68e8c"
+          },
+          "duration_a": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "ceec416b88de5f87d9487b31b455bafde2821822e188ab6f352db1987f5ee03f"
+          },
+          "duration_b": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "b2140d9cdd0610c7b3b56503c0b04b91ea0ee3b973864127f49314412d4d908f"
+          },
+          "turn_a": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "ce96d01ef8940b9461d6313f80c9fb8d92597515ce17f1236498b66adb3fba7e"
+          },
+          "turn_b": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "3f01fe65779da0774264c53d3711f4d10c6f3b23ac92e2c414a374c3ff80973b"
+          },
+          "delay": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "b7796499d2f61941616ba89b8dfc33b758b3a17dd7670147b3e1d1c03a32bd3b"
+          },
+          "land_pos": {
+            "shape": [
+              256,
+              4
+            ],
+            "dtype": "torch.float32",
+            "sha256": "96550afdd9f1b14a9c471a70aa098463756bcca79eac137d53186cc157add60b"
+          },
+          "stripe_phase": {
+            "shape": [
+              256,
+              4
+            ],
+            "dtype": "torch.float32",
+            "sha256": "7c8e2ddb10ed318aa9fbefce36cfcb9c3ccf469df23b7f9705969eac3c433e55"
+          },
+          "context": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728"
+          },
+          "heading_index": {
+            "shape": [
+              256
+            ],
+            "dtype": "torch.int64",
+            "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e"
+          },
+          "motor": {
+            "shape": [
+              160,
+              3,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "125ae346d0ce0c8a153c21fa2fed52a89e7f0feccf3280270c832576f0dcca42"
+          },
+          "action": {
+            "shape": [
+              160,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "5362d02d14f4566ac859d2fe3a9d972518a114f00ecaafe1c0cf13dc46ba5206"
+          },
+          "state": {
+            "shape": [
+              160,
+              2,
+              256,
+              256
+            ],
+            "dtype": "torch.float32",
+            "sha256": "26853a68fde90cb05fc40951e107c5299af34993f800b599b00bd3bae555ec94"
+          }
+        },
+        "non_tensor_fields": {
+          "stage": {
+            "low": 0.58,
+            "high": 0.62,
+            "delay": 60
+          },
+          "n_contexts": 16,
+          "headings": 16,
+          "batch": 0
+        }
+      }
+    },
+    "endpoints": "Reset-headbaseline and eachof4fixedstageends; full256hardtrials andall12variants at eachstage. Final is prescribedlastupdate, no bestcheckpointselection.",
+    "near_baseline_gate": {
+      "bank": "near_baseline",
+      "models": [
+        "gc100_s1",
+        "pgc33_s1"
+      ],
+      "variant": "blind_native",
+      "denominator_per_model": 256,
+      "minimum_success_fraction": 0.05,
+      "minimum_successes_per_model": 13,
+      "every_population_required": true,
+      "maximum_forced_rewards": 0,
+      "all_physical_checks_required": true,
+      "incomplete_or_invalid_trial": "Retain in256 denominator asfailure; do not replace after seeing actions",
+      "controls": [
+        "uniform_six_actions",
+        "heading_aware_analysis_planner"
+      ],
+      "recording": "Allfirsthits/failures,actualinitialFREEentropy/sixactionprobabilities,freeactions/path/progress,setup/forcedrewards,endpointandangularcoverage"
+    },
+    "final_behavior_gate": {
+      "bank": "final_hard",
+      "denominator_per_model": 256,
+      "intact_variant": "blind_native",
+      "erasure_variant": "blind_reset_after_glimpse",
+      "minimum_intact_success_fraction": 0.65,
+      "minimum_intact_successes": 167,
+      "minimum_erasure_cost_fraction": 0.15,
+      "minimum_paired_success_count_difference": 39,
+      "qualifier": "Descriptivepilot gate,not a significance test. Atleastonepopulation must qualify before expensive dynamics; bothmodels/allfixedendpoints retained. IfonlyGridqualifies,retain this outcome.",
+      "no_qualifying_model": "Stop automatic geometry/extension; inspect learning and report fixedpilot failure"
+    },
+    "nativecontrols": "Correct/ordinary/\u00b160currentcue; postcue/everyblindstateerase; matchedvisiblecontrols; originalsavedgoal retained. Gridcurrentcuecontrols exactshams.",
+    "raw": "Everytrial/context/variant, setup/forced/FREE counters, actualfirstFREEstate/input/pose/bodymotors,noise/actiontapesbysealedreference,actions/positions,source/provenance hashes; allfailures retained.",
+    "clean_h_c_noise": 0.0,
+    "scientific_inference": "Pilot one originaltrainingseedpair.256trials nested in16contexts; descriptivefrozen gates,nottrained-seed significance. Any50percentcertificate is conditionaltapes/observationrule."
+  },
+  "passed_baseline_assets": {
+    "results/local_goal_return_baseline/gc100/summary.json": "2a23c02c76e590fc113b84af72d8fd61a0ad65674c662e361a560e1b53586eae",
+    "results/local_goal_return_baseline/gc100/execution.json": "29b93be40758fab1b0427299e42f868f2ee95f8e17484c25ec887bdd39c8b5aa",
+    "results/local_goal_return_baseline/gc100/initialization.json": "fda1f6a50b4776c3fe07c50fa2de879d3a915ddc91599e2f5c4399552f03b528",
+    "results/local_goal_return_baseline/gc100/initialized_policy.pt": "1a278378d3aeea9472fa8ad324f37e75754fd0471ed76e56042cd4cfe9fadcd7",
+    "results/local_goal_return_baseline/gc100/near_baseline/summary.json": "2c82332982fe58767dbe73ca51d59e7f3848b252e6277a671db4f6d3bb6efd1a",
+    "results/local_goal_return_baseline/gc100/final_hard/summary.json": "e7b7272c097d569793ae2a631989a5e16fe267d7947a0cbb92222901ac68c3b5",
+    "results/local_goal_return_baseline/pgc33/summary.json": "96d858fe4c56efa79f553d1a385959d4675dfdd37d929e9253979b51ee40b44c",
+    "results/local_goal_return_baseline/pgc33/execution.json": "c412ba36a7889733b8f5a38d450066a26be0850edb11067437de952496ebb059",
+    "results/local_goal_return_baseline/pgc33/initialization.json": "ef1cddb35378db5b21bd0dab682af148b6b7c444475ab0490a739a77e3078543",
+    "results/local_goal_return_baseline/pgc33/initialized_policy.pt": "0ddd7b1b81c656fda4f8ab90ef92a8fcb95acb6bfcd6786ebf3f7376664b80e7",
+    "results/local_goal_return_baseline/pgc33/near_baseline/summary.json": "2ee374e1353cdd8052acbdc404dd93ee2ab3ba2183c4491b36372718907c6922",
+    "results/local_goal_return_baseline/pgc33/final_hard/summary.json": "67009de40e3db2685bd6cb92719feb1e40dbc5d4832af0f83535db39ca39cdfa"
+  },
+  "incoming_policy": "Load exact stored reset-head baseline initialized_policy.pt bytes; never rerun QR/head initialization on another backend/version.",
+  "source_sha256": {
+    "scripts/local_goal_return_training.py": "000a83106949781d7b83e1ffb4811cfdd5fca6cd44ff50c4ed6de13e137f7dde",
+    "scripts/local_goal_return_training_run.py": "cb9fed599cb6aab07bc96eb4e08d96ec8f74e39d78a52927edef1de7e10ecbbd",
+    "scripts/local_goal_return_training_evaluate.py": "dfe054db9c31da53cc5138064d307afefac375eaa70cb9fa4404f5b179e1ddb1",
+    "scripts/local_goal_return_training_certificate.py": "382af123209ef2a90c9fef2674a8c89854161dcdc70eedf6360dc61be43c2876",
+    "tests/test_local_goal_return_training.py": "e619cbf69aa700e0241facec6ad6986d74b2902c1910ca090434085adc8fedaf",
+    "tests/test_local_goal_return_audit.py": "82dd41d93c8cfef024ab1a28e90250745e4b0d03b7af2766ed005530a5acd0f0",
+    "tests/test_local_goal_return_resume.py": "d4448573f4a6e5b1048e10f7bbe22749586574e1b47e18f79312a8af2126730d",
+    "tests/test_local_goal_return_training_certificate.py": "92c3df9c92899c977cac042bc4bf8481457e93e49a6544148b71ebc27cee5ced",
+    "scripts/certify_local_goal_return.py": "83b6ccef847fb8296319f08de1649d3b8613b43e2e70b1e11ea767352809d53c",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_visual_memory_extend.py": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "original_assets": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+  },
+  "infrastructure": {
+    "process_max_seconds": 12600,
+    "provider_delete_seconds": 14400,
+    "planned_workers": 2,
+    "accelerator": "nvidia-tesla-t4",
+    "machine_type": "n1-standard-8",
+    "planned_zone": "us-central1-a",
+    "maximum_pair_reservation_usd": 10.625,
+    "early_cleanup": "Collect and verify all fixed endpoints, then delete instances/disks promptly; no automatic extension or restart."
+  },
+  "launch": "No launch implied by implementation/freeze. Separate root scientific/infrastructure authorization within original cumulative500USD."
+}

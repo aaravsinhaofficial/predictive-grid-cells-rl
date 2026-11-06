@@ -1,15 +1,20 @@
 {
-  "status": "core_review_passed_runner_and_baseline_pending",
+  "status": "implementation_review_passed_ready_for_sealed_bank_baseline",
   "passed_core_review": true,
   "complete_study_review": false,
-  "reviewed_utc": "2026-11-06T10:09:41.346481+00:00",
+  "reviewed_utc": "2026-11-06T10:25:17.605412+00:00",
   "source_sha256": {
-    "scripts/local_goal_return_training.py": "2c0fe2c85568d5eda1a8f698f802ff488dab38c79e1edbf777fa4616a25f0f77",
+    "scripts/local_goal_return_training.py": "000a83106949781d7b83e1ffb4811cfdd5fca6cd44ff50c4ed6de13e137f7dde",
+    "scripts/local_goal_return_training_evaluate.py": "dfe054db9c31da53cc5138064d307afefac375eaa70cb9fa4404f5b179e1ddb1",
+    "scripts/local_goal_return_training_run.py": "e1a1f1650fd0532c4dd782da79f07c71aab072850b3b8c3c93360e0821606c4e",
+    "scripts/local_goal_return_training_certificate.py": "382af123209ef2a90c9fef2674a8c89854161dcdc70eedf6360dc61be43c2876",
     "tests/test_local_goal_return_training.py": "e619cbf69aa700e0241facec6ad6986d74b2902c1910ca090434085adc8fedaf",
-    "tests/test_local_goal_return_audit.py": "0892ffc733da2b40afb5696bacc50f2f2db1f0ec1a5c35088bb1b483dbf2a6b0"
+    "tests/test_local_goal_return_audit.py": "82dd41d93c8cfef024ab1a28e90250745e4b0d03b7af2766ed005530a5acd0f0",
+    "tests/test_local_goal_return_training_certificate.py": "92c3df9c92899c977cac042bc4bf8481457e93e49a6544148b71ebc27cee5ced",
+    "tests/test_local_goal_return_resume.py": "d4448573f4a6e5b1048e10f7bbe22749586574e1b47e18f79312a8af2126730d"
   },
-  "test_command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_goal_return_training.py tests/test_local_goal_return_audit.py",
-  "tests_passed": 11,
+  "test_command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_goal_return_training.py tests/test_local_goal_return_audit.py tests/test_local_goal_return_training_certificate.py tests/test_local_goal_return_resume.py",
+  "tests_passed": 18,
   "checked": [
     "Original nonhead tensors preserved; matched nonzero native actor/value initialization; CPU/MPS global RNG unchanged",
     "Setup native pickup/code occurs without policy processing and never enters learner reward or previous reward",
@@ -19,17 +24,33 @@
     "Exact stored blind state-noise replay and cue-to-FREE gradient path; post-cue reset cuts that path",
     "Antipodal first-FREE inputs, position, motors and erased state byte-identical under shared private tapes",
     "Near-stage forced-path clearance: four braked probe steps .0432586628m, minimum goal clearance atD=.36 is .0167413372m",
-    "Both frozen banks regenerated exactly; every sealed tensor hash and shared-context/tape identity checked separately"
+    "Both frozen banks regenerated exactly; every sealed tensor hash and shared-context/tape identity checked separately",
+    "Sealed-bank certificate adapter checks actual erased-branch first-FREE inputs/state/motors and correct FREE-aligned body/action tapes; failed and absent pairs conservatively retained",
+    "Evaluator policy and control failures separated; all256 control denominators retained; certificate provenance failures distinguished from physical failures"
   ],
   "fixed_pre_freeze_findings": [
     "Replaced all-device torch.manual_seed inside CPU-only fork with CPU default_generator seed and explicit CPU float32 heads",
-    "Removed reuse of endpoint uniform as fourth texture phase; generator draws19 independent uniforms"
+    "Removed reuse of endpoint uniform as fourth texture phase; generator draws19 independent uniforms",
+    "Control collection failure no longer erases valid main-policy rows or omits incomplete control cohorts",
+    "Resume first performs any pending stage-boundary evaluation; rejects an earlier skipped endpoint",
+    "Prior stage/evaluation/checkpoint/metric artifacts copied with hashes; all rolled-back attempts retained with restored-update cutoff",
+    "Both populations must have passed sealed near baselines before training protocol freeze; exact stored reset-head policy bytes are loaded instead of reinitializing on another backend",
+    "Baseline bank and initialized-policy identities explicitly checked; original1B frame metadata asserted; per-FREE-decision entropy added"
   ],
   "pending": [
-    "Runner exact checkpoint initialization and trainability validation",
-    "Evaluation branch pairing, certificate extraction at each context FREE onset and denominator preservation",
-    "Persist failing plan/tapes or reconstructible pre-draw RNG state before assertion failures",
-    "Frozen-bank actual reset-head learning-opportunity baseline and all physical certificates; no baseline outcome executed by this reviewer"
+    "Actual sealed reset-head near baseline must pass both populations; all trial/physical/certificate failures retained",
+    "Inspect all final-hard certificates and report conditional aggregate bound; special50percent criterion requires all128pairs",
+    "Freeze full training source/asset protocol only after baseline evidence; separate root cloud authorization remains required"
   ],
-  "scope": "New reward-only task transferring original1B CNN/LSTM with explicitly reset actor/value heads. No retrospective original-agent ring claim. Conditional50percent bound applies only to certified final pairs; near curriculum is easier by design. No cloud launch or training performed by this reviewer."
+  "scope": "New reward-only task transferring original1B CNN/LSTM with explicitly reset actor/value heads. No retrospective original-agent ring claim. Conditional50percent bound applies only to certified final pairs; near curriculum is easier by design. No cloud launch or training performed by this reviewer.",
+  "passed_runner_review": true,
+  "complete_implementation_review": true,
+  "root_native_architecture_validation": {
+    "path": "results/local_goal_return_design/native_resume_validation.json",
+    "sha256": "338f02ce6e04eabe9e336db09972067331e02bb778578b70d353a89505f7b6f3",
+    "passed": true,
+    "reviewer_verified_all_recorded_function_hashes_match_current": true,
+    "note": "Independent root disposable full native network tests; all policy/optimizer/RNG/plan/output bytes reproduced after resume; not a scientific baseline or training endpoint"
+  },
+  "no_blocking_implementation_issue_remaining": true
 }

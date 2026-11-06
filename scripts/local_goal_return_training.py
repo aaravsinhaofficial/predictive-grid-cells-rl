@@ -211,8 +211,23 @@ def make_source(cfg, device):
     return CodeSource(cfg, build_population(cfg, device), device)
 
 
+def expected_next_distance(env):
+    """Analysis-only feasible greedy planner; never used by the trainer."""
+    k = 1 - math.exp(-env.dt / env.tau); target = env._targets
+    vf = env.vf[:, None] + k * (target[None, :, 0] * env.v_max - env.vf[:, None])
+    vs = env.vs[:, None] + k * (target[None, :, 1] * env.v_max - env.vs[:, None])
+    vr = env.vr[:, None] + k * (target[None, :, 2] * env.rot_max - env.vr[:, None])
+    hd = env.hd[:, None] + vr * env.dt
+    displacement = torch.stack((vf*hd.cos()-vs*hd.sin(), vf*hd.sin()+vs*hd.cos()), 2) * env.dt
+    pos = (env.pos[:, None] + displacement).clamp(-env.half+env.wall_margin, env.half-env.wall_margin)
+    return (pos-env.goal[:, None]).norm(dim=2)
+
+
 @torch.no_grad()
-def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, device='cpu', retain_inputs=True):
+def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, device='cpu', retain_inputs=True,
+            controller='policy'):
+    assert controller in ('policy', 'uniform', 'planner')
+    assert controller == 'policy' or (not retain_inputs and sigma == 0.), 'Planner/uniform controls never enter learning'
     batch = prepare_batch(cfg, source, plan, variants, device)
     env, obs, goal, sched = (batch[k] for k in ('env', 'obs', 'goal', 'schedule'))
     n, groups = env.n, batch['groups']; state = net.zero_state(n, device)
@@ -227,12 +242,15 @@ def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, de
     uniforms = plan['action'].repeat(1, groups).to(device)
     noise = plan['state'].repeat(1, 1, groups, 1).to(device) * sigma
     keys = ('rgb', 'code', 'pa', 'pr', 'action', 'reward', 'raw_reward', 'terminal',
-            'active', 'policy_mask', 'noise', 'reset_before', 'reset_after', 'logits', 'phase')
+            'active', 'policy_mask', 'noise', 'reset_before', 'reset_after', 'logits', 'phase', 'position')
     roll = {k: [] for k in keys}; roll['goal'] = goal
     hits = torch.zeros(n, dtype=torch.bool, device=device); hit_step = torch.full((n,), -1, dtype=torch.long, device=device)
     free_steps = torch.zeros(n, dtype=torch.long, device=device); path = torch.zeros(n, device=device)
     start_distance = (env.pos-env.goal).norm(dim=1); free_distance = torch.zeros_like(start_distance)
     distance_end = start_distance.clone(); snap_max = 0.; forced_hits = 0; wall_hits = 0
+    entropy_sum = torch.zeros(n, device=device); maxprob_sum = entropy_sum.clone()
+    value_sum = entropy_sum.clone(); max_abs_logit = entropy_sum.clone()
+    action_counts = torch.zeros(n, 6, dtype=torch.long, device=device)
     first_free = {}; blank_embed = net.embed(torch.zeros(n, 3, 84, 84, device=device))
     for t in range(MAX_STEPS):
         phase = sched['phase'][t]; active = alive & (phase != PAD); free = active & (phase == FREE)
@@ -263,14 +281,24 @@ def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, de
         after_reset = glimpse & reset_after
         state = masked_state(state, active & ~after_reset)
         entering = free & (t == sched['free'])
+        probabilities = logits.softmax(1)
+        if controller == 'uniform': probabilities = torch.full_like(probabilities, 1/6)
+        if controller == 'planner':
+            probabilities = torch.nn.functional.one_hot(expected_next_distance(env).argmin(1), 6).to(logits.dtype)
+        entropy = -(probabilities * probabilities.clamp_min(1e-30).log()).sum(1)
         if bool(entering.any()):
             indices = entering.nonzero().flatten()
             first_free.update({int(i): dict(input=x[i].cpu().clone(), state=torch.cat(state, 1)[i].cpu().clone(),
                 position=env.pos[i].cpu().clone(), heading=env.hd[i].cpu().clone(),
-                motors=torch.stack((env.vf, env.vs, env.vr), 1)[i].cpu().clone()) for i in indices})
+                motors=torch.stack((env.vf, env.vs, env.vr), 1)[i].cpu().clone(),
+                probabilities=probabilities[i].cpu().clone(), logits=logits[i].cpu().clone(),
+                value=values[i].cpu().clone(), entropy=entropy[i].cpu().clone()) for i in indices})
             free_distance[entering] = (env.pos-env.goal).norm(dim=1)[entering]
-        sampled = (uniforms[t, :, None] > logits.softmax(1).cumsum(1)).sum(1).clamp_max(5)
+        sampled = (uniforms[t, :, None] > probabilities.cumsum(1)).sum(1).clamp_max(5)
         action = torch.where(free, sampled, sched['forced_action'][t])
+        entropy_sum += free * entropy; maxprob_sum += free * probabilities.amax(1)
+        value_sum += free * values; max_abs_logit = torch.maximum(max_abs_logit, free * logits.abs().amax(1))
+        action_counts.scatter_add_(1, action[:, None], free.long()[:, None])
         old_pos = env.pos.clone(); frozen = {k: v.clone() for k, v in vars(env).items()
             if isinstance(v, torch.Tensor) and v.ndim and v.shape[0] == n and k not in ('tape', '_targets')}
         env.noise_v = .03 * free.float(); env.noise_r = .15 * free.float(); env.set_motor(motor[t])
@@ -289,7 +317,7 @@ def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, de
         values_to_save = dict(rgb=rgb, code=code, pa=pa, pr=pr, action=action,
             reward=learned_reward, raw_reward=reward, terminal=terminal, active=active,
             policy_mask=free, noise=eps, reset_before=before_reset, reset_after=after_reset,
-            logits=logits, phase=phase)
+            logits=logits, phase=phase, position=env.pos)
         for key, value in values_to_save.items():
             if retain_inputs or key not in ('rgb', 'code', 'noise', 'logits'): roll[key].append(value.detach().clone())
         alive &= ~terminal; state = masked_state(state, alive)
@@ -299,14 +327,21 @@ def collect(net, cfg, source, plan, *, variants=('blind_native',), sigma=.02, de
     rows = [dict(variant=variants[i//batch['n_base']], context=int(plan['context'][i%batch['n_base']]),
         heading_index=int(plan['heading_index'][i%batch['n_base']]), hit=bool(hits[i]),
         hit_step=int(hit_step[i]), free_steps=int(free_steps[i]), free_path_m=float(path[i]),
-        free_initial_distance_m=float(free_distance[i]), progress_m=float(free_distance[i]-distance_end[i])) for i in range(n)]
+        free_initial_distance_m=float(free_distance[i]), progress_m=float(free_distance[i]-distance_end[i]),
+        mean_free_entropy=float(entropy_sum[i]/free_steps[i].clamp_min(1)),
+        mean_max_action_probability=float(maxprob_sum[i]/free_steps[i].clamp_min(1)),
+        mean_value=float(value_sum[i]/free_steps[i].clamp_min(1)), max_abs_logit=float(max_abs_logit[i]),
+        first_free_entropy=float(first_free[i]['entropy']),
+        first_free_probabilities=first_free[i]['probabilities'].tolist(),
+        first_free_logits=first_free[i]['logits'].tolist(), first_free_value=float(first_free[i]['value']),
+        action_counts=action_counts[i].tolist()) for i in range(n)]
     audit = dict(setup_pickups=batch['setup_pickups'], setup_raw_reward=batch['setup_raw_reward'],
         setup_learning_reward=0., forced_hits=forced_hits, free_hits=int(hits.sum()), free_wall_hits=wall_hits,
         active_physics_updates=int(torch.stack(roll['active']).sum()), free_updates=int(free_steps.sum()),
         padded_slots=MAX_STEPS*n-int(torch.stack(roll['active']).sum()),
         allocated_slots=MAX_STEPS*n, completed_trials=n, snap_max_m=snap_max,
         clearance_min=batch['clearance_min'], wall_clearance_min=batch['wall_clearance_min'],
-        forced_path_radius_max=batch['forced_path_radius_max'], terminal_bootstrap_zero=True)
+        forced_path_radius_max=batch['forced_path_radius_max'], terminal_bootstrap_zero=True, controller=controller)
     audit['forced_updates'] = audit['active_physics_updates'] - audit['free_updates']
     return roll, rows, audit, first_free
 
@@ -345,7 +380,8 @@ def losses(logits, values, targets, roll, cfg):
     # Fixed convention across stages; no success-dependent active-step denominator.
     total = (100 / MAX_STEPS) * (policy + cfg['value_coef'] * value - cfg['entropy'] * entropy)
     return total, dict(policy_loss=float(policy.detach()), value_loss=float(value.detach()),
-                       entropy_sum_per_trial=float(entropy.detach()))
+                       entropy_sum_per_trial=float(entropy.detach()),
+                       entropy_per_free_decision=float((mask * distribution.entropy()).sum().detach()/mask.sum().clamp_min(1)))
 
 
 def update(net, cfg, opt, source, plan, device='cpu', sigma=.02):
