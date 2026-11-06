@@ -1,0 +1,799 @@
+{
+  "status": "independent_interpretation_review_of_existing40M_results_only",
+  "numerical_sources_changed": false,
+  "new_neural_tests_run": false,
+  "gates_relaxed": false,
+  "source_sha256": {
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+    "scripts/lstm_reorientation_mechanism.py": "b2865a7f026aa919c9a5b6723d88aa196f19eddf39dc6884aedbfbc28c8e883c",
+    "scripts/lstm_endogenous_reorientation_observable.py": "3488135fc1c8261e18991a5149b58d618d5a96f4325cff193d172eeb80eef6f6",
+    "tests/test_lstm_endogenous_observable_flow.py": "679e6fe0c6618702f82ec511cbd383409ca8cc552dcefa8a403f5fe3cb957ddc"
+  },
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_lstm_endogenous_observable_flow.py",
+    "known_system_tests_passed": 3
+  },
+  "main_conclusion": "The fixed40M PGC cases support persistent direction-related hidden activity with selective finite-time recovery in the prescribed observable coordinates. The tested activity family does not remain close to a fixed invariant ring. A deforming circular latent factor remains compatible with these finite observations, but the results do not identify it uniquely or show that the predictive pulse stabilizes it.",
+  "what_existing_tests_cover": [
+    "Motion ALONG a fixed closed curve is allowed: distance is to the whole reference polygon, not the original point. A rotating or slowly drifting phase can pass; exact fixed points at every angle are not required.",
+    "Radial recovery is measured against the EVOLVED unperturbed curve at the same time. Shared trajectory motion is not counted as a perturbation error.",
+    "The centered1024-dimensional future-hidden map removes the common family mean and discards cell coordinates only through their future hidden expression. The known rotating ring plus additive shared drift control passes; shrinking-plane and output-silent controls fail.",
+    "After the endpoint pulse, this task test uses one common constant ordinary-input/LEFT update map. A fixed input-conditioned rotating ring in that specific delay state is therefore a relevant hypothesis; the test is not a zero-input or stationary-phase requirement."
+  ],
+  "systematic_limits": [
+    "Center subtraction removes additive common translation only. A ring factor multiplied by a changing gain, rotated into a changing hidden subspace, or embedded nonlinearly with another memory variable can fail fixed-curve invariance despite retained circular information.",
+    "The future-hidden map is a fixed finite observation map, not a proven Markovian quotient. It retains ALL hidden outputs including actor-irrelevant hidden variation; it does not isolate every possible behaviorally meaningful factor.",
+    "A family initialized away from an attracting ring could still be approaching it during the1-to4second window. These operational finite-time gates do not exhaust every asymptotic attractor or every possible native input regime.",
+    "Projected phase order is computed from nearest points on the OLD curve. Once current activity is substantially off that curve, reversed projected edges can arise from deformation or projection ambiguity. They are not independent evidence that actual direction labels have reordered, merged or disappeared.",
+    "Maximum-edge guards fail for the PGC observable families. This guards against interpreting coarse bridges/sharp transitions as a smooth ring; it can also reject an underresolved or sharply embedded circle. It is not a topology impossibility result.",
+    "Only the prescribed centered radial direction, both signs, is tested in the observable recovery. Faster recovery there does not establish contraction in every transverse direction or distinguish every anisotropic multi-dimensional memory from a ring.",
+    "Constant-input tests do not cover every nonautonomous input-driven manifold. The original previous-action sweep broadened original-checkpoint motor inputs; it is not an all-action test of the new40M checkpoints."
+  ],
+  "facts_and_implications": [
+    "PGC native hidden radius at4seconds retains0.752 and0.514 of initial, versus Grid0.0538 and0.000126. This is a substantial descriptive persistence difference in these separately collected contexts, not an independent-seed population estimate.",
+    "PGC raw observable radial/angular ratios are0.456 and0.379, with radial gains0.403/0.228 and median angular gains0.884/0.884. These are positive finite-time anisotropy measurements. The median of ratios is distinct from a ratio of medians.",
+    "PGC RMS-scaled kick ratios are0.439 and0.611; the second context does not pass the0.5 selective-recovery gate in that metric. Report raw-positive recovery as metric-specific, not universal.",
+    "PGC centered observable departure is0.472/0.405 initial radii, versus the frozen0.05 threshold. Observable radius retention remains0.948/0.784. This favors a persisting but substantially deforming observed family over an already invariant fixed curve.",
+    "Raw PGC projected winding degree is still1 in both native contexts, while projected backward edges are14.8%/24.7%; coverage is68.3%/84.0%. Thus projected ordering failure is not equivalent to loss of global winding or of direction information.",
+    "Direction remains readable after a new readout at4seconds (PGC1.107/0.722degrees), while the fixed initial readout errs60.95/33.41degrees and the fixed current-heading readout107.05/112.62degrees. This supports a changed code; the refit is not evidence of the actor tracking physical rotation.",
+    "Full-state PGC raw radial gains remain0.959/0.971, with ratios0.800/1.007 and departures3.27/4.58radii. The stronger observable recovery can coexist with persistent cell-state directions; it does not imply full512-state normal attraction.",
+    "Removing or rotating the one predictive pulse leaves persistence and recovery similar. Ordinary-cue raw ratios0.440/0.374 are not worse than native0.456/0.379; ordinary hidden radius retention is0.776/0.526. The tested acute pulse is not the cause of stronger measured persistence/recovery.",
+    "Current observations do not isolate recurrent WEIGHTS from all preceding PGC-dependent state history: all cue branches retain the same trained network and preceding history. Call this a property of the trained agent and its history, not a pure weight-only causal contrast.",
+    "Full-state30degree substitution errors remain about30degrees after the correct pulse; sampled native/ordinary/wrong-cue movements are identical for matched edits. The independent actor decomposition shows a concrete output bottleneck: directional logits reach the actor but large right-turn margins suppress probability changes. This limits a functional navigation-ring explanation in the tested40M windows."
+  ],
+  "analytic_counterexample_without_new_experiment": {
+    "purpose": "Demonstrate logically why a radial/angular ratio near0.4 alone cannot identify a ring; this is not a fitted model of the data or a new simulation.",
+    "map": "A=diag(a,b),0<b<a<1, initialized on x(theta)=(cos(theta),sin(theta)). Repeated application converges to a point, not a finite-radius ring.",
+    "tangent_gain": "T(theta)=sqrt(a^2 sin(theta)^2+b^2 cos(theta)^2).",
+    "radial_normal_gain": "For infinitesimal radial kicks, distance to the evolved ellipse divided by initial kick is N(theta)=ab/T(theta).",
+    "ratio": "N/T=ab/(a^2 sin(theta)^2+b^2 cos(theta)^2); its median under uniform phase is2ab/(a^2+b^2). With b/a=1/5 this is5/13\u22480.385 despite a point attractor.",
+    "scope": "Selective radial recovery can therefore accompany anisotropic contracting Cartesian memory. This simple map is not claimed to reproduce the observed nearest-reference phase reversals or all LSTM metrics."
+  },
+  "wording_changes": [
+    {
+      "paths": [
+        "mechanisms/learned-ring-in-navigation.md:91"
+      ],
+      "old": "The direction patterns still deform and reorder",
+      "suggested": "The activity patterns change shape over time, so mapping them back onto their earlier curve does not preserve a consistent phase ordering. Direction remains recoverable with a new analysis readout."
+    },
+    {
+      "paths": [
+        "results/lstm_reorientation_mechanism/final/README.md:11",
+        "scripts/plot_reorientation_final_mechanism.py:110"
+      ],
+      "old": "The state families also drift and change phase order.",
+      "suggested": "The activity families drift and deform. Their projections onto the earlier curve fail the phase-order test; this does not mean the underlying direction information has disappeared."
+    },
+    {
+      "paths": [
+        "results/lstm_reorientation_observable/README.md:3",
+        "scripts/plot_reorientation_observable.py:35"
+      ],
+      "old": "the activity families change shape and lose phase order",
+      "suggested": "the activity families change shape and no longer map consistently onto their earlier curve"
+    },
+    {
+      "paths": [
+        "results/lstm_reorientation_observable/README.md:11",
+        "scripts/plot_reorientation_observable.py:39"
+      ],
+      "old": "Phase order also fails in every case.",
+      "suggested": "Projecting later activity onto the earlier curve also fails the phase-order criterion. Because the curves differ substantially, this is a failure of stable correspondence, not direct evidence that remembered directions reorder."
+    },
+    {
+      "paths": [
+        "results/lstm_reorientation_observable/README.md:7",
+        "scripts/plot_reorientation_observable.py:37"
+      ],
+      "old": "This asks whether a ring survives in activity that can influence the actor even when other cell-state coordinates drift.",
+      "suggested": "This tests for a stable ring in all hidden units' future activity, allowing a common shift of the activity pattern. A circular latent variable with a changing embedding could still fail this test."
+    },
+    {
+      "paths": [
+        "mechanisms/learned-ring-in-navigation.md:91",
+        "results/lstm_reorientation_mechanism/final/README.md:9"
+      ],
+      "old": "Some PGC disturbances fade preferentially / radial disturbances persist38\u201346% as strongly as angular disturbances.",
+      "suggested": "With raw full-state kicks, the prescribed radial disturbances shrink faster than angular disturbances in future hidden activity (ratios0.38\u20130.46). The alternative hidden/cell-scaled construction gives0.44 and0.61."
+    },
+    {
+      "paths": [
+        "mechanisms/learned-ring-in-navigation.md:91",
+        "results/lstm_reorientation_mechanism/final/README.md:3"
+      ],
+      "old": "a correct pulse scarcely repairs a30degree state substitution / almost no lasting phase repair",
+      "suggested": "A correct pulse scarcely changes the full-state estimate of the imposed30degree displacement, and native/ordinary/wrong pulses produce identical sampled movements in the matched tests."
+    }
+  ],
+  "no_change_needed": [
+    "All frozen gates, zero-candidate counts, saved numerical values and source/protocol hashes remain valid operational results.",
+    "Persistent directional trace with unequal sensitivity is an appropriate descriptive mechanism. Ring-like finite-time organization is compatible; an attracting one-dimensional circular factor is not uniquely identified.",
+    "The stronger claim that the predictive pulse stabilizes a behaviorally useful ring is opposed by the existing acute cue and action tests in these40M contexts; no generic proof of absence in every context is implied."
+  ],
+  "primary_existing_rows": [
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "native",
+      "source_path": "results/lstm_reorientation_mechanism/final/gc100/context0.json",
+      "source_sha256": "260469397fdbc747ffa466ea1a1219595e2bfc8aec4362c1770b028db62776d5",
+      "hidden_radius_retention": 0.0537601177863896,
+      "cell_radius_retention": 0.8382360651328647,
+      "full_raw_departure_p90": 6.908875820268649,
+      "full_raw_radial_gain": 0.9495657865118401,
+      "full_raw_radial_tangent": 0.9865715678170035,
+      "fixed_initial_phase_MAE_deg": 86.05597369055715,
+      "fixed_current_heading_MAE_deg": 91.54299030593195,
+      "time_refit_MAE_deg": 1.0265839053499117
+    },
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "ordinary",
+      "source_path": "results/lstm_reorientation_mechanism/final/gc100/context0.json",
+      "source_sha256": "260469397fdbc747ffa466ea1a1219595e2bfc8aec4362c1770b028db62776d5",
+      "hidden_radius_retention": 0.0537601177863896,
+      "cell_radius_retention": 0.8382360651328647,
+      "full_raw_departure_p90": 6.908875820268649,
+      "full_raw_radial_gain": 0.9495657865118401,
+      "full_raw_radial_tangent": 0.9865715678170035,
+      "fixed_initial_phase_MAE_deg": 86.05597369055715,
+      "fixed_current_heading_MAE_deg": 91.54299030593195,
+      "time_refit_MAE_deg": 1.0265839053499117
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "native",
+      "source_path": "results/lstm_reorientation_mechanism/final/gc100/context1.json",
+      "source_sha256": "7429044b4ea8a65150a446561274e6bbbedd7812142acc6f204c2f174a8e7bbb",
+      "hidden_radius_retention": 0.00012564686677262688,
+      "cell_radius_retention": 0.7949742883774901,
+      "full_raw_departure_p90": 5.000023962644466,
+      "full_raw_radial_gain": 0.9218735821834099,
+      "full_raw_radial_tangent": 1.0033444223806738,
+      "fixed_initial_phase_MAE_deg": 85.04158680525842,
+      "fixed_current_heading_MAE_deg": 94.18406467407033,
+      "time_refit_MAE_deg": 0.7032920513658881
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "ordinary",
+      "source_path": "results/lstm_reorientation_mechanism/final/gc100/context1.json",
+      "source_sha256": "7429044b4ea8a65150a446561274e6bbbedd7812142acc6f204c2f174a8e7bbb",
+      "hidden_radius_retention": 0.00012564686677262688,
+      "cell_radius_retention": 0.7949742883774901,
+      "full_raw_departure_p90": 5.000023962644466,
+      "full_raw_radial_gain": 0.9218735821834099,
+      "full_raw_radial_tangent": 1.0033444223806738,
+      "fixed_initial_phase_MAE_deg": 85.04158680525842,
+      "fixed_current_heading_MAE_deg": 94.18406467407033,
+      "time_refit_MAE_deg": 0.7032920513658881
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "native",
+      "source_path": "results/lstm_reorientation_mechanism/final/pgc33/context0.json",
+      "source_sha256": "cf0d67822699e69dda70d587291a023c93ef37a43645f6e56d250c8a291d21d4",
+      "hidden_radius_retention": 0.7517660756005787,
+      "cell_radius_retention": 1.5404344320036507,
+      "full_raw_departure_p90": 3.2704777006893737,
+      "full_raw_radial_gain": 0.9585132412324304,
+      "full_raw_radial_tangent": 0.7998810221661025,
+      "fixed_initial_phase_MAE_deg": 60.94619895557576,
+      "fixed_current_heading_MAE_deg": 107.0538693319251,
+      "time_refit_MAE_deg": 1.1069286485014682
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "ordinary",
+      "source_path": "results/lstm_reorientation_mechanism/final/pgc33/context0.json",
+      "source_sha256": "cf0d67822699e69dda70d587291a023c93ef37a43645f6e56d250c8a291d21d4",
+      "hidden_radius_retention": 0.7756682578804363,
+      "cell_radius_retention": 1.5429661891682531,
+      "full_raw_departure_p90": 3.2413498861398224,
+      "full_raw_radial_gain": 0.9541120732046158,
+      "full_raw_radial_tangent": 0.8020029182061091,
+      "fixed_initial_phase_MAE_deg": 70.01280246177363,
+      "fixed_current_heading_MAE_deg": 102.96692778889455,
+      "time_refit_MAE_deg": 1.1135610765412167
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "native",
+      "source_path": "results/lstm_reorientation_mechanism/final/pgc33/context1.json",
+      "source_sha256": "85fb53a10e653a7e54dc3f273610784975c57c8f8de537b0d9e70c3cee07764d",
+      "hidden_radius_retention": 0.5141902138044754,
+      "cell_radius_retention": 1.052639048069832,
+      "full_raw_departure_p90": 4.575952048925041,
+      "full_raw_radial_gain": 0.9705004496070498,
+      "full_raw_radial_tangent": 1.0065710307882387,
+      "fixed_initial_phase_MAE_deg": 33.41079661733426,
+      "fixed_current_heading_MAE_deg": 112.62111341492141,
+      "time_refit_MAE_deg": 0.7217088442979879
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "ordinary",
+      "source_path": "results/lstm_reorientation_mechanism/final/pgc33/context1.json",
+      "source_sha256": "85fb53a10e653a7e54dc3f273610784975c57c8f8de537b0d9e70c3cee07764d",
+      "hidden_radius_retention": 0.5259866033583862,
+      "cell_radius_retention": 1.0513615446559894,
+      "full_raw_departure_p90": 4.576498362967557,
+      "full_raw_radial_gain": 0.9703203703334278,
+      "full_raw_radial_tangent": 1.0060832405520923,
+      "fixed_initial_phase_MAE_deg": 62.127476276964295,
+      "fixed_current_heading_MAE_deg": 103.94330922601084,
+      "time_refit_MAE_deg": 0.7131497564502833
+    }
+  ],
+  "observable_existing_rows": [
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "native",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context0.json",
+      "source_sha256": "f25d0645264ed2f82f6a5fbe759be6e8eff3de64ba997d6641046a7d7a119532",
+      "radial_gain": 0.27719828332701657,
+      "tangent_gain": 0.36089882925661854,
+      "radial_over_tangent": 0.7303064028643953,
+      "centered_departure_p90": 0.34812618206315893,
+      "radius_retention": 0.40469905139124823,
+      "phase_transport": {
+        "mean_displacement_rad": -1.1233265955384208,
+        "displacement_concentration": 0.5894125713536016,
+        "absolute_displacement_rad": {
+          "mean": 1.2358072537408107,
+          "median": 1.0781031759255835,
+          "p10": 0.2462914838659226,
+          "p90": 2.4057040314276517
+        },
+        "circular_coverage": 0.5051464675468305,
+        "winding_degree": 1.0000000000000002,
+        "backward_edge_fraction": 0.24479166666666666,
+        "occupied_arc_bins_32": 6
+      },
+      "max_edge_over_radius": 0.12218178361668204,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "native",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context0.json",
+      "source_sha256": "f25d0645264ed2f82f6a5fbe759be6e8eff3de64ba997d6641046a7d7a119532",
+      "radial_gain": 0.2785355287930822,
+      "tangent_gain": 0.3589118169379599,
+      "radial_over_tangent": 0.73715820421616,
+      "centered_departure_p90": 0.34936518477869094,
+      "radius_retention": 0.40459359219766317,
+      "phase_transport": {
+        "mean_displacement_rad": -1.1338606323565683,
+        "displacement_concentration": 0.5762608256248852,
+        "absolute_displacement_rad": {
+          "mean": 1.2497492157116354,
+          "median": 1.079539605139727,
+          "p10": 0.24812624299065886,
+          "p90": 2.4503861956213537
+        },
+        "circular_coverage": 0.5008843031389436,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.23177083333333334,
+        "occupied_arc_bins_32": 6
+      },
+      "max_edge_over_radius": 0.12019467627779937,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "ordinary",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context0.json",
+      "source_sha256": "f25d0645264ed2f82f6a5fbe759be6e8eff3de64ba997d6641046a7d7a119532",
+      "radial_gain": 0.27719828332701657,
+      "tangent_gain": 0.36089882925661854,
+      "radial_over_tangent": 0.7303064028643953,
+      "centered_departure_p90": 0.34812618206315893,
+      "radius_retention": 0.40469905139124823,
+      "phase_transport": {
+        "mean_displacement_rad": -1.1233265955384208,
+        "displacement_concentration": 0.5894125713536016,
+        "absolute_displacement_rad": {
+          "mean": 1.2358072537408107,
+          "median": 1.0781031759255835,
+          "p10": 0.2462914838659226,
+          "p90": 2.4057040314276517
+        },
+        "circular_coverage": 0.5051464675468305,
+        "winding_degree": 1.0000000000000002,
+        "backward_edge_fraction": 0.24479166666666666,
+        "occupied_arc_bins_32": 6
+      },
+      "max_edge_over_radius": 0.12218178361668204,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 0,
+      "cue": "ordinary",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context0.json",
+      "source_sha256": "f25d0645264ed2f82f6a5fbe759be6e8eff3de64ba997d6641046a7d7a119532",
+      "radial_gain": 0.2785355287930822,
+      "tangent_gain": 0.3589118169379599,
+      "radial_over_tangent": 0.73715820421616,
+      "centered_departure_p90": 0.34936518477869094,
+      "radius_retention": 0.40459359219766317,
+      "phase_transport": {
+        "mean_displacement_rad": -1.1338606323565683,
+        "displacement_concentration": 0.5762608256248852,
+        "absolute_displacement_rad": {
+          "mean": 1.2497492157116354,
+          "median": 1.079539605139727,
+          "p10": 0.24812624299065886,
+          "p90": 2.4503861956213537
+        },
+        "circular_coverage": 0.5008843031389436,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.23177083333333334,
+        "occupied_arc_bins_32": 6
+      },
+      "max_edge_over_radius": 0.12019467627779937,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "native",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context1.json",
+      "source_sha256": "91e4e80c022cc442627a23b246bec60e8d374b5d306070b2839b149c1130d41f",
+      "radial_gain": 0.013224617562654549,
+      "tangent_gain": 0.11399123667585473,
+      "radial_over_tangent": 0.11050878886795154,
+      "centered_departure_p90": 0.7340323752946727,
+      "radius_retention": 0.2980865929493703,
+      "phase_transport": {
+        "mean_displacement_rad": -0.15541869978846165,
+        "displacement_concentration": 0.2679320982619871,
+        "absolute_displacement_rad": {
+          "mean": 1.2521068493137446,
+          "median": 0.9763800058078306,
+          "p10": 0.2434482823461606,
+          "p90": 2.698330743405791
+        },
+        "circular_coverage": 0.3814087897061993,
+        "winding_degree": 1.1102230246251565e-16,
+        "backward_edge_fraction": 0.16145833333333334,
+        "occupied_arc_bins_32": 2
+      },
+      "max_edge_over_radius": 0.2495688515417177,
+      "failed_gates": [
+        "observable_radius_RMS_at_least1e_minus4",
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "native",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context1.json",
+      "source_sha256": "91e4e80c022cc442627a23b246bec60e8d374b5d306070b2839b149c1130d41f",
+      "radial_gain": 0.01322424275545599,
+      "tangent_gain": 0.11398810082205481,
+      "radial_over_tangent": 0.11051466290110247,
+      "centered_departure_p90": 0.7340322343760423,
+      "radius_retention": 0.2980865439264417,
+      "phase_transport": {
+        "mean_displacement_rad": -0.1553668717772715,
+        "displacement_concentration": 0.26796579242430457,
+        "absolute_displacement_rad": {
+          "mean": 1.2520688918104235,
+          "median": 0.9763754319546881,
+          "p10": 0.24344567688879534,
+          "p90": 2.6983325180160618
+        },
+        "circular_coverage": 0.38140858776165865,
+        "winding_degree": 5.551115123125783e-17,
+        "backward_edge_fraction": 0.16145833333333334,
+        "occupied_arc_bins_32": 2
+      },
+      "max_edge_over_radius": 0.24958151805237855,
+      "failed_gates": [
+        "observable_radius_RMS_at_least1e_minus4",
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "ordinary",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context1.json",
+      "source_sha256": "91e4e80c022cc442627a23b246bec60e8d374b5d306070b2839b149c1130d41f",
+      "radial_gain": 0.013224617562654549,
+      "tangent_gain": 0.11399123667585473,
+      "radial_over_tangent": 0.11050878886795154,
+      "centered_departure_p90": 0.7340323752946727,
+      "radius_retention": 0.2980865929493703,
+      "phase_transport": {
+        "mean_displacement_rad": -0.15541869978846165,
+        "displacement_concentration": 0.2679320982619871,
+        "absolute_displacement_rad": {
+          "mean": 1.2521068493137446,
+          "median": 0.9763800058078306,
+          "p10": 0.2434482823461606,
+          "p90": 2.698330743405791
+        },
+        "circular_coverage": 0.3814087897061993,
+        "winding_degree": 1.1102230246251565e-16,
+        "backward_edge_fraction": 0.16145833333333334,
+        "occupied_arc_bins_32": 2
+      },
+      "max_edge_over_radius": 0.2495688515417177,
+      "failed_gates": [
+        "observable_radius_RMS_at_least1e_minus4",
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "cue": "ordinary",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/gc100/context1.json",
+      "source_sha256": "91e4e80c022cc442627a23b246bec60e8d374b5d306070b2839b149c1130d41f",
+      "radial_gain": 0.01322424275545599,
+      "tangent_gain": 0.11398810082205481,
+      "radial_over_tangent": 0.11051466290110247,
+      "centered_departure_p90": 0.7340322343760423,
+      "radius_retention": 0.2980865439264417,
+      "phase_transport": {
+        "mean_displacement_rad": -0.1553668717772715,
+        "displacement_concentration": 0.26796579242430457,
+        "absolute_displacement_rad": {
+          "mean": 1.2520688918104235,
+          "median": 0.9763754319546881,
+          "p10": 0.24344567688879534,
+          "p90": 2.6983325180160618
+        },
+        "circular_coverage": 0.38140858776165865,
+        "winding_degree": 5.551115123125783e-17,
+        "backward_edge_fraction": 0.16145833333333334,
+        "occupied_arc_bins_32": 2
+      },
+      "max_edge_over_radius": 0.24958151805237855,
+      "failed_gates": [
+        "observable_radius_RMS_at_least1e_minus4",
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "native",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context0.json",
+      "source_sha256": "f4f52e162654034bcf2a19919f695f6df99d1c35a57f03b1350756774653bd46",
+      "radial_gain": 0.4034904397771294,
+      "tangent_gain": 0.8839748759745696,
+      "radial_over_tangent": 0.455625953788251,
+      "centered_departure_p90": 0.4722388532687532,
+      "radius_retention": 0.948310222116236,
+      "phase_transport": {
+        "mean_displacement_rad": 0.07175339659144224,
+        "displacement_concentration": 0.9263528528008573,
+        "absolute_displacement_rad": {
+          "mean": 0.2064796883111839,
+          "median": 0.07332920462145433,
+          "p10": 0.006796146134158577,
+          "p90": 0.5227336599072039
+        },
+        "circular_coverage": 0.6830204953615939,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.1484375,
+        "occupied_arc_bins_32": 19
+      },
+      "max_edge_over_radius": 0.3048438857009612,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "native",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context0.json",
+      "source_sha256": "f4f52e162654034bcf2a19919f695f6df99d1c35a57f03b1350756774653bd46",
+      "radial_gain": 0.35577486814463416,
+      "tangent_gain": 0.7774390456139293,
+      "radial_over_tangent": 0.439296357190995,
+      "centered_departure_p90": 0.4539785034464977,
+      "radius_retention": 0.9303115124124646,
+      "phase_transport": {
+        "mean_displacement_rad": 0.10835675145355898,
+        "displacement_concentration": 0.9174864216893276,
+        "absolute_displacement_rad": {
+          "mean": 0.23605580297926923,
+          "median": 0.08992840063597751,
+          "p10": 0.008139558981657222,
+          "p90": 0.6267635328016097
+        },
+        "circular_coverage": 0.6729542068376002,
+        "winding_degree": -1.1102230246251565e-16,
+        "backward_edge_fraction": 0.18489583333333334,
+        "occupied_arc_bins_32": 16
+      },
+      "max_edge_over_radius": 0.2806604087710094,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "ordinary",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context0.json",
+      "source_sha256": "f4f52e162654034bcf2a19919f695f6df99d1c35a57f03b1350756774653bd46",
+      "radial_gain": 0.4050602285063065,
+      "tangent_gain": 0.8760009400369682,
+      "radial_over_tangent": 0.44026454404242854,
+      "centered_departure_p90": 0.47646236499854744,
+      "radius_retention": 0.9366534348182664,
+      "phase_transport": {
+        "mean_displacement_rad": 0.07800406030637262,
+        "displacement_concentration": 0.922642308045024,
+        "absolute_displacement_rad": {
+          "mean": 0.2119003298610298,
+          "median": 0.07632416571134064,
+          "p10": 0.006844166972030552,
+          "p90": 0.5311990617815407
+        },
+        "circular_coverage": 0.659018582847984,
+        "winding_degree": -1.1102230246251565e-16,
+        "backward_edge_fraction": 0.15625,
+        "occupied_arc_bins_32": 18
+      },
+      "max_edge_over_radius": 0.2969206350212242,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "cue": "ordinary",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context0.json",
+      "source_sha256": "f4f52e162654034bcf2a19919f695f6df99d1c35a57f03b1350756774653bd46",
+      "radial_gain": 0.34839688453422957,
+      "tangent_gain": 0.793494444435398,
+      "radial_over_tangent": 0.4321946154805648,
+      "centered_departure_p90": 0.4677533251912426,
+      "radius_retention": 0.9197340950164743,
+      "phase_transport": {
+        "mean_displacement_rad": 0.10388301536262201,
+        "displacement_concentration": 0.9159003711664533,
+        "absolute_displacement_rad": {
+          "mean": 0.2350617368582182,
+          "median": 0.08134516148804583,
+          "p10": 0.006992098896570815,
+          "p90": 0.6468682727118921
+        },
+        "circular_coverage": 0.6638845875883598,
+        "winding_degree": 0.0,
+        "backward_edge_fraction": 0.19010416666666666,
+        "occupied_arc_bins_32": 16
+      },
+      "max_edge_over_radius": 0.2533576959851418,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_degree_one",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "native",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context1.json",
+      "source_sha256": "2431836c8075cae1eb60b5fcc0a98538dd5251a7ff246e26e40f939344eb4a3e",
+      "radial_gain": 0.22754662288732613,
+      "tangent_gain": 0.8842440520232131,
+      "radial_over_tangent": 0.3787645972248621,
+      "centered_departure_p90": 0.4050600383346754,
+      "radius_retention": 0.7835404312586502,
+      "phase_transport": {
+        "mean_displacement_rad": -0.03453093039063321,
+        "displacement_concentration": 0.85915100802239,
+        "absolute_displacement_rad": {
+          "mean": 0.4278304113758695,
+          "median": 0.3343070790092789,
+          "p10": 0.05094672254597341,
+          "p90": 1.0095373722506689
+        },
+        "circular_coverage": 0.8396139787039976,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.24739583333333334,
+        "occupied_arc_bins_32": 24
+      },
+      "max_edge_over_radius": 0.14067347225232668,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "native",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context1.json",
+      "source_sha256": "2431836c8075cae1eb60b5fcc0a98538dd5251a7ff246e26e40f939344eb4a3e",
+      "radial_gain": 0.2946383843377455,
+      "tangent_gain": 0.7331347126791361,
+      "radial_over_tangent": 0.6110498965705342,
+      "centered_departure_p90": 0.4445147760477354,
+      "radius_retention": 0.8111275844623629,
+      "phase_transport": {
+        "mean_displacement_rad": -0.08132726112530074,
+        "displacement_concentration": 0.8100829308411803,
+        "absolute_displacement_rad": {
+          "mean": 0.5275660937836458,
+          "median": 0.48350801925420894,
+          "p10": 0.07146899337202516,
+          "p90": 1.0536497341120044
+        },
+        "circular_coverage": 0.7025539276251751,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.16145833333333334,
+        "occupied_arc_bins_32": 21
+      },
+      "max_edge_over_radius": 0.16332568336532297,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "ordinary",
+      "metric": "raw_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context1.json",
+      "source_sha256": "2431836c8075cae1eb60b5fcc0a98538dd5251a7ff246e26e40f939344eb4a3e",
+      "radial_gain": 0.22656327410119464,
+      "tangent_gain": 0.8907176867283634,
+      "radial_over_tangent": 0.37427394491231714,
+      "centered_departure_p90": 0.4084133611339311,
+      "radius_retention": 0.7784618368838014,
+      "phase_transport": {
+        "mean_displacement_rad": -0.03239747783185344,
+        "displacement_concentration": 0.8590031816554256,
+        "absolute_displacement_rad": {
+          "mean": 0.4316409718625751,
+          "median": 0.3438396401644982,
+          "p10": 0.0597325703259612,
+          "p90": 1.0249534387309547
+        },
+        "circular_coverage": 0.8321038337808355,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.24739583333333334,
+        "occupied_arc_bins_32": 21
+      },
+      "max_edge_over_radius": 0.1385534589575378,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_order_preserved"
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "cue": "ordinary",
+      "metric": "h_c_RMS_full_state_kicks",
+      "source_path": "results/lstm_reorientation_observable/pgc33/context1.json",
+      "source_sha256": "2431836c8075cae1eb60b5fcc0a98538dd5251a7ff246e26e40f939344eb4a3e",
+      "radial_gain": 0.2900229948169798,
+      "tangent_gain": 0.7713293906501739,
+      "radial_over_tangent": 0.6061411161207844,
+      "centered_departure_p90": 0.4464127074755338,
+      "radius_retention": 0.8161424759275481,
+      "phase_transport": {
+        "mean_displacement_rad": -0.0967387700768892,
+        "displacement_concentration": 0.817534580183336,
+        "absolute_displacement_rad": {
+          "mean": 0.5159526639753617,
+          "median": 0.43851210526293155,
+          "p10": 0.0705299653033904,
+          "p90": 1.0597621398792598
+        },
+        "circular_coverage": 0.7221831068346793,
+        "winding_degree": 1.0,
+        "backward_edge_fraction": 0.17708333333333334,
+        "occupied_arc_bins_32": 21
+      },
+      "max_edge_over_radius": 0.1394650257656547,
+      "failed_gates": [
+        "max_edge_below10percent_radius",
+        "p90_invariance_residual_below5percent",
+        "phase_coverage80percent",
+        "phase_order_preserved",
+        "radial_over_tangent_at_most_half"
+      ]
+    }
+  ]
+}
