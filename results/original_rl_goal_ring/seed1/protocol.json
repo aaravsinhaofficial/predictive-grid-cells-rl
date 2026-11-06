@@ -1,0 +1,37 @@
+{
+  "stage": "Designed goal-location ring attached to the original frozen RL actor; exploratory single-seed demonstration",
+  "original_actor": "Grid LSTMseed1 at1Bframes",
+  "variants": [
+    "native_saved_code",
+    "ring_pickup",
+    "ring_ahead",
+    "ring_ahead_plus45",
+    "ring_ahead_minus45"
+  ],
+  "eval_seed": 63001,
+  "episodes_per_variant": 64,
+  "environment": "Original square ArenaEnv with hidden goal centers on radius0.65m; six original actions, original sparse reward and respawn",
+  "inference": "Observed343ordinary goal-map rates or169predictive goal-map rates \u2192 exactknown-map inverse \u21922D goal-location ring \u2192 full512ordinary spatial goal code \u2192 frozen original actor",
+  "ring": {
+    "radial_multiplier": 0.9,
+    "phase_multiplier": 1.0,
+    "dimension": 2,
+    "radius_m": 0.65,
+    "update": "Every actual reward writes a unit state from the decoded observed point; otherwise autonomous recurrence only",
+    "pulse": "\u00b145degrees once immediately after first reward in the two pulse branches"
+  },
+  "evidence_boundary": "No true goal coordinate or direction/angle label enters decoder/ring/actor. Physical pose/direction are used only by the original map generator and evaluation. Designed ring and identical cue-off dynamics are explicit.",
+  "primary_descriptive_comparisons": [
+    "ring_ahead vs ring_pickup navigation and firstreturn",
+    "ring_ahead vs\u00b145phasepulses firstreturn and actual displacement"
+  ],
+  "statistics": "One preselected original trainingseed; episode-level descriptions only, no population-significance claim",
+  "source_sha256": {
+    "scripts/original_rl_goal_ring.py": "07102fe0356d3247f8f0cda98c6352048bb751c177e649405de4461838546a9a",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  }
+}

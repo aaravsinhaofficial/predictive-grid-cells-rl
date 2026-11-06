@@ -1,6 +1,8 @@
 # What predictive inputs change in the RNN
 
-**New model study: [How predictive spatial input corrects a recurrent compass](predictive-ring-attractor.md)** — an exact ring with a trained interface, 104 unconstrained RNNs across separate cohorts, targeted input interventions, and independent geometry replication. The original navigation LSTMs below are a separate system.
+**Task-linked follow-up: [From predictive maps to goal memory and navigation](goal-memory-in-the-navigation-task.md)** — original-policy steering tests and a simple goal-memory ring feeding the actual RL navigation policies in the same square arena.
+
+**Separate model study: [How predictive spatial input corrects a recurrent compass](predictive-ring-attractor.md)** — a different heading task with a trained sensory interface and unconstrained RNNs. It is not evidence of a ring inside the original navigation LSTMs.
 
 **Original agents: [What changed in the network, and what comes from the inputs?](history-versus-inputs.md)** — matched-input activity comparisons and new tests of recurrent history versus current-input processing.
 

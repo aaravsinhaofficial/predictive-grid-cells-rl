@@ -1,0 +1,591 @@
+{
+  "stage": "Complete seven-heldout-original-actor replication; seed1 descriptivepilot excluded fromtests",
+  "primary": {
+    "n_training_seeds": 7,
+    "seed_differences_seconds": [
+      0.2387096774193547,
+      0.14269005847953148,
+      0.3260416666666667,
+      -0.0564971751412429,
+      0.029629629629629523,
+      0.3714285714285713,
+      0.8602150537634401
+    ],
+    "mean_difference_seconds": 0.27317392603513585,
+    "ci95_seconds": [
+      -0.0051203768731636345,
+      0.5514682289434354
+    ],
+    "paired_t_p": 0.05315776348561833,
+    "exact_two_sided_signflip_p": 0.046875
+  },
+  "secondary_holm_family": {
+    "ring_ahead_plus45": {
+      "n_training_seeds": 7,
+      "seed_differences_seconds": [
+        7.5182795698924725,
+        7.591812865497076,
+        6.673958333333333,
+        6.997740112994349,
+        6.7365079365079366,
+        6.596825396825396,
+        3.8483870967741933
+      ],
+      "mean_difference_seconds": 6.566215901689252,
+      "ci95_seconds": [
+        5.398037378881581,
+        7.734394424496923
+      ],
+      "paired_t_p": 9.186431750289556e-06,
+      "exact_two_sided_signflip_p": 0.015625,
+      "holm_t_p": 9.612452420028355e-06,
+      "holm_exact_p": 0.03125
+    },
+    "ring_ahead_minus45": {
+      "n_training_seeds": 7,
+      "seed_differences_seconds": [
+        4.429032258064515,
+        6.928654970760234,
+        8.147916666666667,
+        6.67683615819209,
+        7.662433862433862,
+        6.97037037037037,
+        7.181720430107527
+      ],
+      "mean_difference_seconds": 6.856709245227895,
+      "ci95_seconds": [
+        5.764626967541557,
+        7.948791522914234
+      ],
+      "paired_t_p": 4.8062262100141775e-06,
+      "exact_two_sided_signflip_p": 0.015625,
+      "holm_t_p": 9.612452420028355e-06,
+      "holm_exact_p": 0.03125
+    }
+  },
+  "mean_outcomes": {
+    "native_saved_code": {
+      "mean_score": 134.53125,
+      "eligible_first_return_within20s_fraction": 0.9954637096774194,
+      "eligible_first_return_capped20s_steps": 76.31127234910971,
+      "eligible_first_return_capped20s_seconds": 5.087418156607314
+    },
+    "ring_pickup": {
+      "mean_score": 135.98214285714286,
+      "eligible_first_return_within20s_fraction": 0.9931972789115646,
+      "eligible_first_return_capped20s_steps": 75.73951840551285,
+      "eligible_first_return_capped20s_seconds": 5.04930122703419
+    },
+    "ring_ahead": {
+      "mean_score": 146.74107142857142,
+      "eligible_first_return_within20s_fraction": 0.9931607051422721,
+      "eligible_first_return_capped20s_steps": 71.64190951498583,
+      "eligible_first_return_capped20s_seconds": 4.776127300999055
+    },
+    "ring_ahead_plus45": {
+      "mean_score": 99.79910714285714,
+      "eligible_first_return_within20s_fraction": 0.6359526081926157,
+      "eligible_first_return_capped20s_steps": 170.1351480403246,
+      "eligible_first_return_capped20s_seconds": 11.342343202688307
+    },
+    "ring_ahead_minus45": {
+      "mean_score": 95.78125,
+      "eligible_first_return_within20s_fraction": 0.6122699894082887,
+      "eligible_first_return_capped20s_steps": 174.49254819340422,
+      "eligible_first_return_capped20s_seconds": 11.632836546226947
+    }
+  },
+  "protocol": {
+    "stage": "Heldout original Gridactor replication; seed1 remains the descriptive feasibility pilot",
+    "original_actor": "Grid LSTMseed2 at1Bframes",
+    "variants": [
+      "native_saved_code",
+      "ring_pickup",
+      "ring_ahead",
+      "ring_ahead_plus45",
+      "ring_ahead_minus45"
+    ],
+    "eval_seed": 63001,
+    "episodes_per_variant": 64,
+    "environment": "Original square ArenaEnv with hidden goal centers on radius0.65m; six original actions, original sparse reward and respawn",
+    "inference": "Observed343ordinary goal-map rates or169predictive goal-map rates \u2192 exactknown-map inverse \u21922D goal-location ring \u2192 full512ordinary spatial goal code \u2192 frozen original actor",
+    "ring": {
+      "radial_multiplier": 0.9,
+      "phase_multiplier": 1.0,
+      "dimension": 2,
+      "radius_m": 0.65,
+      "update": "Every actual reward writes a unit state from the decoded observed point; otherwise autonomous recurrence only",
+      "pulse": "\u00b145degrees once immediately after first reward in the two pulse branches"
+    },
+    "evidence_boundary": "No true goal coordinate or direction/angle label enters decoder/ring/actor. Physical pose/direction are used only by the original map generator and evaluation. Designed ring and identical cue-off dynamics are explicit.",
+    "primary_descriptive_comparisons": [
+      "ring_ahead vs ring_pickup navigation and firstreturn",
+      "ring_ahead vs\u00b145phasepulses firstreturn and actual displacement"
+    ],
+    "statistics": "One primarycontrast and a separate two-comparisonsecondaryHolmfamily; allsevenheldouttrainingseeds included regardless result",
+    "source_sha256": {
+      "scripts/original_rl_goal_ring_cohort.py": "5884fe49e627d7d30660d7e75196e7bcfa72ce3e962fa38ab3dadde7b49bb708",
+      "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+      "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+      "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+      "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+      "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+    },
+    "original_actor_seeds": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "statistical_unit": "Original trained Grid policy; n7 independent trainingseeds",
+    "primary": {
+      "name": "pickup_minus_ahead_first_return_seconds",
+      "definition": "Within eachseed, mean firstreturntime capped20s for ringpickup minus ringahead; include only episodes whose shared firstdiscovery occurs bystep1049, ensuring300updates opportunity; every eligiblefailure contributes20s",
+      "eligibility": "A shared preintervention firstdiscovery\u22641049; no postintervention outcome exclusions",
+      "tests": "Two-sided exact paired signflip across all128seed sign combinations; pairedt and95%t interval reported alongside; one primarycontrast"
+    },
+    "secondary": {
+      "contrasts": [
+        "plus45_minus_ahead_first_return_seconds",
+        "minus45_minus_ahead_first_return_seconds"
+      ],
+      "definition": "Same eligibility/capping as primary; two-sided exact pairedsignflip and pairedt; two contrasts corrected with Holm as a separate prespecified family"
+    },
+    "descriptive": "All64episodes perbranch retained for reward; all-discovered censored20s summaries and initialpostpickup command changes remain descriptive; seed1 never enters confirmatorytests",
+    "amendment_from_v1": "Before any seed2\u20138 outcomes: primary requires shared firstdiscovery\u22641049. v1pilot all-discovered endpoint remains unchanged; late censoredtrips are not assumed tohave failed after the observedepisode in replicationprimary.",
+    "original_v1_source_sha256": "07102fe0356d3247f8f0cda98c6352048bb751c177e649405de4461838546a9a",
+    "original_checkpoint_sha256": {
+      "2": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "3": "3bc9b2586c9df8ef27874014ceb2e45598e23cea38280bf6e7c2e6cd124dd69b",
+      "4": "1af5260cbe268aed88aad1a88c17a532a8a9becf0e4bcc4e6651ab13e27a742c",
+      "5": "b99e2c6e3b3c7bf66c1e2a5bf2de98c68e2951a953a9c86aa902679669d98ff8",
+      "6": "9d83de9d6a3bdabdd9b1140e4873a8921ba758b74708240a0d198318e0c7736f",
+      "7": "1ca33ad8025336722f809ab2d4cfa8b599d74a6d5c6ecab63d37d2b40792c6a6",
+      "8": "ec1a5c052e5abcf4a06f4896852c9077eadf33cc2eee97d86d3b4a8fde49bee6"
+    }
+  },
+  "model_rows": [
+    {
+      "seed": 2,
+      "checkpoint_sha256": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "results_sha256": "083636ad70a240589dc2b0dd92bc3b1ba723f82aa707389955245e9e5c091a8f",
+      "eligible_first_returns": 62,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 62,
+          "mean_action_total_variation": 0.15081920031686286,
+          "maximum_action_total_variation": 0.8175220426185064
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 62,
+          "mean_action_total_variation": 0.12469741202699128,
+          "maximum_action_total_variation": 0.7052251269610679
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 15.297304005302095
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 9.160683033278296
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 15.297304113440918
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 9.160683156456765
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 145.0,
+        "ring_pickup": 146.09375,
+        "ring_ahead": 157.96875,
+        "ring_ahead_plus45": 91.875,
+        "ring_ahead_minus45": 127.1875
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 4.546236559139785,
+        "ring_pickup": 4.73763440860215,
+        "ring_ahead": 4.498924731182796,
+        "ring_ahead_plus45": 12.01720430107527,
+        "ring_ahead_minus45": 8.927956989247312
+      },
+      "decoder_max_error_m": 2.9802322387695312e-08
+    },
+    {
+      "seed": 3,
+      "checkpoint_sha256": "3bc9b2586c9df8ef27874014ceb2e45598e23cea38280bf6e7c2e6cd124dd69b",
+      "results_sha256": "ae160f10e26bde67a74cd5d3bd0ef07adcf48d7fab8e5a09010c7d14f3aecfaf",
+      "eligible_first_returns": 57,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 57,
+          "mean_action_total_variation": 0.11348090220829009,
+          "maximum_action_total_variation": 0.7751255614946899
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 57,
+          "mean_action_total_variation": 0.09583814721659814,
+          "maximum_action_total_variation": 0.8070195112493366
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 58,
+            "mean_absolute_error_deg": 16.460566291773564
+          },
+          "ahead": {
+            "n": 58,
+            "mean_absolute_error_deg": 8.219099919662428
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 58,
+            "mean_absolute_error_deg": 16.460566149863727
+          },
+          "ahead": {
+            "n": 58,
+            "mean_absolute_error_deg": 8.219100055666583
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 122.1875,
+        "ring_pickup": 123.75,
+        "ring_ahead": 134.21875,
+        "ring_ahead_plus45": 75.625,
+        "ring_ahead_minus45": 80.46875
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.171929824561404,
+        "ring_pickup": 4.95438596491228,
+        "ring_ahead": 4.811695906432749,
+        "ring_ahead_plus45": 12.403508771929825,
+        "ring_ahead_minus45": 11.740350877192983
+      },
+      "decoder_max_error_m": 2.9802322387695312e-08
+    },
+    {
+      "seed": 4,
+      "checkpoint_sha256": "1af5260cbe268aed88aad1a88c17a532a8a9becf0e4bcc4e6651ab13e27a742c",
+      "results_sha256": "b762852ebaeebeb9e7eb533a456150235db9f5c2eda78de61351816766d37cbb",
+      "eligible_first_returns": 64,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 64,
+          "mean_action_total_variation": 0.13752701670614648,
+          "maximum_action_total_variation": 0.841836349240694
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 64,
+          "mean_action_total_variation": 0.14334863177451207,
+          "maximum_action_total_variation": 0.7993883767346688
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 64,
+            "mean_absolute_error_deg": 16.20179261057097
+          },
+          "ahead": {
+            "n": 64,
+            "mean_absolute_error_deg": 7.643394548970891
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 64,
+            "mean_absolute_error_deg": 16.20179250527152
+          },
+          "ahead": {
+            "n": 64,
+            "mean_absolute_error_deg": 7.643394397391448
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 155.3125,
+        "ring_pickup": 150.15625,
+        "ring_ahead": 166.71875,
+        "ring_ahead_plus45": 119.84375,
+        "ring_ahead_minus45": 92.5
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.013541666666667,
+        "ring_pickup": 4.720833333333333,
+        "ring_ahead": 4.394791666666666,
+        "ring_ahead_plus45": 11.06875,
+        "ring_ahead_minus45": 12.542708333333334
+      },
+      "decoder_max_error_m": 5.960464477539063e-08
+    },
+    {
+      "seed": 5,
+      "checkpoint_sha256": "b99e2c6e3b3c7bf66c1e2a5bf2de98c68e2951a953a9c86aa902679669d98ff8",
+      "results_sha256": "67306bbe0d72b9a5f77cb1b0bf4fed9780d48d62df6b678f1ff1916171fcd89f",
+      "eligible_first_returns": 59,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 59,
+          "mean_action_total_variation": 0.13550260410623213,
+          "maximum_action_total_variation": 0.6809828548352925
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 59,
+          "mean_action_total_variation": 0.1604571876379249,
+          "maximum_action_total_variation": 0.8843684074117846
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 16.694178672329564
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 8.807120432743737
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 16.694178681572666
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 8.807120432949093
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 128.75,
+        "ring_pickup": 129.6875,
+        "ring_ahead": 142.1875,
+        "ring_ahead_plus45": 100.0,
+        "ring_ahead_minus45": 100.625
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.011299435028248,
+        "ring_pickup": 4.737853107344633,
+        "ring_ahead": 4.794350282485876,
+        "ring_ahead_plus45": 11.792090395480225,
+        "ring_ahead_minus45": 11.471186440677966
+      },
+      "decoder_max_error_m": 4.214684778958144e-08
+    },
+    {
+      "seed": 6,
+      "checkpoint_sha256": "9d83de9d6a3bdabdd9b1140e4873a8921ba758b74708240a0d198318e0c7736f",
+      "results_sha256": "a7c37ace9fb4e07d5ffb5b4f514429de46f4e647f39386fbba2ce4f17ce5c5ea",
+      "eligible_first_returns": 63,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 63,
+          "mean_action_total_variation": 0.1132585359530501,
+          "maximum_action_total_variation": 0.6949100108260424
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 63,
+          "mean_action_total_variation": 0.11228936038731113,
+          "maximum_action_total_variation": 0.6712280372707937
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 64,
+            "mean_absolute_error_deg": 15.724980890135056
+          },
+          "ahead": {
+            "n": 64,
+            "mean_absolute_error_deg": 9.220195283269241
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 64,
+            "mean_absolute_error_deg": 15.724980939591163
+          },
+          "ahead": {
+            "n": 64,
+            "mean_absolute_error_deg": 9.220195332470148
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 129.375,
+        "ring_pickup": 135.9375,
+        "ring_ahead": 145.78125,
+        "ring_ahead_plus45": 99.375,
+        "ring_ahead_minus45": 79.6875
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.027513227513228,
+        "ring_pickup": 4.643386243386243,
+        "ring_ahead": 4.613756613756613,
+        "ring_ahead_plus45": 11.35026455026455,
+        "ring_ahead_minus45": 12.276190476190475
+      },
+      "decoder_max_error_m": 3.332000986233652e-08
+    },
+    {
+      "seed": 7,
+      "checkpoint_sha256": "1ca33ad8025336722f809ab2d4cfa8b599d74a6d5c6ecab63d37d2b40792c6a6",
+      "results_sha256": "f97b3cb1c985235f8a209a2c684f40160c65eb0503150609fd2adb9addecb27d",
+      "eligible_first_returns": 63,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 63,
+          "mean_action_total_variation": 0.07223889606392248,
+          "maximum_action_total_variation": 0.39687597873194136
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 63,
+          "mean_action_total_variation": 0.07773191232457062,
+          "maximum_action_total_variation": 0.6014408453318083
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 17.14054120501989
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 7.527120891764044
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 17.14054119101514
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 7.52712052097741
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 134.53125,
+        "ring_pickup": 136.71875,
+        "ring_ahead": 144.0625,
+        "ring_ahead_plus45": 98.75,
+        "ring_ahead_minus45": 97.65625
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.032804232804233,
+        "ring_pickup": 5.637037037037037,
+        "ring_ahead": 5.265608465608466,
+        "ring_ahead_plus45": 11.862433862433862,
+        "ring_ahead_minus45": 12.235978835978836
+      },
+      "decoder_max_error_m": 2.9802322387695312e-08
+    },
+    {
+      "seed": 8,
+      "checkpoint_sha256": "ec1a5c052e5abcf4a06f4896852c9077eadf33cc2eee97d86d3b4a8fde49bee6",
+      "results_sha256": "6655e945b571593f6307c118e91b3c8c0c857cfbd48fff29cadf77b0554fab9e",
+      "eligible_first_returns": 62,
+      "initial_commands": {
+        "ring_ahead_plus45": {
+          "eligible_matched_commands": 62,
+          "mean_action_total_variation": 0.1294453160213604,
+          "maximum_action_total_variation": 0.8298731725549544
+        },
+        "ring_ahead_minus45": {
+          "eligible_matched_commands": 62,
+          "mean_action_total_variation": 0.12557087461118013,
+          "maximum_action_total_variation": 0.8142883986180891
+        }
+      },
+      "cue_phase_accuracy": {
+        "all_first_pickup_geometry": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 16.48314157390886
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 7.719089577292683
+          }
+        },
+        "actual_rate_decoded_ring_targets": {
+          "pickup": {
+            "n": 63,
+            "mean_absolute_error_deg": 16.483141068839956
+          },
+          "ahead": {
+            "n": 63,
+            "mean_absolute_error_deg": 7.719089529615715
+          }
+        },
+        "note": "All recorded first pickups enter geometry. Actual ring targets are independently read from the next actor input; any final-step pickup without a subsequent actor update is counted only in geometry. True goals score estimates and never enter inference."
+      },
+      "mean_scores": {
+        "native_saved_code": 126.5625,
+        "ring_pickup": 129.53125,
+        "ring_ahead": 136.25,
+        "ring_ahead_plus45": 113.125,
+        "ring_ahead_minus45": 92.34375
+      },
+      "primary_return_seconds": {
+        "native_saved_code": 5.808602150537634,
+        "ring_pickup": 5.913978494623655,
+        "ring_ahead": 5.053763440860215,
+        "ring_ahead_plus45": 8.902150537634409,
+        "ring_ahead_minus45": 12.235483870967743
+      },
+      "decoder_max_error_m": 2.9802322387695312e-08
+    }
+  ],
+  "descriptive_seed1": {
+    "native_saved_code": {
+      "mean_score": 141.5625,
+      "all_discovered_firstreturn_seconds": 5.889583333333333
+    },
+    "ring_pickup": {
+      "mean_score": 149.0625,
+      "all_discovered_firstreturn_seconds": 5.7875
+    },
+    "ring_ahead": {
+      "mean_score": 162.1875,
+      "all_discovered_firstreturn_seconds": 4.763541666666667
+    },
+    "ring_ahead_plus45": {
+      "mean_score": 134.6875,
+      "all_discovered_firstreturn_seconds": 9.703125
+    },
+    "ring_ahead_minus45": {
+      "mean_score": 146.09375,
+      "all_discovered_firstreturn_seconds": 7.435416666666667
+    }
+  },
+  "claim": "Predictive map cue initializes a more useful goal location in a designed ring feeding the same original trained RL actor. Intrinsic ring dynamics are identical; radial contraction is not functionally exercised by noiseless unit-radius navigation/readout.",
+  "mean_cue_phase_mae_deg": {
+    "pickup": 16.286072092799298,
+    "ahead": 8.328100489361024
+  }
+}

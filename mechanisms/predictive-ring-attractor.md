@@ -1,5 +1,7 @@
 # Predictive spatial codes anchor recurrent direction memory
 
+**Scope: a separate compass-model study.** For the follow-up using the original square-arena RL policies and a goal-location memory, see [From predictive maps to goal memory and navigation](goal-memory-in-the-navigation-task.md). The compass results below are not evidence that the original navigation LSTMs contain a ring.
+
 **Completed computational study.** All planned cohorts are included: 104 unconstrained RNNs across three separate studies, eight trained designed-ring interface sets, eight original navigation LSTM pairs, and ten published path integrators. Pilot results remain separate.
 
 The mechanism is simple: **ordinary grid cells say where the agent is; their relationship to predictive grid cells also says which way it is moving. A trained RNN extracts that direction signal and uses it to correct its internal compass.** Correcting the compass reduces steering error.

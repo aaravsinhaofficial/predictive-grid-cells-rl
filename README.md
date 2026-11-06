@@ -2,7 +2,9 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
-**New mechanistic study: [Predictive spatial codes anchor recurrent direction memory](mechanisms/predictive-ring-attractor.md).** An exact ring with a trained sensory interface, unconstrained trained RNNs, full-state geometry and spectra, and selective removal/restoration connect predictive input to memory correction and navigation. [What was designed and what was learned](mechanisms/designed-predictive-ring.md). [PDF report](output/pdf/predictive_ring_mechanism.pdf) · [Trained models and reproduction](docs/research/ring_reproduction.md).
+**Task-linked follow-up: [From predictive maps to goal memory and navigation](mechanisms/goal-memory-in-the-navigation-task.md).** Tests of the original RL-trained policies, a simple goal-memory ring feeding those policies, and a reward-only memory-training pilot use this project's actual square arena and hexagonal maps. [All experiments and reproduction](docs/research/rl_map_redo_inventory.md).
+
+**Separate compass illustration: [Predictive spatial codes and recurrent direction memory](mechanisms/predictive-ring-attractor.md).** This earlier study uses a different heading task; it does not demonstrate a ring inside the original navigation LSTMs. [What was designed and learned](mechanisms/designed-predictive-ring.md) · [PDF report](output/pdf/predictive_ring_mechanism.pdf) · [Models](docs/research/ring_reproduction.md).
 
 **Original agents: [What changed in the network, and what comes from the inputs?](mechanisms/history-versus-inputs.md)** — matched-input comparisons and tests separating recurrent history from processing the current cue.
 

@@ -1,0 +1,34 @@
+{
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "device": "mps",
+  "contexts": 4,
+  "n_envs": 16,
+  "max_steps": 2700,
+  "angles": 192,
+  "prepare": 15,
+  "future": 15,
+  "eval_seed": 864201,
+  "out": "/Users/aaravsinha/predictive-grid-cells-rl/results/original_goal_bearing_manifold/pilot",
+  "offsets_deg": [
+    0,
+    90,
+    -90
+  ],
+  "sources": {
+    "scripts/lstm_goal_bearing_manifold.py": "a82d7d9477d0287a6bf80146e45da24e2adaaa5ba3e81107aa961308777488c7",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+  },
+  "role": "Exploratory original-agent feasibility pilot; no confirmatory seed-level test.",
+  "inference_inputs": "Exact native physical replay, synthetic saved-goal code only. No direction/position labels fed to the actor beyond original code maps."
+}

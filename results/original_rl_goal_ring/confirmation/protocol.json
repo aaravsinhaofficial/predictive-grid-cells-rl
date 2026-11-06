@@ -1,0 +1,72 @@
+{
+  "stage": "Heldout original Gridactor replication; seed1 remains the descriptive feasibility pilot",
+  "original_actor": "Grid LSTMseed2 at1Bframes",
+  "variants": [
+    "native_saved_code",
+    "ring_pickup",
+    "ring_ahead",
+    "ring_ahead_plus45",
+    "ring_ahead_minus45"
+  ],
+  "eval_seed": 63001,
+  "episodes_per_variant": 64,
+  "environment": "Original square ArenaEnv with hidden goal centers on radius0.65m; six original actions, original sparse reward and respawn",
+  "inference": "Observed343ordinary goal-map rates or169predictive goal-map rates \u2192 exactknown-map inverse \u21922D goal-location ring \u2192 full512ordinary spatial goal code \u2192 frozen original actor",
+  "ring": {
+    "radial_multiplier": 0.9,
+    "phase_multiplier": 1.0,
+    "dimension": 2,
+    "radius_m": 0.65,
+    "update": "Every actual reward writes a unit state from the decoded observed point; otherwise autonomous recurrence only",
+    "pulse": "\u00b145degrees once immediately after first reward in the two pulse branches"
+  },
+  "evidence_boundary": "No true goal coordinate or direction/angle label enters decoder/ring/actor. Physical pose/direction are used only by the original map generator and evaluation. Designed ring and identical cue-off dynamics are explicit.",
+  "primary_descriptive_comparisons": [
+    "ring_ahead vs ring_pickup navigation and firstreturn",
+    "ring_ahead vs\u00b145phasepulses firstreturn and actual displacement"
+  ],
+  "statistics": "One primarycontrast and a separate two-comparisonsecondaryHolmfamily; allsevenheldouttrainingseeds included regardless result",
+  "source_sha256": {
+    "scripts/original_rl_goal_ring_cohort.py": "5884fe49e627d7d30660d7e75196e7bcfa72ce3e962fa38ab3dadde7b49bb708",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "original_actor_seeds": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "statistical_unit": "Original trained Grid policy; n7 independent trainingseeds",
+  "primary": {
+    "name": "pickup_minus_ahead_first_return_seconds",
+    "definition": "Within eachseed, mean firstreturntime capped20s for ringpickup minus ringahead; include only episodes whose shared firstdiscovery occurs bystep1049, ensuring300updates opportunity; every eligiblefailure contributes20s",
+    "eligibility": "A shared preintervention firstdiscovery\u22641049; no postintervention outcome exclusions",
+    "tests": "Two-sided exact paired signflip across all128seed sign combinations; pairedt and95%t interval reported alongside; one primarycontrast"
+  },
+  "secondary": {
+    "contrasts": [
+      "plus45_minus_ahead_first_return_seconds",
+      "minus45_minus_ahead_first_return_seconds"
+    ],
+    "definition": "Same eligibility/capping as primary; two-sided exact pairedsignflip and pairedt; two contrasts corrected with Holm as a separate prespecified family"
+  },
+  "descriptive": "All64episodes perbranch retained for reward; all-discovered censored20s summaries and initialpostpickup command changes remain descriptive; seed1 never enters confirmatorytests",
+  "amendment_from_v1": "Before any seed2\u20138 outcomes: primary requires shared firstdiscovery\u22641049. v1pilot all-discovered endpoint remains unchanged; late censoredtrips are not assumed tohave failed after the observedepisode in replicationprimary.",
+  "original_v1_source_sha256": "07102fe0356d3247f8f0cda98c6352048bb751c177e649405de4461838546a9a",
+  "original_checkpoint_sha256": {
+    "2": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+    "3": "3bc9b2586c9df8ef27874014ceb2e45598e23cea38280bf6e7c2e6cd124dd69b",
+    "4": "1af5260cbe268aed88aad1a88c17a532a8a9becf0e4bcc4e6651ab13e27a742c",
+    "5": "b99e2c6e3b3c7bf66c1e2a5bf2de98c68e2951a953a9c86aa902679669d98ff8",
+    "6": "9d83de9d6a3bdabdd9b1140e4873a8921ba758b74708240a0d198318e0c7736f",
+    "7": "1ca33ad8025336722f809ab2d4cfa8b599d74a6d5c6ecab63d37d2b40792c6a6",
+    "8": "ec1a5c052e5abcf4a06f4896852c9077eadf33cc2eee97d86d3b4a8fde49bee6"
+  }
+}

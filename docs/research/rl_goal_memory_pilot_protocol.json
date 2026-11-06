@@ -1,0 +1,57 @@
+{
+  "stage": "exploratory_single_seed_feasibility",
+  "original_model_seed": 1,
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "circle_radius_m": 0.65,
+  "flash_policy_updates": 4,
+  "extra_frames_per_condition": 5000000,
+  "warmup_updates": 200,
+  "training_seed": 61001,
+  "evaluation_seed": 62001,
+  "evaluation_episodes_per_variant": 64,
+  "evaluation_envs_per_variant": 32,
+  "variants": [
+    "flash",
+    "flash_reset",
+    "continuous",
+    "continuous_reset",
+    "no_goal"
+  ],
+  "no_auxiliary_loss": true,
+  "ring_constraint": false,
+  "original_checkpoint_files_modified": false,
+  "task_changes": [
+    "Goal centers uniformly on radius0.65m circle in the same square room",
+    "Actual-hit goal code available for four subsequent policy updates only"
+  ],
+  "inference": "One preselected checkpoint pair; feasibility only, no population-level significance claim",
+  "source_sha256": {
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+  },
+  "software": {
+    "python": "3.12.7",
+    "torch": "2.10.0",
+    "numpy": "1.26.4"
+  },
+  "frozen_at_utc": "2026-11-06T03:47:23.611288+00:00",
+  "original_asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+  },
+  "validation_before_launch": {
+    "unit_and_cloud_guard_tests_passed": 17,
+    "independent_review": "ring_local_audit: no timing/leakage blocker; actual-hit snapshot, four-step flash, reset before first blank, masked actor/replay/bootstrap verified",
+    "real_original_checkpoint_forward_smoke": "12 decisions, all five paired variants; first discovery identical; policy hash unchanged"
+  }
+}

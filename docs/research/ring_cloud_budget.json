@@ -2533,6 +2533,257 @@
       },
       "actual_upper_bound_usd": 0.6618,
       "absence_verified_at": "2026-11-06T02:15:53.504507+00:00"
+    },
+    {
+      "name": "ring-20261105-rl-goal-memory-l4-01",
+      "zone": "us-central1-a",
+      "machine": "g2-standard-4",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-rl-goal-memory-l4-01",
+      "command": [
+        "python",
+        "scripts/rl_goal_memory.py",
+        "--out",
+        "results/ring_rl_goal_memory/pilot_v1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_rl_goal_memory/pilot_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "docs/research/rl_goal_memory_pilot_protocol.json",
+          "sha256": "5ea44644f141761ab85f50d0293ca8ca4952e4af05737c1188ebeea63523dbae"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        }
+      ],
+      "package_manifest_sha256": "623225855ef1583a9ffaa0be0cd68c6bfb5fcb286c6404655521289df06b8748",
+      "package_uncompressed_bytes": 24402230,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-06T03:47:55.867460+00:00",
+      "create_requested_at": "2026-11-06T03:48:02.686649+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-a zone. Consider trying your request in the us-central1-c\n      zone(s), which currently has capacity to accommodate your request. Alternatively,\n      you can try your request again with a different VM hardware configuration or\n      at a later time. For more information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-a\n      zonesAvailable: us-central1-c\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-a' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-rl-goal-memory-l4c-01",
+      "zone": "us-central1-c",
+      "machine": "g2-standard-4",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-rl-goal-memory-l4c-01",
+      "command": [
+        "python",
+        "scripts/rl_goal_memory.py",
+        "--out",
+        "results/ring_rl_goal_memory/pilot_v1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_rl_goal_memory/pilot_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "docs/research/rl_goal_memory_pilot_protocol.json",
+          "sha256": "5ea44644f141761ab85f50d0293ca8ca4952e4af05737c1188ebeea63523dbae"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        }
+      ],
+      "package_manifest_sha256": "623225855ef1583a9ffaa0be0cd68c6bfb5fcb286c6404655521289df06b8748",
+      "package_uncompressed_bytes": 24402230,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-06T03:48:43.392931+00:00",
+      "create_requested_at": "2026-11-06T03:48:48.993105+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-c zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-c\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-c' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-rl-goal-memory-t4-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-rl-goal-memory-t4-01",
+      "command": [
+        "python",
+        "scripts/rl_goal_memory.py",
+        "--out",
+        "results/ring_rl_goal_memory/pilot_v1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_rl_goal_memory/pilot_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "docs/research/rl_goal_memory_pilot_protocol.json",
+          "sha256": "5ea44644f141761ab85f50d0293ca8ca4952e4af05737c1188ebeea63523dbae"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        }
+      ],
+      "package_manifest_sha256": "623225855ef1583a9ffaa0be0cd68c6bfb5fcb286c6404655521289df06b8748",
+      "package_uncompressed_bytes": 24402230,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T03:49:41.122181+00:00",
+      "create_requested_at": "2026-11-06T03:49:46.432788+00:00",
+      "instance_id": "8163823888791302324",
+      "created_at": "2026-11-05T19:49:47.937-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "4fe4547e881420a5db489304c09a1709cfe64c3914ac0acb54dc39127798877f",
+      "collected_at": "2026-11-06T04:10:43.024440+00:00",
+      "collected_bytes": 146755322,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-rl-goal-memory-t4-01",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 1080.6254603862762,
+        "finished_at": "2026-11-06T04:09:47.932746+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_goal_memory.py",
+          "--out",
+          "results/ring_rl_goal_memory/pilot_v1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "623225855ef1583a9ffaa0be0cd68c6bfb5fcb286c6404655521289df06b8748"
+      },
+      "actual_upper_bound_usd": 0.4549,
+      "absence_verified_at": "2026-11-06T04:11:39.854565+00:00"
     }
   ]
 }

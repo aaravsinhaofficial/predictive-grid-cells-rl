@@ -1,0 +1,45 @@
+{
+  "stage": "exploratory_original_RL_seed1_pilot",
+  "condition": "pgc33",
+  "seed": 1,
+  "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+  "source_hashes": {
+    "scripts/lstm_goal_state_pulse.py": "693acf2d61220bf552cbe4bf4d31cd190f11833cf74fd64773a6085c90cbf515",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "arguments": {
+    "seed": 1,
+    "condition": "pgc33",
+    "device": "mps",
+    "threads": 2,
+    "calibration_episodes": 64,
+    "evaluation_episodes": 32,
+    "calibration_seed": 872401,
+    "eval_seed": 872501,
+    "horizon": 300,
+    "angle_degrees": 15.0,
+    "max_radius_fraction": 0.1,
+    "out": "results/lstm_goal_state_pulse/pilot_pgc33_s1"
+  },
+  "inputs": [
+    "native",
+    "goal_ordinary",
+    "current_ordinary"
+  ],
+  "pulses": [
+    "baseline",
+    "goal_angle",
+    "random",
+    "decoder_silent"
+  ],
+  "agent": "Original1B-frame reward-trained LSTM; frozen policy, original2D square arena and six actions",
+  "state_timing": "after native input update, before action; pulse changes c only and keeps h unchanged",
+  "calibration": "native independent episodes; first half fits linear edit, next quarter nonlinear checker, final quarter validation",
+  "evaluation_selection": "first observed known-goal state per new episode with age>=15steps, distance0.9to1.8m and full continuation available",
+  "pairing": "identical initial physical states; MatchedArena motor/image noise and action-sampling uniforms across branches",
+  "interpretation": "functional goal-bearing cell-state intervention, not an autonomous ring or manifold tangent"
+}

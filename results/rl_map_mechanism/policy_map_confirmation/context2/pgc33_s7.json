@@ -1,0 +1,988 @@
+{
+  "seed": 7,
+  "original_RL_checkpoint_sha256": "b3ee5ce8bb075a5dc45360703f42d725fffd5587b9d529fcb267f58034b1f184",
+  "frames_trained": 1000000000,
+  "source_sha256": "387355c6ba49519d5a6f65d048bc85a242c1096b0ce452057eea69dd787bef30",
+  "probe": "clamped observer positions/headings; identical physical sensors/current code; only 169 saved goal PGC slots changed",
+  "no_attractor_claim": true,
+  "initial_state": "zero; compare the requested fixed-duration clamped histories explicitly",
+  "previous_action_clamped": 1,
+  "dominant_translation": 2,
+  "scene_seed": 989133,
+  "grid_side": 7,
+  "heading_count": 64,
+  "goal_center": [
+    -0.20000000298023224,
+    0.25
+  ],
+  "pickup": [
+    -0.35668766498565674,
+    0.4940265715122223
+  ],
+  "arrival_direction": [
+    0.5403022766113281,
+    -0.8414709568023682
+  ],
+  "horizons": [
+    15,
+    60
+  ],
+  "all_translation_moment": "Sum p(action|heading)*exp(i*(heading+physical action offset)) across all four translations and uniformly sampled headings, divided by total translation probability",
+  "fit_weights": "Same ordinary all-translation tuning strength squared for every variant; uniform-weight and dominant-action robustness retained",
+  "fit_models": "Variant targets with one shared angular offset versus one shared target with variant angular offsets; fit training positions only and compare heldout angular errors",
+  "legacy_results_note": "The results field retains the original dominant-action ray fit for comparison. Primary revised estimates are field_models/all_translation.",
+  "map_identity": {
+    "n_cells": 512,
+    "n_modules": 4,
+    "spacings_m": [
+      0.4,
+      0.568,
+      0.80656,
+      1.1453151999999998
+    ],
+    "orientation_deg": [
+      37.505727996280015,
+      53.83282805817452,
+      46.54114141471161,
+      13.512431399435512
+    ],
+    "pgc_frac": 0.33,
+    "n_pgc": 169,
+    "n_gc": 343,
+    "pgc_shift_mode": "space",
+    "pgc_shift_m": 0.2,
+    "pgc_tau_s": null,
+    "pgc_shift_jitter": 0.0,
+    "sharpness": 2.0,
+    "noise": 0.0,
+    "seed": 7,
+    "pgc_layout": "uniform",
+    "pgc_shift_rule": "const",
+    "pgc_shift_frac": 0.5,
+    "cell_type": "grid",
+    "pgc_shift_m_per_module": [
+      0.19999999999999996,
+      0.19999999999999996,
+      0.19999999999999996,
+      0.19999999999999996
+    ],
+    "pgc_idx": [
+      4,
+      6,
+      8,
+      13,
+      14,
+      15,
+      18,
+      21,
+      22,
+      26,
+      27,
+      33,
+      35,
+      36,
+      41,
+      42,
+      43,
+      46,
+      47,
+      48,
+      52,
+      53,
+      55,
+      65,
+      67,
+      68,
+      89,
+      94,
+      96,
+      98,
+      106,
+      107,
+      109,
+      112,
+      114,
+      123,
+      124,
+      125,
+      126,
+      130,
+      133,
+      135,
+      139,
+      140,
+      141,
+      144,
+      146,
+      151,
+      152,
+      153,
+      155,
+      159,
+      160,
+      162,
+      169,
+      173,
+      176,
+      177,
+      180,
+      181,
+      183,
+      185,
+      186,
+      187,
+      189,
+      198,
+      199,
+      212,
+      214,
+      216,
+      220,
+      223,
+      226,
+      228,
+      231,
+      233,
+      234,
+      242,
+      243,
+      244,
+      248,
+      252,
+      257,
+      258,
+      260,
+      261,
+      264,
+      265,
+      266,
+      272,
+      273,
+      274,
+      275,
+      276,
+      280,
+      281,
+      283,
+      287,
+      292,
+      295,
+      296,
+      302,
+      308,
+      309,
+      312,
+      317,
+      322,
+      324,
+      326,
+      329,
+      330,
+      331,
+      332,
+      335,
+      338,
+      339,
+      342,
+      353,
+      357,
+      358,
+      365,
+      369,
+      370,
+      371,
+      373,
+      378,
+      385,
+      387,
+      391,
+      393,
+      394,
+      398,
+      399,
+      400,
+      402,
+      403,
+      404,
+      405,
+      407,
+      408,
+      409,
+      414,
+      416,
+      421,
+      422,
+      427,
+      430,
+      432,
+      437,
+      439,
+      441,
+      442,
+      446,
+      447,
+      453,
+      456,
+      458,
+      465,
+      479,
+      483,
+      488,
+      491,
+      492,
+      495,
+      496,
+      501,
+      503,
+      504,
+      511
+    ],
+    "pgc_per_module": [
+      43,
+      42,
+      42,
+      42
+    ]
+  },
+  "results": {
+    "15": {
+      "ordinary": {
+        "fitted_aimpoint_xy": [
+          -0.22274004174879955,
+          0.17403678946263698
+        ],
+        "heldout_weighted_angle_error_deg": 11.62804924875298,
+        "mean_heading_tuning_strength": 0.8756469305950123,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.24459674954414368,
+        "mean_dominant_pair_probability": 0.9994558691978455,
+        "pickup_target_error_deg": 15.763562085644582,
+        "true_center_target_error_deg": 11.346339123204194
+      },
+      "native": {
+        "fitted_aimpoint_xy": [
+          -0.23181303014812257,
+          -0.18858175111513248
+        ],
+        "heldout_weighted_angle_error_deg": 14.026132654555193,
+        "mean_heading_tuning_strength": 0.846673937769233,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 0.9545454545454546,
+        "mean_go_probability": 0.25706470012664795,
+        "mean_dominant_pair_probability": 0.9995741248130798,
+        "pickup_target_error_deg": 34.72223486996513,
+        "true_center_target_error_deg": 24.266421648314786
+      },
+      "left": {
+        "fitted_aimpoint_xy": [
+          -0.12751456854118384,
+          0.31630277290392644
+        ],
+        "heldout_weighted_angle_error_deg": 10.665238292151816,
+        "mean_heading_tuning_strength": 0.8663124417865501,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.2609585225582123,
+        "mean_dominant_pair_probability": 0.9991936683654785,
+        "pickup_target_error_deg": 14.298262410376301,
+        "true_center_target_error_deg": 11.509486805197012
+      },
+      "reverse": {
+        "fitted_aimpoint_xy": [
+          -0.29197393616261547,
+          0.19515394729755442
+        ],
+        "heldout_weighted_angle_error_deg": 11.294002828272651,
+        "mean_heading_tuning_strength": 0.8925045267561389,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.23059505224227905,
+        "mean_dominant_pair_probability": 0.9994918704032898,
+        "pickup_target_error_deg": 14.794783078442794,
+        "true_center_target_error_deg": 11.273515658564683
+      },
+      "right": {
+        "fitted_aimpoint_xy": [
+          -0.2713456841475077,
+          0.1265775168328252
+        ],
+        "heldout_weighted_angle_error_deg": 11.686200887353692,
+        "mean_heading_tuning_strength": 0.8491199012449785,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.2665158212184906,
+        "mean_dominant_pair_probability": 0.9996747970581055,
+        "pickup_target_error_deg": 17.048128181208657,
+        "true_center_target_error_deg": 12.59814790390832
+      }
+    },
+    "60": {
+      "ordinary": {
+        "fitted_aimpoint_xy": [
+          -0.21583448955728365,
+          0.21471787356614416
+        ],
+        "heldout_weighted_angle_error_deg": 12.647622848750304,
+        "mean_heading_tuning_strength": 0.8693711891333196,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.24520446360111237,
+        "mean_dominant_pair_probability": 0.9994070529937744,
+        "pickup_target_error_deg": 15.744193831387568,
+        "true_center_target_error_deg": 12.392513306909754
+      },
+      "native": {
+        "fitted_aimpoint_xy": [
+          -0.22378100327734513,
+          -0.2044664584037713
+        ],
+        "heldout_weighted_angle_error_deg": 15.501262181092649,
+        "mean_heading_tuning_strength": 0.8303589990984513,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 0.9545454545454546,
+        "mean_go_probability": 0.26106223464012146,
+        "mean_dominant_pair_probability": 0.9995607733726501,
+        "pickup_target_error_deg": 36.40758749783498,
+        "true_center_target_error_deg": 26.453507078771594
+      },
+      "left": {
+        "fitted_aimpoint_xy": [
+          -0.10398036086463668,
+          0.3688655407935443
+        ],
+        "heldout_weighted_angle_error_deg": 10.769332043334456,
+        "mean_heading_tuning_strength": 0.8516186623880326,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.2690174877643585,
+        "mean_dominant_pair_probability": 0.9992457032203674,
+        "pickup_target_error_deg": 14.287236544337373,
+        "true_center_target_error_deg": 13.32065894797906
+      },
+      "reverse": {
+        "fitted_aimpoint_xy": [
+          -0.2970118164989374,
+          0.22199425375245516
+        ],
+        "heldout_weighted_angle_error_deg": 11.998481716548495,
+        "mean_heading_tuning_strength": 0.8761585725123445,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.2322784811258316,
+        "mean_dominant_pair_probability": 0.9994127750396729,
+        "pickup_target_error_deg": 12.609682063014969,
+        "true_center_target_error_deg": 11.586251257973078
+      },
+      "right": {
+        "fitted_aimpoint_xy": [
+          -0.2938153824559568,
+          0.11195409828345142
+        ],
+        "heldout_weighted_angle_error_deg": 12.40931791269812,
+        "mean_heading_tuning_strength": 0.8287910308784351,
+        "low_tuning_position_fraction": 0.0,
+        "heldout_forward_ray_fraction": 1.0,
+        "mean_go_probability": 0.27260687947273254,
+        "mean_dominant_pair_probability": 0.9996368288993835,
+        "pickup_target_error_deg": 16.468702317871568,
+        "true_center_target_error_deg": 12.326680724987842
+      }
+    }
+  },
+  "field_models": {
+    "15": {
+      "all_translation": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.31115918972575923,
+              0.006608038866998737
+            ],
+            "native": [
+              -0.17821062475089317,
+              -0.31842713635690606
+            ],
+            "left": [
+              -0.30554832933636605,
+              0.2227343191916512
+            ],
+            "reverse": [
+              -0.3662894862979678,
+              -0.07852389608598828
+            ],
+            "right": [
+              -0.32670372853120366,
+              -0.07996278782591264
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -15.10256422556431,
+            "native": -15.10256422556431,
+            "left": -15.10256422556431,
+            "reverse": -15.10256422556431,
+            "right": -15.10256422556431
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 9.556234215189564,
+            "native": 15.285346051944515,
+            "left": 6.000502505306881,
+            "reverse": 11.093023868341213,
+            "right": 9.839170758227306
+          },
+          "mean_heldout_angle_error_deg": 10.354855479801895,
+          "training_angle_rmse_deg": 9.119515957526643,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.2661148098521561,
+              -0.03987709571875226
+            ],
+            "native": [
+              -0.2661148098521561,
+              -0.03987709571875226
+            ],
+            "left": [
+              -0.2661148098521561,
+              -0.03987709571875226
+            ],
+            "reverse": [
+              -0.2661148098521561,
+              -0.03987709571875226
+            ],
+            "right": [
+              -0.2661148098521561,
+              -0.03987709571875226
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.758184620747862,
+            "native": -11.015033006712605,
+            "left": -13.533904555690306,
+            "reverse": -19.543733567137306,
+            "right": -15.187413119681082
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 10.891202008582704,
+            "native": 15.02795571080946,
+            "left": 14.062832005211188,
+            "reverse": 11.321162426018704,
+            "right": 9.050056633033046
+          },
+          "mean_heldout_angle_error_deg": 12.07064175673102,
+          "training_angle_rmse_deg": 15.159150963721194,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 1.7157862769291246,
+        "native_minus_ordinary_xy_m": [
+          0.13294856497486607,
+          -0.3250351752239048
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.3453400722182138,
+        "native_minus_ordinary_across_arrival_m": -0.06374488897733535
+      },
+      "all_translation_unweighted": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.3117361258213341,
+              0.012068404085790236
+            ],
+            "native": [
+              -0.178406879377271,
+              -0.31989775220424993
+            ],
+            "left": [
+              -0.300482768720925,
+              0.22581268175832617
+            ],
+            "reverse": [
+              -0.3638960842822176,
+              -0.0727901407750882
+            ],
+            "right": [
+              -0.33010499742898763,
+              -0.07493534070305594
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -14.965071740654377,
+            "native": -14.965071740654377,
+            "left": -14.965071740654377,
+            "reverse": -14.965071740654377,
+            "right": -14.965071740654377
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 9.806577933071946,
+            "native": 16.053022601113756,
+            "left": 6.031574351000412,
+            "reverse": 11.305872735331073,
+            "right": 9.815380374860068
+          },
+          "mean_heldout_angle_error_deg": 10.602485599075452,
+          "training_angle_rmse_deg": 9.113393745438252,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.2641490149589815,
+              -0.037498913632636556
+            ],
+            "native": [
+              -0.2641490149589815,
+              -0.037498913632636556
+            ],
+            "left": [
+              -0.2641490149589815,
+              -0.037498913632636556
+            ],
+            "reverse": [
+              -0.2641490149589815,
+              -0.037498913632636556
+            ],
+            "right": [
+              -0.2641490149589815,
+              -0.037498913632636556
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.372759263074077,
+            "native": -11.648425493490187,
+            "left": -13.22054136488442,
+            "reverse": -19.043268319057965,
+            "right": -15.08281825812206
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 11.201452389960588,
+            "native": 16.05014464302981,
+            "left": 14.42849376694452,
+            "reverse": 11.392898764786539,
+            "right": 9.103783633792919
+          },
+          "mean_heldout_angle_error_deg": 12.435354639702874,
+          "training_angle_rmse_deg": 15.152380423015806,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 1.832869040627422,
+        "native_minus_ordinary_xy_m": [
+          0.13332924644406308,
+          -0.33196615629004017
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.3513779745519847,
+        "native_minus_ordinary_across_arrival_m": -0.06716938142639617
+      },
+      "dominant_translation": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.31109739180684925,
+              0.007018899811802923
+            ],
+            "native": [
+              -0.17807969665395637,
+              -0.3189376362902492
+            ],
+            "left": [
+              -0.30569651864081915,
+              0.2227191529695557
+            ],
+            "reverse": [
+              -0.3662886329974494,
+              -0.07834014588541247
+            ],
+            "right": [
+              -0.32662957524698466,
+              -0.07967902151505764
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -15.073241575237768,
+            "native": -15.073241575237768,
+            "left": -15.073241575237768,
+            "reverse": -15.073241575237768,
+            "right": -15.073241575237768
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 9.541373705625212,
+            "native": 15.296474246718319,
+            "left": 5.996788341727733,
+            "reverse": 11.081362717780436,
+            "right": 9.832657470156803
+          },
+          "mean_heldout_angle_error_deg": 10.3497312964017,
+          "training_angle_rmse_deg": 9.108502850281763,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.26596521354324243,
+              -0.039683375184561914
+            ],
+            "native": [
+              -0.26596521354324243,
+              -0.039683375184561914
+            ],
+            "left": [
+              -0.26596521354324243,
+              -0.039683375184561914
+            ],
+            "reverse": [
+              -0.26596521354324243,
+              -0.039683375184561914
+            ],
+            "right": [
+              -0.26596521354324243,
+              -0.039683375184561914
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.71909967599862,
+            "native": -11.007958414570224,
+            "left": -13.497669079935953,
+            "reverse": -19.498349773487398,
+            "right": -15.166269169091754
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 10.883229066728939,
+            "native": 15.041360637449829,
+            "left": 14.059059239102611,
+            "reverse": 11.318104467701353,
+            "right": 9.049206448479403
+          },
+          "mean_heldout_angle_error_deg": 12.070191971892427,
+          "training_angle_rmse_deg": 15.168821828111886,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 1.7204606754907275,
+        "native_minus_ordinary_xy_m": [
+          0.13301769515289288,
+          -0.3259565361020521
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.3461527218304791,
+        "native_minus_ordinary_across_arrival_m": -0.06418453132033082
+      }
+    },
+    "60": {
+      "all_translation": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.3080279405453385,
+              0.06260154313016544
+            ],
+            "native": [
+              -0.21114247625804794,
+              -0.25915602674387705
+            ],
+            "left": [
+              -0.2986802608149548,
+              0.2614604632148556
+            ],
+            "reverse": [
+              -0.38509281690483016,
+              -0.046560530564844445
+            ],
+            "right": [
+              -0.3183402561349606,
+              -0.10264242808029425
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -14.727946766277373,
+            "native": -14.727946766277373,
+            "left": -14.727946766277373,
+            "reverse": -14.727946766277373,
+            "right": -14.727946766277373
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 8.641285236275497,
+            "native": 16.046470974532877,
+            "left": 6.3819191343016275,
+            "reverse": 9.915630701209903,
+            "right": 11.795299887880462
+          },
+          "mean_heldout_angle_error_deg": 10.556121186840073,
+          "training_angle_rmse_deg": 10.594011484202245,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.28443994316804055,
+              -0.014971374799293202
+            ],
+            "native": [
+              -0.28443994316804055,
+              -0.014971374799293202
+            ],
+            "left": [
+              -0.28443994316804055,
+              -0.014971374799293202
+            ],
+            "reverse": [
+              -0.28443994316804055,
+              -0.014971374799293202
+            ],
+            "right": [
+              -0.28443994316804055,
+              -0.014971374799293202
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.584297742816823,
+            "native": -8.67379870476567,
+            "left": -13.957724445020116,
+            "reverse": -19.350289782941974,
+            "right": -15.85491899344115
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 10.703655526430492,
+            "native": 16.9377651953288,
+            "left": 15.84197954249341,
+            "reverse": 10.088615019661281,
+            "right": 10.590159008987206
+          },
+          "mean_heldout_angle_error_deg": 12.832434858580237,
+          "training_angle_rmse_deg": 14.995649765771676,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 2.276313671740164,
+        "native_minus_ordinary_xy_m": [
+          0.09688546428729056,
+          -0.32175756987404247
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.32309708710528395,
+        "native_minus_ordinary_across_arrival_m": -0.09232004318580557
+      },
+      "all_translation_unweighted": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.30764832845710394,
+              0.06894381835811736
+            ],
+            "native": [
+              -0.21738745131579643,
+              -0.26272078525983744
+            ],
+            "left": [
+              -0.29531594256768773,
+              0.2635527095995393
+            ],
+            "reverse": [
+              -0.3845520457863032,
+              -0.04199813021616185
+            ],
+            "right": [
+              -0.3195914233741947,
+              -0.09928157226655789
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -14.555907030895083,
+            "native": -14.555907030895083,
+            "left": -14.555907030895083,
+            "reverse": -14.555907030895083,
+            "right": -14.555907030895083
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 8.930971602392315,
+            "native": 16.667313320705777,
+            "left": 6.991167250934362,
+            "reverse": 10.499756917281053,
+            "right": 11.751691052444764
+          },
+          "mean_heldout_angle_error_deg": 10.968180028751654,
+          "training_angle_rmse_deg": 10.588658775557633,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.2843289526848908,
+              -0.014251761509147842
+            ],
+            "native": [
+              -0.2843289526848908,
+              -0.014251761509147842
+            ],
+            "left": [
+              -0.2843289526848908,
+              -0.014251761509147842
+            ],
+            "reverse": [
+              -0.2843289526848908,
+              -0.014251761509147842
+            ],
+            "right": [
+              -0.2843289526848908,
+              -0.014251761509147842
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.274114603440662,
+            "native": -8.651799162033857,
+            "left": -13.959477984053482,
+            "reverse": -19.09694434122533,
+            "right": -15.544636940315876
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 11.270600735263582,
+            "native": 18.041144180727542,
+            "left": 17.15014036050435,
+            "reverse": 10.339270177389732,
+            "right": 10.71494404977236
+          },
+          "mean_heldout_angle_error_deg": 13.503219900731512,
+          "training_angle_rmse_deg": 14.993929828493101,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 2.5350398719798584,
+        "native_minus_ordinary_xy_m": [
+          0.09026087714130751,
+          -0.3316646036179548
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.3278542887522624,
+        "native_minus_ordinary_across_arrival_m": -0.10324723375625768
+      },
+      "dominant_translation": {
+        "vary_target_shared_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.3079886709713713,
+              0.06308622909963488
+            ],
+            "native": [
+              -0.21085467128825322,
+              -0.2592126198268619
+            ],
+            "left": [
+              -0.2987679241882451,
+              0.261354388849768
+            ],
+            "reverse": [
+              -0.3850413526584609,
+              -0.04601829403757729
+            ],
+            "right": [
+              -0.31820246182343703,
+              -0.10210279317332693
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -14.696774547582484,
+            "native": -14.696774547582484,
+            "left": -14.696774547582484,
+            "reverse": -14.696774547582484,
+            "right": -14.696774547582484
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 8.62665506429946,
+            "native": 16.041745038817155,
+            "left": 6.37688362131372,
+            "reverse": 9.890740373703123,
+            "right": 11.785212133321508
+          },
+          "mean_heldout_angle_error_deg": 10.544247246290993,
+          "training_angle_rmse_deg": 10.573372427646497,
+          "optimizer_success": true,
+          "optimizer_nfev": 9,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "shared_target_vary_offset": {
+          "aimpoints_xy": {
+            "ordinary": [
+              -0.28437605231830027,
+              -0.014606528713893507
+            ],
+            "native": [
+              -0.28437605231830027,
+              -0.014606528713893507
+            ],
+            "left": [
+              -0.28437605231830027,
+              -0.014606528713893507
+            ],
+            "reverse": [
+              -0.28437605231830027,
+              -0.014606528713893507
+            ],
+            "right": [
+              -0.28437605231830027,
+              -0.014606528713893507
+            ]
+          },
+          "angular_offsets_deg": {
+            "ordinary": -16.542430319516882,
+            "native": -8.667197948056142,
+            "left": -13.928551432022596,
+            "reverse": -19.297460655312477,
+            "right": -15.828930228156388
+          },
+          "heldout_angle_error_deg": {
+            "ordinary": 10.692542674033112,
+            "native": 16.951625793371402,
+            "left": 15.827126879386196,
+            "reverse": 10.070900062597435,
+            "right": 10.588685049153025
+          },
+          "mean_heldout_angle_error_deg": 12.826176091708234,
+          "training_angle_rmse_deg": 14.984033640998117,
+          "optimizer_success": true,
+          "optimizer_nfev": 6,
+          "point_bound_m": 2.5,
+          "point_bound_reached": false
+        },
+        "target_model_heldout_improvement_deg": 2.281928845417241,
+        "native_minus_ordinary_xy_m": [
+          0.09713399968311806,
+          -0.32229884892649674
+        ],
+        "native_minus_ordinary_along_arrival_m": 0.3236868419476338,
+        "native_minus_ordinary_across_arrival_m": -0.09240336217280241
+      }
+    }
+  },
+  "dependencies_sha256": {
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+  },
+  "elapsed_seconds": 6.881511416984722
+}
