@@ -1,0 +1,35 @@
+{
+  "version": "feedback_acquisition_independent_saved_audit_v2",
+  "condition": "gc100",
+  "actor_mode": "reset_actor",
+  "folder": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-feedback-grid-reset-01/experiment",
+  "auditor_sha256": "fef3d5914ef27d4a4878af64b4c7395cf5eebc0c69730d71f21c055f22bc3b13",
+  "scope": {
+    "no_policy_or_environment_rollout": true,
+    "physics": "Independent native FREE recurrence from saved first-FREE pose, actions and exact tapes.",
+    "recurrent": "First-FREE actor/value readout independently recomputed; every recorded training logit/value replay error checked. Full CNN/LSTM histories not independently rerun.",
+    "initial_state": "Zero initial h/c follows the hash-locked collector and its tests; no pre-first-input state is archived. Initial pa/pr, no midtrial reset and zero state-noise arrays checked directly.",
+    "rgb": "Pure native raycast at every active saved pose/layout. Every frame must have >=50% unambiguous pixels. Discontinuous boundary pixels remain exactly archived/hash checked but are excluded from cross-device numerical equality.",
+    "rgb_atol": 0.0001,
+    "code_atol": 5e-05,
+    "boundary_margins": {
+      "ray_wall_choice_metres": 5e-05,
+      "landmark_wall_coordinate_metres": 5e-05,
+      "stripe_fraction_of_period": 5e-05,
+      "projected_vertical_coordinate": 5e-05
+    },
+    "summary": "Success denominator always includes all 256 trials. Producer path/progress/entropy means also use all rows, assigning zero to invalid missing values; invalid counts are reported explicitly.",
+    "no_common_information_certificate": true
+  },
+  "created_utc": "2026-11-06T13:47:40.980076+00:00",
+  "protocol_sha256": "ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7",
+  "checks": {},
+  "failures": [
+    "FileNotFoundError: [Errno 2] No such file or directory: '/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-feedback-grid-reset-01/experiment/protocol.json'"
+  ],
+  "pending": [],
+  "passed": false,
+  "complete": false,
+  "status": "failed",
+  "artifacts": {}
+}

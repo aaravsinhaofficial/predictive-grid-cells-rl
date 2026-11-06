@@ -1,6 +1,6 @@
 # Reproduce the frozen feedback-acquisition inputs
 
-This separate four-arm control asks whether the native agent can learn fast local return with continuous sensory feedback. The [protocol](../../docs/research/local_return_feedback_training_protocol.json) was frozen before any study policy evaluation or learning. Neural outcomes are pending; this guide currently reproduces the inputs and physical references.
+This separate four-arm control asks whether the native agent can learn fast local return with continuous sensory feedback. The [protocol](../../docs/research/local_return_feedback_training_protocol.json) was frozen before any study policy evaluation or learning. Neural outcomes are pending; this guide reproduces the original inputs and physical references. The first cloud attempt stopped before model initialization because runtime bank regeneration differed slightly across platforms; [the failure and separate repair are recorded here](PORTABILITY.md).
 
 Use source commit **`016ec248d066476428ae356a5bac75d7db556f06`** in an isolated checkout. The exact input archive is `cloud_package/feedback_acquisition_inputs.tar.gz`, **96,303,489 bytes**, SHA256 **`1057cf8b55d15a5424136861942fafdeebee972448ffef9f0a35163daa917c05`**. Its 44 files contain all frozen sources, the original checkpoints/configurations, archived heads, four composed incoming policies, sealed evaluation bank and protocol. [Member manifest](cloud_package/manifest.json).
 
@@ -48,7 +48,7 @@ OPENBLAS_NUM_THREADS=2 python scripts/audit_local_return_feedback.py \
 
 The recorded CPU results are **0/256** successes for uniform actions and **256/256** for the privileged physical planner. All 512 trials pass the independent audit. The planner supplies no training data. Reference summaries contain timestamps and elapsed times, so their whole-file hashes change when rerun; compare the physical trial results and audit checks.
 
-To reproduce an individual learning arm, use the same frozen inputs and a fresh destination:
+The original learning command is retained below for provenance. On the recorded cloud stack it reproduces the pre-learning bank-regeneration failure. The separately reviewed portable runner will authenticate the same saved bank without that platform-dependent regeneration requirement; it has its own protocol and launch record.
 
 ```bash
 OPENBLAS_NUM_THREADS=2 python scripts/local_return_feedback_run.py \

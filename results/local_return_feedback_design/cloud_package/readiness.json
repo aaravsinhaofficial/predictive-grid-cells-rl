@@ -1,0 +1,62 @@
+{
+  "checked_utc": "2026-11-06T13:42:47.025258+00:00",
+  "project": "connectome-ai-research",
+  "zone": "us-central1-a",
+  "study_instances": [],
+  "study_disks": [],
+  "quotas": {
+    "CPUS": {
+      "limit": 3000,
+      "usage": 1
+    },
+    "NVIDIA_T4_GPUS": {
+      "limit": 128,
+      "usage": 1
+    },
+    "DISKS_TOTAL_GB": {
+      "limit": 102400,
+      "usage": 410
+    }
+  },
+  "required": {
+    "vcpus": 32,
+    "t4": 4,
+    "boot_disk_gb": 400
+  },
+  "capacity_not_guaranteed_until_create": true,
+  "pricing": {
+    "n1_standard_8_per_hour": 0.379998,
+    "t4_per_hour": 0.35,
+    "balanced_disk_gib_hour": 0.000136986,
+    "disk_gib_per_worker": 100,
+    "listed_compute_plus_disk_per_worker_hour": 0.7436965999999999,
+    "reserved_per_worker_hour": 1.25,
+    "reservation_each": 5.3125,
+    "reservation_four": 21.25,
+    "pilot_authorized_max": 25,
+    "sources": [
+      "https://cloud.google.com/products/compute/pricing/general-purpose",
+      "https://cloud.google.com/products/compute/pricing/accelerator-optimized",
+      "https://cloud.google.com/compute/disks-image-pricing"
+    ]
+  },
+  "limits": {
+    "provider_delete_seconds": 14400,
+    "process_seconds": 12600,
+    "boot_disk_auto_delete": true,
+    "automatic_retry_or_extension": false,
+    "artifact_sync_limit_gib": 5
+  },
+  "verification": {
+    "protocol_sha256": "ad969e782ec2943de2e59b2d72629002dea537f7c9c0fcf2ad3905ce051038c7",
+    "source_commit": "016ec248d066476428ae356a5bac75d7db556f06",
+    "canonical_member_count": 44,
+    "isolated_imports_passed": true
+  },
+  "status": "eligible_for_authorized_launch",
+  "artifact_estimate": {
+    "maximum_active_rgb_bytes_two_endpoints": 3164700672,
+    "padded_rgb_zero_bytes_two_endpoints": 3771629568,
+    "note": "Active RGB bound uses maximum73active updates/trial and256trials at both endpoints. All remaining RGB is exactly zero by collector/auditor; lossless gzip compresses that padding. Other arrays/checkpoints fit below5GiB sync cap and100GiB boot disk. Actual compressed bytes recorded at collection; no quantization."
+  }
+}
