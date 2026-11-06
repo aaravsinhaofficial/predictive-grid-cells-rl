@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "status": "reviewed_before_protocol_freeze_and_90M_final_outcomes",
+  "source_sha256": "144c957a2bca93a56e39559f522e19842786d4078d9ab854f89491dedf02256a",
+  "test_source_sha256": "cd6266752785f221dd4c0c4b3737290072f01db5edeaa83d8d3d85241cffd45d",
+  "independent_test_command": "/opt/anaconda3/bin/python -m pytest -q tests/test_lstm_reorientation_entropy_actor_readout.py tests/test_lstm_reorientation_actor_readout.py",
+  "tests_passed": 8,
+  "inherited_decomposition_protocol_sha256": "494b501009e1f6dce9c45b7ff4a19f4c23a0a8b1efd78038aa037428e1a5db54",
+  "inherited_primary_protocol_sha256": "18728e4b6b3d6f324f180dfced93ad980bcb462916ec971ef58cc5d030ec6562",
+  "protocol_construction_and_all22_dependency_hashes_verified": true,
+  "checks": [
+    "Direct call to unchanged frozen 40M decompose; no recurrent, environment, training or state-update calls.",
+    "Four explicit arm/population combinations, both contexts, all four cues and all four times retain exactly 128 rows; no outcome selection.",
+    "Exact learned pi.weight/pi.bias and first256 hidden coordinates; times0/15/30/60 are0/1/2/4seconds.",
+    "Genuine completed90,132,480-extra-frame metadata, exact entropy arm, optimizer/runtime and explicit retry-worker/artifact-child validation; no relabeling of40M checkpoints.",
+    "Producer/archive/checkpoint identity, inherited protocol and source hashes verified; input hashes rechecked after read-only use.",
+    "Exact Grid cue identities and unchanged rowspace/nullspace, score/probability and Fourier definitions.",
+    "Prospective entropy/readout prediction and single original-seed nested-cohort limits stated separately from causal-navigation interpretation."
+  ],
+  "blocking_issues": [],
+  "scope": "Prospective implementation review only. No90M final hidden states, actor outcomes or behavioral results were calculated."
+}

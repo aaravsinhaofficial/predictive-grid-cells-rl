@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "protocol_sha256": "494b501009e1f6dce9c45b7ff4a19f4c23a0a8b1efd78038aa037428e1a5db54",
+  "source_sha256": "597901d9463e8d9725d8f5170f63ad20f2f4550e44cab2a19b0eab57816a2262",
+  "independent_test_command": "/opt/anaconda3/bin/python -m pytest -q tests/test_lstm_reorientation_actor_readout.py",
+  "tests_passed": 5,
+  "all64rows_and_input_hashes_verified": true,
+  "independent_calculation": "Direct action-mean-subtracted logits, minimum-norm least-squares rowspace projection, scipy.special.softmax, variance partition and native mean action margins; no recurrent or environmental update.",
+  "max_errors": {
+    "centered_logits": 4.440892098500626e-16,
+    "rowspace_fraction": 3.120247116239483e-13,
+    "probability_rms": 0.0,
+    "energy_partition": 3.1175062531474396e-13,
+    "margins": 2.4868995751603507e-14
+  },
+  "native_at4seconds": [
+    {
+      "condition": "gc100",
+      "context": 0,
+      "logit_rms": 0.004488020805420501,
+      "row_fraction": 0.013250953735431779,
+      "preferred_action": 5,
+      "right_minus_best_translation": -7.019375679487212,
+      "relevant_margin_signal_rms": 0.0,
+      "translation_probability": 0.9991063429288403,
+      "mean_hidden_right_translation_margin": -7.0376719510497985,
+      "actor_bias_right_translation_margin": 0.018296271562576294
+    },
+    {
+      "condition": "gc100",
+      "context": 1,
+      "logit_rms": 2.3448005760021617e-05,
+      "row_fraction": 0.025656873544838622,
+      "preferred_action": 5,
+      "right_minus_best_translation": -11.47848848287001,
+      "relevant_margin_signal_rms": 0.0,
+      "translation_probability": 0.999989643093279,
+      "mean_hidden_right_translation_margin": -11.496784754432584,
+      "actor_bias_right_translation_margin": 0.018296271562576294
+    },
+    {
+      "condition": "pgc33",
+      "context": 0,
+      "logit_rms": 1.368710756862152,
+      "row_fraction": 0.056779170570910954,
+      "preferred_action": 1,
+      "right_minus_best_translation": 12.554105495796623,
+      "relevant_margin_signal_rms": 1.8253404691103368,
+      "translation_probability": 2.8250665778661686e-05,
+      "mean_hidden_right_translation_margin": 12.600494278357438,
+      "actor_bias_right_translation_margin": -0.04638878256082535
+    },
+    {
+      "condition": "pgc33",
+      "context": 1,
+      "logit_rms": 0.29439776112038374,
+      "row_fraction": 0.0249812384120385,
+      "preferred_action": 1,
+      "right_minus_best_translation": 13.790163103463748,
+      "relevant_margin_signal_rms": 0.18427551524691707,
+      "translation_probability": 1.171632406088544e-06,
+      "mean_hidden_right_translation_margin": 13.472070436897363,
+      "actor_bias_right_translation_margin": 0.3180926665663719
+    }
+  ],
+  "scope": "Fixed40Mcontrolledphasefamilies only; isotropic5/256 reference is geometric, not a significance test. Logit signal and output saturation are separate; no claim of actor retraining or generalization."
+}

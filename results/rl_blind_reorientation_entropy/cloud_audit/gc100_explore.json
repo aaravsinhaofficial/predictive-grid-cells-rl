@@ -1,0 +1,361 @@
+{
+  "version": "matched_entropy_independent_artifact_audit_v1",
+  "audited_at": "2026-11-06T08:23:29.691737+00:00",
+  "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-ent-grid-explore-02/experiment",
+  "condition": "gc100",
+  "arm": "explore",
+  "status": "pending",
+  "complete": false,
+  "passed": true,
+  "required_complete": false,
+  "protocol_sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb",
+  "auditor_sha256": "7c056e6a4bfd8b1a50e8dad627bc8f44e39e15a678ec0eea56c2b431978371c8",
+  "shared_event_runtime_auditor_sha256": "4acf202f0795bfffd8176ddc6a52094bf0083082af7dd881f771d68f2a6a3f51",
+  "checks": {
+    "exact_completed40M_parent": {
+      "policy_sha256": "dd62dd0730c3a03ad621a8d6fdf1e3adb999882acd3f2ca421e2c8dd46ae2788",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 40058880,
+      "updates": 2156,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 2156,
+        "total_environment_updates": 11038720,
+        "admissions": 39962,
+        "completed": 31839,
+        "coverage_violations": 0,
+        "noise_replays": 2156,
+        "max_replay_error": 2.002716064453125e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "frozen_sources_assets_and_parents": true,
+    "protocol.json": {
+      "version": "blind_reorientation_matched_entropy_continuation_v1",
+      "status": "Frozen matched continuation; launch still requires separate authorization",
+      "conditions": [
+        "gc100",
+        "pgc33"
+      ],
+      "arms": {
+        "original": 8e-05,
+        "explore": 0.01
+      },
+      "workers": 4,
+      "original_training_seed": 1,
+      "question": "Does stronger entropy regularization improve exploration and free blind rewards in the same task?",
+      "factor": "Only config.entropy: original8e-5 versus0.01. It acts on all policy-controlled updates (visible/waiting and free), with the existing forced-action entropy/policy masks unchanged.",
+      "unchanged": "Original task, input timing, goal/current codes, reward, architecture, all trainable weights, learning rate/RMSProp,160-update BPTT,100/160 loss scaling, sigma.02 h/c noise and exact stored-noise replay; no ring/angle target or reward reshaping",
+      "parent_protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+      "parent_assets": {
+        "gc100": {
+          "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01",
+          "sha256": {
+            "final.pt": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651",
+            "final_evaluation.json": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+          }
+        },
+        "pgc33": {
+          "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02",
+          "sha256": {
+            "final.pt": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817",
+            "final_evaluation.json": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+          }
+        }
+      },
+      "resume": "Exact completed40,058,880-learning-frame final.pt only, preserving policy, full RMSProp, all captured simulator/observation/h/c/goal/action/reward/clock/plan/input-audit/private RNG tensors and recent scores. No new warmup, seed substitution, native-state reset or curriculum restart.",
+      "parent_global_rng_scope": "Parent snapshots contain all three task-used private RNG streams and deterministic per-slot clock plans. They do not save unused global torch/NumPy RNG state; no substitute is claimed for an absent parent field.",
+      "learning": {
+        "blocks": 5,
+        "updates_per_block": 489,
+        "n_envs": 32,
+        "bptt": 160,
+        "action_repeat": 4,
+        "frames_per_block": 10014720,
+        "extension_learning_frames": 50073600,
+        "parent_learning_frames": 40058880,
+        "total_learning_frames_beyond_1B": 90132480,
+        "extension_warmup_updates": 0,
+        "parent_warmup_updates": 200,
+        "parent_warmup_exposure_frames": 4096000,
+        "delay": "Unchanged final-stage uniform integer30\u201360, constantLEFT delay, throughout all five blocks",
+        "pairing": "Within each population both entropy arms start from identical policy/optimizer/runtime/private RNG states. Streams can diverge after outcomes differ; no claim of identical later trajectories."
+      },
+      "evaluation": {
+        "variants": [
+          "blind_native",
+          "blind_ordinary",
+          "blind_plus60",
+          "blind_minus60",
+          "blind_reset_after_glimpse",
+          "blind_reset_every_blind",
+          "seen_native",
+          "seen_ordinary",
+          "seen_plus60",
+          "seen_minus60",
+          "seen_reset_after_glimpse",
+          "seen_reset_every_blind"
+        ],
+        "episodes": 64,
+        "n_envs": 32,
+        "seed": 148201,
+        "clean": true,
+        "max_delay": 60,
+        "endpoints": "Parent baseline and every one of five fixed blocks; all retained; no checkpoint selection",
+        "baseline": "Same CUDA backend; all12 complete raw episode, free-event and window rows plus schedules/probe counters must equal parent final reference exactly before training",
+        "invariance": "Every evaluation must leave policy, optimizer and the training runtime/private RNG snapshot unchanged",
+        "reporting": "Whole-episode score; free-window hits/progress per original episode including zero-event episodes; opportunity/phase/forced-reward counts; paired slot-cluster uncertainty, no trained-seed significance"
+      },
+      "interpretation": "Continued original-seed exploration pilot, not entropy-optimum estimation and not ring-target training. Existing40M endpoints and their fixed mechanistic assays remain separate and unchanged.",
+      "selection": "Fixed five blocks per arm; all baselines/stages and incomplete attempts retained; no outcome-based stopping or stage selection",
+      "budget": {
+        "workers": 4,
+        "accelerator": "T4",
+        "worker_guard_seconds": 7200,
+        "process_max_seconds": 6600,
+        "planned_reservation_usd": 11.25,
+        "original_user_total_authorization_usd": 500.0,
+        "launch": "Separate root approval after tests/review and exact final parent hashes; draft never authorizes launch"
+      },
+      "source_sha256": {
+        "scripts/rl_blind_reorientation.py": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb",
+        "scripts/rl_blind_reorientation_train.py": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70",
+        "tests/test_rl_blind_reorientation.py": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9",
+        "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+        "scripts/rl_visual_memory_noise.py": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4",
+        "scripts/rl_visual_memory_extend.py": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba",
+        "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+        "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "scripts/rl_blind_reorientation_entropy_extend.py": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a",
+        "tests/test_rl_blind_reorientation_entropy_extend.py": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+      },
+      "original_asset_sha256": {
+        "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+        "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+        "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+        "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+      },
+      "runtime": {
+        "condition": "gc100",
+        "entropy_arm": "explore",
+        "entropy_coefficient": 0.01,
+        "device": "cuda",
+        "torch_version": "2.9.1+cu129",
+        "protocol_sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+      }
+    },
+    "training_config.json": true,
+    "resume_audit.json": true,
+    "incoming.pt": {
+      "policy_sha256": "dd62dd0730c3a03ad621a8d6fdf1e3adb999882acd3f2ca421e2c8dd46ae2788",
+      "extension_frames": 0,
+      "total_extra_frames": 40058880,
+      "total_updates": 2156,
+      "extension_warmup_updates": 0,
+      "exact_parent_resume": true,
+      "runtime": {
+        "total_updates": 2156,
+        "total_environment_updates": 11038720,
+        "admissions": 39962,
+        "completed": 31839,
+        "coverage_violations": 0,
+        "noise_replays": 2156,
+        "max_replay_error": 2.002716064453125e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "baseline.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 306,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 308,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 304,
+        "zero_free_window_episodes": 8,
+        "free_hits": 32.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 303,
+        "zero_free_window_episodes": 8,
+        "free_hits": 41.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 305,
+        "zero_free_window_episodes": 8,
+        "free_hits": 42.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 7.0,
+        "pulses": 306,
+        "all_events_retained": true
+      }
+    },
+    "baseline_exact_parent_all12": true,
+    "baseline_verification.json": true,
+    "metrics.jsonl": {
+      "rows": 6,
+      "last_extension_update": 120
+    }
+  },
+  "failures": [],
+  "pending": [
+    "block1.pt",
+    "block2.pt",
+    "block3.pt",
+    "block4.pt",
+    "block5.pt",
+    "final.pt",
+    "block1_evaluation.json",
+    "block2_evaluation.json",
+    "block3_evaluation.json",
+    "block4_evaluation.json",
+    "block5_evaluation.json",
+    "final_evaluation.json",
+    "training.json",
+    "summary.json",
+    "progress.json"
+  ],
+  "artifacts": {
+    "protocol.json": {
+      "bytes": 6927,
+      "sha256": "b1c003cf4cb92d4828ee4be1d68f220efe01d562218fe41dec6d56de5939c0e2"
+    },
+    "training_config.json": {
+      "bytes": 1926,
+      "sha256": "916c9a7fcf96ce67c272c2ed670011e8cdff1dc36785d5df747f6dd471ec4d02"
+    },
+    "resume_audit.json": {
+      "bytes": 364,
+      "sha256": "48c63a7c84bdd4f991b7c0dea51a7020ad9e29255af4fe58d1fc09990c21fcc4"
+    },
+    "incoming.pt": {
+      "bytes": 27321211,
+      "sha256": "d124af25680cffcba9776818e0edbaa9fea95a63ccb6ad025816d4ca17697ffb"
+    },
+    "baseline.json": {
+      "bytes": 5980763,
+      "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+    },
+    "baseline_verification.json": {
+      "bytes": 201,
+      "sha256": "481681d9f09b95694fb726a9c3f88f6ecc0b7646992eff9bd9e7dfa15e0ed8f5"
+    },
+    "metrics.jsonl": {
+      "bytes": 6403,
+      "sha256": "70042d4383508ec7b6cd1285d1bb7c02feeccee757854491f3d9931675a4ef86"
+    }
+  },
+  "interpretation": "Data integrity only. Genuine cumulative frame/update metadata retained; no checkpoint metadata rewritten; all five stages retained, no trained-seed inference."
+}

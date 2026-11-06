@@ -1,0 +1,18 @@
+{
+  "version": "fixed40M_actor_linear_readout_decomposition_v1",
+  "cohort": "All two populations\u00d7two physically selected fixed40Mcontexts\u00d7fourcuebranches\u00d7times0,15,30,60=64rows;768angles each. One originalseedpair; nested measurements, no stage/context/outcome selection.",
+  "inputs": "Saved hidden state h only (first256coordinates), exact frozen learned pi.weight and pi.bias, saved actualtraveltheta. Cell state has no direct actor connection. No environment or recurrent simulation.",
+  "linear": "For Q=I\u221211T/6 and A=QW, decompose h=mean(h)+delta_h and Qlogits=Amean(h)+Qb+A delta_h. Exact SVD rowspace/nullspace projection of A; tolerance max(shape)*machineepsilon*largest singular value. Remove only action-common logit directions that leave softmax identical.",
+  "quantities": "Hidden variance fraction in actor rowspace, centeredlogit RMS variation and gain per hidden RMS, rank/256 isotropic orientation reference, firstangularharmonic share, mean preferred-action margins and directional pairwise-margin RMS, best/summedtranslation probabilities, actual and linearized softmax sensitivity to observed logit variation.",
+  "interpretation": "Rowspace energy measures hidden variation in actor-sensitive directions, not guaranteed choice effects; centered-logit and exactprobability variation are separate. Small probability variation despite appreciable logit variation and large stable margins indicates output saturation. Both may coexist. Harmonic share is a descriptive fixedFourier projection, not decoder/generalization evidence. Marginratios are null for absolute meanmargin<=1e-12. Linearizedsoftmax sensitivity is separate from exactprobabilities; report fraction of phases changing meanpreferredaction. No actor normalization intervention.",
+  "timing": "Targeted follow-up motivated by already observed near-deterministic40MPGCturning, frozen before computing these new decomposition values; not a pre-training hypothesis test.",
+  "read_only": "No training, rollout, noise resampling, actor intervention or recurrent state update. Checkpoint and archive hashes checked before/after. Grid cue identities exact.",
+  "tests": "Exact logit reconstruction, nullspace elimination, softmax/shared-logit-shift invariance, and synthetic separation of nullspace versus saturation.",
+  "source_sha256": {
+    "scripts/lstm_reorientation_actor_readout.py": "597901d9463e8d9725d8f5170f63ad20f2f4550e44cab2a19b0eab57816a2262",
+    "tests/test_lstm_reorientation_actor_readout.py": "7bda5a8673b530dc6fb2921eb2ba6941421751a1881fe48ac1da89d3518351f2",
+    "scripts/lstm_endogenous_reorientation_observable.py": "3488135fc1c8261e18991a5149b58d618d5a96f4325cff193d172eeb80eef6f6",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "primary_manifest_sha256": "90b5f1049b824d80938369356c549e4af029d7ea5c5edb0a75b585c6d6aa06b6"
+}
