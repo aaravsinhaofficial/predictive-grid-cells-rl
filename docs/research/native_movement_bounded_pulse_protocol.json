@@ -1,0 +1,12 @@
+{
+  "schema": "native_movement_bounded_pulse_robustness_v1",
+  "registered_utc": "2026-11-06T21:36:28.682725+00:00",
+  "trigger": "Completed original pulse experiment exposed initial hidden-state values above1 (maximum1.117). This separately retained follow-up checks bound sensitivity without altering originalresults.",
+  "original_protocol_sha256": "8bebb5b69e5058e576daa332ccb4db350a516e8c31d639d56ec9453108b8a442",
+  "selection": "Exactly all29 original archived cases; same32episode denominator/model and same99missing cases. No new selection, donors, random directions or amplitudesweep.",
+  "construction": "For each original signedpulse, clip ONLY proposed h to[-1,1], leave c displacement unchanged. Compute clipped full h/c block-RMS norm. Shrink all6nonzero pulses to the minimum of those6norms within that case. No expansion. Sham unchanged. Check actualfloat32 h bounds exactly and realizednormmatch(relative2e-5 for stateadditionrounding); archiveallactualnorms andpairwisecosines before/after. Labels retain nominal originaldirections, neverassumeexactorthogonalityafterclipping.",
+  "evaluation": "Reuse frozen native_movement_pulses.run_case, verify_selected_native_fork and summarize_case unchanged. Same3inputroutes,21branches,original32slotnoise,30updates andnativegoalcue; sameexactnativechecks/Gridshams. AllfouroriginalmodelsCPUlocal, no training/cloud.",
+  "primary_question": "Does large orthogonal-random finite-response amplification and the mixed sign of PGC input effects persist when all starting h coordinates are legal?",
+  "report": "Same-case/sign/route/stream/direction intersections as originalreport; show both retainedstudies separately, plusconstructionnormandangle changes. No ring claim from a finitepulse.",
+  "construction_preflight_sha256": "70fdc73444eac8611c77158973a9701d2cf1b0c973bd231c28515c696adef81a"
+}

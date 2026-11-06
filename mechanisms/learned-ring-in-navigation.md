@@ -12,6 +12,18 @@ The separately registered **original-agent memory diagnostic is also complete**.
 
 Swapping in genuine recurrent states from goals 90° away produces **no average first-second movement advantage toward the donor goal** in either direction or network. Wrong-goal cues reproduce the corresponding state-swap trajectories exactly in all 64 context/model/sign comparisons. All 5,632 trial-condition cases pass the independent audit. The large PGC navigation advantage in this task therefore concentrates in **continuing goal guidance**, while the retained state contributes little after cue withdrawal. This makes repeated use of the supplied goal representation a stronger explanation here than the proposed ring-memory mechanism. No further neural assay or training follows this failed useful-memory screen. [Simple figures, all 11 conditions and methods](../results/goal_cue_memory/original_diagnostic/report/README.md) · [Literature-guided interpretation specified before these outcomes](../docs/research/original_goal_memory_diagnostic_interpretation.md).
 
+## Further searches in the original trained agents
+
+We tested circular variables that the heading and movement assays could have missed: the repeating phases of individual grid modules, both phases together, and local phase changes across all four modules. We also searched directly for unstable equilibria and disturbed the recurrent state during the agents' own repeated turns. A separate published trained RNN provides a positive control: its curved ring passes the original geometric criteria and preferentially corrects disturbances away from the ring.
+
+The new navigation tests identify **fast activity adjustment around slower cell memory**. Fourteen output-curve candidates all come from one Grid model; broader disturbances reveal persistent cell-state errors. The two-phase surface test produces no nomination. Accounting for other grid-module phases explains part of the error, with a substantial persistent component remaining in the complete recurrent state.
+
+The clearest causal result concerns **current predictive input and steering**. Replacing the current 169 predictive values with ordinary-grid values changes 18–19% of sampled actions in the two PGC discovery models. Restoring predictive influence only at the candidate update and output gate reduces those differences to 9.4% and 5.6%. Saved goal codes remain native. Goal progress falls when current prediction is removed, while progress recovery under this gate rescue is mixed.
+
+[Simple figures, exact results and interpretation](../results/ring_nonlinear_design/README.md) · [Native movement interventions](../results/native_movement_pulses/report/README.md) · [Bounded-state robustness](../results/native_movement_bounded_pulses/report/README.md) · [Reproduction guide](../results/nonlinear_ring_release/REPRODUCE.md).
+
+These are additional exploratory tests in two original seed pairs. The many phases, perturbations and time points are repeated measurements within those models, not independent training seeds.
+
 ## What we tested
 
 Imagine the network's remembered direction as a point on a circle. A ring mechanism should do two things: **preserve differences around the circle, and correct mistakes away from it**. We measured both in all 512 hidden-plus-cell coordinates. PCA was not used to define the circle.

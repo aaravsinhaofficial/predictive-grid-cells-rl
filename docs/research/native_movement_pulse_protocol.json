@@ -1,0 +1,39 @@
+{
+  "schema": "native_movement_observed_turn_impulse_v1",
+  "registered_utc": "2026-11-06T21:27:35.725656+00:00",
+  "scope": "Exploratory followup after complete native census. Original seed1-2, all32episodes/model; no training, cloud or expansion.",
+  "selection": "First chronological known-goal return with two consecutive same-sign net-winding passages per episode. Anchor is first decision AFTER second crossing. A terminal or degenerate first candidate is retained missing; never replace with later candidate.",
+  "direction": "Actual first-passage state secant at signed body-heading center\u00b1pi/8 around FIRST crossing, applied after SECOND same-sign crossing. No detrending, fitted circle, periodic closure or phase-ring claim. Separate drift is second-minus-first interpolated same-phase state.",
+  "metric": "Full512D h/c, each block divided by its absolute RMS over observed segment through anchor. Orthogonal private Gaussian control projected off turn and independent drift in this metric. Record turn-drift cosine, rank, actual pulseRMS and h-bound overshoot. No clipping.",
+  "amplitude": 0.02,
+  "horizon_updates": 30,
+  "sampling_hz": 15,
+  "pulses": [
+    "sham",
+    "turn_plus",
+    "turn_minus",
+    "drift_plus",
+    "drift_minus",
+    "normal_plus",
+    "normal_minus"
+  ],
+  "input_modes": [
+    "native",
+    "current_grid",
+    "current_candidate_output_rescue"
+  ],
+  "intervention": "Only current code changes:169PGCslots become ordinary via shift_scale0. Native goal snapshot, CNNembedding and previousaction/reward unchanged at a given observation. Rescue uses ordinary i/f and native g/o computed from each branch ownstate. Grid exactsham required.",
+  "closed_loop": "Full original32slot batch cloned perbranch; original32-shaped environmentnoise and original actionuniforms repeated. Nativeonly selectedanchor reconstruction is checked before ANY counterfactual; native sham exactinput/state/logit/action/preteleportphysics/RNG rechecked throughout. Future closedloop inputs follow eachbranch actualexperience.",
+  "replay": "Literal original recorded fullx including previousaction/reward and goal; replaceonlycurrentcode asassigned. Branch actionsneverfeed replay. Censor atoriginalfirsthit/done.",
+  "censoring": "Behavior ends at ownfirsthit/done; keepterminalposition for fixedhorizongoalprogress and stop path accumulation, nevercountteleport. Neuralpulse response is compared to same-mode unpulsedbranch only whilebotharepreterminal. Report every missing/censoredcase.",
+  "outcomes": [
+    "within-mode fullstate,h,c,centeredactor impulse responses at1,5,15,30updates",
+    "closedloop vs literalreplay",
+    "native vs ordinary vs g/o-rescue",
+    "firsthit, fixedhorizon goalprogress andpath",
+    "all32 episode denominator and missingreasons"
+  ],
+  "inference": "Two discovery seeds, descriptive matched causal effects only. A turntrajectory impulse is not a validated ring phase or radial direction.",
+  "census_protocol_sha256": "6cc481286265f57500ceb05fb861acfdcc73b5bff335c89d1aa4feca25745086",
+  "source_freeze": "Separate source/input manifest frozen after focused synthetic tests before causal outcomes."
+}

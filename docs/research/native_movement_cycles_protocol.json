@@ -1,0 +1,58 @@
+{
+  "version": "native_movement_cycle_discovery_v1",
+  "frozen_utc": "2026-11-06T21:13:01.881898+00:00",
+  "purpose": "Bounded exploratory census of native movement and recurrent recurrence in original agents; no learned-ring claim from heading turns alone.",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "original_seeds": [
+    1,
+    2
+  ],
+  "episodes_per_model": 32,
+  "n_envs": 32,
+  "steps_per_episode": 1350,
+  "device": "cpu",
+  "threads_per_job": 2,
+  "evaluation_seed_formula": "898201+1000*original_seed",
+  "action_seed_formula": "evaluation_seed+1",
+  "native_settings": "Exact original checkpoint including critic, native six actions/stochastic actor, native maps/goal snapshots/reward/noise; paired evaluation layouts and nonstaggered full episodes.",
+  "no_training": true,
+  "no_cloud": true,
+  "goal_message": "Native saved actual-hit code preserved throughout each episode; zero only before discovery or episode reset.",
+  "input_interventions_prepared_but_not_primary_collection": [
+    "native",
+    "current_predictive_to_ordinary",
+    "current_candidate_output_rescue"
+  ],
+  "intervention_scope": "Only current-code slots256:768; native goal slots768:1280 unchanged.169 selected PGC channels; Grid substitution exactidentity.",
+  "saved_arrays": "Actual1287-dimensional RNN inputs (including native CNN embedding), full512-dimensional incoming/outgoingh/c, logits/value/actions/uniforms, predecision and preteleport physical states, all hit/reset flags, environment RNG perstep and full runtime counters; no rawRGB archive.",
+  "cycle_definition": {
+    "segmentation": "Start at episode reset; each native hit ends a segment before teleport. Search and postdiscovery returns are labeled separately. Episodeend closes a right-censored segment.",
+    "body_heading": "Integrate wrapped predecision-to-preteleport heading deltas inside segment. Count each first passage of a new signed2pi level; recrossings do not add cycles.",
+    "travel_direction": "Report separate actual mDir winding and fraction of steps above native movement threshold; never call it bodyheading.",
+    "eligibility": "All128episodes and every segment retained; missing fullturns count0. No neural-outcome selection.",
+    "recurrence": "For every completed bodyheading turn, record physical closure and full-state neural closure divided by within-cycle RMS radius, separately raw and block-RMS coordinates. No PCA-based ring label.",
+    "physical_usefulness": "Report goal counts, return success/censoring, distanceprogress/pathlength, time-to-hit and cycle counts; compare descriptors by cycle presence, without causal interpretation.",
+    "candidate_for_later_perturbation": "At least2completed same-sign bodyheading turns within one segment identifies a repeated movement opportunity. Every such opportunity retained; no numerical ring/attractor conclusion or automatic expansion."
+  },
+  "limits": {
+    "learning_updates": 0,
+    "cloud_usd": 0,
+    "models": 4,
+    "environment_steps_total": 172800,
+    "no_automatic_seed_expansion": true
+  },
+  "input_assets": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/gc100/gc100_lstm_s2_1000M.json": "9c1a730c473a8a7a0ac9ad20d29e201cacc72fa84bb61b59a8f901f0aa3d79ea",
+    "models/gc100/gc100_lstm_s2_1000M.pt": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "models/pgc33/pgc33_lstm_s2_1000M.json": "89e0388319a8740ef157a56f13851fdc679bb8b897668bf367763e75340a1f73",
+    "models/pgc33/pgc33_lstm_s2_1000M.pt": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73"
+  },
+  "source_freeze": "Separate exact runtime source manifest after focused implementation tests and before any native episode collection."
+}

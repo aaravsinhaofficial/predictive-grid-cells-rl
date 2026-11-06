@@ -1,0 +1,43 @@
+{
+  "question": "Does original navigation LSTM retain a grid-module lattice phase as an attracting closed state family?",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "context": 0,
+  "families": 32,
+  "elicitation": "15 recorded native updates; replace goalcode only; phase-shift one module, all its ordinary/predictive cells, through one lattice basis period",
+  "synthetic_base": "pickup=recorded_endpoint_position+(.46,0); arrival=(1,0); corresponds prior radius.75,pickup_radius.29 geometry",
+  "interpretation": "Synthetic cross-module-inconsistent intervention; not a physical goal trajectory and not proof of neural ring from input periodicity",
+  "phases": 128,
+  "lattice_vectors": "a1=lambda*u(theta+pi/6); a2=lambda*u(theta+pi/2)",
+  "regimes": [
+    "actual_goal_held",
+    "all_goal_withheld"
+  ],
+  "future": "Repeated actual recorded endpoint input, identical across all phases; held means actual recorded goal not phase-varied goal",
+  "anchors_updates": [
+    75,
+    450,
+    1500
+  ],
+  "updates_per_second": 15,
+  "recovery_horizon_updates": 75,
+  "metric_scales": "raw and per-family fixed initial h/c RMS",
+  "controls": "analyticperiodandderivative; same-map ordinary shift_scale0; nativefloat32population agreement; nativeLSTMreplay; elicitedendpoint agreement",
+  "staged_classifier": "All32families x2regimes x3anchors receive old geometry/invariance/phase gates. Only cases passing all necessary gates in BOTH metrics receive full384-arc old radial \u00b12% probes. Untested recovery is not counted as passing. All original gates must pass for a candidate.",
+  "candidate_followup": "Only candidates trigger independent physically coherent native elicitation and held-out-seed confirmation; no favorable-condition search is silently pooled",
+  "threads": 1,
+  "source_sha256": {
+    "scripts/lstm_module_phase_ring.py": "bb0c38a97c1e25a9d20cbd71958a6f6fdea284cfeeb6f0ca1c8a5c16c3ce2407",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_goal_bearing_manifold.py": "0a9ece814c006e721e13b73c846619e102f3baab744c691fac3ce7a819f032f7",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  }
+}

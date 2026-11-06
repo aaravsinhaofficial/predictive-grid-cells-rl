@@ -1,0 +1,48 @@
+{
+  "parent_sha256": "82710503e5510bef4017887aaec0ef1f88ea27c09c7b3876b4eacab0f02e4305",
+  "candidate_ids": [
+    "gc100_2_0_0_actual_goal_held_1500_raw_full_state_kicks_all_hidden",
+    "gc100_2_0_0_actual_goal_held_1500_h_c_RMS_full_state_kicks_all_hidden",
+    "gc100_2_2_1_actual_goal_held_75_raw_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_1_actual_goal_held_75_h_c_RMS_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_1_actual_goal_held_450_raw_full_state_kicks_all_hidden",
+    "gc100_2_2_0_all_goal_withheld_75_raw_full_state_kicks_all_hidden",
+    "gc100_2_2_0_all_goal_withheld_75_raw_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_0_all_goal_withheld_75_h_c_RMS_full_state_kicks_all_hidden",
+    "gc100_2_2_0_all_goal_withheld_75_h_c_RMS_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_0_all_goal_withheld_450_raw_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_0_all_goal_withheld_450_h_c_RMS_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_1_all_goal_withheld_75_raw_full_state_kicks_all_hidden",
+    "gc100_2_2_1_all_goal_withheld_75_raw_full_state_kicks_all_centered_actor_scores",
+    "gc100_2_2_1_all_goal_withheld_75_h_c_RMS_full_state_kicks_all_hidden"
+  ],
+  "case_count": 14,
+  "cohort": "Every centered OR noncentered positive case from completed four-model fixed-observable screen; original labels unchanged.",
+  "baseline_points": 384,
+  "uniform_arc_anchor_points": 8,
+  "seed": 2026110619,
+  "directions": "16 independent seeded full-state random vectors projected off slice tangent; one hidden-only and one cell-only similarly projected within their block; existing radial and tangent controls.",
+  "full_state_amplitude": "Both signs,2percent of originalfullstatecurve radius in the original case raw/RMS metric.",
+  "observation_offsets": [
+    0,
+    5,
+    10,
+    15
+  ],
+  "evolution_updates": [
+    15,
+    30,
+    75
+  ],
+  "comparison": "Distance to contemporaneous evolved full-dimensional observable baseline polygon. No independent centering of perturbed values. Arc displacement is observed polygon arclength, not a decoded physical angle.",
+  "guards": "Initial normal displacement>=1e-4 observable radius; paired tangent displacement>=1e-4 radius. Retain all raw gains; report uninformative kicks separately.",
+  "summaries": "Per-direction median normalgain<=.5 and relative-to-tangent gain<=.5, alongsidep90/max andeveryfinitekick. Broad pass requiresall19 testednormaldirections informative in80percent andmeetingmedianconditions.",
+  "limitations": "Finite set of normals, not exhaustive contraction; a surviving transverse mode may be a second torus phase. Synthetic cross-module elicitation and near-saturated actor readout remain.",
+  "source_sha256": {
+    "scripts/lstm_module_phase_normal_audit.py": "9686b7b0487a65a293d82d2f586951c336c006826b57c8a82b37f52356107f1d",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_module_phase_observable.py": "f53fe537780cab26353c8fa485a126ba9e2ac8047911a77b8ec5d81a3a91699f",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799"
+  }
+}

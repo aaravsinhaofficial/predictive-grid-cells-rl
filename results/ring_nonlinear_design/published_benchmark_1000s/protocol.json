@@ -1,0 +1,22 @@
+{
+  "purpose": "Calibrate ring detection on published trained weights before native navigation LSTMs",
+  "source_commit": "f6702734490c90001db73cd7b7900998fb9a87cf",
+  "input": "u[0]=u[6]=1; remaining18 zero",
+  "state": "all256 native coordinates",
+  "fixed_point_solver": "hybr exact Jacobian maxfev600; retain originals",
+  "branch_trace": {
+    "initial_displacement": 0.0001,
+    "duration_seconds": 1000.0,
+    "sample_dt": 0.1,
+    "integrators": [
+      "DOP853",
+      "original Euler map dt=.02"
+    ]
+  },
+  "validation": "24 held-out full-state branch samples, stored cubic lift/ODE, no angular labels",
+  "recovery": "16 arc samples; radial and 3 random normal directions, both signs; .005 loop RMS kick;1second",
+  "normal_spectrum": "8 arc samples, all255 normal directions, exact discrete variational map1second",
+  "negative_control": "isotropically contracting plane: same apparent circle, no preferential normal recovery",
+  "closure_requirement": "Both traced endpoints within.001 loop RMS of stable point; no inferred bridge counts as evidence",
+  "interpretation": "A positive learned-network calibration is not a result about navigation LSTMs"
+}

@@ -1,0 +1,23 @@
+{
+  "source_sha256": "06f85fc70dadbeb2d31cee9939f3b0cc36085ad70a080210dce29f1cdd014a8e",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "context": 0,
+  "regimes": [
+    "goal_withheld",
+    "actual_goal_held"
+  ],
+  "starts_per_case": 64,
+  "max_function_evaluations": 200,
+  "method": "Analytic exact-elimination Jacobian; scipy hybr Newton with factor0.25 and xtol1e-10. Fixed alternating deflation schedule after native/zero starts; prior roots only.",
+  "initializers": "16 evenly spaced native h;1zero;23uniform[-1,1];24known-root Gaussian perturbations at componentSD0.03/0.1/0.3, clipped insidehbound.",
+  "qualification": "Hidden and stable original512D residualRMS<=1e-8; finitefullstate;|h|<=1+1e-9. ClusterhRMS1e-5. Revalidatepreservedpriorroots.",
+  "stability": "Correctfloat64fullstateJacobian;|multiplier|>1+1e-6unstable;hiddenfractionandactorlogitgain retained. Fourfixedstable-residualdirectionchecks perroot.",
+  "reachability": "Nativefullrecurrence0,60,150,1500updates;h,c,andactor distances separately. No native-c instantaneous equilibration."
+}

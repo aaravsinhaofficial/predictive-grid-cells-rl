@@ -1,0 +1,35 @@
+{
+  "question": "Does each native grid module support two independent recurrent phase directions with preferential recovery transverse to BOTH?",
+  "cohort": "All4modules, Grid/PGC seeds1/2, context0,24x24 phases; same synthetic pickup and native predictive offsets as one-dimensional screen",
+  "grid_side": 24,
+  "regimes": [
+    "actual_goal_held",
+    "all_goal_withheld"
+  ],
+  "anchors_updates": [
+    75,
+    450
+  ],
+  "probe_horizons_updates": [
+    15,
+    30
+  ],
+  "elicitation": "15 actual recorded updates; vary only one goalcode module across both primitive periods; all future inputs common",
+  "tangents": "Exact input-phase derivatives, exact original-LSTM JVPs for BOTH columns throughout elicitation and common-input evolution",
+  "normals": "3 fixed-seed Gaussian vectors,centroidradial,h-only,c-only;each projectedoffBOTHfullstatephase tangents;raw andfixedinitialh/cRMSmetrics",
+  "observables": "Full state, all256 futurehidden outputs, or all6 centeredtrainedaction scores at offsets0/5/10/15; outputobservablesfixed, nofit",
+  "geometry": "Nearest full-dimensional periodic triangulated surface; localrank2; globalnonlocalseparation; preserved2fundamentalwindings/orientation; commonmean-centered andnoncentered",
+  "nomination": "Allgeometry/differentialgatespass;initialtransverseobservablekick\u22651e-4radius for80%;bothphasegainsmedian\u2265.5;normalgainandnormal/minphase\u2264.5 foreachinformative normal direction, notonlypooled. InitialTOTALsilent-laterTOTALvisiblekickrejects. Initial/finaltransversesilentdirection explicitlyreported andneverrescuespooledvisibilityfailure.",
+  "candidate_validation": "Anycandidate remainsprovisional until finite\u00b12%kicks and strongest-normal search at8fixedphase locations; refine24to48phase geometry beforemechanisticclaim",
+  "controls": "StableCliffordtorus, torus+sharedclock in fixedobservable, shrinkingtorus, collapsedrank1; sourceexactperiod andcompleteelicitationFD checks",
+  "source_sha256": {
+    "scripts/lstm_module_phase_torus.py": "4777e52b460d096e3640e242a060f750e5a8dd58f8959eb81367d19965789965",
+    "scripts/lstm_module_phase_ring.py": "bb0c38a97c1e25a9d20cbd71958a6f6fdea284cfeeb6f0ca1c8a5c16c3ce2407",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "tests/test_lstm_module_phase_torus.py": "e15bf724efcb159b06760d3f4c3b7076567024a629203ce7a86b859d1069f5ef",
+    "tests/test_lstm_module_phase_torus_review.py": "772a4b55e5c918215d3fe170d5d0f677731dd45ced6e9c6f4b01378e408231a2"
+  },
+  "parent_protocol_sha256": "32a747183bc541aa04958c521e974e90434ba3d02dd154d615c9e457e292a0df"
+}

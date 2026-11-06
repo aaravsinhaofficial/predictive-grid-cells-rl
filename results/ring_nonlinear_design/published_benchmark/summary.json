@@ -1,0 +1,320 @@
+{
+  "protocol": {
+    "purpose": "Calibrate ring detection on published trained weights before native navigation LSTMs",
+    "source_commit": "f6702734490c90001db73cd7b7900998fb9a87cf",
+    "input": "u[0]=u[6]=1; remaining18 zero",
+    "state": "all256 native coordinates",
+    "fixed_point_solver": "hybr exact Jacobian maxfev600; retain originals",
+    "branch_trace": {
+      "initial_displacement": 0.0001,
+      "duration_seconds": 400,
+      "sample_dt": 0.1,
+      "integrators": [
+        "DOP853",
+        "original Euler map dt=.02"
+      ]
+    },
+    "validation": "24 held-out full-state branch samples, stored cubic lift/ODE, no angular labels",
+    "recovery": "16 arc samples; radial and 3 random normal directions, both signs; .005 loop RMS kick;1second",
+    "normal_spectrum": "8 arc samples, all255 normal directions, exact discrete variational map1second",
+    "negative_control": "isotropically contracting plane: same apparent circle, no preferential normal recovery",
+    "interpretation": "A positive learned-network calibration is not a result about navigation LSTMs"
+  },
+  "derivative_checks": {
+    "finite_difference_relative_error": 7.744351589006127e-10,
+    "autograd_max_absolute_error": 3.552713678800501e-15
+  },
+  "fixed_points": [
+    {
+      "label": "interior",
+      "original_residual_rms": 3.4209422091865905e-15,
+      "residual_rms": 7.276865111746968e-16,
+      "refinement_distance": 9.118910616078374e-15,
+      "unstable_dimensions": 2,
+      "leading_real_eigenvalues": [
+        0.9395841620657589,
+        0.8742895217351451,
+        -6.0207076786344125,
+        -6.514377384554035,
+        -6.701861023630694,
+        -7.881892771718079,
+        -8.025875943772268,
+        -8.139022669772036
+      ]
+    },
+    {
+      "label": "stable",
+      "original_residual_rms": 9.00663728416175e-16,
+      "residual_rms": 6.825292854860251e-16,
+      "refinement_distance": 2.2736873424931402e-15,
+      "unstable_dimensions": 0,
+      "leading_real_eigenvalues": [
+        -0.04963029499782983,
+        -5.02132693376298,
+        -5.02132693376298,
+        -5.927119424586069,
+        -5.927119424586069,
+        -8.08248182062724,
+        -8.100472364954204,
+        -8.100472364954204
+      ]
+    },
+    {
+      "label": "saddle",
+      "original_residual_rms": 3.1095920631408834e-13,
+      "residual_rms": 4.394812076860432e-16,
+      "refinement_distance": 1.1921114713988761e-11,
+      "unstable_dimensions": 1,
+      "leading_real_eigenvalues": [
+        0.078157781364357,
+        -4.155597389497949,
+        -6.3046965230203345,
+        -6.3046965230203345,
+        -7.237285104538359,
+        -7.797846571095286,
+        -7.797846571095286,
+        -8.36429186091867
+      ]
+    }
+  ],
+  "full_network": {
+    "ode": {
+      "loop_rms": 0.9437757797224476,
+      "endpoint_distance_fraction": [
+        1.5613530378256255e-05,
+        0.39801446169289284
+      ],
+      "max_polygon_edge_fraction": 0.39801446169289284,
+      "unperturbed_1s_invariance_error_fraction_max": 0.019316306831345206,
+      "normal_kick_initial_distance_fraction_min": 0.9965553163401276,
+      "normal_kick_return_gain_median": 0.008412386437824576,
+      "normal_kick_return_gain_max": 3.894123268476902
+    },
+    "map": {
+      "loop_rms": 0.9437768110198084,
+      "endpoint_distance_fraction": [
+        1.5595009404718715e-05,
+        0.39850405753892115
+      ],
+      "max_polygon_edge_fraction": 0.39850405753892115,
+      "unperturbed_1s_invariance_error_fraction_max": 0.019394721637943927,
+      "normal_kick_initial_distance_fraction_min": 0.9962554257041821,
+      "normal_kick_return_gain_median": 0.008158013683898763,
+      "normal_kick_return_gain_max": 3.9097416975424073,
+      "all_direction_transverse_variational_test": [
+        {
+          "tangent_gain": 1.0230188102034983,
+          "worst_transverse_gain": 0.09489002499508149,
+          "normal_to_tangent_ratio": 0.09275491716149972
+        },
+        {
+          "tangent_gain": 1.0100763475865613,
+          "worst_transverse_gain": 0.08868011374203227,
+          "normal_to_tangent_ratio": 0.08779545620875216
+        },
+        {
+          "tangent_gain": 0.975232324294108,
+          "worst_transverse_gain": 0.11914796867261905,
+          "normal_to_tangent_ratio": 0.1221739330255082
+        },
+        {
+          "tangent_gain": 0.945987907209866,
+          "worst_transverse_gain": 0.10992987044416244,
+          "normal_to_tangent_ratio": 0.11620642252012918
+        },
+        {
+          "tangent_gain": 0.9962563117261383,
+          "worst_transverse_gain": 0.1206768835478064,
+          "normal_to_tangent_ratio": 0.12113035784809097
+        },
+        {
+          "tangent_gain": 0.9436553721557426,
+          "worst_transverse_gain": 0.10035793382689363,
+          "normal_to_tangent_ratio": 0.10635019604416598
+        },
+        {
+          "tangent_gain": 1.0325725364195926,
+          "worst_transverse_gain": 0.08765619378493636,
+          "normal_to_tangent_ratio": 0.08489107611643536
+        },
+        {
+          "tangent_gain": 1.0319380562197242,
+          "worst_transverse_gain": 0.08205610924742415,
+          "normal_to_tangent_ratio": 0.07951650658957038
+        }
+      ]
+    }
+  },
+  "stored_cubic_model": {
+    "validation_states": 24,
+    "state_scale": 0.8290497551806345,
+    "median": {
+      "fit_error_fraction": 0.03344738145207832,
+      "invariance_velocity_fraction_per_second": 0.41554103462158776,
+      "ode_1s_forecast_error_fraction": 0.036918529588515256,
+      "map_1s_forecast_error_fraction": 0.036606261100767104
+    },
+    "maximum": {
+      "fit_error_fraction": 0.6012690900082865,
+      "invariance_velocity_fraction_per_second": 1.4906303438481245,
+      "ode_1s_forecast_error_fraction": 0.5565275721064346,
+      "map_1s_forecast_error_fraction": 0.5621801727251843
+    },
+    "records": [
+      {
+        "fit_error_fraction": 0.014297399149060358,
+        "invariance_velocity_fraction_per_second": 0.1643783256956957,
+        "ode_1s_forecast_error_fraction": 0.01925590341942009,
+        "map_1s_forecast_error_fraction": 0.019252158103579258
+      },
+      {
+        "fit_error_fraction": 0.03527180068430436,
+        "invariance_velocity_fraction_per_second": 0.44846450232716883,
+        "ode_1s_forecast_error_fraction": 0.04195126027731676,
+        "map_1s_forecast_error_fraction": 0.041952986194530785
+      },
+      {
+        "fit_error_fraction": 0.018850218328133543,
+        "invariance_velocity_fraction_per_second": 0.19326881469990181,
+        "ode_1s_forecast_error_fraction": 0.027490090154367656,
+        "map_1s_forecast_error_fraction": 0.027492415273529577
+      },
+      {
+        "fit_error_fraction": 0.03152669438738905,
+        "invariance_velocity_fraction_per_second": 0.3503944306980967,
+        "ode_1s_forecast_error_fraction": 0.033554717368812007,
+        "map_1s_forecast_error_fraction": 0.03355479663228546
+      },
+      {
+        "fit_error_fraction": 0.024553126644551466,
+        "invariance_velocity_fraction_per_second": 0.2572636787565031,
+        "ode_1s_forecast_error_fraction": 0.03045741758745588,
+        "map_1s_forecast_error_fraction": 0.03045680011163796
+      },
+      {
+        "fit_error_fraction": 0.03026615859266397,
+        "invariance_velocity_fraction_per_second": 0.2940688013040946,
+        "ode_1s_forecast_error_fraction": 0.03683344842687743,
+        "map_1s_forecast_error_fraction": 0.03683208416705422
+      },
+      {
+        "fit_error_fraction": 0.0277349632391249,
+        "invariance_velocity_fraction_per_second": 0.2907219002273084,
+        "ode_1s_forecast_error_fraction": 0.028288936411646676,
+        "map_1s_forecast_error_fraction": 0.028289418251151235
+      },
+      {
+        "fit_error_fraction": 0.002609272514096086,
+        "invariance_velocity_fraction_per_second": 0.025982385972143095,
+        "ode_1s_forecast_error_fraction": 0.002950260956367369,
+        "map_1s_forecast_error_fraction": 0.0029507948515336826
+      },
+      {
+        "fit_error_fraction": 0.34248455663539046,
+        "invariance_velocity_fraction_per_second": 0.9719237995360581,
+        "ode_1s_forecast_error_fraction": 0.11640852916254565,
+        "map_1s_forecast_error_fraction": 0.11596429423624156
+      },
+      {
+        "fit_error_fraction": 0.6012690900082865,
+        "invariance_velocity_fraction_per_second": 1.4906303438481245,
+        "ode_1s_forecast_error_fraction": 0.4259211614070161,
+        "map_1s_forecast_error_fraction": 0.43252311303399105
+      },
+      {
+        "fit_error_fraction": 0.5127840736233474,
+        "invariance_velocity_fraction_per_second": 1.1566250000342322,
+        "ode_1s_forecast_error_fraction": 0.31231144898781277,
+        "map_1s_forecast_error_fraction": 0.3175405964303471
+      },
+      {
+        "fit_error_fraction": 0.19361818321477428,
+        "invariance_velocity_fraction_per_second": 0.5841391759884877,
+        "ode_1s_forecast_error_fraction": 0.03700361075015309,
+        "map_1s_forecast_error_fraction": 0.036380438034479996
+      },
+      {
+        "fit_error_fraction": 0.018551606478488657,
+        "invariance_velocity_fraction_per_second": 0.20839139523916989,
+        "ode_1s_forecast_error_fraction": 0.025765721086684977,
+        "map_1s_forecast_error_fraction": 0.02575847773173452
+      },
+      {
+        "fit_error_fraction": 0.04978528682799497,
+        "invariance_velocity_fraction_per_second": 0.6345999375045187,
+        "ode_1s_forecast_error_fraction": 0.05432262370712134,
+        "map_1s_forecast_error_fraction": 0.05432197634821246
+      },
+      {
+        "fit_error_fraction": 0.03494033041404508,
+        "invariance_velocity_fraction_per_second": 0.5113731562535528,
+        "ode_1s_forecast_error_fraction": 0.04118489664164588,
+        "map_1s_forecast_error_fraction": 0.04118964796304234
+      },
+      {
+        "fit_error_fraction": 0.037994605700663237,
+        "invariance_velocity_fraction_per_second": 0.38738077187833964,
+        "ode_1s_forecast_error_fraction": 0.042566511836618505,
+        "map_1s_forecast_error_fraction": 0.042574994181988984
+      },
+      {
+        "fit_error_fraction": 0.031954432490111546,
+        "invariance_velocity_fraction_per_second": 0.4437012973648359,
+        "ode_1s_forecast_error_fraction": 0.032241676342601826,
+        "map_1s_forecast_error_fraction": 0.03224601495764467
+      },
+      {
+        "fit_error_fraction": 0.02790986774990347,
+        "invariance_velocity_fraction_per_second": 0.31936386785089926,
+        "ode_1s_forecast_error_fraction": 0.02930879963693489,
+        "map_1s_forecast_error_fraction": 0.029311857650152585
+      },
+      {
+        "fit_error_fraction": 0.012942821490991612,
+        "invariance_velocity_fraction_per_second": 0.13129347199076774,
+        "ode_1s_forecast_error_fraction": 0.013132000790352314,
+        "map_1s_forecast_error_fraction": 0.01313242181526674
+      },
+      {
+        "fit_error_fraction": 0.01369168311578354,
+        "invariance_velocity_fraction_per_second": 0.12288495258511252,
+        "ode_1s_forecast_error_fraction": 0.014373014457565952,
+        "map_1s_forecast_error_fraction": 0.014372803886647903
+      },
+      {
+        "fit_error_fraction": 0.2641802609124319,
+        "invariance_velocity_fraction_per_second": 0.7120374896486713,
+        "ode_1s_forecast_error_fraction": 0.06445753515738255,
+        "map_1s_forecast_error_fraction": 0.06522139974329932
+      },
+      {
+        "fit_error_fraction": 0.6007597084958639,
+        "invariance_velocity_fraction_per_second": 1.2357315413068182,
+        "ode_1s_forecast_error_fraction": 0.5565275721064346,
+        "map_1s_forecast_error_fraction": 0.5621801727251843
+      },
+      {
+        "fit_error_fraction": 0.5519206347718562,
+        "invariance_velocity_fraction_per_second": 1.2031106517713683,
+        "ode_1s_forecast_error_fraction": 0.5065550433434162,
+        "map_1s_forecast_error_fraction": 0.5113204205341643
+      },
+      {
+        "fit_error_fraction": 0.20427398924274814,
+        "invariance_velocity_fraction_per_second": 0.6370098627787014,
+        "ode_1s_forecast_error_fraction": 0.044110197572189855,
+        "map_1s_forecast_error_fraction": 0.042342972126734275
+      }
+    ]
+  },
+  "negative_control": {
+    "system": "dx/dt=-x in2D",
+    "1s_tangent_gain": 0.36787944117144233,
+    "1s_normal_gain": 0.36787944117144233,
+    "normal_to_tangent_ratio": 1.0,
+    "circle_1s_invariance_error_fraction": 0.6321205588285577,
+    "fixed_points": 1,
+    "saddles": 0,
+    "heteroclinic_circle": false
+  }
+}
