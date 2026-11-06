@@ -1,0 +1,19 @@
+{
+  "version": "matched_reorientation_entropy_behavior_v1",
+  "training_protocol_sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb",
+  "sources": {
+    "scripts/summarize_reorientation_entropy.py": "4fc72d4019b194253285d960a08e01ed7a5f71af2940511193bb8276ab1d7cbe",
+    "scripts/summarize_blind_reorientation.py": "1b0b73bec0f366e36908b657b7e7520e4ecd939ccb24da69c962edf73fc291ff"
+  },
+  "cohort": "Both populations, original seed1, original versus explore entropy. Exact40M parent baseline and every five fixed extension endpoints. Final90,132,480total extra frames is primary; no stage selection.",
+  "primary": "Free-navigation goal hits and progress per original episode, including no-event/no-discovery zeros. Original frozen episode_values and summarize reused unchanged.",
+  "contrasts": "Within each population, explore minus original for blind-native outcomes; difference of their native-minus-memory-reset costs. Same fixed episode/slot keys; pairedslot resampling retains both episodes and all contrast components.",
+  "uncertainty": {
+    "bootstrap_resamples": 10000,
+    "seed": 198207,
+    "clusters": "32slots,2episodes each",
+    "interpretation": "Descriptive95% evaluation uncertainty conditional on these two fixed policies. No trained-seed significance or multiple-comparison claim."
+  },
+  "caveats": "Different policies can change event timing and free exposure. Per-original-episode outcomes remain primary; rates perfreeupdate are descriptive. Stages and windows are not trainedseed replications.",
+  "routing": "Read workers[{condition,arm,name}] from explicit launch manifest. Preserve capacity failures separately; no ambiguous symlink routing."
+}
