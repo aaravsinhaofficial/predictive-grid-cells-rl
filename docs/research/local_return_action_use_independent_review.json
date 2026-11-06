@@ -1,0 +1,40 @@
+{
+  "status": "independent_review_passed_before_study_execution",
+  "reviewer": "endogenous_ring_audit",
+  "reviewed_utc": "2026-11-06T12:31:56.673997+00:00",
+  "source_sha256": {
+    "scripts/analyze_local_return_action_use.py": "4b675b157d15d20748f71ec615f6760798c9fc9b60e8b30084ef4d9f70ecfca4",
+    "tests/test_analyze_local_return_action_use.py": "74854aef31ac834c7a2be1f759361242884fcbfb392b9d4ab9cd1389ef2054e0",
+    "docs/research/local_return_action_use_draft.json": "fc2ff8f9b359ad06a8a20ca641728af369aa2566ee0c1f49a62656eca4c7a9f1"
+  },
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest tests/test_analyze_local_return_action_use.py -q",
+    "passed": 6,
+    "seconds": 0.49,
+    "scope": "Synthetic/private one-step native physics and saved-array fixtures only; no study checkpoint or sealed-bank learned outcome analyzed."
+  },
+  "checks": [
+    "Correct firstFREE pre-action/post-LSTM snapshot; all six actions use the exact shared fullclock motor-noise row at schedule.free.",
+    "Native body-motor lowpass update precedes heading update, then displacement and wall clipping/damping; six-action synthetic fixture covers inertia/noise/walls/angle wrap.",
+    "Policy rows retain literal saved probabilities. Uniform/planner baseline controls use their own stored overrides and only borrow common forced-history physical snapshots.",
+    "Chosen action endpoints are reconciled for every available row with fixed2e-6m tolerance, using physical pre-respawn positions.",
+    "Both populations, both baseline banks, all four fixed stages, all12policy variants,16contexts and16headings preserved:38912rows=36864policy+2048baselinecontrol.",
+    "Undefined rows retain denominators and observed fulltrial outcomes; no zero progress imputation; figure discloses available trial counts.",
+    "Complete independent final-pair audits and archived source/input hashes are required before diagnostic values are computed. No model/environment execution in production."
+  ],
+  "interpretation": [
+    "Weighted goal-center progress measures immediate action alignment, not long-horizon value or ring dynamics.",
+    "Best-of-six conditions on realized future motor noise and is a hindsight physical reference unavailable to the policy.",
+    "Variation across headings and intact native-versusordinary contrasts can reflect prior visible cues and integrated action history; endpoint predictive-cue attribution requires same-state paired intervention comparisons.",
+    "This supplementary diagnostic was proposed after stage1\u20133 success counts; it changes no primary criterion or training decision."
+  ],
+  "blocking_issues": [],
+  "display_only_followup": {
+    "reviewed_utc": "2026-11-06T12:34:19.402997+00:00",
+    "previous_source_sha256": "5503064686f5ebb0a2893fa156e63aeefb5ed14209ccab3111a9da3187e52044",
+    "current_source_sha256": "4b675b157d15d20748f71ec615f6760798c9fc9b60e8b30084ef4d9f70ecfca4",
+    "change": "Native markers size6/open/zorder3; other markers size4/filled/zorder2. Exact overlaps remain visible.",
+    "verification": "Replacing only this plotting call with prior styling exactly reconstructs independently reviewed previous source hash. No math, data loading, cohort, gating, interpretation or outcome changes.",
+    "ready_to_freeze": true
+  }
+}
