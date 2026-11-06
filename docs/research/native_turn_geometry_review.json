@@ -1,0 +1,47 @@
+{
+  "complete": true,
+  "reviewed_utc": "2026-11-06T23:55:37.288368+00:00",
+  "owner": "nonlinear_ring_audit",
+  "independent_reviewer": "ring_new_literature",
+  "source_sha256": {
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "tests/test_native_turn_geometry.py": "ce89b8edefdb0158bf5367331a10b2fde3399cf8f04a0cb2fe08689c70269ab6",
+    "tests/test_native_turn_geometry_controls.py": "fe087002bacf791dea0adb7a191f70642015e57b6f4c873b8641dcae160c9d4e",
+    "docs/research/native_turn_geometry_plan.md": "7a6138c50b5a534b1ffcc2f0d4bbe9d1a3be00cb50bc06abd57bae1e23b30d5f"
+  },
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_geometry.py tests/test_native_turn_geometry_controls.py tests/test_native_turn_distillation.py",
+    "owner_passed": 23,
+    "owner_seconds": 5.27,
+    "independent_passed": 23,
+    "independent_seconds": 5.55,
+    "geometry_tests": 14,
+    "training_core_tests": 9,
+    "exit_code": 0
+  },
+  "scope": [
+    "All128 dense physical input families across both populations, separate coherent LEFT and RIGHT prefix histories, no model outcome selection",
+    "Actual cue-origin LEFT clocks and truthful two-section F/B maps; actual previous action and complete common future input identity",
+    "Every fixed original/clean/noise endpoint replays its own original32-slot prefix; physical input tapes reused across endpoints",
+    "Complete future terminal summary,180 updates, protocol/source/checkpoint/config/teacher/frozen-head provenance required",
+    "Existing full-dimensional geometry thresholds, both raw and h/c-RMS, all hidden and centered-all-actor outputs; no learned projection",
+    "All20 normal directions plus tangent, both signs; h-only/c-only block purity and initially silent/later visible factor leakage retained",
+    "Nominal out-of-bounds diagnostics preserved; shared feasible amplitude then clip-only-h/equalized fallback; strict5percent actual-direction guard and inconclusive physical status",
+    "Physical phase transport uses known angle interpolation rather than conflating polygon arclength with body angle",
+    "33,280 rows per endpoint including explicit exact shams; all geometric negatives retained",
+    "All32 native contexts have at least607 remaining updates, exceeding104 required; no episode extension"
+  ],
+  "independent_controls": [
+    "Affine two-section attracting circle",
+    "Action-locked point rejection",
+    "Uniformly contracting plane rejection",
+    "Correct-section/correct-point derivative chain versus finite differences",
+    "Shared bounded amplitude direction preservation",
+    "Zero-kick bounded fallback remains inconclusive",
+    "Mixed tangent contamination remains inconclusive"
+  ],
+  "blocking_findings": [],
+  "original_model_geometry_run": false,
+  "protocol_frozen": false,
+  "launch_owner": "root"
+}

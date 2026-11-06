@@ -1,0 +1,151 @@
+{
+  "version": "native_actual_turn_geometry_v1",
+  "frozen_utc": "2026-11-06T23:56:52.001611+00:00",
+  "source_sha256": {
+    "scripts/native_turn_teacher_preflight.py": "4a27e5383f7bfb2caea5c3cff90d741ac78b731c9ccd7ed39ce6da91e26d26a0",
+    "tests/test_native_turn_teacher_preflight.py": "a0583d2321d7dfe5137cc2eeb275ff77d3c82ffeec92029baff634d28f4bdcd7",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "tests/test_native_turn_geometry.py": "ce89b8edefdb0158bf5367331a10b2fde3399cf8f04a0cb2fe08689c70269ab6",
+    "tests/test_native_turn_geometry_controls.py": "fe087002bacf791dea0adb7a191f70642015e57b6f4c873b8641dcae160c9d4e",
+    "docs/research/native_turn_geometry_plan.md": "7a6138c50b5a534b1ffcc2f0d4bbe9d1a3be00cb50bc06abd57bae1e23b30d5f",
+    "scripts/native_turn_original_memory.py": "f412bc69b0495acacd2cb262270eeb4d4e35e426eaa51bbf3f4fa1bbd2557b9f",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393"
+  },
+  "asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "results/native_movement_cycles/gc100_s1/native_trace.pt": "1b04d86c23090ece154fd3af734f7720f7e3258d2551c8ea680113f5393b8d34",
+    "results/native_movement_cycles/gc100_s1/summary.json": "03d7caf5bdf1dc5cac5726a7248ae6292cc77a0f857bde99f44c64fc72adac7a",
+    "results/native_movement_cycles/gc100_s1/protocol.json": "87f1736881ba87c4f0385363498ec269fd99a9cdb4a9415768c6ea053c34f98f",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "results/native_movement_cycles/pgc33_s1/native_trace.pt": "f5228639663b55a292a83c2ee95d531b2c81f412614df4374651f23755db027a",
+    "results/native_movement_cycles/pgc33_s1/summary.json": "315d183a0e7dc225fd928caff3995a3ddc9beaf0250156e2570d55bd24c1d01a",
+    "results/native_movement_cycles/pgc33_s1/protocol.json": "764aafca6650b0329cd415fec667966dea3c441792d70574629278859afb2c4c",
+    "docs/research/native_turn_teacher_preflight_protocol.json": "19197d05383c006d574ed882fce48242220859c3bbd1ed9bf96544653df0f2f7",
+    "results/native_turn_teacher_preflight/banks/gc100.pt": "578af6125a337c875f33cc59f7e2df76e667f8bf3c2af2fb79b36661279464f6",
+    "results/native_turn_teacher_preflight/banks/pgc33.pt": "159f3afa5f18773a69c037a3a810af80a240a9f82b0c0e0ab7f24fd3e3e37643"
+  },
+  "parent_protocol_sha256": "19197d05383c006d574ed882fce48242220859c3bbd1ed9bf96544653df0f2f7",
+  "native_episode_clock_audit": {
+    "gc100": {
+      "contexts": 16,
+      "required_remaining_updates": 104,
+      "remaining_updates_by_context": [
+        1273,
+        1327,
+        1310,
+        1217,
+        1080,
+        1127,
+        1076,
+        1208,
+        1173,
+        1200,
+        1047,
+        1181,
+        726,
+        620,
+        1209,
+        1248
+      ],
+      "all_contexts_fit": true
+    },
+    "pgc33": {
+      "contexts": 16,
+      "required_remaining_updates": 104,
+      "remaining_updates_by_context": [
+        1059,
+        847,
+        1310,
+        607,
+        1200,
+        1132,
+        637,
+        1310,
+        1314,
+        1255,
+        733,
+        1210,
+        863,
+        1068,
+        1267,
+        1175
+      ],
+      "all_contexts_fit": true
+    }
+  },
+  "phases": 128,
+  "contexts_per_population": 16,
+  "prefix_actions": [
+    0,
+    1
+  ],
+  "kinds": [
+    "turn_only",
+    "probe_glimpse"
+  ],
+  "branches": [
+    "native",
+    "ordinary",
+    "pre_cue_reset_native",
+    "pre_cue_reset_ordinary"
+  ],
+  "endpoints": {
+    "gc100": {
+      "original": "models/gc100/gc100_lstm_s1_1000M.pt",
+      "clean": "results/native_turn_distillation/gc100/clean/final.pt",
+      "noise": "results/native_turn_distillation/gc100/noise/final.pt"
+    },
+    "pgc33": {
+      "original": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+      "clean": "results/native_turn_distillation/pgc33/clean/final.pt",
+      "noise": "results/native_turn_distillation/pgc33/noise/final.pt"
+    }
+  },
+  "future_training_protocol": "docs/research/native_turn_distillation_protocol.json",
+  "future_terminal_requirements": "Complete summary with condition/arm,180updates,1036800frames,259200decisions, fixed teacher/head, final checkpoint hash/size, matching policy/config/training protocol and source hashes. No intermediate endpoint substitution.",
+  "preparation": "One archived physical/input family per population/context/fixed prefix/mode; unchanged CNN and actor required for all endpoints.",
+  "left_windows": [
+    3,
+    8,
+    15,
+    30,
+    60
+  ],
+  "cycle_evolution": [
+    2,
+    14,
+    30,
+    60
+  ],
+  "full_state_offsets": [
+    0
+  ],
+  "hidden_actor_offsets": [
+    0,
+    1
+  ],
+  "left_timing": "Full state evolves the stated window; hidden/actor evolves window minus one and observes offsets0,1. Latest input is the stated window.",
+  "cycle_timing": "ReferenceB: two truthful setup updates after choice. ReferenceF: next actual FORWARD, three updates after choice. Two-section output latest=evolution+1.",
+  "directions": "16 fixed full normals, hidden-only, cell-only, full radial, cell radial, tangent; both signs2percent radius at8 fixed phase indices.",
+  "normal_seed": 984701,
+  "normal_directions": 20,
+  "normal_anchors": 8,
+  "bounded_followup": "Every geometry-passing row with nominal h-bound violations: shared amplitude capped at90percent of available two-sided h margin; if inconclusive, clip h endpoints and shrink all signs/directions at each phase to minimum realized scaled norm. Record actual directions; normal/tangent contamination at most5percent. Zero/unobservable/incorrect-type bounded kicks are inconclusive, not failed dynamics.",
+  "staging": "All dense curve rows retained; finite-normal assay only for necessary-geometry passing rows. Actual nomination is broad pass in both raw and h/c-RMS metrics.",
+  "old_thresholds_unchanged": true,
+  "physical_phase": "Known angle interpolation after geometry only; neural minus actual physical rotation retained.",
+  "training_outcome_selection": false,
+  "no_optimization": true,
+  "no_cloud": true
+}

@@ -1,0 +1,77 @@
+{
+  "complete": true,
+  "recorded_utc": "2026-11-06T23:56:14.141334+00:00",
+  "reviewer": "independent ring_new_literature agent",
+  "conclusion": "Technical review clear for prospective freeze and the four fixed bounded runs; no scientific outcome or ring claim.",
+  "training_source_sha256": {
+    "scripts/native_turn_distillation.py": "4960a57fe9356cf34e52b3a226825d3ed9df2b2c8ba119c84819f7e69e6ebf39",
+    "scripts/evaluate_native_turn_distillation.py": "2a47b0d4bf431dcf7c1504b9bf867587c94e734f3fb22353aa1bc2ba3c55a142",
+    "scripts/run_native_turn_distillation.py": "bec42e7cfb5ba341d619612226bdf9cecf7682a11ddc2f0efbc186152cca9047",
+    "scripts/validate_native_turn_distillation.py": "f12985ffba5e66f28cce20031a6da551bac648346af6afb869006d79ebe1951f",
+    "tests/test_native_turn_distillation.py": "5bcf8e7160004c2104deab91f72706279946addaa1e60a662c25fc642286f8f0"
+  },
+  "historical_source_manifests": {
+    "docs/research/native_turn_original_memory_protocol.json": {
+      "sha256": "52e6b8c145a87dedf4889ebe864fc7376c8447e4e68ac4c4774234545b93a8fd",
+      "source_count": 11,
+      "all_current": true
+    },
+    "docs/research/native_policy_distillation_protocol.json": {
+      "sha256": "119f74558bca7485ba2b516e2de034802ab2f792df90da0749e9c9d9a5325668",
+      "source_count": 12,
+      "all_current": true
+    },
+    "docs/research/rl_blind_reorientation_protocol.json": {
+      "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+      "source_count": 12,
+      "all_current": true
+    }
+  },
+  "merged_historical_sources": 21,
+  "historical_source_hash_conflicts": [],
+  "prior_assets_verified": 147,
+  "calibration_sha256": "6f3708d035c78bc5d2cf670ff817f50831a0943d2c135456798b26f179309c95",
+  "calibration_input_hashes_verified": true,
+  "private_smoke": {
+    "path": "results/native_turn_distillation_design/native_validation.json",
+    "sha256": "a3435a0598f966d6e8b4cd67bf4f113a73ff17895cb1311a80bb599d48f677fc",
+    "both_original_populations": true,
+    "real_adam_change": true,
+    "exact_student_teacher_noisy_input_replay": true,
+    "exact_serialized_optimizer_policy_physics_and_rng_resume": true,
+    "original_files_teacher_cnn_actor_critic_unchanged": true,
+    "optimized_copies_discarded": true,
+    "study_endpoints_created": false
+  },
+  "tests": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_geometry_controls.py tests/test_native_turn_geometry.py tests/test_native_turn_distillation.py",
+    "passed": 23,
+    "failed": 0,
+    "seconds": 5.55,
+    "scope": "Synthetic/private fixtures; no study optimization."
+  },
+  "reviewed_checks": [
+    "Only four existing LSTM tensors train; original full-vision teacher and CNN/actor/critic remain frozen.",
+    "Entire event fits57 updates within90-update unroll. Forced inputs receive later choice gradients; forced decisions have zero direct loss.",
+    "Loss is0.5 choice mean KL plus0.5 other controlled-decision mean KL; no-choice batch uses control mean and exposes its count.",
+    "Noise is incoming before cue and before second post-cue ordinary input. Independent indexed private tapes preserve attempted/realized impulses and h clipping. No erasure during training.",
+    "Stored student/teacher inputs and masks replay exactly before every optimizer update; recurrent detach only at unroll/terminal boundaries.",
+    "All six live branches share held-current/cue and event rules. RGB visibility, cue type and all-three-choice erasure are explicit interventions; hit-dependent exposure counts and raw KL sums retained.",
+    "All fixed paired histories use each final checkpoints own full32-slot native prefix replay; no teacher cached h/c injection.",
+    "Only initial,60,120,180 and fixed final endpoints; complete final requires180 updates and1036800 extra physics frames per run.",
+    "Acquisition cap1800 monotonic seconds; final read-only evaluation cap600 seconds separately. Partial failure is preserved without automatic optimization retry.",
+    "Geometry uses all original/clean/noise endpoints without behavioral selection and independently binds terminal summaries/checkpoints/protocols."
+  ],
+  "geometry_source_sha256": {
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "tests/test_native_turn_geometry.py": "ce89b8edefdb0158bf5367331a10b2fde3399cf8f04a0cb2fe08689c70269ab6",
+    "tests/test_native_turn_geometry_controls.py": "fe087002bacf791dea0adb7a191f70642015e57b6f4c873b8641dcae160c9d4e",
+    "docs/research/native_turn_geometry_plan.md": "7a6138c50b5a534b1ffcc2f0d4bbe9d1a3be00cb50bc06abd57bae1e23b30d5f"
+  },
+  "geometry_clearance": "Clear: truthful F/B setup and both sections, full input equality, own-prefix replay, fixed phase-coherent families,33,280 rows/endpoint including shams; bounded shared/fallback kicks retain actual geometry and classify zero/unobservable/type-invalid interventions as inconclusive.",
+  "limitations": [
+    "One original seed pair; this acquisition comparison is descriptive.",
+    "Weak-noise and choice-weighted imitation can teach robustness without guaranteeing continuous angular geometry.",
+    "The fixed future-hidden/actor assay uses strict all-direction visibility: initially silent directions yield an inconclusive physical-factor test, not a universal absence-of-ring conclusion."
+  ]
+}
