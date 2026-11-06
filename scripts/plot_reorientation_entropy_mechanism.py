@@ -10,6 +10,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'results/lstm_reorientation_entropy_mechanism'
@@ -56,10 +57,29 @@ def main():
                 assert primary['checkpoint_sha256'] == model_audit['checkpoint_sha256'] == observed['checkpoint_sha256']
                 assert observed['archive_sha256'] == primary_audit['archive_sha256']
                 assert sources[str(causal_path.relative_to(ROOT))] == causal_audit['result_sha256']
+                paths_path = causal_path.with_name('navigation_paths.npz')
+                paths_sha = hashlib.sha256(paths_path.read_bytes()).hexdigest()
+                assert paths_sha == causal_audit['array_sha256']
+                sources[str(paths_path.relative_to(ROOT))] = paths_sha
+                action_effects = {}
+                with np.load(paths_path) as paths:
+                    for construction in ('raw', 'relative_rms'):
+                        native = paths[f'{construction}__native__none__actions']
+                        effects = {}
+                        for key in paths.files:
+                            if key.startswith(construction + '__') and key.endswith('__actions'):
+                                value = paths[key]
+                                assert value.shape == native.shape == (30, 192)
+                                # First-hit stops are -1; preserve the complete saved tape comparison.
+                                effects[key] = dict(changed_actions=int(np.count_nonzero(value != native)),
+                                    sampled_action_entries=int(native.size))
+                        action_effects[construction] = effects
                 record = dict(arm=arm, condition=condition, context=context,
                     checkpoint_sha256=primary['checkpoint_sha256'], branches={},
                     phase_repair=causal['phase_repair_contrasts'],
                     native_navigation=causal['branches']['raw__native']['navigation']['none'],
+                    navigation={key: value['navigation'] for key, value in causal['branches'].items()},
+                    action_effects=action_effects,
                     opportunity=causal_audit['opportunity'])
                 for cue in CUES:
                     branch = primary['branches'][cue]
@@ -103,7 +123,9 @@ def main():
     axes[1].axhline(1, color='.6', ls='--', lw=1)
     axes[2].set(title='Repair by one predictive cue', ylabel='Full-state phase error\nafter a 30° shift (°)')
     axes[2].axhline(30, color='.6', ls='--', lw=1)
-    labels = ['Grid\nOriginal entropy', 'PGC + grid\nOriginal entropy', 'Grid\nHigher entropy', 'PGC + grid\nHigher entropy']
+    axes[2].set_ylim(0, 32)
+    axes[2].set_yticks([0, 15, 30])
+    labels = ['Grid\nOriginal\nentropy', 'PGC + grid\nOriginal\nentropy', 'Grid\nHigher\nentropy', 'PGC + grid\nHigher\nentropy']
     for ax in axes:
         ax.set_xticks(range(4), labels, fontsize=8)
         ax.spines[['top', 'right']].set_visible(False)
@@ -137,6 +159,20 @@ def main():
         lines.append(f"| {'Grid' if r['condition'] == 'gc100' else 'PGC + grid'} / {r['arm']} / {r['context'] + 1} | {100*b['hidden_radius_retention']:.3g}% | {phase['ordinary_error_deg']:.3f}° → {phase['native_error_deg']:.3f}° | {probability:.4g}% | {progress:+.4f} m |")
     lines += ['',
         'Translation probability uses the exact learned action layer across all 768 controlled directions at free-choice onset. Navigation uses 192 directions, matched action and motor-noise draws, and 30 free actions. These controlled contexts differ from whole-episode behavioral evaluation. Goal opportunity bounds are retained for every context; zero hits from unreachable starts are not evidence about memory.', '',
+        '**Remembered direction can control movement in these continued agents.** In the original-entropy PGC model’s first context, replacing the state with one elicited 30° away changes 1,042 of 5,760 sampled actions. Erasing state changes 754 actions and reduces goalward progress from +3.38 cm to −0.11 cm. Removing the predictive pulse changes only 27 actions; its lasting phase repair is 0.0095°. This separates use of recurrent direction information from repair by this brief cue. The second context has negligible action dependence, so this is a context-specific mechanism.', '',
+        '| Model / exploration / context | Predictive → ordinary: changed actions | +30° state | −30° state | State reset | Goalward progress: native → reset |',
+        '|---|---:|---:|---:|---:|---:|']
+    for r in rows:
+        effects = r['action_effects']['raw']
+        keys = ('raw__ordinary__none__actions', 'raw__native__plus30__actions',
+                'raw__native__minus30__actions', 'raw__native_reset__none__actions')
+        counts = [effects[key]['changed_actions'] for key in keys]
+        before = r['native_navigation']['total_goalward_progress_m']['mean']
+        after = r['navigation']['raw__native_reset']['none']['total_goalward_progress_m']['mean']
+        lines.append(f"| {'Grid' if r['condition'] == 'gc100' else 'PGC + grid'} / {r['arm']} / {r['context'] + 1} | " +
+                     ' | '.join(str(v) for v in counts) + f' | {100*before:+.2f} → {100*after:+.2f} cm |')
+    lines += ['',
+        'Each count is out of 5,760 saved action entries. These are matched counterfactual comparisons within one model and history, not independent samples or statistical tests over trained seeds. All eight contexts and both raw/scaled state interventions are retained in the complete data.', '',
         f"The unchanged full-state screen nominates **{summary['fullstate_candidates']} / 32 cue branches**. The all-hidden future-activity screen nominates **{summary['observable_centered_candidates']} / 64 centered comparisons** and **{summary['observable_noncentered_candidates']} / 64 uncentered comparisons**. These counts describe nested checks of four endpoints, not independent trained agents.", '',
         'All cue directions, both perturbation metrics, every geometry gate, all state edits and all 128 action-layer rows remain in the source outputs. This report adds no fits, thresholds or checkpoint selection.', '',
         '[Complete report data](summary.json) · [Independent audit](../independent_artifact_audit.json) · [Frozen method](../../../docs/research/reorientation_entropy_mechanism_reproduction.md) · [Reproduction inputs](../../rl_blind_reorientation_entropy/REPRODUCE.md)']

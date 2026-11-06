@@ -1,0 +1,118 @@
+{
+  "reviewed_at": "2026-11-06T09:52:02.992018+00:00",
+  "review_scope": "Independent read-only package, dependency, path/hash and fresh-checkout preflight review. No cloud launch, source mutation, training or new numerical analysis.",
+  "status": "Input packages pass; two actor-guide documentation corrections requested",
+  "reviewed_file_sha256": {
+    "scripts/package_reorientation90_inputs.py": "75fcd42e74be96883fc16ca8b18b92f9084280d42ee139266bd1331aac16489c",
+    "scripts/package_actor_score_inputs.py": "a4354fc17f9d0b8d6993da5a89207e2a9be09ae0551d15b6436e886954c3ba8b",
+    "results/rl_blind_reorientation_entropy/REPRODUCE.md": "67ed4e29a6f91d1366d12fe960d71cf0169141be7e3d4b013aecafdbd8e0850b",
+    "results/lstm_actor_logit_observable/REPRODUCE.md": "f92dee8996003b3fc93c00c244ded2cd4f9aa488e82c19842292896fff81f9f9"
+  },
+  "fresh_tree_setup": {
+    "fresh_root": "/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/reorientation-release-review-7mbuac81",
+    "tracked_files": 28036,
+    "original_release_files_verified": 38,
+    "archives": [
+      {
+        "record_file": "docs/research/reorientation40_inputs_archive.json",
+        "sha256": "9c214aa4650bdb2f8e76ca91aef0bdcfc5c5a513e15b939c5f2458bd278626b4",
+        "members": 56
+      },
+      {
+        "record_file": "docs/research/reorientation90_inputs_archive.json",
+        "sha256": "24cc7c2739a580eb48f704d460e8966915beb266999c48f4252e1dc039ec5f34",
+        "members": 123
+      },
+      {
+        "record_file": "docs/research/actor-score-existing-inputs-v1-archive.json",
+        "sha256": "413b2c35b8dac9d23d4f3ee6fbfd749b55d138a4a511234c8a32a3ac806f0fca",
+        "members": 67
+      }
+    ]
+  },
+  "fresh_tree_preflight": {
+    "fresh_root": "/private/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/reorientation-release-review-7mbuac81",
+    "original_workspace_reads_forbidden": true,
+    "existing_array_cases_validated": 32,
+    "actor_protocol_equal": true,
+    "primary_protocol_equal": true,
+    "finals": [
+      {
+        "condition": "gc100",
+        "arm": "original",
+        "final_sha256": "9c6a65d11ef71d05685678c4eecf7f9b73f335e36cc522614f6d02537c89a20a",
+        "complete_audit": true
+      },
+      {
+        "condition": "pgc33",
+        "arm": "original",
+        "final_sha256": "d140636260c92c181423cd88e38556af43b296d462044918149b39cdbec2c408",
+        "complete_audit": true
+      },
+      {
+        "condition": "gc100",
+        "arm": "explore",
+        "final_sha256": "1dfd71055036ce94c555960e54b39ad779f4080ce6096534681d375a961a3607",
+        "complete_audit": true
+      },
+      {
+        "condition": "pgc33",
+        "arm": "explore",
+        "final_sha256": "7f7c56f06b9eade0c81481fe6a6feb876a1bf9d4eeaebe1097425fc32eb2483c",
+        "complete_audit": true
+      }
+    ],
+    "no_new_numerical_analyses": true
+  },
+  "extracted_manifest_inputs_verified": {
+    "reorientation90": 121,
+    "actor_score_existing": 66
+  },
+  "archive_members": {
+    "reorientation90": 123,
+    "actor_score_existing": 67
+  },
+  "preserved_inputs": {
+    "prescribed90M_checkpoints": 28,
+    "existing_neural_npz": 32,
+    "existing_context_json": 32,
+    "native90M_contexts": 8
+  },
+  "release_dependencies": {
+    "original_models": {
+      "tag": "rl-map-memory-2026-11-06",
+      "asset": "rl-map-checkpoints.tar.gz",
+      "github_asset_digest": "sha256:c0b6727bc6782602f97e56fdc467fe3ada2389758c50578275e39393e9f26313",
+      "matches_record": true
+    },
+    "parent40M": {
+      "tag": "blind-reorientation-2026-11-06",
+      "asset": "reorientation40-inputs-v1.tar.gz",
+      "github_asset_digest": "sha256:9c214aa4650bdb2f8e76ca91aef0bdcfc5c5a513e15b939c5f2458bd278626b4",
+      "matches_record": true
+    }
+  },
+  "findings": [
+    {
+      "id": "actor_guide_matplotlib",
+      "severity": "required_documentation_fix",
+      "file": "results/lstm_actor_logit_observable/REPRODUCE.md",
+      "finding": "Listed dependencies omit Matplotlib although import transitively requires it.",
+      "evidence": "Blocking matplotlib alone raises ModuleNotFoundError at lstm_actor_logit_observable -> lstm_reorientation_entropy_mechanism -> lstm_reorientation_mechanism -> lstm_continued_heading_memory -> plot_lstm_heading_memory.",
+      "fix": "Add Matplotlib to the listed environment dependencies; leave frozen numerical sources unchanged."
+    },
+    {
+      "id": "actor_guide_protocol_equality",
+      "severity": "recommended_reproduction_guard",
+      "file": "results/lstm_actor_logit_observable/REPRODUCE.md",
+      "finding": "A new --out --freeze-only writes protocol() using present asset hashes; it does not itself compare the generated manifest to the canonical committed protocol.",
+      "fix": "Add cmp results/lstm_actor_logit_observable/protocol.json /tmp/actor-score-reproduction/protocol.json immediately after --freeze-only."
+    }
+  ],
+  "mandatory_input_omissions": [],
+  "scope_limits": [
+    "The separate eight90M neural-array asset was not built in the payload snapshot reviewed; its packaging branch was source-reviewed only.",
+    "Fresh-tree preflight validates genuine metadata, frozen protocols, all32 existing arrays and all4 complete checkpoint audits. It does not rerun the expensive neural dynamics.",
+    "Original release inputs were copied from local files matching all38 per-file hashes in the live release manifest;40M/90M/existing-array archives were extracted from exact hash-verified archive snapshots."
+  ]
+}

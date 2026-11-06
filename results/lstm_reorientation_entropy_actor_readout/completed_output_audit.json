@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "all128rows_verified": true,
+  "checked_rows": 128,
+  "protocol_sha256": "a0f870a23b6be8ce9da5a3913c12de70fb217ab78e3a8e9897a98e53cbb89ebe",
+  "numerical_source_sha256": "144c957a2bca93a56e39559f522e19842786d4078d9ab854f89491dedf02256a",
+  "summary_sha256": "9dbb83dc952d45c94c39ed2ae36d3fada710441fbd598ad6b4cff6d7dccfba26",
+  "auditor_sha256": "45451568b96d059f85cae296481ee973a183401533f82f98c8e0f31b36984f45",
+  "method": "Independent direct centered logits, minimum-norm least-squares actor-rowspace projection, SciPy softmax, energy partition and mean action margins. No call to decompose; no recurrent, environment or training update.",
+  "max_abs_errors": {
+    "centered_logit_mean": 2.1316282072803006e-14,
+    "centered_logit_vector_rms": 8.881784197001252e-16,
+    "rowspace_fraction": 9.6710833785707e-14,
+    "nullspace_fraction": 4.440892098500626e-16,
+    "energy_partition": 9.658940314238862e-14,
+    "probability_mean": 0,
+    "probability_vector_rms": 0,
+    "translation_probability": 0,
+    "right_vs_translation_margin": 1.9539925233402755e-14,
+    "softmax_common_score_invariance": 4.440892098500626e-16
+  },
+  "native_at4seconds": [
+    {
+      "arm": "original",
+      "condition": "gc100",
+      "context": 0,
+      "centered_logit_vector_rms": 0.0032898430964275953,
+      "rowspace_fraction": 0.12664388903606563,
+      "right_minus_best_translation_mean_logit": -9.852491588620518,
+      "total_translation_probability": 0.9999473819732669,
+      "actor_probability_vector_rms": 1.0825895704638393e-07
+    },
+    {
+      "arm": "original",
+      "condition": "gc100",
+      "context": 1,
+      "centered_logit_vector_rms": 0.001203325064371794,
+      "rowspace_fraction": 0.026894773642542356,
+      "right_minus_best_translation_mean_logit": -5.129727988731474,
+      "total_translation_probability": 0.9941158234449757,
+      "actor_probability_vector_rms": 1.2493057459542331e-05
+    },
+    {
+      "arm": "original",
+      "condition": "pgc33",
+      "context": 0,
+      "centered_logit_vector_rms": 3.236973541372636,
+      "rowspace_fraction": 0.10357812671002814,
+      "right_minus_best_translation_mean_logit": 6.101607005213746,
+      "total_translation_probability": 0.1280307168690276,
+      "actor_probability_vector_rms": 0.39836627567312083
+    },
+    {
+      "arm": "original",
+      "condition": "pgc33",
+      "context": 1,
+      "centered_logit_vector_rms": 0.35215829200304427,
+      "rowspace_fraction": 0.057304381149013615,
+      "right_minus_best_translation_mean_logit": 9.743073215490297,
+      "total_translation_probability": 6.927531513679406e-05,
+      "actor_probability_vector_rms": 3.3924769464164615e-05
+    },
+    {
+      "arm": "explore",
+      "condition": "gc100",
+      "context": 0,
+      "centered_logit_vector_rms": 0.00011139334180890884,
+      "rowspace_fraction": 0.029684211233683405,
+      "right_minus_best_translation_mean_logit": -0.4976322878815707,
+      "total_translation_probability": 0.7410186403138304,
+      "actor_probability_vector_rms": 1.651812547122868e-05
+    },
+    {
+      "arm": "explore",
+      "condition": "gc100",
+      "context": 1,
+      "centered_logit_vector_rms": 0.000777278152618882,
+      "rowspace_fraction": 0.02729447644555322,
+      "right_minus_best_translation_mean_logit": -0.3266174726159952,
+      "total_translation_probability": 0.7022469724023462,
+      "actor_probability_vector_rms": 0.00012319310234530062
+    },
+    {
+      "arm": "explore",
+      "condition": "pgc33",
+      "context": 0,
+      "centered_logit_vector_rms": 0.005626736426068018,
+      "rowspace_fraction": 0.014287238513773424,
+      "right_minus_best_translation_mean_logit": -1.1208344067084726,
+      "total_translation_probability": 0.6732079058582693,
+      "actor_probability_vector_rms": 0.0004758549765557139
+    },
+    {
+      "arm": "explore",
+      "condition": "pgc33",
+      "context": 1,
+      "centered_logit_vector_rms": 0.11741759432786766,
+      "rowspace_fraction": 0.027368506365187506,
+      "right_minus_best_translation_mean_logit": -1.7179679323566202,
+      "total_translation_probability": 0.8363225637468398,
+      "actor_probability_vector_rms": 0.019169251129332
+    }
+  ],
+  "scope": "All four fixed90M endpoints; one original seed pair. RMS values use vector norms, not per-action RMS. Native contexts differ between arms; descriptive contrasts are not paired controlled hidden states."
+}
