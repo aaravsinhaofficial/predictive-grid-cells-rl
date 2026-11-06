@@ -1,0 +1,42 @@
+{
+  "version": "final75_finite_time_spectra_v1",
+  "arms": {
+    "v2": "visual_memory_extension_v2",
+    "v3": "visual_memory_state_noise_v3"
+  },
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "contexts": [
+    0,
+    1
+  ],
+  "checkpoint": "Each fixed completed75.072M endpoint, exact50.048M extension/25.024Mparent provenance; no stage selection",
+  "family": "Same native travel-family archives as the primary collector; ordinary-current common-input release only",
+  "selection": {
+    "reference_updates": 30,
+    "reference_seconds": 2.0,
+    "horizon_updates": 30,
+    "end_seconds": 4.0,
+    "phases": 16,
+    "rule": "Indices0,48,...,720 of all768 actual phases; independent of activity and outcome"
+  },
+  "state": "All256h+256c, original neuron coordinates; no fitted plane or quotient",
+  "jacobian": "Validated stable_full_jacobian, float64, stable sigmoid(-forget_logit) complement; product J29...J0 along actual evolving state under one locked ordinary input",
+  "scales": "Raw units and the existing h/c block RMS computed once from time0 full family, held fixed at both endpoints",
+  "tangent": "Periodic three-point finite difference in actual angular coordinates, using all768 phases at2s and4s",
+  "spectra": "All512 propagator eigenvalues, all512 singular values, all512 normal-propagator singular values; every eigenvector tangent/hidden/actor alignment; top16full eigenvectors retained",
+  "normals": "Project initial and final tangent directions out in each metric; report exact largest singular gain of Pnormal,out M Pnormal,in and radial-in-family normal gain",
+  "validation": "Known noncommuting matrix product/order, known slow+contracting system, analytic LSTM/autograd check, each archive firstphase product JVP and centered finite difference; compare end state with saved4s curve and native LSTMCell",
+  "interpretation": "Descriptive finite-time propagation, not a fixed-point eigensystem; no new ring candidate gate or outcome-based selection. Singular gains depend on metric; eigenvectors are not compared across unrelated neuron labels.",
+  "source_sha256": {
+    "scripts/lstm_final75_finite_spectra.py": "d14d4174be260d1b104c7b4a9cc7cadaaeb8d7bae19246f6b7eb5ee8eb6748f4",
+    "tests/test_lstm_final75_finite_spectra.py": "2fe509f6d9be0cb66cae76adfe5d835c2778fc01013433409bc0f3ddf7883394",
+    "scripts/lstm_endogenous_equilibrium_elimination.py": "5643511bcb099ee592a8875dab0084288c63cbadffc9730f8033ed76c68fbcf8",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_endogenous_continued_observable_v2.py": "dc3145e793e4990bab43859d24ad447cb358eb0dc86c0da25b017e25d13c09bd",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5"
+  },
+  "parent_observable_protocol_sha256": "68d29f45c9d7a260ec0ced61d661e6161c061cd7e25c7d749c0162d10fcd8c01"
+}

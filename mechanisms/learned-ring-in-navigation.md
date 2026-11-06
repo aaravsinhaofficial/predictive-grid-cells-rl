@@ -1,8 +1,8 @@
 # Does predictive input stabilize a learned ring in the navigation LSTM?
 
-**The experiments currently point to persistent direction traces, with little recovery toward a ring.** We tested the original agents first, including six held-out seed pairs. Reward-only continuations now test whether the same navigation LSTM learns the proposed mechanism under visual blackouts and disturbances to its activity.
+**The experiments currently point to persistent direction traces, with little recovery toward a ring.** We tested the original agents, including six held-out seed pairs, and fixed reward-only continuations with blackouts and activity noise. A new blind-reorientation task now gives remembered direction a more specific role in navigation.
 
-This study is active. The longer training experiments below are running; their results will be added at their fixed endpoints. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
+This study is active. The fixed 75-million-frame continuations are complete; the new blind-reorientation pair is running. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
 
 ## What we tested
 
@@ -53,14 +53,22 @@ Neither model acquires a ring candidate in the frozen heading or movement-histor
 
 [All fixed learning stages and controls](../results/ring_visual_memory/curriculum_summary.json) · [Training protocol](../docs/research/rl_visual_memory_pilot_protocol.json).
 
-## The next controlled comparison
+## Longer adaptation and activity noise
 
-Two matched continuations start from those exact final checkpoints and optimizer states:
+Two matched continuations started from those exact final checkpoints and optimizer states:
 
 1. **More adaptation:** another fixed 50.048 million frames with the final blackout schedule.
 2. **Resistance to disturbances:** the same training, adding small independent noise to hidden and cell activity during blackouts. The sampled disturbances are replayed exactly during gradient computation.
 
-The noise experiment follows the robustness principle used by [Ságodi and colleagues](https://arxiv.org/html/2408.00109v2), whose trained networks developed slow attracting memory manifolds. It prescribes no circular representation. Both arms receive the same reward-only task and the same clean navigation and deterministic geometry tests at their fixed final checkpoints. A separately frozen [matched-noise evaluation](../docs/research/visual_memory_matched_noise_eval_protocol.json) will test all four final models on the same CUDA backend and verify identical underlying noise draws by hash. The training runs themselves produce clean evaluations in both arms and additional noisy evaluations in the noise-trained arm.
+The noise experiment follows the robustness principle used by [Ságodi and colleagues](https://arxiv.org/html/2408.00109v2), whose trained networks developed slow attracting memory manifolds. It prescribes no circular representation. Both arms received the same reward-only task and the same clean navigation and deterministic geometry tests at their fixed final checkpoints. A separately frozen [matched-noise evaluation](../docs/research/visual_memory_matched_noise_eval_protocol.json) also tested all four final models on one CUDA backend, verifying identical underlying noise draws by hash and reproducing the noise-trained models' existing episode results exactly.
+
+**The longer continuations preserve a changing direction trace.** None of the eight heading contexts or eight travel contexts passes the unchanged full-state criteria. The independent future-hidden-activity test reaches the same conclusion. Radial disturbances persist about as strongly as differences around the curve. [Simple final-model figure and all contexts](../results/lstm_final75_memory/README.md).
+
+Most blackout performance also survives erasing hidden and cell state before **every** black update. The noiseless PGC model scores 46.25 normally and 44.53 with these resets; the noise-trained PGC model scores 49.53 and 47.97. Previous actions, current code, the external saved goal and physical state remain available. Resetting at the corresponding times with vision causes much larger losses. This reinforces the role of available inputs and externally carried state in this particular blackout task. [Final reset comparison](../results/ring_visual_memory/final_memory_reset.png).
+
+At each sampled phase, the two-second state-update product has 6–16 eigenvalues with magnitude at least 0.99. Many are concentrated in cell state with little immediate actor expression. This points to several slow memory directions; the separate radial and observable tests determine whether those directions organize into a useful ring. [Simple spectral figure and analysis](../results/lstm_final75_finite_spectra/README.md).
+
+One correct predictive pulse also leaves the displaced direction largely intact: its largest lasting correction is **0.14° of a 30° substitution** across both PGC continuations, all four contexts and both metrics. [Figure separating the two training arms](../results/lstm_heading_memory/travel_cue_pulse/final75/README.md). The new task below tests a cue at the actual movement endpoint, before the remembered direction is used during the blind turn.
 
 An additional action-context check covers forward, backward and both sideways approaches in the four original pilot models. **None of these 16 cases passes the same ring criteria.** Radial errors again persist about as strongly as angular differences, despite direction remaining readable. This covers translation actions frequently used by the original policies. [Action-context figure and methods](../results/lstm_travel_memory/action_context_original/README.md).
 

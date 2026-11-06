@@ -1,0 +1,35 @@
+{
+  "version": "final75M_every_blind_update_reset_v1",
+  "models": {
+    "v2_gc100": "ring-20261105-vision-long-grid-01",
+    "v2_pgc33": "ring-20261105-vision-long-pgc-01",
+    "v3_gc100": "ring-20261105-vision-noise-grid-01",
+    "v3_pgc33": "ring-20261105-vision-noise-pgc-01"
+  },
+  "selection": "All four fixed75.072M final checkpoints; no favorable stage selection",
+  "timing": "Followup frozen after noiseless final onset-reset scores, before any75M every-step reset outcomes",
+  "intervention": "Unchanged EveryBlindUpdateClock and frozen parent evaluator. Only h/c is reset before every scheduled black-input update in reset branches; matched seen-reset branches follow the same clock.",
+  "retained": "Actual previous action/reward, current spatial input, external saved goal, physics, rewards, original actor and weights. This tests recurrent carryover, not all forms of history.",
+  "seed": 98201,
+  "episodes": 64,
+  "n_envs": 32,
+  "max_gap": 60,
+  "training_noise_during_evaluation": false,
+  "validation": "Every nonreset raw episode row must exactly equal the corresponding fixed final clean CUDA evaluation. First discoveries remain paired. Saved final checkpoint must match frozen training provenance and budgets.",
+  "training_protocol_sha256": {
+    "v2": "4a65f43f6c2615b4cff73a0385984d83887e5fb2ac346394661dac008f640a39",
+    "v3": "7ceda6758b7c792c891e308988fddd0144a61d27b0ebf5d484b4c24a63e360c4"
+  },
+  "source_sha256": {
+    "scripts/lstm_final75_every_blind_reset.py": "e639f6eda0e75d00b28062c579942cc716d087a2d3d6423406e423ac12918620",
+    "scripts/lstm_endogenous_every_blind_reset.py": "554a6f0397ef6a6b8fe87b59f0302b46726a3a003c424f84b0f4918bde9e8030",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "frozen_at": "2026-11-06T06:38:17.510173+00:00"
+}

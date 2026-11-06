@@ -1,0 +1,39 @@
+{
+  "matched_noise_completed": true,
+  "all_four_models_verified": true,
+  "common_raw_noise_sha256": "22474cbc8c14fdc3ece9f0555545eea1a5a1efdf0e54f465244e0fd35dfad694",
+  "noise_trained_reference_rows_exact": true,
+  "policy_weights_unchanged": true,
+  "secondary_reset_status": "Import failed before evaluation; missing matplotlib in CUDA image; failed result retained",
+  "diagnostics": [
+    {
+      "name": "matched_noise",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/eval_visual_memory_matched_noise.py",
+        "--out",
+        "results/ring_visual_memory/matched_noisy_endpoints_cloud",
+        "--max-seconds",
+        "600"
+      ],
+      "elapsed_seconds": 106.669491161,
+      "exit_code": 0
+    },
+    {
+      "name": "every_blind_reset",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/lstm_final75_reset_runtime_adapter.py",
+        "--out",
+        "results/ring_visual_memory/matched_noisy_endpoints_cloud/final75_every_blind_reset",
+        "--max-seconds",
+        "240"
+      ],
+      "elapsed_seconds": 2.0219777030000046,
+      "exit_code": 1
+    }
+  ],
+  "verified_at": "2026-11-06T06:49:38.606780+00:00",
+  "provider_instances_absent": true,
+  "provider_disks_absent": true
+}
