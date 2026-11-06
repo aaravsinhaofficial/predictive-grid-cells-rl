@@ -1,0 +1,653 @@
+{
+  "complete": true,
+  "audit_utc": "2026-11-06T23:05:08.163671+00:00",
+  "audit_script_sha256": "542261d011a96b976aa410d803a3c32e38ec419efc4be7bb451b59641a053fdd",
+  "audit_script": "from pathlib import Path\nimport json, hashlib, math, datetime, sys\nimport numpy as np\nimport torch\nROOT=Path('/Users/aaravsinha/predictive-grid-cells-rl')\nBASE=ROOT/'results/native_policy_distillation'\nV=('seen','blind','blind_current_grid','blind_every_reset','blind_current_grid_every_reset','seen_scheduled_every_reset')\nALLOWED={'lstm.weight_ih','lstm.weight_hh','lstm.bias_ih','lstm.bias_hh'}\n\ndef sha(path):\n    h=hashlib.sha256()\n    with Path(path).open('rb') as f:\n        for block in iter(lambda:f.read(1024*1024),b''):h.update(block)\n    return h.hexdigest()\ndef read(path):return json.loads(Path(path).read_text())\ndef load(path):return torch.load(path,map_location='cpu',weights_only=True)\ndef check(a,b,name):\n    if a is None or b is None:assert a is b,(name,a,b)\n    elif isinstance(a,(int,float)) and isinstance(b,(int,float)):\n        assert math.isclose(a,b,rel_tol=1e-12,abs_tol=1e-12),(name,a,b)\n    else:assert a==b,(name,a,b)\ndef digest(policy):\n    h=hashlib.sha256()\n    for key,tensor in sorted(policy.items()):h.update(key.encode());h.update(tensor.cpu().contiguous().numpy().tobytes())\n    return h.hexdigest()\ndef compare_policy(a,b):return set(a)==set(b) and all(torch.equal(a[k],b[k]) for k in a)\ndef summarize(rows):\n    n=len(rows);found=[r for r in rows if r['first_goal_step']>=0];eff=[r['path_eff'] for r in rows if r['path_eff_n']>0]\n    post=sum(1350-r['first_goal_step'] for r in found)\n    return dict(episodes=n,mean_score=sum(r['score'] for r in rows)/n,mean_goals=sum(r['n_goals'] for r in rows)/n,\n        fraction_discovered=len(found)/n,fraction_at_least_two_goals=sum(r['n_goals']>=2 for r in rows)/n,\n        mean_returns_per_episode=sum(max(0,r['n_goals']-1) for r in rows)/n,\n        post_discovery_returns_per_1000_steps=1000*sum(max(0,r['n_goals']-1) for r in found)/post if post else None,\n        conditional_mean_path_efficiency=sum(eff)/len(eff) if eff else None)\n\n# No partial-run audit or output: require both completed summaries and owner report.\nexecution=read(BASE/'execution.json');assert execution['complete']\nreport=read(BASE/'report/summary.json');assert report['complete']\nprotocol_path=ROOT/'docs/research/native_policy_distillation_protocol.json';protocol=read(protocol_path)\nphash=sha(protocol_path)\nassert execution['protocol_sha256']==phash and set(execution['models'])=={'gc100','pgc33'}\nfor key in ('clock_audit','operational_note'):\n    assert sha(ROOT/execution[key]['path'])==execution[key]['sha256']\nfrozen={**protocol['source_sha256'],**protocol['asset_sha256']}\nassert all(sha(ROOT/p)==h for p,h in frozen.items())\nassert report['protocol_sha256']==phash and report['execution_sha256']==sha(BASE/'execution.json')\nassert report['source_sha256']==sha(ROOT/'scripts/report_native_policy_distillation.py')\nclock=read(BASE/'runtime_clock_audit.json');assert report['runtime_clock_audit_sha256']==sha(BASE/'runtime_clock_audit.json')\nresult=dict(complete=True,audit_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),\n    audit_script_sha256=sha(__file__),audit_script=Path(__file__).read_text(),protocol_sha256=phash,\n    report_summary_sha256=sha(BASE/'report/summary.json'),training_protocol_sha256=phash,\n    endpoint_summary_sha256={c:sha(BASE/f'{c}_s1/summary.json') for c in ('gc100','pgc33')},execution_sha256=sha(BASE/'execution.json'),\n    frozen_sources_checked=len(protocol['source_sha256']),frozen_assets_checked=len(protocol['asset_sha256']),models={})\nfor condition in ('gc100','pgc33'):\n    d=BASE/f'{condition}_s1';s=read(d/'summary.json');assert s['complete'] and not(d/'incomplete.json').exists()\n    check(s['updates'],180,'updates');check(s['learning_physics_frames'],1036800,'frames');check(s['policy_decisions'],259200,'decisions')\n    assert s['protocol_sha256']==phash and s['seconds']<=s['max_seconds']==1800 and s['cost_usd']==0 and s['no_cloud']\n    e=execution['models'][condition];assert e['exit_code']==0 and e['fixed_updates']==180 and e['physics_frames']==1036800\n    check(e['recorded_monotonic_seconds'],s['seconds'],'execution runtime')\n    for key in ('summary','log'):\n        p=ROOT/e[key]['path'];assert p.stat().st_size==e[key]['bytes'] and sha(p)==e[key]['sha256']\n    assert e['initial_checkpoint_sha256']==sha(d/'initial.pt') and e['final_checkpoint_sha256']==sha(d/'final.pt')\n    calendar=(datetime.datetime.fromisoformat(e['summary_written_utc_from_mtime'])-datetime.datetime.fromisoformat(e['process_started_utc_from_ps'])).total_seconds()\n    check(calendar,e['calendar_seconds_until_summary'],'calendar runtime')\n    artifact_snapshot={}\n    for name,rec in s['artifacts'].items():\n        p=d/name;assert p.is_file() and not p.is_symlink() and p.parent==d\n        assert p.stat().st_size==rec['bytes'] and sha(p)==rec['sha256'];artifact_snapshot[str(p.relative_to(ROOT))]=rec['sha256']\n    original=load(ROOT/f'models/{condition}/{condition}_lstm_s1_1000M.pt');initial=load(d/'initial.pt');final=load(d/'final.pt')\n    assert original['frames']==1_000_000_000 and initial['updates']==0\n    assert initial['original_frames']==1_000_000_000 and initial['protocol_sha256']==phash\n    assert compare_policy(initial['policy'],original['policy'])\n    assert set(initial['policy'])==set(final['policy'])\n    assert {k for k in final['policy'] if k.startswith('lstm.')}==ALLOWED\n    assert all(torch.isfinite(t).all() for t in final['policy'].values())\n    nonlstm={k:t for k,t in initial['policy'].items() if k not in ALLOWED}\n    assert all(torch.equal(t,final['policy'][k]) for k,t in nonlstm.items())\n    assert digest(initial['policy'])==s['teacher_policy_hash']==final['teacher_policy_hash']\n    assert digest(final['policy'])==s['student_final_policy_hash']\n    assert digest(nonlstm)==s['frozen_tensor_hash']\n    assert s['frozen_tensors_unchanged'] and s['teacher_unchanged']\n    changes={k:float(torch.linalg.vector_norm((final['policy'][k]-initial['policy'][k]).double())) for k in sorted(ALLOWED)}\n    assert all(v>0 for v in changes.values())\n    for stage,updates in ((1,60),(2,120),(3,180),(None,180)):\n        p=d/('final.pt' if stage is None else f'stage{stage}.pt');cp=load(p)\n        assert cp['updates']==updates and cp['extra_frames']==updates*5760 and cp['original_frames']==1_000_000_000\n        assert cp['protocol_sha256']==phash and cp['source_sha256']==protocol['source_sha256']\n        assert cp['config']==initial['config'] and cp['teacher_policy_hash']==s['teacher_policy_hash']\n        assert set(cp['policy'])==set(initial['policy']) and all(torch.isfinite(t).all() for t in cp['policy'].values())\n        assert all(torch.equal(t,cp['policy'][k]) for k,t in nonlstm.items())\n        state=cp['optimizer']['state'];assert len(state)==4 and all(float(v['step'])==updates for v in state.values())\n        assert all(all(torch.isfinite(v[key]).all() for key in ('exp_avg','exp_avg_sq')) for v in state.values())\n        if stage==3:assert compare_policy(cp['policy'],final['policy'])\n    metrics=[json.loads(x) for x in (d/'metrics.jsonl').read_text().splitlines()]\n    assert len(metrics)==180 and [r['update'] for r in metrics]==list(range(1,181))\n    assert sum(len(r['completed_episode_scores']) for r in metrics)==192\n    assert all(metrics[i]['seconds']<metrics[i+1]['seconds'] for i in range(179))\n    for r in metrics:\n        st=(r['update']-1)//60;assert r['stage']==st+1 and r['gap']==[4,15,30][st] and r['teacher_beta']==[.5,.25,0][st]\n        assert r['physics_frames']==r['update']*5760 and r['replay_max_error']==0\n        assert all(math.isfinite(r[k]) for k in ('loss','grad_norm_before_clip','parameter_update_l2'))\n        assert 0<=r['ordinary_current_updates']<=r['blind_updates']<=1440\n    rm=report['models'][condition];assert rm['metrics']==metrics and rm['summary_sha256']==sha(d/'summary.json')\n    reported_norms={k:float((initial['policy'][k]-final['policy'][k]).norm()) for k in ALLOWED}\n    assert rm['changed_lstm_tensor_l2']==reported_norms\n    norm_precision={k:dict(reporter_float32=reported_norms[k],independent_float64=v,relative_difference=(reported_norms[k]-v)/v) for k,v in changes.items()}\n    bank=load(BASE/'masks'/f'{condition}.pt');assert bank['blind'].shape==(1350,32) and bank['blind'].dtype==torch.bool\n    mask_count=int(bank['blind'].sum());mask_hash=sha(BASE/'masks'/f'{condition}.pt')\n    trace=ROOT/f'results/native_movement_cycles/{condition}_s1/native_trace.pt';trace_hash=sha(trace)\n    assert bank['trace_sha256']==trace_hash and bank['evaluation_only']\n    periods={}\n    for period in ('baseline','final'):\n        b=read(d/f'{period}_behavior.json');rp=read(d/f'{period}_replay.json')\n        assert b==rm[f'{period}_behavior'] and rp==rm[f'{period}_replay']\n        assert b['complete'] and b['episodes_per_variant']==16 and set(b['variants'])==set(V)\n        scores={};recomputed={}\n        for name in V:\n            rows=b['variants'][name]['rows'];assert len(rows)==16 and {r['slot'] for r in rows}==set(range(16))\n            assert all(math.isfinite(r['score']) and math.isfinite(r['path_eff']) for r in rows)\n            a=summarize(rows)\n            for key,value in a.items():check(b['variants'][name][key],value,f'{condition}/{period}/{name}/{key}')\n            recomputed[name]=a;scores[name]=a['mean_score']\n            check([r['first_goal_step'] for r in rows],[r['first_goal_step'] for r in b['variants']['seen']['rows']],'common pre-discovery histories')\n            assert 0<=b['scheduled_gap_counts'][name]<=21600\n        c=dict(blind_reset_cost=scores['blind']-scores['blind_every_reset'],\n            ordinary_blind_reset_cost=scores['blind_current_grid']-scores['blind_current_grid_every_reset'],\n            seen_scheduled_reset_cost=scores['seen']-scores['seen_scheduled_every_reset'],\n            current_prediction_benefit=scores['blind']-scores['blind_current_grid'])\n        c['additional_blind_reset_cost']=c['blind_reset_cost']-c['seen_scheduled_reset_cost']\n        c['additional_ordinary_blind_reset_cost']=c['ordinary_blind_reset_cost']-c['seen_scheduled_reset_cost']\n        assert set(c)==set(b['contrasts'])\n        for key,value in c.items():check(b['contrasts'][key],value,key)\n        assert rp['complete'] and rp['episodes']==32 and rp['evaluation_only']\n        assert rp['mask_sha256']==mask_hash and rp['trace_sha256']==trace_hash\n        for key in ('mean_kl','scheduled_gap_kl','mean_action_tv','scheduled_gap_counts'):assert set(rp[key])==set(V)\n        assert all(v==mask_count for v in rp['scheduled_gap_counts'].values())\n        assert all(math.isfinite(v) and v>=-1e-6 for key in ('mean_kl','scheduled_gap_kl','mean_action_tv') for v in rp[key].values())\n        assert all(v<=1+1e-6 for v in rp['mean_action_tv'].values())\n        if condition=='gc100':\n            for a,z in (('blind','blind_current_grid'),('blind_every_reset','blind_current_grid_every_reset')):\n                assert b['variants'][a]==b['variants'][z]\n                for key in ('mean_kl','scheduled_gap_kl','mean_action_tv','scheduled_gap_counts'):check(rp[key][a],rp[key][z],'Grid replay sham')\n        if period=='baseline':assert rp['mean_kl']['seen']==0 and b['mean_teacher_kl']['seen']==0\n        periods[period]=dict(recomputed_behavior=recomputed,recomputed_contrasts=c,\n            live_scheduled_exposures={k:dict(count=v,denominator=21600,fraction=v/21600) for k,v in b['scheduled_gap_counts'].items()},\n            fixed_replay_gap_kl=rp['scheduled_gap_kl'],fixed_replay_exposures_per_branch=mask_count,\n            fixed_replay_total_per_branch=43200,zero_exposure_conditions=[k for k,v in rp['scheduled_gap_counts'].items() if v==0])\n    assert all(sha(ROOT/p)==h for p,h in artifact_snapshot.items())\n    result['models'][condition]=dict(artifact_count=len(artifact_snapshot),artifacts_sha256=artifact_snapshot,\n        initial_equals_original=True,all_frozen_tensors_exact=True,all_four_lstm_tensors_changed=True,\n        changed_tensor_l2_double_precision=changes,reporter_norms_exactly_reproduced=True,norm_precision_comparison=norm_precision,all_three_stages_and_final_valid=True,\n        all180_training_replay_errors_zero=True,training_completed_episodes=192,\n        monotonic_seconds=s['seconds'],monotonic_cap_seconds=s['max_seconds'],calendar_seconds_until_summary=calendar,periods=periods)\nassert all(sha(ROOT/p)==h for p,h in frozen.items())\nfigs={p.name:dict(sha256=sha(p),bytes=p.stat().st_size) for p in sorted((BASE/'report').iterdir()) if p.suffix in('.png','.pdf')}\nassert len(figs)==8\nresult.update(report_artifact_sha256=figs,scope=dict(original_seed_pairs=1,models=2,behavior_episodes_per_condition=16,\n    fixed_replay_episodes_per_model=32,conditions_per_endpoint=6,population_level_significance_claimed=False,\n    scientific_training_or_environment_reexecution=False,KL_recomputed_from_neural_execution=False,\n    KL_audit='Saved evaluation summaries, sealed-mask denominators, provenance, finite range and exact Grid shams checked; neural forwards were not rerun.'),\n    clock=dict(runtime_audit_sha256=sha(BASE/'runtime_clock_audit.json'),calendar_and_monotonic_are_distinguished=True,\n        explanation='Host suspension is a possible explanation for longer calendar time; frozen cap is 1800 monotonic seconds.'),\n    figures_visual_review=dict(complete=True,reviewer='independent sibling agent',files=['learning.png','behavior.png','fixed_history.png','erasure_cost.png'],findings='All four PNGs viewed. Original/continued mapping, both model panels, all six replay branches and three erasure comparisons are legible. Two initially clipped vertical labels were shortened by the owner and both corrected PNGs were viewed again before this audit. No scientific values changed.'))\noutput=BASE/'report/independent_audit.json'\nassert not output.exists()\noutput.write_text(json.dumps(result,indent=2,allow_nan=False)+'\\n')\nprint(json.dumps({'complete':True,'output':str(output),'models':{k:dict(monotonic_seconds=v['monotonic_seconds'],artifacts=len(v['artifacts_sha256']),scores={p:{a:b['mean_score'] for a,b in d['recomputed_behavior'].items()} for p,d in v['periods'].items()}) for k,v in result['models'].items()}},indent=2))\n",
+  "protocol_sha256": "119f74558bca7485ba2b516e2de034802ab2f792df90da0749e9c9d9a5325668",
+  "report_summary_sha256": "b5c7551b6f9918799cbb102cb6ec53a9e1b01f3b1b1b34c99da910efd77dd131",
+  "training_protocol_sha256": "119f74558bca7485ba2b516e2de034802ab2f792df90da0749e9c9d9a5325668",
+  "endpoint_summary_sha256": {
+    "gc100": "68785cd606813ea30fbc55a526abd1d67a5a50eb7f4f7247852a09c11c6977ba",
+    "pgc33": "600303c706f2c2f67dde44572d6c29b1de0bc39d7b2ed8e185f35c2ba32349fb"
+  },
+  "execution_sha256": "3cfbe921049a369cdfd7079b11464958adaf216db1395ac84646d1dd9c85ed79",
+  "frozen_sources_checked": 12,
+  "frozen_assets_checked": 10,
+  "models": {
+    "gc100": {
+      "artifact_count": 12,
+      "artifacts_sha256": {
+        "results/native_policy_distillation/gc100_s1/initial.pt": "324c66126be86fb0e697a0235c740a36ec1318924bac8e5beffe4ba0ebe18928",
+        "results/native_policy_distillation/gc100_s1/baseline_replay.json": "320c43d3dcba299579e00cb3daffaa6b61e0fad78c355b3b2ce19158c91a1652",
+        "results/native_policy_distillation/gc100_s1/stage2.pt": "279f319adb089825fd66d175c7f281012bfc4f2e354b74088d7504dc8e4f341d",
+        "results/native_policy_distillation/gc100_s1/stage3.pt": "061d6307bb051ff94b4934745c7c8ac82f627af27cbbfc358591453ae2879be6",
+        "results/native_policy_distillation/gc100_s1/first_blind_unroll.pt": "0c341efb9ce258d623572fe28ca048a81363fd7780d49392651011040782e742",
+        "results/native_policy_distillation/gc100_s1/final.pt": "80fc36fc0e1d41e1ed06dd9b8e537285d27542143b6646b9fa13e4a77c3dd891",
+        "results/native_policy_distillation/gc100_s1/baseline_behavior.json": "0c6c38689d151d74dbcfbc5907ba24533ee585a5b4bb73f7300ae5a124de5193",
+        "results/native_policy_distillation/gc100_s1/protocol.json": "cd089d3aac582d4f9ea37ca975dde279778429dec4c123fa07a79d78bc0cedfd",
+        "results/native_policy_distillation/gc100_s1/stage1.pt": "77ae508ac005d5e1f7e87e94bb33f6179f1beb8ca688019a786763e1cd5e36fe",
+        "results/native_policy_distillation/gc100_s1/final_behavior.json": "9248a415dba83d41ee2efdb9dda7d8014675045d4d22dafd824fff99f8e9f8fb",
+        "results/native_policy_distillation/gc100_s1/metrics.jsonl": "97c750b69f0bcd70a1a4a9a709950db15c9f047259575bd81816162600f86450",
+        "results/native_policy_distillation/gc100_s1/final_replay.json": "58b709847afcc0cf5bff5e18f216552f30491b1abeab4484d78c6bad7e641205"
+      },
+      "initial_equals_original": true,
+      "all_frozen_tensors_exact": true,
+      "all_four_lstm_tensors_changed": true,
+      "changed_tensor_l2_double_precision": {
+        "lstm.bias_hh": 0.1329256330457781,
+        "lstm.bias_ih": 0.13292564632142975,
+        "lstm.weight_hh": 1.4568662387914844,
+        "lstm.weight_ih": 3.734306040179287
+      },
+      "reporter_norms_exactly_reproduced": true,
+      "norm_precision_comparison": {
+        "lstm.bias_hh": {
+          "reporter_float32": 0.13292564451694489,
+          "independent_float64": 0.1329256330457781,
+          "relative_difference": 8.629762771398406e-08
+        },
+        "lstm.bias_ih": {
+          "reporter_float32": 0.13292565941810608,
+          "independent_float64": 0.13292564632142975,
+          "relative_difference": 9.852633174408869e-08
+        },
+        "lstm.weight_hh": {
+          "reporter_float32": 1.4568555355072021,
+          "independent_float64": 1.4568662387914844,
+          "relative_difference": -7.346785859413137e-06
+        },
+        "lstm.weight_ih": {
+          "reporter_float32": 3.734102964401245,
+          "independent_float64": 3.734306040179287,
+          "relative_difference": -5.4381128878303415e-05
+        }
+      },
+      "all_three_stages_and_final_valid": true,
+      "all180_training_replay_errors_zero": true,
+      "training_completed_episodes": 192,
+      "monotonic_seconds": 1288.4557030000724,
+      "monotonic_cap_seconds": 1800,
+      "calendar_seconds_until_summary": 3596.139548,
+      "periods": {
+        "baseline": {
+          "recomputed_behavior": {
+            "seen": {
+              "episodes": 16,
+              "mean_score": 88.75,
+              "mean_goals": 8.875,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.875,
+              "mean_returns_per_episode": 8.0,
+              "post_discovery_returns_per_1000_steps": 8.046771861444647,
+              "conditional_mean_path_efficiency": 0.6105399493660245
+            },
+            "blind": {
+              "episodes": 16,
+              "mean_score": 32.5,
+              "mean_goals": 3.25,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 2.375,
+              "post_discovery_returns_per_1000_steps": 2.3888853963663794,
+              "conditional_mean_path_efficiency": 0.37566986221533555
+            },
+            "blind_current_grid": {
+              "episodes": 16,
+              "mean_score": 32.5,
+              "mean_goals": 3.25,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 2.375,
+              "post_discovery_returns_per_1000_steps": 2.3888853963663794,
+              "conditional_mean_path_efficiency": 0.37566986221533555
+            },
+            "blind_every_reset": {
+              "episodes": 16,
+              "mean_score": 20.625,
+              "mean_goals": 2.0625,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.6875,
+              "mean_returns_per_episode": 1.1875,
+              "post_discovery_returns_per_1000_steps": 1.1944426981831897,
+              "conditional_mean_path_efficiency": 0.3751185197721828
+            },
+            "blind_current_grid_every_reset": {
+              "episodes": 16,
+              "mean_score": 20.625,
+              "mean_goals": 2.0625,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.6875,
+              "mean_returns_per_episode": 1.1875,
+              "post_discovery_returns_per_1000_steps": 1.1944426981831897,
+              "conditional_mean_path_efficiency": 0.3751185197721828
+            },
+            "seen_scheduled_every_reset": {
+              "episodes": 16,
+              "mean_score": 80.625,
+              "mean_goals": 8.0625,
+              "fraction_discovered": 0.875,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 7.1875,
+              "post_discovery_returns_per_1000_steps": 7.229521594266675,
+              "conditional_mean_path_efficiency": 0.5580229896765488
+            }
+          },
+          "recomputed_contrasts": {
+            "blind_reset_cost": 11.875,
+            "ordinary_blind_reset_cost": 11.875,
+            "seen_scheduled_reset_cost": 8.125,
+            "current_prediction_benefit": 0.0,
+            "additional_blind_reset_cost": 3.75,
+            "additional_ordinary_blind_reset_cost": 3.75
+          },
+          "live_scheduled_exposures": {
+            "seen": {
+              "count": 8817.0,
+              "denominator": 21600,
+              "fraction": 0.40819444444444447
+            },
+            "blind": {
+              "count": 9249.0,
+              "denominator": 21600,
+              "fraction": 0.42819444444444443
+            },
+            "blind_current_grid": {
+              "count": 9249.0,
+              "denominator": 21600,
+              "fraction": 0.42819444444444443
+            },
+            "blind_every_reset": {
+              "count": 9335.0,
+              "denominator": 21600,
+              "fraction": 0.4321759259259259
+            },
+            "blind_current_grid_every_reset": {
+              "count": 9335.0,
+              "denominator": 21600,
+              "fraction": 0.4321759259259259
+            },
+            "seen_scheduled_every_reset": {
+              "count": 8909.0,
+              "denominator": 21600,
+              "fraction": 0.4124537037037037
+            }
+          },
+          "fixed_replay_gap_kl": {
+            "seen": 0.0,
+            "blind": 3.3694458497216107,
+            "blind_current_grid": 3.3694458497216107,
+            "blind_every_reset": 3.505793957573686,
+            "blind_current_grid_every_reset": 3.505793957573686,
+            "seen_scheduled_every_reset": 0.3974002523255608
+          },
+          "fixed_replay_exposures_per_branch": 15750,
+          "fixed_replay_total_per_branch": 43200,
+          "zero_exposure_conditions": []
+        },
+        "final": {
+          "recomputed_behavior": {
+            "seen": {
+              "episodes": 16,
+              "mean_score": 81.25,
+              "mean_goals": 8.125,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 7.3125,
+              "post_discovery_returns_per_1000_steps": 8.170391061452515,
+              "conditional_mean_path_efficiency": 0.5879072822057284
+            },
+            "blind": {
+              "episodes": 16,
+              "mean_score": 42.5,
+              "mean_goals": 4.25,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.75,
+              "mean_returns_per_episode": 3.4375,
+              "post_discovery_returns_per_1000_steps": 3.840782122905028,
+              "conditional_mean_path_efficiency": 0.417388462771972
+            },
+            "blind_current_grid": {
+              "episodes": 16,
+              "mean_score": 42.5,
+              "mean_goals": 4.25,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.75,
+              "mean_returns_per_episode": 3.4375,
+              "post_discovery_returns_per_1000_steps": 3.840782122905028,
+              "conditional_mean_path_efficiency": 0.417388462771972
+            },
+            "blind_every_reset": {
+              "episodes": 16,
+              "mean_score": 30.0,
+              "mean_goals": 3.0,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 2.1875,
+              "post_discovery_returns_per_1000_steps": 2.4441340782122905,
+              "conditional_mean_path_efficiency": 0.3277732672599646
+            },
+            "blind_current_grid_every_reset": {
+              "episodes": 16,
+              "mean_score": 30.0,
+              "mean_goals": 3.0,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.8125,
+              "mean_returns_per_episode": 2.1875,
+              "post_discovery_returns_per_1000_steps": 2.4441340782122905,
+              "conditional_mean_path_efficiency": 0.3277732672599646
+            },
+            "seen_scheduled_every_reset": {
+              "episodes": 16,
+              "mean_score": 70.0,
+              "mean_goals": 7.0,
+              "fraction_discovered": 0.8125,
+              "fraction_at_least_two_goals": 0.75,
+              "mean_returns_per_episode": 6.1875,
+              "post_discovery_returns_per_1000_steps": 6.91340782122905,
+              "conditional_mean_path_efficiency": 0.6004829257726669
+            }
+          },
+          "recomputed_contrasts": {
+            "blind_reset_cost": 12.5,
+            "ordinary_blind_reset_cost": 12.5,
+            "seen_scheduled_reset_cost": 11.25,
+            "current_prediction_benefit": 0.0,
+            "additional_blind_reset_cost": 1.25,
+            "additional_ordinary_blind_reset_cost": 1.25
+          },
+          "live_scheduled_exposures": {
+            "seen": {
+              "count": 7943.0,
+              "denominator": 21600,
+              "fraction": 0.3677314814814815
+            },
+            "blind": {
+              "count": 8259.0,
+              "denominator": 21600,
+              "fraction": 0.3823611111111111
+            },
+            "blind_current_grid": {
+              "count": 8259.0,
+              "denominator": 21600,
+              "fraction": 0.3823611111111111
+            },
+            "blind_every_reset": {
+              "count": 8366.0,
+              "denominator": 21600,
+              "fraction": 0.38731481481481483
+            },
+            "blind_current_grid_every_reset": {
+              "count": 8366.0,
+              "denominator": 21600,
+              "fraction": 0.38731481481481483
+            },
+            "seen_scheduled_every_reset": {
+              "count": 8020.0,
+              "denominator": 21600,
+              "fraction": 0.3712962962962963
+            }
+          },
+          "fixed_replay_gap_kl": {
+            "seen": 0.10742184154251669,
+            "blind": 0.7393529737159925,
+            "blind_current_grid": 0.7393529737159925,
+            "blind_every_reset": 1.1464357451909597,
+            "blind_current_grid_every_reset": 1.1464357451909597,
+            "seen_scheduled_every_reset": 0.26103821400259253
+          },
+          "fixed_replay_exposures_per_branch": 15750,
+          "fixed_replay_total_per_branch": 43200,
+          "zero_exposure_conditions": []
+        }
+      }
+    },
+    "pgc33": {
+      "artifact_count": 12,
+      "artifacts_sha256": {
+        "results/native_policy_distillation/pgc33_s1/initial.pt": "d3454f16d06c06a815228e4f1c20689f377462afb5609ed6cee37ac770035f26",
+        "results/native_policy_distillation/pgc33_s1/baseline_replay.json": "81c9033fe75c02b711d27891b2374f7595039bfc9314c93ecc4b9bb76fae467b",
+        "results/native_policy_distillation/pgc33_s1/stage2.pt": "fd9fab4c733dc5dee14e532990e1103e7ccd5d692d0820874061f9da8a290ccc",
+        "results/native_policy_distillation/pgc33_s1/stage3.pt": "cb5a9ed517cf8ccf395bf926c7949f14b9527decee1fb133a807f03cb6460355",
+        "results/native_policy_distillation/pgc33_s1/first_blind_unroll.pt": "4a21196464f72ad4976264e4db43c596c08abb6d3863e05fdf32f391b6f963bd",
+        "results/native_policy_distillation/pgc33_s1/final.pt": "4150295e0860e8b8dd79989778d02fbef832554519837c42fa15b182f56ea29f",
+        "results/native_policy_distillation/pgc33_s1/baseline_behavior.json": "0a353d46f848c6816019c2b82ead8daa96862f14e4399f38ad994bb01745fb52",
+        "results/native_policy_distillation/pgc33_s1/protocol.json": "cd8506a2aa698b146a74ddc80d80ec03dc4d4e66da7cdf19f98de6a104cdca80",
+        "results/native_policy_distillation/pgc33_s1/stage1.pt": "9ada31316b163a7140daf64ad7ceaf68636f974eeeff20579411139e7afbc591",
+        "results/native_policy_distillation/pgc33_s1/final_behavior.json": "625bb7b79162f29a221c6b134da0b0e2bd3f19893f744a29f6bc6f32cd0335ea",
+        "results/native_policy_distillation/pgc33_s1/metrics.jsonl": "1e3844254e1894b8e15ca529befff0f669a2f0636989f74939b4eb3f32cacbde",
+        "results/native_policy_distillation/pgc33_s1/final_replay.json": "6165baeb2032aec0a3f29c146413ae7157bfe1222c1e6cef592fb873647e2188"
+      },
+      "initial_equals_original": true,
+      "all_frozen_tensors_exact": true,
+      "all_four_lstm_tensors_changed": true,
+      "changed_tensor_l2_double_precision": {
+        "lstm.bias_hh": 0.14577169158343473,
+        "lstm.bias_ih": 0.14577168692045916,
+        "lstm.weight_hh": 1.6487625938783814,
+        "lstm.weight_ih": 4.174252186673696
+      },
+      "reporter_norms_exactly_reproduced": true,
+      "norm_precision_comparison": {
+        "lstm.bias_hh": {
+          "reporter_float32": 0.14577169716358185,
+          "independent_float64": 0.14577169158343473,
+          "relative_difference": 3.828004643109282e-08
+        },
+        "lstm.bias_ih": {
+          "reporter_float32": 0.14577169716358185,
+          "independent_float64": 0.14577168692045916,
+          "relative_difference": 7.026825921945692e-08
+        },
+        "lstm.weight_hh": {
+          "reporter_float32": 1.64875066280365,
+          "independent_float64": 1.6487625938783814,
+          "relative_difference": -7.2363812569606426e-06
+        },
+        "lstm.weight_ih": {
+          "reporter_float32": 4.173991680145264,
+          "independent_float64": 4.174252186673696,
+          "relative_difference": -6.240795160007952e-05
+        }
+      },
+      "all_three_stages_and_final_valid": true,
+      "all180_training_replay_errors_zero": true,
+      "training_completed_episodes": 192,
+      "monotonic_seconds": 1299.8402876250912,
+      "monotonic_cap_seconds": 1800,
+      "calendar_seconds_until_summary": 3607.511934,
+      "periods": {
+        "baseline": {
+          "recomputed_behavior": {
+            "seen": {
+              "episodes": 16,
+              "mean_score": 59.375,
+              "mean_goals": 5.9375,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 5.3125,
+              "post_discovery_returns_per_1000_steps": 7.875474844806819,
+              "conditional_mean_path_efficiency": 0.7202352947658963
+            },
+            "blind": {
+              "episodes": 16,
+              "mean_score": 15.0,
+              "mean_goals": 1.5,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.5,
+              "mean_returns_per_episode": 0.875,
+              "post_discovery_returns_per_1000_steps": 1.2971370332622996,
+              "conditional_mean_path_efficiency": 0.482707554474473
+            },
+            "blind_current_grid": {
+              "episodes": 16,
+              "mean_score": 15.625,
+              "mean_goals": 1.5625,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.5,
+              "mean_returns_per_episode": 0.9375,
+              "post_discovery_returns_per_1000_steps": 1.389789678495321,
+              "conditional_mean_path_efficiency": 0.5114895552396774
+            },
+            "blind_every_reset": {
+              "episodes": 16,
+              "mean_score": 13.75,
+              "mean_goals": 1.375,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.5,
+              "mean_returns_per_episode": 0.75,
+              "post_discovery_returns_per_1000_steps": 1.1118317427962567,
+              "conditional_mean_path_efficiency": 0.48766266368329525
+            },
+            "blind_current_grid_every_reset": {
+              "episodes": 16,
+              "mean_score": 14.375,
+              "mean_goals": 1.4375,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.5,
+              "mean_returns_per_episode": 0.8125,
+              "post_discovery_returns_per_1000_steps": 1.2044843880292782,
+              "conditional_mean_path_efficiency": 0.5033110938966274
+            },
+            "seen_scheduled_every_reset": {
+              "episodes": 16,
+              "mean_score": 38.125,
+              "mean_goals": 3.8125,
+              "fraction_discovered": 0.625,
+              "fraction_at_least_two_goals": 0.625,
+              "mean_returns_per_episode": 3.1875,
+              "post_discovery_returns_per_1000_steps": 4.725284906884092,
+              "conditional_mean_path_efficiency": 0.5522725805640221
+            }
+          },
+          "recomputed_contrasts": {
+            "blind_reset_cost": 1.25,
+            "ordinary_blind_reset_cost": 1.25,
+            "seen_scheduled_reset_cost": 21.25,
+            "current_prediction_benefit": -0.625,
+            "additional_blind_reset_cost": -20.0,
+            "additional_ordinary_blind_reset_cost": -20.0
+          },
+          "live_scheduled_exposures": {
+            "seen": {
+              "count": 6027.0,
+              "denominator": 21600,
+              "fraction": 0.27902777777777776
+            },
+            "blind": {
+              "count": 6321.0,
+              "denominator": 21600,
+              "fraction": 0.2926388888888889
+            },
+            "blind_current_grid": {
+              "count": 6351.0,
+              "denominator": 21600,
+              "fraction": 0.2940277777777778
+            },
+            "blind_every_reset": {
+              "count": 6373.0,
+              "denominator": 21600,
+              "fraction": 0.2950462962962963
+            },
+            "blind_current_grid_every_reset": {
+              "count": 6285.0,
+              "denominator": 21600,
+              "fraction": 0.29097222222222224
+            },
+            "seen_scheduled_every_reset": {
+              "count": 6130.0,
+              "denominator": 21600,
+              "fraction": 0.28379629629629627
+            }
+          },
+          "fixed_replay_gap_kl": {
+            "seen": 0.0,
+            "blind": 5.8260629166823845,
+            "blind_current_grid": 5.879536967769356,
+            "blind_every_reset": 5.2250640630116045,
+            "blind_current_grid_every_reset": 5.250487572828458,
+            "seen_scheduled_every_reset": 0.531753278217084
+          },
+          "fixed_replay_exposures_per_branch": 14028,
+          "fixed_replay_total_per_branch": 43200,
+          "zero_exposure_conditions": []
+        },
+        "final": {
+          "recomputed_behavior": {
+            "seen": {
+              "episodes": 16,
+              "mean_score": 68.125,
+              "mean_goals": 6.8125,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 6.25,
+              "post_discovery_returns_per_1000_steps": 9.153318077803204,
+              "conditional_mean_path_efficiency": 0.7020580901039971
+            },
+            "blind": {
+              "episodes": 16,
+              "mean_score": 31.875,
+              "mean_goals": 3.1875,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 2.625,
+              "post_discovery_returns_per_1000_steps": 3.8443935926773456,
+              "conditional_mean_path_efficiency": 0.439384584625562
+            },
+            "blind_current_grid": {
+              "episodes": 16,
+              "mean_score": 26.25,
+              "mean_goals": 2.625,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 2.0625,
+              "post_discovery_returns_per_1000_steps": 3.0205949656750573,
+              "conditional_mean_path_efficiency": 0.37461822397179073
+            },
+            "blind_every_reset": {
+              "episodes": 16,
+              "mean_score": 20.625,
+              "mean_goals": 2.0625,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 1.5,
+              "post_discovery_returns_per_1000_steps": 2.196796338672769,
+              "conditional_mean_path_efficiency": 0.4186360372437371
+            },
+            "blind_current_grid_every_reset": {
+              "episodes": 16,
+              "mean_score": 22.5,
+              "mean_goals": 2.25,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 1.6875,
+              "post_discovery_returns_per_1000_steps": 2.471395881006865,
+              "conditional_mean_path_efficiency": 0.46830511424276566
+            },
+            "seen_scheduled_every_reset": {
+              "episodes": 16,
+              "mean_score": 48.75,
+              "mean_goals": 4.875,
+              "fraction_discovered": 0.5625,
+              "fraction_at_least_two_goals": 0.5625,
+              "mean_returns_per_episode": 4.3125,
+              "post_discovery_returns_per_1000_steps": 6.315789473684211,
+              "conditional_mean_path_efficiency": 0.6301829665899277
+            }
+          },
+          "recomputed_contrasts": {
+            "blind_reset_cost": 11.25,
+            "ordinary_blind_reset_cost": 3.75,
+            "seen_scheduled_reset_cost": 19.375,
+            "current_prediction_benefit": 5.625,
+            "additional_blind_reset_cost": -8.125,
+            "additional_ordinary_blind_reset_cost": -15.625
+          },
+          "live_scheduled_exposures": {
+            "seen": {
+              "count": 6102.0,
+              "denominator": 21600,
+              "fraction": 0.2825
+            },
+            "blind": {
+              "count": 6323.0,
+              "denominator": 21600,
+              "fraction": 0.2927314814814815
+            },
+            "blind_current_grid": {
+              "count": 6314.0,
+              "denominator": 21600,
+              "fraction": 0.2923148148148148
+            },
+            "blind_every_reset": {
+              "count": 6383.0,
+              "denominator": 21600,
+              "fraction": 0.29550925925925925
+            },
+            "blind_current_grid_every_reset": {
+              "count": 6325.0,
+              "denominator": 21600,
+              "fraction": 0.29282407407407407
+            },
+            "seen_scheduled_every_reset": {
+              "count": 6136.0,
+              "denominator": 21600,
+              "fraction": 0.2840740740740741
+            }
+          },
+          "fixed_replay_gap_kl": {
+            "seen": 0.12479976186358757,
+            "blind": 0.8699150979961122,
+            "blind_current_grid": 0.8874316191831495,
+            "blind_every_reset": 1.2754359927996104,
+            "blind_current_grid_every_reset": 1.32295872126548,
+            "seen_scheduled_every_reset": 0.41493835065641765
+          },
+          "fixed_replay_exposures_per_branch": 14028,
+          "fixed_replay_total_per_branch": 43200,
+          "zero_exposure_conditions": []
+        }
+      }
+    }
+  },
+  "report_artifact_sha256": {
+    "behavior.pdf": {
+      "sha256": "df68dc803014b279f318e97f97a736326b95eeeca39a5f01c2a10a5915a27e50",
+      "bytes": 11714
+    },
+    "behavior.png": {
+      "sha256": "f7978b8f8fd226f8b2ca982a65ae20c044806adeac9ccabcbd040e1733f2095a",
+      "bytes": 39997
+    },
+    "erasure_cost.pdf": {
+      "sha256": "313d470e2419d8ae9977cf9610618996139bd7ceb11a0b12b0336a9283e41711",
+      "bytes": 12202
+    },
+    "erasure_cost.png": {
+      "sha256": "bf252d9ccea31cf8c1e5c174c800f440e1add20fdd35101ac0e2f5cb9843edcb",
+      "bytes": 43897
+    },
+    "fixed_history.pdf": {
+      "sha256": "c63028741e260580316035d0befa3e1423238e045868c8a6c15b6f2061d379c0",
+      "bytes": 13122
+    },
+    "fixed_history.png": {
+      "sha256": "4d411a1cbec3f42fdc378ad5cce59501602bc3137394a5e8dc080a42a4316784",
+      "bytes": 49889
+    },
+    "learning.pdf": {
+      "sha256": "4d74d8c6f79df3300f1ac3c925b6a9ef81121807c228d91fb17a0cc441912907",
+      "bytes": 19363
+    },
+    "learning.png": {
+      "sha256": "6adaaa66c13b9c509dc290b779ef33705d848f6983ce70688518d5e861f6db5f",
+      "bytes": 128654
+    }
+  },
+  "scope": {
+    "original_seed_pairs": 1,
+    "models": 2,
+    "behavior_episodes_per_condition": 16,
+    "fixed_replay_episodes_per_model": 32,
+    "conditions_per_endpoint": 6,
+    "population_level_significance_claimed": false,
+    "scientific_training_or_environment_reexecution": false,
+    "KL_recomputed_from_neural_execution": false,
+    "KL_audit": "Saved evaluation summaries, sealed-mask denominators, provenance, finite range and exact Grid shams checked; neural forwards were not rerun."
+  },
+  "clock": {
+    "runtime_audit_sha256": "feb86b423555ca1bb5886e72ddab1a7943594ae862862bfa1f2b2489cc2756f0",
+    "calendar_and_monotonic_are_distinguished": true,
+    "explanation": "Host suspension is a possible explanation for longer calendar time; frozen cap is 1800 monotonic seconds."
+  },
+  "figures_visual_review": {
+    "complete": true,
+    "reviewer": "independent sibling agent",
+    "files": [
+      "learning.png",
+      "behavior.png",
+      "fixed_history.png",
+      "erasure_cost.png"
+    ],
+    "findings": "All four PNGs viewed. Original/continued mapping, both model panels, all six replay branches and three erasure comparisons are legible. Two initially clipped vertical labels were shortened by the owner and both corrected PNGs were viewed again before this audit. No scientific values changed."
+  }
+}

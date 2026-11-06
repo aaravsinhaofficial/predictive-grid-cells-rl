@@ -1,0 +1,109 @@
+{
+  "complete": true,
+  "read_only": true,
+  "scientific_reexecution": false,
+  "audit_utc": "2026-11-06T23:11:13.743166+00:00",
+  "aggregate_sha256": "8452750c65c2ddfd23ae5b16b944613df073169656b5acc819f57836a0ec8851",
+  "source_sha256": "d4b479645630c6e92b4efa4c55cf83499618773ad13db3a9165776fedbbce1ca",
+  "contexts": 24,
+  "unique_rows": 720,
+  "matched_input_pairs_checked": 8,
+  "all_raw_gates_and_reported_metrics_exact": true,
+  "all_aggregate_counts_exact": true,
+  "primary_counts": {
+    "gc100/full_state": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    },
+    "gc100/all_hidden": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    },
+    "gc100/centered_actor_logits": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    },
+    "pgc33/full_state": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    },
+    "pgc33/all_hidden": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    },
+    "pgc33/centered_actor_logits": {
+      "initial": [
+        0,
+        6
+      ],
+      "final": [
+        0,
+        6
+      ]
+    }
+  },
+  "primary_totals": {
+    "initial": [
+      0,
+      36
+    ],
+    "final": [
+      0,
+      36
+    ]
+  },
+  "own_final": [
+    0,
+    36
+  ],
+  "four_second": [
+    0,
+    72
+  ],
+  "individual_nominations": 0,
+  "code": "from pathlib import Path\nfrom collections import Counter,defaultdict\nimport hashlib,json,datetime,itertools\nR=Path('/Users/aaravsinha/predictive-grid-cells-rl');O=R/'results/lstm_distillation_memory'\ndef read(p):return json.loads(Path(p).read_text())\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\na=read(O/'aggregate.json');assert a['complete'] and a['source_sha256']==sha(R/'scripts/lstm_distillation_memory_report.py') and a['protocol_sha256']==sha(O/'protocol.json')\nassert len(a['contexts'])==24 and len(a['rows'])==720\nC=('gc100','pgc33');E=('initial','final');F=('heading','travel');W=('within_trained_2s','legacy_4s_extrapolation');M=('raw','relative_rms');V=('all_hidden','centered_actor_logits')\nfields=('condition','endpoint','regime','family','context','branch','window','metric','observed','centered')\nexpected=set();context_records={};matched_checks=0\nfor c,e in itertools.product(C,E):\n s=read(O/c/e/'summary.json');assert s['complete'] and s['condition']==c and s['endpoint']==e\n assert len(s['results'])==s['contexts']==(4 if e=='initial' else 8)\n assert s['protocol_sha256']==a['protocol_sha256'] and s['checkpoint_sha256']==sha(R/f'results/native_policy_distillation/{c}_s1/{e}.pt')\n for g in (('own_policy',) if e=='initial' else ('own_policy','matched_initial_contexts')):\n  for f,i in itertools.product(F,range(2)):\n   base=O/c/e/f if g=='own_policy' else O/c/e/g/f\n   p=base/f'context{i}_adapted.json';d=read(p)\n   for k,v in dict(condition=c,endpoint=e,regime=g,family=f,context=i).items():assert d[k]==v\n   assert d['source_sha256']==sha(R/'scripts/lstm_distillation_memory.py') and d['checkpoint_sha256']==s['checkpoint_sha256'] and d['protocol_sha256']==a['protocol_sha256']\n   ctx=(c,e,g,f,i);assert ctx not in context_records;context_records[ctx]=d\n   branches=('native_current','ordinary_current') if f=='heading' else ('ordinary_current_release',)\n   assert set(d['full_state_candidate_gates'])==set(d['fixed_observable'])==set(branches)\n   for b,w,m in itertools.product(branches,W,M):\n    expected.add((*ctx,b,w,m,'full_state',False))\n    for v,z in itertools.product(V,(False,True)):expected.add((*ctx,b,w,m,v,z))\n   if g=='matched_initial_contexts':\n    init=O/c/'initial'/f/f'context{i}_adapted.json';di=read(init)\n    for k in ('prefix_sha256','prefix_mask_sha256','preparation_input_sha256'):assert d[k]==di[k]\n    pc=d['paired_comparison'];assert all(pc[k] for k in ('inputs_and_angles_byte_identical','all15_preparation_inputs_byte_identical','initial_hc_never_transferred'))\n    assert pc['identical_prefix_sha256']==di['prefix_sha256'] and sha(pc['initial_archive'])==pc['initial_archive_sha256'];matched_checks+=1\nassert {tuple(x[k] for k in fields[:5]) for x in a['contexts']}==set(context_records)\nactual=[tuple(row[k] for k in fields) for row in a['rows']];assert len(actual)==len(set(actual)) and set(actual)==expected\ncache={};failure=Counter();nom=[];group=defaultdict(dict)\nfor row in a['rows']:\n ctx=tuple(row[k] for k in fields[:5]);d=context_records[ctx];b=row['branch'];w=row['window'];m=row['metric'];v=row['observed'];z=row['centered']\n if v=='full_state':\n  gates=d['full_state_candidate_gates'][b][w][m];base=(R/row['path']).parent\n  p=base/f'context{row[\"context\"]}.json' if row['family']=='heading' else base/f'{row[\"condition\"]}_s1/context{row[\"context\"]}.json'\n  if str(p) not in cache:cache[str(p)]=read(p)\n  raw=cache[str(p)];br=raw['branches'][b] if row['family']=='heading' else raw['ordinary_release']\n  ref,hor=(15,15) if w==W[0] else (30,30);r=br['invariance'][str(ref)][m]['horizons'][str(hor)]\n  values=dict(departure_p90=r['residual_to_fixed_curve_over_radius']['p90'],radial_gain=r['radial_normal_gain']['median'],radial_over_phase=r['radial_over_tangent_gain']['median'],radius_retention=br['trajectory'][str(ref)][m]['radius_retention'],phase_coverage=r['phase_transport']['circular_coverage'],actor_probability_rms=None)\n else:\n  r=d['fixed_observable'][b]['windows'][w][v][m];cent='centered' if z else 'noncentered';gates=r['candidate_gates'][cent];inv=r['invariance'][cent]\n  values=dict(departure_p90=inv['residual_to_reference_curve_over_radius']['p90'],radial_gain=r['radial_observable_normal_gain']['median'],radial_over_phase=r['radial_over_tangent_observable_gain']['median'],radius_retention=inv['evolved_radius_retention'],phase_coverage=inv['phase_transport']['circular_coverage'],actor_probability_rms=r['actor']['evolved']['family_probability_RMS'])\n assert row['gates']==gates and row['candidate']==all(gates.values()) and all(row[k]==value for k,value in values.items())\n failure.update(k for k,value in gates.items() if not value)\n if row['candidate']:nom.append(row)\n key=tuple(row[k] for k in fields if k!='metric');assert m not in group[key];group[key][m]=row['candidate']\nassert dict(failure)==a['failed_gate_counts'] and nom==a['nominations'] and len(nom)==a['individual_metric_nominations']\nassert all(set(v)==set(M) for v in group.values())\n# Independent count uses one raw/RMS conjunction per exact family/context/branch, never a metric vote.\ndef count(c=None,e=None,v=None,w=W[0],own=False):\n pairs=[]\n for k,vals in group.items():\n  rc,re,rg,rf,ri,rb,rw,rv,rz=k\n  if c is not None and c!=rc:continue\n  if e is not None and e!=re:continue\n  if v is not None and v!=rv:continue\n  if rw!=w or rz!=(rv!='full_state'):continue\n  if own:\n   if re!='final' or rg!='own_policy':continue\n  elif rg!=('own_policy' if re=='initial' else 'matched_initial_contexts'):continue\n  pairs.append(all(vals.values()))\n return [sum(pairs),len(pairs)]\npaired={}\nfor c,v in itertools.product(C,('full_state',*V)):\n paired[f'{c}/{v}']={e:count(c,e,v) for e in E}\n assert all(n==6 for _,n in paired[f'{c}/{v}'].values())\nassert paired==a['primary_paired_both_metric_counts']\ntotals={e:count(e=e) for e in E};assert totals==a['primary_paired_both_metric_totals']\nassert count(own=True)==a['own_final_primary_both_metric_count'] and count(w=W[1])==a['paired_four_second_both_metric_count']\nexact=defaultdict(lambda:dict(positive=0,total=0))\nfor row in a['rows']:\n key='/'.join(str(row[k]) for k in ('condition','endpoint','regime','window','observed','metric','centered'))\n exact[key]['positive']+=row['candidate'];exact[key]['total']+=1\nassert dict(exact)==a['exact_nomination_counts']\nresult=dict(complete=True,read_only=True,scientific_reexecution=False,audit_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),\n aggregate_sha256=sha(O/'aggregate.json'),source_sha256=a['source_sha256'],contexts=24,unique_rows=720,matched_input_pairs_checked=matched_checks,\n all_raw_gates_and_reported_metrics_exact=True,all_aggregate_counts_exact=True,primary_counts=paired,primary_totals=totals,\n own_final=a['own_final_primary_both_metric_count'],four_second=a['paired_four_second_both_metric_count'],individual_nominations=len(nom),\n code=Path(__file__).read_text())\np=Path('/tmp/native_distillation_geometry_report_audit.json');p.write_text(json.dumps(result,indent=2)+'\\n')\nprint(json.dumps({k:v for k,v in result.items() if k!='code'},indent=2))\n",
+  "execution_sha256": "64428108c4ed86497396f51996216325159950180605afe7d72f697d3f91c943",
+  "all139_preserved_artifacts_verified": true,
+  "artifact_count": 139,
+  "all_descriptive_medians_recomputed": true,
+  "paired2s_minimum_departure": 0.1778877369853839,
+  "visual_review": {
+    "complete": true,
+    "figures": [
+      "distillation_paired_candidates.png",
+      "distillation_paired_diagnostics.png"
+    ],
+    "findings": "All labels, primary denominators, all-case paired lines, colors, log axes and thresholds inspected; numerical data and interpretation consistent."
+  },
+  "report_claim_review": "Matched-count, own-policy, four-second, contraction and one-second evolution within two-second observation statements agree with saved records."
+}

@@ -1,0 +1,62 @@
+{
+  "observed_utc": "2026-11-06T22:54:37.230413+00:00",
+  "observer_monotonic_seconds": 1685441.142578333,
+  "process_status": "  PID STARTED                      ELAPSED      TIME  %CPU    RSS COMMAND\n92179 Fri Nov  6 16:02:47 2026       51:50  19:48.45 143.9 473808 /opt/anaconda3/bin/python scripts/native_policy_distillation.py --condition gc100 --out results/native_policy_distillation/gc100_s1 --max-seconds 1800\n92180 Fri Nov  6 16:02:47 2026       51:50  19:46.09 144.8 459264 /opt/anaconda3/bin/python scripts/native_policy_distillation.py --condition pgc33 --out results/native_policy_distillation/pgc33_s1 --max-seconds 1800\n",
+  "models": {
+    "gc100": {
+      "latest_metric": {
+        "update": 112,
+        "stage": 2,
+        "gap": 15,
+        "teacher_beta": 0.25,
+        "physics_frames": 645120,
+        "seconds": 799.7291603330523,
+        "loss": 0.3792324364185333,
+        "blind_kl": 1.1663362979888916,
+        "visible_kl": 0.06377838551998138,
+        "blind_updates": 412,
+        "ordinary_current_updates": 169,
+        "teacher_actions": 348,
+        "grad_norm_before_clip": 0.5470503568649292,
+        "parameter_update_l2": 0.04072478781442311,
+        "replay_max_error": 0.0,
+        "completed_episode_scores": []
+      },
+      "metric_rows": 112,
+      "incomplete_exists": false
+    },
+    "pgc33": {
+      "latest_metric": {
+        "update": 111,
+        "stage": 2,
+        "gap": 15,
+        "teacher_beta": 0.25,
+        "physics_frames": 639360,
+        "seconds": 800.9607828750741,
+        "loss": 0.391043096780777,
+        "blind_kl": 1.0194159746170044,
+        "visible_kl": 0.15435200929641724,
+        "blind_updates": 394,
+        "ordinary_current_updates": 216,
+        "teacher_actions": 355,
+        "grad_norm_before_clip": 0.6658788323402405,
+        "parameter_update_l2": 0.04473219003357972,
+        "replay_max_error": 0.0,
+        "completed_episode_scores": []
+      },
+      "metric_rows": 111,
+      "incomplete_exists": false
+    }
+  },
+  "root_observation": {
+    "earlier_approx_utc": "2026-11-06T22:11:00Z",
+    "later_approx_utc": "2026-11-06T22:51:00Z",
+    "reported_latest_monotonic_seconds": 586,
+    "reported_latest_updates": [
+      65,
+      66
+    ],
+    "source": "Root direct observation communicated during execution; approximate timestamps retained as approximate."
+  },
+  "interpretation": "Calendar elapsed time exceeds recorded monotonic execution time. Host suspension is a possible explanation, not independently established. Frozen code and 180-update / 1800-monotonic-second limit remain unchanged. Do not describe this as completion within 30 calendar minutes."
+}
