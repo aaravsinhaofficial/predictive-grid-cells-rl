@@ -16,8 +16,26 @@ ALLOWED_NAMES+=('ring-20261105-vision-noisy-eval-01',)
 ALLOWED_NAMES+=('ring-20261105-vision-reset-eval-01',)
 ALLOWED_NAMES+=('ring-20261105-reorient-grid-01','ring-20261105-reorient-pgc-01')
 ALLOWED_NAMES+=('ring-20261105-reorient-pgc-02',)
+ALLOWED_NAMES+=tuple(f'ring-20261105-reorient-ent-{condition}-{arm}-{attempt:02d}'
+                    for condition in ('grid','pgc') for arm in ('original','explore')
+                    for attempt in (1,2,3))
 PROJECT='connectome-ai-research'
 BASE='gs://connectome-ai-research-popcode/ring-20261105'
+
+
+def experiment_folder(name):
+    folder=ROOT/'results/ring_cloud_artifacts'/name
+    if 'reorient-ent-' in name:
+        manifest=ROOT/'docs/research/rl_blind_reorientation_entropy_launch.json'
+        if manifest.exists():
+            rows=json.loads(manifest.read_text())['workers']
+            matches=[row for row in rows if row['name']==name]
+            if matches:
+                subdir=matches[0].get('artifact_subdir','')
+                if subdir:
+                    assert subdir=='experiment'
+                    folder=folder/subdir
+    return folder
 
 
 def run(argv,timeout=180):
@@ -50,7 +68,7 @@ def main():
                 event(name=name,status='worker_finished',worker=worker)
                 for action in ('collect','delete'):
                     if action=='delete' and worker.get('exit_code')==0:
-                        folder=ROOT/'results/ring_cloud_artifacts'/name
+                        folder=experiment_folder(name)
                         summary=folder/'summary.json'
                         complete=summary.exists() and json.loads(summary.read_text()).get('completed') is True
                         if 'vision-noise-' in name:
@@ -72,6 +90,11 @@ def main():
                             complete=len(report.get('models',{}))==4 and environment.exists()
                             if complete:
                                 complete=json.loads(environment.read_text()).get('smoke_returncode')==0
+                        if 'reorient-ent-' in name and complete:
+                            report=json.loads(summary.read_text())
+                            complete=report.get('baseline_matches_parent_exactly') is True
+                            complete=complete and report.get('training',{}).get('extension_frames')==50_073_600
+                            complete=complete and all((folder/f).exists() for f in ('final.pt','final_evaluation.json','baseline_verification.json','resume_audit.json'))
                         if not complete:
                             event(name=name,status='completion_artifact_missing_retaining_worker')
                             break
@@ -88,7 +111,7 @@ def main():
                 dest=ROOT/'results/ring_cloud_artifacts'/name;dest.mkdir(parents=True,exist_ok=True)
                 result=run(['gcloud','storage','rsync','--recursive',f'{BASE}/{name}/outputs',str(dest)],180)
                 last_collect[name]=time.monotonic()
-                metrics=dest/'metrics.jsonl'
+                metrics=experiment_folder(name)/'metrics.jsonl'
                 if metrics.exists():
                     lines=metrics.read_text().strip().splitlines()
                     if lines:

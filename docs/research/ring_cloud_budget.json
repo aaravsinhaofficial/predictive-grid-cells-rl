@@ -3839,13 +3839,36 @@
       ],
       "package_manifest_sha256": "c3d1ab7da18443660e7788b32371bc4b3bf80d5943c9b618bb8ba35cb504034a",
       "package_uncompressed_bytes": 24508754,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T06:28:08.965844+00:00",
       "create_requested_at": "2026-11-06T06:28:14.582958+00:00",
       "instance_id": "1863090312755334511",
       "created_at": "2026-11-05T22:28:16.206-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "2451d5158a4e5ca80f306234dcebfbefd8fd280b77d5b8ae5236807905c9185c"
+      "archive_sha256": "2451d5158a4e5ca80f306234dcebfbefd8fd280b77d5b8ae5236807905c9185c",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3960.4411635398865,
+        "finished_at": "2026-11-06T07:36:26.530141+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_blind_reorientation_train.py",
+          "--condition",
+          "gc100",
+          "--out",
+          "results/ring_blind_reorientation/pilot_gc100_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "c3d1ab7da18443660e7788b32371bc4b3bf80d5943c9b618bb8ba35cb504034a"
+      },
+      "collected_at": "2026-11-06T07:37:00.865865+00:00",
+      "collected_bytes": 336756299,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01",
+      "actual_upper_bound_usd": 1.4555,
+      "absence_verified_at": "2026-11-06T07:38:07.907477+00:00"
     },
     {
       "name": "ring-20261105-reorient-pgc-01",
@@ -4045,13 +4068,36 @@
       ],
       "package_manifest_sha256": "c3d1ab7da18443660e7788b32371bc4b3bf80d5943c9b618bb8ba35cb504034a",
       "package_uncompressed_bytes": 24508754,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T06:36:03.271081+00:00",
       "create_requested_at": "2026-11-06T06:37:08.810588+00:00",
       "instance_id": "6490886633250933625",
       "created_at": "2026-11-05T22:37:10.383-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "d6c0a8ece78c5182c4433932a0d5ad4b783aa9d8f23bf4bb9c87a017e452343f"
+      "archive_sha256": "d6c0a8ece78c5182c4433932a0d5ad4b783aa9d8f23bf4bb9c87a017e452343f",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 4203.862459897995,
+        "finished_at": "2026-11-06T07:49:05.991290+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_blind_reorientation_train.py",
+          "--condition",
+          "pgc33",
+          "--out",
+          "results/ring_blind_reorientation/pilot_pgc33_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "c3d1ab7da18443660e7788b32371bc4b3bf80d5943c9b618bb8ba35cb504034a"
+      },
+      "collected_at": "2026-11-06T07:49:24.542967+00:00",
+      "collected_bytes": 333028281,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02",
+      "actual_upper_bound_usd": 1.5229,
+      "absence_verified_at": "2026-11-06T07:50:16.436456+00:00"
     },
     {
       "name": "ring-20261105-vision-noisy-eval-01",
@@ -4518,6 +4564,1019 @@
       "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-vision-reset-eval-01",
       "actual_upper_bound_usd": 0.1062,
       "absence_verified_at": "2026-11-06T06:56:34.069486+00:00"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-grid-original-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-grid-original-01",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "gc100",
+        "--arm",
+        "original",
+        "--out",
+        "results/ring_reorientation_entropy/gc100_original_s1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/gc100_original_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T07:55:07.509973+00:00",
+      "create_requested_at": "2026-11-06T07:55:17.869427+00:00",
+      "instance_id": "2608061821994678536",
+      "created_at": "2026-11-05T23:55:19.388-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "8f5fc251599b9165471d0f901b8c9c5d86605a39355945eb2bccb9e428eccc55",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 2.373356580734253,
+        "finished_at": "2026-11-06T07:57:16.932385+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_blind_reorientation_entropy_extend.py",
+          "--condition",
+          "gc100",
+          "--arm",
+          "original",
+          "--out",
+          "results/ring_reorientation_entropy/gc100_original_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b"
+      },
+      "collected_at": "2026-11-06T07:58:00.990169+00:00",
+      "collected_bytes": 883,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-reorient-ent-grid-original-01",
+      "actual_upper_bound_usd": 0.078,
+      "absence_verified_at": "2026-11-06T07:59:03.895359+00:00"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-grid-explore-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-grid-explore-01",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "gc100",
+        "--arm",
+        "explore",
+        "--out",
+        "results/ring_reorientation_entropy/gc100_explore_s1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/gc100_explore_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T07:56:39.617288+00:00",
+      "create_requested_at": "2026-11-06T07:56:49.720754+00:00",
+      "instance_id": "4012179166127470252",
+      "created_at": "2026-11-05T23:56:51.264-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "c483613e041c0d241fcf9178d5fc595ac61eccab8ee4c14eb0b7e9de25eaf4ab",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 2.774707794189453,
+        "finished_at": "2026-11-06T07:57:53.115995+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_blind_reorientation_entropy_extend.py",
+          "--condition",
+          "gc100",
+          "--arm",
+          "explore",
+          "--out",
+          "results/ring_reorientation_entropy/gc100_explore_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b"
+      },
+      "collected_at": "2026-11-06T07:59:14.473795+00:00",
+      "collected_bytes": 881,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-reorient-ent-grid-explore-01",
+      "actual_upper_bound_usd": 0.0703,
+      "absence_verified_at": "2026-11-06T08:00:13.710631+00:00"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-pgc-original-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-pgc-original-01",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "pgc33",
+        "--arm",
+        "original",
+        "--out",
+        "results/ring_reorientation_entropy/pgc33_original_s1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/pgc33_original_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T07:57:15.248558+00:00",
+      "create_requested_at": "2026-11-06T07:57:25.355625+00:00",
+      "instance_id": "3748887882652202633",
+      "created_at": "2026-11-05T23:57:26.753-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "2ab64eed71afeda7d94cee0239bd0c547f32745c82c7a612571d8279a5362eaa",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 2.373197078704834,
+        "finished_at": "2026-11-06T07:58:26.966789+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_blind_reorientation_entropy_extend.py",
+          "--condition",
+          "pgc33",
+          "--arm",
+          "original",
+          "--out",
+          "results/ring_reorientation_entropy/pgc33_original_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b"
+      },
+      "collected_at": "2026-11-06T08:00:24.777005+00:00",
+      "collected_bytes": 883,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-reorient-ent-pgc-original-01",
+      "actual_upper_bound_usd": 0.0818,
+      "absence_verified_at": "2026-11-06T08:01:22.277095+00:00"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-grid-original-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-grid-original-02",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "gc100",
+        "--arm",
+        "original",
+        "--out",
+        "results/ring_reorientation_entropy/gc100_original_s1/experiment",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/gc100_original_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-06T08:03:20.711627+00:00",
+      "create_requested_at": "2026-11-06T08:03:30.637047+00:00",
+      "instance_id": "7463449193944725307",
+      "created_at": "2026-11-06T00:03:33.090-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "57e576550e624a4b2a06a44a850135084332e7d1095fec4d28b94861ce3cb746"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-grid-explore-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-grid-explore-02",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "gc100",
+        "--arm",
+        "explore",
+        "--out",
+        "results/ring_reorientation_entropy/gc100_explore_s1/experiment",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/gc100_explore_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-06T08:12:08.278190+00:00",
+      "create_requested_at": "2026-11-06T08:12:18.365773+00:00",
+      "instance_id": "9172634053612942604",
+      "created_at": "2026-11-06T00:12:19.758-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "2f3e03f4162b887af5fe5edbb98c99f304be1ecd55b748981a8dd35cf367655e"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-pgc-original-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-pgc-original-02",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "pgc33",
+        "--arm",
+        "original",
+        "--out",
+        "results/ring_reorientation_entropy/pgc33_original_s1/experiment",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/pgc33_original_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-06T08:12:52.099874+00:00",
+      "create_requested_at": "2026-11-06T08:13:03.706933+00:00",
+      "instance_id": "150671905353904894",
+      "created_at": "2026-11-06T00:13:05.195-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "10761b562d56c1bd6b3a4df705262baa31463f89d94cd95cd3d29787ac0817e0"
+    },
+    {
+      "name": "ring-20261105-reorient-ent-pgc-explore-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-reorient-ent-pgc-explore-01",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_entropy_extend.py",
+        "--condition",
+        "pgc33",
+        "--arm",
+        "explore",
+        "--out",
+        "results/ring_reorientation_entropy/pgc33_explore_s1/experiment",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_reorientation_entropy/pgc33_explore_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_entropy_protocol.json",
+          "sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb"
+        },
+        {
+          "path": "docs/research/rl_blind_reorientation_protocol.json",
+          "sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.json",
+          "sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+        },
+        {
+          "path": "models/gc100/gc100_lstm_s1_1000M.pt",
+          "sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.json",
+          "sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+        },
+        {
+          "path": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+          "sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final.pt",
+          "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01/final_evaluation.json",
+          "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final.pt",
+          "sha256": "654f756dac3f13eed5fe4e5c04ae64769eef21c520fa531de05136d2b1a95817"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02/final_evaluation.json",
+          "sha256": "b3483da70a7ae0cedf9e4d86a9b18ca7e6fbb8ad9e3038c690d503a3d92fe587"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation.py",
+          "sha256": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_entropy_extend.py",
+          "sha256": "6b47ac0e1688cd9b1104b8e5f33e4e98127531653ff83b7bdad9146ef1e42c2a"
+        },
+        {
+          "path": "scripts/rl_blind_reorientation_train.py",
+          "sha256": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70"
+        },
+        {
+          "path": "scripts/rl_goal_memory.py",
+          "sha256": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147"
+        },
+        {
+          "path": "scripts/rl_visual_memory.py",
+          "sha256": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc"
+        },
+        {
+          "path": "scripts/rl_visual_memory_extend.py",
+          "sha256": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba"
+        },
+        {
+          "path": "scripts/rl_visual_memory_noise.py",
+          "sha256": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation.py",
+          "sha256": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+        },
+        {
+          "path": "tests/test_rl_blind_reorientation_entropy_extend.py",
+          "sha256": "f96dabd734a4aa04121f923c825adf4012620c28985ad086f38a082431a1e459"
+        }
+      ],
+      "package_manifest_sha256": "8ca84145eff931733dcc9618399f5c524663c5c390850ce433161ecdddd5127b",
+      "package_uncompressed_bytes": 91367279,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-06T08:14:26.600716+00:00",
+      "create_requested_at": "2026-11-06T08:14:36.609317+00:00",
+      "instance_id": "8595897448444998274",
+      "created_at": "2026-11-06T00:14:38.115-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "31603e5c3caa04a0b4228a974b43b066b4104e308b8a91e174a510ef6604189a"
     }
   ]
 }
