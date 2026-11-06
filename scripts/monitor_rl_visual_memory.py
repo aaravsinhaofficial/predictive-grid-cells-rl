@@ -1,0 +1,88 @@
+"""Collect and promptly delete only the two frozen visual-memory pilot workers."""
+import argparse
+import datetime as dt
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+ROOT=Path(__file__).resolve().parents[1]
+NAMES=('ring-20261105-vision-grid-01','ring-20261105-vision-pgc-01')
+ALLOWED_NAMES=NAMES+('ring-20261105-vision-long-grid-01','ring-20261105-vision-long-pgc-01')
+ALLOWED_NAMES+=('ring-20261105-vision-noise-grid-01','ring-20261105-vision-noise-pgc-01')
+ALLOWED_NAMES+=('ring-20261105-vision-noisy-eval-01',)
+PROJECT='connectome-ai-research'
+BASE='gs://connectome-ai-research-popcode/ring-20261105'
+
+
+def run(argv,timeout=180):
+    env=dict(os.environ,CLOUDSDK_STORAGE_SLICED_OBJECT_DOWNLOAD_THRESHOLD='0')
+    return subprocess.run(argv,cwd=ROOT,env=env,text=True,capture_output=True,timeout=timeout)
+
+
+def event(**fields):
+    print(json.dumps(dict(time=dt.datetime.now(dt.timezone.utc).isoformat(),**fields)),flush=True)
+
+
+def main():
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--max-seconds',type=int,default=8000)
+    ap.add_argument('--names',nargs='+',choices=ALLOWED_NAMES,default=NAMES);args=ap.parse_args()
+    names=tuple(args.names)
+    started=time.monotonic();last_collect={name:0. for name in names};finished=set()
+    while len(finished)<len(names) and time.monotonic()-started<args.max_seconds:
+        ledger=json.loads((ROOT/'docs/research/ring_cloud_budget.json').read_text())
+        records={r['name']:r for r in ledger['runs'] if r['name'] in names}
+        for name in names:
+            if name in finished or name not in records:continue
+            r=records[name]
+            if not r.get('instance_id'):
+                if r.get('status')=='launch_failed':finished.add(name);event(name=name,status='launch_failed')
+                continue
+            done=run(['gcloud','storage','cat',f'{BASE}/{name}/DONE.json'],60)
+            if done.returncode==0:
+                worker=json.loads(done.stdout)
+                event(name=name,status='worker_finished',worker=worker)
+                for action in ('collect','delete'):
+                    if action=='delete' and worker.get('exit_code')==0:
+                        folder=ROOT/'results/ring_cloud_artifacts'/name
+                        summary=folder/'summary.json'
+                        complete=summary.exists() and json.loads(summary.read_text()).get('completed') is True
+                        if 'vision-noise-' in name:
+                            complete=complete and (folder/'final_noisy_evaluation.json').exists()
+                        if 'vision-noisy-eval-' in name and complete:
+                            report=json.loads(summary.read_text())
+                            complete=report.get('all_models_received_identical_raw_noise') is True and len(report.get('models',{}))==4
+                        if not complete:
+                            event(name=name,status='completion_artifact_missing_retaining_worker')
+                            break
+                    result=run([sys.executable,'scripts/ring_cloud.py',action,name],300)
+                    log=ROOT/'results/ring_visual_memory/cloud_audit';log.mkdir(parents=True,exist_ok=True)
+                    (log/f'{name}_{action}.log').write_text(result.stdout+'\n'+result.stderr)
+                    if result.returncode:
+                        event(name=name,status=f'{action}_failed',tail=result.stderr[-1200:])
+                        break
+                else:
+                    finished.add(name);event(name=name,status='collected_deleted')
+                continue
+            if time.monotonic()-last_collect[name]>=180:
+                dest=ROOT/'results/ring_cloud_artifacts'/name;dest.mkdir(parents=True,exist_ok=True)
+                result=run(['gcloud','storage','rsync','--recursive',f'{BASE}/{name}/outputs',str(dest)],180)
+                last_collect[name]=time.monotonic()
+                metrics=dest/'metrics.jsonl'
+                if metrics.exists():
+                    lines=metrics.read_text().strip().splitlines()
+                    if lines:
+                        try:event(name=name,status='progress',metrics=json.loads(lines[-1]))
+                        except json.JSONDecodeError:pass
+            vm=run(['gcloud','compute','instances','describe',name,'--project',PROJECT,'--zone',r['zone'],'--format=json(name,status,id)'],60)
+            if vm.returncode and ('was not found' in vm.stderr or 'notFound' in vm.stderr):
+                result=run([sys.executable,'scripts/ring_cloud.py','collect',name],300)
+                event(name=name,status='provider_deleted',artifacts_collected=result.returncode==0)
+                finished.add(name)
+        if len(finished)<len(names):time.sleep(30)
+    event(status='monitor_stopped',finished=sorted(finished),pending=sorted(set(names)-finished))
+
+
+if __name__=='__main__':main()

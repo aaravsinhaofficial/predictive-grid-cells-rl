@@ -1,0 +1,65 @@
+{
+  "version": "visual_memory_pilot_v1",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "model_seed": 1,
+  "training_seed": 96201,
+  "evaluation_seed": 98201,
+  "episodes": 64,
+  "n_envs_eval": 32,
+  "original_frames": 1000000000,
+  "requested_learning_frames_per_stage": 5000000,
+  "actual_learning_frames_per_stage": 5004800,
+  "total_learning_frames_per_model": 25024000,
+  "warmup_updates": 200,
+  "warmup_extra_exposure_frames": 2560000,
+  "gaps": [
+    4,
+    8,
+    15,
+    30,
+    60
+  ],
+  "minimum_gap_rule": "ceil(max_gap/2)",
+  "visible_updates": 15,
+  "variants": [
+    "blind",
+    "blind_reset",
+    "seen",
+    "seen_reset",
+    "blind_current_grid",
+    "seen_current_grid"
+  ],
+  "mask": "RGB exactly zero only after first observed reward; native image otherwise",
+  "schedule": "Every actual reward renews15visibleupdates; episodeendclearsclock; currentgapfinishesafterstagechange",
+  "unchanged": "Originaluniformgoalprior,squarephysics,goalradius,rewards,respawns,512nativecurrent+savedgoalcodes,sixactions,LSTM256,CNN,A2Chyperparameters100stepBPTT",
+  "primary_pilot_criteria": "Reportallfixedstages; usefulmemoryrequiresmaintainedblindnavigationandpositiveblindresetcostbeyondseenresetcost. Furtherfull-stategeometryandcausalrepairtestsrequiredforringmechanism. Noadaptivepositiveselection.",
+  "descriptive_health_references": {
+    "blind_over_seen_return_rate": 0.7,
+    "additional_reset_cost_score": 5.0
+  },
+  "interpretation": "Headingandtraveldirectionareseparate;PGCencodeslastmovementdirectionwhichisstaleduringpureturns. Thisisnewvisualavailabilitytrainingdistribution. OriginalGrid/PGC1Btraininghistoriesdiffer.",
+  "budget": "Two2hourboundedT4workersmaximum; originalcumulative500USD; prior44.1913USD; totalpilotreservation5.625USD",
+  "source_sha256": {
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "tests/test_rl_visual_memory.py": "0a8422c4f52853e12b1c85aa540781f2efed98aa80d0a3b5fffc2015a950c240",
+    "tests/test_rl_goal_memory.py": "77c37f039665badb8889c59b9ce8b190a5397a0cfdcfb57023f75496160f56f4"
+  },
+  "original_asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+  },
+  "frozen_at": "2026-11-06T04:46:55.257182+00:00"
+}

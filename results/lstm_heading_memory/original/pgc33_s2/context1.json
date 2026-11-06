@@ -1,0 +1,1783 @@
+{
+  "condition": "pgc33",
+  "seed": 2,
+  "context": 1,
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s2_1000M.pt",
+  "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+  "checkpoint_frames": 1000000000,
+  "context_archive_sha256": "e4d810afaa22c5b0e2c8cf199b53dd8a5bdc1a41cd8b011320f5b01496db9b0b",
+  "source_sha256": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+  "prepare_updates": 30,
+  "angles": 96,
+  "state_dimensions": 512,
+  "step_seconds": 0.06666666666666667,
+  "embedding_device": "mps",
+  "recurrent_analysis_dtype": "float64",
+  "full_state_block_rms_scale": [
+    0.41017171540790703,
+    31.657457083471805
+  ],
+  "physics_checks": {
+    "position_max_change_m": 0.0,
+    "last_movement_direction_max_change": 0.0,
+    "spatial_code_max_change": 0.0,
+    "max_reward": 0.0,
+    "common_physical_turn_offset_max_error_rad": 1.2182517787895364e-06,
+    "dark_input_family_max_difference": 0.0,
+    "image_noise": 0.0,
+    "motor_noise": 0.0,
+    "action_id": 1,
+    "fixed_last_movement_direction": [
+      -0.9380477070808411,
+      0.346506267786026
+    ],
+    "position": [
+      0.5490044355392456,
+      -0.19206178188323975
+    ],
+    "goal_center": [
+      -0.5364497900009155,
+      -0.6156870722770691
+    ]
+  },
+  "tangent_resolution_audit": {
+    "fine_samples": 192,
+    "analysis_samples": 96,
+    "coarse_vs_fine_cosine": {
+      "mean": 0.9120214257968525,
+      "median": 0.9602419214538546,
+      "p10": 0.792303822394915,
+      "p90": 0.9915620165811425
+    },
+    "coarse_over_fine_norm": {
+      "mean": 0.9866779327832121,
+      "median": 0.9321699013345979,
+      "p10": 0.6588759609056727,
+      "p90": 1.332974101695072
+    },
+    "method": "Initial tangent is a central difference of actual rendered heading histories; its later propagation through the LSTM is exact. Hard renderer pixel boundaries preclude a globally smooth autograd heading derivative."
+  },
+  "native_lstm_step_max_error": 2.842170943040401e-14,
+  "physical_turn_offset_rad": {
+    "0": 0.0,
+    "1": -0.14661743069672015,
+    "2": -0.2932463842958779,
+    "3": -0.4398842761082252,
+    "4": -0.5865288672342922,
+    "5": -0.7331786731872331,
+    "6": -0.8798323291863598,
+    "7": -1.0264891268469718,
+    "8": -1.1731481609235261,
+    "9": -1.3198089626916647,
+    "10": -1.4664711918255315,
+    "11": -1.6131343994689837,
+    "12": -1.759798519808559,
+    "13": -1.9064631430623245,
+    "14": -2.0531282338813597,
+    "15": -2.199793785974173,
+    "16": -2.3464595702767483,
+    "17": -2.4931255929979024,
+    "18": -2.6397916784694475,
+    "19": -2.7864580277743847,
+    "20": -2.9331244192992787,
+    "21": -3.0797909089234836,
+    "22": 3.0567278694750124,
+    "23": 2.9100613438396676,
+    "24": 2.7633948107537427,
+    "25": 2.6167282640084197,
+    "26": 2.4700617066667703,
+    "27": 2.3233951698555546,
+    "28": 2.176728609450834,
+    "29": 2.030062062705511,
+    "30": 1.88339553019913,
+    "31": 1.7367289958714416,
+    "32": 1.5900624553349356,
+    "33": 1.4433959098313762,
+    "34": 1.296729364907361,
+    "35": 1.1500628256126186,
+    "36": 1.0033962900431665,
+    "37": 0.856729744539607,
+    "38": 0.7100631996155921,
+    "39": 0.5633966553537958,
+    "40": 0.41673011978434366,
+    "41": 0.2700635842148917,
+    "42": 0.12339704988720303,
+    "43": -0.023269480135650854,
+    "44": -0.16993602563921034,
+    "45": -0.31660257114277,
+    "46": -0.4632691154045661,
+    "47": -0.609935660328581,
+    "48": -0.7566021946562701,
+    "49": -0.903268730225722,
+    "50": -1.0499352645534104,
+    "51": -1.1966017945762644,
+    "52": -1.343268328903953,
+    "53": -1.4899348644734052,
+    "54": -1.6366014000428573,
+    "55": -1.783267930065711,
+    "56": -1.9299344643934,
+    "57": -2.0766009999628516,
+    "58": -2.2232675355323037,
+    "59": -2.369934065555158,
+    "60": -2.5166005998828465,
+    "61": -2.6632671354522985,
+    "62": -2.8099336710217506,
+    "63": -2.9566002010446044,
+    "64": -3.1032667353722934,
+    "65": 3.0332520362378412,
+    "66": 2.886585500668389,
+    "67": 2.7399189663407006,
+    "68": 2.593252436317847,
+    "69": 2.4465859007483943,
+    "70": 2.2999193651789422,
+    "71": 2.1532528308512537,
+    "72": 2.0065863008284,
+    "73": 1.8599197665007112,
+    "74": 1.7132532309312591,
+    "75": 1.5665866966035704,
+    "76": 1.4199201665807166,
+    "77": 1.273253632253028,
+    "78": 1.1265870966835758,
+    "79": 0.9799205611141238,
+    "80": 0.8332540310912699,
+    "81": 0.6865874967635811,
+    "82": 0.5399209611941292,
+    "83": 0.39325442562467705,
+    "84": 0.2465878956018232,
+    "85": 0.09992136127413455,
+    "86": -0.046745174295317556,
+    "87": -0.19341170986476966,
+    "88": -0.34007823988762353,
+    "89": -0.48674477421531226,
+    "90": -0.6334113097847642,
+    "91": -0.7800778453542165,
+    "92": -0.9267443753770703,
+    "93": -1.0734109097047588,
+    "94": -1.220077445274211,
+    "95": -1.366743980843663,
+    "96": -1.5134105151713517,
+    "97": -1.6600770451942055,
+    "98": -1.8067435807636576,
+    "99": -1.95341011633311,
+    "100": -2.1000766506607986,
+    "101": -2.2467431806836524,
+    "102": -2.393409715011341,
+    "103": -2.540076250580793,
+    "104": -2.6867427849084815,
+    "105": -2.8334093149313357,
+    "106": -2.9800758492590242,
+    "107": -3.1267423848284763,
+    "108": 3.0097763867816583,
+    "109": 2.863109856758804,
+    "110": 2.7164433224311155,
+    "111": 2.5697767868616634,
+    "112": 2.4231102512922114,
+    "113": 2.2764437212693576,
+    "114": 2.129777186941669,
+    "115": 1.9831106513722168,
+    "116": 1.8364441158027647,
+    "117": 1.6897775857799107,
+    "118": 1.5431110514522222,
+    "119": 1.39644451588277,
+    "120": 1.249777980313318,
+    "121": 1.1031114459856293,
+    "122": 0.9564449159627755,
+    "123": 0.8097783803933235,
+    "124": 0.6631118448238713,
+    "125": 0.5164453104961826,
+    "126": 0.3697787804733288,
+    "127": 0.22311224614564007,
+    "128": 0.07644571057618799,
+    "129": -0.07022082375150067,
+    "130": -0.21688735377435453,
+    "131": -0.3635538881020432,
+    "132": -0.5102204236714953,
+    "133": -0.6568869592409474,
+    "134": -0.8035534892638013,
+    "135": -0.9502200235914898,
+    "136": -1.096886559160942,
+    "137": -1.243553094730394,
+    "138": -1.390219624753248,
+    "139": -1.5368861590809366,
+    "140": -1.6835526946503887,
+    "141": -1.8302192302198408,
+    "142": -1.9768857602426946,
+    "143": -2.1235522945703833,
+    "144": -2.2702188301398354,
+    "145": -2.4168853657092875,
+    "146": -2.5635518957321413,
+    "147": -2.7102184300598298,
+    "148": -2.8568849656292823,
+    "149": -3.0035515011987344,
+    "150": 3.132967271653164
+  },
+  "trajectory": {
+    "0": {
+      "raw_family_radius": 1.3979050916971985,
+      "scaled_family_radius": 0.29762249166070537,
+      "raw_radius_retention": 1.0,
+      "scaled_radius_retention": 1.0,
+      "covariance_participation_ratio": 2.4303212380507007,
+      "first_five_pc_fractions": [
+        0.5943759204964896,
+        0.22369973534683377,
+        0.0692704535934898,
+        0.05107701695008778,
+        0.02167260163172919
+      ],
+      "neighbor_max_over_median": 2.1904573296645706,
+      "phase_tangent_norm": {
+        "mean": 12.30628734833025,
+        "median": 11.401436402965466,
+        "p10": 5.285063800180517,
+        "p90": 22.762995043597904
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 1.305694235246048,
+        "median": 1.3062316882053093,
+        "p10": 1.219447132105416,
+        "p90": 1.3845220563414653
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 1.290218115546436,
+        "median": 1.281812943885499,
+        "p10": 1.200633481862985,
+        "p90": 1.370946771385581
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.011120148661736636,
+        "median": -0.008643800991225081,
+        "p10": -0.14120825674234927,
+        "p90": 0.19344987492574028
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 1.1618828864383204,
+        "heldout_cosine_accuracy": 0.9996261809619506,
+        "heldout_amplitude_median": 0.9948098013134319,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9632214219235086,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 1.1618828864383204,
+        "heldout_cosine_accuracy": 0.9996261809619506,
+        "heldout_amplitude_median": 0.9948098013134319,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9632214219235086,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 1.1618828864383204,
+        "heldout_cosine_accuracy": 0.9996261809619506,
+        "heldout_amplitude_median": 0.9948098013134319,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9632214219235086,
+        "heldout_points": 48
+      }
+    },
+    "1": {
+      "raw_family_radius": 1.3205895950073125,
+      "scaled_family_radius": 0.17022762800022553,
+      "raw_radius_retention": 0.944691884199365,
+      "scaled_radius_retention": 0.5719582113917918,
+      "covariance_participation_ratio": 1.6416907359110111,
+      "first_five_pc_fractions": [
+        0.7687486727730787,
+        0.11386280913593615,
+        0.06689432313457175,
+        0.02251543979186422,
+        0.011957521318546606
+      ],
+      "neighbor_max_over_median": 2.105001196426735,
+      "phase_tangent_norm": {
+        "mean": 5.558981198449192,
+        "median": 4.7378112788295965,
+        "p10": 2.101402023443214,
+        "p90": 10.277093269126484
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 1.0989630405556248,
+        "median": 1.1707044005887495,
+        "p10": 0.7810761313023489,
+        "p90": 1.394954218871894
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 1.0035080873585918,
+        "median": 0.9740160355103282,
+        "p10": 0.659582637081688,
+        "p90": 1.3267139330914792
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": -0.0008751889603209884,
+        "median": 0.0013828678246635725,
+        "p10": -0.7091144335915266,
+        "p90": 0.7593906178674912
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 40.67036647919227,
+        "heldout_cosine_accuracy": 0.7048167109303861,
+        "heldout_amplitude_median": 0.4444666079001246,
+        "heldout_amplitude_at_least_point1_fraction": 0.875,
+        "decoded_phase_coverage_fraction": 0.8627841497369502,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 40.45703121430656,
+        "heldout_cosine_accuracy": 0.7132907556634961,
+        "heldout_amplitude_median": 0.4444666079001246,
+        "heldout_amplitude_at_least_point1_fraction": 0.875,
+        "decoded_phase_coverage_fraction": 0.8627841497369502,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 1.198383270886924,
+        "heldout_cosine_accuracy": 0.999659881026106,
+        "heldout_amplitude_median": 0.9961677672605991,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9644032059570764,
+        "heldout_points": 48
+      }
+    },
+    "5": {
+      "raw_family_radius": 1.147091821439085,
+      "scaled_family_radius": 0.044790211005136964,
+      "raw_radius_retention": 0.8205791854198051,
+      "scaled_radius_retention": 0.1504933674710262,
+      "covariance_participation_ratio": 2.2363809813653095,
+      "first_five_pc_fractions": [
+        0.5582732808697547,
+        0.36408060791127766,
+        0.05152406155007304,
+        0.01558511012953019,
+        0.004510484811700412
+      ],
+      "neighbor_max_over_median": 1.5321843730737665,
+      "phase_tangent_norm": {
+        "mean": 1.3092672734703228,
+        "median": 1.144640203514263,
+        "p10": 0.817139756968972,
+        "p90": 1.9531272684702552
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 0.252581539176959,
+        "median": 0.259659020090843,
+        "p10": 0.21826734919705187,
+        "p90": 0.2775605680403521
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 0.24973278486512177,
+        "median": 0.257733680985391,
+        "p10": 0.21672433702402533,
+        "p90": 0.27544705101653455
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.013086950937388195,
+        "median": 0.012666146926734918,
+        "p10": -0.02807328668343717,
+        "p90": 0.05790406946880451
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 85.62978870484598,
+        "heldout_cosine_accuracy": 0.062104787415695584,
+        "heldout_amplitude_median": 0.6251997873861739,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.06651218767804512,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 82.41438777426299,
+        "heldout_cosine_accuracy": 0.09867153152886449,
+        "heldout_amplitude_median": 0.6251997873861739,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.06651218767804512,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 0.4728062149699383,
+        "heldout_cosine_accuracy": 0.9999417380926823,
+        "heldout_amplitude_median": 1.0026013589798008,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9752669626793126,
+        "heldout_points": 48
+      }
+    },
+    "15": {
+      "raw_family_radius": 1.0871566897275855,
+      "scaled_family_radius": 0.04283253235367297,
+      "raw_radius_retention": 0.7777042205402279,
+      "scaled_radius_retention": 0.14391564331939932,
+      "covariance_participation_ratio": 2.105104743263235,
+      "first_five_pc_fractions": [
+        0.6155805106601371,
+        0.30493580482513144,
+        0.053455959370452735,
+        0.013813007214587995,
+        0.007442422439003879
+      ],
+      "neighbor_max_over_median": 1.552959208119344,
+      "phase_tangent_norm": {
+        "mean": 1.2658083591712137,
+        "median": 1.1049334404813944,
+        "p10": 0.788141034707916,
+        "p90": 1.9637386515452666
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 0.15625626499561082,
+        "median": 0.14370663838503234,
+        "p10": 0.1434790953026353,
+        "p90": 0.19121001070419796
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 0.14673526226887823,
+        "median": 0.14234422841981603,
+        "p10": 0.1381280700498237,
+        "p90": 0.16004661361246336
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.011823059694419038,
+        "median": 0.007684091063823706,
+        "p10": -0.03437577116767929,
+        "p90": 0.050653639081209935
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 94.63505747255091,
+        "heldout_cosine_accuracy": -0.06742279555255457,
+        "heldout_amplitude_median": 0.6363570538997637,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.06114129623049869,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 83.101646382961,
+        "heldout_cosine_accuracy": 0.08894728908342664,
+        "heldout_amplitude_median": 0.6363570538997637,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.06114129623049869,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 0.5602355812075136,
+        "heldout_cosine_accuracy": 0.9999237393150026,
+        "heldout_amplitude_median": 0.9994521291402237,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9757678413916763,
+        "heldout_points": 48
+      }
+    },
+    "30": {
+      "raw_family_radius": 1.0418648649032372,
+      "scaled_family_radius": 0.0394818060092566,
+      "raw_radius_retention": 0.7453044352519724,
+      "scaled_radius_retention": 0.13265733308310085,
+      "covariance_participation_ratio": 2.1032189860868606,
+      "first_five_pc_fractions": [
+        0.6098998212781163,
+        0.3164509896431008,
+        0.05673234188118247,
+        0.010559037005097463,
+        0.0031095672799750455
+      ],
+      "neighbor_max_over_median": 1.5342011229717607,
+      "phase_tangent_norm": {
+        "mean": 1.1423677756759838,
+        "median": 1.0183949820874338,
+        "p10": 0.7121016971464824,
+        "p90": 1.6594967148130084
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 0.1433275498780262,
+        "median": 0.1433182679455341,
+        "p10": 0.14310374589816627,
+        "p90": 0.1435392822682272
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 0.14011609833957628,
+        "median": 0.1407013676580194,
+        "p10": 0.13664467419825274,
+        "p90": 0.14302404891334317
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.007906526355035592,
+        "median": 0.0068781167905386615,
+        "p10": -0.029312393629928157,
+        "p90": 0.042861077128593314
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 90.74910765848792,
+        "heldout_cosine_accuracy": -0.013490401615029492,
+        "heldout_amplitude_median": 0.6599951354003362,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.05352050573910949,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 83.90838267940312,
+        "heldout_cosine_accuracy": 0.0785327225323545,
+        "heldout_amplitude_median": 0.6599951354003362,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.05352050573910949,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 0.5110669604243351,
+        "heldout_cosine_accuracy": 0.9999381232479788,
+        "heldout_amplitude_median": 1.0002339586520164,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9753146201185622,
+        "heldout_points": 48
+      }
+    },
+    "75": {
+      "raw_family_radius": 0.9794302815732543,
+      "scaled_family_radius": 0.036584256104321235,
+      "raw_radius_retention": 0.7006414722934635,
+      "scaled_radius_retention": 0.12292167806332292,
+      "covariance_participation_ratio": 2.049227623950435,
+      "first_five_pc_fractions": [
+        0.6272029438083727,
+        0.302131492677359,
+        0.05690370052137197,
+        0.008797618819438668,
+        0.0019065497571212244
+      ],
+      "neighbor_max_over_median": 1.4771583364042322,
+      "phase_tangent_norm": {
+        "mean": 1.0589681645604534,
+        "median": 0.9546940134033939,
+        "p10": 0.648979753298552,
+        "p90": 1.5471658578448002
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 0.14011954725392065,
+        "median": 0.1400789631748161,
+        "p10": 0.13994212417037383,
+        "p90": 0.14032295550801527
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 0.13547718451424617,
+        "median": 0.1359214321460434,
+        "p10": 0.13042631353754458,
+        "p90": 0.13969563346017605
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.009096760593388402,
+        "median": 0.00489829997621041,
+        "p10": -0.033430606753646494,
+        "p90": 0.05208375340996971
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 89.90574693902545,
+        "heldout_cosine_accuracy": -0.0004432991911120787,
+        "heldout_amplitude_median": 0.7585001614276853,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.037606736815299247,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 85.84800594289823,
+        "heldout_cosine_accuracy": 0.056086017678580256,
+        "heldout_amplitude_median": 0.7585001614276853,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.037606736815299247,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 0.6006248299176885,
+        "heldout_cosine_accuracy": 0.999919046511282,
+        "heldout_amplitude_median": 0.9991014403791594,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.9741826442466253,
+        "heldout_points": 48
+      }
+    },
+    "150": {
+      "raw_family_radius": 0.9765179364717484,
+      "scaled_family_radius": 0.04291800772576911,
+      "raw_radius_retention": 0.6985581083234748,
+      "scaled_radius_retention": 0.14420283724623997,
+      "covariance_participation_ratio": 2.469127425408845,
+      "first_five_pc_fractions": [
+        0.5408272948090284,
+        0.3169665051951341,
+        0.1061274837102302,
+        0.027373423837997575,
+        0.00481979605939429
+      ],
+      "neighbor_max_over_median": 1.6084237819480613,
+      "phase_tangent_norm": {
+        "mean": 1.5394266245480217,
+        "median": 1.1205711210368658,
+        "p10": 0.7086052301828447,
+        "p90": 3.090824674174725
+      },
+      "step_total_drift_relative_to_family_radius": {
+        "mean": 0.16480763184798564,
+        "median": 0.11261339047759773,
+        "p10": 0.11227358031733928,
+        "p90": 0.37963926465905096
+      },
+      "step_normal_drift_relative_to_family_radius": {
+        "mean": 0.11689111308522475,
+        "median": 0.10830129633973579,
+        "p10": 0.1023480900936811,
+        "p90": 0.12462525046278962
+      },
+      "step_tangent_phase_drift_rad": {
+        "mean": 0.005224261548825278,
+        "median": -0.009934776116962137,
+        "p10": -0.05094469622877723,
+        "p90": 0.06650331204097676
+      },
+      "fixed_readout_movement_corrected": {
+        "heldout_mae_deg": 92.36338449883216,
+        "heldout_cosine_accuracy": -0.032143427488916666,
+        "heldout_amplitude_median": 0.9201304152321041,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.020664209348696394,
+        "heldout_points": 48
+      },
+      "fixed_readout_initial_phase_memory": {
+        "heldout_mae_deg": 87.63661550116785,
+        "heldout_cosine_accuracy": 0.03206404787092526,
+        "heldout_amplitude_median": 0.9201304152321041,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.020664209348696394,
+        "heldout_points": 48
+      },
+      "time_refit_information_only": {
+        "heldout_mae_deg": 0.8297706407795827,
+        "heldout_cosine_accuracy": 0.9998440192455398,
+        "heldout_amplitude_median": 1.0005047492901447,
+        "heldout_amplitude_at_least_point1_fraction": 1.0,
+        "decoded_phase_coverage_fraction": 0.972414223735516,
+        "heldout_points": 48
+      }
+    }
+  },
+  "local_recovery": {
+    "0": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.6135312720795881e-16,
+            "median": 1.4567561028463473e-16,
+            "p10": 6.4671246007729e-17,
+            "p90": 2.793780499843603e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.6549435465805444e-18,
+            "median": 1.0696058113185079e-18,
+            "p10": 2.219744658583273e-19,
+            "p90": 3.892447070714248e-18
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 0.4455399248554455,
+            "median": 0.45157408941606025,
+            "p10": 0.2898701214167635,
+            "p90": 0.5712083399435768
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.426005242569294e-16,
+            "median": 2.323651703461813e-16,
+            "p10": 1.472466039461248e-16,
+            "p90": 3.5201681140506395e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.44553992485544547,
+            "median": 0.4515740894160605,
+            "p10": 0.2898701214167634,
+            "p90": 0.5712083399435766
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.21400044169613,
+            "median": 9.216102927650883,
+            "p10": 6.427302728217556,
+            "p90": 11.867094741189849
+          },
+          "normal_transverse_gain": {
+            "mean": 9.204116801164023,
+            "median": 9.21421726694443,
+            "p10": 6.420970459365211,
+            "p90": 11.863798100018537
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.0745958390465333,
+            "median": 0.047205012684561926,
+            "p10": 0.01078789806567193,
+            "p90": 0.16725941621257848
+          },
+          "tangent_over_transverse": 0.049008404765542156
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.12524398802164063,
+            "median": 0.11773388830909255,
+            "p10": 0.062470281345016365,
+            "p90": 0.1941998575598471
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.2412741828280484e-17,
+            "median": 3.84507273412693e-17,
+            "p10": 2.1828049614240277e-17,
+            "p90": 7.118801213443696e-17
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.12524398802164063,
+            "median": 0.11773388830909254,
+            "p10": 0.062470281345016365,
+            "p90": 0.1941998575598471
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.450369151711511,
+            "median": 9.469686065345808,
+            "p10": 6.160802025295839,
+            "p90": 12.707566933246367
+          },
+          "normal_transverse_gain": {
+            "mean": 9.404942259808564,
+            "median": 9.428400878043357,
+            "p10": 6.159850168698226,
+            "p90": 12.608271976539264
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.37655728090714363,
+            "median": 0.2369434375446188,
+            "p10": 0.04599256322092197,
+            "p90": 0.9459378650878445
+          },
+          "tangent_over_transverse": 0.012487153424210942
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.1230670692111614,
+            "median": 0.11178174853436679,
+            "p10": 0.05496125354623349,
+            "p90": 0.19189722844960216
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 5.992254166680811e-17,
+            "median": 5.178138944483611e-17,
+            "p10": 2.5084708443217666e-17,
+            "p90": 1.0606442829275853e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.1230670692111614,
+            "median": 0.11178174853436684,
+            "p10": 0.05496125354623347,
+            "p90": 0.1918972284496022
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999996,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.44265646061649,
+            "median": 9.445559734299184,
+            "p10": 6.131823670852142,
+            "p90": 12.709148641583717
+          },
+          "normal_transverse_gain": {
+            "mean": 9.394640754462857,
+            "median": 9.425470283953647,
+            "p10": 6.131087827832652,
+            "p90": 12.607333239548264
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3923720661065283,
+            "median": 0.23187555191113485,
+            "p10": 0.03291292732372345,
+            "p90": 0.9014413493107605
+          },
+          "tangent_over_transverse": 0.011859540709036998
+        }
+      },
+      "finite_difference_relative_error": 1.3963252350343638e-08
+    },
+    "15": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.5815308969923256e-16,
+            "median": 1.4124938090636414e-16,
+            "p10": 3.079533875122025e-17,
+            "p90": 3.209984398121228e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.1921904419165685e-17,
+            "median": 8.277420213688243e-18,
+            "p10": 1.5394283985929959e-18,
+            "p90": 2.834564975622251e-17
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0049680006865773,
+            "median": 0.9967149262211714,
+            "p10": 0.9520931680433526,
+            "p90": 1.002381542485121
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.49077146821451e-16,
+            "median": 2.0989664381632775e-16,
+            "p10": 1.3973158623778455e-16,
+            "p90": 3.7488436736713077e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0049680006865775,
+            "median": 0.9967149262211714,
+            "p10": 0.9520931680433526,
+            "p90": 1.0023815424851208
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.225560183079923,
+            "median": 9.217063284186281,
+            "p10": 6.21604586950775,
+            "p90": 12.143643183628258
+          },
+          "normal_transverse_gain": {
+            "mean": 9.18392625876184,
+            "median": 9.203658517617141,
+            "p10": 6.1623832085212795,
+            "p90": 12.01488102194316
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.34128186862555676,
+            "median": 0.19607044532059387,
+            "p10": 0.025992495157290983,
+            "p90": 0.7771247787494382
+          },
+          "tangent_over_transverse": 0.10829551360617239
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9822433770878168,
+            "median": 0.9846220276125398,
+            "p10": 0.7632199263401045,
+            "p90": 1.0670912367759375
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 3.077167696749423e-16,
+            "median": 2.857787750390563e-16,
+            "p10": 1.8299700599369866e-16,
+            "p90": 4.612270833783148e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9822433770878166,
+            "median": 0.9846220276125395,
+            "p10": 0.7632199263401044,
+            "p90": 1.0670912367759375
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.43598438446995,
+            "median": 9.461198445726037,
+            "p10": 6.120549181098888,
+            "p90": 12.664640056169219
+          },
+          "normal_transverse_gain": {
+            "mean": 9.393155887456908,
+            "median": 9.435702676280417,
+            "p10": 6.12001980417427,
+            "p90": 12.663939424791556
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3636482922109049,
+            "median": 0.23836012568666998,
+            "p10": 0.03473031328662596,
+            "p90": 0.8585551968363867
+          },
+          "tangent_over_transverse": 0.1043506839281503
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9150718169863555,
+            "median": 0.9579892948751307,
+            "p10": 0.7374224007798988,
+            "p90": 0.9720604917722604
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.1543807370861025e-16,
+            "median": 3.8586996467651043e-16,
+            "p10": 2.5437913238645754e-16,
+            "p90": 6.30674820572348e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9150718169863555,
+            "median": 0.9579892948751306,
+            "p10": 0.737422400779899,
+            "p90": 0.9720604917722604
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.432205076089167,
+            "median": 9.445648565458015,
+            "p10": 6.113743168998352,
+            "p90": 12.682510794060763
+          },
+          "normal_transverse_gain": {
+            "mean": 9.383978525761194,
+            "median": 9.421448102071857,
+            "p10": 6.113250972460148,
+            "p90": 12.588133438866702
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.423137148735558,
+            "median": 0.2670878618393543,
+            "p10": 0.033316974970325396,
+            "p90": 0.9283502395467464
+          },
+          "tangent_over_transverse": 0.10168174621313901
+        }
+      },
+      "finite_difference_relative_error": 1.0807504500748722e-08
+    },
+    "75": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.6218009587398266e-16,
+            "median": 1.3880074575370926e-16,
+            "p10": 4.342546544548319e-17,
+            "p90": 2.952382389243475e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.3088732088709987e-17,
+            "median": 9.147069515639782e-18,
+            "p10": 1.2324178527315485e-18,
+            "p90": 3.0904849999867455e-17
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9987735873884124,
+            "median": 0.9988822522583785,
+            "p10": 0.9981157121914175,
+            "p90": 0.9993098858654799
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.3215886990188135e-16,
+            "median": 2.1714646243324813e-16,
+            "p10": 1.3262056073637974e-16,
+            "p90": 3.4662125965140825e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9987735873884124,
+            "median": 0.9988822522583785,
+            "p10": 0.9981157121914175,
+            "p90": 0.9993098858654801
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.196233710159216,
+            "median": 9.202986373788887,
+            "p10": 6.171816233679998,
+            "p90": 12.100058234120654
+          },
+          "normal_transverse_gain": {
+            "mean": 9.161075237724798,
+            "median": 9.172960350575568,
+            "p10": 6.159165156475568,
+            "p90": 11.9892779932877
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3816449104415053,
+            "median": 0.24540414764014584,
+            "p10": 0.02971895422850428,
+            "p90": 0.8689611160485015
+          },
+          "tangent_over_transverse": 0.10889420798550627
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9940183616866353,
+            "median": 0.9945372043129332,
+            "p10": 0.9907125599764326,
+            "p90": 0.9966593602272042
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 3.2959872366484163e-16,
+            "median": 3.239674642242592e-16,
+            "p10": 1.9297306890293138e-16,
+            "p90": 4.790389738750334e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9940183616866353,
+            "median": 0.9945372043129332,
+            "p10": 0.9907125599764326,
+            "p90": 0.9966593602272045
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999996,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.412515266524801,
+            "median": 9.441880597088115,
+            "p10": 6.099778270546235,
+            "p90": 12.636671845010882
+          },
+          "normal_transverse_gain": {
+            "mean": 9.373407058855914,
+            "median": 9.405173792664947,
+            "p10": 6.099397097916976,
+            "p90": 12.613041709377038
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.4227802185763141,
+            "median": 0.261436384944732,
+            "p10": 0.04445107665132976,
+            "p90": 0.9000132012308728
+          },
+          "tangent_over_transverse": 0.1057436285854248
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9830709956259129,
+            "median": 0.9846410396104335,
+            "p10": 0.9741567610723524,
+            "p90": 0.9908191358273283
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.4140381735513786e-16,
+            "median": 4.0940963736058683e-16,
+            "p10": 2.8024790587271465e-16,
+            "p90": 6.295990794057673e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9830709956259129,
+            "median": 0.9846410396104337,
+            "p10": 0.9741567610723522,
+            "p90": 0.990819135827328
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999996,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.414165800540104,
+            "median": 9.445804671856623,
+            "p10": 6.094023288618571,
+            "p90": 12.681168732448683
+          },
+          "normal_transverse_gain": {
+            "mean": 9.37560753454441,
+            "median": 9.411981842827668,
+            "p10": 6.0935500183533176,
+            "p90": 12.624141364082266
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.4308658077691391,
+            "median": 0.27445617800858313,
+            "p10": 0.03976867992813718,
+            "p90": 0.8750386179912074
+          },
+          "tangent_over_transverse": 0.10461569689074272
+        }
+      },
+      "finite_difference_relative_error": 1.1155390950057038e-08
+    }
+  },
+  "coarse_tangent_sensitivity": {
+    "0": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.5986224671070373e-16,
+            "median": 1.412871395606379e-16,
+            "p10": 6.843911509430124e-17,
+            "p90": 2.780146784116984e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.5921664061432957e-18,
+            "median": 8.445076711619824e-19,
+            "p10": 1.3274673674051085e-19,
+            "p90": 4.049093711435179e-18
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 0.4483725599670619,
+            "median": 0.4569820838776043,
+            "p10": 0.29614184791233794,
+            "p90": 0.5777315042745103
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.4946517958346065e-16,
+            "median": 2.436933355172814e-16,
+            "p10": 1.5208518781958866e-16,
+            "p90": 3.6204795827846846e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.4483725599670619,
+            "median": 0.45698208387760414,
+            "p10": 0.2961418479123379,
+            "p90": 0.5777315042745101
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.213710120188072,
+            "median": 9.216085265397904,
+            "p10": 6.426840930043385,
+            "p90": 11.864778762347228
+          },
+          "normal_transverse_gain": {
+            "mean": 9.204348445394508,
+            "median": 9.214632436011392,
+            "p10": 6.4166271763032485,
+            "p90": 11.85847488998754
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.07996832136910886,
+            "median": 0.04482872874859266,
+            "p10": 0.007844859496580503,
+            "p90": 0.18690881850671787
+          },
+          "tangent_over_transverse": 0.049593088715257715
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.12442928163937343,
+            "median": 0.11483100981381489,
+            "p10": 0.06704251568974756,
+            "p90": 0.19512515204327235
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.3199993145926224e-17,
+            "median": 3.9606183664418145e-17,
+            "p10": 2.2263687217379178e-17,
+            "p90": 7.089679834814157e-17
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.12442928163937339,
+            "median": 0.11483100981381487,
+            "p10": 0.06704251568974753,
+            "p90": 0.1951251520432724
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.450122429229124,
+            "median": 9.46975027782187,
+            "p10": 6.15888305586906,
+            "p90": 12.706443867233261
+          },
+          "normal_transverse_gain": {
+            "mean": 9.403913704644205,
+            "median": 9.441419467089256,
+            "p10": 6.158062872309149,
+            "p90": 12.698513036192837
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3904838238041878,
+            "median": 0.24657697123771238,
+            "p10": 0.03951808221155138,
+            "p90": 0.9482225843227255
+          },
+          "tangent_over_transverse": 0.012162473049109928
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.12172706695491536,
+            "median": 0.11336985896158618,
+            "p10": 0.05960126773796423,
+            "p90": 0.19464987435136083
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 5.445875960856549e-17,
+            "median": 4.666425847546862e-17,
+            "p10": 2.650065597936821e-17,
+            "p90": 9.792773246618332e-17
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.12172706695491538,
+            "median": 0.11336985896158616,
+            "p10": 0.05960126773796425,
+            "p90": 0.19464987435136089
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.442410295730234,
+            "median": 9.447917281388948,
+            "p10": 6.129918314408928,
+            "p90": 12.708353592167152
+          },
+          "normal_transverse_gain": {
+            "mean": 9.394570098854818,
+            "median": 9.424100056798633,
+            "p10": 6.129496930618579,
+            "p90": 12.677575166293806
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.4073644885540451,
+            "median": 0.22730654450089505,
+            "p10": 0.047084394423253,
+            "p90": 0.9001241386304732
+          },
+          "tangent_over_transverse": 0.012029780910464773
+        }
+      },
+      "finite_difference_relative_error": 1.397772330478898e-08
+    },
+    "15": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.6349926886641243e-16,
+            "median": 1.4985294897072108e-16,
+            "p10": 4.51030632151384e-17,
+            "p90": 2.837210715842293e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.433207466197131e-17,
+            "median": 9.304962076728e-18,
+            "p10": 1.5334991926041202e-18,
+            "p90": 3.489423003076426e-17
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0023212748203973,
+            "median": 0.9968713544404574,
+            "p10": 0.9243902884613506,
+            "p90": 1.0078011104825064
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.2899481464953367e-16,
+            "median": 1.9840850956072761e-16,
+            "p10": 1.4370383284685075e-16,
+            "p90": 3.4781112710729175e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0023212748203971,
+            "median": 0.9968713544404574,
+            "p10": 0.9243902884613506,
+            "p90": 1.007801110482506
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.225935498802578,
+            "median": 9.218381365808366,
+            "p10": 6.215986877330655,
+            "p90": 12.145380425820397
+          },
+          "normal_transverse_gain": {
+            "mean": 9.184915771935469,
+            "median": 9.20323470826925,
+            "p10": 6.162272763328814,
+            "p90": 12.069496183883468
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3501438495257373,
+            "median": 0.1818297900214882,
+            "p10": 0.03859760005738523,
+            "p90": 0.8383089711340392
+          },
+          "tangent_over_transverse": 0.10831749771031624
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9748622437362982,
+            "median": 0.9849266402256467,
+            "p10": 0.8108385618959564,
+            "p90": 1.1336380664311958
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 3.3292298857667907e-16,
+            "median": 3.178481567273877e-16,
+            "p10": 1.769501963512443e-16,
+            "p90": 4.967098848883884e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9748622437362983,
+            "median": 0.9849266402256465,
+            "p10": 0.8108385618959564,
+            "p90": 1.1336380664311965
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.436387388616213,
+            "median": 9.462509286169563,
+            "p10": 6.120410539601675,
+            "p90": 12.667255292417321
+          },
+          "normal_transverse_gain": {
+            "mean": 9.393829489053509,
+            "median": 9.422164238997428,
+            "p10": 6.119797876165425,
+            "p90": 12.658923084692159
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.3755444663415705,
+            "median": 0.24267385362404814,
+            "p10": 0.0393780447698178,
+            "p90": 0.8820351529687571
+          },
+          "tangent_over_transverse": 0.10453295179775474
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.912952105804432,
+            "median": 0.9586014906699124,
+            "p10": 0.7922244201850728,
+            "p90": 0.9702435674238953
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.567770777277614e-16,
+            "median": 4.4057147928958166e-16,
+            "p10": 2.615298854526868e-16,
+            "p90": 6.34191728766927e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.912952105804432,
+            "median": 0.9586014906699123,
+            "p10": 0.7922244201850726,
+            "p90": 0.9702435674238953
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999996,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.43257340372413,
+            "median": 9.443430017762182,
+            "p10": 6.113602798188484,
+            "p90": 12.683787217343387
+          },
+          "normal_transverse_gain": {
+            "mean": 9.384703441953645,
+            "median": 9.422552837009782,
+            "p10": 6.11304392245298,
+            "p90": 12.627577019658778
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.4380678854156583,
+            "median": 0.27499519468525013,
+            "p10": 0.04334128172312704,
+            "p90": 0.9931630896235227
+          },
+          "tangent_over_transverse": 0.10173479599973478
+        }
+      },
+      "finite_difference_relative_error": 1.0711050933092195e-08
+    },
+    "75": {
+      "horizons": {
+        "0": {
+          "latent_tangent_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000002
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 1.5986098785882728e-16,
+            "median": 1.4461534521187295e-16,
+            "p10": 3.1525028625042373e-17,
+            "p90": 2.9473503986034523e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 1.0,
+            "p90": 1.0
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_transverse_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 1.435644801401661e-17,
+            "median": 8.674387515114427e-18,
+            "p10": 1.7699257799443467e-18,
+            "p90": 3.619880869513728e-17
+          },
+          "tangent_over_transverse": 1.0
+        },
+        "1": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9987610773747894,
+            "median": 0.9988867850708179,
+            "p10": 0.9981488800263161,
+            "p90": 0.9992672078162601
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 2.2604456977994374e-16,
+            "median": 2.1410815946604394e-16,
+            "p10": 1.268930196926749e-16,
+            "p90": 3.218011361804914e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9987610773747896,
+            "median": 0.9988867850708179,
+            "p10": 0.9981488800263165,
+            "p90": 0.9992672078162601
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999998,
+            "p90": 1.0000000000000002
+          },
+          "normal_total_gain": {
+            "mean": 9.19665891059855,
+            "median": 9.203285395472276,
+            "p10": 6.172382222732752,
+            "p90": 12.101722887556408
+          },
+          "normal_transverse_gain": {
+            "mean": 9.16224740951974,
+            "median": 9.162933357239776,
+            "p10": 6.161702361448014,
+            "p90": 12.005280842584488
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.39028424862946476,
+            "median": 0.23157339287100237,
+            "p10": 0.039370520813371834,
+            "p90": 0.9013486161790983
+          },
+          "tangent_over_transverse": 0.10901386555229957
+        },
+        "5": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9939530649045559,
+            "median": 0.9946116842762216,
+            "p10": 0.990844635196639,
+            "p90": 0.9964525293030106
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 3.112289920927941e-16,
+            "median": 3.051185127220446e-16,
+            "p10": 1.9911156946508738e-16,
+            "p90": 4.1602947732010133e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9939530649045561,
+            "median": 0.9946116842762218,
+            "p10": 0.990844635196639,
+            "p90": 0.9964525293030104
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999997,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.412959683707774,
+            "median": 9.441899233577999,
+            "p10": 6.099585781057831,
+            "p90": 12.636492189551323
+          },
+          "normal_transverse_gain": {
+            "mean": 9.374397873127872,
+            "median": 9.40482544075999,
+            "p10": 6.099170607359226,
+            "p90": 12.609834530939272
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.43475427292433566,
+            "median": 0.26977589666366913,
+            "p10": 0.037491780696010966,
+            "p90": 1.0592612889760429
+          },
+          "tangent_over_transverse": 0.10575546463261615
+        },
+        "15": {
+          "latent_tangent_total_gain": {
+            "mean": 0.9828591906238554,
+            "median": 0.9850046585113931,
+            "p10": 0.9733142091315674,
+            "p90": 0.9902351748621852
+          },
+          "latent_tangent_transverse_gain": {
+            "mean": 4.479275830418352e-16,
+            "median": 4.282144655777714e-16,
+            "p10": 2.855788736261138e-16,
+            "p90": 6.393332903010726e-16
+          },
+          "curve_tangent_norm_retention": {
+            "mean": 0.9828591906238554,
+            "median": 0.985004658511393,
+            "p10": 0.9733142091315676,
+            "p90": 0.9902351748621849
+          },
+          "latent_tangent_phase_coordinate_gain": {
+            "mean": 1.0,
+            "median": 1.0,
+            "p10": 0.9999999999999996,
+            "p90": 1.0000000000000004
+          },
+          "normal_total_gain": {
+            "mean": 9.414608145928785,
+            "median": 9.443944356400243,
+            "p10": 6.093843062985874,
+            "p90": 12.681453633020626
+          },
+          "normal_transverse_gain": {
+            "mean": 9.376609358199467,
+            "median": 9.411606480131944,
+            "p10": 6.0933859226936535,
+            "p90": 12.60463087626612
+          },
+          "normal_induced_phase_radians_per_unit_state": {
+            "mean": 0.4442476355189984,
+            "median": 0.2860870708811152,
+            "p10": 0.046904474074704536,
+            "p90": 1.0801540509342176
+          },
+          "tangent_over_transverse": 0.10465850443181555
+        }
+      },
+      "finite_difference_relative_error": 1.1181249063600004e-08
+    }
+  },
+  "candidate_gates": {
+    "radius_after_5s_at_least_20_percent": false,
+    "fixed_heading_mae_after_5s_at_most_30deg": false,
+    "fixed_heading_coverage_after_5s_at_least_half": false,
+    "fixed_readout_amplitude_valid_in_80_percent": true,
+    "one_second_tangent_gain_at_least_half": true,
+    "one_second_normal_residual_below_half": false,
+    "tangent_over_transverse_greater_than_two": false
+  },
+  "passes_candidate_screen": false,
+  "seconds": 1.5086996657773852,
+  "interpretation": "Exploratory heading-memory candidate screen in the original navigation LSTM. Time-refit decoding measures information only. A unit phase-coordinate gain on an advected family is algebraic and is not evidence of stable physical memory. No ring is imposed or declared from PCA."
+}

@@ -1,0 +1,41 @@
+{
+  "experiment": "Unconstrained original-LSTM fixed/slow-point landscape",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "contexts": [
+    0,
+    1
+  ],
+  "regimes": [
+    "goal_withheld",
+    "actual_goal_held"
+  ],
+  "angles": 64,
+  "initializer": "64 valid goal-conditioned states after15actual physical-history updates; evenly spaced goal angles; no selected neural geometry.",
+  "common_input": "One recorded natural endpoint visual/current/action/reward input per context; held goal is that SAME actual snapshot across all initializers; withheld goal iszero.",
+  "objective": "Raw full512-state dynamical residual only, no goal/angle/circle term.",
+  "adam_steps": 3000,
+  "lbfgs_steps": 300,
+  "fixed_threshold": {
+    "raw_RMS": 1e-08,
+    "block_RMS": 1e-06
+  },
+  "slow_threshold": {
+    "raw_RMS": 1e-05,
+    "block_RMS": 0.0001
+  },
+  "cluster_threshold_relative_rms": 0.001,
+  "representatives": "First initializer per block-RMS cluster, plus four preselected quarter-circle initializers; all solutions retained.",
+  "interpretation": "No requirement of a continuum of exact fixed points: ordered saddles/stable points can support a slow ring. A ring claim additionally needs connected/invariant phase geometry and preferential transverse recovery. Multiple saturated-c neutral modes are examined for actor visibility.",
+  "sources": {
+    "scripts/lstm_endogenous_fixed_points.py": "51e9ca28634b5915ffe3737981912555fe74ae1bcb3158fd80788c182937d2cc",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  }
+}

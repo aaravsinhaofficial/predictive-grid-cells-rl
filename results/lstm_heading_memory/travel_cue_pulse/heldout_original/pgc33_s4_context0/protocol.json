@@ -1,0 +1,37 @@
+{
+  "version": "travel_cue_pulse_v1",
+  "frozen_before_travel_family_outcomes": true,
+  "phase_count": 192,
+  "anchor_updates": 15,
+  "recovery_updates": [
+    0,
+    1,
+    5,
+    15,
+    30,
+    45
+  ],
+  "last_time_seconds": 4,
+  "phase_edits_degrees": [
+    -30,
+    30
+  ],
+  "wrong_cue_degrees": [
+    -60,
+    60
+  ],
+  "controls": "Unperturbed, norm-matched random non-tangent state perturbation, ordinary current throughout, correct one-update PGC pulse, wrong \u00b160-degree one-update pulse, sustained correct current PGC.",
+  "intervention": "Whole full-state phase substitutions from the naturally elicited travel-history family at1s; do not fit/rotate a PCA or decoder plane. Only169currentPGC input slots can differ between cue branches. Native savedgoal and everyotherinput unchanged.",
+  "evaluation": "Same common-input recurrent dynamics through4s. One pulse lasts1/15s. Full-state nearest-segment angle, off-curve residual, paired fullstate error and original actor probability changes; raw and h/cRMS-scaled metrics. No phase is an independent trained-agent replicate.",
+  "reference": "Ordinary branch uses unperturbed ordinary family. Allcuebranches use unperturbed correct-single-pulse family; also report own-branch paired phase/error to distinguish generic cue effects. Geometric validity and observable actor expression required to interpret phase.",
+  "relation_to_ring": "A separate frozen travel-family analysis tests attraction and persistence. This pulse assay alone is not a ring test.",
+  "source_sha256": {
+    "scripts/lstm_travel_cue_pulse.py": "c173fe0ed1502ed42eda74ec8e74bf35bcc709cf75e848956dc299f300916693",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+  }
+}

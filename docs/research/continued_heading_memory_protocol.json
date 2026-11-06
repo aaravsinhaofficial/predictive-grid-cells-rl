@@ -1,0 +1,45 @@
+{
+  "version": "continued_heading_memory_v1",
+  "status": "Frozen before this continued heading assay; implementation and native-context collection follow checkpoint availability",
+  "models": ["visual-memory continued gc100 seed1", "visual-memory continued pgc33 seed1"],
+  "training_protocol": "docs/research/rl_visual_memory_pilot_protocol.json",
+  "training_schedule": "After goal discovery:15 visible updates followed by an integer-uniform30–60-update blackout, repeating; actual hits restart15 visible updates and episode endings clear the schedule. One decision is1/15 second. Native goal/current codes remain available.",
+  "context_collection": {
+    "source": "Actual continued-policy rollouts using the final training blackout schedule and continued weights; never reuse original-network recurrent states",
+    "seed": 98201,
+    "n_envs": 32,
+    "contexts_per_model": 2,
+    "selection": "First two eligible complete15-update visible intervals ending at a scheduled blackout onset, from distinct environment slots, in chronological order. Goal must be known and unchanged; no new hit or episode reset inside the visible interval; starting position outside the goal disk by at least0.01m. Save actual recurrent state before the interval, goal code, position, last movement direction, room layout and prior action/reward. Retain rejected-interval counts.",
+    "maximum_collection_decisions": 6000
+  },
+  "diagnostic_family": {
+    "angles": 192,
+    "visible_preparation_updates": 15,
+    "physics": "Use the original renderer/maps/CNN/LSTM. Share the actual native starting state, goal code, position, room and last movement direction; vary initial body heading only. Set translational and rotational motor noise, image noise and initial velocities to zero. Apply the same actual pure-turn action across the family using unchanged angular acceleration and speed. This is a controlled physical diagnostic, not a claim that the actor selected that action sequence.",
+    "turn_action": "left in context0, right in context1",
+    "blackout": "Actual all-zero RGB through the continued visual encoder"
+  },
+  "input_conditions": {
+    "native_current": "Native current spatial code, native saved goal snapshot",
+    "ordinary_current": "In the PGC-trained network replace only the169 current PGC slots by ordinary-grid values at the identical position; preserve every saved goal slot. Start from exactly the same native-prepared recurrent states. In Grid this is an identity control.",
+    "interpretation": "A fixed native PGC movement-direction cue can potentially pin a phase. Ordinary-current release is therefore required before rejecting an unforced ring from native-input phase collapse. Body heading and last movement direction remain separate variables. The saved goal code is unchanged in every condition."
+  },
+  "primary_times_updates": {
+    "trajectory_samples": [0, 1, 5, 15, 30, 45, 60],
+    "reference_curves": [15, 30],
+    "invariance_and_recovery_horizons": [1, 15, 30],
+    "maximum_reference_plus_horizon": 60,
+    "primary_candidate": "Reference at2s plus2s evolution, ending at the trained4s maximum gap"
+  },
+  "primary_measures": [
+    "Full512-state geometry, closure/neighbor gaps/nonlocal separation, raw and initial h/c-RMS-scaled distances",
+    "Future full states projected to the fixed earlier dense curve, with phase coverage/order and no2D decoder used to define geometry",
+    "Targeted inward/outward2%-radius kicks projected off the local tangent; residual distance to the evolved unperturbed curve divided by actual initial distance, alongside actual tangent-length gain",
+    "Initial-heading readout fitted on even angles only; odd angles always held out. Report initial-angle and updated-body-heading errors, angular bias and concentration separately",
+    "Time-refit and time-centered readouts labelled information-only sensitivity analyses",
+    "Hidden-state, cell-state and actor-output expression of surviving heading differences"
+  ],
+  "candidate_nomination": "Within the trained horizon, nominate a condition for further spectral/causal tests only if both coordinate metrics retain at least5% of initial family radius; largest curve edge<=10%radius; p10 nonlocal separation>=5%radius; p90 future-to-fixed-curve residual<=5%radius; phase coverage>=80%; projected phase-map degree within0.1of1; reversed edges<=5%; radial gain<=0.5 and radial/tangent gain<=0.5. Frozen readout accuracy is a separate functional result and cannot by itself reject decoder-independent ring geometry.",
+  "secondary_extrapolation": "Any5s or100s original-style assay is explicitly beyond the trained4s gap and cannot replace the primary within-horizon result.",
+  "reporting": "Retain both contexts, both populations and native/released inputs regardless of outcome. This is a one-seed-per-population mechanistic pilot; make no population-level significance claim. Useful recurrent memory is assessed separately by the prespecified native-navigation blind/seen reset controls."
+}

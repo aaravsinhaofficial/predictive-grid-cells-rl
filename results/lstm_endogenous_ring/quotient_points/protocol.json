@@ -1,0 +1,44 @@
+{
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "contexts": [
+    0,
+    1
+  ],
+  "settled_updates": 75,
+  "discovery_phases": [
+    0,
+    8,
+    16,
+    24,
+    32,
+    40,
+    48,
+    56
+  ],
+  "selection": "On eight discovery phases: shared initial c sign and |c|>=8 throughout every six60-step future. Every h and other c retained.",
+  "quotient": "Replace tanh(new_c_j) by the fixed saturation sign only for selected j. Remove those c coordinates; retain every h. No phase-based subspace.",
+  "validation": "All six futures on the56otherphases; maximum h error<=1e-5 and actor-probability error<=1e-6. No optimization unless combined quotient passes.",
+  "optimization": "Only original recurrent residual in the retained physical coordinates; Adam3000/LBFGS300 as full-state search; no phase/geometry term.",
+  "post_optimization": "Restore removed c amplitudes from actual initializers and compare full and quotient dynamics over4seconds commoninput; failure invalidates an optimized quotient candidate.",
+  "fixed_threshold": {
+    "raw_RMS": 1e-08,
+    "scaled_RMS": 1e-06
+  },
+  "slow_threshold": {
+    "raw_RMS": 1e-05,
+    "scaled_RMS": 0.0001
+  },
+  "interpretation": "Conditional empirical quotient on tested input sector; all failed full-state and initial-saturation tests retained. A ring additionally requires connected phase geometry and preferential radial/normal attraction.",
+  "source_sha256": "dad3787113217fb19a371bdf202fe34cffdaff70204bc6c8c1511a0434ff9bee",
+  "parents": {
+    "scripts/lstm_endogenous_fixed_points.py": "51e9ca28634b5915ffe3737981912555fe74ae1bcb3158fd80788c182937d2cc",
+    "scripts/lstm_endogenous_saturation_audit.py": "028449e86ac57839eaa9cc587819e9444108f71a556bc9eb2d489a3417e38663"
+  }
+}

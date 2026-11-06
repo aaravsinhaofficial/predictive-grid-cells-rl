@@ -1,0 +1,22 @@
+{
+  "version": "coherent_travel_memory_v1",
+  "cohort": "original",
+  "original_models": "Grid/PGC original seeds1/2; preselected nativecontext0",
+  "continued_models": "Fixed final25.024M continued pair only; first2 physically eligible native scheduled visible intervals from each continued actor, seed98201",
+  "elicitation": "15 visible observations,14 actual noiseless native forward physics updates. Starts lie behind a common actual context endpoint by the analytically predicted forward distance. Native initial recurrent context and saved goal fixed. Every path must avoid walls/goal, using sufficient all-angle clearance>.01m; context choice depends only on physical geometry.",
+  "endpoint": "Float32 endpoint discrepancies must be<1e-5m before snapping to one exact target; record velocity, then explicitly stop translation/rotation before initiating native stationary turn. Last actual movement direction\u03b8 is held; body heading changes.",
+  "release": "Replace only current169 PGC slots by their ordinary-grid values. All phases now receive exactly one shared black-image/current/goal/action/reward input. Preserve native phase-specific PGC inputs separately for causal pulses.",
+  "analysis": "Full512 states, raw and h/cRMS geometry; released1/2s reference curves, recovery through4s; fixed192angle analysis subset of768real phase histories;384uniform-arc tests; targetedradial versus tangent recovery; frozen continued candidate criteria. Native-cue family is input-driven and never called autonomous.",
+  "pulse_interface": "NPZ times/states[time,phase,512]/theta/ordinary_input[1,1287]/native_inputs[phase,1287]/native_current_code[phase,512]/scale[512]/rawscale[512]/checkpoint_path/hash",
+  "source_sha256": {
+    "scripts/lstm_travel_memory_probe.py": "466a7cc2ea709f1a2962e0af0ce9a0fe1fbb317e7771c176e8c240f825518131",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  }
+}

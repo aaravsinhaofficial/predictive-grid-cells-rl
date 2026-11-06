@@ -1,0 +1,87 @@
+{
+  "checked_at": "2026-11-06T05:28:49.404073+00:00",
+  "checks": [
+    {
+      "kind": "instances",
+      "name": "ring-20261105-vision-grid-01",
+      "absence_verified": true,
+      "returncode": 1
+    },
+    {
+      "kind": "disks",
+      "name": "ring-20261105-vision-grid-01",
+      "absence_verified": true,
+      "returncode": 1
+    },
+    {
+      "kind": "instances",
+      "name": "ring-20261105-vision-pgc-01",
+      "absence_verified": true,
+      "returncode": 1
+    },
+    {
+      "kind": "disks",
+      "name": "ring-20261105-vision-pgc-01",
+      "absence_verified": true,
+      "returncode": 1
+    }
+  ],
+  "pilot_conservative_compute_envelope_usd": 1.626,
+  "original_budget_usd": 500,
+  "cumulative_envelope_usd": 45.8173,
+  "remaining_uncommitted_usd": 454.1827,
+  "workers": [
+    {
+      "name": "ring-20261105-vision-grid-01",
+      "status": "DELETED",
+      "actual_upper_bound_usd": 0.8022,
+      "created_at": "2026-11-05T20:47:33.543-08:00",
+      "absence_verified_at": "2026-11-06T05:26:03.969746+00:00",
+      "collected_bytes": 196860280,
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2118.815110683441,
+        "finished_at": "2026-11-06T05:24:32.690273+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_visual_memory.py",
+          "--condition",
+          "gc100",
+          "--out",
+          "results/ring_visual_memory/pilot_gc100_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "a5a4b10b5c16cee70d2a68639bae7c0b34c9e17a26f2799b73e30426f597657e"
+      }
+    },
+    {
+      "name": "ring-20261105-vision-pgc-01",
+      "status": "DELETED",
+      "actual_upper_bound_usd": 0.8238,
+      "created_at": "2026-11-05T20:48:55.642-08:00",
+      "absence_verified_at": "2026-11-06T05:28:28.204494+00:00",
+      "collected_bytes": 196856706,
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2145.875958919525,
+        "finished_at": "2026-11-06T05:26:41.155078+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/rl_visual_memory.py",
+          "--condition",
+          "pgc33",
+          "--out",
+          "results/ring_visual_memory/pilot_pgc33_s1",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "a5a4b10b5c16cee70d2a68639bae7c0b34c9e17a26f2799b73e30426f597657e"
+      }
+    }
+  ]
+}

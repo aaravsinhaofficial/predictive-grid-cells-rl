@@ -1,0 +1,48 @@
+{
+  "experiment": "Original-checkpoint exploratory corrected-transverse-recovery screen",
+  "seeds": [
+    1,
+    2
+  ],
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "contexts": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "angles": 96,
+  "settle_updates": [
+    0,
+    15,
+    75,
+    150
+  ],
+  "probe_updates": [
+    0,
+    1,
+    15,
+    75
+  ],
+  "long_updates": [
+    0,
+    15,
+    75,
+    150,
+    450,
+    1500
+  ],
+  "no_imposed_ring": true,
+  "initialization": "Valid native goal-message family, all other actual history inputs shared; offset0 for the first mechanistic screen.",
+  "primary_screen": "After5s common-input relaxation, compare1s latent-tangent total gain with residual transverse gain; retain full family size and all earlier/later times. No seed-level significance claim from pilot pairs.",
+  "candidate_followup": "Advance to slow-point/spectral/invariance analysis if after5s relaxation family radius retains>=20% and over the next1s median latent tangent gain>=.5, corrected normal gain<.5, tangent/normal ratio>2. Retain every metric/context regardless; these are candidate-screen thresholds, not ring-proof criteria. A near-neutral exact continuum is not required; slow rings may contain fixed points and saddles.",
+  "sources": {
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_goal_bearing_manifold.py": "0a9ece814c006e721e13b73c846619e102f3baab744c691fac3ce7a819f032f7",
+    "scripts/refine_lstm_goal_bearing_manifold.py": "d0c37633f9d9afd5fff03085e642ea606d9d1577e6c65fbd72f01b3be6c9f642",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  }
+}

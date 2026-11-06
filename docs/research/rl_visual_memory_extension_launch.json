@@ -1,0 +1,78 @@
+{
+  "status": "Authorized after fixed V1 endpoint and independently verified VM/disk deletion",
+  "project": "connectome-ai-research",
+  "zone": "us-central1-a",
+  "machine": "n1-standard-8",
+  "accelerator": "one NVIDIA T4",
+  "hours": 2,
+  "provider_deadline": "DELETE after 7200 seconds",
+  "boot_disk_auto_delete": true,
+  "total_reservation_usd": 5.625,
+  "original_cumulative_budget_usd": 500,
+  "include_only": true,
+  "include": [
+    "code/__init__.py",
+    "code/codes.py",
+    "code/common.py",
+    "code/env.py",
+    "code/nets.py",
+    "code/train.py",
+    "docs/research/rl_visual_memory_extension_protocol.json",
+    "docs/research/rl_visual_memory_pilot_protocol.json",
+    "models/gc100/gc100_lstm_s1_1000M.json",
+    "models/gc100/gc100_lstm_s1_1000M.pt",
+    "models/pgc33/pgc33_lstm_s1_1000M.json",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt",
+    "results/lstm_endogenous_ring/every_blind_update_reset/protocol.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-grid-01/baseline.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-grid-01/final.pt",
+    "results/ring_cloud_artifacts/ring-20261105-vision-grid-01/final_evaluation.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-grid-01/summary.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-pgc-01/baseline.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-pgc-01/final.pt",
+    "results/ring_cloud_artifacts/ring-20261105-vision-pgc-01/final_evaluation.json",
+    "results/ring_cloud_artifacts/ring-20261105-vision-pgc-01/summary.json",
+    "scripts/lstm_code_swap.py",
+    "scripts/lstm_endogenous_curve_recovery.py",
+    "scripts/lstm_endogenous_every_blind_reset.py",
+    "scripts/lstm_goal_bearing_manifold.py",
+    "scripts/refine_lstm_goal_bearing_manifold.py",
+    "scripts/rl_goal_memory.py",
+    "scripts/rl_visual_memory.py",
+    "scripts/rl_visual_memory_extend.py",
+    "scripts/run_visual_memory_extension_worker.py",
+    "tests/test_lstm_endogenous_every_blind_reset.py",
+    "tests/test_rl_goal_memory.py",
+    "tests/test_rl_visual_memory.py",
+    "tests/test_rl_visual_memory_extend.py"
+  ],
+  "workers": [
+    {
+      "name": "ring-20261105-vision-long-grid-01",
+      "condition": "gc100",
+      "output_dir": "results/ring_visual_memory/extension_gc100_s1",
+      "command": [
+        "python",
+        "scripts/run_visual_memory_extension_worker.py",
+        "--condition",
+        "gc100",
+        "--out",
+        "results/ring_visual_memory/extension_gc100_s1"
+      ]
+    },
+    {
+      "name": "ring-20261105-vision-long-pgc-01",
+      "condition": "pgc33",
+      "output_dir": "results/ring_visual_memory/extension_pgc33_s1",
+      "command": [
+        "python",
+        "scripts/run_visual_memory_extension_worker.py",
+        "--condition",
+        "pgc33",
+        "--out",
+        "results/ring_visual_memory/extension_pgc33_s1"
+      ]
+    }
+  ],
+  "separate_diagnostics": "Two frozen every-blind-step reset evaluations before unchanged training; each capped at150 seconds; diagnostic exit codes retained separately."
+}

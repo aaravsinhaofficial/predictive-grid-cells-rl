@@ -1,0 +1,120 @@
+{
+  "rows": [
+    {
+      "condition": "gc100",
+      "cohort": "original",
+      "visibility": "blind",
+      "usual_score": 23.59375,
+      "onset_reset_score": 20.625,
+      "every_update_reset_score": 20.3125,
+      "onset_cost": 2.96875,
+      "every_update_cost": 3.28125,
+      "resets": 40282
+    },
+    {
+      "condition": "gc100",
+      "cohort": "original",
+      "visibility": "seen",
+      "usual_score": 83.28125,
+      "onset_reset_score": 83.75,
+      "every_update_reset_score": 62.96875,
+      "onset_cost": -0.46875,
+      "every_update_cost": 20.3125,
+      "resets": 38975
+    },
+    {
+      "condition": "gc100",
+      "cohort": "continued25M",
+      "visibility": "blind",
+      "usual_score": 43.59375,
+      "onset_reset_score": 43.59375,
+      "every_update_reset_score": 44.21875,
+      "onset_cost": 0.0,
+      "every_update_cost": -0.625,
+      "resets": 37882
+    },
+    {
+      "condition": "gc100",
+      "cohort": "continued25M",
+      "visibility": "seen",
+      "usual_score": 61.25,
+      "onset_reset_score": 58.28125,
+      "every_update_reset_score": 28.75,
+      "onset_cost": 2.96875,
+      "every_update_cost": 32.5,
+      "resets": 38309
+    },
+    {
+      "condition": "pgc33",
+      "cohort": "original",
+      "visibility": "blind",
+      "usual_score": 14.53125,
+      "onset_reset_score": 15.46875,
+      "every_update_reset_score": 15.0,
+      "onset_cost": -0.9375,
+      "every_update_cost": -0.46875,
+      "resets": 32579
+    },
+    {
+      "condition": "pgc33",
+      "cohort": "original",
+      "visibility": "seen",
+      "usual_score": 85.0,
+      "onset_reset_score": 83.28125,
+      "every_update_reset_score": 34.0625,
+      "onset_cost": 1.71875,
+      "every_update_cost": 50.9375,
+      "resets": 31809
+    },
+    {
+      "condition": "pgc33",
+      "cohort": "continued25M",
+      "visibility": "blind",
+      "usual_score": 47.8125,
+      "onset_reset_score": 45.9375,
+      "every_update_reset_score": 45.78125,
+      "onset_cost": 1.875,
+      "every_update_cost": 2.03125,
+      "resets": 38142
+    },
+    {
+      "condition": "pgc33",
+      "cohort": "continued25M",
+      "visibility": "seen",
+      "usual_score": 83.75,
+      "onset_reset_score": 75.625,
+      "every_update_reset_score": 30.625,
+      "onset_cost": 8.125,
+      "every_update_cost": 53.125,
+      "resets": 38739
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "results/ring_cloud_artifacts/ring-20261105-vision-long-grid-01/every_blind_reset_original/result.json",
+      "sha256": "7ae8e7ac9eb11b4b7a1f891dc083e32833004561236805e1d6325e053b2c240f",
+      "checkpoint_sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb"
+    },
+    {
+      "path": "results/ring_cloud_artifacts/ring-20261105-vision-long-grid-01/every_blind_reset_v1final/result.json",
+      "sha256": "ebcbc2be5067ee06f9a20ce995224841cb40c67d4efa30f2d5b56cb6f6ca9211",
+      "checkpoint_sha256": "d13186a5c1d793544cede9772f2670006528b956621155403aae4bb2b1b4ca90"
+    },
+    {
+      "path": "results/ring_cloud_artifacts/ring-20261105-vision-long-pgc-01/every_blind_reset_original/result.json",
+      "sha256": "c0a26f5c2e0cc219aeee4868dd0e34c0dcc7f58b6a1e63edb76deb5f69e7ea4f",
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+    },
+    {
+      "path": "results/ring_cloud_artifacts/ring-20261105-vision-long-pgc-01/every_blind_reset_v1final/result.json",
+      "sha256": "5536ca90b57724505d6bb0c1e8d044f335605be55c917254f1e2c8aceac38d16",
+      "checkpoint_sha256": "3e92f8cdb8fbf98a058d5b9972ace92c7c8c9ba9411dd8e7eb0ae64b12cda3e2"
+    }
+  ],
+  "all_four_nonreset_row_identity_checks_pass": true,
+  "episodes_per_model_and_branch": 64,
+  "training_seed_pairs": 1,
+  "intervention": "Reset h and c before every scheduled blind update. In the seen control, retain RGB while applying the same reset scheduling rule.",
+  "preserved": "Previous action/reward inputs, current spatial code, saved external goal, physical state and its history, trained weights, rewards and first-discovery trajectory.",
+  "interpretation": "Tests dependence on h/c carryover under this intervention. Available inputs and physical state still carry history. Seen effects can include a reset-induced state-distribution shift; no unique stored-information claim. Descriptive one-seed-pair pilot."
+}

@@ -1,0 +1,30 @@
+{
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "contexts": [
+    0,
+    1
+  ],
+  "regimes": [
+    "goal_withheld",
+    "actual_goal_held"
+  ],
+  "initializers": 64,
+  "scope": "Final original-agent equilibrium conditioning refinement, using same16lockedinputcases after full-state and validated-quotient searches stalled.",
+  "exact_identity": "c=i(h)g(h)/sigmoid(-forget_logit(h)); optimize h=o(h)tanh(c(h)) only.",
+  "objective": "Hidden consistency residual, no phase labels or circle regularization. Adam3000/LBFGS300 as previous searches.",
+  "qualification": "HiddenRMS<=1e-8 and stablefullRMS<=1e-8 (slow1e-5). Stable c residual=ig-sigmoid(-f_logit)*c. Ordinary float64 F(z)-z also reported.",
+  "spectra": "Full-state Jacobian uses stable f derivative f*sigmoid(-f_logit), avoiding derivative cancellation. One representative per qualified hidden cluster plus four preassigned phases.",
+  "accessibility": "Original full-state recurrence from original64native-conditionedstates, samefixedinput,60/150/1500updates (4/10/100s); compare h and c to solutions separately.",
+  "source_sha256": "5643511bcb099ee592a8875dab0084288c63cbadffc9730f8033ed76c68fbcf8",
+  "parents": {
+    "scripts/lstm_endogenous_fixed_points.py": "51e9ca28634b5915ffe3737981912555fe74ae1bcb3158fd80788c182937d2cc",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799"
+  }
+}

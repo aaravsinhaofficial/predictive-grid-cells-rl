@@ -2,6 +2,8 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
+**Active mechanistic study: [Testing a learned ring inside the navigation LSTM](mechanisms/learned-ring-in-navigation.md).** Original-agent recovery tests, held-out seed pairs, brief predictive-cue interventions, and reward-only blackout continuations. All outcomes are retained; longer adaptation and state-noise comparisons are running.
+
 **Task-linked follow-up: [From predictive maps to goal memory and navigation](mechanisms/goal-memory-in-the-navigation-task.md).** Tests of the original RL-trained policies, a simple goal-memory ring feeding those policies, and a reward-only memory-training pilot use this project's actual square arena and hexagonal maps. [All experiments and reproduction](docs/research/rl_map_redo_inventory.md).
 
 **Separate compass illustration: [Predictive spatial codes and recurrent direction memory](mechanisms/predictive-ring-attractor.md).** This earlier study uses a different heading task; it does not demonstrate a ring inside the original navigation LSTMs. [What was designed and learned](mechanisms/designed-predictive-ring.md) · [PDF report](output/pdf/predictive_ring_mechanism.pdf) · [Models](docs/research/ring_reproduction.md).

@@ -1,0 +1,60 @@
+{
+  "version": "travel_action_context_sensitivity_v1",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "contexts": [
+    0
+  ],
+  "actions": {
+    "2": "forward",
+    "3": "backward",
+    "4": "strafe_left",
+    "5": "strafe_right"
+  },
+  "body_heading_offset_from_travel_radians": {
+    "2": 0.0,
+    "3": 3.141592653589793,
+    "4": -1.5707963267948966,
+    "5": 1.5707963267948966
+  },
+  "motivation": "Native sampled original histories contain no forward actions for Grid; controlled forward-only histories may miss practiced backward or strafe contexts. This sensitivity covers all four native translation actions without selecting the best outcome.",
+  "control": "Same actual world-space starts, paths, endpoints, saved-goal/room, and initial recurrent state for every action. Body heading and true previous-action input reflect the chosen native action. Fifteen visible observations contain14 actual deterministic translation updates; preserve native previous-action/reward only at first update.",
+  "release": "Same bounded endpoint snap, explicit velocity stop, common stationary-turn input, and replacement of only current predictive slots by ordinary grid. No active direction cue in the autonomous screen.",
+  "analysis": "Unchanged travel/continued full512 raw and h/cRMS metrics, within4s horizon, radial/tangent tests, decoder diagnostics, and every frozen candidate gate. Report all16 action/model contexts. Same-world paths do not imply identical visual histories because body heading differs by action.",
+  "interpretation": "These are controlled native-physics action histories initialized from real policy histories, not claims that the actor chose each scripted sequence. Original forward outcomes remain primary and are regression-checked; this is a separately frozen sensitivity.",
+  "source_sha256": {
+    "scripts/lstm_travel_action_context.py": "d83b1360fa5ad0804db418d43c961506d7823199a0393e1e478c9908fe189188",
+    "scripts/lstm_travel_memory_probe.py": "466a7cc2ea709f1a2962e0af0ce9a0fe1fbb317e7771c176e8c240f825518131",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "inputs": {
+    "gc100_s1": {
+      "checkpoint_sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+      "context_sha256": "31362ab43d72a45f2d99335be21c6137b9a145dcd249cf0c53e7746ac80ce127"
+    },
+    "gc100_s2": {
+      "checkpoint_sha256": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "context_sha256": "4ce5282b5c52be596ba1c7cee6b1711477730fa36c4ec6ba055fff38145465e7"
+    },
+    "pgc33_s1": {
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "context_sha256": "6a420d04c5cc7235799c65cf8b172a40566cee32869fa0a10dddc3c3d0000d1e"
+    },
+    "pgc33_s2": {
+      "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+      "context_sha256": "9b64f22af4045fca767cf9d5c856d108081cc7f02be7433e2f59222238c91513"
+    }
+  }
+}

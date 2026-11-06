@@ -1,0 +1,26 @@
+{
+  "experiment": "Every scheduled blind-update recurrent reset; separate from frozen onset-reset comparison.",
+  "models": [
+    "original gc100 seed1",
+    "original pgc33 seed1",
+    "final25.024M visual-memory gc100 seed1",
+    "final25.024M visual-memory pgc33 seed1"
+  ],
+  "evaluation_seed": 98201,
+  "episodes": 64,
+  "n_envs": 32,
+  "max_gap": 60,
+  "visible_updates": 15,
+  "intervention": "Subclass VisualClock.advance: call the original method, then return self.mask() instead of the entering-blind indicator. The frozen evaluator resets h and c before each next scheduled blind input in *_reset branches.",
+  "controls": "All internal clock transitions and RNG calls unchanged. Seen-reset follows the same scheduled periods while retaining normal images. Before first discovery no additional resets occur. Goal snapshots, current code, previous action/reward, weights, and rewards unchanged.",
+  "validation": "All four nonreset episode-row arrays must exactly match the frozen parent evaluator on the same checkpoint/backend. A supplied same-backend parent JSON may be reused; otherwise rerun unmodified parent locally. Mismatch is retained and raises an error.",
+  "inference": "Every-step reset tests continuing recurrent computation; onset reset tests carrying earlier state into the blackout. Neither alone identifies a ring.",
+  "source_sha256": "554a6f0397ef6a6b8fe87b59f0302b46726a3a003c424f84b0f4918bde9e8030",
+  "parents": {
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+  }
+}

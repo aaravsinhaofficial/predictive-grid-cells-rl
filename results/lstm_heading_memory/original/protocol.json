@@ -1,0 +1,87 @@
+{
+  "experiment": "Original navigation LSTM heading memory during stationary turns in darkness",
+  "models": [
+    {
+      "condition": "gc100",
+      "seed": 1,
+      "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/gc100/gc100_lstm_s1_1000M.pt",
+      "config": "/Users/aaravsinha/predictive-grid-cells-rl/models/gc100/gc100_lstm_s1_1000M.json",
+      "checkpoint_sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+      "config_sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7"
+    },
+    {
+      "condition": "gc100",
+      "seed": 2,
+      "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/gc100/gc100_lstm_s2_1000M.pt",
+      "config": "/Users/aaravsinha/predictive-grid-cells-rl/models/gc100/gc100_lstm_s2_1000M.json",
+      "checkpoint_sha256": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "config_sha256": "9c1a730c473a8a7a0ac9ad20d29e201cacc72fa84bb61b59a8f901f0aa3d79ea"
+    },
+    {
+      "condition": "pgc33",
+      "seed": 1,
+      "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s1_1000M.pt",
+      "config": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s1_1000M.json",
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "config_sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+    },
+    {
+      "condition": "pgc33",
+      "seed": 2,
+      "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s2_1000M.pt",
+      "config": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s2_1000M.json",
+      "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+      "config_sha256": "89e0388319a8740ef157a56f13851fdc679bb8b897668bf367763e75340a1f73"
+    }
+  ],
+  "contexts": [
+    0,
+    1
+  ],
+  "analysis_angles": 96,
+  "rendered_angles": 192,
+  "visible_updates": 30,
+  "sample_updates": [
+    0,
+    1,
+    5,
+    15,
+    30,
+    75,
+    150
+  ],
+  "local_recovery_start_updates": [
+    0,
+    15,
+    75
+  ],
+  "local_recovery_horizons": [
+    0,
+    1,
+    5,
+    15
+  ],
+  "task": "Actual native goal snapshot, position, room and initial LSTM state from each archive; heading alone spans a circle. Translation and rotation noise, image noise and initial velocity are zero. Both angular acceleration and turn rate use unchanged environment physics.",
+  "blackout": "All-zero RGB through original CNN; native current and saved goal code stay constant. The same pure-turn action and zero reward enter every family member. Action 0 in even contexts, action 1 in odd contexts.",
+  "candidate_criteria": "At5s family radius>=20%; frozen heldout phase readout tracks true heading with MAE<=30deg, phase coverage>=50%, amplitude>=.1 in>=80% of heldout angles. At5s the following1s tangent gain>=.5, normal residual<.5, ratio>2. These gates nominate a candidate for further invariance/causal tests; they do not define a proven ring.",
+  "statistics": "Exploratory two-seed/two-context screen. Every context retained. No pilot seed-level significance claim.",
+  "geometry": "Full(h,c), raw and h/c-block-RMS scaling; initial central-difference tangent checked against doubled rendering resolution, exact recurrent propagation thereafter. Normals projected against the evolving tangent.",
+  "readout": "Even phases fit one ridge readout at blackout onset; odd phases remain held out. Fixed movement-corrected and initial-phase errors reported separately. Time-refit is information-only.",
+  "source_sha256": {
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "context_sha256": {
+    "gc100_s1/context0": "31362ab43d72a45f2d99335be21c6137b9a145dcd249cf0c53e7746ac80ce127",
+    "gc100_s1/context1": "5fca49d80a1cca3bebd50c3f8349511fbfe7af0a612ef3060cd96580b71f5387",
+    "gc100_s2/context0": "4ce5282b5c52be596ba1c7cee6b1711477730fa36c4ec6ba055fff38145465e7",
+    "gc100_s2/context1": "0ea623248215b33c3c3026fea98a57944591675fbc1ad7a8266ccdbae0e84289",
+    "pgc33_s1/context0": "6a420d04c5cc7235799c65cf8b172a40566cee32869fa0a10dddc3c3d0000d1e",
+    "pgc33_s1/context1": "505eee7636aab6ae59d32af7a12e913be3200aeb35e45a4292fc9325c638858f",
+    "pgc33_s2/context0": "9b64f22af4045fca767cf9d5c856d108081cc7f02be7433e2f59222238c91513",
+    "pgc33_s2/context1": "e4d810afaa22c5b0e2c8cf199b53dd8a5bdc1a41cd8b011320f5b01496db9b0b"
+  }
+}

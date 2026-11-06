@@ -1,0 +1,505 @@
+{
+  "condition": "gc100",
+  "archive": "results/lstm_travel_memory/heldout_original/gc100_s8/context1_states.npz",
+  "archive_sha256": "a69778c25743f8a835181e5c18739617a39d70261cd7ff263c8f2c7eb9b083f5",
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/gc100/gc100_lstm_s8_1000M.pt",
+  "checkpoint_sha256": "ec1a5c052e5abcf4a06f4896852c9077eadf33cc2eee97d86d3b4a8fde49bee6",
+  "source_sha256": "62de998efc47e9a8a4a7b8146a4bf0603dd600fd9d37ce8421f4c8c3c072c6d1",
+  "observable_source_sha256": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+  "target": "Last actual travel direction; body heading continues turning.",
+  "input_condition": "Shared ordinary-current release, saved goal unchanged.",
+  "reference_updates": 15,
+  "latest_update": 60,
+  "branches": {
+    "ordinary_current_released": {
+      "raw_full_state_kicks": {
+        "observation_offsets": [
+          0,
+          5,
+          10,
+          15
+        ],
+        "evolution_updates": 30,
+        "full_state_dimensions": 512,
+        "observable_dimensions": 1024,
+        "full_state_geometry": {
+          "radius": 31.51146690651051,
+          "arc_length": 379.1002225132108,
+          "max_edge_over_radius": 0.07941381047593161,
+          "max_edge_over_arc": 0.0066010134315999044,
+          "closing_edge_over_radius": 0.0188826594246515,
+          "edge_length_quantiles": [
+            0.13232875107780104,
+            0.24448258821735902,
+            0.4238995738989729,
+            0.8219077226335797,
+            2.5024456607322167
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.6294342540013881,
+            "median": 0.7688829346506654,
+            "p10": 0.10194694342434686,
+            "p90": 0.962844384261406
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.6512729429023422,
+            "median": 0.5957362685771384,
+            "p10": 0.49760497048769875,
+            "p90": 0.8727206202071337
+          },
+          "covariance_participation_ratio": 1.735235665306584,
+          "first_five_pc_fractions": [
+            0.7455067449997279,
+            0.1318653232126145,
+            0.039017445549159605,
+            0.028538985956213972,
+            0.02324273865705457
+          ]
+        },
+        "observable_geometry": {
+          "radius": 0.2769483624292366,
+          "arc_length": 4.544188055868994,
+          "max_edge_over_radius": 0.19706830768248665,
+          "max_edge_over_arc": 0.012010450366127863,
+          "closing_edge_over_radius": 0.03356710383702311,
+          "edge_length_quantiles": [
+            0.0006880668789230803,
+            0.0021702984661318018,
+            0.008175723957744805,
+            0.026880297910193668,
+            0.054577745099365624
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.835497007902743,
+            "median": 0.9561183833108053,
+            "p10": 0.47707846461743797,
+            "p90": 0.9946588777657579
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.8127009598646383,
+            "median": 0.7144387227842078,
+            "p10": 0.6193800596364701,
+            "p90": 1.1900925530398454
+          },
+          "covariance_participation_ratio": 3.2004310349817295,
+          "first_five_pc_fractions": [
+            0.4216674177249596,
+            0.3481688259344763,
+            0.08805615010581455,
+            0.06420446588230666,
+            0.02952795185469254
+          ]
+        },
+        "evolved_observable_geometry": {
+          "radius": 0.0851858012647139,
+          "arc_length": 1.3670858152383303,
+          "max_edge_over_radius": 0.33988554371103885,
+          "max_edge_over_arc": 0.021178935555168643,
+          "closing_edge_over_radius": 0.08627530548625721,
+          "edge_length_quantiles": [
+            0.0004458549857597747,
+            0.0010183249609780215,
+            0.0027728409149037755,
+            0.007021744855648745,
+            0.02895342237931778
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.8272744289537369,
+            "median": 0.9697445782063413,
+            "p10": 0.47797643627095926,
+            "p90": 0.9986408004940193
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.5938844020119568,
+            "median": 0.5681738144118764,
+            "p10": 0.21494838242291237,
+            "p90": 1.0320624756342904
+          },
+          "covariance_participation_ratio": 3.304127559459361,
+          "first_five_pc_fractions": [
+            0.394585017654486,
+            0.3465797941354034,
+            0.1274956010593921,
+            0.09939650450148951,
+            0.02618364769049806
+          ]
+        },
+        "initial_radial_observable_distance_over_radius": {
+          "mean": 0.017663190721429942,
+          "median": 0.012310797333948168,
+          "p10": 0.008032098515981757,
+          "p90": 0.0400665100895997
+        },
+        "radial_observable_normal_gain": {
+          "mean": 0.3212222565536412,
+          "median": 0.33083183826736895,
+          "p10": 0.15730925354282999,
+          "p90": 0.4485010458919601
+        },
+        "radial_observable_total_gain": {
+          "mean": 0.3510703127539428,
+          "median": 0.33745869386875693,
+          "p10": 0.152126297209785,
+          "p90": 0.5259338200523971
+        },
+        "tangent_observable_total_gain": {
+          "mean": 0.43454371991616797,
+          "median": 0.3757463239124066,
+          "p10": 0.10768912216998762,
+          "p90": 0.8570418088042674
+        },
+        "radial_over_tangent_observable_gain": {
+          "mean": 1.1696596643936115,
+          "median": 0.7732686611304816,
+          "p10": 0.3835544121969466,
+          "p90": 2.458546681391898
+        },
+        "radial_direction_norm_before_normalizing_over_radius": {
+          "mean": 0.9170924235123907,
+          "median": 0.8753485258333833,
+          "p10": 0.7186606678539488,
+          "p90": 1.1785839711803985
+        },
+        "common_observable_mean_shift_over_radius": 0.9475729089321788,
+        "invariance": {
+          "noncentered": {
+            "residual_to_reference_curve_over_radius": {
+              "mean": 0.525506976788042,
+              "median": 0.5069763937325779,
+              "p10": 0.4415583645608094,
+              "p90": 0.6302998570479382
+            },
+            "phase_transport": {
+              "mean_displacement_rad": -0.07621112765040056,
+              "displacement_concentration": 0.5901108002794365,
+              "absolute_displacement_rad": {
+                "mean": 0.7972631061671099,
+                "median": 0.6056408533108886,
+                "p10": 0.06775914105445938,
+                "p90": 1.6426040264829782
+              },
+              "circular_coverage": 0.44654436324645697,
+              "winding_degree": 0.0,
+              "backward_edge_fraction": 0.033854166666666664,
+              "occupied_arc_bins_32": 5
+            },
+            "reference_radius": 0.2769483624292366,
+            "evolved_radius_retention": 0.3075873080364569
+          },
+          "centered": {
+            "residual_to_reference_curve_over_radius": {
+              "mean": 0.5029040169485848,
+              "median": 0.4782522055433483,
+              "p10": 0.4239018371666894,
+              "p90": 0.634867767006839
+            },
+            "phase_transport": {
+              "mean_displacement_rad": -0.008052916043440819,
+              "displacement_concentration": 0.33577767049500795,
+              "absolute_displacement_rad": {
+                "mean": 1.064344598498299,
+                "median": 0.44966409074475916,
+                "p10": 0.06242638439709733,
+                "p90": 2.8112524014611995
+              },
+              "circular_coverage": 0.4932922198227556,
+              "winding_degree": 2.7755575615628914e-17,
+              "backward_edge_fraction": 0.18229166666666666,
+              "occupied_arc_bins_32": 6
+            },
+            "reference_radius": 0.2769483624292366,
+            "evolved_radius_retention": 0.3075873080364569
+          }
+        },
+        "actor": {
+          "reference": {
+            "family_probability_RMS": 0.0009344905658802252,
+            "radial_probability_change_max": 0.00017821775915749516,
+            "tangent_probability_change_max": 0.0004989177924199506
+          },
+          "evolved": {
+            "family_probability_RMS": 0.00024771198985030753,
+            "radial_probability_change_max": 3.779384683688658e-05,
+            "tangent_probability_change_max": 4.5672386124295805e-05
+          }
+        },
+        "candidate_gates": {
+          "noncentered": {
+            "observable_radius_RMS_at_least1e_minus4": true,
+            "max_edge_below10percent_radius": false,
+            "nonlocal_separation_above5percent": true,
+            "evolved_radius_retains5percent": true,
+            "p90_invariance_residual_below5percent": false,
+            "phase_coverage80percent": false,
+            "phase_degree_one": false,
+            "phase_order_preserved": true,
+            "observable_radial_kick_nontrivial_in80percent": true,
+            "observable_tangent_kick_nontrivial_in80percent": true,
+            "radial_gain_at_most_half": true,
+            "radial_over_tangent_at_most_half": false
+          },
+          "centered": {
+            "observable_radius_RMS_at_least1e_minus4": true,
+            "max_edge_below10percent_radius": false,
+            "nonlocal_separation_above5percent": true,
+            "evolved_radius_retains5percent": true,
+            "p90_invariance_residual_below5percent": false,
+            "phase_coverage80percent": false,
+            "phase_degree_one": false,
+            "phase_order_preserved": false,
+            "observable_radial_kick_nontrivial_in80percent": true,
+            "observable_tangent_kick_nontrivial_in80percent": true,
+            "radial_gain_at_most_half": true,
+            "radial_over_tangent_at_most_half": false
+          }
+        },
+        "centered_conditional_factor_candidate": false,
+        "noncentered_observable_candidate": false
+      },
+      "h_c_RMS_full_state_kicks": {
+        "observation_offsets": [
+          0,
+          5,
+          10,
+          15
+        ],
+        "evolution_updates": 30,
+        "full_state_dimensions": 512,
+        "observable_dimensions": 1024,
+        "full_state_geometry": {
+          "radius": 2.6854870640241497,
+          "arc_length": 33.647767320011255,
+          "max_edge_over_radius": 0.0783064913156484,
+          "max_edge_over_arc": 0.006249777807166044,
+          "closing_edge_over_radius": 0.019107946895283456,
+          "edge_length_quantiles": [
+            0.011167779768154468,
+            0.021181591976617477,
+            0.03711437694403122,
+            0.07332822958820184,
+            0.2102910694572932
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.6319276100002791,
+            "median": 0.7697980573702558,
+            "p10": 0.1134022711378901,
+            "p90": 0.961700333526288
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.6738444997608678,
+            "median": 0.6335969854347558,
+            "p10": 0.5141744684040632,
+            "p90": 0.8836027928568564
+          },
+          "covariance_participation_ratio": 1.8186984467995029,
+          "first_five_pc_fractions": [
+            0.7260690438611371,
+            0.1380145803999957,
+            0.04221626718332893,
+            0.030261991629041873,
+            0.024391470008597288
+          ]
+        },
+        "observable_geometry": {
+          "radius": 0.2773415098920949,
+          "arc_length": 4.578357163796596,
+          "max_edge_over_radius": 0.22264418132011665,
+          "max_edge_over_arc": 0.013487037207207677,
+          "closing_edge_over_radius": 0.03447933275067525,
+          "edge_length_quantiles": [
+            0.0006433429093138304,
+            0.002296676542969241,
+            0.008916037174942312,
+            0.02409407364689433,
+            0.0617484734160105
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.8151855276206068,
+            "median": 0.9406469468418621,
+            "p10": 0.4418558326309314,
+            "p90": 0.994531408575527
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.8088879640664169,
+            "median": 0.71959537620163,
+            "p10": 0.6203372880329217,
+            "p90": 1.189968545627787
+          },
+          "covariance_participation_ratio": 3.1987019498497737,
+          "first_five_pc_fractions": [
+            0.42257686223935526,
+            0.347106497466976,
+            0.08965386822823175,
+            0.06335409394054987,
+            0.029055959658833404
+          ]
+        },
+        "evolved_observable_geometry": {
+          "radius": 0.08557451833561408,
+          "arc_length": 1.3719704923786042,
+          "max_edge_over_radius": 0.3024859310663458,
+          "max_edge_over_arc": 0.018867087884248127,
+          "closing_edge_over_radius": 0.08862145545180672,
+          "edge_length_quantiles": [
+            0.00047025435173405836,
+            0.0011270254626541863,
+            0.0026732048370364204,
+            0.0071205829742156,
+            0.025885087854302304
+          ],
+          "consecutive_segment_cosine": {
+            "mean": 0.8048531490319117,
+            "median": 0.9561835821093818,
+            "p10": 0.40830503361716536,
+            "p90": 0.9985467112300918
+          },
+          "nonlocal_distance_over_radius": {
+            "mean": 0.5942468137258613,
+            "median": 0.563739097148396,
+            "p10": 0.2158020806999256,
+            "p90": 1.03315799158058
+          },
+          "covariance_participation_ratio": 3.289943534802538,
+          "first_five_pc_fractions": [
+            0.40249066124311755,
+            0.3390051367125265,
+            0.1296617166728024,
+            0.09778429319455574,
+            0.02536520829243743
+          ]
+        },
+        "initial_radial_observable_distance_over_radius": {
+          "mean": 0.01744358483105685,
+          "median": 0.01259366773156331,
+          "p10": 0.008171858062891755,
+          "p90": 0.03829301489195136
+        },
+        "radial_observable_normal_gain": {
+          "mean": 0.31880003817701863,
+          "median": 0.33234981987442536,
+          "p10": 0.15328248536937852,
+          "p90": 0.44711003116666126
+        },
+        "radial_observable_total_gain": {
+          "mean": 0.3559675548007159,
+          "median": 0.34041111274744507,
+          "p10": 0.16743413907537383,
+          "p90": 0.5331795976540883
+        },
+        "tangent_observable_total_gain": {
+          "mean": 0.42522395906905314,
+          "median": 0.36680418970826256,
+          "p10": 0.10720470652605145,
+          "p90": 0.8586090374688226
+        },
+        "radial_over_tangent_observable_gain": {
+          "mean": 1.1904478351196788,
+          "median": 0.7754441994331966,
+          "p10": 0.3931186274174042,
+          "p90": 2.4742849580618005
+        },
+        "radial_direction_norm_before_normalizing_over_radius": {
+          "mean": 0.9238782625815675,
+          "median": 0.878403764538662,
+          "p10": 0.7378834352880906,
+          "p90": 1.1825769870999858
+        },
+        "common_observable_mean_shift_over_radius": 0.9367255603198459,
+        "invariance": {
+          "noncentered": {
+            "residual_to_reference_curve_over_radius": {
+              "mean": 0.5267132120235606,
+              "median": 0.5099639952145492,
+              "p10": 0.4408088340845626,
+              "p90": 0.6351412614518258
+            },
+            "phase_transport": {
+              "mean_displacement_rad": -0.08422123800262915,
+              "displacement_concentration": 0.5852009998449405,
+              "absolute_displacement_rad": {
+                "mean": 0.8026924766916123,
+                "median": 0.5908114949258478,
+                "p10": 0.07373494974977353,
+                "p90": 1.7758856294289878
+              },
+              "circular_coverage": 0.439264622047036,
+              "winding_degree": 5.551115123125783e-17,
+              "backward_edge_fraction": 0.08854166666666667,
+              "occupied_arc_bins_32": 5
+            },
+            "reference_radius": 0.2773415098920949,
+            "evolved_radius_retention": 0.30855286815489147
+          },
+          "centered": {
+            "residual_to_reference_curve_over_radius": {
+              "mean": 0.5135292914105175,
+              "median": 0.4891599148358111,
+              "p10": 0.4312825942759163,
+              "p90": 0.6431118969226969
+            },
+            "phase_transport": {
+              "mean_displacement_rad": 0.051580016843273103,
+              "displacement_concentration": 0.35048210259406126,
+              "absolute_displacement_rad": {
+                "mean": 1.0499381002468702,
+                "median": 0.47532085760286813,
+                "p10": 0.07128613463477701,
+                "p90": 2.719234049575798
+              },
+              "circular_coverage": 0.4917128315014052,
+              "winding_degree": 0.0,
+              "backward_edge_fraction": 0.171875,
+              "occupied_arc_bins_32": 7
+            },
+            "reference_radius": 0.2773415098920949,
+            "evolved_radius_retention": 0.30855286815489147
+          }
+        },
+        "actor": {
+          "reference": {
+            "family_probability_RMS": 0.0009373532486500825,
+            "radial_probability_change_max": 0.00018379576228488848,
+            "tangent_probability_change_max": 0.0004967179639773223
+          },
+          "evolved": {
+            "family_probability_RMS": 0.00024821212364392755,
+            "radial_probability_change_max": 2.8985492268596147e-05,
+            "tangent_probability_change_max": 4.114272306743327e-05
+          }
+        },
+        "candidate_gates": {
+          "noncentered": {
+            "observable_radius_RMS_at_least1e_minus4": true,
+            "max_edge_below10percent_radius": false,
+            "nonlocal_separation_above5percent": true,
+            "evolved_radius_retains5percent": true,
+            "p90_invariance_residual_below5percent": false,
+            "phase_coverage80percent": false,
+            "phase_degree_one": false,
+            "phase_order_preserved": false,
+            "observable_radial_kick_nontrivial_in80percent": true,
+            "observable_tangent_kick_nontrivial_in80percent": true,
+            "radial_gain_at_most_half": true,
+            "radial_over_tangent_at_most_half": false
+          },
+          "centered": {
+            "observable_radius_RMS_at_least1e_minus4": true,
+            "max_edge_below10percent_radius": false,
+            "nonlocal_separation_above5percent": true,
+            "evolved_radius_retains5percent": true,
+            "p90_invariance_residual_below5percent": false,
+            "phase_coverage80percent": false,
+            "phase_degree_one": false,
+            "phase_order_preserved": false,
+            "observable_radial_kick_nontrivial_in80percent": true,
+            "observable_tangent_kick_nontrivial_in80percent": true,
+            "radial_gain_at_most_half": true,
+            "radial_over_tangent_at_most_half": false
+          }
+        },
+        "centered_conditional_factor_candidate": false,
+        "noncentered_observable_candidate": false
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "contexts": 2,
+  "angles": 64,
+  "settled_updates": [
+    0,
+    75
+  ],
+  "candidate": "Common c sign and min |c|>=8 across all 64 phases at intervention start. All h and all other c retained.",
+  "manipulation": "Replace selected c with their common sign times8 before and after every update; separate +50% magnitude kick without repeated clamping.",
+  "maximum_hidden_error": 1e-05,
+  "maximum_actor_probability_error": 1e-06,
+  "future": "60 uninterrupted native steps (4 seconds) after the15-step elicitation; exact native, goal withdrawn, common native snapshot, ordinary current+snapshot, and every5steps switching between two recorded contexts.",
+  "collection": "First two qualifying windows from unchanged collector, eval_seed864201,16envs,15prepare+60future,max12000steps. Selection uses task validity, never hidden geometry or performance contrasts.",
+  "analytical_bound": "For |c|>=8, sech(c)^2<=4.502e-7. This instantaneous derivative is not treated as a future-output bound; explicit replay tests amplification and loss of saturation.",
+  "source_sha256": "028449e86ac57839eaa9cc587819e9444108f71a556bc9eb2d489a3417e38663",
+  "parents": {
+    "scripts/lstm_goal_bearing_manifold.py": "0a9ece814c006e721e13b73c846619e102f3baab744c691fac3ce7a819f032f7",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_endogenous_fixed_points.py": "51e9ca28634b5915ffe3737981912555fe74ae1bcb3158fd80788c182937d2cc"
+  }
+}
