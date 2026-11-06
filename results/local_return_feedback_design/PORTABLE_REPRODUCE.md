@@ -57,6 +57,8 @@ The once-only CPU physical references are reused from the original bank: uniform
 
 ## Reproduce the saved results
 
+Download all four assets from the [public release](https://github.com/aaravsinhaofficial/predictive-grid-cells-rl/releases/tag/feedback-acquisition-pilot-2026-11-06). The [isolated verification](portable/cloud_audit/isolated_extraction_validation.json) reproduces all audits and figures while preserving all 817 archived files.
+
 The output tooling is pinned at **`8175f0fd5df07db72ccc4a80d8321938d207bbbe`**. Check out that commit in a fresh directory and extract these four assets at its root:
 
 1. `feedback_acquisition_portable_inputs.tar.gz` — the exact inputs described above.
@@ -72,7 +74,7 @@ Create a new `reproduced/` folder. Run the audit command above for all four work
 OPENBLAS_NUM_THREADS=2 python scripts/plot_local_return_feedback.py \
   --audit-root reproduced/audits --out reproduced/report
 OPENBLAS_NUM_THREADS=2 python scripts/compare_feedback_training_streams.py \
-  --out reproduced/streams
+  --out "$PWD/reproduced/streams"
 OPENBLAS_NUM_THREADS=2 python scripts/check_feedback_baseline_actor_isolation.py \
   --out reproduced/actor_isolation.json
 OPENBLAS_NUM_THREADS=2 python scripts/check_feedback_completed_finals.py \
@@ -80,6 +82,8 @@ OPENBLAS_NUM_THREADS=2 python scripts/check_feedback_completed_finals.py \
 ```
 
 These commands read the saved experiments; they perform no new navigation or learning. The strict audits replay saved physics and inspect recorded inputs/readouts. The stream comparison authenticates the private generator states saved in the final checkpoints. Historical timestamps and absolute audit paths remain recorded honestly; newly generated audit paths and dates will differ. Figure data, counts and unchanged raw artifacts must agree. PDF creation dates may differ.
+
+The guide embedded in the frozen common archive used a relative stream-output path. That command must use the absolute path shown above: the original helper records outputs relative to its inferred checkout root. This documentation correction leaves the numerical source and all archived evidence unchanged.
 
 The separate [two-action bound](portable/restricted_action_bound/README.md) reads pretraining snapshots only. Its original numerical source and the serialization-only wrapper are both retained, together with all 512 row calculations and an independent review.
 

@@ -4,6 +4,8 @@ The previous blind-return recipe struggled to learn goalward movement. This cont
 
 **All four arms are complete: the original-readout models improve modestly; both reset-readout models finish at zero.** Each received exactly 1,024 updates, or 32,768 training trials. All network weights could learn. Every baseline and final trial passed the physical and input checks. These are four continuations from one original Grid/PGC seed pair.
 
+[Download the complete study](https://github.com/aaravsinhaofficial/predictive-grid-cells-rl/releases/tag/feedback-acquisition-pilot-2026-11-06). A fresh checkout reproduced every strict audit and the figures; all 817 archived files remained unchanged. All remote asset sizes and SHA256 digests are verified. [Extraction proof](../local_return_feedback_design/portable/cloud_audit/isolated_extraction_validation.json).
+
 ![Fixed return results](portable/report/feedback_return.png)
 
 | Initial action readout | Grid before → final | PGC + grid before → final |

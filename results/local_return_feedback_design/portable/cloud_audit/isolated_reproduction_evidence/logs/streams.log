@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/private/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/feedback-reproduce-8175-1lqn5c5h/scripts/compare_feedback_training_streams.py", line 60, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/private/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/feedback-reproduce-8175-1lqn5c5h/scripts/compare_feedback_training_streams.py", line 55, in main
+    checks=checks,inputs=inputs,raw=dict(path=str(raw.relative_to(ROOT)),sha256=sha(raw),bytes=raw.stat().st_size),
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'reproduced/streams/paired_final_private_streams.pt' is not in the subpath of '/private/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/feedback-reproduce-8175-1lqn5c5h'
