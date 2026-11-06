@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path[:0]=[str(ROOT),str(ROOT/'scrip
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import numpy as np
 import native_turn_original_memory as study
 from rl_goal_memory import atomic_json
@@ -55,14 +56,20 @@ def make_figure(models,kind,out):
         # Thin reference is the actual mean saved best-common-action ceiling.
         ceiling=summary['native']['best_common_action_ceiling_m']*1000
         axes[0].axvline(ceiling,color=COLORS[condition],linestyle=':',lw=1.2,alpha=.8)
+        teacher=json.loads((study.parent.BASE/condition/'summary.json').read_text())
+        target=1000*np.mean([p['teacher_mean_expected_progress_m']for p in teacher['pairs']if p['kind']==kind])
+        axes[0].axvline(target,color=COLORS[condition],linestyle='--',lw=1.5,label=NAMES[condition]+' teacher')
     axes[0].set_yticks(y,LABELS);axes[0].invert_yaxis()
     axes[0].set_xlabel('Expected first-step goalward displacement (mm)')
     axes[1].set_xlabel('Memoryless teacher-KL floor − observed KL (nats)')
-    axes[0].set_title('Useful first-choice history')
+    axes[0].set_title('First-choice movement')
     axes[1].set_title('Teacher imitation beyond current input')
     for ax in axes:
         ax.axvline(0,color='#444444',lw=.8);ax.grid(axis='x',alpha=.18);ax.set_axisbelow(True)
         ax.spines[['top','right']].set_visible(False)
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=4))
+        low,high=ax.get_xlim();width=high-low
+        ax.set_xlim(low,max(high,.06*width))
     axes[0].legend(loc='lower right',frameon=False)
     title='One predictive travel cue, then eight ordinary inputs'if kind=='probe_glimpse'else'Turn-only history: cue changes are exact shams'
     fig.suptitle(title,fontsize=14,y=.98)
@@ -93,10 +100,14 @@ def main():
         scope='One original seed pair; controlled identical-current-input first choice. No population inference or ring criterion.',
         figures={p.name:study.parent.sha(p)for p in sorted(out.iterdir())if p.suffix in ('.png','.pdf')})
     atomic_json(out/'summary.json',record)
+    probe={c:models[c]['summary']['probe_glimpse']for c in study.parent.CONDITIONS}
+    teacher={c:json.loads((study.parent.BASE/c/'summary.json').read_text())for c in study.parent.CONDITIONS}
+    teacher_progress={c:1000*np.mean([p['teacher_mean_expected_progress_m']for p in teacher[c]['pairs']if p['kind']=='probe_glimpse'])for c in teacher}
     lines=['# Original recurrent memory and predictive cue use','',
+        f"**The original networks show very little useful angular-history influence after the common blind suffix.** Intact first-choice progress was {probe['gc100']['native']['expected_progress_m']*1000:.6f} mm for Grid and {probe['pgc33']['native']['expected_progress_m']*1000:.6f} mm for PGC + grid, versus {teacher_progress['gc100']:.3f} and {teacher_progress['pgc33']:.3f} mm for their fully informed teachers. Removing the predictive cue changed the PGC value to {probe['pgc33']['ordinary']['expected_progress_m']*1000:.6f} mm. The tiny positive PGC displacement is not a meaningful navigation gain at this scale.",'',
         'We replayed the original networks through the same controlled turning histories. At the measured choice, every heading received the same complete input. Only the earlier cue or recurrent-state erasure changed. No weights were trained.','',
         '![Probe-cue results](probe_glimpse.png)','',
-        '**Left:** expected goalward displacement on the next native action. The dotted lines mark the best shared action for each opposite-heading pair, averaged over all pairs. Exceeding this reference means history helps this controlled first choice.','',
+        '**Left:** expected goalward displacement on the next native action. Dashed lines show the fully informed teachers; dotted lines near zero mark the best shared action for each opposite-heading pair. The very small blind-history effects are shown numerically below. Exceeding the shared-action reference reveals a history-dependent action difference, whose practical size must also be considered.','',
         '**Right:** the best memoryless teacher-KL floor minus the observed teacher KL. Positive values mean the network imitates the fully informed teacher better than any common action distribution could. This is a stronger imitation comparison; useful movement does not require it.','',
         '| Model | Intact step (mm) | Ordinary cue (mm) | Native cue after erasure (mm) | Ordinary cue after erasure (mm) | Choice erasure (mm) |',
         '|---|---:|---:|---:|---:|---:|']
@@ -114,7 +125,7 @@ def main():
                 s=models[c]['summary'][kind][v]
                 lines.append(f"| {kind} | {NAMES[c]} | {label} | {s['expected_progress_m']*1000:.4f} | {s['teacher_forward_kl_nats']:.5f} | {s['memoryless_teacher_kl_floor_nats']:.5f} | 256 / 128 |")
     lines+=['','![Turn-only controls](turn_only.png)','',
-        'These comparisons describe useful history and cue processing in one original seed pair under the controlled input conditions. They do not by themselves identify a ring or establish its stability. All contexts and outcomes are retained; no statistical threshold selected a model or condition.','',
+        'The teacher-KL comparisons also show substantial room for learning: every original variant remains above its memoryless imitation floor. The results motivate teaching useful angular history before testing a learned continuation for ring geometry and stability. This is one original seed pair under controlled input conditions. All contexts and outcomes are retained; no statistical threshold selected a model or condition.','',
         'The initial recurrent state was recomputed from each checkpoint’s complete native input prefix, with the original terminal resets. The original cached states matched exactly. Raw first-choice states, logits, six-action physics, references and hashes are retained beside this report.']
     (out/'README.md').write_text('\n'.join(lines)+'\n')
 

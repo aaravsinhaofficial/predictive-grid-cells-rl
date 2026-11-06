@@ -1,0 +1,70 @@
+{
+  "complete": true,
+  "protocol_sha256": "52e6b8c145a87dedf4889ebe864fc7376c8447e4e68ac4c4774234545b93a8fd",
+  "audit_source_sha256": "3ac4d374bf2bbcd3fe3192533d867dc3e30496303f679152606e34b19011bfcc",
+  "report_summary_sha256": "047833b0b6f6649120d4dd8aab1f046b67234a65cab8799e7dd1ef30a2760f03",
+  "models": {
+    "gc100": {
+      "complete": true,
+      "summary_sha256": "2c5ab743786f81103abf33db877ce8f2a4012fd9667778a0d14270326d82e99d",
+      "artifact_count": 65,
+      "contexts": 16,
+      "cases": 4096,
+      "pairs": 2048,
+      "exact_shams": true,
+      "ordinary_pre_cue_reset_all_phase_identity": true
+    },
+    "pgc33": {
+      "complete": true,
+      "summary_sha256": "7d4ae7198d419ebb2e45b22c46dffd39ec4023d974877b87fb43218c02b3d599",
+      "artifact_count": 65,
+      "contexts": 16,
+      "cases": 4096,
+      "pairs": 2048,
+      "exact_shams": true,
+      "ordinary_pre_cue_reset_all_phase_identity": true
+    }
+  },
+  "frozen_sources_verified": 11,
+  "frozen_assets_verified": 147,
+  "max_absolute_errors": {
+    "physical_displacement": 6.475015679879847e-10,
+    "student_softmax": 1.8952914349057437e-08,
+    "case_kl": 3.552713678800501e-15,
+    "case_progress": 8.673617379884035e-19,
+    "case_alignment": 0.0,
+    "pair_kl": 1.7763568394002505e-15,
+    "pair_progress": 4.336808689942018e-19,
+    "pair_ceiling": 0.0,
+    "pair_advantage": 4.336808689942018e-19,
+    "pair_tv": 3.469446951953614e-18,
+    "pair_teacher_js": 3.469446951953614e-16,
+    "pair_teacher_tv": 2.220446049250313e-16,
+    "rotated_cue_analytic": 2.086162567138672e-06,
+    "group_mixture": 2.220446049250313e-16,
+    "group_case_kl": 6.661338147750939e-16,
+    "group_floor": 3.3306690738754696e-16,
+    "group_minimum": 3.3306690738754696e-16,
+    "group_variant_kl": 8.881784197001252e-16,
+    "group_improvement": 8.881784197001252e-16,
+    "weighted_floor": 5.551115123125783e-17,
+    "summary_teacher_forward_kl_nats": 4.440892098500626e-16,
+    "summary_expected_progress_m": 2.583450489125616e-20,
+    "summary_turn_weighted_body_goal_alignment_rad": 1.7076184216646695e-18,
+    "summary_best_common_action_ceiling_m": 0.0,
+    "summary_progress_above_common_ceiling_m": 3.3881317890172014e-21,
+    "summary_floor": 0.0
+  },
+  "procedure": [
+    "Only load saved numeric tensors/JSON with weights_only=True; no policy/environment execution.",
+    "Check every frozen source/asset and every raw outcome member against recorded SHA256/size.",
+    "Recompute six-action projected movement, teacher forward KL, paired common-action ceilings, TV/JS, exact-input-group mixture floors and all aggregate means in NumPy.",
+    "Reconstruct altered full input tapes using saved cue tensors; check declared hashes, cue-only PGC slots, independent analytic rotated grid code, all reset arrays and exact cue/reset shams.",
+    "Check original prefix-state bindings and exact ordinary pre-cue/choice-erasure identity across all sixteen phases.",
+    "Bind the unchanged report to both terminal summaries, reporter source and figure hashes."
+  ],
+  "limitations": [
+    "Saved-array audit does not replay recurrent computation; zero native-cache errors are checked against archived prefix reports and states.",
+    "Single original seed per population; descriptive controlled first choice, no significance or ring claim."
+  ]
+}
