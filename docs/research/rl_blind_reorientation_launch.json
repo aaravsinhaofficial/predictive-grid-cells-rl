@@ -1,0 +1,70 @@
+{
+  "status": "Root-authorized after exact frozen source/asset verification",
+  "protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+  "project": "connectome-ai-research",
+  "zone": "us-central1-a",
+  "machine": "n1-standard-8",
+  "hours": 2,
+  "total_reservation_usd": 5.625,
+  "original_cumulative_budget_usd": 500,
+  "include_only": true,
+  "include": [
+    "code/__init__.py",
+    "code/codes.py",
+    "code/common.py",
+    "code/env.py",
+    "code/nets.py",
+    "docs/research/rl_blind_reorientation_protocol.json",
+    "models/gc100/gc100_lstm_s1_1000M.json",
+    "models/gc100/gc100_lstm_s1_1000M.pt",
+    "models/pgc33/pgc33_lstm_s1_1000M.json",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt",
+    "scripts/lstm_code_swap.py",
+    "scripts/rl_blind_reorientation.py",
+    "scripts/rl_blind_reorientation_train.py",
+    "scripts/rl_goal_memory.py",
+    "scripts/rl_visual_memory.py",
+    "scripts/rl_visual_memory_extend.py",
+    "scripts/rl_visual_memory_noise.py",
+    "tests/test_rl_blind_reorientation.py"
+  ],
+  "workers": [
+    {
+      "name": "ring-20261105-reorient-grid-01",
+      "condition": "gc100",
+      "output_dir": "results/ring_blind_reorientation/pilot_gc100_s1",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_train.py",
+        "--condition",
+        "gc100",
+        "--out",
+        "results/ring_blind_reorientation/pilot_gc100_s1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ]
+    },
+    {
+      "name": "ring-20261105-reorient-pgc-02",
+      "condition": "pgc33",
+      "output_dir": "results/ring_blind_reorientation/pilot_pgc33_s1",
+      "command": [
+        "python",
+        "scripts/rl_blind_reorientation_train.py",
+        "--condition",
+        "pgc33",
+        "--out",
+        "results/ring_blind_reorientation/pilot_pgc33_s1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "zone": "us-central1-b",
+      "replaces_failed_attempt": "ring-20261105-reorient-pgc-01"
+    }
+  ],
+  "additional_required_package_file": "code/__init__.py, unchanged original package initializer, verified against prior frozen source hash"
+}

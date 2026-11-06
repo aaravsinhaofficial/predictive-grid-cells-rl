@@ -1,0 +1,58 @@
+{
+  "version": "task_native_reorientation_mechanism_v1",
+  "status": "Prospective before final training outcomes; no training or VM actions in this analysis",
+  "models": "Both fixed final original1B+40,058,880-frame models, seed1; completed=True, total_updates2156, warmup200, exact frozen training provenance. No stage selection.",
+  "two_questions": {
+    "trained_recurrent_stability": "Compare Grid-trained and PGC-trained networks under identical ordinary-current/goal/black/LEFT delay conditions, testing a learned circular computation and selective transverse recovery.",
+    "acute_predictive_repair": "Within the same frozen PGC network, compare one native current pulse with ordinary and wrong-direction pulses from identical pre-cue states. Phase correction and autonomous transverse attraction are separate outcomes."
+  },
+  "native_collection": {
+    "state_noise": false,
+    "environment_noise": "Unchanged native image and motor noise during policy-generated source histories",
+    "seed": 168201,
+    "n_envs": 32,
+    "selection": "First two eligible endpoint events from distinct slots. Retain rejected reasons. Geometry-only eligibility: no native preparatory wall/goal interruption; every rotated noiseless action-history path has >.01m sufficient clearance from walls and true goal disk. Never select on reward score, state geometry, decoder or pulse outcome.",
+    "minimum_updates": 2700,
+    "maximum_updates_if_contexts_missing": 6000,
+    "coverage": "Read-only logs of every encountered native endpoint and free-start body heading, actual travel direction and egocentric goal bearing; retain empirical support separately from controlled all-angle families. No observation or RNG changes."
+  },
+  "elicitation": {
+    "angles": 768,
+    "source": "Native initial h/c, goal snapshot, room, previous action/reward, body-frame motor state and actual visible/turn/probe action sequence from the new final policy",
+    "physical_replay": "Rotate initial body heading and translate starts so the exact native action sequence ends its four-forward-update probe at one actual native endpoint. Use original noiseless physics and renderer, with the frozen task brakes and current-code holding schedule. The actor's original action sequence is replayed; no claim it independently chooses each rotated sequence.",
+    "interruptions": "Abort invalid physical family, preserve failure status; no forced continuation through wall/goal hits. Sufficient all-rotation clearance checked before neural analysis.",
+    "endpoint_snap_max_m": 0.00001,
+    "phase": "Actual measured travel direction at the probe endpoint, checked against body heading. No heading substitution in the PGC code.",
+    "goal": "Native saved goal code unchanged in all current-cue interventions"
+  },
+  "cue_conditions": ["native actual-travel pulse", "ordinary values in predictive slots", "actual travel cue rotated+60degrees", "actual travel cue rotated-60degrees"],
+  "autonomous_delay": {
+    "input": "After the single endpoint glimpse, black RGB through original CNN, one held ordinary endpoint code, same saved goal, previous action LEFT, previous reward0. No maintained phase-specific current cue.",
+    "updates": [0, 1, 5, 15, 30, 45, 60],
+    "physical_phase": "Track actual native left-turn integration from zero post-probe angular velocity. Report initial-angle memory and updated body-heading/egocentric-goal-bearing error separately. Rotation around a closed invariant curve is allowed; phase stationarity is not required.",
+    "task_horizon": "The60-update state is the first free-choice input after the maximum60-action forced delay; still before its first free action."
+  },
+  "geometry": {
+    "coordinates": "All512 h/c coordinates; raw and fixed native-postcue h/c blockRMS scales. No fitted2D decoder defines the curve.",
+    "primary": "Reuse unchanged lstm_continued_heading_memory.analyze_branch and geometry_gates: references15/30updates; primary30+30; 384 uniform full-state arc points; targeted radial versus tangent perturbations; full closed-curve invariance/coverage/order and both metrics.",
+    "secondary": "Reuse unchanged lstm_endogenous_observable_flow.observable_probe on the15-update family: all256hidden outputs at0/5/10/15future updates, evolve30updates, latest60. Raw and block-scaled full-state kicks; common-mean centering plus uncentered report; unchanged nontrivial-kick, closure, separation, invariance, coverage and radial/tangent gates.",
+    "readout": "Even-phase fitted/odd-phase heldout linear readout fixed at cue and time-refitted information-only readout; report angular bias/concentration and actual-turn correction. No candidate nomination from readout accuracy."
+  },
+  "causal_perturbations": {
+    "phase": "At the pre-glimpse family, replace full state by the naturally elicited state at+30 or-30degrees while true physical pose staysfixed. Uniform fixed192-angle subset; no phase/seed selection.",
+    "radial": "At pre-glimpse family and15-update autonomous family, centered radial vector projected off local full-state tangent, normalized to±2percent curve radius. Matched-norm isotropic controls; raw and blockRMS constructions separately.",
+    "rescue": "Compare correct native single pulse, ordinary pulse and wrong±60 pulse at the actual endpoint from identical perturbed pre-glimpse state. Withdraw cue immediately; follow every fixed horizon through60updates. A later pulse during stationary turning remains a stale travel cue and is not called a fresh heading anchor.",
+    "references": "Correct-cue unperturbed reference for directional correction and own-branch baseline for perturbation sensitivity; report both, plus distance off full-state curve and curve coverage. A collapse or off-curve shift cannot count as phase repair.",
+    "reset": "Erase h/c immediately after the pulse as a control for recurrent carriage of any later cue benefit. Forced actions prevent encoding pulse content in chosen previous actions."
+  },
+  "behavior": {
+    "native_task_evaluation": "Retain all fixed training-stage task evaluations; primary original-episode free hits include zero-event episodes. Forced reward hits, event interruption, actual blind exposure and native phase coverage stayvisible.",
+    "controlled_navigation": "After60delay actions, branch from the same real endpoint/body-heading/velocity/goal and each intervened recurrent state; let the original actor choose all30 free actions. Keep ordinary endpoint snapshot and black vision exactly as trained. Use same physical random draws across branches; retain zero-hit windows, actual first-action goalward progress, cumulative progress, path and first goal hits. Stop event at actual reward as in task.",
+    "scope": "Require useful memory in native behavior and predicted free-navigation effects of the measured state/cue manipulation. Analysis-only phase-aware action ceilings are never supplied to actor or loss."
+  },
+  "candidate_followup": {
+    "spectra": "For nominated full-state or observable circular candidates, evaluate complete512-state Jacobians at4preselected phases and15/30updates, tangent alignment, radial and slowest transverse directions, and exact finite-time Jacobian products projected against evolving tangent. Report nonnormal transients; call a product Floquet only if a return period is independently verified.",
+    "gates": "If native pulse repairs a useful circular state, test predictive input restricted to candidate-update and output-gate pathways using the repo's prior intervention definitions. This is a conditional localization followup, not a posthoc change to candidate criteria."
+  },
+  "replication": "One fixed training-seed pair, two nested contexts and angular samples; no population-level p-value. Original1B negative results and prior25M/75M arms remain separate."
+}

@@ -13,6 +13,9 @@ NAMES=('ring-20261105-vision-grid-01','ring-20261105-vision-pgc-01')
 ALLOWED_NAMES=NAMES+('ring-20261105-vision-long-grid-01','ring-20261105-vision-long-pgc-01')
 ALLOWED_NAMES+=('ring-20261105-vision-noise-grid-01','ring-20261105-vision-noise-pgc-01')
 ALLOWED_NAMES+=('ring-20261105-vision-noisy-eval-01',)
+ALLOWED_NAMES+=('ring-20261105-vision-reset-eval-01',)
+ALLOWED_NAMES+=('ring-20261105-reorient-grid-01','ring-20261105-reorient-pgc-01')
+ALLOWED_NAMES+=('ring-20261105-reorient-pgc-02',)
 PROJECT='connectome-ai-research'
 BASE='gs://connectome-ai-research-popcode/ring-20261105'
 
@@ -28,7 +31,8 @@ def event(**fields):
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--max-seconds',type=int,default=8000)
-    ap.add_argument('--names',nargs='+',choices=ALLOWED_NAMES,default=NAMES);args=ap.parse_args()
+    ap.add_argument('--names',nargs='+',choices=ALLOWED_NAMES,default=NAMES)
+    ap.add_argument('--audit-dir',type=Path,default=ROOT/'results/ring_visual_memory/cloud_audit');args=ap.parse_args()
     names=tuple(args.names)
     started=time.monotonic();last_collect={name:0. for name in names};finished=set()
     while len(finished)<len(names) and time.monotonic()-started<args.max_seconds:
@@ -54,11 +58,25 @@ def main():
                         if 'vision-noisy-eval-' in name and complete:
                             report=json.loads(summary.read_text())
                             complete=report.get('all_models_received_identical_raw_noise') is True and len(report.get('models',{}))==4
+                            reset_summary=folder/'final75_every_blind_reset/summary.json'
+                            diagnostic_status=folder/'diagnostic_status.json'
+                            complete=complete and reset_summary.exists() and diagnostic_status.exists()
+                            if complete:
+                                reset=json.loads(reset_summary.read_text())
+                                statuses=json.loads(diagnostic_status.read_text())
+                                complete=reset.get('completed') is True and len(reset.get('models',{}))==4
+                                complete=complete and len(statuses)==2 and all(item['exit_code']==0 for item in statuses)
+                        if 'vision-reset-eval-' in name and complete:
+                            report=json.loads(summary.read_text())
+                            environment=folder/'environment_audit.json'
+                            complete=len(report.get('models',{}))==4 and environment.exists()
+                            if complete:
+                                complete=json.loads(environment.read_text()).get('smoke_returncode')==0
                         if not complete:
                             event(name=name,status='completion_artifact_missing_retaining_worker')
                             break
                     result=run([sys.executable,'scripts/ring_cloud.py',action,name],300)
-                    log=ROOT/'results/ring_visual_memory/cloud_audit';log.mkdir(parents=True,exist_ok=True)
+                    log=args.audit_dir;log.mkdir(parents=True,exist_ok=True)
                     (log/f'{name}_{action}.log').write_text(result.stdout+'\n'+result.stderr)
                     if result.returncode:
                         event(name=name,status=f'{action}_failed',tail=result.stderr[-1200:])

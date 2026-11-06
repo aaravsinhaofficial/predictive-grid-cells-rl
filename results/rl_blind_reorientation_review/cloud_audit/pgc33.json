@@ -1,0 +1,401 @@
+{
+  "version": "blind_reorientation_independent_artifact_audit_v1",
+  "audited_at": "2026-11-06T07:06:27.887240+00:00",
+  "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-pgc-02",
+  "condition": "pgc33",
+  "status": "pending",
+  "complete": false,
+  "required_complete": false,
+  "passed": true,
+  "protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+  "auditor_sha256": "4acf202f0795bfffd8176ddc6a52094bf0083082af7dd881f771d68f2a6a3f51",
+  "checks": {
+    "frozen_source_asset_manifest": true,
+    "original_optimizer_absent": true,
+    "protocol.json": true,
+    "original_config.json": true,
+    "training_config.json": true,
+    "incoming.pt": {
+      "policy_sha256": "562d41b403fc68eaf4f95f0f5de03e107be6f0cf371f3ec1a528e1bcf3ef4cea",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 0,
+      "updates": 0,
+      "warmup_exposure_frames": 0,
+      "runtime": {
+        "total_updates": 0,
+        "total_environment_updates": 0,
+        "admissions": 0,
+        "completed": 0,
+        "coverage_violations": 0,
+        "noise_replays": 0,
+        "max_replay_error": 0.0,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "after_warmup.pt": {
+      "policy_sha256": "562d41b403fc68eaf4f95f0f5de03e107be6f0cf371f3ec1a528e1bcf3ef4cea",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 0,
+      "updates": 200,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 200,
+        "total_environment_updates": 1024000,
+        "admissions": 3260,
+        "completed": 2675,
+        "coverage_violations": 0,
+        "noise_replays": 200,
+        "max_replay_error": 2.47955322265625e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "stage1_delay4.pt": {
+      "policy_sha256": "07d9c0e1bee7a7a9e458063f2c3ca2d06d178277afb4f7673d416aa17540b91f",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 10014720,
+      "updates": 689,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 689,
+        "total_environment_updates": 3527680,
+        "admissions": 12109,
+        "completed": 9986,
+        "coverage_violations": 0,
+        "noise_replays": 689,
+        "max_replay_error": 2.5510787963867188e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "baseline.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 249,
+        "zero_free_window_episodes": 14,
+        "free_hits": 2.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 252,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 248,
+        "zero_free_window_episodes": 14,
+        "free_hits": 2.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 250,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 248,
+        "zero_free_window_episodes": 14,
+        "free_hits": 2.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 250,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 248,
+        "zero_free_window_episodes": 14,
+        "free_hits": 1.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 251,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 256,
+        "zero_free_window_episodes": 14,
+        "free_hits": 0.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 256,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 251,
+        "zero_free_window_episodes": 14,
+        "free_hits": 0.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 3.0,
+        "pulses": 251,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 253,
+        "zero_free_window_episodes": 14,
+        "free_hits": 38.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 253,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 253,
+        "zero_free_window_episodes": 14,
+        "free_hits": 40.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 253,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 256,
+        "zero_free_window_episodes": 14,
+        "free_hits": 40.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 256,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 253,
+        "zero_free_window_episodes": 14,
+        "free_hits": 40.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 253,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 251,
+        "zero_free_window_episodes": 14,
+        "free_hits": 37.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 2.0,
+        "pulses": 252,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 312,
+        "free_windows": 238,
+        "zero_free_window_episodes": 14,
+        "free_hits": 21.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 240,
+        "all_events_retained": true
+      }
+    },
+    "stage1_evaluation.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 274,
+        "zero_free_window_episodes": 10,
+        "free_hits": 1.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 276,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 276,
+        "zero_free_window_episodes": 10,
+        "free_hits": 0.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 278,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 275,
+        "zero_free_window_episodes": 10,
+        "free_hits": 0.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 277,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 275,
+        "zero_free_window_episodes": 10,
+        "free_hits": 0.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 277,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 280,
+        "zero_free_window_episodes": 10,
+        "free_hits": 2.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 4.0,
+        "pulses": 281,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 285,
+        "zero_free_window_episodes": 10,
+        "free_hits": 1.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 7.0,
+        "pulses": 286,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 276,
+        "zero_free_window_episodes": 10,
+        "free_hits": 44.0,
+        "forced_hits": 9.0,
+        "probe_wall_updates": 1.0,
+        "pulses": 277,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 276,
+        "zero_free_window_episodes": 10,
+        "free_hits": 44.0,
+        "forced_hits": 9.0,
+        "probe_wall_updates": 1.0,
+        "pulses": 277,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 275,
+        "zero_free_window_episodes": 10,
+        "free_hits": 42.0,
+        "forced_hits": 9.0,
+        "probe_wall_updates": 1.0,
+        "pulses": 276,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 276,
+        "zero_free_window_episodes": 10,
+        "free_hits": 44.0,
+        "forced_hits": 9.0,
+        "probe_wall_updates": 1.0,
+        "pulses": 277,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 277,
+        "zero_free_window_episodes": 10,
+        "free_hits": 41.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 279,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 336,
+        "free_windows": 280,
+        "zero_free_window_episodes": 10,
+        "free_hits": 21.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 7.0,
+        "pulses": 282,
+        "all_events_retained": true
+      }
+    },
+    "metrics.jsonl": {
+      "rows": 38,
+      "last_update": 760
+    },
+    "progress.json": {
+      "stages": 1
+    }
+  },
+  "failures": [],
+  "pending": [
+    "stage2_delay15.pt",
+    "stage3_delay30.pt",
+    "stage4_delay60.pt",
+    "final.pt",
+    "stage2_evaluation.json",
+    "stage3_evaluation.json",
+    "stage4_evaluation.json",
+    "final_evaluation.json",
+    "training.json",
+    "summary.json"
+  ],
+  "artifacts": {
+    "protocol.json": {
+      "bytes": 7605,
+      "sha256": "cabd9fb639cdac1a04a7c69099504ec01eb16b80cd77267d0c8f0f739d6b21c4"
+    },
+    "original_config.json": {
+      "bytes": 3762,
+      "sha256": "32bff9ea09305f43cacd89872e0a2e5fe68b3b3b48bdf58ce16b488a025b4eee"
+    },
+    "training_config.json": {
+      "bytes": 3762,
+      "sha256": "12dcbef88e34b23477df150637e4aea90a4478898b6a7b52c3d592f726819dd8"
+    },
+    "incoming.pt": {
+      "bytes": 15170923,
+      "sha256": "932ea8a7a7faf305c4930291d8ca473d1d78be66b45a9011ef2ec3832e9f4567"
+    },
+    "after_warmup.pt": {
+      "bytes": 27320475,
+      "sha256": "bdc8e09b8b1611c5f795f96c970fe9f5dfa60dddeb15ecf9ff2e36bc288804fd"
+    },
+    "stage1_delay4.pt": {
+      "bytes": 27322931,
+      "sha256": "d55c83ff2b1057b3387800b765c97130f729c29ab1c198eaf63e10a588f005ef"
+    },
+    "baseline.json": {
+      "bytes": 5177529,
+      "sha256": "edf51b2ce2829f02a2d2d68851e09992df9efaa6c2889e3007f119821d57b55c"
+    },
+    "stage1_evaluation.json": {
+      "bytes": 5617640,
+      "sha256": "d1614821450e66b37d9a2adf7615d86338a0ee919993fbf4dabb6f49c0e9036b"
+    },
+    "metrics.jsonl": {
+      "bytes": 37220,
+      "sha256": "4e5fe3d821affa0a007649dbce9785047f8c19bcaefd095e029afb5b5ad3607c"
+    },
+    "progress.json": {
+      "bytes": 6914390,
+      "sha256": "15456c752f3a6848eea425bc5568b9097ab4ac074bea10366b925905e409da70"
+    }
+  },
+  "interpretation": "Data integrity audit only; it does not select favorable stages or infer a trained-seed population effect"
+}
