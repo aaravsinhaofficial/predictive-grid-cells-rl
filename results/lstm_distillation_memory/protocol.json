@@ -1,0 +1,87 @@
+{
+  "version": "native_distillation_direction_memory_v1",
+  "cases": [
+    {
+      "condition": "gc100",
+      "endpoint": "initial",
+      "checkpoint": "results/native_policy_distillation/gc100_s1/initial.pt"
+    },
+    {
+      "condition": "gc100",
+      "endpoint": "final",
+      "checkpoint": "results/native_policy_distillation/gc100_s1/final.pt"
+    },
+    {
+      "condition": "pgc33",
+      "endpoint": "initial",
+      "checkpoint": "results/native_policy_distillation/pgc33_s1/initial.pt"
+    },
+    {
+      "condition": "pgc33",
+      "endpoint": "final",
+      "checkpoint": "results/native_policy_distillation/pgc33_s1/final.pt"
+    }
+  ],
+  "timing": "Frozen before final pilot outcomes. Run all four fixed initial/final cases irrespective of behavioral results. No stage selection.",
+  "collection": "Unchanged native collector, seed 98201, 32 environments, first two eligible 15-visible-update windows in distinct slots, maximum 6000 decisions. Final 15-visible/15\u201330-blind clock; half of each blackout interval uses ordinary current code with private seed 98205. Saved goal remains native. All 15 selected visible inputs are native; record the upcoming interval substitution and cumulative exposure. Teacher is absent during collection.",
+  "contexts": "Collect two heading contexts and separately two travel contexts using the unchanged all-angle wall/goal-clearance eligibility. Fresh actor-specific h/c histories for every checkpoint; never transfer original hidden states into a continued network.",
+  "paired_weight_comparison": "The two INITIAL contexts per family additionally supply complete recorded input prefixes, with verified reset-before masks. Replay each prefix independently through initial and final recurrent weights before identical physical phase preparation and common future inputs. Initial own-context results are the paired baseline; final matched-initial-context results isolate the weight change at those fixed histories. Own-policy final contexts describe its operating regime separately. Prefix/source/config/mask hashes are saved; no state transfer.",
+  "prefix_numerics": "Preserve exact native batch32 contexts. Audit single-slot complete-prefix replay against all15 native h/c rows (max error<3e-4), then consistently use the replayed own-weight context in both initial and final geometry. Hash every one of the15 actual768-phase preparation inputs and require exact paired equality, along with future inputs and physical phase angles.",
+  "families": "Unchanged 768-phase physical heading/turn and 14-forward-update travel preparations; 192 held-out-angle readout samples; 384 uniform full-state arc probes. Heading native/ordinary common inputs. Travel common ordinary-current release, plus phase-specific native-cue trajectory labeled input-driven.",
+  "full_state": "Same frozen analyze_branch/invariance_probe and every threshold. Primary reference15+evolution15=30 updates (2 s); retain original reference30+evolution30=60 (4 s) as extrapolation. Raw and initial h/c RMS metrics both retained.",
+  "fixed_outputs": "Same frozen observable_probe, actual full-state \u00b12% radial/tangent kicks and every guard. Observe all256 hidden outputs or all6 action-centered learned logits at four fixed future offsets; no fitted projection. Both phase-family-centered and noncentered results retained.",
+  "output_windows": {
+    "within_trained_2s": {
+      "reference": 5,
+      "evolution": 15,
+      "offsets": [
+        0,
+        3,
+        6,
+        10
+      ]
+    },
+    "legacy_4s_extrapolation": {
+      "reference": 15,
+      "evolution": 30,
+      "offsets": [
+        0,
+        5,
+        10,
+        15
+      ]
+    }
+  },
+  "controls": "Known attracting ring with common drift must pass centered output; shrinking plane and silent output fail under the new short timing. General full-state threshold function must reproduce the old30+30 gates exactly. Native collector clock caps at30, interval swaps remain blackout-only, and goal encoding stays native.",
+  "interpretation": "Conditional candidates are screening results. Radial recovery alone does not cover all transverse directions; positive cases require independent broader normal validation and predictive-cue repair before a stabilization claim. Eight contexts per family and repeated windows/metrics are not independent model seeds.",
+  "source_sha256": {
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_heading_current_release.py": "0804062acf1b11e0e066a3346a32681797df20c8acac1a70620fba73c1e27f70",
+    "scripts/plot_lstm_heading_memory.py": "e79e13efa210e824fb42946ef898155b122d89dbd634036eb493b60fe9383191",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "scripts/lstm_distillation_memory.py": "5d5d1108bcafd59bc1f71669c4e68fa97c4c1ab2716877bf0b1ec42930819d6f",
+    "scripts/lstm_travel_memory_probe.py": "466a7cc2ea709f1a2962e0af0ce9a0fe1fbb317e7771c176e8c240f825518131",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+    "scripts/native_policy_distillation.py": "e07a7956de05e8aa9d72a6890da94e2a99c5a438d8093a66e675871e621c4f61",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "tests/test_lstm_distillation_memory.py": "ce5923c3e29a49a426ff5f41c2d81c0af32236cabe5e181a5a458f04eff2352f",
+    "docs/research/native_policy_distillation_memory_commands.md": "e391f6891e559dfa2ea86a32e9cf32a30a0d452ef214fc8503de4c900031443b",
+    "tests/test_lstm_continued_heading_memory.py": "3cbddafaa8282bc61758caf3323e567b3468f220e06fbd47a13e2b933c4f0704",
+    "tests/test_lstm_endogenous_observable_flow.py": "679e6fe0c6618702f82ec511cbd383409ca8cc552dcefa8a403f5fe3cb957ddc"
+  },
+  "training_protocol_sha256": "119f74558bca7485ba2b516e2de034802ab2f792df90da0749e9c9d9a5325668",
+  "original_asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39"
+  }
+}

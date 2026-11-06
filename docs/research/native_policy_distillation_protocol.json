@@ -1,0 +1,76 @@
+{
+  "version": "native_recurrent_policy_distillation_v1",
+  "frozen_utc": "2026-11-06T22:02:33.668303+00:00",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "model_seed": 1,
+  "train_seed": 971201,
+  "eval_seed": 971901,
+  "replay_seed": 972201,
+  "n_envs": 16,
+  "unroll": 90,
+  "updates_per_stage": 60,
+  "total_updates": 180,
+  "physics_frames_per_model": 1036800,
+  "gaps": [
+    4,
+    15,
+    30
+  ],
+  "gap_minimum": "ceil(cap/2)",
+  "visible_updates": 15,
+  "teacher_action_mixture": [
+    0.5,
+    0.25,
+    0.0
+  ],
+  "current_grid_probability_per_blackout": 0.5,
+  "loss": "Mean forward KL teacher||student attemperature1 over all actual visited decisions; originalteacher follows sameactual nativeobservations/actions/rewards.",
+  "optimizer": "Fresh Adam lr1e-4, gradnormclip1; only existing fourLSTMtensors trainable.",
+  "state_noise": 0,
+  "unchanged": "Original maps,sixactions,physics,rewards,1350step episodes,CNN,actor,critic,populationcode,nativegoalcache,image/motornoise.",
+  "variants": [
+    "seen",
+    "blind",
+    "blind_current_grid",
+    "blind_every_reset",
+    "blind_current_grid_every_reset",
+    "seen_scheduled_every_reset"
+  ],
+  "evaluation_episodes_per_variant": 16,
+  "holdout": "Baseline/final realstudent rollouts; all32archived originalcensus trajectories replayed with maskssealedbeforetraining; noholdoutoptimization.",
+  "checkpoints": "Initial, all3fixed60update endpoints, final; noadaptiveselection orautomaticextension.",
+  "post_training_geometry": "BOTH fixedfinal models receive the existing direction-memory geometry screen irrespective of behavioralsuccess; compareoriginalinitial andfixedfinal only. Allstage checkpointsretained, never selectedforgeometry. Behavioralerasure andfixed-input replay determine candidateusefulness. Geometryrunsareseparate from theacquisitionwallcap, notadditionaltraining.",
+  "behavior_clock_scope": "Variants share durationdraws andschedulingrule; branchspecifichits renewvisibility, soactualblackout times can diverge. Scheduled exposurecounts retained. Fixedcensusreplay usesexactlytime-matched masks acrossvariants.",
+  "process_cap_seconds": 1800,
+  "no_cloud": true,
+  "interpretation": "New recurrent-policy distillation continuation, not evidence for a preexisting frozen-model ring. Native current/goal information remains; memory requireserasure contrasts againstmatchedvisible scheduled erasure. Different teachers andeffectivePGCdropout precludeclean acrosspopulationcausal attribution.",
+  "source_sha256": {
+    "scripts/native_policy_distillation.py": "e07a7956de05e8aa9d72a6890da94e2a99c5a438d8093a66e675871e621c4f61",
+    "tests/test_native_policy_distillation.py": "df80f8b8e0683051efad242a5d89f9ed1405941dd4c7c17091735ec4f8fc5012",
+    "tests/test_native_policy_distillation_review.py": "3735a8a7f5f937931dafac0dd102736c0526137a247e750dd3becf4a4a234c63",
+    "scripts/native_movement_cycles.py": "e28e84bee3b127261575d403c8797a78ea7eb01102207157efe61a9d58dbf7a2",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "results/native_movement_cycles/gc100_s1/native_trace.pt": "1b04d86c23090ece154fd3af734f7720f7e3258d2551c8ea680113f5393b8d34",
+    "results/native_movement_cycles/gc100_s1/summary.json": "03d7caf5bdf1dc5cac5726a7248ae6292cc77a0f857bde99f44c64fc72adac7a",
+    "results/native_policy_distillation/masks/gc100.pt": "30e9be245a90ed4d1824c9b0db6861a1d4b3ee14af04d91f10428a2fb41b3478",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "results/native_movement_cycles/pgc33_s1/native_trace.pt": "f5228639663b55a292a83c2ee95d531b2c81f412614df4374651f23755db027a",
+    "results/native_movement_cycles/pgc33_s1/summary.json": "315d183a0e7dc225fd928caff3995a3ddc9beaf0250156e2570d55bd24c1d01a",
+    "results/native_policy_distillation/masks/pgc33.pt": "3cf4214152414ef35d0906cb3ab8ad7ddd8ad33a6b6259da88f8aee708d07abd"
+  }
+}
