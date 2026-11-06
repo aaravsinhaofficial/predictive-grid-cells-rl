@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "review_status": "Root independent review requested; initial actual CUDA data passed",
+  "utc": "2026-11-06T10:43:36.291420+00:00",
+  "source_sha256": "f02e1a4a357ccff06120e1ae5789b07a0ae78ac02862e2bced548f3ac1e471f8",
+  "test_sha256": "43a79f3a844d9dab44e886f31b86167fa6daaaa283a5d9c04d12266beaefa78b",
+  "protocol_sha256": "0768cb770943c41a5dc44773abd450f9978f9f54ed6f7fedb2e504a71a125038",
+  "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_audit_local_goal_return_training.py tests/test_audit_local_goal_return_baseline.py",
+  "tests_passed": 10,
+  "corruption_coverage": [
+    "forced/setup reward and noise replay failure",
+    "wrong loss reconstruction",
+    "incoming weight/private RNG changes",
+    "optimizer restart and padding miscount",
+    "evaluation policy/optimizer/private/global RNG mutation",
+    "rolled-back attempt prefix and missing accepted log rows",
+    "duplicate/nonfinite metrics",
+    "saved first-FREE state/actor-score mismatch"
+  ],
+  "initial_actual_cuda_audits": [
+    {
+      "condition": "gc100",
+      "passed": true,
+      "complete": false,
+      "incoming": {
+        "updates": 0,
+        "trials": 0,
+        "completed_stages": 0,
+        "active_physics_frames": 0,
+        "policy_sha256": "6a87cb72efd4107adc597b107772c9a5e3c44d8eaedc9f6260eb8c8ca5a8c015",
+        "optimizer_all_parameters_and_steps_valid": true,
+        "private_and_global_rng_schema_valid": true,
+        "exact_baseline_initialization": true
+      },
+      "latest": {
+        "updates": 128,
+        "trials": 4096,
+        "completed_stages": 0,
+        "active_physics_frames": 1060556,
+        "policy_sha256": "b56a48b9422ab2f134d63da30897ce65b10b2d1b343f0c9265f9e47cd48dd8f6",
+        "optimizer_all_parameters_and_steps_valid": true,
+        "private_and_global_rng_schema_valid": true,
+        "exact_baseline_initialization": false
+      },
+      "metrics": {
+        "accepted_updates": 130,
+        "rolled_back_rows": 0,
+        "partial_last_row": false,
+        "max_noise_replay_error": 0.0,
+        "no_setup_or_forced_learning_reward": true,
+        "all_logged_losses_finite": true,
+        "scope": "Exact saved replay-error assertions and metrics; full training rolls are not retained or rerun."
+      },
+      "report_sha256": "b028d66216c2a6899bcb549d0dd7ba1ee65536e905fea7f8f1f6326af6aae111"
+    },
+    {
+      "condition": "pgc33",
+      "passed": true,
+      "complete": false,
+      "incoming": {
+        "updates": 0,
+        "trials": 0,
+        "completed_stages": 0,
+        "active_physics_frames": 0,
+        "policy_sha256": "afd78fac6437dd870c18b4c4d683bf53b3b4d1c1f67e606415c9cd1506d1004a",
+        "optimizer_all_parameters_and_steps_valid": true,
+        "private_and_global_rng_schema_valid": true,
+        "exact_baseline_initialization": true
+      },
+      "latest": {
+        "updates": 128,
+        "trials": 4096,
+        "completed_stages": 0,
+        "active_physics_frames": 1046880,
+        "policy_sha256": "f2d678bc0e09ca06883622b31caeb7279d0f1b3e79f34fe9aacbfd2af4b8ca0e",
+        "optimizer_all_parameters_and_steps_valid": true,
+        "private_and_global_rng_schema_valid": true,
+        "exact_baseline_initialization": false
+      },
+      "metrics": {
+        "accepted_updates": 151,
+        "rolled_back_rows": 0,
+        "partial_last_row": false,
+        "max_noise_replay_error": 0.0,
+        "no_setup_or_forced_learning_reward": true,
+        "all_logged_losses_finite": true,
+        "scope": "Exact saved replay-error assertions and metrics; full training rolls are not retained or rerun."
+      },
+      "report_sha256": "8c99e4562e6b8a93ae5f22c45a0cd97f9930219916e955bc4b6867a42b8ada87"
+    }
+  ],
+  "frozen_training_sources_edited": false
+}

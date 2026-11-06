@@ -2,7 +2,7 @@
 
 **The experiments point to persistent direction traces that sometimes control movement. Predictive cues have produced little lasting repair of displaced memories in these tests.** We tested the original agents, including six held-out seed pairs, and fixed reward-only continuations with blackouts, activity noise and increased exploration. None meets the complete ring criteria in the tested conditions.
 
-This study is active. The fixed 75-million-frame continuations, 40-million-frame blind-reorientation pair and all four matched 90-million-frame exploration endpoints are complete. A local goal-return curriculum is being prepared to make remembered direction necessary for reward. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
+This study is active. The fixed 75-million-frame continuations, 40-million-frame blind-reorientation pair and all four matched 90-million-frame exploration endpoints are complete. Two local goal-return models are now training on a curriculum with an audited memory requirement. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
 
 ## What we tested
 
@@ -116,11 +116,11 @@ The [completed GitHub release](https://github.com/aaravsinhaofficial/predictive-
 
 ## Making reward depend on memory
 
-A separate simulator check now tests a shorter local goal-return episode, where the reward must come during the blind response. The heading-aware physical planner reaches **128/128 goals**. Under the saved paired inputs and noise, any controller that has forgotten heading is bounded at **50% success**. This follows from the actual movement budget: opposite-heading agents cannot both reach their reflected goal locations with one common action strategy. Uniform random actions reach none in this sample, showing why near-goal training stages may still be useful. These are task-design results; training on this variant has not started. [Simple figure, all cases and the mathematical bound](../results/rl_blind_reorientation_review/local_goal_preflight_v2/README.md).
+A separate simulator check tested a shorter local goal-return episode, where the reward must come during the blind response. The heading-aware physical planner reaches **128/128 goals**. Under the saved paired inputs and noise, any controller that has forgotten heading is bounded at **50% success**. This follows from the actual movement budget: opposite-heading agents cannot both reach their reflected goal locations with one common action strategy. Uniform random actions reach none in this sample, showing why near-goal training stages may still be useful. These task-design checks preceded the new training. [Simple figure, all cases and the mathematical bound](../results/rl_blind_reorientation_review/local_goal_preflight_v2/README.md).
 
 ![Local goal-return curriculum](../results/local_goal_return_design/trial_design.png)
 
-The planned curriculum starts near the goal and gradually increases distance and delay, following the start-state principle of [Florensa and colleagues](https://proceedings.mlr.press/v78/florensa17a.html). It retains the original trained spatial and recurrent features while explicitly reinitializing the final action/value readouts. The task rewards an actual blind goal hit and then ends. Its test cases and behavioral thresholds were recorded before policy evaluation: first check that easy trials supply rewards, then require successful hard trials with a substantial memory-erasure cost before running expensive dynamics tests. [Design, literature and frozen gates](../docs/research/local_goal_return_study_review.md).
+The curriculum starts near the goal and gradually increases distance and delay, following the start-state principle of [Florensa and colleagues](https://proceedings.mlr.press/v78/florensa17a.html). It retains the original trained spatial and recurrent features while explicitly reinitializing the final action/value readouts. The task rewards an actual blind goal hit and then ends. Its test cases and behavioral thresholds were recorded before policy evaluation: first check that easy trials supply rewards, then require successful hard trials with a substantial memory-erasure cost before running expensive dynamics tests. [Design, literature and frozen gates](../docs/research/local_goal_return_study_review.md).
 
 ![Reward discovery before training](../results/local_goal_return_baseline/report/reward_discovery.png)
 
