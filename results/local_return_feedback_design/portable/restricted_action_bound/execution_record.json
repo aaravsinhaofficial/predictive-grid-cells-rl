@@ -1,0 +1,228 @@
+{
+  "version": "restricted_action_bound_execution_record_v1",
+  "created_utc": "2026-11-06T14:38:24.154440+00:00",
+  "protocol_sha256": "9fe083ec5827cb3f21e13f9ee8539ea7133bcf8fb8a75514ede17cca27636ab2",
+  "frozen_source_sha256": "96f439017786dc5e840459ece9e769cce005f42fa09a20355974c39a1217745e",
+  "writer_sha256": "fd1058ba71f19b6a35e1865af96c9d012a24aace473d74da65f594f1a0074a0f",
+  "attempts": [
+    {
+      "command": "python scripts/analyze_feedback_restricted_actions.py",
+      "exit_code": 1,
+      "reason": "TypeError: Object of type bool_ is not JSON serializable",
+      "phase": "Report serialization after arithmetic; output directory created empty. No result file/count printed."
+    },
+    {
+      "command": "python scripts/write_feedback_restricted_actions.py",
+      "exit_code": 0,
+      "change": "Only NumPy-to-native JSON scalar serialization; calls unchanged frozen analyze()"
+    }
+  ],
+  "tests": {
+    "passed": 5,
+    "seconds": 0.55
+  },
+  "numerical_methods_unchanged": true,
+  "input_scope": "Both immutable pretraining retained-actor baseline archives; no final checkpoint/outcome, policy/environment execution or training.",
+  "summaries": [
+    {
+      "condition": "gc100",
+      "trials": 256,
+      "possible_trials": 139,
+      "unknown_trials": 0,
+      "bound_percent": 54.296875,
+      "actual_baseline_action_counts": [
+        0,
+        3512,
+        0,
+        0,
+        0,
+        3577
+      ],
+      "contexts": [
+        {
+          "context": 0,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 1,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 2,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 3,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 4,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 5,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 6,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 7,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 8,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 9,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 10,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 11,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 12,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 13,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 14,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 15,
+          "possible": 8,
+          "headings": 16
+        }
+      ]
+    },
+    {
+      "condition": "pgc33",
+      "trials": 256,
+      "possible_trials": 139,
+      "unknown_trials": 0,
+      "bound_percent": 54.296875,
+      "actual_baseline_action_counts": [
+        0,
+        3947,
+        0,
+        9,
+        0,
+        3093
+      ],
+      "contexts": [
+        {
+          "context": 0,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 1,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 2,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 3,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 4,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 5,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 6,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 7,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 8,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 9,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 10,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 11,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 12,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 13,
+          "possible": 8,
+          "headings": 16
+        },
+        {
+          "context": 14,
+          "possible": 9,
+          "headings": 16
+        },
+        {
+          "context": 15,
+          "possible": 8,
+          "headings": 16
+        }
+      ]
+    }
+  ],
+  "summary_sha256": "5e5aedb1dfafb21e7a9b037aa90043d7b70dc4023610c03d708b8cb973452b77",
+  "guard_ranges": {
+    "minimum_excluded_angle_margin_rad": 0.005248499556750108,
+    "maximum_control_sector_width_rad": 2.4758177099264618,
+    "minimum_whole_path_wall_margin_m": 0.14128440933761988
+  }
+}

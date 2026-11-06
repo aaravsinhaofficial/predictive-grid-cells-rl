@@ -1,0 +1,50 @@
+{
+  "reviewer": "endogenous_ring_audit",
+  "utc": "2026-11-06T14:40:03.096991+00:00",
+  "passed": true,
+  "blocking_findings": [],
+  "source_sha256": {
+    "scripts/analyze_feedback_restricted_actions.py": "96f439017786dc5e840459ece9e769cce005f42fa09a20355974c39a1217745e",
+    "scripts/write_feedback_restricted_actions.py": "fd1058ba71f19b6a35e1865af96c9d012a24aace473d74da65f594f1a0074a0f",
+    "tests/test_feedback_restricted_actions.py": "0cefaed43d784e61a4b9dd8e06fe10a4bdd9902640ebce1f8244ef770ebe0b0f",
+    "tests/test_write_feedback_restricted_actions.py": "69a323a44fefa472ab237097972eb52442a072e46bf946a0ead45015ad13334b",
+    "docs/research/feedback_restricted_action_bound_protocol.json": "9fe083ec5827cb3f21e13f9ee8539ea7133bcf8fb8a75514ede17cca27636ab2"
+  },
+  "summary_sha256": "5e5aedb1dfafb21e7a9b037aa90043d7b70dc4023610c03d708b8cb973452b77",
+  "execution_record_sha256": "ea516da557deccec37ab5c32365c5ea9518d3d1d0bb9aa52a9cd67b6df6b5a83",
+  "models": {
+    "gc100": {
+      "cases": 256,
+      "potentially_reachable": 139,
+      "excluded": 117,
+      "unknown": 0,
+      "bound_percent": 54.296875
+    },
+    "pgc33": {
+      "cases": 256,
+      "potentially_reachable": 139,
+      "excluded": 117,
+      "unknown": 0,
+      "bound_percent": 54.296875
+    }
+  },
+  "guard_ranges": {
+    "minimum_excluded_angle_margin_rad": 0.005248499556750108,
+    "maximum_control_sector_width_rad": 2.4758177099264618,
+    "minimum_whole_path_wall_margin_m": 0.14128440933761988
+  },
+  "checks": [
+    "Read proof and exact body-coordinate recurrences against native env.step, including updated same-step heading and fixed body noise tape.",
+    "Verified all saved input hashes, 512-case coverage, angle/expanded-sector arithmetic, possible/excluded decisions, context counts and reported minimum margins.",
+    "Both populations have identical derived bound rows; recorded baseline action counts match immutable audits.",
+    "Serialization wrapper only changes NumPy scalar representation; frozen source/protocol and failed first writer are preserved."
+  ],
+  "synthetic_tests": {
+    "command": "/opt/anaconda3/bin/python -m pytest tests/test_feedback_restricted_actions.py tests/test_write_feedback_restricted_actions.py -q",
+    "passed": 5,
+    "seconds": 0.62
+  },
+  "scope": "Conditional upper bound for any controller restricted to actions1/5 on the fixed saved native-equation noise tapes. 139 passing cases are potentially reachable, not constructive routes. Full softmax networks retain other actions. Numerical margins are declared; no formal hardware floating-point proof.",
+  "no_new_policy_environment_or_training_execution": true,
+  "raw_decompression_or_neural_replay_performed": false
+}

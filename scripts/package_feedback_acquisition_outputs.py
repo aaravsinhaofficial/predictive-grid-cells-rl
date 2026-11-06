@@ -46,7 +46,9 @@ TOOLS = ('scripts/package_feedback_acquisition_outputs.py',
          'scripts/monitor_local_return_feedback.py', 'scripts/monitor_local_return_feedback_portable.py',
          'scripts/prepare_local_return_feedback_cloud.py', 'scripts/prepare_local_return_feedback_portable_cloud.py',
          'scripts/finalize_feedback_acquisition_cloud.py',
-         'scripts/check_feedback_baseline_actor_isolation.py')
+         'scripts/check_feedback_baseline_actor_isolation.py',
+         'scripts/analyze_feedback_restricted_actions.py', 'scripts/write_feedback_restricted_actions.py',
+         'tests/test_feedback_restricted_actions.py', 'tests/test_write_feedback_restricted_actions.py')
 SECRET_NAME = re.compile(r'(^\.env($|\.)|credential|client_secret|service.account|id_rsa|\.pem$|\.key$)', re.I)
 SECRET_TEXT = re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|'
     r'"(?:private_key|client_secret|refresh_token|access_token)"\s*:\s*"[^"\s]+', re.I)
@@ -304,13 +306,16 @@ def inventory(root=ROOT, tooling_commit=None, terminal_only=False):
         assert (result['exit_code'] == 0) == (w['status'] == COMPLETE)
         groups['grid' if w['condition'] == 'gc100' else 'pgc'].update(found)
     common = groups['common']
-    for relative in (AUDIT, OLD_AUDIT, DESIGN+'/source_history', REFERENCES, REPORT): common.update(tree(root, relative))
+    for relative in (AUDIT, OLD_AUDIT, DESIGN+'/source_history', REFERENCES, REPORT,
+                     DESIGN+'/portable/restricted_action_bound'): common.update(tree(root, relative))
     for parent in (root/'docs/research', root/DESIGN, root/DESIGN/'portable', root/DESIGN/'cloud_package', root/DESIGN/'portable/cloud_package'):
         for path in parent.iterdir():
             if path.is_file() and (parent != root/'docs/research' or path.name.startswith('local_return_')):
                 if path.suffix in {'.json', '.md'}: inspect_file(path); common.add(path)
     for path in (ROUTING, OLD_ROUTING, PROTOCOL, DESIGN+'/PORTABLE_REPRODUCE.md', DESIGN+'/REPRODUCE.md', DESIGN+'/PORTABILITY.md',
-                 'docs/research/ring_assay_positive_controls.md'):
+                 'docs/research/ring_assay_positive_controls.md',
+                 'docs/research/feedback_restricted_action_bound.md',
+                 'docs/research/feedback_restricted_action_bound_protocol.json'):
         common.add(checked_path(root, path)); inspect_file(root/path)
     report = read(root/REPORT/'summary.json')
     assert not report['synthetic'] and report['protocol_sha256'] == PROTOCOL_SHA
