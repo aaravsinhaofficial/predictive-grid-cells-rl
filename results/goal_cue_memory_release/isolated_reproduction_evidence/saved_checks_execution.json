@@ -1,0 +1,142 @@
+{
+  "started_utc": "2026-11-06T16:15:59.075370+00:00",
+  "worktree": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+  "source_commit": "569dbdd7a6295f168e7c3e824688d09366ea5fd4",
+  "no_new_policy_rollouts_or_training": true,
+  "commands": [
+    {
+      "name": "qualification_gc100",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/audit_goal_cue_memory.py",
+        "--phase",
+        "qualification",
+        "--condition",
+        "gc100",
+        "--folder",
+        "results/goal_cue_memory/qualification/gc100",
+        "--out",
+        "reproduced/audits/qualification_gc100.json",
+        "--require-complete"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:15:59.089649+00:00",
+      "finished_utc": "2026-11-06T16:16:11.837558+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/qualification_gc100.log",
+      "log_sha256": "18539bf4f79c71467dead03bf6f45f082295691c3bb97366d1d8e17b71af3fcd"
+    },
+    {
+      "name": "qualification_pgc33",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/audit_goal_cue_memory.py",
+        "--phase",
+        "qualification",
+        "--condition",
+        "pgc33",
+        "--folder",
+        "results/goal_cue_memory/qualification/pgc33",
+        "--out",
+        "reproduced/audits/qualification_pgc33.json",
+        "--require-complete"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:15:59.089728+00:00",
+      "finished_utc": "2026-11-06T16:16:11.466234+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/qualification_pgc33.log",
+      "log_sha256": "c2fb80d4428e2ed285825751cd7c580b0bd01295299113de6f7b6fff6e187aac"
+    },
+    {
+      "name": "original_diagnostic_gc100",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/audit_goal_cue_memory_original_diagnostic.py",
+        "--condition",
+        "gc100",
+        "--folder",
+        "results/goal_cue_memory/original_diagnostic/gc100",
+        "--out",
+        "reproduced/audits/original_diagnostic_gc100.json",
+        "--require-complete"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:16:11.838107+00:00",
+      "finished_utc": "2026-11-06T16:18:33.828712+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/original_diagnostic_gc100.log",
+      "log_sha256": "6cd09cff6508d535f47288a91afe4900a5bfb6ba3f02fa497373f12b3a86f183"
+    },
+    {
+      "name": "original_diagnostic_pgc33",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/audit_goal_cue_memory_original_diagnostic.py",
+        "--condition",
+        "pgc33",
+        "--folder",
+        "results/goal_cue_memory/original_diagnostic/pgc33",
+        "--out",
+        "reproduced/audits/original_diagnostic_pgc33.json",
+        "--require-complete"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:16:11.838170+00:00",
+      "finished_utc": "2026-11-06T16:18:34.984417+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/original_diagnostic_pgc33.log",
+      "log_sha256": "2fc5437bb0ba6ed8c31eacf77cf0b34f27a5ce982d04995e88407240e719bcf4"
+    },
+    {
+      "name": "donor_equivalence",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/check_goal_cue_donor_equivalence.py",
+        "--out",
+        "reproduced/donor_equivalence.json"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:18:34.984867+00:00",
+      "finished_utc": "2026-11-06T16:18:35.331646+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/donor_equivalence.log",
+      "log_sha256": "c31927dfc7220daf9ef60d11b03899baaf9afc954f25220272c8173792a234cc"
+    },
+    {
+      "name": "reports",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "-c",
+        "from pathlib import Path; import scripts.report_goal_cue_qualification as qualification; import scripts.report_goal_original_diagnostic as memory; qualification.OUT=Path('reproduced/qualification_report'); qualification.main(); memory.OUT=Path('reproduced/original_diagnostic_report'); memory.main()"
+      ],
+      "cwd": "/private/tmp/goal-cue-memory-reproduction.7fX05W",
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "started_utc": "2026-11-06T16:18:35.332063+00:00",
+      "finished_utc": "2026-11-06T16:18:37.137314+00:00",
+      "exit_code": 0,
+      "log_path": "/private/tmp/goal-cue-memory-reproduction.7fX05W.validation/reports.log",
+      "log_sha256": "e4ad26ddad60bc87b14cdb1708f4eca3a2b92bfd7d682da300a9bc7923bbbb6a"
+    }
+  ],
+  "complete": true,
+  "failures": [],
+  "finished_utc": "2026-11-06T16:18:37.137666+00:00"
+}
