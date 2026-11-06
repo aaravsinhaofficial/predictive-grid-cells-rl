@@ -6,12 +6,12 @@ This is adaptation of the original seed-1 Grid/PGC spatial, visual and recurrent
 
 ## Three required assets and source checkout
 
-Use the reporting commit `d4b672a1cf510574420de1a512bb38e024b8919e`, or the later final source commit recorded in `docs/research/local_return_outputs_archive.json`. The final asset records its exact source commit and includes the runtime/audit/report source files with hashes.
+Use the tooling commit `0132d6ad5c03b56c209c764faa0f868ec3c40373`, or the later final source commit recorded in `docs/research/local_return_outputs_archive.json`. The final asset records its exact source commit and includes the runtime/audit/report source files with hashes.
 
 ```bash
 git clone https://github.com/aaravsinhaofficial/predictive-grid-cells-rl.git
 cd predictive-grid-cells-rl
-git checkout d4b672a1cf510574420de1a512bb38e024b8919e
+git checkout 0132d6ad5c03b56c209c764faa0f868ec3c40373
 ```
 
 Download all three assets from the study release and verify the published SHA256/byte counts before extracting into this fresh checkout:
@@ -84,6 +84,15 @@ PY
 ```
 
 Successful integrity audits mean that both finals have exactly 4,096 optimizer updates, 131,072 trials and four completed stage evaluations, with consistent policy/optimizer/RNG state and raw results. They can pass when the behavioral memory gate fails. The primary gate and every negative result stay visible.
+
+The final asset also requires a passing comparison of the two models' saved private trial streams at all four stages and the final checkpoint. To reproduce that comparison into a fresh directory:
+
+```bash
+LOCAL_RETURN_STREAMS=$(mktemp -d)
+python scripts/compare_local_goal_return_private_streams.py --out "$LOCAL_RETURN_STREAMS"
+```
+
+This reads saved seeds, counters and every named generator state; it does not draw new random numbers or run models. Global worker RNG is preserved separately in the original checkpoints. Earlier partial comparisons and raw snapshots remain archived as history; the stage-1 comparison includes its exact historical producer source and hash record.
 
 To rebuild the figures and table in another fresh output directory:
 

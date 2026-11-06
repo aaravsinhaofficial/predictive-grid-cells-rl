@@ -15,7 +15,7 @@ import subprocess
 import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMIT = 'd4b672a1cf510574420de1a512bb38e024b8919e'
+COMMIT = '0132d6ad5c03b56c209c764faa0f868ec3c40373'
 PROTOCOL = 'docs/research/local_goal_return_training_protocol.json'
 PROTOCOL_SHA = '0768cb770943c41a5dc44773abd450f9978f9f54ed6f7fedb2e504a71a125038'
 ROUTING = 'docs/research/local_goal_return_training_launch.json'
@@ -26,7 +26,12 @@ CHECKPOINTS = ('incoming.pt', 'latest.pt', *(name for i in range(1, 5)
     for name in (f'stage{i}_before_evaluation.pt', f'stage{i}.pt')), 'final.pt')
 TOOL_SOURCES = ('scripts/audit_local_goal_return_training.py',
     'scripts/audit_local_goal_return_baseline.py', 'scripts/plot_local_goal_return_training.py',
-    'scripts/monitor_local_goal_return_training.py')
+    'scripts/monitor_local_goal_return_training.py',
+    'scripts/compare_local_goal_return_private_streams.py',
+    'tests/test_compare_local_goal_return_private_streams.py')
+PRIVATE_SOURCE = 'scripts/compare_local_goal_return_private_streams.py'
+PRIVATE_SOURCE_SHA = 'bc627df035ace6ccd61598c98f9dc3b9bc23a04240af2f7b0da5304a5d0292c3'
+PRIVATE_FOLDER = 'results/local_goal_return_design/cloud_audit'
 REPORT_FILES = ('summary.json', 'README.md', 'local_return.png', 'local_return.pdf', 'training.png', 'training.pdf')
 SECRET_NAME = re.compile(r'(^\.env($|\.)|credential|client_secret|service.account|id_rsa|\.pem$|\.key$)', re.I)
 SECRET_TEXT = re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|'
@@ -160,6 +165,103 @@ def verify_final_audit(root, folder, condition, report):
     assert summary['final_checkpoint_sha256'] == sha(folder/'final.pt')
 
 
+def verify_private_stream_record(root, routing, stage=None):
+    """Verify saved bytes/comparisons only; no model or generator is executed."""
+    import torch
+    from compare_local_goal_return_private_streams import compare_snapshots
+    root = Path(root).resolve(); final, _ = routed_attempts(routing)
+    routes = {row['condition']:row for row in final}
+    folder = checked_path(root, PRIVATE_FOLDER)
+    assert stage is None or stage in (1, 2, 3)
+    final_mode = stage is None
+    json_name = 'paired_final_training_validation.json' if final_mode else f'paired_training_streams_stage{stage}.json'
+    raw_name = 'paired_private_streams.pt' if final_mode else f'paired_private_streams_stage{stage}.pt'
+    record_path = checked_path(folder, json_name); inspect_file(record_path)
+    report = read(record_path)
+    assert report['complete'] is final_mode and report['partial_through_stage'] == stage
+    assert report['protocol_sha256'] == PROTOCOL_SHA and report['global_worker_rng_compared'] is False
+    assert not final_mode or report['passed'] is True, 'Final paired private-stream comparison must pass'
+    producer = checked_path(root, PRIVATE_SOURCE); assert sha(producer) == PRIVATE_SOURCE_SHA
+    paths = [record_path, producer]
+    producer_digest = report['reporting_source_sha256']
+    historical = folder/f'private_streams_stage{stage}_producer.json'
+    if producer_digest != PRIVATE_SOURCE_SHA or (not final_mode and historical.exists()):
+        assert not final_mode, 'Final comparison must use the pinned current producer'
+        record = read(checked_path(root, historical.relative_to(root)))
+        snapshot = checked_path(root, f'{PRIVATE_FOLDER}/private_streams_stage{stage}_producer.py')
+        assert record['original_source_path'] == PRIVATE_SOURCE
+        assert record['historical_record'] == str(record_path.relative_to(root))
+        assert record['record_sha256'] == sha(record_path)
+        assert record['snapshot_path'] == str(snapshot.relative_to(root))
+        assert record['snapshot_sha256'] == record['historical_source_sha256'] == producer_digest == sha(snapshot)
+        assert record['current_source_sha256'] == PRIVATE_SOURCE_SHA
+        paths += [historical, snapshot]
+    else:
+        assert producer_digest == PRIVATE_SOURCE_SHA
+    raw = report['raw_private_snapshots']; assert raw['file'] == raw_name
+    raw_path = checked_path(folder, raw_name); inspect_file(raw_path)
+    assert raw_path.stat().st_size == raw['bytes'] and sha(raw_path) == raw['sha256']
+    paths.append(raw_path)
+    saved = torch.load(raw_path, map_location='cpu', weights_only=True)
+    assert set(saved) == {'protocol_sha256','inputs','snapshots','complete','global_worker_rng_included'}
+    assert saved['protocol_sha256'] == PROTOCOL_SHA and saved['complete'] is final_mode
+    assert saved['global_worker_rng_included'] is False and saved['inputs'] == report['inputs']
+    maximum = 4 if final_mode else stage
+    expected = {f'stage{i}.pt':i*1024 for i in range(1, maximum+1)}
+    if final_mode: expected['final.pt'] = 4096
+    assert set(saved['snapshots']) == set(report['inputs']) == set(report['comparisons']) == set(expected)
+    for name, updates in expected.items():
+        pair = saved['snapshots'][name]; assert set(pair) == set(CONDITIONS)
+        recomputed = compare_snapshots(pair['gc100'], pair['pgc33'], updates)
+        assert recomputed == report['comparisons'][name], f'Changed saved private comparison: {name}'
+        references = report['inputs'][name]; assert set(references) == set(CONDITIONS)
+        for condition, item in references.items():
+            route = routes[condition]
+            relative = safe_relative(route['local_artifact_root'])/safe_relative(route['artifact_subdir'])/name
+            assert safe_relative(item['path']) == relative
+            checkpoint = checked_path(root, relative); assert sha(checkpoint) == item['sha256']
+            saved_checkpoint = torch.load(checkpoint, map_location='cpu', weights_only=True)
+            actual_streams = saved_checkpoint['streams']
+            assert compare_snapshots(actual_streams, pair[condition], updates)['passed'], \
+                f'Private snapshot differs from original checkpoint: {condition}/{name}'
+            del saved_checkpoint, actual_streams
+            checkpoint_stage = 4 if name == 'final.pt' else int(name[5])
+            audit_name = f'{condition}.json' if final_mode else f'stage{checkpoint_stage}_{condition}.json'
+            assert item['audit_path'] == f'{PRIVATE_FOLDER}/{audit_name}'
+            audit_path = checked_path(root, item['audit_path']); assert sha(audit_path) == item['audit_sha256']
+            audit = read(audit_path)
+            assert audit['passed'] and not audit['failures'] and audit['condition'] == condition
+            assert audit['protocol_sha256'] == PROTOCOL_SHA
+            if final_mode: assert audit['complete'] and audit['status'] == 'complete' and not audit['pending']
+            assert audit['artifacts'][name]['sha256'] == item['sha256']
+            assert audit['artifacts'][name]['bytes'] == checkpoint.stat().st_size
+            paths += [checkpoint, audit_path]
+    assert report['passed'] == all(row['passed'] for row in report['comparisons'].values())
+    return paths, dict(record=str(record_path.relative_to(root)), record_sha256=sha(record_path),
+        raw=str(raw_path.relative_to(root)), raw_sha256=raw['sha256'], raw_bytes=raw['bytes'],
+        complete=final_mode, passed=report['passed'], partial_through_stage=stage,
+        reporting_source_sha256=producer_digest, saved_comparisons_recomputed=True,
+        snapshots_equal_original_checkpoint_streams=True,
+        global_worker_rng_compared=False)
+
+
+def private_stream_inventory(root, routing):
+    """Final proof is mandatory; every earlier explicit partial record survives."""
+    folder = checked_path(root, PRIVATE_FOLDER)
+    paths, final = verify_private_stream_record(root, routing)
+    records = [final]
+    allowed = {f'paired_training_streams_stage{i}.json' for i in (1,2,3)}
+    assert {p.name for p in folder.glob('paired_training_streams_stage*.json')} <= allowed
+    for stage in (1,2,3):
+        report = folder/f'paired_training_streams_stage{stage}.json'
+        raw = folder/f'paired_private_streams_stage{stage}.pt'
+        assert report.exists() == raw.exists(), 'Partial record and exact raw snapshot must both be retained'
+        if report.exists():
+            additions, record = verify_private_stream_record(root, routing, stage)
+            paths += additions; records.append(record)
+    return paths, records
+
+
 def inventory(root=ROOT, source_commit=COMMIT):
     root = Path(root).resolve()
     protocol_path = checked_path(root, PROTOCOL); assert sha(protocol_path) == PROTOCOL_SHA
@@ -215,6 +317,8 @@ def inventory(root=ROOT, source_commit=COMMIT):
         if result.exists(): paths.append(result)
         log = checked_path(root, safe_relative(row['local_artifact_root'])/'worker.log')
         if log.exists(): paths.append(log)
+    stream_paths, stream_records = private_stream_inventory(root, routing)
+    paths += stream_paths
     report_folder = root/OUT_FOLDER/'report'; report = read(report_folder/'summary.json')
     assert report['complete'] and report['protocol_sha256'] == PROTOCOL_SHA
     assert report['fixed_training_updates_per_model'] == 4096 and report['fixed_training_trials_per_model'] == 131072
@@ -236,6 +340,8 @@ def inventory(root=ROOT, source_commit=COMMIT):
         source_sha256={name:sha(root/name) for name in sources}, files=entries,
         file_count=len(entries), uncompressed_bytes=sum(r['bytes'] for r in entries),
         full_experiment_trees=True, failed_and_resume_evidence_retained=True,
+        private_training_stream_records=stream_records,
+        private_stream_scope='Final all-four-stage plus final comparisons are required and passing. Earlier partial records and exact historical producer bytes are preserved. Only saved private streams are compared; global worker RNG remains separately archived in checkpoints.',
         historical_stage_audits=historical_audits,
         historical_audit_scope='Earlier audits retain their original upload-time hashes; their historical latest.pt/metrics hashes are not compared to subsequently completed files. Final audits remain authoritative for final artifacts.',
         local_extraction_reproduction='Pending until this actual output asset is generated and separately tested; no preemptive completion claim')
@@ -288,6 +394,7 @@ def main():
         archive_sha256=sha(args.out), manifest_path=str(manifest_path.relative_to(ROOT)),
         manifest_sha256=sha(manifest_path), archive_members=len(entries), full_archived_bytes_verified=True,
         both_strict_final_audits_passed=True, all_four_stages_retained=True,
+        paired_final_private_training_streams_verified=True,
         owner_verified_provider_cleanup=True, cleanup_sha256=manifest['cleanup_sha256'],
         required_input_assets=manifest['required_input_assets'], generator_sha256=sha(__file__),
         isolated_extraction_reproduction_verified=False, publication='Not performed by packager')

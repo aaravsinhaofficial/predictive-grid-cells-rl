@@ -119,3 +119,122 @@ def test_archive_is_deterministic_and_checks_every_byte(tmp_path):
         assert all(m.uid==0 and m.gid==0 and m.mtime==0 and m.isfile() for m in archive)
     (tmp_path/'a.json').write_text('changed')
     with pytest.raises(AssertionError):package.write_archive(tmp_path,tmp_path/'bad.tar.gz',entries)
+
+
+def stream_fixture(root, historical_stage1=True):
+    """Small saved tensors and synthetic stream-only checkpoints; no model/RNG runs."""
+    import torch
+    from compare_local_goal_return_private_streams import compare_snapshots
+    folder=root/package.PRIVATE_FOLDER;folder.mkdir(parents=True,exist_ok=True)
+    source=root/package.PRIVATE_SOURCE;source.parent.mkdir(parents=True,exist_ok=True)
+    source.write_bytes((ROOT/package.PRIVATE_SOURCE).read_bytes())
+    route=routing();files={}
+    for row in route['workers']:
+        condition=row['condition'];artifacts={};files[condition]={}
+        for name in ('stage1.pt','stage2.pt','stage3.pt','stage4.pt','final.pt'):
+            path=root/row['local_artifact_root']/row['artifact_subdir']/name
+            path.parent.mkdir(parents=True,exist_ok=True)
+            updates=4096 if name=='final.pt' else 1024*int(name[5])
+            torch.save(dict(streams=dict(seed=294801,batches=updates,contexts=32*updates,
+                generators={k:torch.arange(16,dtype=torch.uint8) for k in ('plan','motor','action','state')})),path)
+            artifacts[name]=dict(sha256=package.sha(path),bytes=path.stat().st_size)
+            files[condition][name]=path
+        for stage in (None,1,2,3):
+            audit=folder/(f'{condition}.json' if stage is None else f'stage{stage}_{condition}.json')
+            audit.write_text(json.dumps(dict(passed=True,failures=[],pending=[],complete=stage is None,
+                status='complete' if stage is None else 'partial',condition=condition,
+                protocol_sha256=package.PROTOCOL_SHA,artifacts=artifacts)))
+    for stage in (None,1,2):
+        names={f'stage{i}.pt':1024*i for i in range(1,(4 if stage is None else stage)+1)}
+        if stage is None:names['final.pt']=4096
+        snapshots={};inputs={};comparisons={}
+        for name,updates in names.items():
+            snapshot=dict(seed=294801,batches=updates,contexts=32*updates,
+                generators={k:torch.arange(16,dtype=torch.uint8) for k in ('plan','motor','action','state')})
+            snapshots[name]={c:copy.deepcopy(snapshot) for c in package.CONDITIONS}
+            comparisons[name]=compare_snapshots(snapshots[name]['gc100'],snapshots[name]['pgc33'],updates)
+            inputs[name]={}
+            for condition in package.CONDITIONS:
+                audit_name=f'{condition}.json' if stage is None else f'stage{int(name[5])}_{condition}.json'
+                audit=folder/audit_name;path=files[condition][name]
+                inputs[name][condition]=dict(path=str(path.relative_to(root)),sha256=package.sha(path),
+                    audit_path=str(audit.relative_to(root)),audit_sha256=package.sha(audit))
+        raw_name='paired_private_streams.pt' if stage is None else f'paired_private_streams_stage{stage}.pt'
+        json_name='paired_final_training_validation.json' if stage is None else f'paired_training_streams_stage{stage}.json'
+        raw=folder/raw_name;record=folder/json_name
+        torch.save(dict(protocol_sha256=package.PROTOCOL_SHA,inputs=inputs,snapshots=snapshots,
+            complete=stage is None,global_worker_rng_included=False),raw)
+        producer=source
+        if stage==1 and historical_stage1:
+            producer=folder/'private_streams_stage1_producer.py';producer.write_text('# synthetic historical producer\n')
+        record.write_text(json.dumps(dict(complete=stage is None,passed=True,partial_through_stage=stage,
+            protocol_sha256=package.PROTOCOL_SHA,global_worker_rng_compared=False,
+            reporting_source_sha256=package.sha(producer),inputs=inputs,comparisons=comparisons,
+            raw_private_snapshots=dict(file=raw_name,sha256=package.sha(raw),bytes=raw.stat().st_size))))
+        if stage==1 and historical_stage1:
+            (folder/'private_streams_stage1_producer.json').write_text(json.dumps(dict(
+                original_source_path=package.PRIVATE_SOURCE,historical_record=str(record.relative_to(root)),
+                record_sha256=package.sha(record),snapshot_path=str(producer.relative_to(root)),
+                historical_source_sha256=package.sha(producer),snapshot_sha256=package.sha(producer),
+                current_source_sha256=package.PRIVATE_SOURCE_SHA)))
+    return route,folder
+
+
+def test_private_stream_final_and_all_partial_history_preserved(tmp_path):
+    route,folder=stream_fixture(tmp_path)
+    paths,records=package.private_stream_inventory(tmp_path,route)
+    assert [r['partial_through_stage'] for r in records]==[None,1,2]
+    assert records[0]['complete'] and records[0]['passed']
+    assert all(r['saved_comparisons_recomputed'] for r in records)
+    assert all(r['snapshots_equal_original_checkpoint_streams'] for r in records)
+    assert folder/'private_streams_stage1_producer.py' in paths
+    assert folder/'private_streams_stage1_producer.json' in paths
+    assert {p.name for p in paths if p.name.startswith('paired_private_streams')}=={
+        'paired_private_streams.pt','paired_private_streams_stage1.pt','paired_private_streams_stage2.pt'}
+
+
+def test_private_stream_raw_byte_corruption_rejected(tmp_path):
+    route,folder=stream_fixture(tmp_path)
+    raw=folder/'paired_private_streams.pt';raw.write_bytes(raw.read_bytes()+b'corrupt')
+    with pytest.raises(AssertionError):package.private_stream_inventory(tmp_path,route)
+
+
+def test_private_stream_changed_saved_counter_cannot_hide_behind_updated_hash(tmp_path):
+    import torch
+    route,folder=stream_fixture(tmp_path)
+    raw=folder/'paired_private_streams.pt';saved=torch.load(raw,weights_only=True)
+    saved['snapshots']['final.pt']['pgc33']['contexts']-=1;torch.save(saved,raw)
+    record=folder/'paired_final_training_validation.json';report=json.loads(record.read_text())
+    report['raw_private_snapshots'].update(sha256=package.sha(raw),bytes=raw.stat().st_size)
+    record.write_text(json.dumps(report))
+    with pytest.raises(AssertionError,match='Changed saved private comparison'):
+        package.private_stream_inventory(tmp_path,route)
+
+
+def test_both_raw_streams_and_recomputed_reports_must_match_original_checkpoints(tmp_path):
+    import torch
+    from compare_local_goal_return_private_streams import compare_snapshots
+    route,folder=stream_fixture(tmp_path)
+    raw=folder/'paired_private_streams.pt';saved=torch.load(raw,weights_only=True)
+    pair=saved['snapshots']['final.pt']
+    for condition in package.CONDITIONS:pair[condition]['generators']['motor'][3]+=1
+    torch.save(saved,raw)
+    record=folder/'paired_final_training_validation.json';report=json.loads(record.read_text())
+    report['comparisons']['final.pt']=compare_snapshots(pair['gc100'],pair['pgc33'],4096)
+    assert report['comparisons']['final.pt']['passed']
+    report['raw_private_snapshots'].update(sha256=package.sha(raw),bytes=raw.stat().st_size)
+    record.write_text(json.dumps(report))
+    with pytest.raises(AssertionError,match='Private snapshot differs from original checkpoint'):
+        package.private_stream_inventory(tmp_path,route)
+
+
+@pytest.mark.parametrize('change',['incomplete_final','failed_final','historical_source'])
+def test_private_stream_final_and_producer_guards(tmp_path,change):
+    route,folder=stream_fixture(tmp_path)
+    if change=='historical_source':
+        (folder/'private_streams_stage1_producer.py').write_text('# changed historical bytes')
+    else:
+        path=folder/'paired_final_training_validation.json';record=json.loads(path.read_text())
+        record['complete' if change=='incomplete_final' else 'passed']=False
+        path.write_text(json.dumps(record))
+    with pytest.raises(AssertionError):package.private_stream_inventory(tmp_path,route)
