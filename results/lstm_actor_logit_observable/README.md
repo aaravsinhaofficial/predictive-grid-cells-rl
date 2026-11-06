@@ -18,7 +18,7 @@ The 40M and 90M endpoints continue one original seed pair. Contexts, cues and me
 
 A positive result would nominate a circular factor in the learned action scores under the tested common input. It would trigger cue-repair tests in this same map and comparison with actual action probabilities/navigation. Output saturation and other hidden dynamics can remain; a projected factor alone is not a functional ring mechanism.
 
-After downloading the checkpoint and exact state-archive dependencies, run from the repository root. Use a fresh output directory because the frozen runner protects completed case files from overwrite:
+Download the checkpoints and exact state archives listed in the [dependency and reproduction guide](REPRODUCE.md), then run from the repository root. Use a fresh output directory because the frozen runner protects completed case files from overwrite:
 
 ```sh
 export OPENBLAS_NUM_THREADS=2
