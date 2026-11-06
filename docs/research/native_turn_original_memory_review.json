@@ -1,0 +1,26 @@
+{
+  "complete": true,
+  "reviewer": "nonlinear_ring_audit",
+  "reviewed_utc": "2026-11-06T23:41:47.528239+00:00",
+  "source_sha256": {
+    "scripts/native_turn_original_memory.py": "f412bc69b0495acacd2cb262270eeb4d4e35e426eaa51bbf3f4fa1bbd2557b9f",
+    "tests/test_native_turn_original_memory.py": "0f68d6598a8172e61b312231390c0333cd66cd19c79128354f5908f9a615dbe5"
+  },
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_original_memory.py",
+    "exit_code": 0,
+    "passed": 5,
+    "seconds": 2.25
+  },
+  "scope": [
+    "Read-only source review; no original model outcomes run",
+    "Each checkpoint reconstructs its own state through the full original 32-slot prefix with terminal masks applied after the native update",
+    "Pre-cue reset precedes the measured cue; turn-only reset precedes suffix_0 and all cue operations are shams",
+    "Cue rotations affect only predictive current-code entries at the measured probe observation, preserving native goal and other history",
+    "Choice reset processes the final input exactly once from zero; identical input/state/logit controls retained",
+    "Ordinary pre-cue reset requires exact final pre-input state, post-input state and logits across all 16 phases",
+    "Exact-input-group generalized JS remains the memoryless forward-KL floor; saved six-action outcomes independently define the common-action physical ceiling",
+    "Grid and turn-only shams, policy/source immutability and all-case coverage are explicit"
+  ],
+  "blocking_findings": []
+}
