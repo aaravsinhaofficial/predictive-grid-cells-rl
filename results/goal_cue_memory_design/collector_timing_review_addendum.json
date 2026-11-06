@@ -1,0 +1,17 @@
+{
+  "reviewer": "endogenous_ring_audit",
+  "utc": "2026-11-06T15:17:22.470618+00:00",
+  "passed": true,
+  "scope": "Recording-only pre/post first-FREE LSTM state evidence, independently checked at delay0 with scheduled postcue erasure; originalcollector arithmetic unchanged.",
+  "source_sha256": {
+    "scripts/goal_cue_memory.py": "6013bcd340486467458cfa043148917fc6f1181e375b0f22039be1ac645921ea",
+    "tests/test_goal_cue_memory.py": "090bd1fd438abb2754bf891177490f3770b195e9bedd78fbf78108f8d8f30268",
+    "tests/test_goal_cue_memory_independent.py": "d0ec855ca6fdadc7037e92e8a52ee3335b39343bae344e1d6432d948ba6b1ba9"
+  },
+  "test_command": "/opt/anaconda3/bin/python -m pytest tests/test_goal_cue_memory.py tests/test_goal_cue_memory_independent.py -q",
+  "tests_passed": 15,
+  "seconds": 1.93,
+  "timing": "state_before_input is captured after scheduled before-input reset; state is the result of processing that firstFREE input once, before action sampling.",
+  "trained_policy_bank_optimizer_or_cloud_execution": false,
+  "prior_review": "results/goal_cue_memory_design/collector_independent_review.json"
+}

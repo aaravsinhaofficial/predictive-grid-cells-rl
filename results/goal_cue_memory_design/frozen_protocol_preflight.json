@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "utc": "2026-11-06T15:44:59.223724+00:00",
+  "protocol_path": "docs/research/goal_cue_memory_training_protocol.json",
+  "protocol_sha256": "0dcd21301c9d9e569bbea7e938a3d387b0be6d5164e2d1da9781bed4ace0cd10",
+  "prior_preflight_path": "results/goal_cue_memory_design/isolated_package_preflight.json",
+  "prior_preflight_sha256": "ca16dcc5062ea09e8a2c1dd60223139373a535232f3c77c771c20fc0f6ac5976",
+  "isolated_root": "/private/var/folders/bx/scc65dy50qg03v4n6gyy2rjr0000gn/T/goal-cue-memory-package-g6h3ncey",
+  "exact_file_count": 57,
+  "command": "from pathlib import Path;import sys,json;root=Path.cwd();sys.path[:0]=[str(root),str(root/'scripts')];import goal_cue_memory_run as r,audit_goal_cue_memory as a;p=root/'docs/research/goal_cue_memory_training_protocol.json';f=json.loads(p.read_text());assert f.pop('frozen_utc');assert f==r.protocol()==a.validate_protocol(p);print('Exact frozen protocol and independent validator pass; no policy/environment execution.')",
+  "stdout": "Exact frozen protocol and independent validator pass; no policy/environment execution.\n",
+  "no_policy_environment_or_training": true
+}

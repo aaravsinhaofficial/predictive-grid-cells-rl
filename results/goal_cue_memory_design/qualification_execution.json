@@ -1,0 +1,87 @@
+{
+  "version": "goal_cue_memory_fixed_original_qualification_execution_v1",
+  "utc": "2026-11-06T15:48:29.581317+00:00",
+  "protocol_path": "docs/research/goal_cue_memory_training_protocol.json",
+  "protocol_sha256": "0dcd21301c9d9e569bbea7e938a3d387b0be6d5164e2d1da9781bed4ace0cd10",
+  "bank_files_unchanged": {
+    "qualification": "186a50f1e10c63e513d7ed6bb29432ea0ccdb9f6cd4752162e60a69fe94ef6fd",
+    "memory": "3f111946c316219c58d411ee90cef8b25f8eb99dfc9f731cf63e0e20fda7f3ba"
+  },
+  "runs": [
+    {
+      "condition": "gc100",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/goal_cue_memory_run.py",
+        "--phase",
+        "qualification",
+        "--condition",
+        "gc100",
+        "--device",
+        "cpu",
+        "--out",
+        "results/goal_cue_memory/qualification/gc100"
+      ],
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "exit_code": 0,
+      "writer_complete": true,
+      "successes": 181,
+      "trials": 256,
+      "valid_trials": 256,
+      "qualified": false,
+      "summary_path": "results/goal_cue_memory/qualification/gc100/summary.json",
+      "summary_sha256": "bfca313425cdff4430c02d91c0a74a5997ac8e263808e847e72b50e28d686d47",
+      "evaluation_seconds": 36.42148300004192,
+      "compressed_raw_files": 16,
+      "compressed_raw_bytes": 146473040,
+      "all_output_files": 72,
+      "all_output_bytes": 173673190,
+      "log_path": "results/goal_cue_memory_design/qualification_execution_logs/gc100.log",
+      "log_sha256": "728c583dd2eb97d120c3b68d5d3b99736956dab5fe2db1b2cd20becf922f5c20",
+      "no_optimization": true
+    },
+    {
+      "condition": "pgc33",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/goal_cue_memory_run.py",
+        "--phase",
+        "qualification",
+        "--condition",
+        "pgc33",
+        "--device",
+        "cpu",
+        "--out",
+        "results/goal_cue_memory/qualification/pgc33"
+      ],
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "exit_code": 0,
+      "writer_complete": true,
+      "successes": 236,
+      "trials": 256,
+      "valid_trials": 256,
+      "qualified": true,
+      "summary_path": "results/goal_cue_memory/qualification/pgc33/summary.json",
+      "summary_sha256": "ffa75dfa9a07092919cbad4a512d11702191b48d157ff21cb5cab41b2c179820",
+      "evaluation_seconds": 34.81538033299148,
+      "compressed_raw_files": 16,
+      "compressed_raw_bytes": 128240201,
+      "all_output_files": 72,
+      "all_output_bytes": 155442897,
+      "log_path": "results/goal_cue_memory_design/qualification_execution_logs/pgc33.log",
+      "log_sha256": "93f1131b10ffafa2727c5bec7c882316d578131fabd71736dd6f28ac27341afd",
+      "no_optimization": true
+    }
+  ],
+  "both_originals_qualified": false,
+  "memory_bank_evaluated": false,
+  "training_started": false,
+  "cloud_resources_created": false,
+  "cloud_reservation_usd": 0,
+  "disposition": "Paired qualification prerequisite failed (Grid181<192). Stop the frozen proposal before memory-bank baseline/training; independent integrity audits pending.",
+  "runtime_scope": "Measured localCPU qualification only. No GPU throughput extrapolation or training/storage launch estimate is needed after the prerequisite failed."
+}

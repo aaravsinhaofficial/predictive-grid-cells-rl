@@ -1,0 +1,23 @@
+{
+  "version": "goal_cue_memory_auditor_delay_review_addendum_v1",
+  "created_utc": "2026-11-06T15:42:01.605282+00:00",
+  "requested_by": "root pre-freeze independent review",
+  "previous_implementation_record": "results/goal_cue_memory_design/auditor_implementation_validation.json",
+  "previous_source_sha256": "fc7ebe37817cac9a3ebdf19113a25a9ead1181f22871a268fd24d13d712aed17",
+  "previous_tests_sha256": "863676ebc18a451e98a21e458962a4cf6f18109a40c431f1731029ce8ae08fc8",
+  "source_sha256": {
+    "scripts/audit_goal_cue_memory.py": "a4c88286c51517231a63b97305d87c6fa9c92cb063306d6d676859dd663db5d7",
+    "tests/test_audit_goal_cue_memory.py": "b89e50a614066b5ae8656e53cbd0b3c4664eaff6781969657a3a6880bea217b3"
+  },
+  "change": "The checkpoint-specific delay reconstruction now compares every sampled integer directly with the logged delay before checking the histogram and saved RNG state. The existing accepted_metrics path already checked every integer; this makes the checkpoint validation explicit and independently testable.",
+  "regression": "Swap two different block2 logged delays. The number of draws, histogram and final private RNG state remain identical, but checkpoint verification rejects the first mismatched draw.",
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_audit_goal_cue_memory.py",
+    "passed": 11,
+    "seconds": 4.41
+  },
+  "previous_review_records_unchanged": true,
+  "training_collector_runner_or_scientific_gates_changed": false,
+  "no_study_bank_or_learned_policy_execution": true,
+  "protocol_freeze_held_until_review": true
+}

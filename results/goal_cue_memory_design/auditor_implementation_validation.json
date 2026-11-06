@@ -1,0 +1,55 @@
+{
+  "version": "goal_cue_memory_auditor_implementation_validation_v1",
+  "created_utc": "2026-11-06T15:38:29.907521+00:00",
+  "source_sha256": {
+    "scripts/audit_goal_cue_memory.py": "fc7ebe37817cac9a3ebdf19113a25a9ead1181f22871a268fd24d13d712aed17",
+    "tests/test_audit_goal_cue_memory.py": "863676ebc18a451e98a21e458962a4cf6f18109a40c431f1731029ce8ae08fc8",
+    "scripts/goal_cue_memory.py": "25d20738d614548d379bde0e2776f615f798fb102ab576168811c72336407512",
+    "scripts/goal_cue_memory_bank.py": "c1d2cfa575afe147f5c99f9190d4c20ad89208fbefc424bc050ebe7cbe2ef993",
+    "scripts/goal_cue_memory_evaluate.py": "a1df9f9a9d6245031873d56eb8a1c5c2640cab8fd4a6c5061edd5005158c48c7",
+    "scripts/goal_cue_memory_run.py": "71ea9507c10d73a8e73fde94c40da9e74ec93c34b323366b14439fcb921ece62",
+    "tests/test_goal_cue_memory.py": "90d3a8f7dae9325684054b9dfb47ef71aa185263dad74df320140340fed5c65e",
+    "tests/test_goal_cue_memory_independent.py": "d0ec855ca6fdadc7037e92e8a52ee3335b39343bae344e1d6432d948ba6b1ba9",
+    "tests/test_goal_cue_memory_bank.py": "5963945945a01018fe6b4029bd9bd8d9eca5836e238aa31377cc19139c4f1032",
+    "tests/test_goal_cue_memory_evaluate.py": "797d056da09eb2ee6963c552da28db582a5016b450f130341913cbf21a3423ec",
+    "tests/test_goal_cue_memory_run.py": "3e6e631a4dccc872c366a9b754abe4b04baef182b599aedfb61b9a3e542b2356"
+  },
+  "review_status": "Ready for independent root review; not a study-outcome result or freeze.",
+  "tests": [
+    {
+      "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_audit_goal_cue_memory.py",
+      "passed": 10,
+      "seconds": 4.44
+    },
+    {
+      "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_goal_cue_memory.py tests/test_goal_cue_memory_independent.py tests/test_goal_cue_memory_bank.py tests/test_goal_cue_memory_evaluate.py tests/test_goal_cue_memory_run.py tests/test_audit_goal_cue_memory.py",
+      "passed": 42,
+      "seconds": 10.71,
+      "scope": "Combined component check; final completed-resume role fix also has a separate final runner/evaluator recheck."
+    },
+    {
+      "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_goal_cue_memory_run.py tests/test_goal_cue_memory_evaluate.py",
+      "passed": 12,
+      "seconds": 4.99,
+      "scope": "Final runner/evaluator recheck includes both pending and already-completed final-boundary resume roles."
+    }
+  ],
+  "prospective_tolerances": {
+    "neural_atol": 0.0003,
+    "neural_rtol": 2e-06,
+    "physics_atol_metres_radians_velocity": 2e-05,
+    "rgb_atol": 0.0001,
+    "code_atol": 5e-05,
+    "renderer_boundary_margins": "Existing individually defined fixed units from audit_local_return_feedback.py; every frame has at least50% unambiguous pixels."
+  },
+  "numerical_sanity": "Synthetic native-size256 LSTM plus nativeCNN layernorm; functional encoder exact; nativecell andfloat64 prefix propagation satisfy declared guard across61 transitions including erasure. No actual learned policies or sealed bank were evaluated.",
+  "scope": {
+    "stationary": "One nativeCNN embedding plus independent zero-state LSTM recursion through all15cue+up to45delay inputs, all prefix logits/value, savedcue-end andfirstFREE before/afterintervention/postinput states.",
+    "free": "Saved physical recurrence, first-hit stop, rawinputs/renderer/currentcode, actionCDF, path/progress/entropy anddonor-specific target measures. Full FREE CNN/LSTMhistory notrerun.",
+    "checkpoints": "Exact original actor/CNN/LSTM and common archived freshcritic; optimizer/RNG/private delay/counters; bothqualification witnesses; fixed endpoint andresume accounting.",
+    "negative_qualification": "Integrity canpass forvalidnegativequalification; both192/256 qualification witnesses remain required beforelearning."
+  },
+  "no_study_bank_generation": true,
+  "no_original_policy_outcomes": true,
+  "no_cloud_or_new_training": true
+}

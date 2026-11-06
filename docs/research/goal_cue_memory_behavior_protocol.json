@@ -1,0 +1,374 @@
+{
+  "version": "native_goal_cue_memory_behavior_v1",
+  "created_utc": "2026-11-06T15:40:25.588839+00:00",
+  "banks": {
+    "qualification": {
+      "path": "results/goal_cue_memory_design/banks/qualification.pt",
+      "sha256": "186a50f1e10c63e513d7ed6bb29432ea0ccdb9f6cd4752162e60a69fe94ef6fd",
+      "bytes": 682862,
+      "tensor_schema": {
+        "/goal_bearing": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "35fc28e7c9a06fa117da7e460a73c7e49d804a4ad9b9cb9679b59bf09afe855c",
+          "bytes": 1024
+        },
+        "/goal": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2f6c667eebd2cc396ef22dbfae6e30a6adf0562642386f6f8e586b3307ce5d2e",
+          "bytes": 2048
+        },
+        "/pickup_offset": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "d0ff1b2ba4a8ed15b973e77ead41a2eb023577bc91a1a1c87bb98ab710ff1da3",
+          "bytes": 1024
+        },
+        "/pickup_angle": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "27b92ea0d2c59f4a707b68a454052b0cb929b5a7eec13814d57276ebb875680b",
+          "bytes": 1024
+        },
+        "/start": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "bytes": 2048
+        },
+        "/heading": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "bytes": 1024
+        },
+        "/land_pos": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "8e654ae895492985bd8572cb97eaf5cdcbbaf10294734faef6bc33f93a78f346",
+          "bytes": 4096
+        },
+        "/stripe_phase": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "ae93e9435aaed1bae62f0e52ef6498ec6b6d5784eef035a6a9732155ef355143",
+          "bytes": 4096
+        },
+        "/delay": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "a1d2239a995ed2b7e217e28ee4c7359384fee1277cb7ffaca4c3ddf79a8724b1",
+          "bytes": 2048
+        },
+        "/context": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728",
+          "bytes": 2048
+        },
+        "/angle_index": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e",
+          "bytes": 2048
+        },
+        "/motor": {
+          "shape": [
+            160,
+            3,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a55eccdfbbad058e62dc7e4d9f05a3e679a6dd5e8aff3ad44a853a482dd8a7c5",
+          "bytes": 491520
+        },
+        "/action": {
+          "shape": [
+            160,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "ad36cf8e742af6237049bb7553265d1ab1dad29e34b7f804ace19b538d463c53",
+          "bytes": 163840
+        }
+      },
+      "seed": 691801,
+      "delay_steps": 45,
+      "n_contexts": 16,
+      "angles_per_context": 16,
+      "creation_validation": {
+        "exact_private_seed_regeneration": true,
+        "exact_serialization_roundtrip": true,
+        "no_policy_environment_or_training": true,
+        "final_private_streams": {
+          "/generators/goal": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "cdb312b923a319adcf087532c623409c1c21c52312371a9a744dd921973d235b",
+            "bytes": 5056
+          },
+          "/generators/pickup": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "bf88e96149d61817339c5f4c7bacb9e3140da0a8c383dd59269d8c2026f58547",
+            "bytes": 5056
+          },
+          "/generators/layout": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "aedada2bf6500e439327a3dcd866b12a9305d08139baee44ef7864dd2ef319fb",
+            "bytes": 5056
+          },
+          "/generators/motor": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "718d696f3ee8fa0ccdf74f6aa36837166010eefbc7ef2bedd876c51c9373536f",
+            "bytes": 5056
+          },
+          "/generators/action": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "e06d78546451310aeb313ad2ab74bd527821e91a4df00ddae406f5624bec9d5a",
+            "bytes": 5056
+          },
+          "/generators/delay": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "00176ddd843fd53b332f3364eed51439f4092029313a73f7082e01f2f765c959",
+            "bytes": 5056
+          }
+        }
+      }
+    },
+    "memory": {
+      "path": "results/goal_cue_memory_design/banks/memory.pt",
+      "sha256": "3f111946c316219c58d411ee90cef8b25f8eb99dfc9f731cf63e0e20fda7f3ba",
+      "bytes": 681833,
+      "tensor_schema": {
+        "/goal_bearing": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "eccb9cfa01ba252c3c2e410d012b9a8e523b2f652a76077468bfdc27af748709",
+          "bytes": 1024
+        },
+        "/goal": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "214bbf0ea1b3df28a865c44574fada776201e5bd3eee564a17701b521b275528",
+          "bytes": 2048
+        },
+        "/pickup_offset": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a18f8464f9f7d7f7759c8a7baacf9bdcc1679fa11ef7622ce497f83ece660b34",
+          "bytes": 1024
+        },
+        "/pickup_angle": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "5b9e57537d517c5ba84e62eb0e629d0a113123528e68e823e073c84abb53aa0b",
+          "bytes": 1024
+        },
+        "/start": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "bytes": 2048
+        },
+        "/heading": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "bytes": 1024
+        },
+        "/land_pos": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a75771edb6d93dd66d34d5e38280b3df0a45b21f5bbf71d9f430d4e15f579dca",
+          "bytes": 4096
+        },
+        "/stripe_phase": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "cc9ab98cd9c25f4216d3bf038e2751bf972febda4f6ef25d34174012e75831d5",
+          "bytes": 4096
+        },
+        "/delay": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "a1d2239a995ed2b7e217e28ee4c7359384fee1277cb7ffaca4c3ddf79a8724b1",
+          "bytes": 2048
+        },
+        "/context": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728",
+          "bytes": 2048
+        },
+        "/angle_index": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e",
+          "bytes": 2048
+        },
+        "/motor": {
+          "shape": [
+            160,
+            3,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "61aadc4a847830508c02ea7eba5c506d313bfa8b433d10aa2559dfa56daa6ca4",
+          "bytes": 491520
+        },
+        "/action": {
+          "shape": [
+            160,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "bc4a27b72c38c9d88b42f1ecc173cc59f22a55d766119766179d83095a8dc5b7",
+          "bytes": 163840
+        }
+      },
+      "seed": 691901,
+      "delay_steps": 45,
+      "n_contexts": 16,
+      "angles_per_context": 16,
+      "creation_validation": {
+        "exact_private_seed_regeneration": true,
+        "exact_serialization_roundtrip": true,
+        "no_policy_environment_or_training": true,
+        "final_private_streams": {
+          "/generators/goal": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "c08be617d3318bb2fbf7288af73bc53ba24695fcf3a8f0fc683748158c102010",
+            "bytes": 5056
+          },
+          "/generators/pickup": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "ccc389034e6f592c5a12c429ee904eeef747000859b89f84ebadedbb5a784927",
+            "bytes": 5056
+          },
+          "/generators/layout": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "387c649f9184b10e60e9dff575a3eed74179a51a391595d73c4399b4c2d1af15",
+            "bytes": 5056
+          },
+          "/generators/motor": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "a28fadbb06db507dba5765abfca5db322b8caf19b94f30231c57da98b2b02724",
+            "bytes": 5056
+          },
+          "/generators/action": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "7a515d7e8d83145dd54c75890d85f658dd2ef24bf789d70675acf7137f89fee1",
+            "bytes": 5056
+          },
+          "/generators/delay": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "sha256": "3688eced326a5a2b5425613caea9b258c5329a6c7df69e4e93be20fc628c0981",
+            "bytes": 5056
+          }
+        }
+      }
+    }
+  },
+  "qualification_successes": 192,
+  "memory_successes": 167,
+  "memory_erasure_cost": 39,
+  "trials": 256,
+  "common_information_50_percent_certificate": false,
+  "bank_authentication": "Exact saved file bytes/SHA and uncompressed tensor schema/SHA. No loading-time regeneration, substitution or tolerance-based authentication.",
+  "sampling": "16 independent contexts, each16 evenly spaced goal bearings with a private uniform angular offset. Independent uniform pickup offset is fixed relative to goal within each family. Common room and tapes within each context.",
+  "global_cpu_rng_preserved": true,
+  "config_path": "models/gc100/gc100_lstm_s1_1000M.json",
+  "config_sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+  "generator_class_sha256": "5e26cb69e3bbcc2e9e1116b19aa2ee22c2fd9bcf66988bbddefde94c02bd99f3",
+  "collector_source_sha256": "25d20738d614548d379bde0e2776f615f798fb102ab576168811c72336407512",
+  "generator_source_sha256": "c1d2cfa575afe147f5c99f9190d4c20ad89208fbefc424bc050ebe7cbe2ef993",
+  "torch_version": "2.10.0"
+}

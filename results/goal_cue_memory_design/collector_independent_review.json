@@ -1,0 +1,28 @@
+{
+  "reviewer": "endogenous_ring_audit",
+  "utc": "2026-11-06T15:13:38.584548+00:00",
+  "passed": true,
+  "blocking_findings": [],
+  "source_sha256": {
+    "scripts/goal_cue_memory.py": "803a663c602c6e714bfafff18b6ed4a3770aa4ca88c419b06cbccc173ca4a7d8",
+    "tests/test_goal_cue_memory.py": "6d956c9985400ea7725d9a68339817c9a13b46f1c38b36c715cc1057789aa2e5",
+    "tests/test_goal_cue_memory_independent.py": "d0ec855ca6fdadc7037e92e8a52ee3335b39343bae344e1d6432d948ba6b1ba9"
+  },
+  "test_command": "/opt/anaconda3/bin/python -m pytest tests/test_goal_cue_memory.py tests/test_goal_cue_memory_independent.py -q",
+  "tests": {
+    "passed": 14,
+    "seconds": 1.79
+  },
+  "checks": [
+    "Stationary wait advances recurrent state/critic only; no native physical step, chosen action, reward, pa carryover or motor trace during wait.",
+    "Actual native outside-to-inside boundary pickup; separate freshly constructed trial environment; only goal snapshot and reward target transfer; all other physical/history/private-RNG fields common across conditional family.",
+    "Whole512goal vector is withdrawn; exact per-step suppliedgoal is replayed; external cache mutations cannot affect replay; postcue erasure blocks prior cue gradients.",
+    "First-hit terminal and timeout use zero bootstrap, preserve preteleport position, and never respawn or advance terminal physical rows.",
+    "Actor/entropy masks exclude wait/padding and placeholder action\u22121; critic wait credit and full BPTT retained.",
+    "Independent added test checks selected-row slicing/merge against native ArenaEnv.step for all6actions simultaneously, including inertia, body noise and wall collision; inactive rows and environment RNG stay exact.",
+    "Relative pickup offset fixed within angular families; abs1e\u22126m geometry consistency preserves actual stored data and is separate from required future exact bank authentication."
+  ],
+  "numerical_or_scientific_source_modified": false,
+  "scope": "Code review and synthetic-policy/native-physics fixtures only. Original configuration JSONs read; no trained checkpoint, study bank, actual-policy outcomes, optimizer step, runner or cloud work. Initialization composition and exact-bank authentication remain obligations for future runner/evaluator.",
+  "causal_timing_design": "\u00b130neural and\u00b190behavioral donorstates; primaryrepair replaces blankinputs30..44, secondaryinput30only; both FREEinput60. No additional wait age. These are future analysis interventions, not implemented or executed by this collector review."
+}

@@ -4,6 +4,8 @@
 
 The fixed 75-million-frame continuations, 40-million-frame blind-reorientation pair, all four matched 90-million-frame exploration endpoints, both local goal-return models, and the four-arm sensory-feedback control are complete. The latest control identifies an action-selection bottleneck before the proposed new memory curriculum. The earlier explicitly constructed goal-memory ring is a [separate result](goal-memory-in-the-navigation-task.md).
 
+A separate **stationary goal-cue proposal has completed its original-policy qualification check**. With the goal code continuously available, the original PGC agent reaches **236/256 goals (92%)**, versus **181/256 (71%)** for Grid. All 512 trials pass the independent neural/input/physics audit. The requirement was at least 192 successes for both, so this proposal stops before its memory baseline, training or cloud launch. This is a navigation comparison in one original seed pair with an external goal message available throughout. [Qualification audit](../results/goal_cue_memory/qualification/audits/pair_review.json) · [Literature and prior-study review](../docs/research/next_native_memory_design_review.md).
+
 ## What we tested
 
 Imagine the network's remembered direction as a point on a circle. A ring mechanism should do two things: **preserve differences around the circle, and correct mistakes away from it**. We measured both in all 512 hidden-plus-cell coordinates. PCA was not used to define the circle.

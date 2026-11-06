@@ -1,0 +1,1223 @@
+{
+  "version": "goal_cue_memory_independent_saved_audit_v1",
+  "phase": "qualification",
+  "condition": "gc100",
+  "folder": "/Users/aaravsinha/predictive-grid-cells-rl/results/goal_cue_memory/qualification/gc100",
+  "auditor_sha256": "a4c88286c51517231a63b97305d87c6fa9c92cb063306d6d676859dd663db5d7",
+  "protocol_sha256": "0dcd21301c9d9e569bbea7e938a3d387b0be6d5164e2d1da9781bed4ace0cd10",
+  "scope": {
+    "stationary_replay": "Independent functional native CNN and LSTM from zero through every stationary input and the first FREE input; exact recorded cue/reset/override timing.",
+    "free_replay": "Every saved physical transition, current code, rendered frame, sampled action CDF, and row statistic; full FREE CNN/LSTM histories are not independently rerun.",
+    "numeric_guard": {
+      "neural_atol": 0.0003,
+      "neural_rtol": 2e-06,
+      "physics_metres_radians_velocity_atol": 2e-05,
+      "rgb_atol": 0.0001,
+      "code_atol": 5e-05
+    },
+    "rendering": "Each frame has at least50% independently reconstructed pixels; explicit fixed renderer-boundary exclusions are reported separately. All pixels retain exact archived bytes and tensor hashes.",
+    "renderer_boundary_margin": 5e-05,
+    "full_history_replay_performed": false,
+    "no_environment_or_policy_rollout": true,
+    "qualification_is_distinct_from_integrity": true,
+    "common_information_50_percent_certificate": false
+  },
+  "created_utc": "2026-11-06T15:47:31.865653+00:00",
+  "checks": {
+    "initialization": {
+      "original_actor_cnn_lstm_exact": true,
+      "archived_fresh_critic_exact": true,
+      "initial_policy_hash": "99504d2196825360cb87c0a2f8073c234db8e8b041131c852fa2245dfdd89627"
+    },
+    "evaluation": {
+      "complete": true,
+      "valid": true,
+      "invalid_trials": 0,
+      "contexts": [
+        {
+          "context": 0,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 805,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.0736075684600905e-08,
+                "heading": 4.976670240353087e-07,
+                "motors": 1.383877781258036e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.711073334361942e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 12453840,
+              "excluded_boundary_pixels": 1719,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 5.960464477539062e-07,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 1,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 925,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.10139698367351e-08,
+                "heading": 5.032972421048498e-07,
+                "motors": 1.5365883276885484e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 8.792802785873022e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13300560,
+              "excluded_boundary_pixels": 2146,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 4.172325134277344e-07,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 2,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1248,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 5.8890779364162427e-08,
+                "heading": 4.904167187902431e-07,
+                "motors": 1.4181255636458445e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 1.0795002136632093e-07
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 15579648,
+              "excluded_boundary_pixels": 2894,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 3,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1238,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 4.461970859459541e-08,
+                "heading": 5.148858477355134e-07,
+                "motors": 1.3776236063023362e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.166985881492451e-08
+              },
+              "free_wall_hits": 14
+            },
+            "inputs": {
+              "pixels": 15509088,
+              "excluded_boundary_pixels": 2237,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 4,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 833,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.123455361020433e-08,
+                "heading": 4.408044986803361e-07,
+                "motors": 1.1681104794547537e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.330231942605849e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 12651408,
+              "excluded_boundary_pixels": 2155,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 5,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 943,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.100855416882098e-08,
+                "heading": 3.6009376991330555e-07,
+                "motors": 1.210941120710629e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 1.0438909536780727e-07
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13427568,
+              "excluded_boundary_pixels": 2732,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 2.384185791015625e-07,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 6,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1031,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.1622401364117536e-08,
+                "heading": 4.408619993512275e-07,
+                "motors": 1.4959481298149058e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.501547681978195e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 14048496,
+              "excluded_boundary_pixels": 2664,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 2.384185791015625e-07,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 7,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 831,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.246137303403174e-08,
+                "heading": 4.376480227108459e-07,
+                "motors": 1.4257292546560052e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 8.251083238874912e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 12637296,
+              "excluded_boundary_pixels": 2264,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 4.76837158203125e-07,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 8,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 900,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.359761091559221e-08,
+                "heading": 4.3566731378064105e-07,
+                "motors": 1.469435466638913e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.468022399428122e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13124160,
+              "excluded_boundary_pixels": 2680,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 9,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 895,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.176700469342819e-08,
+                "heading": 3.817528479999055e-07,
+                "motors": 1.3225553230356013e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.457679317481649e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13088880,
+              "excluded_boundary_pixels": 1830,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 10,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1046,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.439699469698354e-08,
+                "heading": 4.922662437678582e-07,
+                "motors": 1.3792247521848822e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.222325669799858e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 14154336,
+              "excluded_boundary_pixels": 4244,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 11,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1121,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.2454554599326e-08,
+                "heading": 3.548541833708896e-07,
+                "motors": 1.3009363630800408e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 8.469898027385625e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 14683536,
+              "excluded_boundary_pixels": 3778,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 12,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1166,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 5.6673466808376816e-08,
+                "heading": 3.620611739307833e-07,
+                "motors": 1.3609677518289232e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.184719917953998e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 15001056,
+              "excluded_boundary_pixels": 3252,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 13,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 985,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.33038414623843e-08,
+                "heading": 5.00001633874092e-07,
+                "motors": 1.3481238880785895e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 8.92771659932734e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13723920,
+              "excluded_boundary_pixels": 2630,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 14,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 974,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 3.097771794635662e-08,
+                "heading": 4.839797362876652e-07,
+                "motors": 1.4480177235043357e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 9.096823749832339e-08
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 13646304,
+              "excluded_boundary_pixels": 1904,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        },
+        {
+          "context": 15,
+          "variant": "continuous",
+          "valid": true,
+          "checks": {
+            "masks": {
+              "start": 60,
+              "wait_updates": 960,
+              "free_updates": 1184,
+              "trials": 16
+            },
+            "physics": {
+              "maximum_errors": {
+                "position": 5.7776441630963404e-08,
+                "heading": 4.213520270468507e-07,
+                "motors": 1.3537808696284515e-07,
+                "velocity": 2.9802322387695312e-08,
+                "direction": 1.014313006919565e-07
+              },
+              "free_wall_hits": 0
+            },
+            "inputs": {
+              "pixels": 15128064,
+              "excluded_boundary_pixels": 2378,
+              "boundary_mismatches_above_atol": 0,
+              "nonboundary_max_abs_error": 0.0,
+              "boundary_max_abs_error": 0.0,
+              "current_code_max_abs_error": 0.0,
+              "exact_full_goal_withdrawal": true
+            },
+            "recurrent": {
+              "stationary_updates": 60,
+              "first_free_updates": 1,
+              "maximum_errors": {
+                "state": 0.0,
+                "logits": 0.0,
+                "value": 0.0,
+                "embedding": 0.0
+              },
+              "zero_initial_state_reconstructed": true,
+              "full_free_history_replayed": false,
+              "tolerance": {
+                "atol": 0.0003,
+                "rtol": 2e-06
+              }
+            },
+            "actions": {
+              "all_free_actions_cdf_checked": true,
+              "all_free_entropies_checked": true
+            }
+          }
+        }
+      ],
+      "gates": {
+        "qualification": {
+          "eligible": true,
+          "success_threshold": 192,
+          "passed": false
+        },
+        "useful_memory": {
+          "eligible": false,
+          "native_success_threshold": 167,
+          "reset_cost_threshold": 39,
+          "native_successes": null,
+          "reset_cost": null,
+          "passed": false
+        },
+        "common_information_certificate_applies": false
+      },
+      "variants": {
+        "continuous": {
+          "trials": 256,
+          "valid_trials": 256,
+          "invalid_trials": 0,
+          "successes": 181,
+          "success_fraction": 0.70703125,
+          "mean_path_m": 0.9029689386952668,
+          "mean_progress_m": 0.3817705491092056,
+          "mean_free_entropy": 0.23164034951469148,
+          "free_updates": 16125,
+          "action_counts": [
+            0,
+            5588,
+            0,
+            0,
+            0,
+            10537
+          ],
+          "descriptive_mean_convention": "All prescribed trials remain in every denominator; invalid trials are failures and contribute zero to these descriptive means."
+        }
+      },
+      "scope": {
+        "stationary_replay": "Independent functional native CNN and LSTM from zero through every stationary input and the first FREE input; exact recorded cue/reset/override timing.",
+        "free_replay": "Every saved physical transition, current code, rendered frame, sampled action CDF, and row statistic; full FREE CNN/LSTM histories are not independently rerun.",
+        "numeric_guard": {
+          "neural_atol": 0.0003,
+          "neural_rtol": 2e-06,
+          "physics_metres_radians_velocity_atol": 2e-05,
+          "rgb_atol": 0.0001,
+          "code_atol": 5e-05
+        },
+        "rendering": "Each frame has at least50% independently reconstructed pixels; explicit fixed renderer-boundary exclusions are reported separately. All pixels retain exact archived bytes and tensor hashes.",
+        "renderer_boundary_margin": 5e-05,
+        "full_history_replay_performed": false,
+        "no_environment_or_policy_rollout": true,
+        "qualification_is_distinct_from_integrity": true,
+        "common_information_50_percent_certificate": false
+      }
+    },
+    "qualified": false
+  },
+  "failures": [],
+  "pending": [],
+  "passed": true,
+  "complete": true,
+  "status": "complete",
+  "artifacts": {
+    "incoming.pt": {
+      "sha256": "53bd31fbaf9f576129e30b935261cfbad03a7fa09092e8f59d772d81438a41a8",
+      "bytes": 12173265
+    },
+    "initialization.json": {
+      "sha256": "5c25fc906ecfad20ad9483cfc26ea0b953eecef3aac7ef5353da0ed1b56a4876",
+      "bytes": 3569
+    },
+    "protocol.json": {
+      "sha256": "598a84f71e3a3eb32fd56c20090c26f2bf17d3fc96db28ff2beebbe41374e83c",
+      "bytes": 21740
+    },
+    "qualification_after.pt": {
+      "sha256": "168954c98fa7aa614c055af7a0c3289dd9ebca4145948892a7aa5bf3b3a65183",
+      "bytes": 12173637
+    },
+    "qualification_evaluation/context0/continuous/input.json": {
+      "sha256": "65b82ecb55cf9362132edb122d163f2c2fb9b426f59c326e0c80101a52a32985",
+      "bytes": 739
+    },
+    "qualification_evaluation/context0/continuous/raw.pt.gz": {
+      "sha256": "c58d23d333aca7c14559a465faac5e539cec6b86c4cfdcbb10fd12d68f50a797",
+      "bytes": 7965759
+    },
+    "qualification_evaluation/context0/continuous/result.json": {
+      "sha256": "4457d35ef37e12d58b5552c8ad73ec36afbdd2c4dce044fee771251765673414",
+      "bytes": 69855
+    },
+    "qualification_evaluation/context0/input_plan.pt.gz": {
+      "sha256": "27c444e4dd2d0c76dc100458c38b6c8e94905da78d7d2503f1d81e396435dccf",
+      "bytes": 4358
+    },
+    "qualification_evaluation/context1/continuous/input.json": {
+      "sha256": "db3300342bd1afa6643b210b159084e3e429b70b4072dcb7bbdbad13d98d240c",
+      "bytes": 739
+    },
+    "qualification_evaluation/context1/continuous/raw.pt.gz": {
+      "sha256": "afe0a7a40f195927e2b1ffef82ca86c08a13e7f2a49ba82922888c0335826045",
+      "bytes": 8629457
+    },
+    "qualification_evaluation/context1/continuous/result.json": {
+      "sha256": "c1c44abd6e6de41bd9cbf39e588c44933b9bb8d302476b7cfb55862ed92c6cfc",
+      "bytes": 69878
+    },
+    "qualification_evaluation/context1/input_plan.pt.gz": {
+      "sha256": "eebca6a948c275e4af1b8f2f1779c229a922c63a1f755228b580ad2d72545808",
+      "bytes": 4344
+    },
+    "qualification_evaluation/context10/continuous/input.json": {
+      "sha256": "4b51dc7903b22c5d737e86ea24052d1ef14c370c9fffe9db9375ea2dd8669d05",
+      "bytes": 756
+    },
+    "qualification_evaluation/context10/continuous/raw.pt.gz": {
+      "sha256": "8399288e7756541bfc60022c3c23b54d8664dca155e3c2d9b57ca1672e0326f9",
+      "bytes": 9409119
+    },
+    "qualification_evaluation/context10/continuous/result.json": {
+      "sha256": "7876fe18ec57c864625648a79a50b483c1474a7d4322843afa18daefb124818a",
+      "bytes": 69867
+    },
+    "qualification_evaluation/context10/input_plan.pt.gz": {
+      "sha256": "58ca4084bafca69075d75d04447451e586f93c5cc1d5751e942f143f50038ad4",
+      "bytes": 4390
+    },
+    "qualification_evaluation/context11/continuous/input.json": {
+      "sha256": "7248c0c1a028c242d415dd91a1cc9eeef73fcc275a3bbecb53175e1d352b3a3d",
+      "bytes": 756
+    },
+    "qualification_evaluation/context11/continuous/raw.pt.gz": {
+      "sha256": "37fedeea23a37b3fd71f5b9319a2ba439209a8f49c94f535ef77811d16dcdace",
+      "bytes": 9783804
+    },
+    "qualification_evaluation/context11/continuous/result.json": {
+      "sha256": "a1deafbc171e191bb6fb5063a67edc22bcd4a93ae2941d8f451c0f14a23fb301",
+      "bytes": 69899
+    },
+    "qualification_evaluation/context11/input_plan.pt.gz": {
+      "sha256": "9250886ce19d736f4b415eeeef81812fd33e88dce59c7865daa22a1f21c7123b",
+      "bytes": 4366
+    },
+    "qualification_evaluation/context12/continuous/input.json": {
+      "sha256": "c63a1919656ca310ea254634cf707eb0192694e6588c2cfd4ed6e7de17c753fc",
+      "bytes": 756
+    },
+    "qualification_evaluation/context12/continuous/raw.pt.gz": {
+      "sha256": "39aca855ad357c4a2774f9236373bf844a1c2fc1c24013c6faf9ff70719fd1e5",
+      "bytes": 10137133
+    },
+    "qualification_evaluation/context12/continuous/result.json": {
+      "sha256": "805a02fbe89e739e6779485a72571ac1559facc27cd8a28bc31c79f0937dbea0",
+      "bytes": 69903
+    },
+    "qualification_evaluation/context12/input_plan.pt.gz": {
+      "sha256": "8fda5fd64ce5d885f190ef30a7000f95468633a81033741aab352e74f8efc011",
+      "bytes": 4363
+    },
+    "qualification_evaluation/context13/continuous/input.json": {
+      "sha256": "6cc8c7a9efa1353627e0c8bcd2d5ef5848cfdec05a13ee01e276d8ff51590013",
+      "bytes": 756
+    },
+    "qualification_evaluation/context13/continuous/raw.pt.gz": {
+      "sha256": "335fb874abcd9c21b6f4fd518d3cd78907100577a67680ea5ca2af37b2fc7151",
+      "bytes": 9108635
+    },
+    "qualification_evaluation/context13/continuous/result.json": {
+      "sha256": "9794dca5bba66cdb481f6354b0f775ccc0844b058281615b61c4b8949ee81da8",
+      "bytes": 69932
+    },
+    "qualification_evaluation/context13/input_plan.pt.gz": {
+      "sha256": "e6c6c805661a6b63c86327cadd99a426b949b7b3aee62f75edf6b87e80040e83",
+      "bytes": 4388
+    },
+    "qualification_evaluation/context14/continuous/input.json": {
+      "sha256": "a91be2e821f2d132a672078ee5dd630bd8ede3e2c6b3760190788bcb0143b260",
+      "bytes": 756
+    },
+    "qualification_evaluation/context14/continuous/raw.pt.gz": {
+      "sha256": "ae3fb80a51db59c162403c17cf0f1f9c646dc1299ddbe1ec0d570a1ff0b4b47b",
+      "bytes": 9035249
+    },
+    "qualification_evaluation/context14/continuous/result.json": {
+      "sha256": "7b8a104c71abf9e6d4c66b3d2d1ba81357ebcaa6919bd93878accfe88821c7ec",
+      "bytes": 69916
+    },
+    "qualification_evaluation/context14/input_plan.pt.gz": {
+      "sha256": "67f8d8f0034da20d8907daeac50e6a70a10a46b2aebfbfb9e4bf19e01d4a63d3",
+      "bytes": 4356
+    },
+    "qualification_evaluation/context15/continuous/input.json": {
+      "sha256": "08247bbd6cd34ddb86ec0367e4d388bc4b109de819e3492e733e86bc744ce1f7",
+      "bytes": 756
+    },
+    "qualification_evaluation/context15/continuous/raw.pt.gz": {
+      "sha256": "31002ff82b5f7a7df33fe31e82c9e50e207be0dd34a9eb15f68f0cd33b81981f",
+      "bytes": 10037540
+    },
+    "qualification_evaluation/context15/continuous/result.json": {
+      "sha256": "0ea8743b8052bf4d6f69c506e03e1bfdd6a8aae5f1cea418a75c540c8d9d46f7",
+      "bytes": 69903
+    },
+    "qualification_evaluation/context15/input_plan.pt.gz": {
+      "sha256": "c1b89864c876c6a9985ced7cdc112dc2e98d66d01cbf0ba38771774707685c0a",
+      "bytes": 4364
+    },
+    "qualification_evaluation/context2/continuous/input.json": {
+      "sha256": "b89e34912c65a92aa0f750e95fdb40af868be393cf2a9894b48b51f9ee377d3e",
+      "bytes": 739
+    },
+    "qualification_evaluation/context2/continuous/raw.pt.gz": {
+      "sha256": "f41159ca0abd47632e0cd4c3d406645abe653ea990831148cde34b55d54f5524",
+      "bytes": 10671753
+    },
+    "qualification_evaluation/context2/continuous/result.json": {
+      "sha256": "67a0065c08be4f8cc46d86414649f8c9ce373cc649461edd789b683bd1f43170",
+      "bytes": 69901
+    },
+    "qualification_evaluation/context2/input_plan.pt.gz": {
+      "sha256": "3eb60bb4c89d03872a674c0cb324a27d0d23b3cf6e4afbb9c7616c035a3296de",
+      "bytes": 4360
+    },
+    "qualification_evaluation/context3/continuous/input.json": {
+      "sha256": "1dda878216257ce701467bb9e2d261c4f61e2649edc6d72e1fbac4818bcb49d0",
+      "bytes": 739
+    },
+    "qualification_evaluation/context3/continuous/raw.pt.gz": {
+      "sha256": "01ae35fd9bffee3ebf0b699b308a9811ac9ab3f30a1dee60bcdec8baa3c959ac",
+      "bytes": 10251326
+    },
+    "qualification_evaluation/context3/continuous/result.json": {
+      "sha256": "aa4caf8f924166d939112406a4b2ae115b9a21ef818a63b546d54a673a9677ba",
+      "bytes": 69909
+    },
+    "qualification_evaluation/context3/input_plan.pt.gz": {
+      "sha256": "bbefce92a2c78a728a53ae8023ec59132aa1a3a42ae5a9c7b7bedb4af2335510",
+      "bytes": 4357
+    },
+    "qualification_evaluation/context4/continuous/input.json": {
+      "sha256": "2fde8e164b25584276c88bca075dd52674e08726aa8b1ddb51f91e29584fa326",
+      "bytes": 739
+    },
+    "qualification_evaluation/context4/continuous/raw.pt.gz": {
+      "sha256": "2129bca4eaf6c5576c8a6df4dbe3026e5249cae3de63e3248bd853074338e2f9",
+      "bytes": 8066654
+    },
+    "qualification_evaluation/context4/continuous/result.json": {
+      "sha256": "58e5665d9c02a28a956e37de4df51bcfda38a3af3085251bca9f080cfb4c23ae",
+      "bytes": 69917
+    },
+    "qualification_evaluation/context4/input_plan.pt.gz": {
+      "sha256": "ff7da8073e405ed37888628cc1a1d826f1b95b16f565fdac0b75cd2db5b4d8e3",
+      "bytes": 4365
+    },
+    "qualification_evaluation/context5/continuous/input.json": {
+      "sha256": "95d73b8d2aefc3060def8a2d4d3bb32dc54f4c4e533510b2ac1c7254a740da45",
+      "bytes": 739
+    },
+    "qualification_evaluation/context5/continuous/raw.pt.gz": {
+      "sha256": "40f8dd06e334be24f36dd82c4df667661dd81c0a052f5f4a30ae78f58ec6e958",
+      "bytes": 8824387
+    },
+    "qualification_evaluation/context5/continuous/result.json": {
+      "sha256": "c73054ec7e23b43ddff03ed587fd5cecc99f0e960b845f008a2187bace471d19",
+      "bytes": 69937
+    },
+    "qualification_evaluation/context5/input_plan.pt.gz": {
+      "sha256": "c5151e0f5636bb45f384ff3695694e35a87a5a45ab86252f0a1e66e600dc0192",
+      "bytes": 4360
+    },
+    "qualification_evaluation/context6/continuous/input.json": {
+      "sha256": "ecdffbb221df5252c256af4e41881bd61f2734ce810cb66e7d6027aa8d9da4de",
+      "bytes": 739
+    },
+    "qualification_evaluation/context6/continuous/raw.pt.gz": {
+      "sha256": "1b3ab9e653bd737705f9ce827fe8ad71ff2f9700cfbdca37dccdb57bfe76f190",
+      "bytes": 9203565
+    },
+    "qualification_evaluation/context6/continuous/result.json": {
+      "sha256": "d74f6012a101fbf38f2f5e87030fa6932bec7699e79cfe95f13e062dad4e770d",
+      "bytes": 69959
+    },
+    "qualification_evaluation/context6/input_plan.pt.gz": {
+      "sha256": "47dc48c983eb3e55f02ad929a12774ed36b2ffc3e816cda70689cc82ae9984e8",
+      "bytes": 4365
+    },
+    "qualification_evaluation/context7/continuous/input.json": {
+      "sha256": "f1279315aaaedadb6ef37751330b2b9a4f5f5067c274ba4454ce8a9ce8a96fdc",
+      "bytes": 739
+    },
+    "qualification_evaluation/context7/continuous/raw.pt.gz": {
+      "sha256": "7ab9892bba86630db56c3cb87ac0df3f48a55d15e9bdcc18c2311f0f1c8e41d4",
+      "bytes": 8337864
+    },
+    "qualification_evaluation/context7/continuous/result.json": {
+      "sha256": "69f5952399451761fedff3073f46a558f61de02eec9a31313a76a15522b01af3",
+      "bytes": 69862
+    },
+    "qualification_evaluation/context7/input_plan.pt.gz": {
+      "sha256": "220db70eb5271c3cc21066afe5d619d48c27d8b7ec6a68a8f0340e302da232d5",
+      "bytes": 4372
+    },
+    "qualification_evaluation/context8/continuous/input.json": {
+      "sha256": "113f90da4c6dca8daf769c942abdce060e411aa4c1b2f4f4567667f6cd285c3b",
+      "bytes": 739
+    },
+    "qualification_evaluation/context8/continuous/raw.pt.gz": {
+      "sha256": "dec73560a9ab869136b86df54b8e2eb7603e345ea7c33f1775d9777cf18e58f6",
+      "bytes": 8471072
+    },
+    "qualification_evaluation/context8/continuous/result.json": {
+      "sha256": "7af7264ff3a4314252ab0bfb13954e4e92c9c5eb54d57914ee4e2c7c4e84ef9f",
+      "bytes": 69852
+    },
+    "qualification_evaluation/context8/input_plan.pt.gz": {
+      "sha256": "d4817553e6db62803fd25626a022b981ef2ddbbbd57ecf83adf96bfd6d2b6dfc",
+      "bytes": 4371
+    },
+    "qualification_evaluation/context9/continuous/input.json": {
+      "sha256": "e43953668126b8093357cf38b41aabc8f70fcf98f83c6cd4eb1a6d1e3a3123f8",
+      "bytes": 739
+    },
+    "qualification_evaluation/context9/continuous/raw.pt.gz": {
+      "sha256": "e766f4e766107cf9a716b386a0872516766827eb1ec4ef8b68c3c79811c37db6",
+      "bytes": 8539723
+    },
+    "qualification_evaluation/context9/continuous/result.json": {
+      "sha256": "60de0709529ad2d42bf2fc8ce8018e38dad9dbfdfd8fff5df2a4fd5f46639c72",
+      "bytes": 69850
+    },
+    "qualification_evaluation/context9/input_plan.pt.gz": {
+      "sha256": "f6bd315e2ca16484c1f1e81dc0c06c063f468756eff4f44cd9ee78a1553ea8d5",
+      "bytes": 4362
+    },
+    "qualification_evaluation/summary.json": {
+      "sha256": "c7b6c9676d8adfb5fa44fa536c8b925c1849152c03969a5696122e00807bf2df",
+      "bytes": 1624645
+    },
+    "qualification_evaluation_integrity.json": {
+      "sha256": "1807783892654e1f4582810c7c14febb681d3fbb176e5ee97faaf60bc520c1d6",
+      "bytes": 309
+    },
+    "summary.json": {
+      "sha256": "bfca313425cdff4430c02d91c0a74a5997ac8e263808e847e72b50e28d686d47",
+      "bytes": 952
+    },
+    "training_config.json": {
+      "sha256": "3ee26868b384a25fe39791e6ea89db764de6af5667eab79329db4ebcdd8c0fa1",
+      "bytes": 1926
+    }
+  }
+}

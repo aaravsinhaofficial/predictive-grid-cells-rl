@@ -1,0 +1,44 @@
+{
+  "status": "reviewed_draft_no_blocker",
+  "scope": "Independent source, timing, information-isolation and focused synthetic/native-physics test review; not a study result or launch approval",
+  "reviewed_sources": {
+    "scripts/goal_cue_memory.py": "803a663c602c6e714bfafff18b6ed4a3770aa4ca88c419b06cbccc173ca4a7d8",
+    "tests/test_goal_cue_memory.py": "6d956c9985400ea7725d9a68339817c9a13b46f1c38b36c715cc1057789aa2e5",
+    "docs/research/next_native_memory_design_review.md": "f0d48feba7f69f1abd3d664381a75b0010c884f924efdeff3e98b5b03e876b51"
+  },
+  "independent_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_goal_cue_memory.py",
+    "exit_code": 0,
+    "passed": 13,
+    "seconds_reported_by_pytest": 1.7,
+    "policies": "Untrained TinyPolicy with native 1287-column input concatenation and 8-unit LSTM only",
+    "trained_checkpoint_loaded": false,
+    "study_bank_generated_or_evaluated": false,
+    "optimizer_step_executed": false
+  },
+  "reviewed_semantics": [
+    "Setup uses an actual native first boundary crossing and preserves its physical hit position, direction and velocity for the goal snapshot.",
+    "Setup and scored trial use separate environment objects; setup reward, physical state, draw clock and policy history do not transfer.",
+    "During the task-owned wait there is no environment step, policy action or reward; pa is -1 and pr is zero. Physical clocks and states remain fixed.",
+    "Clean native RGB and current code are constant during waiting. Image and recurrent noise remain zero; native motor noise acts only during FREE physics.",
+    "All 512 goal columns are withdrawn after input14 in brief mode. Replay reads saved goal_input[t] rather than the external goal cache.",
+    "Post-cue erasure is applied before the first blank input, including delay0. Synthetic first-FREE states and actions then have no goal dependence.",
+    "Only FREE rows enter native physics; first-hit termination preserves the pre-respawn endpoint and stops all later movement/reward.",
+    "Actor and entropy terms are zero during waits/padding; critic credit and recurrent gradients span the cue and delay. Terminal bootstrap is zero.",
+    "Private goal, pickup-offset, layout, motor and action streams are independent. Conditional families fix relative pickup_offset; world incoming angle is goal_bearing plus that offset.",
+    "The 1e-6m tolerance checks only trigonometric geometric consistency and preserves literal saved goal coordinates. It does not authenticate a sealed bank; future file/tensor authentication must remain exact."
+  ],
+  "prospective_causal_design_review": {
+    "behavioral_specificity": "Use genuine +/-90degree donor h/c at the pre-first-FREE state; the corresponding .30m goal disks at radius.75m are disjoint. Keep recipient physical target and inputs.",
+    "neural_phase_edits": "Use separately regenerated dense-family +/-30degree states; 16-angle bank indices cannot represent these exact shifts.",
+    "repair_clock": "Initial cue inputs0-14; blank delay15-59; edit incoming h/c at30; primary cue30-44, one-update secondary at30; all remaining delay inputs blank; first FREE input60 unchanged.",
+    "controls": "Duration-matched unedited and blank controls, correct native versus ordinary169-slot replacement, and explicitly whole-message wrong-goal controls; assess common pre-FREE age and own-cue-end persistence."
+  },
+  "remaining_scope": [
+    "This is a collector/replay review. No runner, checkpoint initialization/composition, sealed-bank authentication, optimizer/resume or cloud behavior has been tested here.",
+    "The old two-second 50percent common-information certificate does not apply to the proposed six-second task.",
+    "The task deliberately adds stationary waiting, clean images and a restricted goal distribution. It tests adapted native-agent goal memory, not an unchanged original environment.",
+    "No behavioral memory, predictive cue advantage or neural ring outcome has been computed."
+  ],
+  "blocking_findings": []
+}
