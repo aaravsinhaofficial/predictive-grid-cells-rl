@@ -1,0 +1,107 @@
+{
+  "complete": false,
+  "passed": true,
+  "partial_through_stage": 1,
+  "protocol_sha256": "0768cb770943c41a5dc44773abd450f9978f9f54ed6f7fedb2e504a71a125038",
+  "reporting_source_sha256": "9d6207eba4cda26a73737eb5194eca83ba378867aa1c896c420d9b88f608b3a7",
+  "observed_utc": "2026-11-06T11:58:49.222326+00:00",
+  "inputs": {
+    "stage1.pt": {
+      "gc100": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-local-return-grid-01/experiment/stage1.pt",
+        "sha256": "91ee7ea7842abadfe2b02ca289fbe3d4710b24bc1f7665387e2208dca7de0ce3",
+        "audit_path": "results/local_goal_return_design/cloud_audit/stage1_gc100.json",
+        "audit_sha256": "85388cf00908645097fe585d90e3d5faba5bedb4aa6fcec65dd48db99d4a1986"
+      },
+      "pgc33": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-local-return-pgc-01/experiment/stage1.pt",
+        "sha256": "5126cb06d90818c86d3f6dc04be0c33bb433a181be8245d30c8f1547815b92fb",
+        "audit_path": "results/local_goal_return_design/cloud_audit/stage1_pgc33.json",
+        "audit_sha256": "5a8b739f1d308bfc902fe6da038c572636f736c4200bce659af61410aca66bf2"
+      }
+    }
+  },
+  "comparisons": {
+    "stage1.pt": {
+      "passed": true,
+      "metadata": {
+        "seed": {
+          "grid": 294801,
+          "pgc": 294801,
+          "equal": true,
+          "expected": 294801,
+          "expected_values": true
+        },
+        "batches": {
+          "grid": 1024,
+          "pgc": 1024,
+          "equal": true,
+          "expected": 1024,
+          "expected_values": true
+        },
+        "contexts": {
+          "grid": 32768,
+          "pgc": 32768,
+          "equal": true,
+          "expected": 32768,
+          "expected_values": true
+        }
+      },
+      "generators": {
+        "action": {
+          "equal": true,
+          "grid_shape": [
+            5056
+          ],
+          "pgc_shape": [
+            5056
+          ],
+          "grid_sha256": "c7346fcf839fd1c2ad3ff9d325dc73ce99911efe2461c116309ed08a75207b16",
+          "pgc_sha256": "c7346fcf839fd1c2ad3ff9d325dc73ce99911efe2461c116309ed08a75207b16"
+        },
+        "motor": {
+          "equal": true,
+          "grid_shape": [
+            5056
+          ],
+          "pgc_shape": [
+            5056
+          ],
+          "grid_sha256": "94fda73cee60deef31dd1bdfab777f022b5ff9608b8c8abae3cd485ceb1113dc",
+          "pgc_sha256": "94fda73cee60deef31dd1bdfab777f022b5ff9608b8c8abae3cd485ceb1113dc"
+        },
+        "plan": {
+          "equal": true,
+          "grid_shape": [
+            5056
+          ],
+          "pgc_shape": [
+            5056
+          ],
+          "grid_sha256": "9bf0c1a1c544f9f3d651e047096f20409c999423f44a747c92551a42a4200e21",
+          "pgc_sha256": "9bf0c1a1c544f9f3d651e047096f20409c999423f44a747c92551a42a4200e21"
+        },
+        "state": {
+          "equal": true,
+          "grid_shape": [
+            5056
+          ],
+          "pgc_shape": [
+            5056
+          ],
+          "grid_sha256": "e23ddd2585ec803b3ddfde8c89a2600ca799f6feb1aa807614b8713b96243d49",
+          "pgc_sha256": "e23ddd2585ec803b3ddfde8c89a2600ca799f6feb1aa807614b8713b96243d49"
+        }
+      },
+      "global_worker_rng_compared": false
+    }
+  },
+  "global_worker_rng_compared": false,
+  "scope": "Exact saved private seeds/counters/generator-state comparison. Draws, neural states, policies, environments and learning are not executed. Global worker RNG remains separately preserved in each original checkpoint.",
+  "inference": "Equal states and the frozen deterministic draw schedule verify equal private draw consumption; different success times do not change the prescribed later trial/tape stream.",
+  "raw_private_snapshots": {
+    "file": "paired_private_streams_stage1.pt",
+    "sha256": "3d99471be0d0fbe2940c3ac057696ae8acf057d8054def6e5e708d5ea32d25a2",
+    "bytes": 45291
+  }
+}
