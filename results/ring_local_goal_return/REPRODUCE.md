@@ -36,7 +36,7 @@ tar -xzf /path/to/downloads/local-return-final-outputs-v1.tar.gz
 
 Do this in a fresh checkout so extraction cannot replace your own revised results. Paths remain repository-relative, including the explicitly routed worker/experiment folders. The routing file may retain historical launch status; the separately hashed owner cleanup verification supplies the final resource-absence evidence. No cloud credentials or unrelated worker trees are included.
 
-Install the recorded local audit environment with `python -m pip install -r requirements-ring-analysis.txt`, preferably in a dedicated virtual environment. The original CPU baselines used Torch 2.10.0; the actual CUDA training backend/version is recorded in each experiment's `protocol.json`. Read-only audits load tensors on CPU and do not resume learning.
+Install the recorded local audit environment with `python -m pip install -r requirements-ring-analysis.txt`, preferably in a dedicated virtual environment. The original CPU baselines used Torch 2.10.0. Each routed worker's actual CUDA environment is recorded in `results/local_goal_return_design/cloud_audit/{worker}_environment.json` and included as operational evidence; the frozen training protocol records the prescribed setup. Read-only audits load tensors on CPU and do not resume learning.
 
 ## Verify every extracted output
 
