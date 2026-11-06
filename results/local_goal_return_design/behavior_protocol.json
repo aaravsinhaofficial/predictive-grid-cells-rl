@@ -1,0 +1,449 @@
+{
+  "version": "prospective_local_return_behavior_banks_v1",
+  "frozen_utc": "2026-11-06T10:05:26.368854+00:00",
+  "no_policy_execution": true,
+  "no_environment_execution": true,
+  "no_training": true,
+  "torch_version": "2.10.0",
+  "generator_backend": "cpu",
+  "source_sha256": "e2abf321b4ff96269b2c65f03510ec4d5f3e7cf044953a5cae9e02336e3edc92",
+  "generator_file_at_freeze_sha256": "1f71bf4c59e71fdf2774ef0d713ee8d65692f0cac26f5ea059c87e53a9f9a935",
+  "generator_scope": "Whole task module is still under implementation review; its historical hash is provenance. Class source, Stage source, explicit stage values and sealed tensor bytes below are immutable bank definitions.",
+  "generator_class_sha256": "f5a57488c4d529e10cb8898c57894ae3563aba15ab0f49cdbc8f9e174acb71a1",
+  "stage_class_sha256": "6321ce3b19f1b65d82ebceade1b9f6fc572b454b85b97633f14a38651bf119d5",
+  "stages": [
+    {
+      "low": 0.36,
+      "high": 0.4,
+      "delay": 4
+    },
+    {
+      "low": 0.44,
+      "high": 0.48,
+      "delay": 15
+    },
+    {
+      "low": 0.52,
+      "high": 0.56,
+      "delay": 30
+    },
+    {
+      "low": 0.58,
+      "high": 0.62,
+      "delay": 60
+    }
+  ],
+  "config_path": "models/gc100/gc100_lstm_s1_1000M.json",
+  "config_sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+  "native_physics": {
+    "arena_half": 1.25,
+    "action_repeat": 4,
+    "v_max": 0.35,
+    "rot_max": 2.2,
+    "goal_radius": 0.3,
+    "nh": 256
+  },
+  "physical_defaults": {
+    "tau": 0.25,
+    "noise_v": 0.03,
+    "noise_r": 0.15,
+    "wall_margin": 0.08
+  },
+  "banks": {
+    "near_baseline": {
+      "path": "results/local_goal_return_design/banks/near_baseline.pt",
+      "sha256": "9e8cda37677a93124b21ac43c2a55c67b765d52212463ad3199c9f6969016870",
+      "bytes": 84577146,
+      "seed": 391801,
+      "stage_index": 0,
+      "stage": {
+        "low": 0.36,
+        "high": 0.4,
+        "delay": 4
+      },
+      "contexts": 16,
+      "headings_per_context": 16,
+      "trials": 256,
+      "antipodal_pairs": 128,
+      "tensors": {
+        "endpoint": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e0f370389ddad28eff06fe45f179ba066ec9663f83ea9ea36fe04ef48130d266"
+        },
+        "goal": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "86e554d07d11480617f956b97e2f0fbe90d824e98b98fe8d7531686b13cfb17c"
+        },
+        "radius": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a4e215d9345271a52215402a29cc9fccf64fb0aa8b20a82469173ee99c7cf693"
+        },
+        "heading": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "10703890eae44b10d4453d1e801d1debf590bf193f36e7c888fc35d6749fa7b8"
+        },
+        "pickup_angle": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "803f8d7c9ac6ce8a875177ae8402c74c4e50d742e1e54b2ab9d2679007e254e5"
+        },
+        "duration_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "1267a532c2ea1e825c0ef28df721e663857da32347221a476837bbd9f53b0cc4"
+        },
+        "duration_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "e3a94db34285cb9d4a210c8237cf7d769feb03b36e06bbdfc7f25dbd0d83fa65"
+        },
+        "turn_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "f9f58c01df964d823624341c7ac4defde60d3503480dd21c29cfbcc39b8b14d2"
+        },
+        "turn_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "fcd7aaf3d2f1a98ab0ead9619fd02e05c8488101945f88dfafa2504bd0b4b441"
+        },
+        "delay": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "f01954a93e3a690dbf2e17d2c4372779ca283f1ea0ef8621290d5752a03f51b6"
+        },
+        "land_pos": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "1aef693ee08ee302fe973735ac62d36bee3e8d7107bdbf5d595c4b2865b8e8ba"
+        },
+        "stripe_phase": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e7ceda4bc45fec37e75bc829ebc7ed1b361af0ca2b8ae2cc04e3586e96354c97"
+        },
+        "context": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728"
+        },
+        "heading_index": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e"
+        },
+        "motor": {
+          "shape": [
+            160,
+            3,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "7525bbebbc90e1827e9e688f1fc8832de84971bffeba45305b7f455488a0efa8"
+        },
+        "action": {
+          "shape": [
+            160,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "163ac5d2c3c7dd5d90e650472032ce30f2ef6536c57082d4f1f76c85ca43def9"
+        },
+        "state": {
+          "shape": [
+            160,
+            2,
+            256,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "b166a8ce26e00d3ec7a8a8f82fd83734e88c2d9c4d4caf1ae09784488e9277b7"
+        }
+      },
+      "non_tensor_fields": {
+        "stage": {
+          "low": 0.36,
+          "high": 0.4,
+          "delay": 4
+        },
+        "n_contexts": 16,
+        "headings": 16,
+        "batch": 0
+      }
+    },
+    "final_hard": {
+      "path": "results/local_goal_return_design/banks/final_hard.pt",
+      "sha256": "c90ad38bff3f1364398925ef08abda9136ef5cc04b2d39c7ace38b5ce6b60524",
+      "bytes": 84577077,
+      "seed": 391901,
+      "stage_index": 3,
+      "stage": {
+        "low": 0.58,
+        "high": 0.62,
+        "delay": 60
+      },
+      "contexts": 16,
+      "headings_per_context": 16,
+      "trials": 256,
+      "antipodal_pairs": 128,
+      "tensors": {
+        "endpoint": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2f01cb16318dbb47e9b976fb61c183bf20c6b188f373cdedf203da7860a4ccea"
+        },
+        "goal": {
+          "shape": [
+            256,
+            2
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a73ca82b4f2f38436dcf035c965c175dc29fe5330ccc4498e9db44141f5cc38e"
+        },
+        "radius": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "d5ae5b1240fe6eff4ff276b8b198ad741188194675d44aecfebc62e30347930b"
+        },
+        "heading": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "45eddeded94e4f9eeddeb0d804528f0c2fa4bb33977d59d1b8711354ba4bb604"
+        },
+        "pickup_angle": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "fee18b9607e47751d356e152861c9571fee835d8e486adefdd66a1d15bc68e8c"
+        },
+        "duration_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "ceec416b88de5f87d9487b31b455bafde2821822e188ab6f352db1987f5ee03f"
+        },
+        "duration_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "b2140d9cdd0610c7b3b56503c0b04b91ea0ee3b973864127f49314412d4d908f"
+        },
+        "turn_a": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "ce96d01ef8940b9461d6313f80c9fb8d92597515ce17f1236498b66adb3fba7e"
+        },
+        "turn_b": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "3f01fe65779da0774264c53d3711f4d10c6f3b23ac92e2c414a374c3ff80973b"
+        },
+        "delay": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "b7796499d2f61941616ba89b8dfc33b758b3a17dd7670147b3e1d1c03a32bd3b"
+        },
+        "land_pos": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "96550afdd9f1b14a9c471a70aa098463756bcca79eac137d53186cc157add60b"
+        },
+        "stripe_phase": {
+          "shape": [
+            256,
+            4
+          ],
+          "dtype": "torch.float32",
+          "sha256": "7c8e2ddb10ed318aa9fbefce36cfcb9c3ccf469df23b7f9705969eac3c433e55"
+        },
+        "context": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728"
+        },
+        "heading_index": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.int64",
+          "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e"
+        },
+        "motor": {
+          "shape": [
+            160,
+            3,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "125ae346d0ce0c8a153c21fa2fed52a89e7f0feccf3280270c832576f0dcca42"
+        },
+        "action": {
+          "shape": [
+            160,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "5362d02d14f4566ac859d2fe3a9d972518a114f00ecaafe1c0cf13dc46ba5206"
+        },
+        "state": {
+          "shape": [
+            160,
+            2,
+            256,
+            256
+          ],
+          "dtype": "torch.float32",
+          "sha256": "26853a68fde90cb05fc40951e107c5299af34993f800b599b00bd3bae555ec94"
+        }
+      },
+      "non_tensor_fields": {
+        "stage": {
+          "low": 0.58,
+          "high": 0.62,
+          "delay": 60
+        },
+        "n_contexts": 16,
+        "headings": 16,
+        "batch": 0
+      }
+    }
+  },
+  "clean_evaluation_state_noise_sigma": 0.0,
+  "tapes": "Full160-update clocks; motor/action/state draws repeated identically across16headings withincontext and reused across cue/state/population branches. Store state draws but clean evaluation sigma iszero. Draws do not depend on earlier hits. Contexts remain distinct independent physical draws.",
+  "initialization": {
+    "source": "Original1B checkpoint for each population/source seed",
+    "head_seed_for_pilot": 291801,
+    "head_seed_formula": "291800 + original_model_seed",
+    "actor_orthogonal_gain": 0.01,
+    "critic_orthogonal_gain": 1.0,
+    "biases_zero": true,
+    "exact_nonhead_tensor_preservation": true,
+    "all_parameters_trainable": true,
+    "terminology": "Transfer originalCNN/LSTM/spatial features; action/value heads explicitly reinitialized; not unchanged-policy continuation"
+  },
+  "baseline_gate": {
+    "bank": "near_baseline",
+    "models": [
+      "gc100_s1",
+      "pgc33_s1"
+    ],
+    "variant": "blind_native",
+    "denominator_per_model": 256,
+    "minimum_success_fraction": 0.05,
+    "minimum_successes_per_model": 13,
+    "every_population_required": true,
+    "maximum_forced_rewards": 0,
+    "all_physical_checks_required": true,
+    "incomplete_or_invalid_trial": "Retain in256 denominator asfailure; do not replace after seeing actions",
+    "controls": [
+      "uniform_six_actions",
+      "heading_aware_analysis_planner"
+    ],
+    "recording": "Allfirsthits/failures,actualinitialFREEentropy/sixactionprobabilities,freeactions/path/progress,setup/forcedrewards,endpointandangularcoverage"
+  },
+  "final_behavior_gate": {
+    "bank": "final_hard",
+    "denominator_per_model": 256,
+    "intact_variant": "blind_native",
+    "erasure_variant": "blind_reset_after_glimpse",
+    "minimum_intact_success_fraction": 0.65,
+    "minimum_intact_successes": 167,
+    "minimum_erasure_cost_fraction": 0.15,
+    "minimum_paired_success_count_difference": 39,
+    "qualifier": "Descriptivepilot gate,not a significance test. Atleastonepopulation must qualify before expensive dynamics; bothmodels/allfixedendpoints retained. IfonlyGridqualifies,retain this outcome.",
+    "no_qualifying_model": "Stop automatic geometry/extension; inspect learning and report fixedpilot failure"
+  },
+  "certificate": {
+    "helper": "scripts/certify_local_goal_return.py::certify",
+    "source_sha256": "83b6ccef847fb8296319f08de1649d3b8613b43e2e70b1e11ea767352809d53c",
+    "contexts": 16,
+    "pairs_per_context": 8,
+    "all_pairs_required_for_special_50_percent_claim": true,
+    "aggregate_bound": ".5 * certified_pair_fraction + 1 * uncertified_pair_fraction",
+    "failure": "Retain everyfailedpair and its reason; no outcome-based replacement; report bound rather than claiming50percent foruncertified data",
+    "behavioral_gate_scope": "Special certified-memory gate additionally requires all128pairs certified. Numeric65percent/15pp indicators remain reported regardless.",
+    "producer_checks": "ActualsameFREEinputs/goal/erasedcontrollerstate/bodymotors/position; antipodalheadings; commonBODYmotor/actiontapes; nativeparameters; heldcurrent/blackRGB/no-prehitfeedback"
+  },
+  "variants": [
+    "blind_native",
+    "blind_ordinary",
+    "blind_plus60",
+    "blind_minus60",
+    "blind_reset_after_glimpse",
+    "blind_reset_every_blind",
+    "seen_native",
+    "seen_ordinary",
+    "seen_plus60",
+    "seen_minus60",
+    "seen_reset_after_glimpse",
+    "seen_reset_every_blind"
+  ],
+  "training_accounting": {
+    "stages": 4,
+    "batches_per_stage": 1024,
+    "trials_per_batch": 32,
+    "total_trials_per_model": 131072,
+    "physical_frames": "4 * activephysicalupdates; exclude padding/setup/warmup",
+    "primary_endpoint": "Fixedlastbatch,allintermediatecheckpointsretained"
+  },
+  "causal_next_step": "Afterbehaviorgate,\u00b130actualhistory-state substitutions immediatelyBEFORE endpointcue,recipientphysicalstatepreserved;native/ordinary/wrong\u00b160cueonly169slots; regenerateexact30degreehistories orfreezeadensefamily,not22.5degreeneighborrelabeling; persistentrepairaftercuewithdrawal plusmovement,radial/randomcontrols",
+  "replication": "Seed1pilot;seed2development;freezemethodsbeforeconfirmationseeds3\u20138;allconfirmationmodelsretained,trialscollapsedwithinmodel",
+  "review": "docs/research/local_goal_return_study_review.md"
+}
