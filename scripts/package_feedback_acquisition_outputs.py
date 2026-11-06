@@ -47,6 +47,7 @@ TOOLS = ('scripts/package_feedback_acquisition_outputs.py',
          'scripts/prepare_local_return_feedback_cloud.py', 'scripts/prepare_local_return_feedback_portable_cloud.py',
          'scripts/finalize_feedback_acquisition_cloud.py',
          'scripts/check_feedback_baseline_actor_isolation.py',
+         'scripts/check_feedback_completed_finals.py',
          'scripts/analyze_feedback_restricted_actions.py', 'scripts/write_feedback_restricted_actions.py',
          'tests/test_feedback_restricted_actions.py', 'tests/test_write_feedback_restricted_actions.py')
 SECRET_NAME = re.compile(r'(^\.env($|\.)|credential|client_secret|service.account|id_rsa|\.pem$|\.key$)', re.I)
