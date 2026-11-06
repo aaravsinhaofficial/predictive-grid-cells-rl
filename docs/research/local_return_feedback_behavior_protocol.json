@@ -1,0 +1,195 @@
+{
+  "version": "feedback_acquisition_behavior_v2",
+  "seed": 491801,
+  "stage": {
+    "low": 0.58,
+    "high": 0.62,
+    "delay": 4
+  },
+  "n_contexts": 16,
+  "headings": 16,
+  "success_threshold": 192,
+  "generator_class_sha256": "f5a57488c4d529e10cb8898c57894ae3563aba15ab0f49cdbc8f9e174acb71a1",
+  "stage_class_sha256": "6321ce3b19f1b65d82ebceade1b9f6fc572b454b85b97633f14a38651bf119d5",
+  "bank": {
+    "path": "results/local_return_feedback_design/banks/feedback_hard.pt",
+    "sha256": "8f701405df1e7434889519fe5c0c0007c92e11354edfbdf30b9b4411a68cf711",
+    "bytes": 84577215,
+    "tensor_schema": {
+      "/endpoint": {
+        "shape": [
+          256,
+          2
+        ],
+        "dtype": "torch.float32",
+        "sha256": "0bb7ebd560089599f2c38f9aa7da3f63776d9ca08fce94d33acc9108bee7cb29",
+        "bytes": 2048
+      },
+      "/goal": {
+        "shape": [
+          256,
+          2
+        ],
+        "dtype": "torch.float32",
+        "sha256": "336c424510ea91ca618a778af29470bdce73ff82923b03a3c2f5cf16554ca8ec",
+        "bytes": 2048
+      },
+      "/radius": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "99a8e74348e4cbf7eff476a7bb372b431cef11b82d32390af3994d18af55565c",
+        "bytes": 1024
+      },
+      "/heading": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "da4454c7b9c00e1051e9109a3b490aa3e6209f2c4013fc491c970d76d1fec9c8",
+        "bytes": 1024
+      },
+      "/pickup_angle": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "1ed72921cddacff9149ff02d42fcfd98ae2197dbe7cebe415c7408db8d497f95",
+        "bytes": 1024
+      },
+      "/duration_a": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "b9638e9fc0caef2e1249c08b741062c9f71248aaebfa1b4dfa38a10bbdb726dc",
+        "bytes": 2048
+      },
+      "/duration_b": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "41d3163043ad1e069053d57abbfbc935f7727e6b755dd9e65228124dfec7a001",
+        "bytes": 2048
+      },
+      "/turn_a": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "e94bfb2388b5021477ef8ebb5adca983a5126e398d47676be9712ed09def4f46",
+        "bytes": 2048
+      },
+      "/turn_b": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "ff7960199b421b18864a060618822b05d30ff5007338e72dd4b41bdb3fa49f65",
+        "bytes": 2048
+      },
+      "/delay": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "7bfd4d4110cf4b3abcb46fc0557dbee7f0eff291dbb784f5db2c2b4b9d1695c9",
+        "bytes": 2048
+      },
+      "/land_pos": {
+        "shape": [
+          256,
+          4
+        ],
+        "dtype": "torch.float32",
+        "sha256": "453d7dc9ebe6117322ff77b97517ad2aa22d4a72275c8cdd6a1c4a94583da4ee",
+        "bytes": 4096
+      },
+      "/stripe_phase": {
+        "shape": [
+          256,
+          4
+        ],
+        "dtype": "torch.float32",
+        "sha256": "8ac6e61d4fee7b10f23ad5de8b357f39bef1b8c7683eb82b2a5e9513aeb893f9",
+        "bytes": 4096
+      },
+      "/context": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "15cfbe48bc69e510af90108dbbe9277f7144255163aaf31457857dfc885a4728",
+        "bytes": 2048
+      },
+      "/heading_index": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.int64",
+        "sha256": "2065bea5263c8af9b5c0cace1af8b187118fa262caceafe861b6f9f421867f3e",
+        "bytes": 2048
+      },
+      "/motor": {
+        "shape": [
+          160,
+          3,
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "e0cfbc942f40f5fa75b50e2532a901ad707c685cd226f071e1b9bb332af1a51d",
+        "bytes": 491520
+      },
+      "/action": {
+        "shape": [
+          160,
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "07fc0b1ecd9013f7e0cd7aa93d508910d7cfc969e181e756a5c08743fe6280f1",
+        "bytes": 163840
+      },
+      "/state": {
+        "shape": [
+          160,
+          2,
+          256,
+          256
+        ],
+        "dtype": "torch.float32",
+        "sha256": "3436bbef97cef2f99ba73b8771b97c67ec4a7005bf45e5824d4fd0273bb83e87",
+        "bytes": 83886080
+      }
+    }
+  },
+  "frozen_utc": "2026-11-06T13:30:02.660219+00:00",
+  "purpose": "Fixed fully observed fast local steering development bank; not a ring or memory test.",
+  "endpoints": [
+    "zero_update",
+    "fixed_1024_updates"
+  ],
+  "arms": [
+    {
+      "condition": "gc100",
+      "actor_mode": "retained_actor"
+    },
+    {
+      "condition": "gc100",
+      "actor_mode": "reset_actor"
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "retained_actor"
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "reset_actor"
+    }
+  ],
+  "criterion": "At least192/256 successes at the fixed final, with complete collection and passing physical/input/provenance checks; all invalid trials retained as failures. No baseline or checkpoint selection.",
+  "common_information_certificate_applies": false,
+  "policy_or_environment_execution": false,
+  "replaced_or_filtered_contexts": false
+}

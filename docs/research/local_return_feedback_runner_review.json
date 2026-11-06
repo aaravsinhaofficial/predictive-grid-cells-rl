@@ -1,0 +1,74 @@
+{
+  "version": "independent_feedback_runner_evaluator_review_v2",
+  "reviewed_utc": "2026-11-06T13:28:53.796802+00:00",
+  "passed": true,
+  "blocking_findings": [],
+  "scope": "Read-only source/metadata review and synthetic fixtures. No study bank generation, actual policy forward pass, study optimization, protocol freeze or cloud action.",
+  "sha256": {
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "scripts/local_return_feedback_run.py": "6d679ee18991762c0efe45e818699652e85549433faa69001f80cf84ff09b44e",
+    "scripts/local_return_feedback_evaluate.py": "dc6e8aa9883a1c67da48d6b5b20fb942eb3b0eaafda54354803dbafc9eb1f62c",
+    "tests/test_local_return_feedback.py": "b6b1bcdc4d34f4b1a50a5332ee248403165a71fa083aa9302ed073262637791a",
+    "tests/test_local_return_feedback_run.py": "775df7447ec7f9b7dcbed600208cdca10f110e3f9a88bacfe99bce46c216fd9e",
+    "tests/test_local_return_feedback_evaluate.py": "f79d0f0d4c74df4a6e8b604542dcd1c682c8283e47b767b836f262d187741563",
+    "docs/research/local_return_feedback_initialization.json": "471ab69f6167966c2bf1efb5a05e27d5fbc290308c13851dab4bc966b1c8eb82",
+    "results/local_return_feedback_design/initialization_roundtrip_validation.json": "df7f5aa71169bdbab3c84fafa6dcd34859ba8b229f543055f5a24943c4b9f975"
+  },
+  "real_initialization_assets": [
+    {
+      "condition": "gc100",
+      "actor_mode": "retained_actor",
+      "path": "results/local_return_feedback_design/initialization/gc100_retained_actor.pt",
+      "sha256": "9b8a6f19dabaf557e8f965657acf59a2565188c90c2fecc65abe423e7d3c9e41",
+      "bytes": 12150791,
+      "file_hash_independently_verified": true
+    },
+    {
+      "condition": "gc100",
+      "actor_mode": "reset_actor",
+      "path": "results/local_return_feedback_design/initialization/gc100_reset_actor.pt",
+      "sha256": "3f2862514d3643e6dd01d3ac3b57961e5868dec3fe565db5ee23e8fb982ef435",
+      "bytes": 12150649,
+      "file_hash_independently_verified": true
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "retained_actor",
+      "path": "results/local_return_feedback_design/initialization/pgc33_retained_actor.pt",
+      "sha256": "7084627f7e2e3672ccb28e0be0cf92cb322452339bf8380680ea8f1ec0ca61db",
+      "bytes": 12151239,
+      "file_hash_independently_verified": true
+    },
+    {
+      "condition": "pgc33",
+      "actor_mode": "reset_actor",
+      "path": "results/local_return_feedback_design/initialization/pgc33_reset_actor.pt",
+      "sha256": "55614e58c310b7576b9212ccb1a97bef8243df93df7e0f2fadd0e3932f3b8917",
+      "bytes": 12151097,
+      "file_hash_independently_verified": true
+    }
+  ],
+  "checks": {
+    "fixed_arms": "Grid/PGC seed1 \u00d7 retained/reset actor; protocol lists all four; exact1024updates\u00d732trials each, no success-dependent stopping.",
+    "initialization": "Original population features retained initially; exact archived actor chosen by arm; exact common archived untrained critic. Four asset SHA/bytes and manifest/roundtrip-record link independently verified without loading policy tensors.",
+    "learning": "All parameters trainable; native reward/complete returns; entropy8e-5; no baseline success threshold gates learning. Physical-integrity failure stops rather than replacing contexts.",
+    "resume": "Policy, RMSProp, private streams, CPU/CUDA/MPS RNG, counters and backend provenance restored. Pending baseline/final evaluations handled before further learning; fixed endpoints retained.",
+    "evidence": "Full float32 RGB/code/logits/masks/poses/goals/states archived with lossless gzip and per-tensor identity; invalid contexts retained in denominator; explicit descriptive mean convention.",
+    "evaluation": "Weights, optimizer, private/global RNG and mode preserved; baseline and final required; reference actions separate from learning.",
+    "interpretation": "Fast local steering prerequisite only. Actor initialization also changes initial exploration; no acquired-memory or endogenous-ring result inferred."
+  },
+  "resolved_findings": [
+    {
+      "issue": "Resumed attempts omitted failed_plan.pt and failed_predraw_streams.pt.",
+      "resolution": "Both optional artifacts are now copied exactly into resume_parent_evidence; existing synthetic inheritance test asserts both byte copies."
+    }
+  ],
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_local_return_feedback_run.py tests/test_local_return_feedback_evaluate.py",
+    "tests_passed": 11,
+    "elapsed_seconds": 4.3,
+    "exact_resume_scope": "CPU synthetic TinyPolicy and native CNN/LSTM256 random-weight networks in both population configurations; complete next-update policy/optimizer/private/global RNG equality. No real policy, study bank or CUDA training was executed.",
+    "pending_evaluation_scope": "State-machine unit checks plus source review; no live cloud interruption experiment."
+  },
+  "readiness": "Reviewed preparation is ready for owner freeze after remaining auditor/protocol dependencies are finalized; this record does not authorize study execution."
+}
