@@ -1,0 +1,89 @@
+{
+  "frozen_at_utc": "2026-11-06T01:27:25.375797+00:00",
+  "protocol": {
+    "architecture": "DESIGNED full64D attracting unit circle: one neutral phase,63 transverse multipliers rho=.90",
+    "learned": "linear spatial-phase readouts and a scalar cue gain; no recurrent-ring geometry learned",
+    "additional_designed_operations": "complex spatial-phase subtraction, known wave-vector pseudoinverse, and sinusoidal phase-correction law",
+    "calibration_positions": 4096,
+    "calibration_seed_rule": "model_seed+95311",
+    "gain_training": {
+      "seed_rule": "model_seed+95321",
+      "episodes": 128,
+      "steps": 256,
+      "objective": "mean1-cos(headingerror) after first4 observations",
+      "candidates": [
+        0.0,
+        0.25,
+        0.5,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        6.0,
+        8.0,
+        12.0,
+        16.0
+      ]
+    },
+    "cohort_seeds": [
+      4001,
+      4002,
+      4003,
+      4004,
+      4005,
+      4006,
+      4007,
+      4008
+    ],
+    "pilot_seed": 3999,
+    "navigation_episodes_per_seed": 128,
+    "navigation_seconds": 20,
+    "navigation_seed": 95401,
+    "navigation_primary": {
+      "position_translation_m": 10.0,
+      "initial_heading_error_degrees": 20.0,
+      "bias_multiplier": 1.0,
+      "blackout_seconds": [
+        4,
+        7
+      ],
+      "restore_seconds": 2.0,
+      "recurrent_noise_sd": 0.01
+    },
+    "navigation_secondary_nominal": {
+      "position_translation_m": 0.0,
+      "initial_heading_error_degrees": 0.0,
+      "other_conditions_identical": true
+    },
+    "primary_outcome": "success_fraction by20s; capture_radius=.15m; all timeouts included",
+    "primary_family": [
+      "pgc-grid",
+      "pgc-pgc_ordinary",
+      "pgc_restored-pgc_ordinary",
+      "pgc-pgc_reverse"
+    ],
+    "inference": "all8 seedpaired exact2^8 sign flips, two-sided, Holm across4 comparisons;95% paired-t CI descriptive",
+    "information_control": "explicit same measured heading used by PGC generator, same visibility/noise/initialization",
+    "causal_control": "frozen PGC decoder/gain; ordinary code, zero spatial availability, reversed shift, ordinary then restoration",
+    "controller": "existing fixed controller uses decoded heading, integrated measured speed, known reset position and goal only",
+    "scope": "instantaneous ordinary-grid phase decoder; no claim against an optimal temporal grid decoder",
+    "state_noise": "identical additive64D recurrent noise across all variants within seed",
+    "no_exclusions": true
+  },
+  "sources": {
+    "scripts/train_designed_predictive_ring.py": "e251b9695ec67da93b82be6aeb2be1c09ac1babbbc1142847370457fd2ce6232",
+    "scripts/designed_predictive_ring.py": "5edcb99a15256cf59b45300026d4449cac5d8c905756dfe1f36ae111a17b7b85",
+    "scripts/decode_predictive_phase_difference.py": "fff05076dd4450294fad9ae956e4863404d4e79be679c89a9d8f97d153d7013f",
+    "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+    "scripts/evaluate_ring_heading_navigation.py": "30c6512c437d32df318af177e1ab5839a84f7f4541d9896599dd04426e39126f",
+    "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "pilot": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_attractor/designed_compass/pilot_revision02/seed3999/summary.json",
+  "pilot_sha256": "d622d5425cb555483158a62a5ad0888d7f08291c205826b7427531a28ebadffd",
+  "post_pilot_provenance_only_changes": [
+    "added ring_task_model.py dependency hash",
+    "record torch/numpy versions"
+  ],
+  "cohort_outcomes_available_at_freeze": 0
+}

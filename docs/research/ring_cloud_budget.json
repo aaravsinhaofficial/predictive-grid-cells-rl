@@ -1,0 +1,2538 @@
+{
+  "study": "ring-20261105",
+  "project": "connectome-ai-research",
+  "budget_usd": 500.0,
+  "reserved_rate_usd_per_hour": 1.25,
+  "ancillary_reserve_usd": 25.0,
+  "max_active_workers": 8,
+  "pricing_checked_date": "2026-11-05",
+  "pricing_source": "https://cloud.google.com/products/compute/pricing/accelerator-optimized",
+  "runs": [
+    {
+      "name": "ring-20261105-pilot-01",
+      "zone": "us-central1-a",
+      "machine": "g2-standard-4",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-pilot-01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/pilot_v1.json",
+        "--out",
+        "results/ring_attractor/pilot_cloud_v1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_attractor/pilot_cloud_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/arrangement_report.py",
+          "sha256": "4ebb0c1ad2d7d2ad940a9f7ad57fc1c4c6d5186811a4f6a6e5152e7acce046c1"
+        },
+        {
+          "path": "scripts/auto_wave_b.sh",
+          "sha256": "e01d004bb512ebfafd3d6c1b9341d47e1a3f88509612cd09387e56dffa3557a4"
+        },
+        {
+          "path": "scripts/auto_wave_c.sh",
+          "sha256": "18e6ecdbd1723727cfe0697622d6f166f9afa13b6a24e0aac04f23be81e17acd"
+        },
+        {
+          "path": "scripts/auto_wave_d.sh",
+          "sha256": "c806d4e167db7674df097e840e80ecc95e85ba921ed90f6ac00be8618e8b69ce"
+        },
+        {
+          "path": "scripts/auto_wave_e.sh",
+          "sha256": "b208bd5d2bb4b036b43733947b42b93120cbaf36777376c18c4837e9fe8a13b3"
+        },
+        {
+          "path": "scripts/cloud_probe_summary.py",
+          "sha256": "3d7e1c979fa0ee2e32763cdb336b51f5f332e66d6679b811316b5c56f9b33447"
+        },
+        {
+          "path": "scripts/controls_figure.py",
+          "sha256": "687a40272f2eada9207f4204b0e94ac69eef90cf57d61737a5e028b92707eac3"
+        },
+        {
+          "path": "scripts/decode_lstm_variable.py",
+          "sha256": "d63fd951bf93783fed81078f10a85f748b0e8d275e4b0c38a2f7c1bafd91b4c3"
+        },
+        {
+          "path": "scripts/evaluate_ring_dynamics.py",
+          "sha256": "18b8500c65092fded3678c6308a5a604204dbd20017c9e51ffea8e65b7d07cdc"
+        },
+        {
+          "path": "scripts/extension_report.py",
+          "sha256": "4cd653aab1f10aee59920136f54d6cc9e50fb188cb0c9203f14a616b540d1bc9"
+        },
+        {
+          "path": "scripts/fleet_monitor.sh",
+          "sha256": "f6a14662552ccc57279c4f1ca3839ca65c8371b9e9b7711b5108042ccc6792c3"
+        },
+        {
+          "path": "scripts/gcp_fleet.py",
+          "sha256": "e107b6a5f8e9f2f30831f568725ac6afacb9b15d97555f36bb723e28456bc08b"
+        },
+        {
+          "path": "scripts/launch_matrix.py",
+          "sha256": "ee775d6ea9e529c2334fd5ba00b3895894fad33559c5d849609a8664732b4f70"
+        },
+        {
+          "path": "scripts/lstm_action_computation.py",
+          "sha256": "ad39b362e6ab28b2f3ddbb7f8e2d8d70cdea35f0dd70a5ed9b9f5d78d7149f31"
+        },
+        {
+          "path": "scripts/lstm_capture_radius_sensitivity.py",
+          "sha256": "af06074ce71b1642973f7f0f6e04b7c4fc7d81217126fefda4bd2d482698c2b0"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/lstm_eigenspectra.py",
+          "sha256": "6af3b4e81a79eb6fd12ada2ca71b3a9c4eb1bbed163a6b01860c6c5272aab072"
+        },
+        {
+          "path": "scripts/lstm_episode_offset_rescue.py",
+          "sha256": "d49aba72a2f65a387e9ed1a29a7c8ad7f2aaa2a9a9d7be68d187a295ef602c81"
+        },
+        {
+          "path": "scripts/lstm_gate_rescue.py",
+          "sha256": "e299efdc2c3d2c3fd73d4503c8071641d9f7af5b7d2531018a75e87cbdae9a88"
+        },
+        {
+          "path": "scripts/lstm_goal_cue_mechanism.py",
+          "sha256": "a8bb388e6f0433d18b10b67c87f745093222527c8b215895c916e12d2c04c05d"
+        },
+        {
+          "path": "scripts/lstm_goal_geometry.py",
+          "sha256": "b1ecb3b4a075bb7089b3db5e412cf6b1a5eafe25d3eae1b249a86bf5b5a95e51"
+        },
+        {
+          "path": "scripts/lstm_history_horizon.py",
+          "sha256": "655c8d34268874c41239246dd944f00e8e4746133e3f148e1f1b1188d3d54c46"
+        },
+        {
+          "path": "scripts/lstm_history_input_factorial.py",
+          "sha256": "725fd3d3370112213cfc926dafbb38c66027136bf33e53c38bc5b4c4005e2a14"
+        },
+        {
+          "path": "scripts/lstm_history_settling.py",
+          "sha256": "2d6bd419e9d83b0d0709b6647a000736fbc71a7aac16551e8370678f6e04220b"
+        },
+        {
+          "path": "scripts/lstm_local_dynamics_spectra.py",
+          "sha256": "fac51f41cc51ba62656afdfdb4a8afbcb6f730fa28faf3b28ee5f5562544ea80"
+        },
+        {
+          "path": "scripts/lstm_mechanism_analysis.py",
+          "sha256": "c20a71fe6632b8156b5f954fae6e596302cc26a4eb78d309f3b56e5474d5a238"
+        },
+        {
+          "path": "scripts/lstm_navigation_phases.py",
+          "sha256": "dee39efd3ff8e632f8ed76cb0c455f020e0dd4fdefc3fd6c01dd57f982e3a3a5"
+        },
+        {
+          "path": "scripts/lstm_pc_information.py",
+          "sha256": "bf777749d17fbe1d1ab6afa4033c300dcae10adee1fb1ef8c316190c1401dc79"
+        },
+        {
+          "path": "scripts/lstm_pca.py",
+          "sha256": "97d9b55b0bbd8be8aab3031774875a878409e5d5482f5474fee87c2dbebc286f"
+        },
+        {
+          "path": "scripts/lstm_pca_significance.py",
+          "sha256": "fd05f6731963abcbb336ddf0d3ef351910222ee769ec01dc1dd6a9c9fedfcd80"
+        },
+        {
+          "path": "scripts/lstm_pca_spectrum.py",
+          "sha256": "9441d93bf609ad0294a9bae862b3d30ea18c4472b06afeaaf8806990ecf4083a"
+        },
+        {
+          "path": "scripts/lstm_phase_intervention.py",
+          "sha256": "9e23200ed64f9399625a0b0082f903f6c48bc467c390c26d2ddc97a2cc1582b2"
+        },
+        {
+          "path": "scripts/lstm_policy_hybrid.py",
+          "sha256": "d8cc6fd5c81e8a6bed5722a1af4fd68ea49fc1d0508c3b90160d10e779eb21f4"
+        },
+        {
+          "path": "scripts/lstm_ring_probe.py",
+          "sha256": "7cd678b1e4ec159d080ca0d1abb45a86c8fa0b49467149c6b8f4d034801e94f1"
+        },
+        {
+          "path": "scripts/lstm_topology.py",
+          "sha256": "b600d1136d574845c0764818c7a63cd36825c9c1b1a7e9f91436259166670694"
+        },
+        {
+          "path": "scripts/lstm_variable_replay.py",
+          "sha256": "ab69dae7b48c3c9907ff25b993118bb4fd3175fc08ba70032f68db0c8015be30"
+        },
+        {
+          "path": "scripts/lstm_variance_covariates.py",
+          "sha256": "b0b793880032f71472058ea2d5c1da69f9876ab7f389d9355bbe7d81962338fe"
+        },
+        {
+          "path": "scripts/lstm_variance_sources.py",
+          "sha256": "fefbfdc496ab5e4054f493da9b73beded2d79528df2c9dae2d7b5c6c80f40831"
+        },
+        {
+          "path": "scripts/make_figures.py",
+          "sha256": "e7036ed052a14ef15e644f6b4b80676e7453e78f1a958ce45fa539daa897b39f"
+        },
+        {
+          "path": "scripts/make_matrix_v2.py",
+          "sha256": "741a490991f3af40131233bcc73e0e1af6ac1289665670b9f9baef6f85399647"
+        },
+        {
+          "path": "scripts/make_matrix_v3.py",
+          "sha256": "de3c9ce20d6a34ad9fa0a9faab5eef9d77f24036c51a4c2e3c7c38caa15dcc9e"
+        },
+        {
+          "path": "scripts/package_data.py",
+          "sha256": "455fe3b17602efad22a3bb1c6c2cc15770ba844ccde578369891a6aab6a2370e"
+        },
+        {
+          "path": "scripts/pick_concentration.py",
+          "sha256": "c976be30d9ee9bf345c3650a2086ebb0c64fcf9eeffd1b523cc80a1ef14c6fb6"
+        },
+        {
+          "path": "scripts/plot_lstm_mechanism_summary.py",
+          "sha256": "5c53fe7eec4effb5240f9123bdc08e767d8980e8835cec776a9321a32e73ab06"
+        },
+        {
+          "path": "scripts/plot_lstm_navigation_explanation.py",
+          "sha256": "1eea53afd652202e0b5d29b2e00368b5513650f7b4f0e6f41fcb0703a1083e24"
+        },
+        {
+          "path": "scripts/plot_lstm_offset_summary.py",
+          "sha256": "0d83b4f5d007ee58d18db79d898e89de68d50327de9a21a2124dbe5e71d3b592"
+        },
+        {
+          "path": "scripts/plot_lstm_pc_information.py",
+          "sha256": "c449c25171ba66fa29300057263ca52f2b25bc33c2b70cc7f9f77d5ba7c17453"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_count_curve.py",
+          "sha256": "7742859593cd43b0e9901997141c5658f923524f19979fa5128475fda726505b"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_levels.py",
+          "sha256": "d1cac346c660a6833cd87e0a6f26f3209c561ba637175f40a0a33e1ba59e76ef"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_table.py",
+          "sha256": "e050c14bbb0f47b4e0f9013b3c722d541ffee2d77d3165101b6fea78faf355ae"
+        },
+        {
+          "path": "scripts/plot_lstm_topology.py",
+          "sha256": "3e61e61b4a9ee286bf9c972f6e43423837821d52f936f92b94e496d7b031300b"
+        },
+        {
+          "path": "scripts/plot_lstm_variable.py",
+          "sha256": "f8bcbef3e4a5b61e72042724b4d6ae68adeef7f20bf82524de9bfcd35e9cebd8"
+        },
+        {
+          "path": "scripts/plot_lstm_variance_sources.py",
+          "sha256": "a1bd7e5f99495a07f9883d19714515ffd5c02b45b9eb377fbd61e347da969df8"
+        },
+        {
+          "path": "scripts/relative_benefit.py",
+          "sha256": "2b05a95c3b50d2025baef9a232502e970fde71d0e6cfb16f59cce902f30058e1"
+        },
+        {
+          "path": "scripts/ring_cloud.py",
+          "sha256": "e92191fd33a3808d3ffa6ed65626d354f58ef50d65b139a96491e0bd63063acb"
+        },
+        {
+          "path": "scripts/ring_dynamics.py",
+          "sha256": "a9e2e82cd8222f8a979a0e5bbec9ccf517b0e1ae05c0308fcec3d9a334fe844d"
+        },
+        {
+          "path": "scripts/ring_manifests/pilot_v1.json",
+          "sha256": "51f31fc56b3ccb979f8915b5f2f675dea63c3d164bcd791a8d46e5664f0bedc5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "69d6b447145be56bcf430a34b772ee0fbddaccb817c0cc32572bbe40aa8eeb75"
+        },
+        {
+          "path": "scripts/status.py",
+          "sha256": "2bdc4fe84c4e6a0bfa2a6618173ee62613a8da2de663cd801e15bc7e77ffe519"
+        },
+        {
+          "path": "scripts/summarize_lstm_code_swap.py",
+          "sha256": "9ea7508b93bc6ef774b9afbe43aea2fc9f7f79a3ca2128b624e19349c77c1978"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_ablation.py",
+          "sha256": "57ade16627f3646ea0788cb06e6d463a6f42bcca6242dd83fbe66d2baeaa9f88"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_rescue.py",
+          "sha256": "83120844469db854739b04a6adb81259415e080b2382e76a6d4665c732246afe"
+        },
+        {
+          "path": "scripts/summarize_lstm_gate_rescue.py",
+          "sha256": "3c7d4266f866ed30bc6fcc1534ccf3716b455e657fe80caa82530efa3948bf77"
+        },
+        {
+          "path": "scripts/summarize_lstm_goal_geometry.py",
+          "sha256": "d6cdd7e3029b845db028dcf89e9146757c89229b953db874b8d408211a5ed095"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_context.py",
+          "sha256": "a24caa20ff82412792934d64c3e5da243d8a2f0de06426767a316a8dab1b8a81"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_horizon.py",
+          "sha256": "babb4117ec6c38d59e8548e9b646e6546d3f44f38b64f05d8beea7c27eb5de25"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_settling.py",
+          "sha256": "084997300c4f56e56392daa34e1d1029c6bd6daff8cc3933366c5ca836a93fcc"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_interventions.py",
+          "sha256": "2fa6b3d6c33105ea8f05fd9d9286f1d2ef87af4bacc75e70761bde6805c7a055"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_phases.py",
+          "sha256": "e54f5032e0ec0d1ce26b127d9d1c82d0d7142f2359fbf3cd88f47b959beff942"
+        },
+        {
+          "path": "scripts/train_ring_task.py",
+          "sha256": "ae2441f69e019119eb03f823e20d1e948433630a88b6900bf4fa82e7f48e2d71"
+        },
+        {
+          "path": "tests/test_codes.py",
+          "sha256": "1a6858f98fced939314f9db566a0ff636bf6424cd5455057baafe0d47e238046"
+        },
+        {
+          "path": "tests/test_controls.py",
+          "sha256": "c5bcad0d351995ad3c6ee6be310b5c55ee8c303982394d8edca50f67e8bd30eb"
+        },
+        {
+          "path": "tests/test_env.py",
+          "sha256": "ebcc0e7ec16ebcd55056b78a3c07296b20d51d746cf3bc7d8791e3b474049b80"
+        },
+        {
+          "path": "tests/test_extension_report.py",
+          "sha256": "e07d263fdcb614d428e73cd8db51301d8641dddd486c6ef8705dbd3d5c899c0f"
+        },
+        {
+          "path": "tests/test_ring_cloud.py",
+          "sha256": "583b063f5c129ea947483880f3420919ce418db6699f08928181e6f3ba27c68a"
+        },
+        {
+          "path": "tests/test_train_smoke.py",
+          "sha256": "71a312ad563e16d9645b60f9161fd5c01fae4bdfecbb3588c357c8cc165658c2"
+        }
+      ],
+      "package_manifest_sha256": "4f0bf998ebd954faf363a71461fdcbba39092d0eefb915b80db64b9ce736c51d",
+      "package_uncompressed_bytes": 1067427,
+      "status": "DELETED",
+      "reserved_at": "2026-11-05T23:58:13.377459+00:00",
+      "create_requested_at": "2026-11-05T23:58:17.496256+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-a zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-a\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-a' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n",
+      "absence_verified_at": "2026-11-06T00:01:44.616486+00:00"
+    },
+    {
+      "name": "ring-20261105-pilot-02",
+      "zone": "us-central1-b",
+      "machine": "g2-standard-4",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-pilot-02",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/pilot_v1.json",
+        "--out",
+        "results/ring_attractor/pilot_cloud_v1",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_attractor/pilot_cloud_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/arrangement_report.py",
+          "sha256": "4ebb0c1ad2d7d2ad940a9f7ad57fc1c4c6d5186811a4f6a6e5152e7acce046c1"
+        },
+        {
+          "path": "scripts/auto_wave_b.sh",
+          "sha256": "e01d004bb512ebfafd3d6c1b9341d47e1a3f88509612cd09387e56dffa3557a4"
+        },
+        {
+          "path": "scripts/auto_wave_c.sh",
+          "sha256": "18e6ecdbd1723727cfe0697622d6f166f9afa13b6a24e0aac04f23be81e17acd"
+        },
+        {
+          "path": "scripts/auto_wave_d.sh",
+          "sha256": "c806d4e167db7674df097e840e80ecc95e85ba921ed90f6ac00be8618e8b69ce"
+        },
+        {
+          "path": "scripts/auto_wave_e.sh",
+          "sha256": "b208bd5d2bb4b036b43733947b42b93120cbaf36777376c18c4837e9fe8a13b3"
+        },
+        {
+          "path": "scripts/cloud_probe_summary.py",
+          "sha256": "3d7e1c979fa0ee2e32763cdb336b51f5f332e66d6679b811316b5c56f9b33447"
+        },
+        {
+          "path": "scripts/controls_figure.py",
+          "sha256": "687a40272f2eada9207f4204b0e94ac69eef90cf57d61737a5e028b92707eac3"
+        },
+        {
+          "path": "scripts/decode_lstm_variable.py",
+          "sha256": "d63fd951bf93783fed81078f10a85f748b0e8d275e4b0c38a2f7c1bafd91b4c3"
+        },
+        {
+          "path": "scripts/evaluate_ring_dynamics.py",
+          "sha256": "18b8500c65092fded3678c6308a5a604204dbd20017c9e51ffea8e65b7d07cdc"
+        },
+        {
+          "path": "scripts/extension_report.py",
+          "sha256": "4cd653aab1f10aee59920136f54d6cc9e50fb188cb0c9203f14a616b540d1bc9"
+        },
+        {
+          "path": "scripts/fleet_monitor.sh",
+          "sha256": "f6a14662552ccc57279c4f1ca3839ca65c8371b9e9b7711b5108042ccc6792c3"
+        },
+        {
+          "path": "scripts/gcp_fleet.py",
+          "sha256": "e107b6a5f8e9f2f30831f568725ac6afacb9b15d97555f36bb723e28456bc08b"
+        },
+        {
+          "path": "scripts/launch_matrix.py",
+          "sha256": "ee775d6ea9e529c2334fd5ba00b3895894fad33559c5d849609a8664732b4f70"
+        },
+        {
+          "path": "scripts/lstm_action_computation.py",
+          "sha256": "ad39b362e6ab28b2f3ddbb7f8e2d8d70cdea35f0dd70a5ed9b9f5d78d7149f31"
+        },
+        {
+          "path": "scripts/lstm_capture_radius_sensitivity.py",
+          "sha256": "af06074ce71b1642973f7f0f6e04b7c4fc7d81217126fefda4bd2d482698c2b0"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/lstm_eigenspectra.py",
+          "sha256": "6af3b4e81a79eb6fd12ada2ca71b3a9c4eb1bbed163a6b01860c6c5272aab072"
+        },
+        {
+          "path": "scripts/lstm_episode_offset_rescue.py",
+          "sha256": "d49aba72a2f65a387e9ed1a29a7c8ad7f2aaa2a9a9d7be68d187a295ef602c81"
+        },
+        {
+          "path": "scripts/lstm_gate_rescue.py",
+          "sha256": "e299efdc2c3d2c3fd73d4503c8071641d9f7af5b7d2531018a75e87cbdae9a88"
+        },
+        {
+          "path": "scripts/lstm_goal_cue_mechanism.py",
+          "sha256": "a8bb388e6f0433d18b10b67c87f745093222527c8b215895c916e12d2c04c05d"
+        },
+        {
+          "path": "scripts/lstm_goal_geometry.py",
+          "sha256": "b1ecb3b4a075bb7089b3db5e412cf6b1a5eafe25d3eae1b249a86bf5b5a95e51"
+        },
+        {
+          "path": "scripts/lstm_history_horizon.py",
+          "sha256": "655c8d34268874c41239246dd944f00e8e4746133e3f148e1f1b1188d3d54c46"
+        },
+        {
+          "path": "scripts/lstm_history_input_factorial.py",
+          "sha256": "725fd3d3370112213cfc926dafbb38c66027136bf33e53c38bc5b4c4005e2a14"
+        },
+        {
+          "path": "scripts/lstm_history_settling.py",
+          "sha256": "2d6bd419e9d83b0d0709b6647a000736fbc71a7aac16551e8370678f6e04220b"
+        },
+        {
+          "path": "scripts/lstm_local_dynamics_spectra.py",
+          "sha256": "fac51f41cc51ba62656afdfdb4a8afbcb6f730fa28faf3b28ee5f5562544ea80"
+        },
+        {
+          "path": "scripts/lstm_mechanism_analysis.py",
+          "sha256": "c20a71fe6632b8156b5f954fae6e596302cc26a4eb78d309f3b56e5474d5a238"
+        },
+        {
+          "path": "scripts/lstm_navigation_phases.py",
+          "sha256": "dee39efd3ff8e632f8ed76cb0c455f020e0dd4fdefc3fd6c01dd57f982e3a3a5"
+        },
+        {
+          "path": "scripts/lstm_pc_information.py",
+          "sha256": "bf777749d17fbe1d1ab6afa4033c300dcae10adee1fb1ef8c316190c1401dc79"
+        },
+        {
+          "path": "scripts/lstm_pca.py",
+          "sha256": "97d9b55b0bbd8be8aab3031774875a878409e5d5482f5474fee87c2dbebc286f"
+        },
+        {
+          "path": "scripts/lstm_pca_significance.py",
+          "sha256": "fd05f6731963abcbb336ddf0d3ef351910222ee769ec01dc1dd6a9c9fedfcd80"
+        },
+        {
+          "path": "scripts/lstm_pca_spectrum.py",
+          "sha256": "9441d93bf609ad0294a9bae862b3d30ea18c4472b06afeaaf8806990ecf4083a"
+        },
+        {
+          "path": "scripts/lstm_phase_intervention.py",
+          "sha256": "9e23200ed64f9399625a0b0082f903f6c48bc467c390c26d2ddc97a2cc1582b2"
+        },
+        {
+          "path": "scripts/lstm_policy_hybrid.py",
+          "sha256": "d8cc6fd5c81e8a6bed5722a1af4fd68ea49fc1d0508c3b90160d10e779eb21f4"
+        },
+        {
+          "path": "scripts/lstm_ring_probe.py",
+          "sha256": "7cd678b1e4ec159d080ca0d1abb45a86c8fa0b49467149c6b8f4d034801e94f1"
+        },
+        {
+          "path": "scripts/lstm_topology.py",
+          "sha256": "b600d1136d574845c0764818c7a63cd36825c9c1b1a7e9f91436259166670694"
+        },
+        {
+          "path": "scripts/lstm_variable_replay.py",
+          "sha256": "ab69dae7b48c3c9907ff25b993118bb4fd3175fc08ba70032f68db0c8015be30"
+        },
+        {
+          "path": "scripts/lstm_variance_covariates.py",
+          "sha256": "b0b793880032f71472058ea2d5c1da69f9876ab7f389d9355bbe7d81962338fe"
+        },
+        {
+          "path": "scripts/lstm_variance_sources.py",
+          "sha256": "fefbfdc496ab5e4054f493da9b73beded2d79528df2c9dae2d7b5c6c80f40831"
+        },
+        {
+          "path": "scripts/make_figures.py",
+          "sha256": "e7036ed052a14ef15e644f6b4b80676e7453e78f1a958ce45fa539daa897b39f"
+        },
+        {
+          "path": "scripts/make_matrix_v2.py",
+          "sha256": "741a490991f3af40131233bcc73e0e1af6ac1289665670b9f9baef6f85399647"
+        },
+        {
+          "path": "scripts/make_matrix_v3.py",
+          "sha256": "de3c9ce20d6a34ad9fa0a9faab5eef9d77f24036c51a4c2e3c7c38caa15dcc9e"
+        },
+        {
+          "path": "scripts/package_data.py",
+          "sha256": "455fe3b17602efad22a3bb1c6c2cc15770ba844ccde578369891a6aab6a2370e"
+        },
+        {
+          "path": "scripts/pick_concentration.py",
+          "sha256": "c976be30d9ee9bf345c3650a2086ebb0c64fcf9eeffd1b523cc80a1ef14c6fb6"
+        },
+        {
+          "path": "scripts/plot_lstm_mechanism_summary.py",
+          "sha256": "5c53fe7eec4effb5240f9123bdc08e767d8980e8835cec776a9321a32e73ab06"
+        },
+        {
+          "path": "scripts/plot_lstm_navigation_explanation.py",
+          "sha256": "1eea53afd652202e0b5d29b2e00368b5513650f7b4f0e6f41fcb0703a1083e24"
+        },
+        {
+          "path": "scripts/plot_lstm_offset_summary.py",
+          "sha256": "0d83b4f5d007ee58d18db79d898e89de68d50327de9a21a2124dbe5e71d3b592"
+        },
+        {
+          "path": "scripts/plot_lstm_pc_information.py",
+          "sha256": "c449c25171ba66fa29300057263ca52f2b25bc33c2b70cc7f9f77d5ba7c17453"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_count_curve.py",
+          "sha256": "7742859593cd43b0e9901997141c5658f923524f19979fa5128475fda726505b"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_levels.py",
+          "sha256": "d1cac346c660a6833cd87e0a6f26f3209c561ba637175f40a0a33e1ba59e76ef"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_table.py",
+          "sha256": "e050c14bbb0f47b4e0f9013b3c722d541ffee2d77d3165101b6fea78faf355ae"
+        },
+        {
+          "path": "scripts/plot_lstm_topology.py",
+          "sha256": "3e61e61b4a9ee286bf9c972f6e43423837821d52f936f92b94e496d7b031300b"
+        },
+        {
+          "path": "scripts/plot_lstm_variable.py",
+          "sha256": "f8bcbef3e4a5b61e72042724b4d6ae68adeef7f20bf82524de9bfcd35e9cebd8"
+        },
+        {
+          "path": "scripts/plot_lstm_variance_sources.py",
+          "sha256": "a1bd7e5f99495a07f9883d19714515ffd5c02b45b9eb377fbd61e347da969df8"
+        },
+        {
+          "path": "scripts/relative_benefit.py",
+          "sha256": "2b05a95c3b50d2025baef9a232502e970fde71d0e6cfb16f59cce902f30058e1"
+        },
+        {
+          "path": "scripts/ring_cloud.py",
+          "sha256": "e92191fd33a3808d3ffa6ed65626d354f58ef50d65b139a96491e0bd63063acb"
+        },
+        {
+          "path": "scripts/ring_dynamics.py",
+          "sha256": "a9e2e82cd8222f8a979a0e5bbec9ccf517b0e1ae05c0308fcec3d9a334fe844d"
+        },
+        {
+          "path": "scripts/ring_manifests/pilot_v1.json",
+          "sha256": "51f31fc56b3ccb979f8915b5f2f675dea63c3d164bcd791a8d46e5664f0bedc5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "69d6b447145be56bcf430a34b772ee0fbddaccb817c0cc32572bbe40aa8eeb75"
+        },
+        {
+          "path": "scripts/status.py",
+          "sha256": "2bdc4fe84c4e6a0bfa2a6618173ee62613a8da2de663cd801e15bc7e77ffe519"
+        },
+        {
+          "path": "scripts/summarize_lstm_code_swap.py",
+          "sha256": "9ea7508b93bc6ef774b9afbe43aea2fc9f7f79a3ca2128b624e19349c77c1978"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_ablation.py",
+          "sha256": "57ade16627f3646ea0788cb06e6d463a6f42bcca6242dd83fbe66d2baeaa9f88"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_rescue.py",
+          "sha256": "83120844469db854739b04a6adb81259415e080b2382e76a6d4665c732246afe"
+        },
+        {
+          "path": "scripts/summarize_lstm_gate_rescue.py",
+          "sha256": "3c7d4266f866ed30bc6fcc1534ccf3716b455e657fe80caa82530efa3948bf77"
+        },
+        {
+          "path": "scripts/summarize_lstm_goal_geometry.py",
+          "sha256": "d6cdd7e3029b845db028dcf89e9146757c89229b953db874b8d408211a5ed095"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_context.py",
+          "sha256": "a24caa20ff82412792934d64c3e5da243d8a2f0de06426767a316a8dab1b8a81"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_horizon.py",
+          "sha256": "babb4117ec6c38d59e8548e9b646e6546d3f44f38b64f05d8beea7c27eb5de25"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_settling.py",
+          "sha256": "084997300c4f56e56392daa34e1d1029c6bd6daff8cc3933366c5ca836a93fcc"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_interventions.py",
+          "sha256": "2fa6b3d6c33105ea8f05fd9d9286f1d2ef87af4bacc75e70761bde6805c7a055"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_phases.py",
+          "sha256": "e54f5032e0ec0d1ce26b127d9d1c82d0d7142f2359fbf3cd88f47b959beff942"
+        },
+        {
+          "path": "scripts/test_ring_task.py",
+          "sha256": "4d4184fea28aa4fae537dfdc76c548192e1a3879dca285103cc47bdb6ee4b71b"
+        },
+        {
+          "path": "scripts/train_ring_task.py",
+          "sha256": "ae2441f69e019119eb03f823e20d1e948433630a88b6900bf4fa82e7f48e2d71"
+        },
+        {
+          "path": "tests/test_codes.py",
+          "sha256": "1a6858f98fced939314f9db566a0ff636bf6424cd5455057baafe0d47e238046"
+        },
+        {
+          "path": "tests/test_controls.py",
+          "sha256": "c5bcad0d351995ad3c6ee6be310b5c55ee8c303982394d8edca50f67e8bd30eb"
+        },
+        {
+          "path": "tests/test_env.py",
+          "sha256": "ebcc0e7ec16ebcd55056b78a3c07296b20d51d746cf3bc7d8791e3b474049b80"
+        },
+        {
+          "path": "tests/test_extension_report.py",
+          "sha256": "e07d263fdcb614d428e73cd8db51301d8641dddd486c6ef8705dbd3d5c899c0f"
+        },
+        {
+          "path": "tests/test_ring_cloud.py",
+          "sha256": "583b063f5c129ea947483880f3420919ce418db6699f08928181e6f3ba27c68a"
+        },
+        {
+          "path": "tests/test_train_smoke.py",
+          "sha256": "71a312ad563e16d9645b60f9161fd5c01fae4bdfecbb3588c357c8cc165658c2"
+        }
+      ],
+      "package_manifest_sha256": "7e294931d0eb2c7994c2b9bcaee8a2f6db9a064eb49c8906d0e9b935c41584e6",
+      "package_uncompressed_bytes": 1070947,
+      "status": "DELETED",
+      "reserved_at": "2026-11-05T23:59:05.459155+00:00",
+      "create_requested_at": "2026-11-05T23:59:08.711549+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-b zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-b\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-b' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n",
+      "absence_verified_at": "2026-11-06T00:01:46.403010+00:00"
+    },
+    {
+      "name": "ring-20261105-pilot-cpu01",
+      "zone": "us-central1-a",
+      "machine": "e2-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-pilot-cpu01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/pilot_v1.json",
+        "--out",
+        "results/ring_attractor/pilot_cloud_v1",
+        "--device",
+        "cpu",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_attractor/pilot_cloud_v1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/arrangement_report.py",
+          "sha256": "4ebb0c1ad2d7d2ad940a9f7ad57fc1c4c6d5186811a4f6a6e5152e7acce046c1"
+        },
+        {
+          "path": "scripts/auto_wave_b.sh",
+          "sha256": "e01d004bb512ebfafd3d6c1b9341d47e1a3f88509612cd09387e56dffa3557a4"
+        },
+        {
+          "path": "scripts/auto_wave_c.sh",
+          "sha256": "18e6ecdbd1723727cfe0697622d6f166f9afa13b6a24e0aac04f23be81e17acd"
+        },
+        {
+          "path": "scripts/auto_wave_d.sh",
+          "sha256": "c806d4e167db7674df097e840e80ecc95e85ba921ed90f6ac00be8618e8b69ce"
+        },
+        {
+          "path": "scripts/auto_wave_e.sh",
+          "sha256": "b208bd5d2bb4b036b43733947b42b93120cbaf36777376c18c4837e9fe8a13b3"
+        },
+        {
+          "path": "scripts/cloud_probe_summary.py",
+          "sha256": "3d7e1c979fa0ee2e32763cdb336b51f5f332e66d6679b811316b5c56f9b33447"
+        },
+        {
+          "path": "scripts/controls_figure.py",
+          "sha256": "687a40272f2eada9207f4204b0e94ac69eef90cf57d61737a5e028b92707eac3"
+        },
+        {
+          "path": "scripts/decode_lstm_variable.py",
+          "sha256": "d63fd951bf93783fed81078f10a85f748b0e8d275e4b0c38a2f7c1bafd91b4c3"
+        },
+        {
+          "path": "scripts/evaluate_ring_dynamics.py",
+          "sha256": "18b8500c65092fded3678c6308a5a604204dbd20017c9e51ffea8e65b7d07cdc"
+        },
+        {
+          "path": "scripts/extension_report.py",
+          "sha256": "4cd653aab1f10aee59920136f54d6cc9e50fb188cb0c9203f14a616b540d1bc9"
+        },
+        {
+          "path": "scripts/fleet_monitor.sh",
+          "sha256": "f6a14662552ccc57279c4f1ca3839ca65c8371b9e9b7711b5108042ccc6792c3"
+        },
+        {
+          "path": "scripts/gcp_fleet.py",
+          "sha256": "e107b6a5f8e9f2f30831f568725ac6afacb9b15d97555f36bb723e28456bc08b"
+        },
+        {
+          "path": "scripts/launch_matrix.py",
+          "sha256": "ee775d6ea9e529c2334fd5ba00b3895894fad33559c5d849609a8664732b4f70"
+        },
+        {
+          "path": "scripts/lstm_action_computation.py",
+          "sha256": "ad39b362e6ab28b2f3ddbb7f8e2d8d70cdea35f0dd70a5ed9b9f5d78d7149f31"
+        },
+        {
+          "path": "scripts/lstm_capture_radius_sensitivity.py",
+          "sha256": "af06074ce71b1642973f7f0f6e04b7c4fc7d81217126fefda4bd2d482698c2b0"
+        },
+        {
+          "path": "scripts/lstm_code_swap.py",
+          "sha256": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8"
+        },
+        {
+          "path": "scripts/lstm_eigenspectra.py",
+          "sha256": "6af3b4e81a79eb6fd12ada2ca71b3a9c4eb1bbed163a6b01860c6c5272aab072"
+        },
+        {
+          "path": "scripts/lstm_episode_offset_rescue.py",
+          "sha256": "d49aba72a2f65a387e9ed1a29a7c8ad7f2aaa2a9a9d7be68d187a295ef602c81"
+        },
+        {
+          "path": "scripts/lstm_gate_rescue.py",
+          "sha256": "e299efdc2c3d2c3fd73d4503c8071641d9f7af5b7d2531018a75e87cbdae9a88"
+        },
+        {
+          "path": "scripts/lstm_goal_cue_mechanism.py",
+          "sha256": "a8bb388e6f0433d18b10b67c87f745093222527c8b215895c916e12d2c04c05d"
+        },
+        {
+          "path": "scripts/lstm_goal_geometry.py",
+          "sha256": "b1ecb3b4a075bb7089b3db5e412cf6b1a5eafe25d3eae1b249a86bf5b5a95e51"
+        },
+        {
+          "path": "scripts/lstm_history_horizon.py",
+          "sha256": "655c8d34268874c41239246dd944f00e8e4746133e3f148e1f1b1188d3d54c46"
+        },
+        {
+          "path": "scripts/lstm_history_input_factorial.py",
+          "sha256": "725fd3d3370112213cfc926dafbb38c66027136bf33e53c38bc5b4c4005e2a14"
+        },
+        {
+          "path": "scripts/lstm_history_settling.py",
+          "sha256": "2d6bd419e9d83b0d0709b6647a000736fbc71a7aac16551e8370678f6e04220b"
+        },
+        {
+          "path": "scripts/lstm_local_dynamics_spectra.py",
+          "sha256": "fac51f41cc51ba62656afdfdb4a8afbcb6f730fa28faf3b28ee5f5562544ea80"
+        },
+        {
+          "path": "scripts/lstm_mechanism_analysis.py",
+          "sha256": "c20a71fe6632b8156b5f954fae6e596302cc26a4eb78d309f3b56e5474d5a238"
+        },
+        {
+          "path": "scripts/lstm_navigation_phases.py",
+          "sha256": "dee39efd3ff8e632f8ed76cb0c455f020e0dd4fdefc3fd6c01dd57f982e3a3a5"
+        },
+        {
+          "path": "scripts/lstm_pc_information.py",
+          "sha256": "bf777749d17fbe1d1ab6afa4033c300dcae10adee1fb1ef8c316190c1401dc79"
+        },
+        {
+          "path": "scripts/lstm_pca.py",
+          "sha256": "97d9b55b0bbd8be8aab3031774875a878409e5d5482f5474fee87c2dbebc286f"
+        },
+        {
+          "path": "scripts/lstm_pca_significance.py",
+          "sha256": "fd05f6731963abcbb336ddf0d3ef351910222ee769ec01dc1dd6a9c9fedfcd80"
+        },
+        {
+          "path": "scripts/lstm_pca_spectrum.py",
+          "sha256": "9441d93bf609ad0294a9bae862b3d30ea18c4472b06afeaaf8806990ecf4083a"
+        },
+        {
+          "path": "scripts/lstm_phase_intervention.py",
+          "sha256": "9e23200ed64f9399625a0b0082f903f6c48bc467c390c26d2ddc97a2cc1582b2"
+        },
+        {
+          "path": "scripts/lstm_policy_hybrid.py",
+          "sha256": "d8cc6fd5c81e8a6bed5722a1af4fd68ea49fc1d0508c3b90160d10e779eb21f4"
+        },
+        {
+          "path": "scripts/lstm_ring_probe.py",
+          "sha256": "7cd678b1e4ec159d080ca0d1abb45a86c8fa0b49467149c6b8f4d034801e94f1"
+        },
+        {
+          "path": "scripts/lstm_topology.py",
+          "sha256": "b600d1136d574845c0764818c7a63cd36825c9c1b1a7e9f91436259166670694"
+        },
+        {
+          "path": "scripts/lstm_variable_replay.py",
+          "sha256": "ab69dae7b48c3c9907ff25b993118bb4fd3175fc08ba70032f68db0c8015be30"
+        },
+        {
+          "path": "scripts/lstm_variance_covariates.py",
+          "sha256": "b0b793880032f71472058ea2d5c1da69f9876ab7f389d9355bbe7d81962338fe"
+        },
+        {
+          "path": "scripts/lstm_variance_sources.py",
+          "sha256": "fefbfdc496ab5e4054f493da9b73beded2d79528df2c9dae2d7b5c6c80f40831"
+        },
+        {
+          "path": "scripts/make_figures.py",
+          "sha256": "e7036ed052a14ef15e644f6b4b80676e7453e78f1a958ce45fa539daa897b39f"
+        },
+        {
+          "path": "scripts/make_matrix_v2.py",
+          "sha256": "741a490991f3af40131233bcc73e0e1af6ac1289665670b9f9baef6f85399647"
+        },
+        {
+          "path": "scripts/make_matrix_v3.py",
+          "sha256": "de3c9ce20d6a34ad9fa0a9faab5eef9d77f24036c51a4c2e3c7c38caa15dcc9e"
+        },
+        {
+          "path": "scripts/package_data.py",
+          "sha256": "455fe3b17602efad22a3bb1c6c2cc15770ba844ccde578369891a6aab6a2370e"
+        },
+        {
+          "path": "scripts/pick_concentration.py",
+          "sha256": "c976be30d9ee9bf345c3650a2086ebb0c64fcf9eeffd1b523cc80a1ef14c6fb6"
+        },
+        {
+          "path": "scripts/plot_lstm_mechanism_summary.py",
+          "sha256": "5c53fe7eec4effb5240f9123bdc08e767d8980e8835cec776a9321a32e73ab06"
+        },
+        {
+          "path": "scripts/plot_lstm_navigation_explanation.py",
+          "sha256": "1eea53afd652202e0b5d29b2e00368b5513650f7b4f0e6f41fcb0703a1083e24"
+        },
+        {
+          "path": "scripts/plot_lstm_offset_summary.py",
+          "sha256": "0d83b4f5d007ee58d18db79d898e89de68d50327de9a21a2124dbe5e71d3b592"
+        },
+        {
+          "path": "scripts/plot_lstm_pc_information.py",
+          "sha256": "c449c25171ba66fa29300057263ca52f2b25bc33c2b70cc7f9f77d5ba7c17453"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_count_curve.py",
+          "sha256": "7742859593cd43b0e9901997141c5658f923524f19979fa5128475fda726505b"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_levels.py",
+          "sha256": "d1cac346c660a6833cd87e0a6f26f3209c561ba637175f40a0a33e1ba59e76ef"
+        },
+        {
+          "path": "scripts/plot_lstm_pca_table.py",
+          "sha256": "e050c14bbb0f47b4e0f9013b3c722d541ffee2d77d3165101b6fea78faf355ae"
+        },
+        {
+          "path": "scripts/plot_lstm_topology.py",
+          "sha256": "3e61e61b4a9ee286bf9c972f6e43423837821d52f936f92b94e496d7b031300b"
+        },
+        {
+          "path": "scripts/plot_lstm_variable.py",
+          "sha256": "f8bcbef3e4a5b61e72042724b4d6ae68adeef7f20bf82524de9bfcd35e9cebd8"
+        },
+        {
+          "path": "scripts/plot_lstm_variance_sources.py",
+          "sha256": "a1bd7e5f99495a07f9883d19714515ffd5c02b45b9eb377fbd61e347da969df8"
+        },
+        {
+          "path": "scripts/relative_benefit.py",
+          "sha256": "2b05a95c3b50d2025baef9a232502e970fde71d0e6cfb16f59cce902f30058e1"
+        },
+        {
+          "path": "scripts/ring_cloud.py",
+          "sha256": "d5d04d11c8cd1a88fc0c96cace8d31a799e07d326d97e9c1f5f0a26215371ff5"
+        },
+        {
+          "path": "scripts/ring_dynamics.py",
+          "sha256": "a9e2e82cd8222f8a979a0e5bbec9ccf517b0e1ae05c0308fcec3d9a334fe844d"
+        },
+        {
+          "path": "scripts/ring_manifests/pilot_v1.json",
+          "sha256": "51f31fc56b3ccb979f8915b5f2f675dea63c3d164bcd791a8d46e5664f0bedc5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "69d6b447145be56bcf430a34b772ee0fbddaccb817c0cc32572bbe40aa8eeb75"
+        },
+        {
+          "path": "scripts/status.py",
+          "sha256": "2bdc4fe84c4e6a0bfa2a6618173ee62613a8da2de663cd801e15bc7e77ffe519"
+        },
+        {
+          "path": "scripts/summarize_lstm_code_swap.py",
+          "sha256": "9ea7508b93bc6ef774b9afbe43aea2fc9f7f79a3ca2128b624e19349c77c1978"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_ablation.py",
+          "sha256": "57ade16627f3646ea0788cb06e6d463a6f42bcca6242dd83fbe66d2baeaa9f88"
+        },
+        {
+          "path": "scripts/summarize_lstm_episode_offset_rescue.py",
+          "sha256": "83120844469db854739b04a6adb81259415e080b2382e76a6d4665c732246afe"
+        },
+        {
+          "path": "scripts/summarize_lstm_gate_rescue.py",
+          "sha256": "3c7d4266f866ed30bc6fcc1534ccf3716b455e657fe80caa82530efa3948bf77"
+        },
+        {
+          "path": "scripts/summarize_lstm_goal_geometry.py",
+          "sha256": "d6cdd7e3029b845db028dcf89e9146757c89229b953db874b8d408211a5ed095"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_context.py",
+          "sha256": "a24caa20ff82412792934d64c3e5da243d8a2f0de06426767a316a8dab1b8a81"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_horizon.py",
+          "sha256": "babb4117ec6c38d59e8548e9b646e6546d3f44f38b64f05d8beea7c27eb5de25"
+        },
+        {
+          "path": "scripts/summarize_lstm_history_settling.py",
+          "sha256": "084997300c4f56e56392daa34e1d1029c6bd6daff8cc3933366c5ca836a93fcc"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_interventions.py",
+          "sha256": "2fa6b3d6c33105ea8f05fd9d9286f1d2ef87af4bacc75e70761bde6805c7a055"
+        },
+        {
+          "path": "scripts/summarize_lstm_navigation_phases.py",
+          "sha256": "e54f5032e0ec0d1ce26b127d9d1c82d0d7142f2359fbf3cd88f47b959beff942"
+        },
+        {
+          "path": "scripts/test_ring_task.py",
+          "sha256": "4d4184fea28aa4fae537dfdc76c548192e1a3879dca285103cc47bdb6ee4b71b"
+        },
+        {
+          "path": "scripts/train_ring_task.py",
+          "sha256": "ae2441f69e019119eb03f823e20d1e948433630a88b6900bf4fa82e7f48e2d71"
+        },
+        {
+          "path": "tests/test_codes.py",
+          "sha256": "1a6858f98fced939314f9db566a0ff636bf6424cd5455057baafe0d47e238046"
+        },
+        {
+          "path": "tests/test_controls.py",
+          "sha256": "c5bcad0d351995ad3c6ee6be310b5c55ee8c303982394d8edca50f67e8bd30eb"
+        },
+        {
+          "path": "tests/test_env.py",
+          "sha256": "ebcc0e7ec16ebcd55056b78a3c07296b20d51d746cf3bc7d8791e3b474049b80"
+        },
+        {
+          "path": "tests/test_extension_report.py",
+          "sha256": "e07d263fdcb614d428e73cd8db51301d8641dddd486c6ef8705dbd3d5c899c0f"
+        },
+        {
+          "path": "tests/test_ring_cloud.py",
+          "sha256": "4103500a9d682c8cca52a097af7446a778af353568555b15403db9bcbf191d2b"
+        },
+        {
+          "path": "tests/test_train_smoke.py",
+          "sha256": "71a312ad563e16d9645b60f9161fd5c01fae4bdfecbb3588c357c8cc165658c2"
+        }
+      ],
+      "package_manifest_sha256": "60db74776ddd7cd19531c26c11cc586b020ccf8f9f0ea977620133b06c62bc78",
+      "package_uncompressed_bytes": 1071840,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:00:45.087355+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "absence_verified_at": "2026-11-06T00:01:47.880992+00:00"
+    },
+    {
+      "name": "ring-20261105-pilot-cpu02",
+      "zone": "us-central1-a",
+      "machine": "e2-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-pilot-cpu02",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/pilot_v1.json",
+        "--out",
+        "results/ring_attractor/pilot_cloud_v1",
+        "--device",
+        "cpu",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_attractor/pilot_cloud_v1",
+      "package_manifest": [
+        {
+          "path": "scripts/ring_manifests/pilot_v1.json",
+          "sha256": "51f31fc56b3ccb979f8915b5f2f675dea63c3d164bcd791a8d46e5664f0bedc5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "69d6b447145be56bcf430a34b772ee0fbddaccb817c0cc32572bbe40aa8eeb75"
+        },
+        {
+          "path": "scripts/train_ring_task.py",
+          "sha256": "ae2441f69e019119eb03f823e20d1e948433630a88b6900bf4fa82e7f48e2d71"
+        }
+      ],
+      "package_manifest_sha256": "d22fe4c031315baef41e2a83c8c14d76c615b86494f02f812e70e573d06f2768",
+      "package_uncompressed_bytes": 22584,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-06T00:02:54.731342+00:00",
+      "create_requested_at": "2026-11-06T00:02:57.974580+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n - e2 instances do not support onHostMaintenance=TERMINATE unless they are preemptible.\n\n"
+    },
+    {
+      "name": "ring-20261105-pilot-cpu03",
+      "zone": "us-central1-a",
+      "machine": "e2-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-pilot-cpu03",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/pilot_v1.json",
+        "--out",
+        "results/ring_attractor/pilot_cloud_v1",
+        "--device",
+        "cpu",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_attractor/pilot_cloud_v1",
+      "package_manifest": [
+        {
+          "path": "scripts/ring_manifests/pilot_v1.json",
+          "sha256": "51f31fc56b3ccb979f8915b5f2f675dea63c3d164bcd791a8d46e5664f0bedc5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "69d6b447145be56bcf430a34b772ee0fbddaccb817c0cc32572bbe40aa8eeb75"
+        },
+        {
+          "path": "scripts/train_ring_task.py",
+          "sha256": "ae2441f69e019119eb03f823e20d1e948433630a88b6900bf4fa82e7f48e2d71"
+        }
+      ],
+      "package_manifest_sha256": "d22fe4c031315baef41e2a83c8c14d76c615b86494f02f812e70e573d06f2768",
+      "package_uncompressed_bytes": 22584,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:03:54.357822+00:00",
+      "create_requested_at": "2026-11-06T00:03:57.575707+00:00",
+      "instance_id": "2510349482059671424",
+      "created_at": "2026-11-05T16:03:59.130-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "c5efe1bd665eb71213fe9cead8cb029ed870efc9dfbfee70957632feaa40669a",
+      "collected_at": "2026-11-06T00:46:23.303207+00:00",
+      "collected_bytes": 1006196,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-pilot-cpu03",
+      "pilot_verification": {
+        "job": "grid_d0_s1002",
+        "steps": 3000,
+        "checkpoint_sha256": "e30b3b4470b1efd3361ed2912d40af1eea1d36053bb20078593cc882e8514de6",
+        "verified_at": "2026-11-06T00:25:43.882159+00:00",
+        "basis": "Completed training, held-out validation, and cloud-to-local artifact collection."
+      },
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2117.532135248184,
+        "finished_at": "2026-11-06T00:40:21.405930+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/pilot_v1.json",
+          "--out",
+          "results/ring_attractor/pilot_cloud_v1",
+          "--device",
+          "cpu",
+          "--max-seconds",
+          "6300"
+        ],
+        "package_sha256": "d22fe4c031315baef41e2a83c8c14d76c615b86494f02f812e70e573d06f2768"
+      },
+      "actual_upper_bound_usd": 0.9017,
+      "absence_verified_at": "2026-11-06T00:47:16.024545+00:00"
+    },
+    {
+      "name": "ring-20261105-heading-gpu01",
+      "zone": "us-central1-c",
+      "machine": "g2-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-heading-gpu01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_gpu_pilot.json",
+        "--out",
+        "results/ring_heading/gpu_pilot",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_heading/gpu_pilot",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_gpu_pilot.json",
+          "sha256": "49e11b041ed024a7b0874a7fe888fa1c62b0e728e8c0905625e1a1f64f617e14"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "2d6a0d6d4fd3626a9835b901ed8f13ca8c0837a6991d52ee8d8f34d0cfe8b1f9"
+        }
+      ],
+      "package_manifest_sha256": "70698824ba3ff8ced003be56980e0929b6e1eefc5ce1d8f75708eeb9f2473295",
+      "package_uncompressed_bytes": 45258,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-06T00:19:02.274371+00:00",
+      "create_requested_at": "2026-11-06T00:19:06.562302+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-8 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-c zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-8\n      zone: us-central1-c\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-c' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-heading-t4-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-heading-t4-01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_gpu_pilot.json",
+        "--out",
+        "results/ring_heading/gpu_pilot",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6300"
+      ],
+      "output_dir": "results/ring_heading/gpu_pilot",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_gpu_pilot.json",
+          "sha256": "49e11b041ed024a7b0874a7fe888fa1c62b0e728e8c0905625e1a1f64f617e14"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "2d6a0d6d4fd3626a9835b901ed8f13ca8c0837a6991d52ee8d8f34d0cfe8b1f9"
+        }
+      ],
+      "package_manifest_sha256": "70698824ba3ff8ced003be56980e0929b6e1eefc5ce1d8f75708eeb9f2473295",
+      "package_uncompressed_bytes": 45258,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:23:48.237556+00:00",
+      "create_requested_at": "2026-11-06T00:23:54.390523+00:00",
+      "instance_id": "7394106964130701555",
+      "created_at": "2026-11-05T16:23:56.306-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "9535eee4cb79dc20416dbcb51b47d0ca91e4b15fa49ea5b27b5c1396139441f2",
+      "collected_at": "2026-11-06T00:47:23.524481+00:00",
+      "collected_bytes": 8896959,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-heading-t4-01",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 1274.6289658546448,
+        "finished_at": "2026-11-06T00:46:06.541579+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_gpu_pilot.json",
+          "--out",
+          "results/ring_heading/gpu_pilot",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6300"
+        ],
+        "package_sha256": "70698824ba3ff8ced003be56980e0929b6e1eefc5ce1d8f75708eeb9f2473295"
+      },
+      "actual_upper_bound_usd": 0.5096,
+      "absence_verified_at": "2026-11-06T00:48:24.029689+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_01.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_01.json",
+          "sha256": "09c7c030a58a7f720aaae57931d5db9f5a387d2da9bd1ac295cae3d83c785ddb"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "43ea2b968a771e65670aa8202de161f66a4b43d83f7e07b75ead4dd6ecd45353",
+      "package_uncompressed_bytes": 48555,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:25:43.981336+00:00",
+      "create_requested_at": "2026-11-06T00:25:50.116313+00:00",
+      "instance_id": "8456463976585273471",
+      "created_at": "2026-11-05T16:25:52.292-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "7c19d9684f37159103ae1b59c29c46509c284de7fd485c03f675420173ca4a2e",
+      "collected_at": "2026-11-06T01:31:51.872162+00:00",
+      "collected_bytes": 26694384,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-01",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3683.8432126045227,
+        "finished_at": "2026-11-06T01:29:08.351963+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_01.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "43ea2b968a771e65670aa8202de161f66a4b43d83f7e07b75ead4dd6ecd45353"
+      },
+      "actual_upper_bound_usd": 1.4005,
+      "absence_verified_at": "2026-11-06T01:33:05.762486+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-02",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_02.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_02.json",
+          "sha256": "2fddb06fe66f2c8472a9e203c2b895fef9247f7d040ad30c7ce76bc0c3188acf"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "25a800b515c9a5ed715a90ee2308e265311feefb160548569b8f209a94ff184a",
+      "package_uncompressed_bytes": 48555,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:25:58.770457+00:00",
+      "create_requested_at": "2026-11-06T00:27:12.729055+00:00",
+      "instance_id": "2216504643054247949",
+      "created_at": "2026-11-05T16:27:14.254-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "c5b8f2786048a55c70e566efe854b345f7ed67a0d62cd19737cf89b8802d2d3e",
+      "collected_at": "2026-11-06T01:33:17.511420+00:00",
+      "collected_bytes": 26694364,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-02",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3663.0651154518127,
+        "finished_at": "2026-11-06T01:30:15.357643+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_02.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "25a800b515c9a5ed715a90ee2308e265311feefb160548569b8f209a94ff184a"
+      },
+      "actual_upper_bound_usd": 1.3957,
+      "absence_verified_at": "2026-11-06T01:34:13.754132+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-03",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-03",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_03.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_03.json",
+          "sha256": "955bac8f8582c9c0373a068fc1d9e843090f245988d44cde8c58ba93336eda93"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "192b42ecfc6b9c7f00ca86e7d03a536242c0dbe5b4fe202aea7433ac088d2410",
+      "package_uncompressed_bytes": 48555,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:28:34.081055+00:00",
+      "create_requested_at": "2026-11-06T00:28:36.666940+00:00",
+      "instance_id": "4214294107964613081",
+      "created_at": "2026-11-05T16:28:38.184-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "84d2e390c42ba1e1dffc5c4e0eb5f40f28e2d04771f7fae1f979ab20107d269c",
+      "collected_at": "2026-11-06T01:34:21.331461+00:00",
+      "collected_bytes": 26694149,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-03",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3616.0385644435883,
+        "finished_at": "2026-11-06T01:30:46.615817+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_03.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "192b42ecfc6b9c7f00ca86e7d03a536242c0dbe5b4fe202aea7433ac088d2410"
+      },
+      "actual_upper_bound_usd": 1.3885,
+      "absence_verified_at": "2026-11-06T01:35:17.005902+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-04",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-04",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_04.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_04.json",
+          "sha256": "93192e859190d84fef92bd46842c9dc6776d88a69b804519ecd04bc4064897ec"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "b056fe538f3d85f33b85f4b597750d9d82f5797d82accd77e7c23ad280b0e547",
+      "package_uncompressed_bytes": 48555,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:30:00.767548+00:00",
+      "create_requested_at": "2026-11-06T00:30:03.494148+00:00",
+      "instance_id": "102372047467880803",
+      "created_at": "2026-11-05T16:30:05.010-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "29a899f8292ae10ebf354a5854f8ec2f804748babdf34931ba7ad05c0e54d27f",
+      "collected_at": "2026-11-06T01:35:24.421454+00:00",
+      "collected_bytes": 26694418,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-04",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 3833.75089097023,
+        "finished_at": "2026-11-06T01:35:06.852735+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_04.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "b056fe538f3d85f33b85f4b597750d9d82f5797d82accd77e7c23ad280b0e547"
+      },
+      "actual_upper_bound_usd": 1.3796,
+      "absence_verified_at": "2026-11-06T01:36:18.218561+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-05",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-05",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_05.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_05.json",
+          "sha256": "35fbd3f977554cfdd931151684c3db8b3d4cf9bed9cdd09c642d1d1c6b29f39c"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "7fbaff16b3c8146cbbad2d0212e88fd3e98c5894dfa3d1ace4ce9bf9d05f97c7",
+      "package_uncompressed_bytes": 47372,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:30:32.717465+00:00",
+      "create_requested_at": "2026-11-06T00:30:35.383268+00:00",
+      "instance_id": "1224113575564452163",
+      "created_at": "2026-11-05T16:30:36.946-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "5635f70fc41c5f4336c8c978701ed3cda682359be7ab8565100afde0c8fa1e74",
+      "collected_at": "2026-11-06T01:20:01.004753+00:00",
+      "collected_bytes": 17796530,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-05",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2615.972151994705,
+        "finished_at": "2026-11-06T01:15:42.444779+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_05.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "7fbaff16b3c8146cbbad2d0212e88fd3e98c5894dfa3d1ace4ce9bf9d05f97c7"
+      },
+      "actual_upper_bound_usd": 1.0523,
+      "absence_verified_at": "2026-11-06T01:21:07.445753+00:00"
+    },
+    {
+      "name": "ring-20261105-confirm-06",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 14400,
+      "reserved_usd": 5.3125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-confirm-06",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_confirm_06.json",
+        "--out",
+        "results/ring_heading/confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "13500"
+      ],
+      "output_dir": "results/ring_heading/confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_confirm_06.json",
+          "sha256": "eaebd35811128ffe6bf35983c91e86af54c978f44be34f77b745cda001ee7774"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "e5dc3d9b33af6ef0bfd843833073abaf714bf93f3f297dae28caf7ce4fd88bfa",
+      "package_uncompressed_bytes": 47372,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:31:29.044395+00:00",
+      "create_requested_at": "2026-11-06T00:31:31.792970+00:00",
+      "instance_id": "7289291968058794250",
+      "created_at": "2026-11-05T16:31:33.354-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "e950edc91f9bd72ec352996b1e7eaf93d6c803dda01a1a2dafeb5351af4d47ec",
+      "collected_at": "2026-11-06T01:13:11.656360+00:00",
+      "collected_bytes": 17796582,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-confirm-06",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2372.9138247966766,
+        "finished_at": "2026-11-06T01:12:45.230944+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_confirm_06.json",
+          "--out",
+          "results/ring_heading/confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "13500"
+        ],
+        "package_sha256": "e5dc3d9b33af6ef0bfd843833073abaf714bf93f3f297dae28caf7ce4fd88bfa"
+      },
+      "actual_upper_bound_usd": 0.8931,
+      "absence_verified_at": "2026-11-06T01:14:25.415100+00:00"
+    },
+    {
+      "name": "ring-20261105-raw-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-raw-01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_raw_01.json",
+        "--out",
+        "results/ring_heading/raw_sensitivity",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/raw_sensitivity",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_raw_architecture_protocol.md",
+          "sha256": "559df07f6aa8d05ff2dbd04d1ad967230c4294b04bcddddfa4b4cb0cc1d7a369"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_raw_01.json",
+          "sha256": "a5456f0252a870798a8bb8d226e7b999c78f565cd2a43cc046031bf91a17545a"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "7fc20b33f98f80c485ab96ce960699df1434778ccd32454af757692ca65f975e",
+      "package_uncompressed_bytes": 51566,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:49:36.157309+00:00",
+      "create_requested_at": "2026-11-06T00:49:39.786732+00:00",
+      "instance_id": "3381674754439158474",
+      "created_at": "2026-11-05T16:49:41.516-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "f197d8a4838bc7f96ba3ec304472c4d33aaf1280e2e31be9c3cf66066320e0cb",
+      "collected_at": "2026-11-06T02:31:30.512272+00:00",
+      "collected_bytes": 4324203,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-raw-01",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 5962.203273296356,
+        "finished_at": "2026-11-06T02:31:06.043825+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_raw_01.json",
+          "--out",
+          "results/ring_heading/raw_sensitivity",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "7fc20b33f98f80c485ab96ce960699df1434778ccd32454af757692ca65f975e"
+      },
+      "actual_upper_bound_usd": 2.1396,
+      "absence_verified_at": "2026-11-06T02:32:23.556568+00:00"
+    },
+    {
+      "name": "ring-20261105-raw-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-raw-02",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_raw_02.json",
+        "--out",
+        "results/ring_heading/raw_sensitivity",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/raw_sensitivity",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_raw_architecture_protocol.md",
+          "sha256": "559df07f6aa8d05ff2dbd04d1ad967230c4294b04bcddddfa4b4cb0cc1d7a369"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_raw_02.json",
+          "sha256": "2e4d430685e1e778aa68d13599bd700f029172a1d9a8fd732a5a32adcf821cab"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "48426ede6a913c380b3b0b50d897734886ffb7730e43a90def19904a5605969f",
+      "package_uncompressed_bytes": 51566,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T00:51:08.103628+00:00",
+      "create_requested_at": "2026-11-06T00:51:10.797381+00:00",
+      "instance_id": "4975547133848492655",
+      "created_at": "2026-11-05T16:51:12.764-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "34e011cf0383041b9304c874c46e6dcefc48764c2bd675927f70a30d2d359b56",
+      "collected_at": "2026-11-06T02:33:33.168983+00:00",
+      "collected_bytes": 4324219,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-raw-02",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 5844.592269182205,
+        "finished_at": "2026-11-06T02:30:08.088101+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_raw_02.json",
+          "--out",
+          "results/ring_heading/raw_sensitivity",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "48426ede6a913c380b3b0b50d897734886ffb7730e43a90def19904a5605969f"
+      },
+      "actual_upper_bound_usd": 2.1515,
+      "absence_verified_at": "2026-11-06T02:34:29.172477+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-01",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-01",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_01.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_01.json",
+          "sha256": "3360ae9f3cd098e8d6fa2ab045c68cd886cdbf0252e1a439f5ec1a1d1fb0dac5"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "b83054798fcab8149f03094cc8b4a5f81718dd49236a73950f4d49c5b504e5d7",
+      "package_uncompressed_bytes": 53390,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:40:11.925986+00:00",
+      "create_requested_at": "2026-11-06T01:40:15.013859+00:00",
+      "instance_id": "3222547487432675055",
+      "created_at": "2026-11-05T17:40:16.957-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "f028b212562e6c7d69a8d5755c28df1dd148f09e8b18ab84d58e82929511c6de",
+      "collected_at": "2026-11-06T02:32:30.287321+00:00",
+      "collected_bytes": 17795985,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-01",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2774.8135402202606,
+        "finished_at": "2026-11-06T02:27:59.744494+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_01.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "b83054798fcab8149f03094cc8b4a5f81718dd49236a73950f4d49c5b504e5d7"
+      },
+      "actual_upper_bound_usd": 1.1076,
+      "absence_verified_at": "2026-11-06T02:33:26.731309+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-02",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-02",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_02.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_02.json",
+          "sha256": "057a6a2573317cde2c6f52240f5d7e91faf3bf18ff9752d49a7395e1973c057b"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "8a537aafbab59165d321753d861c7f7c4f9a4c25c294db1609ba7500abe47e80",
+      "package_uncompressed_bytes": 53390,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:41:03.394503+00:00",
+      "create_requested_at": "2026-11-06T01:41:06.086857+00:00",
+      "instance_id": "5266599844679552732",
+      "created_at": "2026-11-05T17:41:07.787-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "1487f77eb6926e5e3a04c91b9b663d70f926f9c6dc0d7e6698642cecbac85a89",
+      "collected_at": "2026-11-06T02:27:44.223928+00:00",
+      "collected_bytes": 17796008,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-02",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2611.3150687217712,
+        "finished_at": "2026-11-06T02:26:05.325033+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_02.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "8a537aafbab59165d321753d861c7f7c4f9a4c25c294db1609ba7500abe47e80"
+      },
+      "actual_upper_bound_usd": 0.9905,
+      "absence_verified_at": "2026-11-06T02:28:40.318955+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-03",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-03",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_03.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_03.json",
+          "sha256": "cb757f08c3c29d8122d47088ff1163c4de7b3ef9a0f5417e3547c3a842904a91"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "dd6302e00db03569dfb0d8cd977af471d6d32330968b4f0a1e58fd592c0b65b2",
+      "package_uncompressed_bytes": 53390,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:41:53.566922+00:00",
+      "create_requested_at": "2026-11-06T01:41:56.383994+00:00",
+      "instance_id": "4726655973773577866",
+      "created_at": "2026-11-05T17:41:58.012-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "59d9946d6b2cd694211cf48dfc4393bf43f7deca0dd3ef8e0e01ad3dea7a3c94",
+      "collected_at": "2026-11-06T02:34:35.592793+00:00",
+      "collected_bytes": 17796085,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-03",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2850.9324395656586,
+        "finished_at": "2026-11-06T02:30:32.408581+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_03.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "dd6302e00db03569dfb0d8cd977af471d6d32330968b4f0a1e58fd592c0b65b2"
+      },
+      "actual_upper_bound_usd": 1.1215,
+      "absence_verified_at": "2026-11-06T02:35:48.031136+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-04",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-04",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_04.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_04.json",
+          "sha256": "c0bf283ca2fc3f140b6caaa7f689e021be1fd38cfa4f6140e863f70553ac453f"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "45337b7271b3f588bd5ffc103a0c87d674ce1b8dd0ed3a6a684e7c796d5a5c3c",
+      "package_uncompressed_bytes": 53390,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:42:22.836773+00:00",
+      "create_requested_at": "2026-11-06T01:42:25.583541+00:00",
+      "instance_id": "7331750438494047852",
+      "created_at": "2026-11-05T17:42:27.939-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "93f44122b283d4fe6189df813d0646f560e27d5a4940bc62b812951a4555321d",
+      "collected_at": "2026-11-06T02:28:53.857297+00:00",
+      "collected_bytes": 17795925,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-04",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2509.247649908066,
+        "finished_at": "2026-11-06T02:25:48.802554+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_04.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "45337b7271b3f588bd5ffc103a0c87d674ce1b8dd0ed3a6a684e7c796d5a5c3c"
+      },
+      "actual_upper_bound_usd": 0.9909,
+      "absence_verified_at": "2026-11-06T02:30:01.821613+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-05",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-05",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_05.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_05.json",
+          "sha256": "d4748ecd8685be88955e880daf3985adc791c758867479dcf7d999bb14012568"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "9ad2283b2124137a0b6133a3ceb7971f2acd6a6808a5be08e8c895f928e30365",
+      "package_uncompressed_bytes": 52608,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:43:24.665740+00:00",
+      "create_requested_at": "2026-11-06T01:43:26.978874+00:00",
+      "instance_id": "4452655030431944239",
+      "created_at": "2026-11-05T17:43:28.728-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "e45d9f05594df9ba57e714934546b14da7cab39007805b5208f867f3aca030c7",
+      "collected_at": "2026-11-06T02:13:36.293583+00:00",
+      "collected_bytes": 11864504,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-05",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 1713.9389884471893,
+        "finished_at": "2026-11-06T02:13:08.029398+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_05.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "9ad2283b2124137a0b6133a3ceb7971f2acd6a6808a5be08e8c895f928e30365"
+      },
+      "actual_upper_bound_usd": 0.652,
+      "absence_verified_at": "2026-11-06T02:14:46.595919+00:00"
+    },
+    {
+      "name": "ring-20261105-geometry-06",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 7200,
+      "reserved_usd": 2.8125,
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-geometry-06",
+      "command": [
+        "python",
+        "scripts/run_ring_batch.py",
+        "--manifest",
+        "scripts/ring_manifests/heading_geometry_06.json",
+        "--out",
+        "results/ring_heading/geometry_confirmation",
+        "--device",
+        "cuda",
+        "--max-seconds",
+        "6600"
+      ],
+      "output_dir": "results/ring_heading/geometry_confirmation",
+      "package_manifest": [
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "docs/research/heading_geometry_confirmation_protocol.md",
+          "sha256": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0"
+        },
+        {
+          "path": "scripts/ring_heading_model.py",
+          "sha256": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1"
+        },
+        {
+          "path": "scripts/ring_manifests/heading_geometry_06.json",
+          "sha256": "030b7e7ea6870066cb3316702b498dc6a942de071e522c501a027fd4ae280b23"
+        },
+        {
+          "path": "scripts/ring_task_model.py",
+          "sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095"
+        },
+        {
+          "path": "scripts/run_ring_batch.py",
+          "sha256": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18"
+        },
+        {
+          "path": "scripts/train_ring_heading.py",
+          "sha256": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa"
+        }
+      ],
+      "package_manifest_sha256": "04921d5058eb2c96078869a217a6d11efbe349ca0d75c547404e4a3d49d61968",
+      "package_uncompressed_bytes": 52608,
+      "status": "DELETED",
+      "reserved_at": "2026-11-06T01:43:58.250206+00:00",
+      "create_requested_at": "2026-11-06T01:44:05.922282+00:00",
+      "instance_id": "5419204177349873160",
+      "created_at": "2026-11-05T17:44:07.556-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "e6603c252a6284d4dff204adf3638f913fa1b44489cccf0a0a040bb44af9175d",
+      "collected_at": "2026-11-06T02:14:58.199748+00:00",
+      "collected_bytes": 11864544,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-geometry-06",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 1712.7489125728607,
+        "finished_at": "2026-11-06T02:13:40.974883+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "scripts/run_ring_batch.py",
+          "--manifest",
+          "scripts/ring_manifests/heading_geometry_06.json",
+          "--out",
+          "results/ring_heading/geometry_confirmation",
+          "--device",
+          "cuda",
+          "--max-seconds",
+          "6600"
+        ],
+        "package_sha256": "04921d5058eb2c96078869a217a6d11efbe349ca0d75c547404e4a3d49d61968"
+      },
+      "actual_upper_bound_usd": 0.6618,
+      "absence_verified_at": "2026-11-06T02:15:53.504507+00:00"
+    }
+  ]
+}

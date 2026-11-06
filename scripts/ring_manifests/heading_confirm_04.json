@@ -1,0 +1,157 @@
+{
+  "stage": "confirmatory",
+  "protocol": "docs/research/heading_confirmation_protocol.md",
+  "source_sha256": {
+    "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+    "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+    "scripts/train_ring_heading.py": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa",
+    "scripts/run_ring_batch.py": "1095a1fccf7ff8d1cd0c13318c39cbaccb9d75eb7fc1cb6874a897ede2e38b18",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "jobs": [
+    {
+      "name": "grid_s2010",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid",
+        "seed": 2010,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "predictive_s2010",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "predictive",
+        "seed": 2010,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "grid_heading_s2010",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid_heading",
+        "seed": 2010,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "grid_s2011",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid",
+        "seed": 2011,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "predictive_s2011",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "predictive",
+        "seed": 2011,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "grid_heading_s2011",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid_heading",
+        "seed": 2011,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "grid_s2012",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid",
+        "seed": 2012,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "predictive_s2012",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "predictive",
+        "seed": 2012,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    },
+    {
+      "name": "grid_heading_s2012",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid_heading",
+        "seed": 2012,
+        "steps": 6000,
+        "encoder-size": 256,
+        "hidden-size": 64,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000,
+        "study-stage": "confirmatory"
+      }
+    }
+  ]
+}

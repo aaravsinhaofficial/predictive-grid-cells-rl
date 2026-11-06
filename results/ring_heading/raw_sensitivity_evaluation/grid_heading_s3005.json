@@ -1,0 +1,109 @@
+{
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-raw-02/grid_heading_s3005.pt",
+  "checkpoint_sha256": "f2fe284707d3fdaa403ff38cfce5ebce6c6b2d9822b9f1c45000b159b4119049",
+  "condition": "grid_heading",
+  "training_seed": 3005,
+  "provenance": {
+    "pilot_override": true,
+    "verified_training_sources": {
+      "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+      "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+      "scripts/train_ring_heading.py": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa",
+      "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+    },
+    "evaluator_sha256": "81ea6c66cf07ce6d6fc376110899c800b24868f789ab3cf85c31faee58a7ce1a",
+    "torch_version": "2.10.0",
+    "device": "cpu",
+    "secondary_wrapper_sha256": "e29f6650c2692dfb47f3b8f1740f2051e0ec7aef73132927dedee52d9cd48885"
+  },
+  "steps_completed": 6000,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 0,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 3005
+  },
+  "protocol": {
+    "plan": "docs/research/heading_confirmation_protocol.md",
+    "evaluation_seeds": [
+      71001,
+      71002,
+      71003,
+      71004
+    ],
+    "episodes_per_seed": 512,
+    "total_episodes_per_network": 2048,
+    "sequence_length": 256,
+    "exclude_first_steps": 4,
+    "recurrent_noise": 0,
+    "position_translation_m": [
+      10.0,
+      0.0
+    ],
+    "training_reach_bound_m": 3.4725,
+    "new_positions_strictly_outside_training_reach": true,
+    "aggregation": "mean absolute circular error within episode, then equal mean over all episodes",
+    "independent_replication_unit": "training seed",
+    "pilot_override": true,
+    "native_and_ordinary_share_all_underlying_experience": true,
+    "anchoring_endpoint": "separate evaluate_heading_anchor.py output",
+    "secondary_plan": "docs/research/heading_raw_architecture_protocol.md",
+    "override_meaning": "Outside primary cohort by design; not an exploratory pilot. Eight new fixed-budget seeds."
+  },
+  "metrics": {
+    "same_region_native_mae_deg": 5.310980912936576,
+    "same_region_ordinary_mae_deg": 86.47233062214525,
+    "new_places_native_mae_deg": 5.316430431361437,
+    "new_places_ordinary_mae_deg": 86.3680276762802,
+    "ordinary_minus_native_mae_deg": 81.1613497092087,
+    "new_places_ordinary_minus_native_mae_deg": 81.05159724491877
+  },
+  "per_evaluation_seed": [
+    {
+      "evaluation_seed": 71001,
+      "episodes": 512,
+      "same_region_native_mae_deg": 5.213500768264692,
+      "same_region_ordinary_mae_deg": 87.72516659671862,
+      "new_places_native_mae_deg": 5.2219912682828316,
+      "new_places_ordinary_mae_deg": 87.55121385150296
+    },
+    {
+      "evaluation_seed": 71002,
+      "episodes": 512,
+      "same_region_native_mae_deg": 5.282576307287876,
+      "same_region_ordinary_mae_deg": 86.43116882228503,
+      "new_places_native_mae_deg": 5.298124121110014,
+      "new_places_ordinary_mae_deg": 86.56630118350189
+    },
+    {
+      "evaluation_seed": 71003,
+      "episodes": 512,
+      "same_region_native_mae_deg": 5.330994623686046,
+      "same_region_ordinary_mae_deg": 85.34270981278578,
+      "new_places_native_mae_deg": 5.320701462531094,
+      "new_places_ordinary_mae_deg": 85.39595828105021
+    },
+    {
+      "evaluation_seed": 71004,
+      "episodes": 512,
+      "same_region_native_mae_deg": 5.416851952507692,
+      "same_region_ordinary_mae_deg": 86.39027725679159,
+      "new_places_native_mae_deg": 5.4249048735218075,
+      "new_places_ordinary_mae_deg": 85.95863738906573
+    }
+  ],
+  "cohort": "raw_architecture_sensitivity"
+}

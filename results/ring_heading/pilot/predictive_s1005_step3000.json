@@ -1,0 +1,288 @@
+{
+  "condition": "predictive",
+  "seed": 1005,
+  "config": {
+    "hidden_size": 64,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 1005
+  },
+  "task": "hexagonal_grid_code_heading_memory",
+  "exploratory_arm": true,
+  "objective": "supervised_cos_sin_heading_estimation",
+  "ring_structure_imposed": false,
+  "source_sha256": {
+    "/Users/aaravsinha/predictive-grid-cells-rl/scripts/train_ring_heading.py": "2d6a0d6d4fd3626a9835b901ed8f13ca8c0837a6991d52ee8d8f34d0cfe8b1f9",
+    "/Users/aaravsinha/predictive-grid-cells-rl/scripts/ring_heading_model.py": "9d4d54864f0affeecaa2f7f83c3c855ff1bd57bc0ec15a704e3968de69fb2d06",
+    "/Users/aaravsinha/predictive-grid-cells-rl/scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+    "/Users/aaravsinha/predictive-grid-cells-rl/code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "population": {
+    "n_cells": 128,
+    "n_modules": 4,
+    "spacings_m": [
+      0.4,
+      0.568,
+      0.80656,
+      1.1453151999999998
+    ],
+    "orientation_deg": [
+      4.933150384073623,
+      55.83372254331621,
+      17.237041702066225,
+      38.31348291722991
+    ],
+    "pgc_frac": 0.3333333333333333,
+    "n_pgc": 43,
+    "n_gc": 85,
+    "pgc_shift_mode": "space",
+    "pgc_shift_m": 0.2,
+    "pgc_tau_s": null,
+    "pgc_shift_jitter": 0.0,
+    "sharpness": 2.0,
+    "noise": 0.0,
+    "seed": 1005,
+    "pgc_layout": "uniform",
+    "pgc_shift_rule": "const",
+    "pgc_shift_frac": 0.5,
+    "cell_type": "grid",
+    "pgc_shift_m_per_module": [
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ],
+    "pgc_idx": [
+      5,
+      9,
+      10,
+      12,
+      14,
+      16,
+      23,
+      26,
+      27,
+      30,
+      32,
+      39,
+      40,
+      49,
+      50,
+      52,
+      59,
+      61,
+      62,
+      63,
+      66,
+      67,
+      68,
+      69,
+      70,
+      72,
+      73,
+      76,
+      77,
+      85,
+      87,
+      92,
+      95,
+      96,
+      97,
+      106,
+      107,
+      110,
+      116,
+      118,
+      119,
+      121,
+      125
+    ],
+    "pgc_per_module": [
+      11,
+      11,
+      11,
+      10
+    ]
+  },
+  "trainer_args": {
+    "condition": "predictive",
+    "seed": 1005,
+    "steps": 6000,
+    "length": 128,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "device": "cpu",
+    "threads": 2,
+    "out": "results/ring_heading/pilot/predictive_s1005.pt",
+    "log_every": 250,
+    "eval_every": 1000,
+    "save_at": [
+      3000
+    ],
+    "max_seconds": 900.0,
+    "hidden_size": null,
+    "n_code": null,
+    "dt": null,
+    "leak": null,
+    "predictive_fraction": null,
+    "displacement": null,
+    "angular_velocity_noise": null,
+    "angular_velocity_bias": null,
+    "speed_noise": null,
+    "direction_noise": null,
+    "position_noise": null,
+    "channel_noise": null,
+    "recurrent_noise": null,
+    "visibility": null,
+    "initial_heading_steps": null,
+    "code_seed": null
+  },
+  "steps_completed": 3000,
+  "seconds": 164.57062554196455,
+  "validation": {
+    "all_mae_deg": 31.901185989379883,
+    "moving_mae_deg": 27.329742431640625,
+    "blank_mae_deg": 33.14333724975586,
+    "stationary_blank_mae_deg": 55.06150817871094,
+    "stationary_cued_mae_deg": 56.74950408935547,
+    "final_mae_deg": 56.41389846801758,
+    "mse": 0.21113747358322144,
+    "evaluation_seed": 31872941
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.5436636209487915,
+      "grad_norm": 0.6825403571128845,
+      "seconds": 0.08129741693846881,
+      "steps_per_second": 12.300494895493456
+    },
+    {
+      "step": 250,
+      "loss": 0.17149855196475983,
+      "grad_norm": 2.684149742126465,
+      "seconds": 13.046715833013877,
+      "steps_per_second": 19.161910169646678
+    },
+    {
+      "step": 500,
+      "loss": 0.08473765105009079,
+      "grad_norm": 1.527237892150879,
+      "seconds": 26.266913749976084,
+      "steps_per_second": 19.035353874516698
+    },
+    {
+      "step": 750,
+      "loss": 0.06754299253225327,
+      "grad_norm": 0.8342418670654297,
+      "seconds": 40.86704537505284,
+      "steps_per_second": 18.352195272578417
+    },
+    {
+      "step": 1000,
+      "loss": 0.07460257411003113,
+      "grad_norm": 1.2666306495666504,
+      "seconds": 55.98278258298524,
+      "steps_per_second": 17.86263464700665,
+      "validation": {
+        "all_mae_deg": 30.75067138671875,
+        "moving_mae_deg": 27.46403694152832,
+        "blank_mae_deg": 31.467254638671875,
+        "stationary_blank_mae_deg": 48.07609939575195,
+        "stationary_cued_mae_deg": 46.498653411865234,
+        "final_mae_deg": 55.666446685791016,
+        "mse": 0.20303983986377716,
+        "evaluation_seed": 31872941
+      }
+    },
+    {
+      "step": 1250,
+      "loss": 0.08222906291484833,
+      "grad_norm": 1.5266104936599731,
+      "seconds": 70.07888425001875,
+      "steps_per_second": 17.837041954919453
+    },
+    {
+      "step": 1500,
+      "loss": 0.07502204179763794,
+      "grad_norm": 1.9901522397994995,
+      "seconds": 83.90678270789795,
+      "steps_per_second": 17.876981464877815
+    },
+    {
+      "step": 1750,
+      "loss": 0.0799018144607544,
+      "grad_norm": 2.630012273788452,
+      "seconds": 97.92973441700451,
+      "steps_per_second": 17.869955524100046
+    },
+    {
+      "step": 2000,
+      "loss": 0.050714172422885895,
+      "grad_norm": 0.8281591534614563,
+      "seconds": 112.28593466687016,
+      "steps_per_second": 17.811669856127615,
+      "validation": {
+        "all_mae_deg": 32.09933853149414,
+        "moving_mae_deg": 27.714014053344727,
+        "blank_mae_deg": 33.196144104003906,
+        "stationary_blank_mae_deg": 54.51734924316406,
+        "stationary_cued_mae_deg": 55.3062858581543,
+        "final_mae_deg": 57.91621398925781,
+        "mse": 0.2193073034286499,
+        "evaluation_seed": 31872941
+      }
+    },
+    {
+      "step": 2250,
+      "loss": 0.064427450299263,
+      "grad_norm": 1.1235500574111938,
+      "seconds": 125.446797166951,
+      "steps_per_second": 17.935890348152295
+    },
+    {
+      "step": 2500,
+      "loss": 0.06624025106430054,
+      "grad_norm": 0.821169912815094,
+      "seconds": 138.63653629203327,
+      "steps_per_second": 18.032764416727336
+    },
+    {
+      "step": 2750,
+      "loss": 0.07122239470481873,
+      "grad_norm": 1.659590482711792,
+      "seconds": 151.72070179204457,
+      "steps_per_second": 18.1254104863457
+    },
+    {
+      "step": 3000,
+      "loss": 0.05984693393111229,
+      "grad_norm": 1.8800384998321533,
+      "seconds": 164.57006583292969,
+      "steps_per_second": 18.22931758271988,
+      "validation": {
+        "all_mae_deg": 31.901185989379883,
+        "moving_mae_deg": 27.329742431640625,
+        "blank_mae_deg": 33.14333724975586,
+        "stationary_blank_mae_deg": 55.06150817871094,
+        "stationary_cued_mae_deg": 56.74950408935547,
+        "final_mae_deg": 56.41389846801758,
+        "mse": 0.21113747358322144,
+        "evaluation_seed": 31872941
+      }
+    }
+  ],
+  "stopping_reason": "fixed_intermediate_checkpoint"
+}

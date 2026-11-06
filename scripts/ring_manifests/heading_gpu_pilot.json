@@ -1,0 +1,47 @@
+{
+  "phase": "GPU throughput pilot, independent seed1008",
+  "jobs": [
+    {
+      "name": "grid_s1008",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid",
+        "seed": 1008,
+        "steps": 6000,
+        "encoder-size": 256,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000
+      }
+    },
+    {
+      "name": "predictive_s1008",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "predictive",
+        "seed": 1008,
+        "steps": 6000,
+        "encoder-size": 256,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000
+      }
+    },
+    {
+      "name": "grid_heading_s1008",
+      "script": "scripts/train_ring_heading.py",
+      "args": {
+        "condition": "grid_heading",
+        "seed": 1008,
+        "steps": 6000,
+        "encoder-size": 256,
+        "length": 128,
+        "batch-size": 64,
+        "log-every": 500,
+        "eval-every": 1000
+      }
+    }
+  ]
+}

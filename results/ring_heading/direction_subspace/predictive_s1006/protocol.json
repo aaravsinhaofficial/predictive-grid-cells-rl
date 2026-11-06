@@ -1,0 +1,21 @@
+{
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_heading/encoder_pilot/predictive_s1006.pt",
+  "checkpoint_sha256": "f9f64e36a592cf2de754d38ddcaed7458652225bb6f889534db881418eb1b31a",
+  "source_sha256": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+  "fit_positions": 1024,
+  "test_positions": 256,
+  "angles": 32,
+  "fit_seed": 517913,
+  "regression": "Delta encoder drive on intercept,cos(theta),sin(theta), globally across independent positions. P is orthogonal projector onto the two direction coefficient vectors; intercept excluded.",
+  "labels_used_only_for_fit_and_score": true,
+  "inference_intervention_arguments": [
+    "native_drive",
+    "ordinary_drive"
+  ],
+  "shams": "Three fixed rank2 subspaces orthogonal to learned direction subspace, each scaled to exact per-input projected-component norm; both deletion and restoration tested.",
+  "primary_subspace": "First harmonic,rank2",
+  "secondary_subspace": "Harmonics1-3,rank6 fit-only diagnostic; no outcome-based subspace selection.",
+  "original_weights_frozen": true,
+  "evaluation_seed": 931731,
+  "checkpoint_training_steps": 6000
+}

@@ -1,0 +1,19 @@
+# Secondary causal memory pulse during navigation
+
+Specified before running this intervention on any pilot or confirmation checkpoint. The original training, locked primary confirmation protocol, and navigation evaluator remain unchanged. This is a new secondary mechanistic test, with pilot results retained separately.
+
+For every episode, generate actual recurrent states using the trained four-step initialization followed by 40 zero-input steps. During this stationary preparation, position and sensor noise are paired. The initial directions are the physical direction, that direction plus 20 degrees, and that direction minus 20 degrees. Replace only recurrent memory by one of these states immediately before physical navigation starts. The physical pose, reset position estimate, goal, subsequent sensor noise and input-generation rule are identical. The unperturbed state receives the same 40-step preparation.
+
+These are measured states on the network's conditional memory curve, rather than a gradient direction chosen to worsen behavior. Report the actual decoded phase change and full-state displacement. The experimental constructor may use the physical direction to select the memory state; this direction is never passed as an extra controller input.
+
+Add a matched normal perturbation: draw a random vector orthogonal to the local full-state tangent measured from preparation at +/-5 degrees, normalize it, and give it exactly the state-space norm of one of the +/-20-degree phase substitutions. Pulse signs are balanced across trials. Keep both signed phase substitutions in the report, and form their balanced per-trial selection for the matched comparison.
+
+Use the frozen navigation simulator and controller, under native input, ordinary replacement, and restoration after two seconds. Its reversed branch is retained as diagnostic output and interpreted mechanistically only for PGC-trained networks. Direction used to generate future PGC observations follows physical motion independently of injected memory. No policy, sensory-code parameter, controller gain, goal or noise setting changes.
+
+Evaluate 40-second episodes in the ordinary spatial region, with baseline sensor noise. To retain complete early traces without modifying the existing evaluator, use four independent batches of 32 episodes, seeds 961001–961004. Average trials within each training seed; training seeds are the independent replication units. Report all intervention branches and all 16 confirmation PGC seeds, without selecting successful models.
+
+Early outcomes are mean absolute heading error during the first two seconds and error at 0.1, 0.5, 1 and 2 seconds after navigation starts. Paired path deviation is the physical distance from the corresponding unperturbed trajectory, reported at one, two and five seconds and averaged over the first five seconds. Closed-loop trajectories may diverge after the pulse; identical noise means common random numbers, not a forced identical physical trajectory.
+
+Behavioral outcomes retain the existing 20/40-second arrival, distance, terminal occupancy and sustained dwell definitions. Store per-trial values. The mechanistic contrast is the effect of the targeted phase pulse relative to the matched unperturbed start under each input condition, and whether native PGC input reduces the induced heading error and subsequent path deviation. Ordinary input may itself produce large baseline impairment, so a small incremental pulse effect in that branch is not treated as evidence of successful repair.
+
+Source hashes of the wrapper and unchanged navigation evaluator are stored in every result. Verify a no-op memory replacement reproduces the unmodified simulator, and verify matched normal and selected phase displacements have equal norms and normal displacement is orthogonal to the empirical tangent.

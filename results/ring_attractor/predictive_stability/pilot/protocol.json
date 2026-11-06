@@ -1,0 +1,24 @@
+{
+  "seeds": [
+    1
+  ],
+  "conditions": [
+    "pgc33"
+  ],
+  "horizon": 60,
+  "amplitudes": [
+    0.01,
+    0.05
+  ],
+  "primary_amplitude": 0.01,
+  "primary_noise": "isotropic",
+  "primary_comparisons": "Four paired seed contrasts: current/goal ordinary minus intact; mean action TV over60updates and standardized-state gain at60updates. Holm correction separately for t and exact sign-flip.",
+  "continuation": "Same physical replay, actual next inputs, frozen weights; every perturbed branch compared to its own unperturbed input-intervention reference.",
+  "state_metric": "Per-coordinate training-fold standard deviation with0.01floor, full h/c. Raw-state gain and separate h/c gains are sensitivity metrics.",
+  "readout": "4-fold held-out-episode cosine/sine ridge alpha10 for egocentric goal bearing. Phase-changing and readout-silent are decoder directions, not geometric manifold tangents/normals.",
+  "phase_guard": "Circular angle error only when both decoded vector amplitudes>=0.2; validity fraction and unconditional vector error are saved.",
+  "perturbations": "Antithetic +/- initial fullstate perturbations of0.01and0.05RMS standardized coordinate units. Initial h may exceed[-1,1]; fraction recorded.",
+  "source_replay_sha256": "e2ecf1832d2ba8f52d83235bfad6844075644bd03004026f339dff02abf1be55",
+  "source_script_sha256": "d075dbaf3d2ff7891b0f770fa27f3606205237dd69ffdc8a38df8df41b447cde",
+  "rgb_sha256": "c562bdea414499c64f477217a9f0b68ededdabe2fb5d6f622acf11e486fec86c"
+}

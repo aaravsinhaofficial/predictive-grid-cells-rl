@@ -1,0 +1,30 @@
+{
+  "status": "frozen after exploratory seed 2100, before confirmatory seeds",
+  "confirmatory_seeds": [2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108],
+  "training_episodes_per_condition_per_seed": 64,
+  "heldout_episodes_per_condition_per_seed": 512,
+  "controller_evaluations_per_condition": 108,
+  "conditions": ["grid", "predictive", "velocity"],
+  "training_delay_seconds": 0.3,
+  "code_horizon_seconds": 0.2,
+  "dt_seconds": 0.02,
+  "training_objective": "Mean over 8 seconds of 1-cos(goal error) + 0.0005*commanded_velocity^2",
+  "primary_comparisons": [
+    "predictive minus grid heldout objective",
+    "forecast removal minus native predictive heldout objective",
+    "reversed forecast minus native predictive heldout objective"
+  ],
+  "primary_statistics": "Paired seed-level means, 95% t intervals, exact sign-flip p-values with Holm across three contrasts",
+  "information_match_equivalence": {
+    "contrast": "predictive minus explicit velocity heldout objective",
+    "absolute_margin": 0.001,
+    "criterion": "90% paired t interval lies entirely inside margin"
+  },
+  "secondary_metrics": ["first goal entry", "permanent settling within observation horizon", "maximum overshoot", "late RMS error", "transverse eigenvalue radius"],
+  "secondary_tradeoff_seen_in_pilot": "Prediction improves mean navigation loss, first arrival and maximum overshoot; chosen higher gain can worsen late settling and late RMS relative to the independently optimized lower-gain grid controller.",
+  "causal_interventions": ["remove forecast at frozen predictive weights", "restore forecast", "reverse forecast", "forecast horizon titration"],
+  "out_of_distribution_test": "Latency sweep with fixed learned decoders/gains; discrete-delay characteristic predicts eigenvalues without refitting",
+  "designed": ["periodic code basis", "quadratic decoder features", "autonomous goal-memory ring", "sinusoidal controller structure"],
+  "learned": ["spatial-code decoding weights", "controller gain", "forecast mixture"],
+  "scope": "Goal-indexed sensorimotor attractor; the intrinsic neural goal-memory ring is identical across conditions. This is separate from the original LSTM and from the unconstrained learned RNN experiments."
+}

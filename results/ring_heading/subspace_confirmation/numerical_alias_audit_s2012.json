@@ -1,0 +1,31 @@
+{
+  "seed": 2012,
+  "checkpoint_sha256": "ae760e3cdfd94268de66ed72d0772832e1f24a0d0d2a9c105fd2a3809fd17154",
+  "note": "Both aliases implement bN-P(bN-bO). Different float32 arithmetic order produces a tiny roundoff error, amplified by finite-time dynamics. Neither primary contrast nor navigation uses residual_only.",
+  "scenarios": {
+    "same_region": {
+      "float32": {
+        "maximum_drive_difference": 4.76837158203125e-07,
+        "maximum_trajectory_hidden_coordinate_difference": 1.7918646335601807e-05,
+        "maximum_decoded_heading_difference_deg": 0.0010723396996920019
+      },
+      "float64_same_encoder_drives": {
+        "maximum_drive_difference": 8.881784197001252e-16,
+        "maximum_trajectory_hidden_coordinate_difference": 6.189493362285248e-15,
+        "maximum_decoded_heading_difference_deg": 2.8879436507688733e-12
+      }
+    },
+    "new_places": {
+      "float32": {
+        "maximum_drive_difference": 4.76837158203125e-07,
+        "maximum_trajectory_hidden_coordinate_difference": 1.5050172805786133e-06,
+        "maximum_decoded_heading_difference_deg": 0.001994415237643723
+      },
+      "float64_same_encoder_drives": {
+        "maximum_drive_difference": 8.881784197001252e-16,
+        "maximum_trajectory_hidden_coordinate_difference": 5.037636974236648e-15,
+        "maximum_decoded_heading_difference_deg": 2.7988881196878947e-12
+      }
+    }
+  }
+}

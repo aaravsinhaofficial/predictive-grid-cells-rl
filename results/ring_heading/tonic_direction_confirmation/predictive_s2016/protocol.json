@@ -1,0 +1,36 @@
+{
+  "role": "additional mechanistic diagnostic, separate from frozen rank2 primary families",
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-confirm-06/predictive_s2016.pt",
+  "checkpoint_sha256": "aef7c22fd8ff60a26486382e66e3809d173ac4cd64b790a4e773e3a9d75b6c7c",
+  "subspaces": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_heading/subspace_confirmation/predictive_s2016/fitted_subspaces.npz",
+  "subspaces_sha256": "b8183222ff9349c170aa3cbb58dbc56a1628343700d83c63c24bbce52f9dd7bd",
+  "source_sha256": "d4e89ce7a970107e4e97233f2c26f27fb1b71db0e697e8012b080f4935898756",
+  "seed": 2016,
+  "calibration_mean_source": "all original fixed calibration train_delta rows, averaged in float64",
+  "calibration_samples": 32768,
+  "fixed_projector": true,
+  "tonic_drive": "observed spatial availability times P times calibration mean",
+  "mean_only_restore": "ordinary drive plus tonic drive",
+  "mean_preserving_removal": "native drive minus (projected native-ordinary difference minus tonic drive)",
+  "inference_inputs": [
+    "observed paired encoder drives",
+    "observed spatial-availability flag",
+    "fixed calibration mean"
+  ],
+  "no_heading_or_position_label_at_inference": true,
+  "forced_seed": 931731,
+  "forced_episodes": 256,
+  "forced_steps": 256,
+  "forced_exclude_first_steps": 8,
+  "common_native_initialization_steps": 4,
+  "anchor_phases": 72,
+  "anchor_steps": 200,
+  "navigation_seed": 836219,
+  "navigation_episodes": 128,
+  "navigation_seconds": 40,
+  "frozen_dependencies": {
+    "DriveInterventions": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+    "heading_subspace_navigation": "c09d02fb816ff056296ede1672a520878afe9be15b32813141de4b4d0ff6a68b",
+    "navigation_helpers": "30c6512c437d32df318af177e1ab5839a84f7f4541d9896599dd04426e39126f"
+  }
+}

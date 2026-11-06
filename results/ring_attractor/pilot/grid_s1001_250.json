@@ -1,0 +1,151 @@
+{
+  "condition": "grid",
+  "seed": 1001,
+  "config": {
+    "hidden_size": 64,
+    "n_code": 64,
+    "dt": 0.05,
+    "leak": 0.25,
+    "horizon": 0.2,
+    "delay_steps": 4,
+    "predictive_fraction": 0.3333333333333333,
+    "velocity_noise": 0.05,
+    "position_noise": 0.1,
+    "channel_noise": 0.04,
+    "recurrent_noise": 0.01,
+    "visibility": 0.25,
+    "max_speed": 2.0,
+    "code_seed": 1001
+  },
+  "config_sha256": "56b4338ab2efcd49ddd2f95d2331161cbda66689f0d0f4b14f95fd848ba412d5",
+  "model_source_sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+  "task": "controlled_1d_periodic_code_navigation_memory",
+  "objective": "supervised_cos_sin_position_estimation",
+  "ring_structure_imposed": false,
+  "trainer_args": {
+    "condition": "grid",
+    "seed": 1001,
+    "steps": 250,
+    "length": 96,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "device": "cpu",
+    "threads": 2,
+    "out": "results/ring_attractor/pilot/grid_s1001_250.pt",
+    "log_every": 25,
+    "eval_every": 250,
+    "max_seconds": 180.0,
+    "hidden_size": null,
+    "n_code": null,
+    "dt": null,
+    "leak": null,
+    "horizon": null,
+    "delay_steps": null,
+    "predictive_fraction": null,
+    "velocity_noise": null,
+    "position_noise": null,
+    "channel_noise": null,
+    "recurrent_noise": null,
+    "visibility": null,
+    "max_speed": null,
+    "code_seed": null
+  },
+  "steps_completed": 250,
+  "seconds": 3.993081957800314,
+  "stopping_reason": "steps_completed",
+  "validation": {
+    "all_mae_deg": 21.29746437072754,
+    "blank_mae_deg": 22.15354347229004,
+    "stationary_blank_mae_deg": 30.673965454101562,
+    "final_mae_deg": 30.152389526367188,
+    "mse": 0.12251756340265274,
+    "evaluation_seed": 982451653
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.5359236598014832,
+      "grad_norm": 0.35394471883773804,
+      "seconds": 0.04780920781195164,
+      "steps_per_second": 20.916472909011762
+    },
+    {
+      "step": 25,
+      "loss": 0.469667911529541,
+      "grad_norm": 0.5638078451156616,
+      "seconds": 0.43874262482859194,
+      "steps_per_second": 56.98101480285168
+    },
+    {
+      "step": 50,
+      "loss": 0.3844900131225586,
+      "grad_norm": 1.130003809928894,
+      "seconds": 0.887970665935427,
+      "steps_per_second": 56.30816638219442
+    },
+    {
+      "step": 75,
+      "loss": 0.26108983159065247,
+      "grad_norm": 0.8262518048286438,
+      "seconds": 1.275062375003472,
+      "steps_per_second": 58.82065181305015
+    },
+    {
+      "step": 100,
+      "loss": 0.19810329377651215,
+      "grad_norm": 0.913029670715332,
+      "seconds": 1.6703742498066276,
+      "steps_per_second": 59.86682326525124
+    },
+    {
+      "step": 125,
+      "loss": 0.17925383150577545,
+      "grad_norm": 1.4424312114715576,
+      "seconds": 2.0422333329916,
+      "steps_per_second": 61.207501601637084
+    },
+    {
+      "step": 150,
+      "loss": 0.14143279194831848,
+      "grad_norm": 0.997806966304779,
+      "seconds": 2.4130955829750746,
+      "steps_per_second": 62.1608199270196
+    },
+    {
+      "step": 175,
+      "loss": 0.1269402951002121,
+      "grad_norm": 1.0138628482818604,
+      "seconds": 2.783475540811196,
+      "steps_per_second": 62.87103925799156
+    },
+    {
+      "step": 200,
+      "loss": 0.12578904628753662,
+      "grad_norm": 1.0091911554336548,
+      "seconds": 3.1466754579450935,
+      "steps_per_second": 63.559144459914556
+    },
+    {
+      "step": 225,
+      "loss": 0.10705860704183578,
+      "grad_norm": 0.7685701847076416,
+      "seconds": 3.5078842078801244,
+      "steps_per_second": 64.14122777900113
+    },
+    {
+      "step": 250,
+      "loss": 0.10638406127691269,
+      "grad_norm": 0.5489774346351624,
+      "seconds": 3.871920707868412,
+      "steps_per_second": 64.56743793641145,
+      "validation": {
+        "all_mae_deg": 21.29746437072754,
+        "blank_mae_deg": 22.15354347229004,
+        "stationary_blank_mae_deg": 30.673965454101562,
+        "final_mae_deg": 30.152389526367188,
+        "mse": 0.12251756340265274,
+        "evaluation_seed": 982451653
+      }
+    }
+  ]
+}

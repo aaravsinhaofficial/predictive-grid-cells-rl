@@ -1,0 +1,114 @@
+{
+  "role": "primary",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "episodes_per_seed_variant": 128,
+  "n_envs_per_variant": 64,
+  "eval_seed": 737373,
+  "device": "mps",
+  "variants": [
+    "intact",
+    "goal_ordinary",
+    "restore_forget",
+    "restore_candidate_output"
+  ],
+  "restored_gate_indices": {
+    "intact": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "goal_ordinary": [],
+    "restore_forget": [
+      1
+    ],
+    "restore_candidate_output": [
+      2,
+      3
+    ]
+  },
+  "intervention": "Current mixed predictive code intact in every branch. Only169predictive goal slots are made ordinary; selected gates recover native predictive goal influence, computed fromsameactualprecedingh/c. Noaddedstate noise.",
+  "primary_score_comparisons": [
+    [
+      "goal_ordinary",
+      "intact"
+    ],
+    [
+      "goal_ordinary",
+      "restore_forget"
+    ],
+    [
+      "goal_ordinary",
+      "restore_candidate_output"
+    ],
+    [
+      "restore_forget",
+      "restore_candidate_output"
+    ]
+  ],
+  "test_family": "Four paired training-seed score comparisons; Holm separately t andexactsignflips; othermetrics descriptive.",
+  "episode_pairing": "MatchedArena common layouts, physicalnoise, actionuniforms; eachbranchownsitsstateandtrajectory.",
+  "benchmark_excluded_from_primary": false,
+  "code_identity": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "2": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "3": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "4": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "5": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "6": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "7": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    },
+    "8": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "source_sha256": "af1cfaadabee89f998dee6561cebc4b96ddfd2c9564b6a3d1f96133b14dd1dc6",
+  "source_snapshot": "results/ring_attractor/goal_gate_behavior/evaluation_source.py",
+  "postprocessing_source_sha256": "86af6ac0a83fa0a8d0523c8cb597d53d00f93cc1471e064e03f891f53c35635c"
+}

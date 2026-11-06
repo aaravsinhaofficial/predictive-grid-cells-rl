@@ -1,6 +1,8 @@
 # What predictive inputs change in the RNN
 
-**Latest: [What changed in the network, and what comes from the inputs?](history-versus-inputs.md)** — matched-input activity comparisons and new tests of recurrent history versus current-input processing.
+**New model study: [How predictive spatial input corrects a recurrent compass](predictive-ring-attractor.md)** — an exact ring with a trained interface, 104 unconstrained RNNs across separate cohorts, targeted input interventions, and independent geometry replication. The original navigation LSTMs below are a separate system.
+
+**Original agents: [What changed in the network, and what comes from the inputs?](history-versus-inputs.md)** — matched-input activity comparisons and new tests of recurrent history versus current-input processing.
 
 **Navigation mechanism: [Why PGC models return to the goal better](navigation-explanation.md)** — causal tests identify useful goal cues and live steering information, with a simple turn-or-move interpretation of the RNN output.
 

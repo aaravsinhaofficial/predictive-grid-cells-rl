@@ -1,0 +1,106 @@
+{
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/results/ring_cloud_artifacts/ring-20261105-confirm-01/grid_s2001.pt",
+  "checkpoint_sha256": "34119d7cca266b25b2747aa7577000f9c0c74c6b91cb712401861731d2d755e3",
+  "condition": "grid",
+  "training_seed": 2001,
+  "provenance": {
+    "locked_source_manifest_sha256": "202a982b392dc5be2a0c29217b73b455728a9f61c4027530f42eac2b665176fc",
+    "verified_training_sources": {
+      "scripts/train_ring_heading.py": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa",
+      "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+      "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+      "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+    },
+    "protocol_sha256": "3391db31efa123d9aa814937696ece49b41a79bb7646081051ca72497da22c42",
+    "evaluator_sha256": "81ea6c66cf07ce6d6fc376110899c800b24868f789ab3cf85c31faee58a7ce1a",
+    "torch_version": "2.10.0",
+    "device": "cpu"
+  },
+  "steps_completed": 6000,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 256,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 2001
+  },
+  "protocol": {
+    "plan": "docs/research/heading_confirmation_protocol.md",
+    "evaluation_seeds": [
+      71001,
+      71002,
+      71003,
+      71004
+    ],
+    "episodes_per_seed": 512,
+    "total_episodes_per_network": 2048,
+    "sequence_length": 256,
+    "exclude_first_steps": 4,
+    "recurrent_noise": 0,
+    "position_translation_m": [
+      10.0,
+      0.0
+    ],
+    "training_reach_bound_m": 3.4725,
+    "new_positions_strictly_outside_training_reach": true,
+    "aggregation": "mean absolute circular error within episode, then equal mean over all episodes",
+    "independent_replication_unit": "training seed",
+    "pilot_override": false,
+    "native_and_ordinary_share_all_underlying_experience": true,
+    "anchoring_endpoint": "separate evaluate_heading_anchor.py output"
+  },
+  "metrics": {
+    "same_region_native_mae_deg": 29.468955604648393,
+    "same_region_ordinary_mae_deg": 29.468955604648393,
+    "new_places_native_mae_deg": 29.518121759225853,
+    "new_places_ordinary_mae_deg": 29.518121759225853,
+    "ordinary_minus_native_mae_deg": 0.0,
+    "new_places_ordinary_minus_native_mae_deg": 0.0
+  },
+  "per_evaluation_seed": [
+    {
+      "evaluation_seed": 71001,
+      "episodes": 512,
+      "same_region_native_mae_deg": 29.28842507491343,
+      "same_region_ordinary_mae_deg": 29.28842507491343,
+      "new_places_native_mae_deg": 29.30218517593299,
+      "new_places_ordinary_mae_deg": 29.30218517593299
+    },
+    {
+      "evaluation_seed": 71002,
+      "episodes": 512,
+      "same_region_native_mae_deg": 30.416441744060073,
+      "same_region_ordinary_mae_deg": 30.416441744060073,
+      "new_places_native_mae_deg": 30.472458529599898,
+      "new_places_ordinary_mae_deg": 30.472458529599898
+    },
+    {
+      "evaluation_seed": 71003,
+      "episodes": 512,
+      "same_region_native_mae_deg": 28.93675504509614,
+      "same_region_ordinary_mae_deg": 28.93675504509614,
+      "new_places_native_mae_deg": 29.021130603063973,
+      "new_places_ordinary_mae_deg": 29.021130603063973
+    },
+    {
+      "evaluation_seed": 71004,
+      "episodes": 512,
+      "same_region_native_mae_deg": 29.234200554523937,
+      "same_region_ordinary_mae_deg": 29.234200554523937,
+      "new_places_native_mae_deg": 29.27671272830655,
+      "new_places_ordinary_mae_deg": 29.27671272830655
+    }
+  ]
+}

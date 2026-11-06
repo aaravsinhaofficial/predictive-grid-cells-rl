@@ -1,0 +1,727 @@
+{
+  "protocol": {
+    "role": "benchmark",
+    "seeds": [
+      1
+    ],
+    "episodes_per_seed_variant": 16,
+    "n_envs_per_variant": 16,
+    "eval_seed": 737373,
+    "device": "mps",
+    "variants": [
+      "intact",
+      "goal_ordinary",
+      "restore_forget",
+      "restore_candidate_output"
+    ],
+    "restored_gate_indices": {
+      "intact": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "goal_ordinary": [],
+      "restore_forget": [
+        1
+      ],
+      "restore_candidate_output": [
+        2,
+        3
+      ]
+    },
+    "intervention": "Current mixed predictive code intact in every branch. Only169predictive goal slots are made ordinary; selected gates recover native predictive goal influence, computed fromsameactualprecedingh/c. Noaddedstate noise.",
+    "primary_score_comparisons": [
+      [
+        "goal_ordinary",
+        "intact"
+      ],
+      [
+        "goal_ordinary",
+        "restore_forget"
+      ],
+      [
+        "goal_ordinary",
+        "restore_candidate_output"
+      ],
+      [
+        "restore_forget",
+        "restore_candidate_output"
+      ]
+    ],
+    "test_family": "Four paired training-seed score comparisons; Holm separately t andexactsignflips; othermetrics descriptive.",
+    "episode_pairing": "MatchedArena common layouts, physicalnoise, actionuniforms; eachbranchownsitsstateandtrajectory.",
+    "benchmark_excluded_from_primary": true,
+    "code_identity": {
+      "1": {
+        "samples": 512,
+        "max_absolute_code_difference": 0.0,
+        "same_phases_and_wavevectors": true,
+        "existing_pgc_as_gc_is_exact_substitution": true
+      }
+    },
+    "source_sha256": "df7dd108433ce7a4441139ddec7914ea4ec0af9dd21c81f0ac3ed40c2cb43569"
+  },
+  "comparisons": {},
+  "models": [
+    {
+      "seed": 1,
+      "condition": "pgc33",
+      "benchmark": true,
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "episodes": 16,
+      "n_envs": 16,
+      "eval_seed": 737373,
+      "device": "mps",
+      "variants": {
+        "intact": {
+          "episodes": 16,
+          "mean_score": 105.0,
+          "mean_first_goal_step": 508.5625,
+          "frac_found_goal": 0.75,
+          "mean_path_eff": 0.7641046643257141,
+          "post_discovery_goal_rate": 11.596121797190486,
+          "frac_two_goals": 0.75,
+          "n_path_eff": 12,
+          "rows": [
+            {
+              "slot": 0,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 173,
+              "path_eff": 0.729762613773346,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 1,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 2,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 3,
+              "episode": 0,
+              "ret": 170.0,
+              "n_goals": 17,
+              "first_goal_t": 21,
+              "path_eff": 0.7124964594841003,
+              "path_eff_n": 16.0
+            },
+            {
+              "slot": 4,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 5,
+              "episode": 0,
+              "ret": 160.0,
+              "n_goals": 16,
+              "first_goal_t": 65,
+              "path_eff": 0.819889485836029,
+              "path_eff_n": 15.0
+            },
+            {
+              "slot": 6,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 44,
+              "path_eff": 0.725267231464386,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 7,
+              "episode": 0,
+              "ret": 140.0,
+              "n_goals": 14,
+              "first_goal_t": 230,
+              "path_eff": 0.8432201743125916,
+              "path_eff_n": 13.0
+            },
+            {
+              "slot": 8,
+              "episode": 0,
+              "ret": 180.0,
+              "n_goals": 18,
+              "first_goal_t": 137,
+              "path_eff": 0.8465766906738281,
+              "path_eff_n": 17.0
+            },
+            {
+              "slot": 9,
+              "episode": 0,
+              "ret": 100.0,
+              "n_goals": 10,
+              "first_goal_t": 540,
+              "path_eff": 0.7762745022773743,
+              "path_eff_n": 9.0
+            },
+            {
+              "slot": 10,
+              "episode": 0,
+              "ret": 110.0,
+              "n_goals": 11,
+              "first_goal_t": 571,
+              "path_eff": 0.7657026648521423,
+              "path_eff_n": 10.0
+            },
+            {
+              "slot": 11,
+              "episode": 0,
+              "ret": 110.0,
+              "n_goals": 11,
+              "first_goal_t": 425,
+              "path_eff": 0.6944178938865662,
+              "path_eff_n": 10.0
+            },
+            {
+              "slot": 12,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 359,
+              "path_eff": 0.7816177010536194,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 13,
+              "episode": 0,
+              "ret": 210.0,
+              "n_goals": 21,
+              "first_goal_t": 48,
+              "path_eff": 0.7778812646865845,
+              "path_eff_n": 20.0
+            },
+            {
+              "slot": 14,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 124,
+              "path_eff": 0.6961492896080017,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 15,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            }
+          ]
+        },
+        "goal_ordinary": {
+          "episodes": 16,
+          "mean_score": 83.125,
+          "mean_first_goal_step": 508.5625,
+          "frac_found_goal": 0.75,
+          "mean_path_eff": 0.7088846762975057,
+          "post_discovery_goal_rate": 8.920521858195626,
+          "frac_two_goals": 0.75,
+          "n_path_eff": 12,
+          "rows": [
+            {
+              "slot": 0,
+              "episode": 0,
+              "ret": 90.0,
+              "n_goals": 9,
+              "first_goal_t": 173,
+              "path_eff": 0.7161122560501099,
+              "path_eff_n": 8.0
+            },
+            {
+              "slot": 1,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 2,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 3,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 21,
+              "path_eff": 0.5600008964538574,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 4,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 5,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 65,
+              "path_eff": 0.7162947654724121,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 6,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 44,
+              "path_eff": 0.7067776322364807,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 7,
+              "episode": 0,
+              "ret": 70.0,
+              "n_goals": 7,
+              "first_goal_t": 230,
+              "path_eff": 0.8487577438354492,
+              "path_eff_n": 6.0
+            },
+            {
+              "slot": 8,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 137,
+              "path_eff": 0.7358465790748596,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 9,
+              "episode": 0,
+              "ret": 100.0,
+              "n_goals": 10,
+              "first_goal_t": 540,
+              "path_eff": 0.7424372434616089,
+              "path_eff_n": 9.0
+            },
+            {
+              "slot": 10,
+              "episode": 0,
+              "ret": 80.0,
+              "n_goals": 8,
+              "first_goal_t": 571,
+              "path_eff": 0.6475450396537781,
+              "path_eff_n": 7.0
+            },
+            {
+              "slot": 11,
+              "episode": 0,
+              "ret": 70.0,
+              "n_goals": 7,
+              "first_goal_t": 425,
+              "path_eff": 0.6436813473701477,
+              "path_eff_n": 6.0
+            },
+            {
+              "slot": 12,
+              "episode": 0,
+              "ret": 90.0,
+              "n_goals": 9,
+              "first_goal_t": 359,
+              "path_eff": 0.6585900187492371,
+              "path_eff_n": 8.0
+            },
+            {
+              "slot": 13,
+              "episode": 0,
+              "ret": 200.0,
+              "n_goals": 20,
+              "first_goal_t": 48,
+              "path_eff": 0.7444884777069092,
+              "path_eff_n": 19.0
+            },
+            {
+              "slot": 14,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 124,
+              "path_eff": 0.7860841155052185,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 15,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            }
+          ]
+        },
+        "restore_forget": {
+          "episodes": 16,
+          "mean_score": 96.875,
+          "mean_first_goal_step": 508.5625,
+          "frac_found_goal": 0.75,
+          "mean_path_eff": 0.7313292523225149,
+          "post_discovery_goal_rate": 10.531579369765174,
+          "frac_two_goals": 0.75,
+          "n_path_eff": 12,
+          "rows": [
+            {
+              "slot": 0,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 173,
+              "path_eff": 0.7149824500083923,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 1,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 2,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 3,
+              "episode": 0,
+              "ret": 170.0,
+              "n_goals": 17,
+              "first_goal_t": 21,
+              "path_eff": 0.6990050077438354,
+              "path_eff_n": 16.0
+            },
+            {
+              "slot": 4,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 5,
+              "episode": 0,
+              "ret": 180.0,
+              "n_goals": 18,
+              "first_goal_t": 65,
+              "path_eff": 0.8150420188903809,
+              "path_eff_n": 17.0
+            },
+            {
+              "slot": 6,
+              "episode": 0,
+              "ret": 140.0,
+              "n_goals": 14,
+              "first_goal_t": 44,
+              "path_eff": 0.7720072865486145,
+              "path_eff_n": 13.0
+            },
+            {
+              "slot": 7,
+              "episode": 0,
+              "ret": 80.0,
+              "n_goals": 8,
+              "first_goal_t": 230,
+              "path_eff": 0.8799614906311035,
+              "path_eff_n": 7.0
+            },
+            {
+              "slot": 8,
+              "episode": 0,
+              "ret": 140.0,
+              "n_goals": 14,
+              "first_goal_t": 137,
+              "path_eff": 0.6855301260948181,
+              "path_eff_n": 13.0
+            },
+            {
+              "slot": 9,
+              "episode": 0,
+              "ret": 100.0,
+              "n_goals": 10,
+              "first_goal_t": 540,
+              "path_eff": 0.7258207201957703,
+              "path_eff_n": 9.0
+            },
+            {
+              "slot": 10,
+              "episode": 0,
+              "ret": 110.0,
+              "n_goals": 11,
+              "first_goal_t": 571,
+              "path_eff": 0.7439605593681335,
+              "path_eff_n": 10.0
+            },
+            {
+              "slot": 11,
+              "episode": 0,
+              "ret": 90.0,
+              "n_goals": 9,
+              "first_goal_t": 425,
+              "path_eff": 0.6075819730758667,
+              "path_eff_n": 8.0
+            },
+            {
+              "slot": 12,
+              "episode": 0,
+              "ret": 80.0,
+              "n_goals": 8,
+              "first_goal_t": 359,
+              "path_eff": 0.5711038112640381,
+              "path_eff_n": 7.0
+            },
+            {
+              "slot": 13,
+              "episode": 0,
+              "ret": 210.0,
+              "n_goals": 21,
+              "first_goal_t": 48,
+              "path_eff": 0.7770105600357056,
+              "path_eff_n": 20.0
+            },
+            {
+              "slot": 14,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 124,
+              "path_eff": 0.7839450240135193,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 15,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            }
+          ]
+        },
+        "restore_candidate_output": {
+          "episodes": 16,
+          "mean_score": 94.375,
+          "mean_first_goal_step": 508.5625,
+          "frac_found_goal": 0.75,
+          "mean_path_eff": 0.7119956314563751,
+          "post_discovery_goal_rate": 10.340184257084873,
+          "frac_two_goals": 0.75,
+          "n_path_eff": 12,
+          "rows": [
+            {
+              "slot": 0,
+              "episode": 0,
+              "ret": 130.0,
+              "n_goals": 13,
+              "first_goal_t": 173,
+              "path_eff": 0.6879557967185974,
+              "path_eff_n": 12.0
+            },
+            {
+              "slot": 1,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 2,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 3,
+              "episode": 0,
+              "ret": 150.0,
+              "n_goals": 15,
+              "first_goal_t": 21,
+              "path_eff": 0.6661815047264099,
+              "path_eff_n": 14.0
+            },
+            {
+              "slot": 4,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            },
+            {
+              "slot": 5,
+              "episode": 0,
+              "ret": 170.0,
+              "n_goals": 17,
+              "first_goal_t": 65,
+              "path_eff": 0.8256527185440063,
+              "path_eff_n": 16.0
+            },
+            {
+              "slot": 6,
+              "episode": 0,
+              "ret": 110.0,
+              "n_goals": 11,
+              "first_goal_t": 44,
+              "path_eff": 0.5988190770149231,
+              "path_eff_n": 10.0
+            },
+            {
+              "slot": 7,
+              "episode": 0,
+              "ret": 80.0,
+              "n_goals": 8,
+              "first_goal_t": 230,
+              "path_eff": 0.810021698474884,
+              "path_eff_n": 7.0
+            },
+            {
+              "slot": 8,
+              "episode": 0,
+              "ret": 180.0,
+              "n_goals": 18,
+              "first_goal_t": 137,
+              "path_eff": 0.8359627723693848,
+              "path_eff_n": 17.0
+            },
+            {
+              "slot": 9,
+              "episode": 0,
+              "ret": 110.0,
+              "n_goals": 11,
+              "first_goal_t": 540,
+              "path_eff": 0.7702022194862366,
+              "path_eff_n": 10.0
+            },
+            {
+              "slot": 10,
+              "episode": 0,
+              "ret": 90.0,
+              "n_goals": 9,
+              "first_goal_t": 571,
+              "path_eff": 0.7690170407295227,
+              "path_eff_n": 8.0
+            },
+            {
+              "slot": 11,
+              "episode": 0,
+              "ret": 100.0,
+              "n_goals": 10,
+              "first_goal_t": 425,
+              "path_eff": 0.6652364730834961,
+              "path_eff_n": 9.0
+            },
+            {
+              "slot": 12,
+              "episode": 0,
+              "ret": 120.0,
+              "n_goals": 12,
+              "first_goal_t": 359,
+              "path_eff": 0.6766476631164551,
+              "path_eff_n": 11.0
+            },
+            {
+              "slot": 13,
+              "episode": 0,
+              "ret": 190.0,
+              "n_goals": 19,
+              "first_goal_t": 48,
+              "path_eff": 0.7201951742172241,
+              "path_eff_n": 18.0
+            },
+            {
+              "slot": 14,
+              "episode": 0,
+              "ret": 80.0,
+              "n_goals": 8,
+              "first_goal_t": 124,
+              "path_eff": 0.5180554389953613,
+              "path_eff_n": 7.0
+            },
+            {
+              "slot": 15,
+              "episode": 0,
+              "ret": 0.0,
+              "n_goals": 0,
+              "first_goal_t": -1,
+              "path_eff": 0.0,
+              "path_eff_n": 0.0
+            }
+          ]
+        }
+      },
+      "validation": {
+        "checks": 7,
+        "max_errors": {
+          "lstm": 0.0,
+          "independent_preactivation": 0.0,
+          "unchanged_goal_channels": 0.0,
+          "current_code_difference": 0.0
+        },
+        "all_gates_native_identity": true,
+        "no_gates_plain_identity": true,
+        "first_goal_times_identical": true,
+        "current_prediction_always_intact": true,
+        "checkpoint_unchanged": true,
+        "historical_baseline": {}
+      },
+      "elapsed_seconds": 11.11683691595681,
+      "decisions": 1350,
+      "aggregate_env_decisions_per_second": 7771.9949166460965,
+      "progress": [],
+      "software": {
+        "torch": "2.10.0",
+        "cuda": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "role": "additional mechanistic diagnostic, separate from frozen rank2 primary families",
+  "checkpoint": "results/ring_heading/encoder_pilot/predictive_s1006.pt",
+  "checkpoint_sha256": "f9f64e36a592cf2de754d38ddcaed7458652225bb6f889534db881418eb1b31a",
+  "subspaces": "results/ring_heading/direction_subspace/predictive_s1006/fitted_subspaces.npz",
+  "subspaces_sha256": "08e203a38dec05cee9e2c41477f8d6afcca741b3a28514595d4da9d2e8ab594a",
+  "source_sha256": "d4e89ce7a970107e4e97233f2c26f27fb1b71db0e697e8012b080f4935898756",
+  "seed": 1006,
+  "calibration_mean_source": "all original fixed calibration train_delta rows, averaged in float64",
+  "calibration_samples": 32768,
+  "fixed_projector": true,
+  "tonic_drive": "observed spatial availability times P times calibration mean",
+  "mean_only_restore": "ordinary drive plus tonic drive",
+  "mean_preserving_removal": "native drive minus (projected native-ordinary difference minus tonic drive)",
+  "inference_inputs": [
+    "observed paired encoder drives",
+    "observed spatial-availability flag",
+    "fixed calibration mean"
+  ],
+  "no_heading_or_position_label_at_inference": true,
+  "forced_seed": 931731,
+  "forced_episodes": 256,
+  "forced_steps": 256,
+  "forced_exclude_first_steps": 8,
+  "common_native_initialization_steps": 4,
+  "anchor_phases": 72,
+  "anchor_steps": 200,
+  "navigation_seed": 836219,
+  "navigation_episodes": 128,
+  "navigation_seconds": 40,
+  "frozen_dependencies": {
+    "DriveInterventions": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+    "heading_subspace_navigation": "c09d02fb816ff056296ede1672a520878afe9be15b32813141de4b4d0ff6a68b",
+    "navigation_helpers": "30c6512c437d32df318af177e1ab5839a84f7f4541d9896599dd04426e39126f"
+  }
+}

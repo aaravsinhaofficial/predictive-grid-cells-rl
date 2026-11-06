@@ -1,0 +1,66 @@
+{
+  "checkpoint": "results/ring_heading/encoder_pilot/predictive_s1006_step3000.pt",
+  "checkpoint_sha256": "a3353c353c09dfaee5249e4490e77ee9c51f69a3f0abe03f094ac51f9fb0b315",
+  "condition": "predictive",
+  "training_seed": 1006,
+  "steps_completed": 3000,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 256,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 1006
+  },
+  "protocol": {
+    "plan": "docs/research/heading_confirmation_protocol.md",
+    "evaluation_seeds": [
+      71001
+    ],
+    "episodes_per_seed": 32,
+    "total_episodes_per_network": 32,
+    "sequence_length": 256,
+    "exclude_first_steps": 4,
+    "recurrent_noise": 0,
+    "position_translation_m": [
+      10.0,
+      0.0
+    ],
+    "training_reach_bound_m": 3.4725,
+    "new_positions_strictly_outside_training_reach": true,
+    "aggregation": "mean absolute circular error within episode, then equal mean over all episodes",
+    "independent_replication_unit": "training seed",
+    "pilot_override": true,
+    "native_and_ordinary_share_all_underlying_experience": true,
+    "anchoring_endpoint": "separate evaluate_heading_anchor.py output"
+  },
+  "metrics": {
+    "same_region_native_mae_deg": 10.838113825991151,
+    "same_region_ordinary_mae_deg": 60.7471817828909,
+    "new_places_native_mae_deg": 10.289837239057679,
+    "new_places_ordinary_mae_deg": 55.1166633938006,
+    "ordinary_minus_native_mae_deg": 49.90906795689975,
+    "new_places_ordinary_minus_native_mae_deg": 44.82682615474292
+  },
+  "per_evaluation_seed": [
+    {
+      "evaluation_seed": 71001,
+      "episodes": 32,
+      "same_region_native_mae_deg": 10.838113825991151,
+      "same_region_ordinary_mae_deg": 60.7471817828909,
+      "new_places_native_mae_deg": 10.289837239057679,
+      "new_places_ordinary_mae_deg": 55.1166633938006
+    }
+  ]
+}

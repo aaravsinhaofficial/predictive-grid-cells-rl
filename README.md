@@ -2,7 +2,9 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
-**New: [What changed in the network, and what comes from the inputs?](mechanisms/history-versus-inputs.md)** — matched-input comparisons and new tests separating recurrent history from processing the current cue.
+**New mechanistic study: [Predictive spatial codes anchor recurrent direction memory](mechanisms/predictive-ring-attractor.md).** An exact ring with a trained sensory interface, unconstrained trained RNNs, full-state geometry and spectra, and selective removal/restoration connect predictive input to memory correction and navigation. [What was designed and what was learned](mechanisms/designed-predictive-ring.md). [PDF report](output/pdf/predictive_ring_mechanism.pdf) · [Trained models and reproduction](docs/research/ring_reproduction.md).
+
+**Original agents: [What changed in the network, and what comes from the inputs?](mechanisms/history-versus-inputs.md)** — matched-input comparisons and tests separating recurrent history from processing the current cue.
 
 **Navigation mechanism: [Why PGC models return to the goal better](mechanisms/navigation-explanation.md)** — useful goal geometry, turn-or-move steering, and causal input interventions in all eight 1B-frame LSTM seed pairs.
 

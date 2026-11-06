@@ -1,0 +1,35 @@
+{
+  "checkpoint": "results/ring_cloud_artifacts/ring-20261105-confirm-04/predictive_s2012.pt",
+  "checkpoint_sha256": "ae760e3cdfd94268de66ed72d0772832e1f24a0d0d2a9c105fd2a3809fd17154",
+  "source_sha256": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+  "fit_positions": 1024,
+  "test_positions": 256,
+  "angles": 32,
+  "fit_seed": 517913,
+  "regression": "Delta encoder drive on intercept,cos(theta),sin(theta), globally across independent positions. P is orthogonal projector onto the two direction coefficient vectors; intercept excluded.",
+  "labels_used_only_for_fit_and_score": true,
+  "inference_intervention_arguments": [
+    "native_drive",
+    "ordinary_drive"
+  ],
+  "shams": "Three fixed rank2 subspaces orthogonal to learned direction subspace, each scaled to exact per-input projected-component norm; both deletion and restoration tested.",
+  "primary_subspace": "First harmonic,rank2",
+  "secondary_subspace": "Harmonics1-3,rank6 fit-only diagnostic; no outcome-based subspace selection.",
+  "original_weights_frozen": true,
+  "evaluation_seed": 931731,
+  "checkpoint_training_steps": 6000,
+  "alias_validation_amendment": {
+    "type": "validation-only numerical tolerance amendment",
+    "original_function_sha256": "29e5237f8c6973c7986909fe8e5a2ea51a804fc6e9554c9c932ef3f7275a9368",
+    "effective_function_sha256": "f20d3e861eeabae94d328fd001315e1fcb4861a60abe231e268962ecfcff59db",
+    "wrapper_source_sha256": "7d5155968322eea512f4e2edc24bee18119dc73f8c57b8fee06454940c43bc06",
+    "original_evaluator_source_sha256": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+    "audit_path": "results/ring_heading/subspace_confirmation/numerical_alias_audit_s2012.json",
+    "audit_sha256": "473e9d1dfc02d1b30a81167676104db74bd31e81795dc16ded8a2a9f216f9e93",
+    "old_alias_tolerance": 1e-05,
+    "new_alias_tolerance": 0.0001,
+    "rationale": "The bound allows approximately 3 times the 256-update float32 machine-epsilon accumulation scale. Independently, float64 reduces the same identity error below1e-14 and float32 decoded discrepancy stays below0.002deg. This is an unused algebraic validation alias; primary branch values and all statistics are unchanged.",
+    "all_other_assertions_preserved": true,
+    "scientific_computation_unchanged": true
+  }
+}

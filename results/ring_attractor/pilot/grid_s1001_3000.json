@@ -1,0 +1,139 @@
+{
+  "condition": "grid",
+  "seed": 1001,
+  "config": {
+    "hidden_size": 64,
+    "n_code": 64,
+    "dt": 0.05,
+    "leak": 0.25,
+    "horizon": 0.2,
+    "delay_steps": 4,
+    "predictive_fraction": 0.3333333333333333,
+    "velocity_noise": 0.05,
+    "position_noise": 0.1,
+    "channel_noise": 0.04,
+    "recurrent_noise": 0.01,
+    "visibility": 0.25,
+    "max_speed": 2.0,
+    "code_seed": 1001
+  },
+  "config_sha256": "56b4338ab2efcd49ddd2f95d2331161cbda66689f0d0f4b14f95fd848ba412d5",
+  "model_source_sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+  "task": "controlled_1d_periodic_code_navigation_memory",
+  "objective": "supervised_cos_sin_position_estimation",
+  "ring_structure_imposed": false,
+  "trainer_args": {
+    "condition": "grid",
+    "seed": 1001,
+    "steps": 3000,
+    "length": 128,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "device": "cpu",
+    "threads": 2,
+    "out": "results/ring_attractor/pilot/grid_s1001_3000.pt",
+    "log_every": 500,
+    "eval_every": 1000,
+    "max_seconds": 0,
+    "hidden_size": null,
+    "n_code": null,
+    "dt": null,
+    "leak": null,
+    "horizon": null,
+    "delay_steps": null,
+    "predictive_fraction": null,
+    "velocity_noise": null,
+    "position_noise": null,
+    "channel_noise": null,
+    "recurrent_noise": null,
+    "visibility": null,
+    "max_speed": null,
+    "code_seed": null
+  },
+  "steps_completed": 3000,
+  "seconds": 110.29429354099557,
+  "stopping_reason": "steps_completed",
+  "validation": {
+    "all_mae_deg": 2.9708807468414307,
+    "blank_mae_deg": 2.966414213180542,
+    "stationary_blank_mae_deg": 3.471574544906616,
+    "final_mae_deg": 3.571023941040039,
+    "mse": 0.004421901423484087,
+    "evaluation_seed": 982451653
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.5265405178070068,
+      "grad_norm": 0.2207173854112625,
+      "seconds": 0.051239625085145235,
+      "steps_per_second": 19.516145919067384
+    },
+    {
+      "step": 500,
+      "loss": 0.017428409308195114,
+      "grad_norm": 0.6253098845481873,
+      "seconds": 16.79799733310938,
+      "steps_per_second": 29.765452993285358
+    },
+    {
+      "step": 1000,
+      "loss": 0.009754974395036697,
+      "grad_norm": 0.3103841245174408,
+      "seconds": 34.9741080829408,
+      "steps_per_second": 28.59258047777826,
+      "validation": {
+        "all_mae_deg": 4.07873010635376,
+        "blank_mae_deg": 4.090768814086914,
+        "stationary_blank_mae_deg": 5.041317462921143,
+        "final_mae_deg": 4.909276962280273,
+        "mse": 0.007908275350928307,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 1500,
+      "loss": 0.00754155358299613,
+      "grad_norm": 0.13015054166316986,
+      "seconds": 53.66800787509419,
+      "steps_per_second": 27.949612057355825
+    },
+    {
+      "step": 2000,
+      "loss": 0.0071256812661886215,
+      "grad_norm": 0.19543077051639557,
+      "seconds": 71.6130447499454,
+      "steps_per_second": 27.92787273580523,
+      "validation": {
+        "all_mae_deg": 3.507963180541992,
+        "blank_mae_deg": 3.5497312545776367,
+        "stationary_blank_mae_deg": 4.409097671508789,
+        "final_mae_deg": 4.149937629699707,
+        "mse": 0.0056688059121370316,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 2500,
+      "loss": 0.006367603782564402,
+      "grad_norm": 0.25570061802864075,
+      "seconds": 90.09749245806597,
+      "steps_per_second": 27.747720072937366
+    },
+    {
+      "step": 3000,
+      "loss": 0.005764594301581383,
+      "grad_norm": 0.21625414490699768,
+      "seconds": 110.08253437513486,
+      "steps_per_second": 27.25227954669648,
+      "validation": {
+        "all_mae_deg": 2.9708807468414307,
+        "blank_mae_deg": 2.966414213180542,
+        "stationary_blank_mae_deg": 3.471574544906616,
+        "final_mae_deg": 3.571023941040039,
+        "mse": 0.004421901423484087,
+        "evaluation_seed": 982451653
+      }
+    }
+  ]
+}

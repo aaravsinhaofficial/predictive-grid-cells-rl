@@ -1,0 +1,238 @@
+{
+  "checkpoint": "results/ring_heading/encoder_pilot/grid_heading_s1006_step3000.pt",
+  "checkpoint_sha256": "b31c44bec5708b13c9491f4bf10a4292aeaf3debdbc85624e5a8134a1297114a",
+  "condition": "grid_heading",
+  "seed": 1006,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 256,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 1006
+  },
+  "steps_completed": 3000,
+  "evaluation_seed": 931731,
+  "length": 256,
+  "batch_size": 128,
+  "restore_step": 64,
+  "protocol": {
+    "frozen_weights": true,
+    "recurrent_noise": 0,
+    "heading_initialization_common": true,
+    "matched_latent_experience": true,
+    "training_position_coordinate_reach_bound_m": 3.4725,
+    "new_place_offset_m": [
+      10.0,
+      0.0
+    ],
+    "new_places_strictly_outside_training_reach": true,
+    "sensor_noise_multipliers": [
+      1.0,
+      2.0
+    ],
+    "explicit_heading_control_receives_same_noisy_direction_as_pgc": true,
+    "ordinary_intervention": "all grid channels ordinary; explicit heading also removed after the common initialization"
+  },
+  "scenarios": {
+    "same_region": {
+      "native": {
+        "all_mae_deg": 5.093966007232666,
+        "moving_mae_deg": 5.175530433654785,
+        "blank_mae_deg": 6.4683427810668945,
+        "stationary_blank_mae_deg": 5.363785743713379,
+        "stationary_cued_mae_deg": 2.08158540725708,
+        "final_mae_deg": 3.4303674697875977,
+        "late_mae_deg": 6.286320209503174
+      },
+      "ordinary": {
+        "all_mae_deg": 79.7767105102539,
+        "moving_mae_deg": 77.85092163085938,
+        "blank_mae_deg": 81.96612548828125,
+        "stationary_blank_mae_deg": 90.60496520996094,
+        "stationary_cued_mae_deg": 92.03077697753906,
+        "final_mae_deg": 91.33787536621094,
+        "late_mae_deg": 87.11481475830078
+      },
+      "reverse": {
+        "all_mae_deg": 79.900634765625,
+        "moving_mae_deg": 78.30116271972656,
+        "blank_mae_deg": 81.68417358398438,
+        "stationary_blank_mae_deg": 87.81149291992188,
+        "stationary_cued_mae_deg": 93.7840805053711,
+        "final_mae_deg": 89.82701873779297,
+        "late_mae_deg": 86.82020568847656
+      },
+      "shuffled": {
+        "all_mae_deg": 79.93328094482422,
+        "moving_mae_deg": 78.3046875,
+        "blank_mae_deg": 81.96711730957031,
+        "stationary_blank_mae_deg": 90.6706314086914,
+        "stationary_cued_mae_deg": 84.88723754882812,
+        "final_mae_deg": 89.8794174194336,
+        "late_mae_deg": 86.26747131347656
+      },
+      "restored": {
+        "all_mae_deg": 19.02875518798828,
+        "moving_mae_deg": 21.51764488220215,
+        "blank_mae_deg": 18.336750030517578,
+        "stationary_blank_mae_deg": 5.357978343963623,
+        "stationary_cued_mae_deg": 2.0837290287017822,
+        "final_mae_deg": 3.423444986343384,
+        "late_mae_deg": 8.025224685668945
+      }
+    },
+    "new_places": {
+      "native": {
+        "all_mae_deg": 5.089972496032715,
+        "moving_mae_deg": 5.154463768005371,
+        "blank_mae_deg": 6.465620040893555,
+        "stationary_blank_mae_deg": 5.453298091888428,
+        "stationary_cued_mae_deg": 2.194796562194824,
+        "final_mae_deg": 3.4924204349517822,
+        "late_mae_deg": 6.282890319824219
+      },
+      "ordinary": {
+        "all_mae_deg": 79.09284973144531,
+        "moving_mae_deg": 77.41358184814453,
+        "blank_mae_deg": 81.41228485107422,
+        "stationary_blank_mae_deg": 88.66326904296875,
+        "stationary_cued_mae_deg": 89.3391342163086,
+        "final_mae_deg": 89.37458801269531,
+        "late_mae_deg": 86.31135559082031
+      },
+      "reverse": {
+        "all_mae_deg": 79.71438598632812,
+        "moving_mae_deg": 78.75457000732422,
+        "blank_mae_deg": 81.62669372558594,
+        "stationary_blank_mae_deg": 85.1462631225586,
+        "stationary_cued_mae_deg": 85.7015609741211,
+        "final_mae_deg": 85.8370132446289,
+        "late_mae_deg": 85.70262145996094
+      },
+      "shuffled": {
+        "all_mae_deg": 79.92059326171875,
+        "moving_mae_deg": 78.69470977783203,
+        "blank_mae_deg": 82.0326919555664,
+        "stationary_blank_mae_deg": 87.78166961669922,
+        "stationary_cued_mae_deg": 84.4067611694336,
+        "final_mae_deg": 87.1622543334961,
+        "late_mae_deg": 86.48733520507812
+      },
+      "restored": {
+        "all_mae_deg": 18.980539321899414,
+        "moving_mae_deg": 21.446937561035156,
+        "blank_mae_deg": 18.323211669921875,
+        "stationary_blank_mae_deg": 5.430960655212402,
+        "stationary_cued_mae_deg": 2.1966867446899414,
+        "final_mae_deg": 3.484062433242798,
+        "late_mae_deg": 8.006585121154785
+      }
+    },
+    "double_sensor_noise": {
+      "native": {
+        "all_mae_deg": 9.175354957580566,
+        "moving_mae_deg": 8.875513076782227,
+        "blank_mae_deg": 11.900618553161621,
+        "stationary_blank_mae_deg": 13.116355895996094,
+        "stationary_cued_mae_deg": 3.364436388015747,
+        "final_mae_deg": 7.602513313293457,
+        "late_mae_deg": 11.47064208984375
+      },
+      "ordinary": {
+        "all_mae_deg": 79.729248046875,
+        "moving_mae_deg": 79.0479965209961,
+        "blank_mae_deg": 81.3128662109375,
+        "stationary_blank_mae_deg": 81.78082275390625,
+        "stationary_cued_mae_deg": 90.1535415649414,
+        "final_mae_deg": 87.43244171142578,
+        "late_mae_deg": 86.12726593017578
+      },
+      "reverse": {
+        "all_mae_deg": 79.74394226074219,
+        "moving_mae_deg": 79.27180480957031,
+        "blank_mae_deg": 80.89469146728516,
+        "stationary_blank_mae_deg": 79.4665756225586,
+        "stationary_cued_mae_deg": 92.7843017578125,
+        "final_mae_deg": 87.09530639648438,
+        "late_mae_deg": 85.82369995117188
+      },
+      "shuffled": {
+        "all_mae_deg": 79.91045379638672,
+        "moving_mae_deg": 79.52249145507812,
+        "blank_mae_deg": 81.30174255371094,
+        "stationary_blank_mae_deg": 81.68644714355469,
+        "stationary_cued_mae_deg": 83.76676177978516,
+        "final_mae_deg": 86.4898910522461,
+        "late_mae_deg": 85.2259521484375
+      },
+      "restored": {
+        "all_mae_deg": 22.918167114257812,
+        "moving_mae_deg": 24.991840362548828,
+        "blank_mae_deg": 23.3228759765625,
+        "stationary_blank_mae_deg": 13.115138053894043,
+        "stationary_cued_mae_deg": 3.367710590362549,
+        "final_mae_deg": 7.600482940673828,
+        "late_mae_deg": 12.743202209472656
+      }
+    },
+    "new_places_double_noise": {
+      "native": {
+        "all_mae_deg": 9.154587745666504,
+        "moving_mae_deg": 8.842117309570312,
+        "blank_mae_deg": 11.873023986816406,
+        "stationary_blank_mae_deg": 13.155594825744629,
+        "stationary_cued_mae_deg": 3.4617133140563965,
+        "final_mae_deg": 7.667727470397949,
+        "late_mae_deg": 11.441482543945312
+      },
+      "ordinary": {
+        "all_mae_deg": 79.31314849853516,
+        "moving_mae_deg": 78.56411743164062,
+        "blank_mae_deg": 80.96832275390625,
+        "stationary_blank_mae_deg": 81.6705093383789,
+        "stationary_cued_mae_deg": 90.42607879638672,
+        "final_mae_deg": 86.94973754882812,
+        "late_mae_deg": 85.56954193115234
+      },
+      "reverse": {
+        "all_mae_deg": 79.78783416748047,
+        "moving_mae_deg": 79.7098388671875,
+        "blank_mae_deg": 80.96398162841797,
+        "stationary_blank_mae_deg": 78.31673431396484,
+        "stationary_cued_mae_deg": 86.8207015991211,
+        "final_mae_deg": 84.16630554199219,
+        "late_mae_deg": 84.86478424072266
+      },
+      "shuffled": {
+        "all_mae_deg": 79.7051010131836,
+        "moving_mae_deg": 79.3482666015625,
+        "blank_mae_deg": 81.07667541503906,
+        "stationary_blank_mae_deg": 80.72119903564453,
+        "stationary_cued_mae_deg": 85.36526489257812,
+        "final_mae_deg": 85.93305206298828,
+        "late_mae_deg": 85.3387222290039
+      },
+      "restored": {
+        "all_mae_deg": 22.89598846435547,
+        "moving_mae_deg": 24.95956039428711,
+        "blank_mae_deg": 23.29908561706543,
+        "stationary_blank_mae_deg": 13.13349437713623,
+        "stationary_cued_mae_deg": 3.4654343128204346,
+        "final_mae_deg": 7.655608654022217,
+        "late_mae_deg": 12.655001640319824
+      }
+    }
+  }
+}

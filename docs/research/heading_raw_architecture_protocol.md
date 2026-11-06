@@ -1,0 +1,9 @@
+# Raw-input architecture sensitivity
+
+Fixed before training seeds3001–3008. This separate secondary cohort asks whether predictive direction information remains useful when the learned two-layer sensory encoder is removed. It is motivated by exploratory raw-input seed1005; it is not pooled with the primary16-seed encoder cohort.
+
+Train eight paired seeds3001–3008, each with Grid, PGC+grid and Grid+explicit-heading. Retain the exact frozen trainer/task sources,64 leaky recurrent units, noise, visibility, spatial code, optimizer, batch64, length128 and fixed6000 updates used in the primary study. Set only `encoder_size=0` and the training/population seed to the stated new seed. The number of parameters remains identical between the three input populations within this cohort. No checkpoint or seed selection by outcome.
+
+Evaluate native heading and ordinary-input replacement on2048 new256-step trajectories per model using seeds71001–71004, excluding the four initialization steps. Also test the fixed10m spatial translation. Use the existing primary evaluation implementation with an explicit non-primary override; identify the cohort as architecture sensitivity in reporting. Report all eight paired training-seed differences and95%t intervals. Apply exact two-sided sign flips and Holm correction across tracking(PGC−Grid), predictive-input removal(ordinary−native), and spatial transfer(PGC−Grid). Explicit-heading performance is an information-control comparison, reported descriptively. Cue-free full-state memory and phase anchoring are secondary descriptive diagnostics using the unchanged procedures.
+
+This cohort measures a capacity/representation sensitivity. Inferential statements about the locked16-seed primary cohort continue to use only that cohort's unchanged settings and four-comparison family.

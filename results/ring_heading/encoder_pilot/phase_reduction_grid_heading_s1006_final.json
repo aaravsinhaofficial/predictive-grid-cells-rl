@@ -1,0 +1,2046 @@
+{
+  "checkpoint": "results/ring_heading/encoder_pilot/grid_heading_s1006.pt",
+  "checkpoint_sha256": "9bbc959c2f8646cb6d18604a18ff3f55d373ad9d6dcd18936d07db4d24961891",
+  "evaluator_sha256": "9a0d2eee8b955323946b9f515dae9972ed7faf58343f9f8c2f793d99c09f20b6",
+  "condition": "grid_heading",
+  "seed": 1006,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 256,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 1006
+  },
+  "steps_completed": 6000,
+  "coefficients": {
+    "f0_coefficients": [
+      -0.010225673206150532,
+      -0.00013094130554236472,
+      0.03393438830971718,
+      0.01287020742893219,
+      -0.05206433683633804,
+      0.010769924148917198,
+      0.026945609599351883
+    ],
+    "k_per_second": 18.402599334716797,
+    "local_k_per_second": 10.356315612792969,
+    "cue_harmonic_coefficients": [
+      18.402599334716797,
+      -0.30438482761383057,
+      -9.090514183044434,
+      0.09452734887599945,
+      5.958352088928223,
+      -0.13646870851516724
+    ],
+    "fit_rows": 2592,
+    "local_fit_rows": 864,
+    "fit_blank_rmse_deg_per_second": 1.5692981805649002
+  },
+  "fitted_fields": [
+    {
+      "native": {
+        "constant": {
+          "variance_explained": -0.00012505054473876953,
+          "rmse_deg_per_second": 947.8327823684864,
+          "mae_deg_per_second": 817.7893137037586
+        },
+        "no_anchor": {
+          "variance_explained": -0.00025534638664703735,
+          "rmse_deg_per_second": 947.8945032601973,
+          "mae_deg_per_second": 817.8651905527797
+        },
+        "sine": {
+          "variance_explained": 0.6229836446539041,
+          "rmse_deg_per_second": 581.9486426037842,
+          "mae_deg_per_second": 426.3125139560314
+        },
+        "local_sine": {
+          "variance_explained": 0.502748300536876,
+          "rmse_deg_per_second": 668.3326869540294,
+          "mae_deg_per_second": 456.67402398471785
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8408912484474331,
+          "rmse_deg_per_second": 378.0520507053107,
+          "mae_deg_per_second": 227.67452029254872
+        }
+      },
+      "blank": {
+        "constant": {
+          "variance_explained": -0.021921515464782715,
+          "rmse_deg_per_second": 3.1571473683589666,
+          "mae_deg_per_second": 2.3612450611712443
+        },
+        "no_anchor": {
+          "variance_explained": 0.7480670005231658,
+          "rmse_deg_per_second": 1.5675760003013461,
+          "mae_deg_per_second": 1.2296754934020677
+        },
+        "sine": {
+          "variance_explained": 0.7480670005231658,
+          "rmse_deg_per_second": 1.5675760003013461,
+          "mae_deg_per_second": 1.2296754934020677
+        },
+        "local_sine": {
+          "variance_explained": 0.7480670005231658,
+          "rmse_deg_per_second": 1.5675760003013461,
+          "mae_deg_per_second": 1.2296754934020677
+        },
+        "three_harmonics": {
+          "variance_explained": 0.7480670005231658,
+          "rmse_deg_per_second": 1.5675760003013461,
+          "mae_deg_per_second": 1.2296754934020677
+        }
+      },
+      "ordinary": {
+        "constant": {
+          "variance_explained": -0.6649329662322998,
+          "rmse_deg_per_second": 30.69469596021347,
+          "mae_deg_per_second": 25.19880132003563
+        },
+        "no_anchor": {
+          "variance_explained": -0.6241290401995716,
+          "rmse_deg_per_second": 30.31623383660881,
+          "mae_deg_per_second": 24.380440283679324
+        },
+        "sine": {
+          "variance_explained": -0.6241290401995716,
+          "rmse_deg_per_second": 30.31623383660881,
+          "mae_deg_per_second": 24.380440283679324
+        },
+        "local_sine": {
+          "variance_explained": -0.6241290401995716,
+          "rmse_deg_per_second": 30.31623383660881,
+          "mae_deg_per_second": 24.380440283679324
+        },
+        "three_harmonics": {
+          "variance_explained": -0.6241290401995716,
+          "rmse_deg_per_second": 30.31623383660881,
+          "mae_deg_per_second": 24.380440283679324
+        }
+      },
+      "reverse": {
+        "constant": {
+          "variance_explained": -0.0001251697540283203,
+          "rmse_deg_per_second": 947.8327823684864,
+          "mae_deg_per_second": 817.7894229867853
+        },
+        "no_anchor": {
+          "variance_explained": -0.0002554180411087348,
+          "rmse_deg_per_second": 947.8944843532915,
+          "mae_deg_per_second": 817.8651888083407
+        },
+        "sine": {
+          "variance_explained": 0.6229836114401859,
+          "rmse_deg_per_second": 581.9486357855658,
+          "mae_deg_per_second": 426.31252662412845
+        },
+        "local_sine": {
+          "variance_explained": 0.5027482671522756,
+          "rmse_deg_per_second": 668.3326721202643,
+          "mae_deg_per_second": 456.6740296952761
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8408912300143087,
+          "rmse_deg_per_second": 378.0520515226138,
+          "mae_deg_per_second": 227.67452989933585
+        }
+      },
+      "self_generated": {
+        "constant": {
+          "variance_explained": -3.0994415283203125e-06,
+          "rmse_deg_per_second": 58.545615338735445,
+          "mae_deg_per_second": 50.69477051048018
+        },
+        "no_anchor": {
+          "variance_explained": -0.0487097256759641,
+          "rmse_deg_per_second": 59.954441610541416,
+          "mae_deg_per_second": 52.33564904563398
+        },
+        "sine": {
+          "variance_explained": -0.0487097256759641,
+          "rmse_deg_per_second": 59.954441610541416,
+          "mae_deg_per_second": 52.33564904563398
+        },
+        "local_sine": {
+          "variance_explained": -0.0487097256759641,
+          "rmse_deg_per_second": 59.954441610541416,
+          "mae_deg_per_second": 52.33564904563398
+        },
+        "three_harmonics": {
+          "variance_explained": -0.16787456812113688,
+          "rmse_deg_per_second": 63.26912310894576,
+          "mae_deg_per_second": 54.76573257515316
+        }
+      }
+    },
+    {
+      "native": {
+        "constant": {
+          "variance_explained": -0.00038945674896240234,
+          "rmse_deg_per_second": 945.8539946036638,
+          "mae_deg_per_second": 813.1474078607912
+        },
+        "no_anchor": {
+          "variance_explained": -0.0005703596601409622,
+          "rmse_deg_per_second": 945.9394790863234,
+          "mae_deg_per_second": 813.2241301830583
+        },
+        "sine": {
+          "variance_explained": 0.6165676474847095,
+          "rmse_deg_per_second": 585.5768668319288,
+          "mae_deg_per_second": 426.3592166068942
+        },
+        "local_sine": {
+          "variance_explained": 0.4996780763890477,
+          "rmse_deg_per_second": 668.9047829814147,
+          "mae_deg_per_second": 452.9355960432461
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8318023347030554,
+          "rmse_deg_per_second": 387.8372476669669,
+          "mae_deg_per_second": 226.95381401369895
+        }
+      },
+      "blank": {
+        "constant": {
+          "variance_explained": -0.02517867088317871,
+          "rmse_deg_per_second": 3.1612828344579977,
+          "mae_deg_per_second": 2.335322572280342
+        },
+        "no_anchor": {
+          "variance_explained": 0.7468165039558663,
+          "rmse_deg_per_second": 1.5710184007211236,
+          "mae_deg_per_second": 1.227302606011024
+        },
+        "sine": {
+          "variance_explained": 0.7468165039558663,
+          "rmse_deg_per_second": 1.5710184007211236,
+          "mae_deg_per_second": 1.227302606011024
+        },
+        "local_sine": {
+          "variance_explained": 0.7468165039558663,
+          "rmse_deg_per_second": 1.5710184007211236,
+          "mae_deg_per_second": 1.227302606011024
+        },
+        "three_harmonics": {
+          "variance_explained": 0.7468165039558663,
+          "rmse_deg_per_second": 1.5710184007211236,
+          "mae_deg_per_second": 1.227302606011024
+        }
+      },
+      "ordinary": {
+        "constant": {
+          "variance_explained": -0.6406267881393433,
+          "rmse_deg_per_second": 35.202805227529474,
+          "mae_deg_per_second": 27.92453857249096
+        },
+        "no_anchor": {
+          "variance_explained": -0.5139557340201293,
+          "rmse_deg_per_second": 33.81652237812509,
+          "mae_deg_per_second": 27.387797184396604
+        },
+        "sine": {
+          "variance_explained": -0.5139557340201293,
+          "rmse_deg_per_second": 33.81652237812509,
+          "mae_deg_per_second": 27.387797184396604
+        },
+        "local_sine": {
+          "variance_explained": -0.5139557340201293,
+          "rmse_deg_per_second": 33.81652237812509,
+          "mae_deg_per_second": 27.387797184396604
+        },
+        "three_harmonics": {
+          "variance_explained": -0.5139557340201293,
+          "rmse_deg_per_second": 33.81652237812509,
+          "mae_deg_per_second": 27.387797184396604
+        }
+      },
+      "reverse": {
+        "constant": {
+          "variance_explained": -0.00038945674896240234,
+          "rmse_deg_per_second": 945.853885320637,
+          "mae_deg_per_second": 813.1474078607912
+        },
+        "no_anchor": {
+          "variance_explained": -0.0005702373171629915,
+          "rmse_deg_per_second": 945.9393682701872,
+          "mae_deg_per_second": 813.2240999729103
+        },
+        "sine": {
+          "variance_explained": 0.6165678058573851,
+          "rmse_deg_per_second": 585.576713099035,
+          "mae_deg_per_second": 426.3592026573132
+        },
+        "local_sine": {
+          "variance_explained": 0.4996782291047466,
+          "rmse_deg_per_second": 668.9046434277362,
+          "mae_deg_per_second": 452.93557972931814
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8318025141661469,
+          "rmse_deg_per_second": 387.83701903635296,
+          "mae_deg_per_second": 226.953805597002
+        }
+      },
+      "self_generated": {
+        "constant": {
+          "variance_explained": -0.0015310049057006836,
+          "rmse_deg_per_second": 60.053618654636715,
+          "mae_deg_per_second": 51.494998888733456
+        },
+        "no_anchor": {
+          "variance_explained": -0.045255218476892844,
+          "rmse_deg_per_second": 61.35050559430324,
+          "mae_deg_per_second": 53.1418674451098
+        },
+        "sine": {
+          "variance_explained": -0.045255218476892844,
+          "rmse_deg_per_second": 61.35050559430324,
+          "mae_deg_per_second": 53.1418674451098
+        },
+        "local_sine": {
+          "variance_explained": -0.045255218476892844,
+          "rmse_deg_per_second": 61.35050559430324,
+          "mae_deg_per_second": 53.1418674451098
+        },
+        "three_harmonics": {
+          "variance_explained": -0.13409416494130877,
+          "rmse_deg_per_second": 63.904513342597944,
+          "mae_deg_per_second": 54.76693681446527
+        }
+      }
+    }
+  ],
+  "heldout_fields": [
+    {
+      "native": {
+        "constant": {
+          "variance_explained": -0.00010895729064941406,
+          "rmse_deg_per_second": 950.8859315689955,
+          "mae_deg_per_second": 819.5824296061837
+        },
+        "no_anchor": {
+          "variance_explained": -0.00026146530974591187,
+          "rmse_deg_per_second": 950.9584307676372,
+          "mae_deg_per_second": 819.6620686558509
+        },
+        "sine": {
+          "variance_explained": 0.6220872923466039,
+          "rmse_deg_per_second": 584.5215292577351,
+          "mae_deg_per_second": 426.8037911438646
+        },
+        "local_sine": {
+          "variance_explained": 0.5012625053363828,
+          "rmse_deg_per_second": 671.4918928686801,
+          "mae_deg_per_second": 458.2351458912561
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8394119449775412,
+          "rmse_deg_per_second": 381.03194099022767,
+          "mae_deg_per_second": 226.8719197321627
+        }
+      },
+      "blank": {
+        "constant": {
+          "variance_explained": -0.02015697956085205,
+          "rmse_deg_per_second": 3.159711677505483,
+          "mae_deg_per_second": 2.401146385972224
+        },
+        "no_anchor": {
+          "variance_explained": 0.7439865163484851,
+          "rmse_deg_per_second": 1.5828704079274916,
+          "mae_deg_per_second": 1.1871304766019073
+        },
+        "sine": {
+          "variance_explained": 0.7439865163484851,
+          "rmse_deg_per_second": 1.5828704079274916,
+          "mae_deg_per_second": 1.1871304766019073
+        },
+        "local_sine": {
+          "variance_explained": 0.7439865163484851,
+          "rmse_deg_per_second": 1.5828704079274916,
+          "mae_deg_per_second": 1.1871304766019073
+        },
+        "three_harmonics": {
+          "variance_explained": 0.7439865163484851,
+          "rmse_deg_per_second": 1.5828704079274916,
+          "mae_deg_per_second": 1.1871304766019073
+        }
+      },
+      "ordinary": {
+        "constant": {
+          "variance_explained": -0.6465476751327515,
+          "rmse_deg_per_second": 32.85734217220919,
+          "mae_deg_per_second": 26.298871587757887
+        },
+        "no_anchor": {
+          "variance_explained": -0.5463261658431442,
+          "rmse_deg_per_second": 31.841668558528895,
+          "mae_deg_per_second": 25.988255974006876
+        },
+        "sine": {
+          "variance_explained": -0.5463261658431442,
+          "rmse_deg_per_second": 31.841668558528895,
+          "mae_deg_per_second": 25.988255974006876
+        },
+        "local_sine": {
+          "variance_explained": -0.5463261658431442,
+          "rmse_deg_per_second": 31.841668558528895,
+          "mae_deg_per_second": 25.988255974006876
+        },
+        "three_harmonics": {
+          "variance_explained": -0.5463261658431442,
+          "rmse_deg_per_second": 31.841668558528895,
+          "mae_deg_per_second": 25.988255974006876
+        }
+      },
+      "reverse": {
+        "constant": {
+          "variance_explained": -0.00010895729064941406,
+          "rmse_deg_per_second": 950.8858222859687,
+          "mae_deg_per_second": 819.5824296061837
+        },
+        "no_anchor": {
+          "variance_explained": -0.00026143761113850417,
+          "rmse_deg_per_second": 950.9583649122844,
+          "mae_deg_per_second": 819.6620526937095
+        },
+        "sine": {
+          "variance_explained": 0.6220873803541711,
+          "rmse_deg_per_second": 584.5214288106968,
+          "mae_deg_per_second": 426.8037496878962
+        },
+        "local_sine": {
+          "variance_explained": 0.5012625829707009,
+          "rmse_deg_per_second": 671.4918034013057,
+          "mae_deg_per_second": 458.23511294847447
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8394120640094274,
+          "rmse_deg_per_second": 381.031778663595,
+          "mae_deg_per_second": 226.87187140490775
+        }
+      },
+      "self_generated": {
+        "constant": {
+          "variance_explained": -0.0029712915420532227,
+          "rmse_deg_per_second": 59.380653776093695,
+          "mae_deg_per_second": 50.598625352628495
+        },
+        "no_anchor": {
+          "variance_explained": -0.04789512826635267,
+          "rmse_deg_per_second": 60.6959404389217,
+          "mae_deg_per_second": 52.25720502724729
+        },
+        "sine": {
+          "variance_explained": -0.04789512826635267,
+          "rmse_deg_per_second": 60.6959404389217,
+          "mae_deg_per_second": 52.25720502724729
+        },
+        "local_sine": {
+          "variance_explained": -0.04789512826635267,
+          "rmse_deg_per_second": 60.6959404389217,
+          "mae_deg_per_second": 52.25720502724729
+        },
+        "three_harmonics": {
+          "variance_explained": -0.12859913966266512,
+          "rmse_deg_per_second": 62.98985254070814,
+          "mae_deg_per_second": 53.0731301962528
+        }
+      }
+    },
+    {
+      "native": {
+        "constant": {
+          "variance_explained": -0.00015676021575927734,
+          "rmse_deg_per_second": 961.9582692702331,
+          "mae_deg_per_second": 827.6795915464771
+        },
+        "no_anchor": {
+          "variance_explained": -0.00031907446006940177,
+          "rmse_deg_per_second": 962.0362932593499,
+          "mae_deg_per_second": 827.7660294091407
+        },
+        "sine": {
+          "variance_explained": 0.6131116916704835,
+          "rmse_deg_per_second": 598.2944635774606,
+          "mae_deg_per_second": 433.443760763285
+        },
+        "local_sine": {
+          "variance_explained": 0.4927305655842099,
+          "rmse_deg_per_second": 685.0803777715561,
+          "mae_deg_per_second": 466.7117257863085
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8281640465176614,
+          "rmse_deg_per_second": 398.7302635189067,
+          "mae_deg_per_second": 233.21921137936388
+        }
+      },
+      "blank": {
+        "constant": {
+          "variance_explained": -0.019590139389038086,
+          "rmse_deg_per_second": 3.1612077023771277,
+          "mae_deg_per_second": 2.3950433985054063
+        },
+        "no_anchor": {
+          "variance_explained": 0.7456752058621902,
+          "rmse_deg_per_second": 1.5788271396039735,
+          "mae_deg_per_second": 1.1888487879046667
+        },
+        "sine": {
+          "variance_explained": 0.7456752058621902,
+          "rmse_deg_per_second": 1.5788271396039735,
+          "mae_deg_per_second": 1.1888487879046667
+        },
+        "local_sine": {
+          "variance_explained": 0.7456752058621902,
+          "rmse_deg_per_second": 1.5788271396039735,
+          "mae_deg_per_second": 1.1888487879046667
+        },
+        "three_harmonics": {
+          "variance_explained": 0.7456752058621902,
+          "rmse_deg_per_second": 1.5788271396039735,
+          "mae_deg_per_second": 1.1888487879046667
+        }
+      },
+      "ordinary": {
+        "constant": {
+          "variance_explained": -0.5710172653198242,
+          "rmse_deg_per_second": 35.39543022250217,
+          "mae_deg_per_second": 28.776157294059416
+        },
+        "no_anchor": {
+          "variance_explained": -0.45923082433053986,
+          "rmse_deg_per_second": 34.11290675276845,
+          "mae_deg_per_second": 28.26291351516928
+        },
+        "sine": {
+          "variance_explained": -0.45923082433053986,
+          "rmse_deg_per_second": 34.11290675276845,
+          "mae_deg_per_second": 28.26291351516928
+        },
+        "local_sine": {
+          "variance_explained": -0.45923082433053986,
+          "rmse_deg_per_second": 34.11290675276845,
+          "mae_deg_per_second": 28.26291351516928
+        },
+        "three_harmonics": {
+          "variance_explained": -0.45923082433053986,
+          "rmse_deg_per_second": 34.11290675276845,
+          "mae_deg_per_second": 28.26291351516928
+        }
+      },
+      "reverse": {
+        "constant": {
+          "variance_explained": -0.00015676021575927734,
+          "rmse_deg_per_second": 961.9582692702331,
+          "mae_deg_per_second": 827.6795915464771
+        },
+        "no_anchor": {
+          "variance_explained": -0.00031903932164389914,
+          "rmse_deg_per_second": 962.0362763625208,
+          "mae_deg_per_second": 827.7660053809462
+        },
+        "sine": {
+          "variance_explained": 0.6131117053267168,
+          "rmse_deg_per_second": 598.2944530182777,
+          "mae_deg_per_second": 433.4437361393924
+        },
+        "local_sine": {
+          "variance_explained": 0.4927305864988647,
+          "rmse_deg_per_second": 685.0803636486671,
+          "mae_deg_per_second": 466.7116980384178
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8281640478508338,
+          "rmse_deg_per_second": 398.730261972152,
+          "mae_deg_per_second": 233.21918572391078
+        }
+      },
+      "self_generated": {
+        "constant": {
+          "variance_explained": -0.000954747200012207,
+          "rmse_deg_per_second": 61.78149942029903,
+          "mae_deg_per_second": 52.77388009383206
+        },
+        "no_anchor": {
+          "variance_explained": -0.0400264235577259,
+          "rmse_deg_per_second": 62.975762068917454,
+          "mae_deg_per_second": 54.41991662869782
+        },
+        "sine": {
+          "variance_explained": -0.0400264235577259,
+          "rmse_deg_per_second": 62.975762068917454,
+          "mae_deg_per_second": 54.41991662869782
+        },
+        "local_sine": {
+          "variance_explained": -0.0400264235577259,
+          "rmse_deg_per_second": 62.975762068917454,
+          "mae_deg_per_second": 54.41991662869782
+        },
+        "three_harmonics": {
+          "variance_explained": -0.1282063035675749,
+          "rmse_deg_per_second": 65.59118933709401,
+          "mae_deg_per_second": 54.27216660035129
+        }
+      }
+    },
+    {
+      "native": {
+        "constant": {
+          "variance_explained": -2.396106719970703e-05,
+          "rmse_deg_per_second": 948.7287939045654,
+          "mae_deg_per_second": 816.9571234552843
+        },
+        "no_anchor": {
+          "variance_explained": -0.00015515484773165333,
+          "rmse_deg_per_second": 948.7909900101718,
+          "mae_deg_per_second": 817.0381979385681
+        },
+        "sine": {
+          "variance_explained": 0.6206295043736685,
+          "rmse_deg_per_second": 584.3440671403307,
+          "mae_deg_per_second": 425.91990864184385
+        },
+        "local_sine": {
+          "variance_explained": 0.5011644484838444,
+          "rmse_deg_per_second": 670.0628833882065,
+          "mae_deg_per_second": 456.49079276069415
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8362238380481793,
+          "rmse_deg_per_second": 383.93898080418177,
+          "mae_deg_per_second": 228.01896862125759
+        }
+      },
+      "blank": {
+        "constant": {
+          "variance_explained": -0.02001786231994629,
+          "rmse_deg_per_second": 3.159833340250074,
+          "mae_deg_per_second": 2.3944167286490576
+        },
+        "no_anchor": {
+          "variance_explained": 0.7451322376164625,
+          "rmse_deg_per_second": 1.5794931202848497,
+          "mae_deg_per_second": 1.190674646222458
+        },
+        "sine": {
+          "variance_explained": 0.7451322376164625,
+          "rmse_deg_per_second": 1.5794931202848497,
+          "mae_deg_per_second": 1.190674646222458
+        },
+        "local_sine": {
+          "variance_explained": 0.7451322376164625,
+          "rmse_deg_per_second": 1.5794931202848497,
+          "mae_deg_per_second": 1.190674646222458
+        },
+        "three_harmonics": {
+          "variance_explained": 0.7451322376164625,
+          "rmse_deg_per_second": 1.5794931202848497,
+          "mae_deg_per_second": 1.190674646222458
+        }
+      },
+      "ordinary": {
+        "constant": {
+          "variance_explained": -0.5444073677062988,
+          "rmse_deg_per_second": 35.398582354804134,
+          "mae_deg_per_second": 26.616456601143263
+        },
+        "no_anchor": {
+          "variance_explained": -0.5140512560869377,
+          "rmse_deg_per_second": 35.04896908638625,
+          "mae_deg_per_second": 25.70041983092444
+        },
+        "sine": {
+          "variance_explained": -0.5140512560869377,
+          "rmse_deg_per_second": 35.04896908638625,
+          "mae_deg_per_second": 25.70041983092444
+        },
+        "local_sine": {
+          "variance_explained": -0.5140512560869377,
+          "rmse_deg_per_second": 35.04896908638625,
+          "mae_deg_per_second": 25.70041983092444
+        },
+        "three_harmonics": {
+          "variance_explained": -0.5140512560869377,
+          "rmse_deg_per_second": 35.04896908638625,
+          "mae_deg_per_second": 25.70041983092444
+        }
+      },
+      "reverse": {
+        "constant": {
+          "variance_explained": -2.396106719970703e-05,
+          "rmse_deg_per_second": 948.7287939045654,
+          "mae_deg_per_second": 816.9571234552843
+        },
+        "no_anchor": {
+          "variance_explained": -0.000155214070667542,
+          "rmse_deg_per_second": 948.7910181009069,
+          "mae_deg_per_second": 817.0382048702089
+        },
+        "sine": {
+          "variance_explained": 0.6206294372069376,
+          "rmse_deg_per_second": 584.3441188687591,
+          "mae_deg_per_second": 425.91992130582366
+        },
+        "local_sine": {
+          "variance_explained": 0.5011643841841535,
+          "rmse_deg_per_second": 670.0629265736158,
+          "mae_deg_per_second": 456.49080349198994
+        },
+        "three_harmonics": {
+          "variance_explained": 0.8362237701389661,
+          "rmse_deg_per_second": 383.9390604036519,
+          "mae_deg_per_second": 228.0189791633469
+        }
+      },
+      "self_generated": {
+        "constant": {
+          "variance_explained": -0.0055435895919799805,
+          "rmse_deg_per_second": 59.74277674550943,
+          "mae_deg_per_second": 52.042844946965594
+        },
+        "no_anchor": {
+          "variance_explained": -0.052219767083348856,
+          "rmse_deg_per_second": 61.113645823017976,
+          "mae_deg_per_second": 53.70786104766958
+        },
+        "sine": {
+          "variance_explained": -0.052219767083348856,
+          "rmse_deg_per_second": 61.113645823017976,
+          "mae_deg_per_second": 53.70786104766958
+        },
+        "local_sine": {
+          "variance_explained": -0.052219767083348856,
+          "rmse_deg_per_second": 61.113645823017976,
+          "mae_deg_per_second": 53.70786104766958
+        },
+        "three_harmonics": {
+          "variance_explained": -0.11858510022744939,
+          "rmse_deg_per_second": 63.01145091926634,
+          "mae_deg_per_second": 54.02872389736653
+        }
+      }
+    }
+  ],
+  "pooled_heldout_fields": {
+    "native": {
+      "constant": {
+        "variance_explained": -8.64267349243164e-05,
+        "rmse_deg_per_second": 953.8752594819,
+        "mae_deg_per_second": 821.4063633221439
+      },
+      "no_anchor": {
+        "variance_explained": -0.000235288844997239,
+        "rmse_deg_per_second": 953.9462090566601,
+        "mae_deg_per_second": 821.4887653345199
+      },
+      "sine": {
+        "variance_explained": 0.6185680118787531,
+        "rmse_deg_per_second": 589.0896004614086,
+        "mae_deg_per_second": 428.7224868496645
+      },
+      "local_sine": {
+        "variance_explained": 0.4983432984795989,
+        "rmse_deg_per_second": 675.5789502075233,
+        "mae_deg_per_second": 460.4792214794196
+      },
+      "three_harmonics": {
+        "variance_explained": 0.8345494799334106,
+        "rmse_deg_per_second": 387.97779321398923,
+        "mae_deg_per_second": 229.37003324426138
+      }
+    },
+    "blank": {
+      "constant": {
+        "variance_explained": -0.019920825958251953,
+        "rmse_deg_per_second": 3.1602510490065026,
+        "mae_deg_per_second": 2.396868766561092
+      },
+      "no_anchor": {
+        "variance_explained": 0.7449318661692579,
+        "rmse_deg_per_second": 1.5803978805003271,
+        "mae_deg_per_second": 1.1888846369096775
+      },
+      "sine": {
+        "variance_explained": 0.7449318661692579,
+        "rmse_deg_per_second": 1.5803978805003271,
+        "mae_deg_per_second": 1.1888846369096775
+      },
+      "local_sine": {
+        "variance_explained": 0.7449318661692579,
+        "rmse_deg_per_second": 1.5803978805003271,
+        "mae_deg_per_second": 1.1888846369096775
+      },
+      "three_harmonics": {
+        "variance_explained": 0.7449318661692579,
+        "rmse_deg_per_second": 1.5803978805003271,
+        "mae_deg_per_second": 1.1888846369096775
+      }
+    },
+    "ordinary": {
+      "constant": {
+        "variance_explained": -0.5831549167633057,
+        "rmse_deg_per_second": 34.57118689912713,
+        "mae_deg_per_second": 27.230495730169284
+      },
+      "no_anchor": {
+        "variance_explained": -0.5039029166529398,
+        "rmse_deg_per_second": 33.69476961257114,
+        "mae_deg_per_second": 26.65052977336687
+      },
+      "sine": {
+        "variance_explained": -0.5039029166529398,
+        "rmse_deg_per_second": 33.69476961257114,
+        "mae_deg_per_second": 26.65052977336687
+      },
+      "local_sine": {
+        "variance_explained": -0.5039029166529398,
+        "rmse_deg_per_second": 33.69476961257114,
+        "mae_deg_per_second": 26.65052977336687
+      },
+      "three_harmonics": {
+        "variance_explained": -0.5039029166529398,
+        "rmse_deg_per_second": 33.69476961257114,
+        "mae_deg_per_second": 26.65052977336687
+      }
+    },
+    "reverse": {
+      "constant": {
+        "variance_explained": -8.654594421386719e-05,
+        "rmse_deg_per_second": 953.8752594819,
+        "mae_deg_per_second": 821.4063633221439
+      },
+      "no_anchor": {
+        "variance_explained": -0.00023536071541996328,
+        "rmse_deg_per_second": 953.9461908065649,
+        "mae_deg_per_second": 821.4887543149549
+      },
+      "sine": {
+        "variance_explained": 0.6185679953799317,
+        "rmse_deg_per_second": 589.0895807678843,
+        "mae_deg_per_second": 428.72246904437077
+      },
+      "local_sine": {
+        "variance_explained": 0.49834327314693994,
+        "rmse_deg_per_second": 675.5789300692473,
+        "mae_deg_per_second": 460.4792048262941
+      },
+      "three_harmonics": {
+        "variance_explained": 0.8345494850949492,
+        "rmse_deg_per_second": 387.97776580089516,
+        "mae_deg_per_second": 229.37001209738852
+      }
+    },
+    "self_generated": {
+      "constant": {
+        "variance_explained": -0.0028090476989746094,
+        "rmse_deg_per_second": 60.31090505048192,
+        "mae_deg_per_second": 51.80511338271413
+      },
+      "no_anchor": {
+        "variance_explained": -0.04624039452787709,
+        "rmse_deg_per_second": 61.603088395813714,
+        "mae_deg_per_second": 53.46166090120489
+      },
+      "sine": {
+        "variance_explained": -0.04624039452787709,
+        "rmse_deg_per_second": 61.603088395813714,
+        "mae_deg_per_second": 53.46166090120489
+      },
+      "local_sine": {
+        "variance_explained": -0.04624039452787709,
+        "rmse_deg_per_second": 61.603088395813714,
+        "mae_deg_per_second": 53.46166090120489
+      },
+      "three_harmonics": {
+        "variance_explained": -0.12486331575276788,
+        "rmse_deg_per_second": 63.87583943011573,
+        "mae_deg_per_second": 53.79134023132354
+      }
+    }
+  },
+  "heldout_recovery": [
+    {
+      "position": [
+        0.0,
+        0.0
+      ],
+      "variants": {
+        "native": {
+          "actual_final_true_heading_mae_deg": 0.9995455712304159,
+          "constant": {
+            "trajectory_prediction_mae_deg": 65.85738065655829,
+            "final_prediction_mae_deg": 66.04447319830328,
+            "predicted_final_true_heading_mae_deg": 66.06310595435907,
+            "sampled_prediction_mae_deg": {
+              "1": 30.886392049459044,
+              "5": 66.05746421810464,
+              "10": 67.73702139538912,
+              "20": 66.3230766145481,
+              "40": 66.04314814160429,
+              "100": 66.04447319830328,
+              "200": 66.04447319830328
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 67.86261680957782,
+            "final_prediction_mae_deg": 69.8691431975791,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 30.9062954827245,
+              "5": 66.13952156707865,
+              "10": 67.8578509778278,
+              "20": 66.59340609833545,
+              "40": 66.71528737706299,
+              "100": 68.13929440678945,
+              "200": 69.8691431975791
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 1.3117573153044644,
+            "final_prediction_mae_deg": 0.9910949955133139,
+            "predicted_final_true_heading_mae_deg": 0.11858069625674621,
+            "sampled_prediction_mae_deg": {
+              "1": 17.02951842076841,
+              "5": 2.8817935597637105,
+              "10": 2.2995521842403726,
+              "20": 1.0960791673198462,
+              "40": 0.9911104243133427,
+              "100": 0.9910949836553455,
+              "200": 0.9910949955133139
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 1.5402202979917898,
+            "final_prediction_mae_deg": 1.0058602017128573,
+            "predicted_final_true_heading_mae_deg": 0.21074980385986944,
+            "sampled_prediction_mae_deg": {
+              "1": 16.232471510371102,
+              "5": 10.59915580071116,
+              "10": 2.5202599606380316,
+              "20": 1.1214449118301113,
+              "40": 1.0037172201794289,
+              "100": 1.0058602135708246,
+              "200": 1.0058602017128573
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 1.721150043103774,
+            "final_prediction_mae_deg": 1.53004980250566,
+            "predicted_final_true_heading_mae_deg": 1.128612657225791,
+            "sampled_prediction_mae_deg": {
+              "1": 5.1042972105763855,
+              "5": 3.2171588170833565,
+              "10": 2.735953354653357,
+              "20": 1.6717393889628138,
+              "40": 1.5272572828256241,
+              "100": 1.5300497906476922,
+              "200": 1.53004980250566
+            }
+          }
+        },
+        "blank": {
+          "actual_final_true_heading_mae_deg": 72.54494181632283,
+          "constant": {
+            "trajectory_prediction_mae_deg": 13.969449522610457,
+            "final_prediction_mae_deg": 27.67631925276894,
+            "predicted_final_true_heading_mae_deg": 66.06310595435907,
+            "sampled_prediction_mae_deg": {
+              "1": 0.11798630188860021,
+              "5": 0.5880957226807882,
+              "10": 1.1520338133191819,
+              "20": 2.180960297038054,
+              "40": 4.670518359174215,
+              "100": 14.106026839027678,
+              "200": 27.67631925276894
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 13.333989069426867,
+            "final_prediction_mae_deg": 27.8887757426924,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05747897781051646,
+              "5": 0.2851552300320498,
+              "10": 0.5807631829079402,
+              "20": 1.27195184424117,
+              "40": 3.6454582854817,
+              "100": 13.221503248850675,
+              "200": 27.8887757426924
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 13.333989069426867,
+            "final_prediction_mae_deg": 27.8887757426924,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05747897781051646,
+              "5": 0.2851552300320498,
+              "10": 0.5807631829079402,
+              "20": 1.27195184424117,
+              "40": 3.6454582854817,
+              "100": 13.221503248850675,
+              "200": 27.8887757426924
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 13.333989069426867,
+            "final_prediction_mae_deg": 27.8887757426924,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05747897781051646,
+              "5": 0.2851552300320498,
+              "10": 0.5807631829079402,
+              "20": 1.27195184424117,
+              "40": 3.6454582854817,
+              "100": 13.221503248850675,
+              "200": 27.8887757426924
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 13.333989069426867,
+            "final_prediction_mae_deg": 27.8887757426924,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05747897781051646,
+              "5": 0.2851552300320498,
+              "10": 0.5807631829079402,
+              "20": 1.27195184424117,
+              "40": 3.6454582854817,
+              "100": 13.221503248850675,
+              "200": 27.8887757426924
+            }
+          }
+        },
+        "ordinary": {
+          "actual_final_true_heading_mae_deg": 89.99998201391065,
+          "constant": {
+            "trajectory_prediction_mae_deg": 88.09521300912336,
+            "final_prediction_mae_deg": 91.67778383257844,
+            "predicted_final_true_heading_mae_deg": 66.06310595435907,
+            "sampled_prediction_mae_deg": {
+              "1": 1.301185721441808,
+              "5": 8.825576855839556,
+              "10": 63.36749666633267,
+              "20": 92.56671929267726,
+              "40": 91.75174112091133,
+              "100": 91.67777700238926,
+              "200": 91.67778383257844
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 92.15472916843252,
+            "final_prediction_mae_deg": 98.98590608050813,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2864492188900774,
+              "5": 8.628940065291367,
+              "10": 63.616036703687456,
+              "20": 93.38012901378296,
+              "40": 93.55030121508084,
+              "100": 95.93858999618446,
+              "200": 98.98590608050813
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 92.15472916843252,
+            "final_prediction_mae_deg": 98.98590608050813,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2864492188900774,
+              "5": 8.628940065291367,
+              "10": 63.616036703687456,
+              "20": 93.38012901378296,
+              "40": 93.55030121508084,
+              "100": 95.93858999618446,
+              "200": 98.98590608050813
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 92.15472916843252,
+            "final_prediction_mae_deg": 98.98590608050813,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2864492188900774,
+              "5": 8.628940065291367,
+              "10": 63.616036703687456,
+              "20": 93.38012901378296,
+              "40": 93.55030121508084,
+              "100": 95.93858999618446,
+              "200": 98.98590608050813
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 92.15472916843252,
+            "final_prediction_mae_deg": 98.98590608050813,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2864492188900774,
+              "5": 8.628940065291367,
+              "10": 63.616036703687456,
+              "20": 93.38012901378296,
+              "40": 93.55030121508084,
+              "100": 95.93858999618446,
+              "200": 98.98590608050813
+            }
+          }
+        },
+        "reverse": {
+          "actual_final_true_heading_mae_deg": 179.00046146543832,
+          "constant": {
+            "trajectory_prediction_mae_deg": 113.56181921632601,
+            "final_prediction_mae_deg": 113.89359565525939,
+            "predicted_final_true_heading_mae_deg": 66.06310595435907,
+            "sampled_prediction_mae_deg": {
+              "1": 49.6884787400622,
+              "5": 113.91180493958663,
+              "10": 115.74424907125268,
+              "20": 114.21729198040462,
+              "40": 113.89192225891273,
+              "100": 113.89359565525939,
+              "200": 113.89359565525939
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 111.63450439968135,
+            "final_prediction_mae_deg": 110.21320478520356,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 49.68197203434737,
+              "5": 113.85356042062487,
+              "10": 115.62950763073053,
+              "20": 113.99699678532625,
+              "40": 113.28339444574334,
+              "100": 111.87975350486508,
+              "200": 110.21320478520356
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 2.0546494469068293,
+            "final_prediction_mae_deg": 0.9910961393909452,
+            "predicted_final_true_heading_mae_deg": 179.8814223925151,
+            "sampled_prediction_mae_deg": {
+              "1": 31.88153522907953,
+              "5": 19.246511920896328,
+              "10": 2.5356036649515192,
+              "20": 1.090221853882761,
+              "40": 0.9896344460126153,
+              "100": 0.9910956334510055,
+              "200": 0.9910961393909452
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 2.974053888041423,
+            "final_prediction_mae_deg": 1.0058611802023691,
+            "predicted_final_true_heading_mae_deg": 179.7892532929747,
+            "sampled_prediction_mae_deg": {
+              "1": 34.52817195097035,
+              "5": 46.01797935238803,
+              "10": 11.497136217974974,
+              "20": 1.1177205591111374,
+              "40": 1.0022364953205118,
+              "100": 1.0058606742624305,
+              "200": 1.0058611802023691
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 2.047444153808513,
+            "final_prediction_mae_deg": 1.5300505389690926,
+            "predicted_final_true_heading_mae_deg": 178.87139174320268,
+            "sampled_prediction_mae_deg": {
+              "1": 21.796480667625357,
+              "5": 5.785205411950602,
+              "10": 2.7868967098675697,
+              "20": 1.679711323312434,
+              "40": 1.5264910815374093,
+              "100": 1.530050033029153,
+              "200": 1.5300505389690926
+            }
+          }
+        },
+        "self_generated": {
+          "actual_final_true_heading_mae_deg": 70.93006653047837,
+          "constant": {
+            "trajectory_prediction_mae_deg": 29.258454026826943,
+            "final_prediction_mae_deg": 32.395580403181306,
+            "predicted_final_true_heading_mae_deg": 66.06310595435907,
+            "sampled_prediction_mae_deg": {
+              "1": 2.551301051242373,
+              "5": 9.347772992417356,
+              "10": 13.178197720473866,
+              "20": 19.568160707911787,
+              "40": 27.136568676250562,
+              "100": 32.45582950184999,
+              "200": 32.395580403181306
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 34.69913628588599,
+            "final_prediction_mae_deg": 43.11463394740686,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 2.6347015952571753,
+              "5": 9.764732480793771,
+              "10": 13.996568818232564,
+              "20": 20.787060069522177,
+              "40": 29.057892780905274,
+              "100": 37.75316925141344,
+              "200": 43.11463394740686
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 34.69913628588599,
+            "final_prediction_mae_deg": 43.11463394740686,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 2.6347015952571753,
+              "5": 9.764732480793771,
+              "10": 13.996568818232564,
+              "20": 20.787060069522177,
+              "40": 29.057892780905274,
+              "100": 37.75316925141344,
+              "200": 43.11463394740686
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 34.69913628588599,
+            "final_prediction_mae_deg": 43.11463394740686,
+            "predicted_final_true_heading_mae_deg": 69.72746988631727,
+            "sampled_prediction_mae_deg": {
+              "1": 2.6347015952571753,
+              "5": 9.764732480793771,
+              "10": 13.996568818232564,
+              "20": 20.787060069522177,
+              "40": 29.057892780905274,
+              "100": 37.75316925141344,
+              "200": 43.11463394740686
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 105.27353185751925,
+            "final_prediction_mae_deg": 133.13275888036486,
+            "predicted_final_true_heading_mae_deg": 110.42691482727672,
+            "sampled_prediction_mae_deg": {
+              "1": 2.7076002499755,
+              "5": 10.8652886751288,
+              "10": 17.775383778050603,
+              "20": 33.11762203247946,
+              "40": 59.25612617975993,
+              "100": 121.21332798980518,
+              "200": 133.13275888036486
+            }
+          }
+        }
+      }
+    },
+    {
+      "position": [
+        0.8,
+        -0.8
+      ],
+      "variants": {
+        "native": {
+          "actual_final_true_heading_mae_deg": 1.57170656929927,
+          "constant": {
+            "trajectory_prediction_mae_deg": 65.8536445430823,
+            "final_prediction_mae_deg": 66.03935055642576,
+            "predicted_final_true_heading_mae_deg": 66.09631433410367,
+            "sampled_prediction_mae_deg": {
+              "1": 31.04685709872474,
+              "5": 66.09367788108405,
+              "10": 67.7180744506315,
+              "20": 66.3049014811667,
+              "40": 66.0380664808618,
+              "100": 66.03935055642576,
+              "200": 66.03935055642576
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 67.7915003009336,
+            "final_prediction_mae_deg": 69.71169307064828,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 31.06689594357112,
+              "5": 66.17561772273149,
+              "10": 67.83544784252669,
+              "20": 66.53553800262763,
+              "40": 66.67375473191407,
+              "100": 68.09091340464043,
+              "200": 69.71169307064828
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 1.834859626252228,
+            "final_prediction_mae_deg": 1.550101302102023,
+            "predicted_final_true_heading_mae_deg": 0.11858069625674443,
+            "sampled_prediction_mae_deg": {
+              "1": 17.097237287221528,
+              "5": 3.0291327211972345,
+              "10": 2.5300173768145524,
+              "20": 1.5099718969038365,
+              "40": 1.546251091264579,
+              "100": 1.550101175617039,
+              "200": 1.550101302102023
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 2.0453596404067023,
+            "final_prediction_mae_deg": 1.5452632715796726,
+            "predicted_final_true_heading_mae_deg": 0.21074980385987052,
+            "sampled_prediction_mae_deg": {
+              "1": 16.372291671002127,
+              "5": 10.768387630698765,
+              "10": 2.720843343095778,
+              "20": 1.5040193402331155,
+              "40": 1.541413060753621,
+              "100": 1.5452631450946879,
+              "200": 1.5452632715796726
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 2.11583348206465,
+            "final_prediction_mae_deg": 1.9447498554330516,
+            "predicted_final_true_heading_mae_deg": 1.1286126572257915,
+            "sampled_prediction_mae_deg": {
+              "1": 5.278022849240595,
+              "5": 3.4019805684378235,
+              "10": 2.959519484400954,
+              "20": 2.02323339537799,
+              "40": 1.9445529104066714,
+              "100": 1.9447497289480677,
+              "200": 1.9447498554330516
+            }
+          }
+        },
+        "blank": {
+          "actual_final_true_heading_mae_deg": 72.5774740073396,
+          "constant": {
+            "trajectory_prediction_mae_deg": 13.74984442664256,
+            "final_prediction_mae_deg": 27.371638174273013,
+            "predicted_final_true_heading_mae_deg": 66.09631433410367,
+            "sampled_prediction_mae_deg": {
+              "1": 0.1174898325133049,
+              "5": 0.589154988971522,
+              "10": 1.1582642265027028,
+              "20": 2.2043974508447177,
+              "40": 4.630141269008862,
+              "100": 13.900277635564798,
+              "200": 27.371638174273013
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 13.1666895827217,
+            "final_prediction_mae_deg": 27.687302347800244,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 0.0569581516633603,
+              "5": 0.2835660220303484,
+              "10": 0.5758842091199455,
+              "20": 1.2525966013464904,
+              "40": 3.6209613709319535,
+              "100": 13.082804143155467,
+              "200": 27.687302347800244
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 13.1666895827217,
+            "final_prediction_mae_deg": 27.687302347800244,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 0.0569581516633603,
+              "5": 0.2835660220303484,
+              "10": 0.5758842091199455,
+              "20": 1.2525966013464904,
+              "40": 3.6209613709319535,
+              "100": 13.082804143155467,
+              "200": 27.687302347800244
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 13.1666895827217,
+            "final_prediction_mae_deg": 27.687302347800244,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 0.0569581516633603,
+              "5": 0.2835660220303484,
+              "10": 0.5758842091199455,
+              "20": 1.2525966013464904,
+              "40": 3.6209613709319535,
+              "100": 13.082804143155467,
+              "200": 27.687302347800244
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 13.1666895827217,
+            "final_prediction_mae_deg": 27.687302347800244,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 0.0569581516633603,
+              "5": 0.2835660220303484,
+              "10": 0.5758842091199455,
+              "20": 1.2525966013464904,
+              "40": 3.6209613709319535,
+              "100": 13.082804143155467,
+              "200": 27.687302347800244
+            }
+          }
+        },
+        "ordinary": {
+          "actual_final_true_heading_mae_deg": 89.999995674289,
+          "constant": {
+            "trajectory_prediction_mae_deg": 88.17520818468255,
+            "final_prediction_mae_deg": 92.20755379517213,
+            "predicted_final_true_heading_mae_deg": 66.09631433410367,
+            "sampled_prediction_mae_deg": {
+              "1": 1.4310221747567555,
+              "5": 7.808455820492521,
+              "10": 48.061937491115366,
+              "20": 92.71689466195834,
+              "40": 92.26524840309123,
+              "100": 92.20755379517213,
+              "200": 92.20755379517213
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 91.93540335557078,
+            "final_prediction_mae_deg": 98.75143545188737,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 1.4060973725489996,
+              "5": 7.4848677432783655,
+              "10": 48.3131740292144,
+              "20": 93.26850187134676,
+              "40": 93.99911416653404,
+              "100": 96.23317558184014,
+              "200": 98.75143545188737
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 91.93540335557078,
+            "final_prediction_mae_deg": 98.75143545188737,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 1.4060973725489996,
+              "5": 7.4848677432783655,
+              "10": 48.3131740292144,
+              "20": 93.26850187134676,
+              "40": 93.99911416653404,
+              "100": 96.23317558184014,
+              "200": 98.75143545188737
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 91.93540335557078,
+            "final_prediction_mae_deg": 98.75143545188737,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 1.4060973725489996,
+              "5": 7.4848677432783655,
+              "10": 48.3131740292144,
+              "20": 93.26850187134676,
+              "40": 93.99911416653404,
+              "100": 96.23317558184014,
+              "200": 98.75143545188737
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 91.93540335557078,
+            "final_prediction_mae_deg": 98.75143545188737,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 1.4060973725489996,
+              "5": 7.4848677432783655,
+              "10": 48.3131740292144,
+              "20": 93.26850187134676,
+              "40": 93.99911416653404,
+              "100": 96.23317558184014,
+              "200": 98.75143545188737
+            }
+          }
+        },
+        "reverse": {
+          "actual_final_true_heading_mae_deg": 178.42832383942303,
+          "constant": {
+            "trajectory_prediction_mae_deg": 113.46478954897681,
+            "final_prediction_mae_deg": 113.78547376069808,
+            "predicted_final_true_heading_mae_deg": 66.09631433410367,
+            "sampled_prediction_mae_deg": {
+              "1": 50.81869063259172,
+              "5": 113.87217618202223,
+              "10": 115.64515668677413,
+              "20": 114.12672367201026,
+              "40": 113.78452436440345,
+              "100": 113.78547376069808,
+              "200": 113.78547376069808
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 111.4655537161931,
+            "final_prediction_mae_deg": 110.03326503030856,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 50.81409668167501,
+              "5": 113.79836772615567,
+              "10": 115.49866473633621,
+              "20": 113.83427261846046,
+              "40": 113.11776426252959,
+              "100": 111.69962012425721,
+              "200": 110.03326503030856
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 2.5983957260488095,
+            "final_prediction_mae_deg": 1.5501022368172075,
+            "predicted_final_true_heading_mae_deg": 179.8814223925151,
+            "sampled_prediction_mae_deg": {
+              "1": 32.96207997868108,
+              "5": 19.459188006434584,
+              "10": 3.1679997678828906,
+              "20": 1.5028941571393046,
+              "40": 1.5470084852409651,
+              "100": 1.550102616272162,
+              "200": 1.5501022368172075
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 3.5240684510455633,
+            "final_prediction_mae_deg": 1.5452642194023767,
+            "predicted_final_true_heading_mae_deg": 179.7892532929747,
+            "sampled_prediction_mae_deg": {
+              "1": 35.70676475226175,
+              "5": 45.94361692478959,
+              "10": 11.932033268157847,
+              "20": 1.5927490188846425,
+              "40": 1.5421705136619142,
+              "100": 1.5452645988573304,
+              "200": 1.5452642194023767
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 2.4434039803983247,
+            "final_prediction_mae_deg": 1.9447494809111951,
+            "predicted_final_true_heading_mae_deg": 178.87139174320268,
+            "sampled_prediction_mae_deg": {
+              "1": 22.858568232127045,
+              "5": 5.909208212851746,
+              "10": 2.9553173925238965,
+              "20": 1.9735121483703468,
+              "40": 1.94435997830634,
+              "100": 1.9447498603661497,
+              "200": 1.9447494809111951
+            }
+          }
+        },
+        "self_generated": {
+          "actual_final_true_heading_mae_deg": 76.38212160146848,
+          "constant": {
+            "trajectory_prediction_mae_deg": 41.0742475739367,
+            "final_prediction_mae_deg": 47.97429250368576,
+            "predicted_final_true_heading_mae_deg": 66.09631433410367,
+            "sampled_prediction_mae_deg": {
+              "1": 2.6298706382557335,
+              "5": 9.666434614370655,
+              "10": 13.943732152838066,
+              "20": 24.370675034117436,
+              "40": 34.213472816820634,
+              "100": 45.49053860824023,
+              "200": 47.97429250368576
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 47.39133585531797,
+            "final_prediction_mae_deg": 59.669558829135056,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 2.7122083486610578,
+              "5": 10.092976170851147,
+              "10": 14.771702334742143,
+              "20": 25.613416301807266,
+              "40": 36.90560912291805,
+              "100": 52.049055232357155,
+              "200": 59.669558829135056
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 47.39133585531797,
+            "final_prediction_mae_deg": 59.669558829135056,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 2.7122083486610578,
+              "5": 10.092976170851147,
+              "10": 14.771702334742143,
+              "20": 25.613416301807266,
+              "40": 36.90560912291805,
+              "100": 52.049055232357155,
+              "200": 59.669558829135056
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 47.39133585531797,
+            "final_prediction_mae_deg": 59.669558829135056,
+            "predicted_final_true_heading_mae_deg": 69.7925439364211,
+            "sampled_prediction_mae_deg": {
+              "1": 2.7122083486610578,
+              "5": 10.092976170851147,
+              "10": 14.771702334742143,
+              "20": 25.613416301807266,
+              "40": 36.90560912291805,
+              "100": 52.049055232357155,
+              "200": 59.669558829135056
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 101.65683067615132,
+            "final_prediction_mae_deg": 120.5118833324583,
+            "predicted_final_true_heading_mae_deg": 110.52522814799117,
+            "sampled_prediction_mae_deg": {
+              "1": 2.75292113820916,
+              "5": 11.076833163481902,
+              "10": 19.139812641607165,
+              "20": 38.521540065697884,
+              "40": 65.96402063992534,
+              "100": 120.71430226232555,
+              "200": 120.5118833324583
+            }
+          }
+        }
+      }
+    },
+    {
+      "position": [
+        10.0,
+        10.0
+      ],
+      "variants": {
+        "native": {
+          "actual_final_true_heading_mae_deg": 1.0304453470355535,
+          "constant": {
+            "trajectory_prediction_mae_deg": 65.85311178832703,
+            "final_prediction_mae_deg": 66.04708916075539,
+            "predicted_final_true_heading_mae_deg": 66.07277067203464,
+            "sampled_prediction_mae_deg": {
+              "1": 30.782665381628647,
+              "5": 65.98442900530969,
+              "10": 67.65750433307183,
+              "20": 66.3040340471421,
+              "40": 66.045265500247,
+              "100": 66.04708916075539,
+              "200": 66.04708916075539
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 67.88579885687358,
+            "final_prediction_mae_deg": 70.002727705679,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 30.801813890829596,
+              "5": 66.0673336536885,
+              "10": 67.77804661680798,
+              "20": 66.54324458181092,
+              "40": 66.68038048815036,
+              "100": 68.14124598360011,
+              "200": 70.002727705679
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 1.3551567455644815,
+            "final_prediction_mae_deg": 1.033443262179182,
+            "predicted_final_true_heading_mae_deg": 0.11858069625674383,
+            "sampled_prediction_mae_deg": {
+              "1": 16.969990188933977,
+              "5": 3.005596814821671,
+              "10": 2.379030083094961,
+              "20": 1.0892297187670903,
+              "40": 1.0320272627762515,
+              "100": 1.0334430092092137,
+              "200": 1.033443262179182
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 1.5720389831998522,
+            "final_prediction_mae_deg": 1.0358228675163257,
+            "predicted_final_true_heading_mae_deg": 0.21074980385987133,
+            "sampled_prediction_mae_deg": {
+              "1": 16.15897771043103,
+              "5": 10.682768082492148,
+              "10": 2.5897272269867715,
+              "20": 1.117893739282063,
+              "40": 1.0344068681099194,
+              "100": 1.0358226145463565,
+              "200": 1.0358228675163257
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 1.9128952573974152,
+            "final_prediction_mae_deg": 1.7250704471708962,
+            "predicted_final_true_heading_mae_deg": 1.128612657225789,
+            "sampled_prediction_mae_deg": {
+              "1": 5.12494088092696,
+              "5": 3.4079035635142083,
+              "10": 2.960687350710844,
+              "20": 1.8485399716050523,
+              "40": 1.7220776859495692,
+              "100": 1.7250704471708953,
+              "200": 1.7250704471708962
+            }
+          }
+        },
+        "blank": {
+          "actual_final_true_heading_mae_deg": 72.50617366259384,
+          "constant": {
+            "trajectory_prediction_mae_deg": 14.117305188894662,
+            "final_prediction_mae_deg": 27.78212571320161,
+            "predicted_final_true_heading_mae_deg": 66.07277067203464,
+            "sampled_prediction_mae_deg": {
+              "1": 0.11709553583108212,
+              "5": 0.5846781734965488,
+              "10": 1.1443778115898322,
+              "20": 2.197346134300326,
+              "40": 4.784480919249525,
+              "100": 14.410889771310258,
+              "200": 27.78212571320161
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 13.321974522089276,
+            "final_prediction_mae_deg": 27.76578653461419,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05766591577899587,
+              "5": 0.2862636308854053,
+              "10": 0.583921790633816,
+              "20": 1.2793568953553325,
+              "40": 3.6769740417331067,
+              "100": 13.335655394856177,
+              "200": 27.76578653461419
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 13.321974522089276,
+            "final_prediction_mae_deg": 27.76578653461419,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05766591577899587,
+              "5": 0.2862636308854053,
+              "10": 0.583921790633816,
+              "20": 1.2793568953553325,
+              "40": 3.6769740417331067,
+              "100": 13.335655394856177,
+              "200": 27.76578653461419
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 13.321974522089276,
+            "final_prediction_mae_deg": 27.76578653461419,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05766591577899587,
+              "5": 0.2862636308854053,
+              "10": 0.583921790633816,
+              "20": 1.2793568953553325,
+              "40": 3.6769740417331067,
+              "100": 13.335655394856177,
+              "200": 27.76578653461419
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 13.321974522089276,
+            "final_prediction_mae_deg": 27.76578653461419,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 0.05766591577899587,
+              "5": 0.2862636308854053,
+              "10": 0.583921790633816,
+              "20": 1.2793568953553325,
+              "40": 3.6769740417331067,
+              "100": 13.335655394856177,
+              "200": 27.76578653461419
+            }
+          }
+        },
+        "ordinary": {
+          "actual_final_true_heading_mae_deg": 89.99998884409983,
+          "constant": {
+            "trajectory_prediction_mae_deg": 88.16916346726708,
+            "final_prediction_mae_deg": 91.48239944118106,
+            "predicted_final_true_heading_mae_deg": 66.07277067203464,
+            "sampled_prediction_mae_deg": {
+              "1": 1.3361811561497203,
+              "5": 10.217933970035103,
+              "10": 78.04353779631741,
+              "20": 92.5116816283453,
+              "40": 91.5650242395707,
+              "100": 91.48239944118106,
+              "200": 91.48239944118106
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 92.24604761123261,
+            "final_prediction_mae_deg": 98.98287319536131,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2959287925876677,
+              "5": 10.440639235441372,
+              "10": 78.4586123642122,
+              "20": 93.40910880945655,
+              "40": 93.35239568296974,
+              "100": 95.69537632743615,
+              "200": 98.98287319536131
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 92.24604761123261,
+            "final_prediction_mae_deg": 98.98287319536131,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2959287925876677,
+              "5": 10.440639235441372,
+              "10": 78.4586123642122,
+              "20": 93.40910880945655,
+              "40": 93.35239568296974,
+              "100": 95.69537632743615,
+              "200": 98.98287319536131
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 92.24604761123261,
+            "final_prediction_mae_deg": 98.98287319536131,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2959287925876677,
+              "5": 10.440639235441372,
+              "10": 78.4586123642122,
+              "20": 93.40910880945655,
+              "40": 93.35239568296974,
+              "100": 95.69537632743615,
+              "200": 98.98287319536131
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 92.24604761123261,
+            "final_prediction_mae_deg": 98.98287319536131,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 1.2959287925876677,
+              "5": 10.440639235441372,
+              "10": 78.4586123642122,
+              "20": 93.40910880945655,
+              "40": 93.35239568296974,
+              "100": 95.69537632743615,
+              "200": 98.98287319536131
+            }
+          }
+        },
+        "reverse": {
+          "actual_final_true_heading_mae_deg": 178.96957535001152,
+          "constant": {
+            "trajectory_prediction_mae_deg": 113.61544303149978,
+            "final_prediction_mae_deg": 113.95397452752229,
+            "predicted_final_true_heading_mae_deg": 66.07277067203464,
+            "sampled_prediction_mae_deg": {
+              "1": 49.56105814600103,
+              "5": 113.88923116437975,
+              "10": 115.74185850504317,
+              "20": 114.26500768194634,
+              "40": 113.95193230096046,
+              "100": 113.95397452752229,
+              "200": 113.95397452752229
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 111.62685113737372,
+            "final_prediction_mae_deg": 110.06887432998685,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 49.55450369188711,
+              "5": 113.84746628982234,
+              "10": 115.6327029443455,
+              "20": 114.03583524627568,
+              "40": 113.36320057077843,
+              "100": 111.8918881457638,
+              "200": 110.06887432998685
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 2.0812454710468162,
+            "final_prediction_mae_deg": 1.033444358423991,
+            "predicted_final_true_heading_mae_deg": 179.88142239251505,
+            "sampled_prediction_mae_deg": {
+              "1": 31.815146173832503,
+              "5": 19.174041677674364,
+              "10": 2.482424605929083,
+              "20": 1.022814324566461,
+              "40": 1.0289361450279122,
+              "100": 1.0334442319390071,
+              "200": 1.033444358423991
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 2.9867196997047953,
+            "final_prediction_mae_deg": 1.0358239442640644,
+            "predicted_final_true_heading_mae_deg": 179.7892532929747,
+            "sampled_prediction_mae_deg": {
+              "1": 34.42567444008313,
+              "5": 46.00694160371808,
+              "10": 10.987101625578413,
+              "20": 1.0634806136793415,
+              "40": 1.0313157354924296,
+              "100": 1.0358238177790804,
+              "200": 1.0358239442640644
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 2.2474553903348,
+            "final_prediction_mae_deg": 1.7250720073473234,
+            "predicted_final_true_heading_mae_deg": 178.87139174320268,
+            "sampled_prediction_mae_deg": {
+              "1": 22.035920926278504,
+              "5": 6.854616302746958,
+              "10": 2.9217604159324355,
+              "20": 1.79560498486597,
+              "40": 1.7203792602639805,
+              "100": 1.7250718808623395,
+              "200": 1.7250720073473234
+            }
+          }
+        },
+        "self_generated": {
+          "actual_final_true_heading_mae_deg": 77.44595088545465,
+          "constant": {
+            "trajectory_prediction_mae_deg": 37.11962268601268,
+            "final_prediction_mae_deg": 44.74452827161851,
+            "predicted_final_true_heading_mae_deg": 66.07277067203464,
+            "sampled_prediction_mae_deg": {
+              "1": 2.6419242145935136,
+              "5": 9.702695234900606,
+              "10": 14.280576592135585,
+              "20": 22.359310682048328,
+              "40": 33.249791181539784,
+              "100": 39.92709339717097,
+              "200": 44.74452827161851
+            }
+          },
+          "no_anchor": {
+            "trajectory_prediction_mae_deg": 42.2592889856265,
+            "final_prediction_mae_deg": 54.23818910846111,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 2.721356675914236,
+              "5": 10.109996227050647,
+              "10": 15.085082052956773,
+              "20": 23.722941734349188,
+              "40": 35.69683789643676,
+              "100": 45.023039665822694,
+              "200": 54.23818910846111
+            }
+          },
+          "sine": {
+            "trajectory_prediction_mae_deg": 42.2592889856265,
+            "final_prediction_mae_deg": 54.23818910846111,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 2.721356675914236,
+              "5": 10.109996227050647,
+              "10": 15.085082052956773,
+              "20": 23.722941734349188,
+              "40": 35.69683789643676,
+              "100": 45.023039665822694,
+              "200": 54.23818910846111
+            }
+          },
+          "local_sine": {
+            "trajectory_prediction_mae_deg": 42.2592889856265,
+            "final_prediction_mae_deg": 54.23818910846111,
+            "predicted_final_true_heading_mae_deg": 69.87443576815878,
+            "sampled_prediction_mae_deg": {
+              "1": 2.721356675914236,
+              "5": 10.109996227050647,
+              "10": 15.085082052956773,
+              "20": 23.722941734349188,
+              "40": 35.69683789643676,
+              "100": 45.023039665822694,
+              "200": 54.23818910846111
+            }
+          },
+          "three_harmonics": {
+            "trajectory_prediction_mae_deg": 107.25853706185688,
+            "final_prediction_mae_deg": 118.17257183776134,
+            "predicted_final_true_heading_mae_deg": 110.54671860511363,
+            "sampled_prediction_mae_deg": {
+              "1": 2.7566800792219945,
+              "5": 11.152281257771621,
+              "10": 18.687805491130238,
+              "20": 35.675208581233335,
+              "40": 68.95504911665748,
+              "100": 128.5271503450919,
+              "200": 118.17257183776134
+            }
+          }
+        }
+      }
+    }
+  ],
+  "protocol": {
+    "plan": "docs/research/heading_phase_reduction_protocol.md",
+    "equation": "dphi/dt=f0(phi)+k*sin(theta_cue-phi)",
+    "f0": "independently fitted blank-input field; three Fourier harmonics plus intercept",
+    "coefficient_sign_constrained": false,
+    "phase_readout": "trained linear cosine/sine heading output",
+    "fit_positions": [
+      [
+        -0.8,
+        -0.8
+      ],
+      [
+        0.8,
+        0.8
+      ]
+    ],
+    "heldout_positions": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.8,
+        -0.8
+      ],
+      [
+        10.0,
+        10.0
+      ]
+    ],
+    "fit_angles": "even indices",
+    "heldout_angles": "odd indices",
+    "n_phase": 72,
+    "initial_heading_steps": 4,
+    "blank_settle_steps": 40,
+    "recovery_steps": 200,
+    "dt": 0.05,
+    "main_reduction": "sine",
+    "diagnostics": [
+      "local_sine",
+      "three_harmonics"
+    ],
+    "sensory_and_recurrent_noise": 0,
+    "heldout_trajectories_used_for_fit": false,
+    "reversed_cue_refitted": false,
+    "grid_reversal": "no-op",
+    "explicit_heading_reversal": "reverse heading components, ordinary code unchanged"
+  }
+}

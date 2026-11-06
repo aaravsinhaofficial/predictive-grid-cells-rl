@@ -1,0 +1,2372 @@
+{
+  "checkpoint": "results/ring_cloud_artifacts/ring-20261105-confirm-01/predictive_s2001.pt",
+  "checkpoint_sha256": "1f1b0b6014727edd563aa0e70c6b9dace99c168fdbd2bffc7f420983f1e46222",
+  "seed": 2001,
+  "condition": "predictive",
+  "steps_completed": 6000,
+  "stage": "exploratory_validation",
+  "protocol": "docs/research/heading_geometry_confirmation_protocol.md",
+  "source_hashes": {
+    "scripts/evaluate_heading_geometry_confirmation.py": "b8b6b222ab9ed5ad1e5f579a882078b191eab2ab5e4003d84752828cc39efbbe",
+    "docs/research/heading_geometry_confirmation_protocol.md": "e671b8f2febeb365362210983c70345a3e3dfe1506e19c6fc3417ca93b3d94d0",
+    "docs/research/heading_confirmation_sources.json": "202a982b392dc5be2a0c29217b73b455728a9f61c4027530f42eac2b665176fc",
+    "scripts/train_ring_heading.py": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa",
+    "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+    "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "verified_training_sources": {
+    "scripts/train_ring_heading.py": "19d283beccd289e38cf516fb4b760bfe2ff1e45bd5fcc471a82a89308526d3fa",
+    "scripts/ring_heading_model.py": "6972766bfb029e5e97049123434ff75a235fec92c76c89986782dda12a1582f1",
+    "scripts/ring_task_model.py": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "n_phase": 1024,
+  "refinement_levels": 20,
+  "primary": 2.3428071064336824,
+  "maps": {
+    "native_blank0": {
+      "input_condition": "predictive",
+      "blank_steps": 0,
+      "blank_seconds": 0.0,
+      "log10_peak_over_median": 0.3220413387481167,
+      "peak_over_median": 2.0991396827930626,
+      "absolute_peak_sensitivity": 12.763237567066618,
+      "absolute_median_sensitivity": 6.080223089339236,
+      "peak_angle_rad": 5.55572326695136,
+      "uniform_sensitivity": {
+        "min": 3.2713758223928653,
+        "median": 6.080223089339236,
+        "max": 12.760566008030256,
+        "mean": 6.472900284753632,
+        "q10": 4.51272849517124,
+        "q90": 8.770957498235134
+      },
+      "state_radius": 4.2661145570320596,
+      "peak_over_radius_descriptive": 2.991770942022245,
+      "median_over_radius_descriptive": 1.42523671318598,
+      "decoded_heading_mae_deg": 2.2999871139145345,
+      "decoded_coverage": 0.9984211275236072,
+      "decoded_winding": 0.9999999999999991,
+      "readout_amplitude": {
+        "min": 1.1252827923130857,
+        "median": 1.1991400789149669,
+        "max": 1.264834665146619,
+        "mean": 1.1932680686420547,
+        "q10": 1.137192761648887,
+        "q90": 1.2421968065281124
+      },
+      "decoded_angular_derivative": {
+        "min": 0.44565515560748087,
+        "median": 1.0118914343884777,
+        "max": 1.6166491515842651,
+        "mean": 1.0,
+        "q10": 0.680515083916716,
+        "q90": 1.3661611543950636
+      },
+      "decoded_derivative_nonpositive_fraction": 0.0,
+      "endpoint_closure_error": 2.5361443640435872e-15,
+      "flags": {
+        "state_radius_below_1e_minus8": false,
+        "median_sensitivity_below_1e_minus8": false,
+        "readout_amplitude_below_1e_minus8": false,
+        "primary_floor_used": false
+      },
+      "independent_autograd_relative_errors": [
+        4.358989474483722e-16,
+        3.5214128091759956e-16,
+        4.550431124214301e-16,
+        3.876670770249118e-16,
+        3.509201339951972e-16
+      ],
+      "adaptive_refinements": [
+        {
+          "original_interval": 905,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.553010452146021,
+              "high_rad": 5.559146375297563,
+              "state_separation": 0.07830463555307422
+            },
+            {
+              "level": 1,
+              "low_rad": 5.553010452146021,
+              "high_rad": 5.556078413721792,
+              "state_separation": 0.03915440660148338
+            },
+            {
+              "level": 2,
+              "low_rad": 5.554544432933906,
+              "high_rad": 5.556078413721792,
+              "state_separation": 0.019578321565822347
+            },
+            {
+              "level": 3,
+              "low_rad": 5.555311423327849,
+              "high_rad": 5.556078413721792,
+              "state_separation": 0.009789262093378404
+            },
+            {
+              "level": 4,
+              "low_rad": 5.555694918524821,
+              "high_rad": 5.556078413721792,
+              "state_separation": 0.004894634337685389
+            },
+            {
+              "level": 5,
+              "low_rad": 5.555694918524821,
+              "high_rad": 5.555886666123307,
+              "state_separation": 0.002447319546995993
+            },
+            {
+              "level": 6,
+              "low_rad": 5.555694918524821,
+              "high_rad": 5.555790792324064,
+              "state_separation": 0.0012236600261506725
+            },
+            {
+              "level": 7,
+              "low_rad": 5.555694918524821,
+              "high_rad": 5.555742855424443,
+              "state_separation": 0.0006118300334441376
+            },
+            {
+              "level": 8,
+              "low_rad": 5.555718886974631,
+              "high_rad": 5.555742855424443,
+              "state_separation": 0.00030591501788980186
+            },
+            {
+              "level": 9,
+              "low_rad": 5.555718886974631,
+              "high_rad": 5.555730871199537,
+              "state_separation": 0.00015295750943618026
+            },
+            {
+              "level": 10,
+              "low_rad": 5.555718886974631,
+              "high_rad": 5.555724879087084,
+              "state_separation": 7.647875475091424e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.5557218830308575,
+              "high_rad": 5.555724879087084,
+              "state_separation": 3.82393773766837e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.5557218830308575,
+              "high_rad": 5.555723381058971,
+              "state_separation": 1.9119688689513598e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.555722632044914,
+              "high_rad": 5.555723381058971,
+              "state_separation": 9.559844351114831e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.555723006551942,
+              "high_rad": 5.555723381058971,
+              "state_separation": 4.7799221818982535e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.555723193805456,
+              "high_rad": 5.555723381058971,
+              "state_separation": 2.389961095788911e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.555723193805456,
+              "high_rad": 5.5557232874322136,
+              "state_separation": 1.1949805522419293e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.555723240618835,
+              "high_rad": 5.5557232874322136,
+              "state_separation": 5.974902763599165e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.555723264025524,
+              "high_rad": 5.5557232874322136,
+              "state_separation": 2.9874514326859003e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.555723264025524,
+              "high_rad": 5.555723275728869,
+              "state_separation": 1.4937257267763317e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.555723264025524,
+              "high_rad": 5.555723269877197,
+              "state_separation": 7.468629213760455e-08
+            }
+          ],
+          "center_rad": 5.55572326695136
+        },
+        {
+          "original_interval": 908,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.577554144752191,
+              "state_separation": 0.07764993190202879
+            },
+            {
+              "level": 1,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.57448618317642,
+              "state_separation": 0.038875268900918615
+            },
+            {
+              "level": 2,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.572952202388534,
+              "state_separation": 0.019449312090258693
+            },
+            {
+              "level": 3,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.572185211994592,
+              "state_separation": 0.009727459130943868
+            },
+            {
+              "level": 4,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.57180171679762,
+              "state_separation": 0.004864415537429251
+            },
+            {
+              "level": 5,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571609969199134,
+              "state_separation": 0.0024323773954328482
+            },
+            {
+              "level": 6,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571514095399891,
+              "state_separation": 0.0012162308700897659
+            },
+            {
+              "level": 7,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.57146615850027,
+              "state_separation": 0.0006081259487848523
+            },
+            {
+              "level": 8,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571442190050459,
+              "state_separation": 0.000304065599154087
+            },
+            {
+              "level": 9,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571430205825553,
+              "state_separation": 0.00015203345530165143
+            },
+            {
+              "level": 10,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571424213713101,
+              "state_separation": 7.601689152641297e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571421217656875,
+              "state_separation": 3.800848672440783e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571419719628762,
+              "state_separation": 1.9004253602865148e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.571418970614705,
+              "state_separation": 9.502129354708356e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.5714185961076765,
+              "state_separation": 4.7510653164674395e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.5714184088541625,
+              "state_separation": 2.3755328173267467e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.5714183152274055,
+              "state_separation": 1.1877664485575075e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.5714182684140265,
+              "state_separation": 5.938832284602256e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.5714182216006485,
+              "high_rad": 5.5714182450073375,
+              "state_separation": 2.9694161526280647e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.5714182333039926,
+              "high_rad": 5.5714182450073375,
+              "state_separation": 1.4847081191332588e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.5714182333039926,
+              "high_rad": 5.5714182391556655,
+              "state_separation": 7.423541223879905e-08
+            }
+          ],
+          "center_rad": 5.571418236229829
+        },
+        {
+          "original_interval": 902,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.534602682691394,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.07750971499333213
+            },
+            {
+              "level": 1,
+              "low_rad": 5.537670644267164,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.038825748714546894
+            },
+            {
+              "level": 2,
+              "low_rad": 5.53920462505505,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.019428892175638625
+            },
+            {
+              "level": 3,
+              "low_rad": 5.539971615448993,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.009718238185976091
+            },
+            {
+              "level": 4,
+              "low_rad": 5.540355110645964,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.0048600406385403624
+            },
+            {
+              "level": 5,
+              "low_rad": 5.540546858244451,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.0024302474004189436
+            },
+            {
+              "level": 6,
+              "low_rad": 5.540642732043693,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.0012151800576514743
+            },
+            {
+              "level": 7,
+              "low_rad": 5.540690668943315,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.0006076040666009491
+            },
+            {
+              "level": 8,
+              "low_rad": 5.540714637393125,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.00030380553629847463
+            },
+            {
+              "level": 9,
+              "low_rad": 5.540726621618031,
+              "high_rad": 5.540738605842936,
+              "state_separation": 0.00015190364308703124
+            },
+            {
+              "level": 10,
+              "low_rad": 5.5407326137304835,
+              "high_rad": 5.540738605842936,
+              "state_separation": 7.595204017930526e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.54073560978671,
+              "high_rad": 5.540738605842936,
+              "state_separation": 3.7976074736179665e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.540737107814823,
+              "high_rad": 5.540738605842936,
+              "state_separation": 1.8988051028099405e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.54073785682888,
+              "high_rad": 5.540738605842936,
+              "state_separation": 9.49402892371293e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.540738231335908,
+              "high_rad": 5.540738605842936,
+              "state_separation": 4.747015315656154e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.540738418589422,
+              "high_rad": 5.540738605842936,
+              "state_separation": 2.3735078721119553e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.540738512216179,
+              "high_rad": 5.540738605842936,
+              "state_separation": 1.1867539898557151e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.540738559029558,
+              "high_rad": 5.540738605842936,
+              "state_separation": 5.933770034836304e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.540738582436247,
+              "high_rad": 5.540738605842936,
+              "state_separation": 2.9668850606583365e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.540738582436247,
+              "high_rad": 5.540738594139592,
+              "state_separation": 1.4834425796643516e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.540738588287919,
+              "high_rad": 5.540738594139592,
+              "state_separation": 7.417213461636578e-08
+            }
+          ],
+          "center_rad": 5.5407385912137554
+        },
+        {
+          "original_interval": 911,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.595961914206819,
+              "state_separation": 0.07613415516342231
+            },
+            {
+              "level": 1,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.592893952631048,
+              "state_separation": 0.03814308346461569
+            },
+            {
+              "level": 2,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.591359971843162,
+              "state_separation": 0.019089974863676036
+            },
+            {
+              "level": 3,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.59059298144922,
+              "state_separation": 0.009549523060724412
+            },
+            {
+              "level": 4,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.590209486252248,
+              "state_separation": 0.004775886245667964
+            },
+            {
+              "level": 5,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.590017738653762,
+              "state_separation": 0.002388223145482768
+            },
+            {
+              "level": 6,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589921864854519,
+              "state_separation": 0.0011941814334242313
+            },
+            {
+              "level": 7,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589873927954898,
+              "state_separation": 0.0005971081637315077
+            },
+            {
+              "level": 8,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589849959505087,
+              "state_separation": 0.0002985584413494038
+            },
+            {
+              "level": 9,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589837975280181,
+              "state_separation": 0.0001492803102562619
+            },
+            {
+              "level": 10,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589831983167729,
+              "state_separation": 7.464042748873158e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589828987111503,
+              "state_separation": 3.732028182900382e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.5898274890833894,
+              "state_separation": 1.86601579342868e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.5898267400693324,
+              "state_separation": 9.330083216176917e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589826365562304,
+              "state_separation": 4.665042670961652e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.58982617830879,
+              "state_separation": 2.3325216016501435e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589826084682033,
+              "state_separation": 1.1662608648373015e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589826037868654,
+              "state_separation": 5.831304428453691e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.589825991055276,
+              "high_rad": 5.589826014461965,
+              "state_separation": 2.915652243595642e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.58982600275862,
+              "high_rad": 5.589826014461965,
+              "state_separation": 1.4578261792469924e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.58982600275862,
+              "high_rad": 5.589826008610293,
+              "state_separation": 7.28913162139243e-08
+            }
+          ],
+          "center_rad": 5.589826005684457
+        }
+      ]
+    },
+    "native_blank40": {
+      "input_condition": "predictive",
+      "blank_steps": 40,
+      "blank_seconds": 2.0,
+      "log10_peak_over_median": 2.3428071064336824,
+      "peak_over_median": 220.19482420392782,
+      "absolute_peak_sensitivity": 822.6764120406107,
+      "absolute_median_sensitivity": 3.7361296525240295,
+      "peak_angle_rad": 5.436156953505907,
+      "uniform_sensitivity": {
+        "min": 1.8044465964209602,
+        "median": 3.7361296525240295,
+        "max": 817.9667511598535,
+        "mean": 5.495929794587884,
+        "q10": 2.7109371281583345,
+        "q90": 5.8212009511065075
+      },
+      "state_radius": 4.501943380613541,
+      "peak_over_radius_descriptive": 182.7380627626848,
+      "median_over_radius_descriptive": 0.8298926345037365,
+      "decoded_heading_mae_deg": 3.700636370011297,
+      "decoded_coverage": 0.9844417581556598,
+      "decoded_winding": 0.9999999999999997,
+      "readout_amplitude": {
+        "min": 0.932969990311421,
+        "median": 0.9473682643152679,
+        "max": 1.008319121008639,
+        "mean": 0.9579973689171661,
+        "q10": 0.9388748828318644,
+        "q90": 0.9897546277720529
+      },
+      "decoded_angular_derivative": {
+        "min": -5.21419780126808,
+        "median": 1.0058111201646738,
+        "max": 51.23679506181348,
+        "mean": 1.0135843497479127,
+        "q10": 0.6452051782056702,
+        "q90": 1.2564797093654871
+      },
+      "decoded_derivative_nonpositive_fraction": 0.0068359375,
+      "endpoint_closure_error": 1.4774803906418693e-15,
+      "flags": {
+        "state_radius_below_1e_minus8": false,
+        "median_sensitivity_below_1e_minus8": false,
+        "readout_amplitude_below_1e_minus8": false,
+        "primary_floor_used": false
+      },
+      "independent_autograd_relative_errors": [
+        5.589470290812947e-16,
+        4.286195244526322e-16,
+        4.970060119171025e-16,
+        3.928482952532982e-16,
+        3.7132407152462895e-16
+      ],
+      "adaptive_refinements": [
+        {
+          "original_interval": 885,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.43029198911517,
+              "high_rad": 5.436427912266712,
+              "state_separation": 3.236917224679848
+            },
+            {
+              "level": 1,
+              "low_rad": 5.4333599506909405,
+              "high_rad": 5.436427912266712,
+              "state_separation": 2.164820293109221
+            },
+            {
+              "level": 2,
+              "low_rad": 5.434893931478826,
+              "high_rad": 5.436427912266712,
+              "state_separation": 1.2184616681141924
+            },
+            {
+              "level": 3,
+              "low_rad": 5.435660921872769,
+              "high_rad": 5.436427912266712,
+              "state_separation": 0.6276125930711345
+            },
+            {
+              "level": 4,
+              "low_rad": 5.43604441706974,
+              "high_rad": 5.436427912266712,
+              "state_separation": 0.31499351932040776
+            },
+            {
+              "level": 5,
+              "low_rad": 5.43604441706974,
+              "high_rad": 5.436236164668227,
+              "state_separation": 0.1576995182079026
+            },
+            {
+              "level": 6,
+              "low_rad": 5.436140290868984,
+              "high_rad": 5.436236164668227,
+              "state_separation": 0.07886161459750965
+            },
+            {
+              "level": 7,
+              "low_rad": 5.436140290868984,
+              "high_rad": 5.436188227768605,
+              "state_separation": 0.039435713167290595
+            },
+            {
+              "level": 8,
+              "low_rad": 5.436140290868984,
+              "high_rad": 5.436164259318795,
+              "state_separation": 0.019718160185316472
+            },
+            {
+              "level": 9,
+              "low_rad": 5.436152275093889,
+              "high_rad": 5.436164259318795,
+              "state_separation": 0.00985912717246891
+            },
+            {
+              "level": 10,
+              "low_rad": 5.436152275093889,
+              "high_rad": 5.436158267206341,
+              "state_separation": 0.00492956719511794
+            },
+            {
+              "level": 11,
+              "low_rad": 5.436155271150115,
+              "high_rad": 5.436158267206341,
+              "state_separation": 0.00246478461731086
+            },
+            {
+              "level": 12,
+              "low_rad": 5.436156769178228,
+              "high_rad": 5.436158267206341,
+              "state_separation": 0.0012323923377793756
+            },
+            {
+              "level": 13,
+              "low_rad": 5.436156769178228,
+              "high_rad": 5.436157518192285,
+              "state_separation": 0.0006161961920976728
+            },
+            {
+              "level": 14,
+              "low_rad": 5.436156769178228,
+              "high_rad": 5.436157143685257,
+              "state_separation": 0.00030809809855689315
+            },
+            {
+              "level": 15,
+              "low_rad": 5.436156769178228,
+              "high_rad": 5.436156956431743,
+              "state_separation": 0.00015404904970668833
+            },
+            {
+              "level": 16,
+              "low_rad": 5.436156862804985,
+              "high_rad": 5.436156956431743,
+              "state_separation": 7.702452527182061e-05
+            },
+            {
+              "level": 17,
+              "low_rad": 5.436156909618364,
+              "high_rad": 5.436156956431743,
+              "state_separation": 3.8512262671274285e-05
+            },
+            {
+              "level": 18,
+              "low_rad": 5.436156933025053,
+              "high_rad": 5.436156956431743,
+              "state_separation": 1.9256131676404206e-05
+            },
+            {
+              "level": 19,
+              "low_rad": 5.436156944728398,
+              "high_rad": 5.436156956431743,
+              "state_separation": 9.628065851373403e-06
+            },
+            {
+              "level": 20,
+              "low_rad": 5.43615695058007,
+              "high_rad": 5.436156956431743,
+              "state_separation": 4.81403327175763e-06
+            }
+          ],
+          "center_rad": 5.436156953505907
+        },
+        {
+          "original_interval": 888,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.45483568172134,
+              "state_separation": 0.2889535633310676
+            },
+            {
+              "level": 1,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.451767720145568,
+              "state_separation": 0.17161388067772432
+            },
+            {
+              "level": 2,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.450233739357683,
+              "state_separation": 0.09466233788780377
+            },
+            {
+              "level": 3,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.44946674896374,
+              "state_separation": 0.04989533853696557
+            },
+            {
+              "level": 4,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.449083253766769,
+              "state_separation": 0.025640327759188494
+            },
+            {
+              "level": 5,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448891506168284,
+              "state_separation": 0.01300035997772355
+            },
+            {
+              "level": 6,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448795632369041,
+              "state_separation": 0.006546147503200638
+            },
+            {
+              "level": 7,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.44874769546942,
+              "state_separation": 0.0032846830274520134
+            },
+            {
+              "level": 8,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448723727019608,
+              "state_separation": 0.0016452586726510082
+            },
+            {
+              "level": 9,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448711742794703,
+              "state_separation": 0.0008233604915465009
+            },
+            {
+              "level": 10,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448705750682251,
+              "state_separation": 0.0004118632684418549
+            },
+            {
+              "level": 11,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448702754626025,
+              "state_separation": 0.00020597741918023258
+            },
+            {
+              "level": 12,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448701256597911,
+              "state_separation": 0.00010300015945083719
+            },
+            {
+              "level": 13,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448700507583855,
+              "state_separation": 5.1502942691579876e-05
+            },
+            {
+              "level": 14,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.4487001330768265,
+              "state_separation": 2.5752187160473582e-05
+            },
+            {
+              "level": 15,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.4486999458233125,
+              "state_separation": 1.2876272570050982e-05
+            },
+            {
+              "level": 16,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448699852196555,
+              "state_separation": 6.4381809900213456e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.4486998053831766,
+              "state_separation": 3.2191017153537512e-06
+            },
+            {
+              "level": 18,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448699781976487,
+              "state_separation": 1.609553622013421e-06
+            },
+            {
+              "level": 19,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.448699770273143,
+              "state_separation": 8.047775432600738e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.448699758569798,
+              "high_rad": 5.44869976442147,
+              "state_separation": 4.023889164117789e-07
+            }
+          ],
+          "center_rad": 5.448699761495634
+        },
+        {
+          "original_interval": 882,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.411884219660542,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.2294192969458005
+            },
+            {
+              "level": 1,
+              "low_rad": 5.414952181236313,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.12928666490294213
+            },
+            {
+              "level": 2,
+              "low_rad": 5.416486162024198,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.06896699408226582
+            },
+            {
+              "level": 3,
+              "low_rad": 5.417253152418141,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.03566867956234958
+            },
+            {
+              "level": 4,
+              "low_rad": 5.4176366476151125,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.01814518424270502
+            },
+            {
+              "level": 5,
+              "low_rad": 5.417828395213599,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.009152228726873358
+            },
+            {
+              "level": 6,
+              "low_rad": 5.4179242690128415,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.004596271313680487
+            },
+            {
+              "level": 7,
+              "low_rad": 5.417972205912463,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.0023032063282303243
+            },
+            {
+              "level": 8,
+              "low_rad": 5.4179961743622735,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.0011528747903428395
+            },
+            {
+              "level": 9,
+              "low_rad": 5.418008158587179,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.000576755798340005
+            },
+            {
+              "level": 10,
+              "low_rad": 5.418014150699632,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.000288457562167375
+            },
+            {
+              "level": 11,
+              "low_rad": 5.418017146755858,
+              "high_rad": 5.418020142812084,
+              "state_separation": 0.0001442487046142397
+            },
+            {
+              "level": 12,
+              "low_rad": 5.418018644783971,
+              "high_rad": 5.418020142812084,
+              "state_separation": 7.212933415729239e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.418019393798028,
+              "high_rad": 5.418020142812084,
+              "state_separation": 3.606591264215916e-05
+            },
+            {
+              "level": 14,
+              "low_rad": 5.418019768305056,
+              "high_rad": 5.418020142812084,
+              "state_separation": 1.803326773497917e-05
+            },
+            {
+              "level": 15,
+              "low_rad": 5.41801995555857,
+              "high_rad": 5.418020142812084,
+              "state_separation": 9.016711720499506e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.418020049185327,
+              "high_rad": 5.418020142812084,
+              "state_separation": 4.508375328763434e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.418020095998706,
+              "high_rad": 5.418020142812084,
+              "state_separation": 2.2541925078586208e-06
+            },
+            {
+              "level": 18,
+              "low_rad": 5.418020119405395,
+              "high_rad": 5.418020142812084,
+              "state_separation": 1.1270974706815262e-06
+            },
+            {
+              "level": 19,
+              "low_rad": 5.41802013110874,
+              "high_rad": 5.418020142812084,
+              "state_separation": 5.635490221822484e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.418020136960412,
+              "high_rad": 5.418020142812084,
+              "state_separation": 2.81774581958488e-07
+            }
+          ],
+          "center_rad": 5.418020139886249
+        },
+        {
+          "original_interval": 891,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.473243451175968,
+              "state_separation": 0.07302579302334909
+            },
+            {
+              "level": 1,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.470175489600196,
+              "state_separation": 0.03889379690742015
+            },
+            {
+              "level": 2,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.468641508812311,
+              "state_separation": 0.020125409843508895
+            },
+            {
+              "level": 3,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467874518418368,
+              "state_separation": 0.010244594244658624
+            },
+            {
+              "level": 4,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467491023221397,
+              "state_separation": 0.0051694399887361004
+            },
+            {
+              "level": 5,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467299275622912,
+              "state_separation": 0.002596723970318741
+            },
+            {
+              "level": 6,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467203401823669,
+              "state_separation": 0.0013013908800346256
+            },
+            {
+              "level": 7,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467155464924048,
+              "state_separation": 0.0006514561909299967
+            },
+            {
+              "level": 8,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467131496474236,
+              "state_separation": 0.00032591872658605366
+            },
+            {
+              "level": 9,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467119512249331,
+              "state_separation": 0.00016300707666348817
+            },
+            {
+              "level": 10,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467113520136879,
+              "state_separation": 8.151547363684321e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467110524080653,
+              "state_separation": 4.076072151809487e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467109026052539,
+              "state_separation": 2.0381107037209584e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.4671082770384825,
+              "state_separation": 1.0190740106073841e-05
+            },
+            {
+              "level": 14,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467107902531454,
+              "state_separation": 5.095416706179962e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.46710771527794,
+              "state_separation": 2.547720021573578e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.4671076216511825,
+              "state_separation": 1.2738629179115807e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.467107574837804,
+              "state_separation": 6.369321938071232e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.4671075514311145,
+              "state_separation": 3.1846627195320185e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.46710753972777,
+              "state_separation": 1.5923318759924463e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.4671075280244255,
+              "high_rad": 5.4671075338760975,
+              "state_separation": 7.961659859494906e-08
+            }
+          ],
+          "center_rad": 5.467107530950262
+        }
+      ]
+    },
+    "ordinary_blank0": {
+      "input_condition": "grid",
+      "blank_steps": 0,
+      "blank_seconds": 0.0,
+      "log10_peak_over_median": 0.29026031476450054,
+      "peak_over_median": 1.9510136808960625,
+      "absolute_peak_sensitivity": 11.66640541282219,
+      "absolute_median_sensitivity": 5.979663560054606,
+      "peak_angle_rad": 5.419642410706055,
+      "uniform_sensitivity": {
+        "min": 2.7364339116476235,
+        "median": 5.979663560054606,
+        "max": 11.665771653016549,
+        "mean": 6.111509167438029,
+        "q10": 3.9378778218172,
+        "q90": 8.5827653107059
+      },
+      "state_radius": 4.204163923157205,
+      "peak_over_radius_descriptive": 2.774964446215279,
+      "median_over_radius_descriptive": 1.422319317074595,
+      "decoded_heading_mae_deg": 2.3828392166102024,
+      "decoded_coverage": 0.9983991471308682,
+      "decoded_winding": 0.9999999999999997,
+      "readout_amplitude": {
+        "min": 1.036718881425799,
+        "median": 1.1651232624220687,
+        "max": 1.2969873421221787,
+        "mean": 1.164269024426607,
+        "q10": 1.096611398171185,
+        "q90": 1.2394972341641906
+      },
+      "decoded_angular_derivative": {
+        "min": 0.5553094200834283,
+        "median": 0.9657086326419271,
+        "max": 1.639512784901141,
+        "mean": 1.0,
+        "q10": 0.7175745865821016,
+        "q90": 1.3487749615549371
+      },
+      "decoded_derivative_nonpositive_fraction": 0.0,
+      "endpoint_closure_error": 1.6376524649045155e-15,
+      "flags": {
+        "state_radius_below_1e_minus8": false,
+        "median_sensitivity_below_1e_minus8": false,
+        "readout_amplitude_below_1e_minus8": false,
+        "primary_floor_used": false
+      },
+      "independent_autograd_relative_errors": [
+        5.557754420965114e-16,
+        4.36705466112733e-16,
+        4.81334545620097e-16,
+        6.216943104021219e-16,
+        3.7759102297429813e-16
+      ],
+      "adaptive_refinements": [
+        {
+          "original_interval": 883,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.4241560659636265,
+              "state_separation": 0.07157383431856089
+            },
+            {
+              "level": 1,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.421088104387856,
+              "state_separation": 0.03579114126607285
+            },
+            {
+              "level": 2,
+              "low_rad": 5.41955412359997,
+              "high_rad": 5.421088104387856,
+              "state_separation": 0.01789575973252129
+            },
+            {
+              "level": 3,
+              "low_rad": 5.41955412359997,
+              "high_rad": 5.4203211139939125,
+              "state_separation": 0.008947990566740081
+            },
+            {
+              "level": 4,
+              "low_rad": 5.41955412359997,
+              "high_rad": 5.419937618796942,
+              "state_separation": 0.004474007651672728
+            },
+            {
+              "level": 5,
+              "low_rad": 5.41955412359997,
+              "high_rad": 5.419745871198456,
+              "state_separation": 0.002237004990112541
+            },
+            {
+              "level": 6,
+              "low_rad": 5.41955412359997,
+              "high_rad": 5.419649997399214,
+              "state_separation": 0.0011185025442558244
+            },
+            {
+              "level": 7,
+              "low_rad": 5.419602060499592,
+              "high_rad": 5.419649997399214,
+              "state_separation": 0.0005592512984721481
+            },
+            {
+              "level": 8,
+              "low_rad": 5.419626028949403,
+              "high_rad": 5.419649997399214,
+              "state_separation": 0.00027962565203450607
+            },
+            {
+              "level": 9,
+              "low_rad": 5.419638013174309,
+              "high_rad": 5.419649997399214,
+              "state_separation": 0.00013981282623876486
+            },
+            {
+              "level": 10,
+              "low_rad": 5.419638013174309,
+              "high_rad": 5.419644005286761,
+              "state_separation": 6.990641313944907e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.419641009230535,
+              "high_rad": 5.419644005286761,
+              "state_separation": 3.4953206575577074e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.419641009230535,
+              "high_rad": 5.419642507258648,
+              "state_separation": 1.747660328822873e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.419641758244591,
+              "high_rad": 5.419642507258648,
+              "state_separation": 8.738301648861685e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.419642132751619,
+              "high_rad": 5.419642507258648,
+              "state_separation": 4.369150829705127e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.419642320005133,
+              "high_rad": 5.419642507258648,
+              "state_separation": 2.184575419817484e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.419642320005133,
+              "high_rad": 5.419642413631891,
+              "state_separation": 1.0922877143121408e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.419642366818512,
+              "high_rad": 5.419642413631891,
+              "state_separation": 5.46143857861896e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.419642390225201,
+              "high_rad": 5.419642413631891,
+              "state_separation": 2.730719338009199e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.419642401928546,
+              "high_rad": 5.419642413631891,
+              "state_separation": 1.3653596708797547e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.419642407780218,
+              "high_rad": 5.419642413631891,
+              "state_separation": 6.826798889764213e-08
+            }
+          ],
+          "center_rad": 5.419642410706055
+        },
+        {
+          "original_interval": 886,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.442563835418254,
+              "state_separation": 0.07112362238936124
+            },
+            {
+              "level": 1,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.439495873842484,
+              "state_separation": 0.035593734412501604
+            },
+            {
+              "level": 2,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.437961893054598,
+              "state_separation": 0.017804332102085957
+            },
+            {
+              "level": 3,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.437194902660655,
+              "state_separation": 0.008903964181607892
+            },
+            {
+              "level": 4,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436811407463684,
+              "state_separation": 0.004452422882257124
+            },
+            {
+              "level": 5,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.4366196598651975,
+              "state_separation": 0.0022263205318723365
+            },
+            {
+              "level": 6,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436523786065955,
+              "state_separation": 0.001113187399325667
+            },
+            {
+              "level": 7,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436475849166333,
+              "state_separation": 0.000556600465542218
+            },
+            {
+              "level": 8,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436451880716523,
+              "state_separation": 0.0002783019220530402
+            },
+            {
+              "level": 9,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436439896491617,
+              "state_separation": 0.00013915138306825679
+            },
+            {
+              "level": 10,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.4364339043791645,
+              "state_separation": 6.957579701155071e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436430908322938,
+              "state_separation": 3.478792487040041e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436429410294825,
+              "state_separation": 1.7393969026393914e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436428661280768,
+              "state_separation": 8.696986154535664e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.43642828677374,
+              "state_separation": 4.348493488564372e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436428099520226,
+              "state_separation": 2.1742468476705503e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436428005893469,
+              "state_separation": 1.0871234486481327e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.43642795908009,
+              "state_separation": 5.435617266309396e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.436427912266712,
+              "high_rad": 5.436427935673401,
+              "state_separation": 2.7178086418293474e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.436427923970056,
+              "high_rad": 5.436427935673401,
+              "state_separation": 1.3589043674120883e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.436427923970056,
+              "high_rad": 5.436427929821729,
+              "state_separation": 6.794522368177468e-08
+            }
+          ],
+          "center_rad": 5.436427926895893
+        },
+        {
+          "original_interval": 880,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.399612373357457,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.07109588231306103
+            },
+            {
+              "level": 1,
+              "low_rad": 5.402680334933228,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.03559449531582225
+            },
+            {
+              "level": 2,
+              "low_rad": 5.404214315721114,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.017807622803074026
+            },
+            {
+              "level": 3,
+              "low_rad": 5.404981306115056,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.008906248356748794
+            },
+            {
+              "level": 4,
+              "low_rad": 5.405364801312028,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.004453713897118616
+            },
+            {
+              "level": 5,
+              "low_rad": 5.405556548910514,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.0022270019439453175
+            },
+            {
+              "level": 6,
+              "low_rad": 5.405652422709757,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.0011135369169052326
+            },
+            {
+              "level": 7,
+              "low_rad": 5.405700359609378,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.0005567774067201591
+            },
+            {
+              "level": 8,
+              "low_rad": 5.405724328059189,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.00027839093568308103
+            },
+            {
+              "level": 9,
+              "low_rad": 5.405736312284095,
+              "high_rad": 5.405748296509,
+              "state_separation": 0.00013919602532460582
+            },
+            {
+              "level": 10,
+              "low_rad": 5.405742304396547,
+              "high_rad": 5.405748296509,
+              "state_separation": 6.959815196072164e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.405745300452773,
+              "high_rad": 5.405748296509,
+              "state_separation": 3.4799110795898575e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.4057467984808865,
+              "high_rad": 5.405748296509,
+              "state_separation": 1.739956410038965e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.4057475474949435,
+              "high_rad": 5.405748296509,
+              "state_separation": 8.699784220385885e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.4057479220019715,
+              "high_rad": 5.405748296509,
+              "state_separation": 4.3498926540926225e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.4057481092554855,
+              "high_rad": 5.405748296509,
+              "state_separation": 2.1749464636952203e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.405748202882243,
+              "high_rad": 5.405748296509,
+              "state_separation": 1.0874732658951593e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.4057482496956215,
+              "high_rad": 5.405748296509,
+              "state_separation": 5.437366369028755e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.4057482731023105,
+              "high_rad": 5.405748296509,
+              "state_separation": 2.7186832064095963e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.4057482731023105,
+              "high_rad": 5.4057482848056555,
+              "state_separation": 1.3593416439229478e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.405748278953983,
+              "high_rad": 5.4057482848056555,
+              "state_separation": 6.796708762651258e-08
+            }
+          ],
+          "center_rad": 5.405748281879819
+        },
+        {
+          "original_interval": 889,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.460971604872882,
+              "state_separation": 0.07027018978826967
+            },
+            {
+              "level": 1,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.4579036432971115,
+              "state_separation": 0.03517460459687656
+            },
+            {
+              "level": 2,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.456369662509226,
+              "state_separation": 0.017596976559881225
+            },
+            {
+              "level": 3,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.455602672115283,
+              "state_separation": 0.008800879602839715
+            },
+            {
+              "level": 4,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.455219176918312,
+              "state_separation": 0.004401034104919847
+            },
+            {
+              "level": 5,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.455027429319825,
+              "state_separation": 0.002200665179602498
+            },
+            {
+              "level": 6,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454931555520583,
+              "state_separation": 0.001100369565002725
+            },
+            {
+              "level": 7,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454883618620961,
+              "state_separation": 0.000550194019196861
+            },
+            {
+              "level": 8,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454859650171151,
+              "state_separation": 0.00027509931788268177
+            },
+            {
+              "level": 9,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454847665946245,
+              "state_separation": 0.000137550235895525
+            },
+            {
+              "level": 10,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454841673833792,
+              "state_separation": 6.877526217403096e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454838677777566,
+              "state_separation": 3.4387667141164586e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454837179749453,
+              "state_separation": 1.71938425843924e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454836430735396,
+              "state_separation": 8.596923540710621e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454836056228368,
+              "state_separation": 4.29846233409655e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454835868974854,
+              "state_separation": 2.1492313079471813e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454835775348097,
+              "state_separation": 1.0746156890464908e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454835728534718,
+              "state_separation": 5.373078490475091e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.45483568172134,
+              "high_rad": 5.454835705128029,
+              "state_separation": 2.686539264161602e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.454835693424684,
+              "high_rad": 5.454835705128029,
+              "state_separation": 1.3432696795936677e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.454835693424684,
+              "high_rad": 5.454835699276357,
+              "state_separation": 6.716348891193993e-08
+            }
+          ],
+          "center_rad": 5.4548356963505205
+        }
+      ]
+    },
+    "ordinary_blank40": {
+      "input_condition": "grid",
+      "blank_steps": 40,
+      "blank_seconds": 2.0,
+      "log10_peak_over_median": 2.410379565082254,
+      "peak_over_median": 257.2643241563981,
+      "absolute_peak_sensitivity": 964.9369566549801,
+      "absolute_median_sensitivity": 3.750760855859548,
+      "peak_angle_rad": 5.403237294178532,
+      "uniform_sensitivity": {
+        "min": 2.010610394421696,
+        "median": 3.750760855859548,
+        "max": 599.3004080593155,
+        "mean": 5.323716041407843,
+        "q10": 2.4193090275662037,
+        "q90": 5.578561909739079
+      },
+      "state_radius": 4.512104956044554,
+      "peak_over_radius_descriptive": 213.85516650323507,
+      "median_over_radius_descriptive": 0.8312663141478822,
+      "decoded_heading_mae_deg": 4.689299299612723,
+      "decoded_coverage": 0.9794547261818309,
+      "decoded_winding": 0.9999999999999994,
+      "readout_amplitude": {
+        "min": 0.935603085746703,
+        "median": 0.9468138845852752,
+        "max": 1.007500556812841,
+        "mean": 0.9573517808405292,
+        "q10": 0.9384696865160035,
+        "q90": 0.9895768144208897
+      },
+      "decoded_angular_derivative": {
+        "min": -5.578648178657012,
+        "median": 0.971726877638789,
+        "max": 14.013024982304616,
+        "mean": 0.982094014545047,
+        "q10": 0.6620873470077612,
+        "q90": 1.3104999757819658
+      },
+      "decoded_derivative_nonpositive_fraction": 0.0048828125,
+      "endpoint_closure_error": 1.2399669442581685e-15,
+      "flags": {
+        "state_radius_below_1e_minus8": false,
+        "median_sensitivity_below_1e_minus8": false,
+        "readout_amplitude_below_1e_minus8": false,
+        "primary_floor_used": false
+      },
+      "independent_autograd_relative_errors": [
+        4.372889904632198e-16,
+        5.381807829908752e-16,
+        7.413333413931611e-16,
+        5.781824822623595e-16,
+        3.0668616629503687e-16
+      ],
+      "adaptive_refinements": [
+        {
+          "original_interval": 880,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.399612373357457,
+              "high_rad": 5.405748296509,
+              "state_separation": 4.519841494712357
+            },
+            {
+              "level": 1,
+              "low_rad": 5.402680334933228,
+              "high_rad": 5.405748296509,
+              "state_separation": 2.558356098702235
+            },
+            {
+              "level": 2,
+              "low_rad": 5.402680334933228,
+              "high_rad": 5.404214315721114,
+              "state_separation": 1.4409332877469214
+            },
+            {
+              "level": 3,
+              "low_rad": 5.402680334933228,
+              "high_rad": 5.403447325327171,
+              "state_separation": 0.73339982756694
+            },
+            {
+              "level": 4,
+              "low_rad": 5.4030638301302,
+              "high_rad": 5.403447325327171,
+              "state_separation": 0.3694864177468401
+            },
+            {
+              "level": 5,
+              "low_rad": 5.4030638301302,
+              "high_rad": 5.403255577728686,
+              "state_separation": 0.18483605317796858
+            },
+            {
+              "level": 6,
+              "low_rad": 5.403159703929443,
+              "high_rad": 5.403255577728686,
+              "state_separation": 0.09249480053042516
+            },
+            {
+              "level": 7,
+              "low_rad": 5.403207640829065,
+              "high_rad": 5.403255577728686,
+              "state_separation": 0.04625484343180511
+            },
+            {
+              "level": 8,
+              "low_rad": 5.403231609278875,
+              "high_rad": 5.403255577728686,
+              "state_separation": 0.023127813400727126
+            },
+            {
+              "level": 9,
+              "low_rad": 5.403231609278875,
+              "high_rad": 5.403243593503781,
+              "state_separation": 0.011564004628351164
+            },
+            {
+              "level": 10,
+              "low_rad": 5.403231609278875,
+              "high_rad": 5.403237601391329,
+              "state_separation": 0.0057820038768943705
+            },
+            {
+              "level": 11,
+              "low_rad": 5.403234605335102,
+              "high_rad": 5.403237601391329,
+              "state_separation": 0.002891004607275582
+            },
+            {
+              "level": 12,
+              "low_rad": 5.4032361033632155,
+              "high_rad": 5.403237601391329,
+              "state_separation": 0.0014455026126312573
+            },
+            {
+              "level": 13,
+              "low_rad": 5.4032368523772725,
+              "high_rad": 5.403237601391329,
+              "state_separation": 0.0007227513383899318
+            },
+            {
+              "level": 14,
+              "low_rad": 5.4032372268843005,
+              "high_rad": 5.403237601391329,
+              "state_separation": 0.0003613756717549437
+            },
+            {
+              "level": 15,
+              "low_rad": 5.4032372268843005,
+              "high_rad": 5.4032374141378146,
+              "state_separation": 0.00018068783598098595
+            },
+            {
+              "level": 16,
+              "low_rad": 5.4032372268843005,
+              "high_rad": 5.4032373205110575,
+              "state_separation": 9.03439179976614e-05
+            },
+            {
+              "level": 17,
+              "low_rad": 5.403237273697679,
+              "high_rad": 5.4032373205110575,
+              "state_separation": 4.517195940346653e-05
+            },
+            {
+              "level": 18,
+              "low_rad": 5.403237273697679,
+              "high_rad": 5.4032372971043685,
+              "state_separation": 2.2585980093470542e-05
+            },
+            {
+              "level": 19,
+              "low_rad": 5.4032372854010235,
+              "high_rad": 5.4032372971043685,
+              "state_separation": 1.1292990075971133e-05
+            },
+            {
+              "level": 20,
+              "low_rad": 5.403237291252696,
+              "high_rad": 5.4032372971043685,
+              "state_separation": 5.6464954199910324e-06
+            }
+          ],
+          "center_rad": 5.403237294178532
+        },
+        {
+          "original_interval": 877,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.381204603902829,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.2373820821159713
+            },
+            {
+              "level": 1,
+              "low_rad": 5.3842725654786,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.1358957458389881
+            },
+            {
+              "level": 2,
+              "low_rad": 5.385806546266486,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.07318682352036596
+            },
+            {
+              "level": 3,
+              "low_rad": 5.386573536660428,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.03805164923798735
+            },
+            {
+              "level": 4,
+              "low_rad": 5.3869570318574,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.019411477608403557
+            },
+            {
+              "level": 5,
+              "low_rad": 5.387148779455886,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.009804970548922059
+            },
+            {
+              "level": 6,
+              "low_rad": 5.387244653255129,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.004927657737781941
+            },
+            {
+              "level": 7,
+              "low_rad": 5.38729259015475,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.002470168342796754
+            },
+            {
+              "level": 8,
+              "low_rad": 5.387316558604561,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.0012366748850806976
+            },
+            {
+              "level": 9,
+              "low_rad": 5.387328542829467,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.0006187358547716159
+            },
+            {
+              "level": 10,
+              "low_rad": 5.387334534941919,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.00030946762238203156
+            },
+            {
+              "level": 11,
+              "low_rad": 5.3873375309981455,
+              "high_rad": 5.387340527054372,
+              "state_separation": 0.00015475874644586758
+            },
+            {
+              "level": 12,
+              "low_rad": 5.387339029026259,
+              "high_rad": 5.387340527054372,
+              "state_separation": 7.73856084785817e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.387339778040316,
+              "high_rad": 5.387340527054372,
+              "state_separation": 3.869436321244392e-05
+            },
+            {
+              "level": 14,
+              "low_rad": 5.387340152547344,
+              "high_rad": 5.387340527054372,
+              "state_separation": 1.9347571378816104e-05
+            },
+            {
+              "level": 15,
+              "low_rad": 5.387340339800858,
+              "high_rad": 5.387340527054372,
+              "state_separation": 9.673883139162935e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.387340433427615,
+              "high_rad": 5.387340527054372,
+              "state_separation": 4.836965935608481e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.387340480240994,
+              "high_rad": 5.387340527054372,
+              "state_separation": 2.418489037389722e-06
+            },
+            {
+              "level": 18,
+              "low_rad": 5.387340503647683,
+              "high_rad": 5.387340527054372,
+              "state_separation": 1.2092460480529245e-06
+            },
+            {
+              "level": 19,
+              "low_rad": 5.387340515351028,
+              "high_rad": 5.387340527054372,
+              "state_separation": 6.04623382327527e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.3873405212027,
+              "high_rad": 5.387340527054372,
+              "state_separation": 3.0231178900576913e-07
+            }
+          ],
+          "center_rad": 5.387340524128536
+        },
+        {
+          "original_interval": 883,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.4241560659636265,
+              "state_separation": 0.184958193083988
+            },
+            {
+              "level": 1,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.421088104387856,
+              "state_separation": 0.1081994138302976
+            },
+            {
+              "level": 2,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.41955412359997,
+              "state_separation": 0.05912984165751208
+            },
+            {
+              "level": 3,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418787133206028,
+              "state_separation": 0.03100494737168673
+            },
+            {
+              "level": 4,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418403638009056,
+              "state_separation": 0.015889076628722448
+            },
+            {
+              "level": 5,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.41821189041057,
+              "state_separation": 0.00804479122825896
+            },
+            {
+              "level": 6,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418116016611327,
+              "state_separation": 0.004047927977102894
+            },
+            {
+              "level": 7,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418068079711706,
+              "state_separation": 0.002030406951315019
+            },
+            {
+              "level": 8,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418044111261895,
+              "state_separation": 0.0010168217789148408
+            },
+            {
+              "level": 9,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418032127036989,
+              "state_separation": 0.000508816415537324
+            },
+            {
+              "level": 10,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418026134924537,
+              "state_separation": 0.00025450970838512404
+            },
+            {
+              "level": 11,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.41802313886831,
+              "state_separation": 0.00012728024425746816
+            },
+            {
+              "level": 12,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418021640840197,
+              "state_separation": 6.364647150524187e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.41802089182614,
+              "state_separation": 3.182482331110435e-05
+            },
+            {
+              "level": 14,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020517319112,
+              "state_separation": 1.591280858066712e-05
+            },
+            {
+              "level": 15,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020330065598,
+              "state_separation": 7.956503524871463e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020236438841,
+              "state_separation": 3.978276568693257e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020189625462,
+              "state_separation": 1.9891444662060097e-06
+            },
+            {
+              "level": 18,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020166218773,
+              "state_separation": 9.945737864884773e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020154515428,
+              "state_separation": 4.972872640559205e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.418020142812084,
+              "high_rad": 5.418020148663756,
+              "state_separation": 2.486437252751703e-07
+            }
+          ],
+          "center_rad": 5.41802014573792
+        },
+        {
+          "original_interval": 874,
+          "levels": [
+            {
+              "level": 0,
+              "low_rad": 5.3627968344482015,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.06115912543744762
+            },
+            {
+              "level": 1,
+              "low_rad": 5.365864796023972,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.03333083164887134
+            },
+            {
+              "level": 2,
+              "low_rad": 5.367398776811858,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.0174406171819909
+            },
+            {
+              "level": 3,
+              "low_rad": 5.3681657672058005,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.008926416043944342
+            },
+            {
+              "level": 4,
+              "low_rad": 5.368549262402772,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.004516372340165521
+            },
+            {
+              "level": 5,
+              "low_rad": 5.3687410100012585,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.0022716885768032232
+            },
+            {
+              "level": 6,
+              "low_rad": 5.368836883800501,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.001139246736598566
+            },
+            {
+              "level": 7,
+              "low_rad": 5.3688848207001225,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.0005704773635731008
+            },
+            {
+              "level": 8,
+              "low_rad": 5.368908789149933,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.0002854526052369461
+            },
+            {
+              "level": 9,
+              "low_rad": 5.368920773374839,
+              "high_rad": 5.368932757599744,
+              "state_separation": 0.0001427798366632017
+            },
+            {
+              "level": 10,
+              "low_rad": 5.368926765487291,
+              "high_rad": 5.368932757599744,
+              "state_separation": 7.140330850064355e-05
+            },
+            {
+              "level": 11,
+              "low_rad": 5.368929761543518,
+              "high_rad": 5.368932757599744,
+              "state_separation": 3.5705002625457344e-05
+            },
+            {
+              "level": 12,
+              "low_rad": 5.368931259571631,
+              "high_rad": 5.368932757599744,
+              "state_separation": 1.7853338510770596e-05
+            },
+            {
+              "level": 13,
+              "low_rad": 5.368932008585688,
+              "high_rad": 5.368932757599744,
+              "state_separation": 8.92687856355068e-06
+            },
+            {
+              "level": 14,
+              "low_rad": 5.368932383092716,
+              "high_rad": 5.368932757599744,
+              "state_separation": 4.463491612522385e-06
+            },
+            {
+              "level": 15,
+              "low_rad": 5.36893257034623,
+              "high_rad": 5.368932757599744,
+              "state_separation": 2.2317588894581345e-06
+            },
+            {
+              "level": 16,
+              "low_rad": 5.368932663972987,
+              "high_rad": 5.368932757599744,
+              "state_separation": 1.1158827161922915e-06
+            },
+            {
+              "level": 17,
+              "low_rad": 5.368932710786366,
+              "high_rad": 5.368932757599744,
+              "state_separation": 5.579421711265017e-07
+            },
+            {
+              "level": 18,
+              "low_rad": 5.368932734193055,
+              "high_rad": 5.368932757599744,
+              "state_separation": 2.789712901237951e-07
+            },
+            {
+              "level": 19,
+              "low_rad": 5.3689327458964,
+              "high_rad": 5.368932757599744,
+              "state_separation": 1.3948569177777225e-07
+            },
+            {
+              "level": 20,
+              "low_rad": 5.368932751748072,
+              "high_rad": 5.368932757599744,
+              "state_separation": 6.974285915798787e-08
+            }
+          ],
+          "center_rad": 5.368932754673908
+        }
+      ]
+    }
+  },
+  "native_recurrence_sharpening_descriptive": 2.0207657676855657,
+  "elapsed_seconds": 0.26342641678638756,
+  "all_models_retained": true
+}

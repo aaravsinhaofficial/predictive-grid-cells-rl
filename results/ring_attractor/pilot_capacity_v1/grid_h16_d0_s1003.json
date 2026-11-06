@@ -1,0 +1,139 @@
+{
+  "condition": "grid",
+  "seed": 1003,
+  "config": {
+    "hidden_size": 16,
+    "n_code": 64,
+    "dt": 0.05,
+    "leak": 0.25,
+    "horizon": 0.2,
+    "delay_steps": 0,
+    "predictive_fraction": 0.3333333333333333,
+    "velocity_noise": 0.05,
+    "position_noise": 0.1,
+    "channel_noise": 0.04,
+    "recurrent_noise": 0.01,
+    "visibility": 0.25,
+    "max_speed": 2.0,
+    "code_seed": 1003
+  },
+  "config_sha256": "48dfbd7bac295e1fd55d5d6a70ec02425b0ec7ce0e7113e7210ce4b6c6a63f6b",
+  "model_source_sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+  "task": "controlled_1d_periodic_code_navigation_memory",
+  "objective": "supervised_cos_sin_position_estimation",
+  "ring_structure_imposed": false,
+  "trainer_args": {
+    "condition": "grid",
+    "seed": 1003,
+    "steps": 3000,
+    "length": 128,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "device": "cpu",
+    "threads": 2,
+    "out": "results/ring_attractor/pilot_capacity_v1/grid_h16_d0_s1003.pt",
+    "log_every": 500,
+    "eval_every": 1000,
+    "max_seconds": 1769.9999994998798,
+    "hidden_size": 16,
+    "n_code": null,
+    "dt": null,
+    "leak": null,
+    "horizon": null,
+    "delay_steps": 0,
+    "predictive_fraction": null,
+    "velocity_noise": null,
+    "position_noise": null,
+    "channel_noise": null,
+    "recurrent_noise": null,
+    "visibility": null,
+    "max_speed": null,
+    "code_seed": null
+  },
+  "steps_completed": 3000,
+  "seconds": 67.75096524995752,
+  "stopping_reason": "steps_completed",
+  "validation": {
+    "all_mae_deg": 4.731167316436768,
+    "blank_mae_deg": 4.84022855758667,
+    "stationary_blank_mae_deg": 5.292429447174072,
+    "final_mae_deg": 5.654841423034668,
+    "mse": 0.011367520317435265,
+    "evaluation_seed": 982451653
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.5158778429031372,
+      "grad_norm": 0.12891735136508942,
+      "seconds": 0.04454916692338884,
+      "steps_per_second": 22.447108870064824
+    },
+    {
+      "step": 500,
+      "loss": 0.060406677424907684,
+      "grad_norm": 0.4424430727958679,
+      "seconds": 10.820110625121742,
+      "steps_per_second": 46.210248427508496
+    },
+    {
+      "step": 1000,
+      "loss": 0.0229511521756649,
+      "grad_norm": 0.31676357984542847,
+      "seconds": 22.074638959020376,
+      "steps_per_second": 45.3008541546891,
+      "validation": {
+        "all_mae_deg": 7.643709182739258,
+        "blank_mae_deg": 7.931586265563965,
+        "stationary_blank_mae_deg": 9.407333374023438,
+        "final_mae_deg": 9.39409065246582,
+        "mse": 0.023941420018672943,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 1500,
+      "loss": 0.01594574563205242,
+      "grad_norm": 0.17173324525356293,
+      "seconds": 33.553384124999866,
+      "steps_per_second": 44.70487967508422
+    },
+    {
+      "step": 2000,
+      "loss": 0.013607017695903778,
+      "grad_norm": 0.1304674595594406,
+      "seconds": 44.646324125118554,
+      "steps_per_second": 44.79652108413504,
+      "validation": {
+        "all_mae_deg": 5.258130073547363,
+        "blank_mae_deg": 5.405963897705078,
+        "stationary_blank_mae_deg": 5.798619747161865,
+        "final_mae_deg": 6.129977703094482,
+        "mse": 0.013271725736558437,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 2500,
+      "loss": 0.013436097651720047,
+      "grad_norm": 0.05867643654346466,
+      "seconds": 56.14019258413464,
+      "steps_per_second": 44.5313755604484
+    },
+    {
+      "step": 3000,
+      "loss": 0.013491383753716946,
+      "grad_norm": 0.13155199587345123,
+      "seconds": 67.63406454212964,
+      "steps_per_second": 44.35634646992542,
+      "validation": {
+        "all_mae_deg": 4.731167316436768,
+        "blank_mae_deg": 4.84022855758667,
+        "stationary_blank_mae_deg": 5.292429447174072,
+        "final_mae_deg": 5.654841423034668,
+        "mse": 0.011367520317435265,
+        "evaluation_seed": 982451653
+      }
+    }
+  ]
+}

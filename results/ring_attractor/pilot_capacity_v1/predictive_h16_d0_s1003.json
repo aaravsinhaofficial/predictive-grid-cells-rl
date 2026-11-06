@@ -1,0 +1,139 @@
+{
+  "condition": "predictive",
+  "seed": 1003,
+  "config": {
+    "hidden_size": 16,
+    "n_code": 64,
+    "dt": 0.05,
+    "leak": 0.25,
+    "horizon": 0.2,
+    "delay_steps": 0,
+    "predictive_fraction": 0.3333333333333333,
+    "velocity_noise": 0.05,
+    "position_noise": 0.1,
+    "channel_noise": 0.04,
+    "recurrent_noise": 0.01,
+    "visibility": 0.25,
+    "max_speed": 2.0,
+    "code_seed": 1003
+  },
+  "config_sha256": "48dfbd7bac295e1fd55d5d6a70ec02425b0ec7ce0e7113e7210ce4b6c6a63f6b",
+  "model_source_sha256": "5183d8682d86ea8fbc2d3bbeb8343e09e9ced3e60c3bced6bf4a9857f3698095",
+  "task": "controlled_1d_periodic_code_navigation_memory",
+  "objective": "supervised_cos_sin_position_estimation",
+  "ring_structure_imposed": false,
+  "trainer_args": {
+    "condition": "predictive",
+    "seed": 1003,
+    "steps": 3000,
+    "length": 128,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "device": "cpu",
+    "threads": 2,
+    "out": "results/ring_attractor/pilot_capacity_v1/predictive_h16_d0_s1003.pt",
+    "log_every": 500,
+    "eval_every": 1000,
+    "max_seconds": 1700.540903416928,
+    "hidden_size": 16,
+    "n_code": null,
+    "dt": null,
+    "leak": null,
+    "horizon": null,
+    "delay_steps": 0,
+    "predictive_fraction": null,
+    "velocity_noise": null,
+    "position_noise": null,
+    "channel_noise": null,
+    "recurrent_noise": null,
+    "visibility": null,
+    "max_speed": null,
+    "code_seed": null
+  },
+  "steps_completed": 3000,
+  "seconds": 72.14962245896459,
+  "stopping_reason": "steps_completed",
+  "validation": {
+    "all_mae_deg": 4.829630374908447,
+    "blank_mae_deg": 4.936884880065918,
+    "stationary_blank_mae_deg": 5.951140880584717,
+    "final_mae_deg": 5.47258996963501,
+    "mse": 0.012066634371876717,
+    "evaluation_seed": 982451653
+  },
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.5157973170280457,
+      "grad_norm": 0.12821824848651886,
+      "seconds": 0.04662087489850819,
+      "steps_per_second": 21.44961891377973
+    },
+    {
+      "step": 500,
+      "loss": 0.07138161361217499,
+      "grad_norm": 0.3956162929534912,
+      "seconds": 11.365486166905612,
+      "steps_per_second": 43.99283872747266
+    },
+    {
+      "step": 1000,
+      "loss": 0.03057650849223137,
+      "grad_norm": 0.3796286880970001,
+      "seconds": 23.41961924987845,
+      "steps_per_second": 42.69924243132988,
+      "validation": {
+        "all_mae_deg": 9.427752494812012,
+        "blank_mae_deg": 10.020204544067383,
+        "stationary_blank_mae_deg": 15.053441047668457,
+        "final_mae_deg": 14.078309059143066,
+        "mse": 0.03933831304311752,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 1500,
+      "loss": 0.02046375349164009,
+      "grad_norm": 0.2494242787361145,
+      "seconds": 35.4386714999564,
+      "steps_per_second": 42.32664308541717
+    },
+    {
+      "step": 2000,
+      "loss": 0.01535523496568203,
+      "grad_norm": 0.1572725623846054,
+      "seconds": 46.7690506670624,
+      "steps_per_second": 42.76332257067859,
+      "validation": {
+        "all_mae_deg": 5.3175225257873535,
+        "blank_mae_deg": 5.456732749938965,
+        "stationary_blank_mae_deg": 6.541708946228027,
+        "final_mae_deg": 6.223330497741699,
+        "mse": 0.01457569096237421,
+        "evaluation_seed": 982451653
+      }
+    },
+    {
+      "step": 2500,
+      "loss": 0.01654643751680851,
+      "grad_norm": 0.08002640306949615,
+      "seconds": 59.972475999966264,
+      "steps_per_second": 41.685789327781066
+    },
+    {
+      "step": 3000,
+      "loss": 0.014274168759584427,
+      "grad_norm": 0.10915420949459076,
+      "seconds": 72.04144137492403,
+      "steps_per_second": 41.64269818516195,
+      "validation": {
+        "all_mae_deg": 4.829630374908447,
+        "blank_mae_deg": 4.936884880065918,
+        "stationary_blank_mae_deg": 5.951140880584717,
+        "final_mae_deg": 5.47258996963501,
+        "mse": 0.012066634371876717,
+        "evaluation_seed": 982451653
+      }
+    }
+  ]
+}

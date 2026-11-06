@@ -1,0 +1,38 @@
+{
+  "checkpoint": "results/ring_heading/encoder_pilot/predictive_s1006.pt",
+  "checkpoint_sha256": "f9f64e36a592cf2de754d38ddcaed7458652225bb6f889534db881418eb1b31a",
+  "subspaces": "results/ring_heading/direction_subspace/predictive_s1006/fitted_subspaces.npz",
+  "subspaces_sha256": "08e203a38dec05cee9e2c41477f8d6afcca741b3a28514595d4da9d2e8ab594a",
+  "source_sha256": "c09d02fb816ff056296ede1672a520878afe9be15b32813141de4b4d0ff6a68b",
+  "navigation_helper_sha256": "30c6512c437d32df318af177e1ab5839a84f7f4541d9896599dd04426e39126f",
+  "intervention_source_sha256": "72d36c1acb356a7c8956b4436dc4f3cc28fdef2946de017bca2f5d5edefe8b4f",
+  "seed": 836219,
+  "episodes": 128,
+  "seconds": 40,
+  "variants": [
+    "native",
+    "ordinary",
+    "remove_direction",
+    "restore_direction",
+    "sham0_restore",
+    "sham1_restore",
+    "sham2_restore",
+    "sham0_remove",
+    "sham1_remove",
+    "sham2_remove"
+  ],
+  "condition": "predictive",
+  "model_seed": 1006,
+  "same_native_warmup": true,
+  "recurrent_weights_frozen": true,
+  "intervention_inputs": [
+    "observed_native_encoder_drive",
+    "observed_ordinary_encoder_drive"
+  ],
+  "controller_inputs": [
+    "estimated_position",
+    "decoded_heading",
+    "known_goal"
+  ],
+  "independent_reference_simulation": true
+}

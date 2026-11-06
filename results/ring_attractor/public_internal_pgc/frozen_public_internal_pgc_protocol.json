@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "frozen_at_utc": "2026-11-06T01:01:13.820350+00:00",
+  "stage": "prospective replication on public pretrained cohort, after separate advanced-checkpoint exploratory pilot",
+  "model_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "public_commit": "b503f6d4e73dd0551ead7075561e64f0812be750",
+  "asset_manifest_sha256": "452b1827b4e5384b9d02a105ea32b26f79ab4569f1b5b2bb4427baf0e80b0fae",
+  "classification": "published spatial shift predictive_ids_random_walk.npy, unchanged; no threshold recomputation",
+  "calibration_seed_rule": "52701 + 100 * model_seed",
+  "matching_seed_rule": "52702 + 100 * model_seed",
+  "evaluation_seed_rule": "52703 + 100 * model_seed",
+  "perturbation_seed_rule": "52704 + 100 * model_seed",
+  "calibration_episodes": 128,
+  "calibration_steps": 40,
+  "evaluation_episodes": 64,
+  "warmup_steps": 40,
+  "intervention_steps": 200,
+  "dt_seconds": 0.02,
+  "contexts": [
+    "stationary_zero_input",
+    "moving_physical_displacements"
+  ],
+  "shared_initial_state_between_contexts": true,
+  "modes": [
+    "zero_output",
+    "mean_replacement"
+  ],
+  "doses": [
+    0,
+    0.1,
+    0.25,
+    0.5
+  ],
+  "primary_dose": 0.25,
+  "primary_window_steps": 20,
+  "primary_outcome": "mean original fixed-readout position error over first 20 post-intervention steps (0.4 s); all 64 trajectories",
+  "primary_comparisons": [
+    "stationary_zero_input zero_output PGC minus mean20 controls",
+    "stationary_zero_input mean_replacement PGC minus mean20 controls",
+    "moving_physical_displacements zero_output PGC minus mean20 controls",
+    "moving_physical_displacements mean_replacement PGC minus mean20 controls",
+    "mean_replacement interaction: moving PGC-minus-control minus stationary PGC-minus-control"
+  ],
+  "primary_family_adjustment": "Holm across all five two-sided exact 2^10 paired sign-flip tests; seed is statistical unit; 95% paired-t CI descriptive",
+  "secondary_windows_steps": [
+    50,
+    100,
+    200
+  ],
+  "sensitivity_doses": [
+    0.1,
+    0.5
+  ],
+  "secondary_outcomes": [
+    "final position error",
+    "signed position increment gain with lag5",
+    "increment alignment with lag5; zero displacement contributes zero",
+    "state norm ratio",
+    "projective position spread ratio",
+    "initially normal perturbation full-state and projective gain under same counterfactual recurrence"
+  ],
+  "matching": "20 sets without replacement within set from all non-PGC units; exactly same count; nearest matching on log1p independently calibrated mean activity, RMS activity, outgoing recurrent column norm; random greedy order; fixed reused across modes/doses/contexts",
+  "intervention": "recurrent source outputs only; h_selected -> (1-dose)*h_selected [+ dose*calibration_mean_selected for mean_replacement]. Encoder, velocity weights, decoder, initial states unchanged",
+  "readout_control": "PGC full readout-only removal from native trajectory; descriptive",
+  "perturbation": "1% initial state norm; initially orthogonal to empirical two position-translation tangents and state scaling, positivity preserved; all subsequent separation is total separation, not projected instantaneous normal",
+  "topology_scope": "projective position memory in positively homogeneous bias-free ReLU RNN; no fixed-radius torus claim",
+  "exclusions": "none; malformed checkpoint/provenance or numerical validation failure stops analysis, never drops a seed",
+  "provenance": "verify source and checkpoint SHA256 against pinned manifest before evaluation; freeze evaluator hashes before first public outcomes",
+  "runtime_limit_per_seed_seconds": 240
+}

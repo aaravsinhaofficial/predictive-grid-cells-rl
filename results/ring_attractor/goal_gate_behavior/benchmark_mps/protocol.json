@@ -1,0 +1,63 @@
+{
+  "role": "benchmark",
+  "seeds": [
+    1
+  ],
+  "episodes_per_seed_variant": 16,
+  "n_envs_per_variant": 16,
+  "eval_seed": 737373,
+  "device": "mps",
+  "variants": [
+    "intact",
+    "goal_ordinary",
+    "restore_forget",
+    "restore_candidate_output"
+  ],
+  "restored_gate_indices": {
+    "intact": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "goal_ordinary": [],
+    "restore_forget": [
+      1
+    ],
+    "restore_candidate_output": [
+      2,
+      3
+    ]
+  },
+  "intervention": "Current mixed predictive code intact in every branch. Only169predictive goal slots are made ordinary; selected gates recover native predictive goal influence, computed fromsameactualprecedingh/c. Noaddedstate noise.",
+  "primary_score_comparisons": [
+    [
+      "goal_ordinary",
+      "intact"
+    ],
+    [
+      "goal_ordinary",
+      "restore_forget"
+    ],
+    [
+      "goal_ordinary",
+      "restore_candidate_output"
+    ],
+    [
+      "restore_forget",
+      "restore_candidate_output"
+    ]
+  ],
+  "test_family": "Four paired training-seed score comparisons; Holm separately t andexactsignflips; othermetrics descriptive.",
+  "episode_pairing": "MatchedArena common layouts, physicalnoise, actionuniforms; eachbranchownsitsstateandtrajectory.",
+  "benchmark_excluded_from_primary": true,
+  "code_identity": {
+    "1": {
+      "samples": 512,
+      "max_absolute_code_difference": 0.0,
+      "same_phases_and_wavevectors": true,
+      "existing_pgc_as_gc_is_exact_substitution": true
+    }
+  },
+  "source_sha256": "df7dd108433ce7a4441139ddec7914ea4ec0af9dd21c81f0ac3ed40c2cb43569"
+}

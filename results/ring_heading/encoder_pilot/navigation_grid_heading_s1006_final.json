@@ -1,0 +1,689 @@
+{
+  "checkpoint": "results/ring_heading/encoder_pilot/grid_heading_s1006.pt",
+  "checkpoint_sha256": "9bbc959c2f8646cb6d18604a18ff3f55d373ad9d6dcd18936d07db4d24961891",
+  "evaluator_sha256": "30c6512c437d32df318af177e1ab5839a84f7f4541d9896599dd04426e39126f",
+  "condition": "grid_heading",
+  "seed": 1006,
+  "config": {
+    "hidden_size": 64,
+    "encoder_size": 256,
+    "n_code": 128,
+    "dt": 0.05,
+    "leak": 0.25,
+    "predictive_fraction": 0.3333333333333333,
+    "displacement": 0.2,
+    "angular_velocity_noise": 0.3,
+    "angular_velocity_bias": 0.1,
+    "speed_noise": 0.01,
+    "direction_noise": 0.05,
+    "position_noise": 0.01,
+    "channel_noise": 0.03,
+    "recurrent_noise": 0.01,
+    "visibility": 0.5,
+    "initial_heading_steps": 4,
+    "code_seed": 1006
+  },
+  "steps_completed": 6000,
+  "evaluation_seed": 836219,
+  "episodes": 64,
+  "scenarios": {
+    "baseline": {
+      "initial_decoded_mae_deg": 1.6148724555969238,
+      "durations": {
+        "20s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.203125476837158,
+            "mean_final_goal_distance_m": 0.08613327145576477,
+            "mean_self_position_error_m": 0.0752425417304039,
+            "mean_path_length_m": 1.084214448928833,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.1431192010641098,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 7.401562213897705,
+            "mean_longest_sustained_hold_seconds": 14.535938262939453
+          },
+          "ordinary": {
+            "success_fraction": 0.015625,
+            "mean_capped_arrival_seconds": 19.782812118530273,
+            "mean_final_goal_distance_m": 1.0525953769683838,
+            "mean_self_position_error_m": 1.12083899974823,
+            "mean_path_length_m": 1.4231021404266357,
+            "post_entry_n": 1,
+            "mean_max_distance_after_first_entry_m": 0.14656034111976624,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.015625,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 19.814844131469727,
+            "mean_longest_sustained_hold_seconds": 0.21640625596046448
+          },
+          "reverse": {
+            "success_fraction": 0.03125,
+            "mean_capped_arrival_seconds": 19.536718368530273,
+            "mean_final_goal_distance_m": 1.0667669773101807,
+            "mean_self_position_error_m": 1.1510432958602905,
+            "mean_path_length_m": 1.4723584651947021,
+            "post_entry_n": 2,
+            "mean_max_distance_after_first_entry_m": 0.14353004097938538,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.03125,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 19.609375,
+            "mean_longest_sustained_hold_seconds": 0.2984375059604645
+          },
+          "restored": {
+            "success_fraction": 0.359375,
+            "mean_capped_arrival_seconds": 14.891407012939453,
+            "mean_final_goal_distance_m": 0.21580739319324493,
+            "mean_self_position_error_m": 0.2077658474445343,
+            "mean_path_length_m": 1.1757253408432007,
+            "post_entry_n": 23,
+            "mean_max_distance_after_first_entry_m": 0.14459668099880219,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.359375,
+            "sustained_dwell_success_fraction": 0.359375,
+            "mean_capped_sustained_dwell_seconds": 15.745311737060547,
+            "mean_longest_sustained_hold_seconds": 4.973437309265137
+          }
+        },
+        "40s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.828125476837158,
+            "mean_final_goal_distance_m": 0.08672652393579483,
+            "mean_self_position_error_m": 0.14252813160419464,
+            "mean_path_length_m": 1.0864671468734741,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.1431192010641098,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 8.026562690734863,
+            "mean_longest_sustained_hold_seconds": 33.88203048706055
+          },
+          "ordinary": {
+            "success_fraction": 0.046875,
+            "mean_capped_arrival_seconds": 39.228126525878906,
+            "mean_final_goal_distance_m": 1.024104356765747,
+            "mean_self_position_error_m": 1.0802433490753174,
+            "mean_path_length_m": 2.57995343208313,
+            "post_entry_n": 3,
+            "mean_max_distance_after_first_entry_m": 0.2763940989971161,
+            "mean_overshoot_after_first_entry_m": 0.12710189819335938,
+            "terminal_goal_occupancy_fraction": 0.02046874910593033,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 39.502342224121094,
+            "mean_longest_sustained_hold_seconds": 0.38203126192092896
+          },
+          "reverse": {
+            "success_fraction": 0.0625,
+            "mean_capped_arrival_seconds": 38.849220275878906,
+            "mean_final_goal_distance_m": 1.066123127937317,
+            "mean_self_position_error_m": 1.122089147567749,
+            "mean_path_length_m": 2.4945271015167236,
+            "post_entry_n": 4,
+            "mean_max_distance_after_first_entry_m": 0.23748698830604553,
+            "mean_overshoot_after_first_entry_m": 0.09354176372289658,
+            "terminal_goal_occupancy_fraction": 0.028437498956918716,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 38.984375,
+            "mean_longest_sustained_hold_seconds": 0.4976562559604645
+          },
+          "restored": {
+            "success_fraction": 0.359375,
+            "mean_capped_arrival_seconds": 27.703907012939453,
+            "mean_final_goal_distance_m": 0.21431103348731995,
+            "mean_self_position_error_m": 0.24533873796463013,
+            "mean_path_length_m": 1.1788606643676758,
+            "post_entry_n": 23,
+            "mean_max_distance_after_first_entry_m": 0.14459668099880219,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.359375,
+            "sustained_dwell_success_fraction": 0.359375,
+            "mean_capped_sustained_dwell_seconds": 28.55781364440918,
+            "mean_longest_sustained_hold_seconds": 12.160938262939453
+          }
+        }
+      }
+    },
+    "bias_stress": {
+      "initial_decoded_mae_deg": 1.621808648109436,
+      "durations": {
+        "20s": {
+          "native": {
+            "success_fraction": 0.859375,
+            "mean_capped_arrival_seconds": 6.7890625,
+            "mean_final_goal_distance_m": 0.10861755907535553,
+            "mean_self_position_error_m": 0.09989186376333237,
+            "mean_path_length_m": 1.0867230892181396,
+            "post_entry_n": 55,
+            "mean_max_distance_after_first_entry_m": 0.1439656764268875,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.859375,
+            "sustained_dwell_success_fraction": 0.859375,
+            "mean_capped_sustained_dwell_seconds": 8.73281192779541,
+            "mean_longest_sustained_hold_seconds": 12.985939025878906
+          },
+          "ordinary": {
+            "success_fraction": 0.0,
+            "mean_capped_arrival_seconds": 20.0,
+            "mean_final_goal_distance_m": 1.0346970558166504,
+            "mean_self_position_error_m": 1.095115303993225,
+            "mean_path_length_m": 1.4374030828475952,
+            "post_entry_n": 0,
+            "mean_max_distance_after_first_entry_m": null,
+            "mean_overshoot_after_first_entry_m": null,
+            "terminal_goal_occupancy_fraction": 0.0,
+            "sustained_dwell_success_fraction": 0.0,
+            "mean_capped_sustained_dwell_seconds": 20.0,
+            "mean_longest_sustained_hold_seconds": 0.0
+          },
+          "reverse": {
+            "success_fraction": 0.03125,
+            "mean_capped_arrival_seconds": 19.535938262939453,
+            "mean_final_goal_distance_m": 0.9847279787063599,
+            "mean_self_position_error_m": 1.0396322011947632,
+            "mean_path_length_m": 1.471911907196045,
+            "post_entry_n": 2,
+            "mean_max_distance_after_first_entry_m": 0.14378109574317932,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.03125,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 19.608592987060547,
+            "mean_longest_sustained_hold_seconds": 0.328125
+          },
+          "restored": {
+            "success_fraction": 0.375,
+            "mean_capped_arrival_seconds": 14.703906059265137,
+            "mean_final_goal_distance_m": 0.25190553069114685,
+            "mean_self_position_error_m": 0.24086993932724,
+            "mean_path_length_m": 1.1815376281738281,
+            "post_entry_n": 24,
+            "mean_max_distance_after_first_entry_m": 0.14602284133434296,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.375,
+            "sustained_dwell_success_fraction": 0.375,
+            "mean_capped_sustained_dwell_seconds": 15.57421875,
+            "mean_longest_sustained_hold_seconds": 5.175781726837158
+          }
+        },
+        "40s": {
+          "native": {
+            "success_fraction": 0.859375,
+            "mean_capped_arrival_seconds": 9.6015625,
+            "mean_final_goal_distance_m": 0.10740235447883606,
+            "mean_self_position_error_m": 0.1544136255979538,
+            "mean_path_length_m": 1.088151216506958,
+            "post_entry_n": 55,
+            "mean_max_distance_after_first_entry_m": 0.1439656764268875,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.859375,
+            "sustained_dwell_success_fraction": 0.859375,
+            "mean_capped_sustained_dwell_seconds": 11.54531192779541,
+            "mean_longest_sustained_hold_seconds": 30.153125762939453
+          },
+          "ordinary": {
+            "success_fraction": 0.0,
+            "mean_capped_arrival_seconds": 40.0,
+            "mean_final_goal_distance_m": 1.0439274311065674,
+            "mean_self_position_error_m": 1.0813649892807007,
+            "mean_path_length_m": 2.5127906799316406,
+            "post_entry_n": 0,
+            "mean_max_distance_after_first_entry_m": null,
+            "mean_overshoot_after_first_entry_m": null,
+            "terminal_goal_occupancy_fraction": 0.0,
+            "sustained_dwell_success_fraction": 0.0,
+            "mean_capped_sustained_dwell_seconds": 40.0,
+            "mean_longest_sustained_hold_seconds": 0.0
+          },
+          "reverse": {
+            "success_fraction": 0.078125,
+            "mean_capped_arrival_seconds": 38.814842224121094,
+            "mean_final_goal_distance_m": 0.9930322766304016,
+            "mean_self_position_error_m": 1.039675235748291,
+            "mean_path_length_m": 2.3868837356567383,
+            "post_entry_n": 5,
+            "mean_max_distance_after_first_entry_m": 0.2484373152256012,
+            "mean_overshoot_after_first_entry_m": 0.1001984253525734,
+            "terminal_goal_occupancy_fraction": 0.02265625074505806,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 38.98359298706055,
+            "mean_longest_sustained_hold_seconds": 0.565625011920929
+          },
+          "restored": {
+            "success_fraction": 0.375,
+            "mean_capped_arrival_seconds": 27.203907012939453,
+            "mean_final_goal_distance_m": 0.2489384263753891,
+            "mean_self_position_error_m": 0.27160361409187317,
+            "mean_path_length_m": 1.1885716915130615,
+            "post_entry_n": 24,
+            "mean_max_distance_after_first_entry_m": 0.14602284133434296,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.375,
+            "sustained_dwell_success_fraction": 0.375,
+            "mean_capped_sustained_dwell_seconds": 28.07421875,
+            "mean_longest_sustained_hold_seconds": 12.67578125
+          }
+        }
+      }
+    },
+    "misleading_initial_cue": {
+      "initial_decoded_mae_deg": 20.073884963989258,
+      "durations": {
+        "20s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.202343463897705,
+            "mean_final_goal_distance_m": 0.08679333329200745,
+            "mean_self_position_error_m": 0.07578298449516296,
+            "mean_path_length_m": 1.0847375392913818,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.14439216256141663,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 7.403905868530273,
+            "mean_longest_sustained_hold_seconds": 14.533595085144043
+          },
+          "ordinary": {
+            "success_fraction": 0.015625,
+            "mean_capped_arrival_seconds": 19.735157012939453,
+            "mean_final_goal_distance_m": 1.06948721408844,
+            "mean_self_position_error_m": 1.1362605094909668,
+            "mean_path_length_m": 1.4558666944503784,
+            "post_entry_n": 1,
+            "mean_max_distance_after_first_entry_m": 0.14048218727111816,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.015625,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 19.771093368530273,
+            "mean_longest_sustained_hold_seconds": 0.2601562440395355
+          },
+          "reverse": {
+            "success_fraction": 0.015625,
+            "mean_capped_arrival_seconds": 19.736719131469727,
+            "mean_final_goal_distance_m": 1.0797697305679321,
+            "mean_self_position_error_m": 1.1321241855621338,
+            "mean_path_length_m": 1.4499108791351318,
+            "post_entry_n": 1,
+            "mean_max_distance_after_first_entry_m": 0.13936839997768402,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.015625,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 19.772655487060547,
+            "mean_longest_sustained_hold_seconds": 0.25859376788139343
+          },
+          "restored": {
+            "success_fraction": 0.359375,
+            "mean_capped_arrival_seconds": 14.898436546325684,
+            "mean_final_goal_distance_m": 0.24002061784267426,
+            "mean_self_position_error_m": 0.23200519382953644,
+            "mean_path_length_m": 1.1819349527359009,
+            "post_entry_n": 23,
+            "mean_max_distance_after_first_entry_m": 0.1449081301689148,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.359375,
+            "sustained_dwell_success_fraction": 0.359375,
+            "mean_capped_sustained_dwell_seconds": 15.742969512939453,
+            "mean_longest_sustained_hold_seconds": 4.975781440734863
+          }
+        },
+        "40s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.827343463897705,
+            "mean_final_goal_distance_m": 0.08621591329574585,
+            "mean_self_position_error_m": 0.1428299993276596,
+            "mean_path_length_m": 1.0870997905731201,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.14439216256141663,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 8.028905868530273,
+            "mean_longest_sustained_hold_seconds": 33.87812805175781
+          },
+          "ordinary": {
+            "success_fraction": 0.046875,
+            "mean_capped_arrival_seconds": 39.170310974121094,
+            "mean_final_goal_distance_m": 1.0817891359329224,
+            "mean_self_position_error_m": 1.0818181037902832,
+            "mean_path_length_m": 2.6177783012390137,
+            "post_entry_n": 3,
+            "mean_max_distance_after_first_entry_m": 0.2660922706127167,
+            "mean_overshoot_after_first_entry_m": 0.1192648634314537,
+            "terminal_goal_occupancy_fraction": 0.02046874910593033,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 39.33515548706055,
+            "mean_longest_sustained_hold_seconds": 0.612500011920929
+          },
+          "reverse": {
+            "success_fraction": 0.0625,
+            "mean_capped_arrival_seconds": 38.748435974121094,
+            "mean_final_goal_distance_m": 1.1173903942108154,
+            "mean_self_position_error_m": 1.1502755880355835,
+            "mean_path_length_m": 2.4724416732788086,
+            "post_entry_n": 4,
+            "mean_max_distance_after_first_entry_m": 0.27148979902267456,
+            "mean_overshoot_after_first_entry_m": 0.1241476982831955,
+            "terminal_goal_occupancy_fraction": 0.02265625074505806,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 39.328125,
+            "mean_longest_sustained_hold_seconds": 0.5859375
+          },
+          "restored": {
+            "success_fraction": 0.359375,
+            "mean_capped_arrival_seconds": 27.7109375,
+            "mean_final_goal_distance_m": 0.23919577896595,
+            "mean_self_position_error_m": 0.26979175209999084,
+            "mean_path_length_m": 1.1845922470092773,
+            "post_entry_n": 23,
+            "mean_max_distance_after_first_entry_m": 0.1449081301689148,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.359375,
+            "sustained_dwell_success_fraction": 0.359375,
+            "mean_capped_sustained_dwell_seconds": 28.555469512939453,
+            "mean_longest_sustained_hold_seconds": 12.117968559265137
+          }
+        }
+      }
+    },
+    "new_places": {
+      "initial_decoded_mae_deg": 1.6671026945114136,
+      "durations": {
+        "20s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.203125476837158,
+            "mean_final_goal_distance_m": 0.085269033908844,
+            "mean_self_position_error_m": 0.07489989697933197,
+            "mean_path_length_m": 1.0852218866348267,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.14355994760990143,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 7.407812595367432,
+            "mean_longest_sustained_hold_seconds": 14.529687881469727
+          },
+          "ordinary": {
+            "success_fraction": 0.015625,
+            "mean_capped_arrival_seconds": 19.782812118530273,
+            "mean_final_goal_distance_m": 1.03835928440094,
+            "mean_self_position_error_m": 1.1343040466308594,
+            "mean_path_length_m": 1.4478527307510376,
+            "post_entry_n": 1,
+            "mean_max_distance_after_first_entry_m": 0.14817246794700623,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.015625,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 19.81640625,
+            "mean_longest_sustained_hold_seconds": 0.21484375
+          },
+          "reverse": {
+            "success_fraction": 0.0625,
+            "mean_capped_arrival_seconds": 19.259374618530273,
+            "mean_final_goal_distance_m": 1.0845873355865479,
+            "mean_self_position_error_m": 1.105940341949463,
+            "mean_path_length_m": 1.456639289855957,
+            "post_entry_n": 4,
+            "mean_max_distance_after_first_entry_m": 0.16121642291545868,
+            "mean_overshoot_after_first_entry_m": 0.013687308877706528,
+            "terminal_goal_occupancy_fraction": 0.03578124940395355,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 19.627344131469727,
+            "mean_longest_sustained_hold_seconds": 0.44140625
+          },
+          "restored": {
+            "success_fraction": 0.375,
+            "mean_capped_arrival_seconds": 14.736719131469727,
+            "mean_final_goal_distance_m": 0.2063835859298706,
+            "mean_self_position_error_m": 0.19848844408988953,
+            "mean_path_length_m": 1.1809943914413452,
+            "post_entry_n": 24,
+            "mean_max_distance_after_first_entry_m": 0.14498747885227203,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.375,
+            "sustained_dwell_success_fraction": 0.375,
+            "mean_capped_sustained_dwell_seconds": 15.63437557220459,
+            "mean_longest_sustained_hold_seconds": 5.115625381469727
+          }
+        },
+        "40s": {
+          "native": {
+            "success_fraction": 0.96875,
+            "mean_capped_arrival_seconds": 5.828125476837158,
+            "mean_final_goal_distance_m": 0.08433306962251663,
+            "mean_self_position_error_m": 0.14205026626586914,
+            "mean_path_length_m": 1.0896594524383545,
+            "post_entry_n": 62,
+            "mean_max_distance_after_first_entry_m": 0.14355994760990143,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.96875,
+            "sustained_dwell_success_fraction": 0.96875,
+            "mean_capped_sustained_dwell_seconds": 8.03281307220459,
+            "mean_longest_sustained_hold_seconds": 33.84765625
+          },
+          "ordinary": {
+            "success_fraction": 0.046875,
+            "mean_capped_arrival_seconds": 39.17578125,
+            "mean_final_goal_distance_m": 1.0613999366760254,
+            "mean_self_position_error_m": 1.1182910203933716,
+            "mean_path_length_m": 2.610875368118286,
+            "post_entry_n": 3,
+            "mean_max_distance_after_first_entry_m": 0.28624221682548523,
+            "mean_overshoot_after_first_entry_m": 0.13624221086502075,
+            "terminal_goal_occupancy_fraction": 0.010624999180436134,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 39.50390625,
+            "mean_longest_sustained_hold_seconds": 0.30546876788139343
+          },
+          "reverse": {
+            "success_fraction": 0.09375,
+            "mean_capped_arrival_seconds": 37.83281326293945,
+            "mean_final_goal_distance_m": 1.0819649696350098,
+            "mean_self_position_error_m": 1.1247583627700806,
+            "mean_path_length_m": 2.43734073638916,
+            "post_entry_n": 6,
+            "mean_max_distance_after_first_entry_m": 0.27781394124031067,
+            "mean_overshoot_after_first_entry_m": 0.12946118414402008,
+            "terminal_goal_occupancy_fraction": 0.04203125089406967,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 39.002342224121094,
+            "mean_longest_sustained_hold_seconds": 1.0687501430511475
+          },
+          "restored": {
+            "success_fraction": 0.375,
+            "mean_capped_arrival_seconds": 27.236719131469727,
+            "mean_final_goal_distance_m": 0.20556503534317017,
+            "mean_self_position_error_m": 0.23478592932224274,
+            "mean_path_length_m": 1.183915376663208,
+            "post_entry_n": 24,
+            "mean_max_distance_after_first_entry_m": 0.14498747885227203,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.375,
+            "sustained_dwell_success_fraction": 0.375,
+            "mean_capped_sustained_dwell_seconds": 28.13437271118164,
+            "mean_longest_sustained_hold_seconds": 12.615625381469727
+          }
+        }
+      }
+    },
+    "new_places_bias_and_initial_error": {
+      "initial_decoded_mae_deg": 20.132404327392578,
+      "durations": {
+        "20s": {
+          "native": {
+            "success_fraction": 0.859375,
+            "mean_capped_arrival_seconds": 6.792187213897705,
+            "mean_final_goal_distance_m": 0.10810725390911102,
+            "mean_self_position_error_m": 0.10008450597524643,
+            "mean_path_length_m": 1.0883474349975586,
+            "post_entry_n": 55,
+            "mean_max_distance_after_first_entry_m": 0.14427083730697632,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.859375,
+            "sustained_dwell_success_fraction": 0.859375,
+            "mean_capped_sustained_dwell_seconds": 8.739843368530273,
+            "mean_longest_sustained_hold_seconds": 12.978906631469727
+          },
+          "ordinary": {
+            "success_fraction": 0.015625,
+            "mean_capped_arrival_seconds": 19.736719131469727,
+            "mean_final_goal_distance_m": 1.0525617599487305,
+            "mean_self_position_error_m": 1.1035993099212646,
+            "mean_path_length_m": 1.468780279159546,
+            "post_entry_n": 1,
+            "mean_max_distance_after_first_entry_m": 0.14386577904224396,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.015625,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 19.771875381469727,
+            "mean_longest_sustained_hold_seconds": 0.2593750059604645
+          },
+          "reverse": {
+            "success_fraction": 0.046875,
+            "mean_capped_arrival_seconds": 19.439062118530273,
+            "mean_final_goal_distance_m": 1.0310105085372925,
+            "mean_self_position_error_m": 1.043634295463562,
+            "mean_path_length_m": 1.497080683708191,
+            "post_entry_n": 3,
+            "mean_max_distance_after_first_entry_m": 0.17301923036575317,
+            "mean_overshoot_after_first_entry_m": 0.026450609788298607,
+            "terminal_goal_occupancy_fraction": 0.03140624985098839,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 19.588281631469727,
+            "mean_longest_sustained_hold_seconds": 0.36015623807907104
+          },
+          "restored": {
+            "success_fraction": 0.34375,
+            "mean_capped_arrival_seconds": 15.060937881469727,
+            "mean_final_goal_distance_m": 0.26408013701438904,
+            "mean_self_position_error_m": 0.25441640615463257,
+            "mean_path_length_m": 1.1919612884521484,
+            "post_entry_n": 22,
+            "mean_max_distance_after_first_entry_m": 0.14633826911449432,
+            "mean_overshoot_after_first_entry_m": 0.0008974501979537308,
+            "terminal_goal_occupancy_fraction": 0.328125,
+            "sustained_dwell_success_fraction": 0.328125,
+            "mean_capped_sustained_dwell_seconds": 16.057031631469727,
+            "mean_longest_sustained_hold_seconds": 4.599218845367432
+          }
+        },
+        "40s": {
+          "native": {
+            "success_fraction": 0.859375,
+            "mean_capped_arrival_seconds": 9.604687690734863,
+            "mean_final_goal_distance_m": 0.10721775144338608,
+            "mean_self_position_error_m": 0.1544029265642166,
+            "mean_path_length_m": 1.0892746448516846,
+            "post_entry_n": 55,
+            "mean_max_distance_after_first_entry_m": 0.14427083730697632,
+            "mean_overshoot_after_first_entry_m": 0.0,
+            "terminal_goal_occupancy_fraction": 0.859375,
+            "sustained_dwell_success_fraction": 0.859375,
+            "mean_capped_sustained_dwell_seconds": 11.552343368530273,
+            "mean_longest_sustained_hold_seconds": 30.157814025878906
+          },
+          "ordinary": {
+            "success_fraction": 0.03125,
+            "mean_capped_arrival_seconds": 39.37968826293945,
+            "mean_final_goal_distance_m": 1.0812571048736572,
+            "mean_self_position_error_m": 1.0883183479309082,
+            "mean_path_length_m": 2.5523931980133057,
+            "post_entry_n": 2,
+            "mean_max_distance_after_first_entry_m": 0.19158512353897095,
+            "mean_overshoot_after_first_entry_m": 0.04465222358703613,
+            "terminal_goal_occupancy_fraction": 0.020781250670552254,
+            "sustained_dwell_success_fraction": 0.015625,
+            "mean_capped_sustained_dwell_seconds": 39.459373474121094,
+            "mean_longest_sustained_hold_seconds": 0.5718750357627869
+          },
+          "reverse": {
+            "success_fraction": 0.0625,
+            "mean_capped_arrival_seconds": 38.4296875,
+            "mean_final_goal_distance_m": 1.0431506633758545,
+            "mean_self_position_error_m": 1.10581636428833,
+            "mean_path_length_m": 2.4662671089172363,
+            "post_entry_n": 4,
+            "mean_max_distance_after_first_entry_m": 0.2806148827075958,
+            "mean_overshoot_after_first_entry_m": 0.13206160068511963,
+            "terminal_goal_occupancy_fraction": 0.019843749701976776,
+            "sustained_dwell_success_fraction": 0.03125,
+            "mean_capped_sustained_dwell_seconds": 38.963279724121094,
+            "mean_longest_sustained_hold_seconds": 0.6023437976837158
+          },
+          "restored": {
+            "success_fraction": 0.34375,
+            "mean_capped_arrival_seconds": 28.185937881469727,
+            "mean_final_goal_distance_m": 0.26190710067749023,
+            "mean_self_position_error_m": 0.2834133505821228,
+            "mean_path_length_m": 1.1987214088439941,
+            "post_entry_n": 22,
+            "mean_max_distance_after_first_entry_m": 0.14633826911449432,
+            "mean_overshoot_after_first_entry_m": 0.0008974501979537308,
+            "terminal_goal_occupancy_fraction": 0.328125,
+            "sustained_dwell_success_fraction": 0.328125,
+            "mean_capped_sustained_dwell_seconds": 29.49453353881836,
+            "mean_longest_sustained_hold_seconds": 11.15781307220459
+          }
+        }
+      }
+    }
+  },
+  "protocol": {
+    "controller_inputs": [
+      "estimated_position",
+      "decoded_heading",
+      "goal",
+      "gain",
+      "max_angular_velocity",
+      "travel_speed",
+      "stop_radius"
+    ],
+    "controller_has_true_position_or_heading": false,
+    "known_reset_position": true,
+    "known_goal": true,
+    "external_position_estimate": "integral of measured speed along RNN-decoded heading",
+    "training": "learned heading estimator; fixed identical navigation controller",
+    "spatial_cue_blackout_seconds": [
+      4,
+      7
+    ],
+    "capture_radius_m": 0.15,
+    "restoration_seconds": 2.0,
+    "initial_heading_error_degrees": [
+      0,
+      -20,
+      20
+    ],
+    "initial_error_applies_to_heading_cue_only": true,
+    "pgc_direction_remains_true_noisy_travel_direction": true,
+    "angular_sensor_bias_sd_rad_per_second": [
+      0.1,
+      0.2
+    ],
+    "no_rotation_while_stopped": true,
+    "recurrent_noise": 0,
+    "all_timeouts_included": true,
+    "scoring_does_not_change_trajectory": true,
+    "self_position_error_timing": "estimated and actual position at the same pre-action observation",
+    "duration_comparisons": "nested20/40second prefixes of the same trial",
+    "within_model_warmup_identical_across_interventions": true
+  },
+  "secondary_navigation_protocol": {
+    "plan": "docs/research/heading_navigation_secondary_protocol.md",
+    "post_entry_distance": "maximum goal-center distance after first entry, conditional on entering; denominator reported",
+    "terminal_window_seconds": 5.0,
+    "sustained_dwell_seconds": 2.0,
+    "sustained_dwell_speed_limit_m_per_second": 0.05,
+    "dwell_timeouts_included": true,
+    "nonentrant_post_entry_values": "missing"
+  },
+  "variant_interpretation": {
+    "reverse": "Introduce unfamiliar reversed predictive spatial inputs; OOD diagnostic, not a learned-input reversal",
+    "ordinary": "Remove explicit heading after common initialization"
+  }
+}

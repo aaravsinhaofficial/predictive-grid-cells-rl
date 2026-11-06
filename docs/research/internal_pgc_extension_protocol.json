@@ -1,0 +1,18 @@
+{
+  "stage": "exploratory single-checkpoint follow-up",
+  "timing": "Specified after initial large-lesion pilot and before this dose/mean-replacement run",
+  "reason": "Large lesions erase memory in both target and control groups; separate information removal from lost recurrent-drive amplitude",
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cell-analysis/Seed 0(trained advanced)/most_recent_model.pth",
+  "dose_grid": [0, 0.1, 0.25, 0.5, 0.75, 1],
+  "interventions": ["recurrent output multiplied by 1-dose", "selected source activity replaced by (1-dose)*h + dose*independent calibration mean"],
+  "class": "all stored spatial-path predictive labels, including shift-window-edge units; legacy threshold classification",
+  "controls": "20 fixed non-PGC subsets matched in count, calibration mean activity, RMS activity, and outgoing recurrent-column norm",
+  "initialization": "40 valid motion-input steps followed by 200 zero-input steps; common initial state for every intervention",
+  "fresh_evaluation_seed": 42713,
+  "episodes": 32,
+  "perturbation": "initially orthogonal to two empirical position-translation tangents and state scaling; preserve nonnegative rates",
+  "translation_tangent_offset_m": 0.002,
+  "metrics": ["state norm", "projective state spread across initial positions", "original frozen-readout position error", "normal-perturbation pair separation relative to each intervention's own unperturbed trajectory"],
+  "cautions": ["one trained network, no seed-level population inference", "initial normal perturbations can later shear into phase directions", "zero-input bias-free ReLU dynamics are homogeneous; do not assume a fixed-radius torus", "activity normalization is used only for scoring, never to alter the network update"],
+  "runtime_cap_seconds": 300
+}
