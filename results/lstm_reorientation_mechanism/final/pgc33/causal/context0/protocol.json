@@ -1,0 +1,61 @@
+{
+  "version": "task_native_pre_glimpse_rescue_navigation_v1",
+  "design_sha256": "664e603c1f38ae7f1bac6b4f93c99aa3feecb2d521bcd85f9a22efbf84a0c9ce",
+  "review_addendum_sha256": "71f54f0618e43e3dca7cbffbb597f468b268931a508d3e652a056001200f7a29",
+  "phases": 192,
+  "times": [
+    0,
+    1,
+    5,
+    15,
+    30,
+    45,
+    60
+  ],
+  "edits": [
+    "none",
+    "plus30",
+    "minus30",
+    "radial_plus",
+    "radial_minus",
+    "isotropic_plus",
+    "isotropic_minus"
+  ],
+  "cues": [
+    "native",
+    "ordinary",
+    "plus60",
+    "minus60",
+    "native_reset"
+  ],
+  "radial_anchor_updates": [
+    0,
+    15
+  ],
+  "radial_fraction": 0.02,
+  "free_actions": 30,
+  "random_seed": 188201,
+  "construction_metrics": [
+    "raw",
+    "relative_rms"
+  ],
+  "measurement_metrics": [
+    "raw",
+    "relative_rms"
+  ],
+  "references": "Dense768-point unperturbed correct-native family and each own-cue family; full512 closest segments; no decoder enters actor",
+  "invalid_interventions": "Retain unperturbed and every defined edit; record missing radial/phase edits per construction/anchor/cue without discarding other branches. Collapsed reference curves have null phase estimates.",
+  "precision": "Recompute all unperturbed cue references in float64 from saved pre-cue states; retain discrepancy from original float32 cue update",
+  "navigation": "Noiseless native60-left delay from exactendpoint/brakedmotors to align saved neural states, then native free motor noise from shared predrawn tapes; original actor with shared inverseCDF uniforms; stop firstreward",
+  "fixed_cohort": "Both final40,058,880-frame new-task checkpoints, both physically selected contexts each; no selection on candidate or reward",
+  "source_sha256": {
+    "scripts/lstm_reorientation_causal_navigation.py": "e269d66f5e8614d3080e61dc91e9e93c46e6749954fc69cdae72780235386891",
+    "scripts/lstm_reorientation_mechanism.py": "b2865a7f026aa919c9a5b6723d88aa196f19eddf39dc6884aedbfbc28c8e883c",
+    "scripts/lstm_travel_cue_pulse.py": "c173fe0ed1502ed42eda74ec8e74bf35bcc709cf75e848956dc299f300916693",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+  }
+}

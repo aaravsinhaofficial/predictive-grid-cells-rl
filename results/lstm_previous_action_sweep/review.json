@@ -1,0 +1,21 @@
+{
+  "reviewer": "endogenous_ring_audit",
+  "independent_test_command": "/opt/anaconda3/bin/python -m pytest -q tests/test_lstm_previous_action_sweep.py",
+  "tests_passed": 1,
+  "review_findings": [
+    "Every action starts from the identical archived t0 full h/c family; analyze_branch clones that state.",
+    "Only previous-action entries1280:1286 change; all other held inputs stay exact.",
+    "Full-state and future-observable timings/gates remain unchanged; no recurrent weights or state manifold are designed.",
+    "Readout labels measure stored travel phase; no fictitious heading movement is applied to translation conditions.",
+    "LEFT identity replays every archived time0/1/5/15/30/45/60 before new inputs are interpreted.",
+    "Counterfactual clamped translation inputs are explicitly separated from physical behavior and navigation claims."
+  ],
+  "pre_freeze_fixes_requested": [
+    "Include adjacent original config JSON path/hash because original checkpoints contain no embedded config.",
+    "Assert original checkpoint frames exactly1,000,000,000."
+  ],
+  "fixes_applied_by_root_before_freeze": true,
+  "protocol_sha256": "8aecc6a09d35bd45a96a80716deeaaea1922ffaff7eacdb27393ee01172a0004",
+  "source_sha256": "11baafd170df99e6befa6075b2003015d25c0d6ae2b9cb1818d9beeda348b53a",
+  "no_remaining_blocker": true
+}

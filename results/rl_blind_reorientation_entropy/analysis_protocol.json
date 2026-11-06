@@ -1,8 +1,10 @@
 {
-  "version": "matched_reorientation_entropy_behavior_v1",
+  "version": "matched_reorientation_entropy_behavior_v2",
+  "previous_protocol_sha256": "8396cc0346546f1ad87a6a44db59428bf01ffd6651b4c3594d612f9aee4dc9d2",
+  "pre_outcome_amendment": "Infrastructure-only: trainer output is a fresh experiment/ child because launcher writes worker.log at worker root. Failed first launches ended before baseline/learning. Source v1 preserved in commit bddd7d48; all estimands, resampling, endpoints and numerical helpers unchanged.",
   "training_protocol_sha256": "cb05dc84f44e5cf076a7be29bedb6e1235f5a73ce797eabdfda874d966c1a4bb",
   "sources": {
-    "scripts/summarize_reorientation_entropy.py": "4fc72d4019b194253285d960a08e01ed7a5f71af2940511193bb8276ab1d7cbe",
+    "scripts/summarize_reorientation_entropy.py": "efb425bea2c5ce4e219155a6927c717718e25c52bb2cd73df1683d279c34b8c4",
     "scripts/summarize_blind_reorientation.py": "1b0b73bec0f366e36908b657b7e7520e4ecd939ccb24da69c962edf73fc291ff"
   },
   "cohort": "Both populations, original seed1, original versus explore entropy. Exact40M parent baseline and every five fixed extension endpoints. Final90,132,480total extra frames is primary; no stage selection.",
@@ -15,5 +17,5 @@
     "interpretation": "Descriptive95% evaluation uncertainty conditional on these two fixed policies. No trained-seed significance or multiple-comparison claim."
   },
   "caveats": "Different policies can change event timing and free exposure. Per-original-episode outcomes remain primary; rates perfreeupdate are descriptive. Stages and windows are not trainedseed replications.",
-  "routing": "Read workers[{condition,arm,name}] from explicit launch manifest. Preserve capacity failures separately; no ambiguous symlink routing."
+  "routing": "Read workers[{condition,arm,name,artifact_subdir}] from explicit launch manifest. Child is empty or experiment only. Preserve failures separately; no ambiguous symlink routing."
 }

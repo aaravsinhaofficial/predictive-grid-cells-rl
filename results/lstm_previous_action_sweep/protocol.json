@@ -1,0 +1,64 @@
+{
+  "version": "original_lstm_previous_action_sensitivity_v1",
+  "motivation": "A split attractor design for rapidly writing a navigational goal, Nature2026, doi10.1038/s41586-026-11144-9, reports behavior-dependent gating in a fly goal circuit. This motivates testing input dependence, not asserting biological homology.",
+  "cohort": "Original1B models, both populations, pilotseeds1and2, existing context0 travel family for each. All24 model/action cases; no selection on new results.",
+  "intervention": "Replace only previous-action onehot entries1280:1286 with each of allsix actual action IDs. Start every condition from the exact same archived768x512 fullstate family at release time0. Black embedding, ordinary currentcode, native savedgoal and previousreward unchanged.",
+  "scope": "Clamped-input neural dynamics. Translating action messages with held position/vision are explicitly counterfactual; no claim of physical trajectories, spontaneous actor selection or improved navigation. Follow any candidate with native behavior and cue perturbation.",
+  "geometry": "Unchanged analyze_branch, full512state, rawandfixedh/cRMS, time30reference plus30recovery,384uniformarcprobes and all existing gates. Initial travelphase readouts only; no fictitious heading integration under translation.",
+  "observable": "Unchanged observable_probe at15updates: all256hidden outputs at0/5/10/15futureupdates, evolve30, latest60. Raw and fixedh/cRMS fullstate kicks; report centeredandnoncentered gates. All48action/metricchecks retained.",
+  "identity": "The original previousLEFT input must exactly equal action0; replay all archived0/1/5/15/30/45/60states within1e-9abs/1e-11rel before interpreting any new condition.",
+  "inference": "Two originalpilotseedpairs; six conditions are within-model interventions. Candidate search precedes heldout confirmation; no population-level significance or threshold tuning.",
+  "source_sha256": {
+    "scripts/lstm_previous_action_sweep.py": "11baafd170df99e6befa6075b2003015d25c0d6ae2b9cb1818d9beeda348b53a",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/plot_lstm_heading_memory.py": "e79e13efa210e824fb42946ef898155b122d89dbd634036eb493b60fe9383191",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+  },
+  "assets": [
+    {
+      "condition": "gc100",
+      "seed": 1,
+      "checkpoint": "models/gc100/gc100_lstm_s1_1000M.pt",
+      "checkpoint_sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+      "config": "models/gc100/gc100_lstm_s1_1000M.json",
+      "config_sha256": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+      "archive": "results/lstm_travel_memory/original/gc100_s1/context0_states.npz",
+      "archive_sha256": "e277fcb36f578f640b7435b1d1cc99ed59ac7d4748dc6d1bb933a07961a0b098"
+    },
+    {
+      "condition": "gc100",
+      "seed": 2,
+      "checkpoint": "models/gc100/gc100_lstm_s2_1000M.pt",
+      "checkpoint_sha256": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "config": "models/gc100/gc100_lstm_s2_1000M.json",
+      "config_sha256": "9c1a730c473a8a7a0ac9ad20d29e201cacc72fa84bb61b59a8f901f0aa3d79ea",
+      "archive": "results/lstm_travel_memory/original/gc100_s2/context0_states.npz",
+      "archive_sha256": "7b05936fbd61bf781f444b778b58fa4d894fc300d56705ff573f4bfdbedd107e"
+    },
+    {
+      "condition": "pgc33",
+      "seed": 1,
+      "checkpoint": "models/pgc33/pgc33_lstm_s1_1000M.pt",
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "config": "models/pgc33/pgc33_lstm_s1_1000M.json",
+      "config_sha256": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+      "archive": "results/lstm_travel_memory/original/pgc33_s1/context0_states.npz",
+      "archive_sha256": "e6e6cdda5ad141a37b6f94b9939066f970d969f996f7c1ab8191b1adc2a2cfd8"
+    },
+    {
+      "condition": "pgc33",
+      "seed": 2,
+      "checkpoint": "models/pgc33/pgc33_lstm_s2_1000M.pt",
+      "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+      "config": "models/pgc33/pgc33_lstm_s2_1000M.json",
+      "config_sha256": "89e0388319a8740ef157a56f13851fdc679bb8b897668bf367763e75340a1f73",
+      "archive": "results/lstm_travel_memory/original/pgc33_s2/context0_states.npz",
+      "archive_sha256": "8166f9a4572a4bea6a38c77d646e12138c507399ae52608bfb42e5b09944fb77"
+    }
+  ]
+}

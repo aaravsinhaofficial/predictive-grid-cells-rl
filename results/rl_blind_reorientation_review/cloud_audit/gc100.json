@@ -1,11 +1,11 @@
 {
   "version": "blind_reorientation_independent_artifact_audit_v1",
-  "audited_at": "2026-11-06T07:13:46.089472+00:00",
+  "audited_at": "2026-11-06T07:37:58.201259+00:00",
   "folder": "results/ring_cloud_artifacts/ring-20261105-reorient-grid-01",
   "condition": "gc100",
-  "status": "pending",
-  "complete": false,
-  "required_complete": false,
+  "status": "complete",
+  "complete": true,
+  "required_complete": true,
   "passed": true,
   "protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
   "auditor_sha256": "4acf202f0795bfffd8176ddc6a52094bf0083082af7dd881f771d68f2a6a3f51",
@@ -83,6 +83,58 @@
         "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
       }
     },
+    "stage3_delay30.pt": {
+      "policy_sha256": "52d8c4ae394c501101c6c3ad05daf5d4d3ac165428943a27aa2c2a2a1738e9cc",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 30044160,
+      "updates": 1667,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 1667,
+        "total_environment_updates": 8535040,
+        "admissions": 31195,
+        "completed": 25141,
+        "coverage_violations": 0,
+        "noise_replays": 1667,
+        "max_replay_error": 2.002716064453125e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "stage4_delay60.pt": {
+      "policy_sha256": "dd62dd0730c3a03ad621a8d6fdf1e3adb999882acd3f2ca421e2c8dd46ae2788",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 40058880,
+      "updates": 2156,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 2156,
+        "total_environment_updates": 11038720,
+        "admissions": 39962,
+        "completed": 31839,
+        "coverage_violations": 0,
+        "noise_replays": 2156,
+        "max_replay_error": 2.002716064453125e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "final.pt": {
+      "policy_sha256": "dd62dd0730c3a03ad621a8d6fdf1e3adb999882acd3f2ca421e2c8dd46ae2788",
+      "optimizer": "New original RMSProp; original parent has no optimizer",
+      "frames": 40058880,
+      "updates": 2156,
+      "warmup_exposure_frames": 4096000,
+      "runtime": {
+        "total_updates": 2156,
+        "total_environment_updates": 11038720,
+        "admissions": 39962,
+        "completed": 31839,
+        "coverage_violations": 0,
+        "noise_replays": 2156,
+        "max_replay_error": 2.002716064453125e-05,
+        "native_goal_scope": "Frozen native-goal source/asset path and known/unknown snapshot consistency verified; snapshots do not store every historical pickup for independent code regeneration"
+      }
+    },
+    "final_policy_matches_fixed_stage4": true,
     "baseline.json": {
       "blind_native": {
         "episodes": 64,
@@ -485,25 +537,425 @@
         "all_events_retained": true
       }
     },
+    "stage3_evaluation.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 290,
+        "zero_free_window_episodes": 11,
+        "free_hits": 19.0,
+        "forced_hits": 2.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 291,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 290,
+        "zero_free_window_episodes": 11,
+        "free_hits": 19.0,
+        "forced_hits": 2.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 291,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 290,
+        "zero_free_window_episodes": 11,
+        "free_hits": 19.0,
+        "forced_hits": 2.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 291,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 290,
+        "zero_free_window_episodes": 11,
+        "free_hits": 19.0,
+        "forced_hits": 2.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 291,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 290,
+        "zero_free_window_episodes": 11,
+        "free_hits": 22.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 292,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 296,
+        "zero_free_window_episodes": 11,
+        "free_hits": 29.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 299,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 283,
+        "zero_free_window_episodes": 11,
+        "free_hits": 44.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 285,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 283,
+        "zero_free_window_episodes": 11,
+        "free_hits": 44.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 285,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 283,
+        "zero_free_window_episodes": 11,
+        "free_hits": 44.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 285,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 283,
+        "zero_free_window_episodes": 11,
+        "free_hits": 44.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 285,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 280,
+        "zero_free_window_episodes": 11,
+        "free_hits": 42.0,
+        "forced_hits": 9.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 283,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 345,
+        "free_windows": 283,
+        "zero_free_window_episodes": 11,
+        "free_hits": 39.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 283,
+        "all_events_retained": true
+      }
+    },
+    "stage4_evaluation.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 306,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 308,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 304,
+        "zero_free_window_episodes": 8,
+        "free_hits": 32.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 303,
+        "zero_free_window_episodes": 8,
+        "free_hits": 41.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 305,
+        "zero_free_window_episodes": 8,
+        "free_hits": 42.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 7.0,
+        "pulses": 306,
+        "all_events_retained": true
+      }
+    },
+    "final_evaluation.json": {
+      "blind_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 298,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 7.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 301,
+        "all_events_retained": true
+      },
+      "blind_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 306,
+        "zero_free_window_episodes": 8,
+        "free_hits": 33.0,
+        "forced_hits": 6.0,
+        "probe_wall_updates": 6.0,
+        "pulses": 308,
+        "all_events_retained": true
+      },
+      "blind_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 304,
+        "zero_free_window_episodes": 8,
+        "free_hits": 32.0,
+        "forced_hits": 4.0,
+        "probe_wall_updates": 0.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_native": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_ordinary": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_plus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_minus60": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 302,
+        "zero_free_window_episodes": 8,
+        "free_hits": 48.0,
+        "forced_hits": 8.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 304,
+        "all_events_retained": true
+      },
+      "seen_reset_after_glimpse": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 303,
+        "zero_free_window_episodes": 8,
+        "free_hits": 41.0,
+        "forced_hits": 5.0,
+        "probe_wall_updates": 5.0,
+        "pulses": 306,
+        "all_events_retained": true
+      },
+      "seen_reset_every_blind": {
+        "episodes": 64,
+        "admitted_events": 355,
+        "free_windows": 305,
+        "zero_free_window_episodes": 8,
+        "free_hits": 42.0,
+        "forced_hits": 3.0,
+        "probe_wall_updates": 7.0,
+        "pulses": 306,
+        "all_events_retained": true
+      }
+    },
+    "final_evaluation_matches_fixed_stage4": true,
     "metrics.jsonl": {
-      "rows": 65,
-      "last_update": 1300
+      "rows": 107,
+      "last_update": 2140
     },
     "progress.json": {
-      "stages": 2
-    }
+      "stages": 4
+    },
+    "training.json": {
+      "learning_frames": 40058880,
+      "warmup_exposure_frames": 4096000,
+      "total_exposure_frames": 44154880
+    },
+    "summary.json": true
   },
   "failures": [],
-  "pending": [
-    "stage3_delay30.pt",
-    "stage4_delay60.pt",
-    "final.pt",
-    "stage3_evaluation.json",
-    "stage4_evaluation.json",
-    "final_evaluation.json",
-    "training.json",
-    "summary.json"
-  ],
+  "pending": [],
   "artifacts": {
     "protocol.json": {
       "bytes": 7605,
@@ -533,6 +985,18 @@
       "bytes": 27322699,
       "sha256": "8e6fa2bc615c55c51372013bd56e43709bd86039ba2b95df58c553d067795870"
     },
+    "stage3_delay30.pt": {
+      "bytes": 27322699,
+      "sha256": "4ffa1c26aaf953e4a30088b8cdc6c1ada705cbde4f6a85c22e2324c14afbc19e"
+    },
+    "stage4_delay60.pt": {
+      "bytes": 27322699,
+      "sha256": "52544972fd787a38bb91a698c5804cd5ae3af3835fd6c72b705e67e5a0d615ef"
+    },
+    "final.pt": {
+      "bytes": 27321331,
+      "sha256": "ee0635c73a94c0f19ead27f6772495cece8c18ee19666d32d9765f5646de4651"
+    },
     "baseline.json": {
       "bytes": 6015122,
       "sha256": "06ea22765b7b4a2430c0d77e8c23b30505921581f47d509dbbc527e8cc99b298"
@@ -545,13 +1009,33 @@
       "bytes": 5707957,
       "sha256": "ae108409395abc32004927c0483682b9288a8ef1bb909609b02ca50b9422fcae"
     },
+    "stage3_evaluation.json": {
+      "bytes": 5772687,
+      "sha256": "428e2b0c75cd255852955b54a76a185a93afcb91c7c9d74528dcb07af31a8cb0"
+    },
+    "stage4_evaluation.json": {
+      "bytes": 5980763,
+      "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+    },
+    "final_evaluation.json": {
+      "bytes": 5980763,
+      "sha256": "0152406c4b2f73138094b461883c9b0bcf2104f074f108feb6a894162449b942"
+    },
     "metrics.jsonl": {
-      "bytes": 64032,
-      "sha256": "649bd8781fe478e686d9e5b759ff5187ae932e587ff9f6fa297096a163176ebd"
+      "bytes": 105970,
+      "sha256": "04cae31a477ec447bdcd6d42e921384747eaab14aa605fdef42acccbde1d2890"
+    },
+    "training.json": {
+      "bytes": 28809234,
+      "sha256": "5c43935df7b0a00030ad91041551c21de5f526305cd6b21830553c1f2fedca34"
+    },
+    "summary.json": {
+      "bytes": 37086221,
+      "sha256": "d63c18c02671a7e051cf544aca4bc1db92c23168a0966c2ea96af3428cd04f4b"
     },
     "progress.json": {
-      "bytes": 14346390,
-      "sha256": "ccb4cf33cf33695a5bee84ba2556eb33555223c19bb93a443e1959b92cf0e228"
+      "bytes": 28807858,
+      "sha256": "3483c417fdc7c8e0e285262ec40d41ad9b7354d5f6f937de6a9f8bbfbad9a233"
     }
   },
   "interpretation": "Data integrity audit only; it does not select favorable stages or infer a trained-seed population effect"

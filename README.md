@@ -2,7 +2,7 @@
 
 **First experiment of the project _Behavioral optimization reveals principles of neural coding_.**
 
-**Active mechanistic study: [Testing a learned ring inside the navigation LSTM](mechanisms/learned-ring-in-navigation.md).** Original-agent tests and fixed blackout/noise continuations reveal persistent direction traces with little selective ring recovery. [Completed 75M results](results/ring_visual_memory/CONTINUATIONS.md) · [State/eigenvalue tests](results/lstm_final75_finite_spectra/README.md). A new reward-only blind-reorientation pair is running; all outcomes are retained.
+**Active mechanistic study: [Testing a learned ring inside the navigation LSTM](mechanisms/learned-ring-in-navigation.md).** Original-agent tests and fixed blackout/noise continuations reveal persistent direction traces with little selective ring recovery. [Completed 75M results](results/ring_visual_memory/CONTINUATIONS.md) · [State/eigenvalue tests](results/lstm_final75_finite_spectra/README.md) · [Completed 40M blind-reorientation task](results/rl_blind_reorientation/README.md). A matched exploration continuation tests the concentrated turning policy found in the new PGC task; all outcomes are retained.
 
 **Task-linked follow-up: [From predictive maps to goal memory and navigation](mechanisms/goal-memory-in-the-navigation-task.md).** Tests of the original RL-trained policies, a simple goal-memory ring feeding those policies, and a reward-only memory-training pilot use this project's actual square arena and hexagonal maps. [All experiments and reproduction](docs/research/rl_map_redo_inventory.md).
 

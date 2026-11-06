@@ -1,0 +1,126 @@
+"""Render the fixed40M pilot from the unchanged, episode-level summary.
+
+No checkpoint or outcome selection: require both final endpoints and display
+every prespecified blind intervention. The complete visible controls stay in
+the table and machine-readable source.
+"""
+import hashlib
+import json
+from pathlib import Path
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / 'results/rl_blind_reorientation'
+LABELS = {
+    'native': 'Native cue',
+    'ordinary': 'Predictive pulse removed',
+    'plus60': 'Cue rotated +60°',
+    'minus60': 'Cue rotated −60°',
+    'reset_after_glimpse': 'Memory erased after cue',
+    'reset_every_blind': 'Memory erased every step',
+}
+
+
+def main():
+    source = OUT / 'summary.json'
+    data = json.loads(source.read_text())
+    final = {}
+    for condition, item in data['conditions'].items():
+        assert item['completed']
+        assert [p['stage'] for p in item['endpoints']] == list(range(5))
+        final[condition] = item['endpoints'][-1]
+        assert final[condition]['learning_frames'] == 40_058_880
+        assert all(v['episodes'] == 64 for v in final[condition]['variants'].values())
+
+    fig, axes = plt.subplots(1, 2, figsize=(9, 4.1), sharey=True,
+                             layout='constrained')
+    y = np.arange(len(LABELS))
+    xmax = max(p['variants']['blind_' + s]['free_hits']
+               for p in final.values() for s in LABELS)
+    for ax, condition, title, color in zip(
+            axes, ('gc100', 'pgc33'), ('Grid', 'PGC + grid'),
+            ('#2878a4', '#d27927')):
+        values = [final[condition]['variants']['blind_' + s]['free_hits']
+                  for s in LABELS]
+        ax.hlines(y, 0, values, color=color, alpha=.35, lw=3)
+        ax.scatter(values, y, color=color, s=48, zorder=3)
+        for value, yy in zip(values, y):
+            ax.annotate(f'{value:.3f}', (value, yy), xytext=(6, 0),
+                        textcoords='offset points', va='center', fontsize=9)
+        ax.set(title=title, xlabel='Blind-navigation goals per episode',
+               xlim=(-.015, max(.15, xmax * 1.24)),
+               yticks=y, yticklabels=list(LABELS.values()))
+        ax.spines[['top', 'right', 'left']].set_visible(False)
+        ax.tick_params(axis='y', length=0)
+        ax.grid(axis='x', alpha=.15)
+    axes[0].invert_yaxis()
+    fig.suptitle('Does the agent use the brief cue and its memory?')
+    fig.supxlabel('Fixed 40M endpoint · one trained seed pair · 64 episodes per condition', fontsize=9)
+    fig.savefig(OUT / 'final_memory_controls.png', dpi=180)
+    plt.close(fig)
+
+    lines = [
+        '# Blind reorientation: fixed 40M pilot', '',
+        'The same navigation LSTM was trained to move after a blind turn. '
+        'A short real forward movement supplied one predictive direction cue. '
+        'The cue then disappeared during further turning, before the agent chose '
+        'its next movements. Learning used the original goal reward.', '',
+        '![Final cue and memory tests](final_memory_controls.png)', '',
+        '**The Grid agent’s blind-navigation score largely survives memory '
+        'erasure. The PGC agent has not learned successful blind free movement '
+        'at this fixed endpoint.** With vision restored, both agents reach goals '
+        'during the corresponding free windows. The action diagnostic below '
+        'examines the PGC agent’s concentrated turning policy.', '',
+        '**These scores count goals reached during freely chosen blind movement.** '
+        'Forced-movement goals are excluded. Every original episode remains in '
+        'the denominator, including episodes with no free window.', '',
+        '| Intervention | Grid, blind | PGC + grid, blind | Grid, visible | PGC + grid, visible |',
+        '|---|---:|---:|---:|---:|',
+    ]
+    for suffix, label in LABELS.items():
+        values = [final[c]['variants'][f'{vision}_{suffix}']['free_hits']
+                  for vision in ('blind', 'seen') for c in ('gc100', 'pgc33')]
+        lines.append('| ' + label + ' | ' + ' | '.join(f'{v:.4f}' for v in values) + ' |')
+    lines += [
+        '', '## What was changed?', '',
+        '- **Pulse removal:** replace only the 169 current predictive entries with '
+        'their ordinary-grid values for the one cue update.',
+        '- **Wrong cue:** rotate that predictive displacement by +60° or −60°, '
+        'while preserving all other input entries.',
+        '- **Memory erasure:** set both hidden and cell state to zero after the '
+        'cue, or before every black input. The saved goal, previous action and '
+        'reward, held ordinary position code, and physical state remain available.',
+        '- **Visible control:** preserve the same imposed movements and code '
+        'interventions, while restoring vision.',
+        '', 'Grid has no predictive slots, so its cue-removal and rotation '
+        'branches are exact identity checks. They are retained.', '',
+        '## All outcomes and uncertainty', '',
+        '[All five fixed endpoints](free_navigation_learning.png) include the '
+        'baseline and every training stage. [Complete results](summary.json) '
+        'include free-goal counts, goalward progress, path length, exposure, '
+        'whole-episode scores, and paired intervention contrasts. Descriptive '
+        '95% intervals resample 32 environment slots, keeping each slot’s two '
+        'episodes together. There is one trained seed per population; stages, '
+        'windows and angular samples are not independent trained models.', '',
+        '[Training method](../../docs/research/rl_blind_reorientation_implementation.md) · '
+        '[Frozen behavior analysis](behavior_analysis_protocol.json) · '
+        '[Frozen neural tests](../../docs/research/reorientation_mechanism_protocol.json) · '
+        '[Action diagnostic](../rl_blind_reorientation_review/entropy_diagnostic/README.md)', '',
+    ]
+    (OUT / 'README.md').write_text('\n'.join(lines))
+    record = dict(source=str(source.relative_to(ROOT)),
+                  source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+                  script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                  conditions=list(final), fixed_final_frames=40_058_880,
+                  all_six_blind_and_visible_variants_reported=True,
+                  all_five_endpoints_retained=True)
+    (OUT / 'final_report_verification.json').write_text(json.dumps(record, indent=2)+'\n')
+    print(json.dumps(record))
+
+
+if __name__ == '__main__':
+    main()

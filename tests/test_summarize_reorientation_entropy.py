@@ -1,6 +1,6 @@
 import copy
 import pytest
-from scripts.summarize_reorientation_entropy import paired_components
+from scripts.summarize_reorientation_entropy import paired_components, worker_folder
 
 
 def fixture():
@@ -21,3 +21,10 @@ def test_cross_policy_contrast_retains_zero_episodes_and_paired_components():
     assert result['mean']==0 and result['ci95']==[0,0]
     b['variants']['reset']['rows'][0]=dict(slot=99,episode=0)
     with pytest.raises(AssertionError):paired_components([(1,a,'native'),(-1,b,'reset')],'free_hits')
+
+
+def test_explicit_actual_worker_child_routing():
+    row=dict(name='ring-20261105-example-02',artifact_subdir='experiment')
+    assert str(worker_folder(row)).endswith('/ring-20261105-example-02/experiment')
+    for child in ('../other','/absolute','unrecorded'):
+        with pytest.raises(AssertionError):worker_folder(dict(row,artifact_subdir=child))

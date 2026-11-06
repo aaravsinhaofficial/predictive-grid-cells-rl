@@ -1,6 +1,6 @@
 # Finding a learned ring inside the navigation LSTM
 
-Literature checked 5 November 2026; state-noise methods rechecked against version 2 on 6 November 2026 UTC. This note guides the next experiments; it reports no new experimental result. The target is a mechanism inside the original reinforcement-trained navigation agent: predictive spatial input corrects a persistent circular state, and that correction improves the agent's navigation.
+Literature checked 5 November 2026; state-noise methods rechecked against version 2, and action-dependent gating examined, on 6 November 2026 UTC. This note guides the next experiments; it reports no new experimental result. The target is a mechanism inside the original reinforcement-trained navigation agent: predictive spatial input corrects a persistent circular state, and that correction improves the agent's navigation.
 
 The most useful precedent is a **slow ring**: activity quickly returns toward a closed curve after an off-curve disturbance, while its position around the curve changes much more slowly. This allows a finite-time memory mechanism even when long simulations eventually reach a few preferred states.
 
@@ -44,9 +44,15 @@ Training recurrent networks to integrate angular velocity produced head-directio
 
 [Wang, Wang, Xu & Pan (2024), *A working memory model based on recurrent neural networks using reinforcement learning*, Cognitive Neurodynamics](https://link.springer.com/article/10.1007/s11571-024-10137-6).
 
-A recurrent actor and reward-predicting baseline learned a spatial working-memory task. Population activity maintained stimulus information during the delay despite varied single-unit activity. Memory stability, stimulus separability and choice accuracy improved during learning. These statements are supported by the publisher's abstract; the full training protocol was not independently audited here.
+A recurrent actor and reward-predicting baseline learned a spatial working-memory task. Population activity maintained stimulus information during the delay despite varied single-unit activity. Memory stability, stimulus separability and choice accuracy improved during learning. The initially available publisher abstract was supplemented on6November by the [full article](https://pmc.ncbi.nlm.nih.gov/articles/PMC11564475/). It uses GRUs, eight possible stimulus locations, a1500ms delay and a brief final choice. Correct choices receive positive reward; premature, wrong or missing choices receive negative reward. Its stable encoding subspace is evidence for learned memory, not a demonstration of an attracting continuous ring.
 
 **Use here:** reward-only memory training has a concrete precedent. Its result motivates testing memory in our actor, with ring geometry and attracting dynamics established by the additional assays above.
+
+### 6. Navigation attractors can depend on behavioral state
+
+[A split attractor design for rapidly writing a navigational goal, Nature (2026)](https://www.nature.com/articles/s41586-026-11144-9) combines fly navigation recordings, circuit interventions and modeling. The h∆K and PFG populations share persistent goal-related activity during straight runs, while their activity differs during turns. A model with gated recurrent coupling explains how a heading input can be written into persistent goal activity. This is a biological circuit with an explicit model, not a reward-trained LSTM.
+
+**Use here:** test whether the original navigation LSTM's recurrent dynamics depend on its previous-action input. Our earlier action-context experiment changed the approach action but still released the state under a stationary-turn input. The prospective sensitivity sweep instead holds the exact initial state, ordinary spatial code, saved goal and black visual embedding fixed while changing only the previous-action entries across all six actions. It reuses the same full-state and future-activity criteria. Translational messages with frozen location are labeled clamped-input interventions; any candidate then needs physically consistent and behavioral follow-up. The paper motivates this test without implying that the LSTM contains the fly circuit.
 
 ## Initial task proposal and the frozen implementation
 

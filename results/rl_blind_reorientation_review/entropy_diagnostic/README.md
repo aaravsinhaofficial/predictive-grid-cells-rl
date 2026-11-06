@@ -11,10 +11,13 @@
 | Grid | stage1 | 551 / 20 | 0.2446 | 78.978% | 0, 107, 0, 0, 0, 444 |
 | Grid | stage2 | 511 / 18 | 0.3068 | 44.423% | 0, 286, 0, 0, 0, 225 |
 | Grid | stage3 | 370 / 13 | 0.4063 | 60.673% | 0, 139, 0, 0, 0, 231 |
+| Grid | stage4 | 600 / 20 | 0.2504 | 83.119% | 0, 106, 0, 0, 0, 494 |
 | PGC + grid | incoming | 30 / 1 | 0.0519 | 0.888% | 0, 29, 0, 0, 0, 1 |
 | PGC + grid | after_warmup | 420 / 14 | 0.1419 | 11.556% | 0, 366, 0, 0, 0, 54 |
 | PGC + grid | stage1 | 540 / 18 | 0.0436 | 9.898% | 0, 486, 0, 0, 0, 54 |
 | PGC + grid | stage2 | 450 / 15 | 0.0026 | 0.040% | 0, 450, 0, 0, 0, 0 |
+| PGC + grid | stage3 | 360 / 12 | 0.0001 | 0.001% | 0, 360, 0, 0, 0, 0 |
+| PGC + grid | stage4 | 540 / 18 | 0.0034 | 0.048% | 0, 540, 0, 0, 0, 0 |
 
 Translation means any forward, backward or strafe action; it does not mean goalward movement. L/R are left/right turns. Each rollout contains 32 environment slots. The original incoming states provide only the exposure actually encountered; no extra rollouts are added to obtain a desired number of FREE samples. Within each model, incoming and post-warmup weights are identical; their saved histories differ.
 
@@ -28,11 +31,12 @@ Entropy is measured separately for each decision, then averaged. A uniform choic
 | Grid | stage1 (220–680) | 24 | 0.1532 | 0.1643 |
 | Grid | stage2 (700–1160) | 24 | 0.1709 | 0.1883 |
 | Grid | stage3 (1180–1660) | 25 | 0.1594 | 0.1832 |
-| Grid | stage4 (1680–1800) | 7 | 0.1486 | 0.1858 |
+| Grid | stage4 (1680–2140) | 24 | 0.1440 | 0.1777 |
 | PGC + grid | warmup (20–200) | 10 | 0.1574 | 0.1682 |
 | PGC + grid | stage1 (220–680) | 24 | 0.1282 | 0.1370 |
 | PGC + grid | stage2 (700–1160) | 24 | 0.1270 | 0.1399 |
-| PGC + grid | stage3 (1180–1400) | 12 | 0.1150 | 0.1302 |
+| PGC + grid | stage3 (1180–1660) | 25 | 0.1215 | 0.1377 |
+| PGC + grid | stage4 (1680–2140) | 24 | 0.1113 | 0.1383 |
 
 The log masks forced actions and divides by all 160 updates. Its policy-controlled average includes waiting, visible and FREE decisions. It cannot identify a FREE-specific turning bias by itself. All captured complete log rows remain in [the JSON](summary.json).
 

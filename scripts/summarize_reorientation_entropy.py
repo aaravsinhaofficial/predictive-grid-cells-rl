@@ -20,7 +20,9 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def protocol():
-    return dict(version='matched_reorientation_entropy_behavior_v1',
+    return dict(version='matched_reorientation_entropy_behavior_v2',
+        previous_protocol_sha256=sha(OUT/'analysis_protocol_v1.json'),
+        pre_outcome_amendment='Infrastructure-only: trainer output is a fresh experiment/ child because launcher writes worker.log at worker root. Failed first launches ended before baseline/learning. Source v1 preserved in commit bddd7d48; all estimands, resampling, endpoints and numerical helpers unchanged.',
         training_protocol_sha256=sha(TRAINING),
         sources={name:sha(ROOT/name) for name in (
             'scripts/summarize_reorientation_entropy.py','scripts/summarize_blind_reorientation.py')},
@@ -30,7 +32,14 @@ def protocol():
         uncertainty=dict(bootstrap_resamples=BOOTSTRAPS,seed=SEED,clusters='32slots,2episodes each',
             interpretation='Descriptive95% evaluation uncertainty conditional on these two fixed policies. No trained-seed significance or multiple-comparison claim.'),
         caveats='Different policies can change event timing and free exposure. Per-original-episode outcomes remain primary; rates perfreeupdate are descriptive. Stages and windows are not trainedseed replications.',
-        routing='Read workers[{condition,arm,name}] from explicit launch manifest. Preserve capacity failures separately; no ambiguous symlink routing.')
+        routing='Read workers[{condition,arm,name,artifact_subdir}] from explicit launch manifest. Child is empty or experiment only. Preserve failures separately; no ambiguous symlink routing.')
+
+
+def worker_folder(worker):
+    name=worker['name'];child=worker.get('artifact_subdir','')
+    assert name.startswith('ring-20261105-') and Path(name).name==name
+    assert child in ('','experiment')
+    return ROOT/'results/ring_cloud_artifacts'/name/child
 
 
 def paired_components(components,metric):
@@ -57,13 +66,13 @@ def collect(require_complete=False):
     for worker in launch['workers']:
         key=(worker['condition'],worker['arm']);assert key not in routes
         assert key[0] in CONDITIONS and key[1] in ARMS
-        routes[key]=worker['name']
+        routes[key]=worker
     assert len(routes)==4
     cases={};raw={}
     for condition in CONDITIONS:
         cases[condition]={}
         for arm in ARMS:
-            worker=routes[condition,arm];folder=ROOT/'results/ring_cloud_artifacts'/worker
+            route=routes[condition,arm];worker=route['name'];folder=worker_folder(route)
             endpoints=[]
             for block in range(6):
                 path=folder/('baseline.json' if block==0 else f'block{block}_evaluation.json')
@@ -83,7 +92,8 @@ def collect(require_complete=False):
                     assert metadata['training']['extra_frames']==90_132_480
                     assert metadata['training']['extension_frames']==50_073_600
             if require_complete:assert complete,(condition,arm)
-            cases[condition][arm]=dict(worker=worker,completed=complete,endpoints=endpoints)
+            cases[condition][arm]=dict(worker=worker,artifact_subdir=route.get('artifact_subdir',''),
+                artifact_folder=str(folder.relative_to(ROOT)),completed=complete,endpoints=endpoints)
     comparisons=[]
     for condition in CONDITIONS:
         for block in range(6):
