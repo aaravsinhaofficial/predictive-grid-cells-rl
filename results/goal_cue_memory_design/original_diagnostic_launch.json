@@ -1,0 +1,56 @@
+{
+  "version": "goal_original_diagnostic_local_launch_v1",
+  "recorded_utc": "2026-11-06T15:58:22.850651+00:00",
+  "source_commit": "fbb34e60d96ccd9bc1ab4412a34ff43060bfc3ec",
+  "protocol_path": "docs/research/goal_cue_memory_original_diagnostic_protocol.json",
+  "protocol_sha256": "2d9386fad85f9774d80ced37d7d6220d6bb75c682879684511a0da4d4bb04125",
+  "execution_mode": "Two concurrent localCPU evaluations;2Torch threads each",
+  "jobs": [
+    {
+      "condition": "gc100",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/goal_cue_memory_original_diagnostic.py",
+        "--condition",
+        "gc100",
+        "--out",
+        "results/goal_cue_memory/original_diagnostic/gc100"
+      ],
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "stdout_stderr_log": "/tmp/goal_cue_original_diagnostic_gc100.log",
+      "initial_tool_session": 28018,
+      "pid": 96809
+    },
+    {
+      "condition": "pgc33",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/goal_cue_memory_original_diagnostic.py",
+        "--condition",
+        "pgc33",
+        "--out",
+        "results/goal_cue_memory/original_diagnostic/pgc33"
+      ],
+      "environment_overrides": {
+        "OPENBLAS_NUM_THREADS": "2"
+      },
+      "stdout_stderr_log": "/tmp/goal_cue_original_diagnostic_pgc33.log",
+      "initial_tool_session": 41432,
+      "pid": 96810
+    }
+  ],
+  "all_11_variants_fixed": true,
+  "total_prescribed_trial_variant_cases": 5632,
+  "optimizer_created": false,
+  "learning_updates": 0,
+  "cloud_resources_created": false,
+  "cloud_reservation_usd": 0,
+  "cloud_cost_usd": 0,
+  "planning_estimate": {
+    "evaluator_seconds_per_model": "Approximately400, based on11\u00d7the36-second qualification; not a deadline or throughput guarantee.",
+    "lossless_outputs_gb_approx": "3\u20134 total; all raw data retained",
+    "available_disk_tib_approx": 1.3
+  }
+}
