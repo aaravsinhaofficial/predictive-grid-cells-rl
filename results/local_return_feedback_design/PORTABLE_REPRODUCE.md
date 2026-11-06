@@ -55,4 +55,32 @@ Omit `--require-complete` when inspecting a partial run. A passing partial audit
 
 The once-only CPU physical references are reused from the original bank: uniform actions reached 0/256 goals and the privileged planner 256/256. Their original raw tensors, source and audit identity remain unchanged. They supply no training targets. [Reference audit](reference_audit.json).
 
-Study outputs and the final public archive will be added after collection and independent validation. Current status and any available results appear in [the acquisition overview](../local_return_feedback_acquisition/README.md).
+## Reproduce the saved results
+
+The output tooling is pinned at **`8175f0fd5df07db72ccc4a80d8321938d207bbbe`**. Check out that commit in a fresh directory and extract these four assets at its root:
+
+1. `feedback_acquisition_portable_inputs.tar.gz` — the exact inputs described above.
+2. `feedback-acquisition-grid-outputs-v1.tar.gz` — both Grid arms and their earlier failed-start evidence.
+3. `feedback-acquisition-pgc-outputs-v1.tar.gz` — both PGC arms and their earlier failed-start evidence.
+4. `feedback-acquisition-common-outputs-v1.tar.gz` — protocols, audits, physical references, figures and diagnostic results.
+
+The [archive record](../../docs/research/feedback_acquisition_outputs_archive.json) gives every asset's size and SHA256. Each output asset embeds a separate `*_outputs_manifest.json` under `results/local_return_feedback_acquisition/portable/`, listing the exact size and SHA256 of every member. Verify those before running analysis. The input member list is `portable/cloud_package/manifest.json` → `package_manifest`. Extract with `tarfile.extractall(..., filter='data')` and retain the archived files unchanged.
+
+Create a new `reproduced/` folder. Run the audit command above for all four worker folders listed in `docs/research/local_return_feedback_portable_launch.json`, writing the results to `reproduced/audits/{condition}_{actor_mode}.json`. Then run:
+
+```bash
+OPENBLAS_NUM_THREADS=2 python scripts/plot_local_return_feedback.py \
+  --audit-root reproduced/audits --out reproduced/report
+OPENBLAS_NUM_THREADS=2 python scripts/compare_feedback_training_streams.py \
+  --out reproduced/streams
+OPENBLAS_NUM_THREADS=2 python scripts/check_feedback_baseline_actor_isolation.py \
+  --out reproduced/actor_isolation.json
+OPENBLAS_NUM_THREADS=2 python scripts/check_feedback_completed_finals.py \
+  --out reproduced/final_review.json
+```
+
+These commands read the saved experiments; they perform no new navigation or learning. The strict audits replay saved physics and inspect recorded inputs/readouts. The stream comparison authenticates the private generator states saved in the final checkpoints. Historical timestamps and absolute audit paths remain recorded honestly; newly generated audit paths and dates will differ. Figure data, counts and unchanged raw artifacts must agree. PDF creation dates may differ.
+
+The separate [two-action bound](portable/restricted_action_bound/README.md) reads pretraining snapshots only. Its original numerical source and the serialization-only wrapper are both retained, together with all 512 row calculations and an independent review.
+
+[Study overview](../local_return_feedback_acquisition/README.md) · [Fixed endpoint report](../local_return_feedback_acquisition/portable/report/README.md).

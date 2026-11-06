@@ -7020,13 +7020,39 @@
       ],
       "package_manifest_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002",
       "package_uncompressed_bytes": 182300660,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T13:56:03.075011+00:00",
       "create_requested_at": "2026-11-06T13:56:15.807841+00:00",
       "instance_id": "2477163094397182574",
       "created_at": "2026-11-06T05:56:18.304-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "3f3abffa5dbb33d74c4d2411920c62b15c83d2915394cc8534cdf63c7f364621"
+      "archive_sha256": "3f3abffa5dbb33d74c4d2411920c62b15c83d2915394cc8534cdf63c7f364621",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2290.0909202098846,
+        "finished_at": "2026-11-06T14:35:48.163618+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "-c",
+          "import sys,json,hashlib,platform,datetime\nfrom pathlib import Path\nroot=Path.cwd();sys.path[:0]=[str(root),str(root/'scripts')]\nimport torch,numpy\nimport local_return_feedback_portable_run as runner\nimport local_return_feedback_portable_evaluate as evaluator\nprotocol_path=root/'docs/research/local_return_feedback_portable_protocol.json'\nprotocol_sha='4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19'\nassert hashlib.sha256(protocol_path.read_bytes()).hexdigest()==protocol_sha\ntorch.set_num_threads(2)\nbefore=evaluator.global_rng_snapshot()\nfrozen=json.loads(protocol_path.read_text());assert frozen.pop('frozen_utc');assert runner.protocol()==frozen\nplan,bank,_=evaluator.load_bank()\nassert runner.tree_equal(before,evaluator.global_rng_snapshot())\nargs=sys.argv[1:];out=Path(args[args.index('--out')+1]).parent\nrecord=dict(passed=True,utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),protocol_sha256=protocol_sha,\n bank_sha256=bank['sha256'],bank_tensor_schema_exact=True,source_and_input_hashes_exact=True,\n origin_validation_sha256=evaluator.ORIGIN_SHA256,global_cpu_cuda_mps_rng_unchanged=True,\n policy_initialized=False,policy_forward=False,environment_step=False,optimizer_step=False,\n python=sys.version,torch=str(torch.__version__),numpy=numpy.__version__,machine=platform.machine(),system=platform.system())\n(out/'portable_bank_runtime_check.json').write_text(json.dumps(record,indent=2)+'\\n')\nprint(json.dumps(record),flush=True)\ndel plan,before\nsys.argv=['scripts/local_return_feedback_portable_run.py']+args\nrunner.main()\n",
+          "--condition",
+          "gc100",
+          "--actor-mode",
+          "retained_actor",
+          "--device",
+          "cuda",
+          "--out",
+          "results/ring_feedback_acquisition_portable/gc100_retained_actor/experiment",
+          "--max-seconds",
+          "12600"
+        ],
+        "package_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002"
+      },
+      "collected_at": "2026-11-06T14:36:37.141369+00:00",
+      "collected_bytes": 358590990,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-feedback-grid-retain-02",
+      "actual_upper_bound_usd": 0.8711,
+      "absence_verified_at": "2026-11-06T14:38:07.170417+00:00"
     },
     {
       "name": "ring-20261105-feedback-grid-reset-02",
@@ -7251,13 +7277,39 @@
       ],
       "package_manifest_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002",
       "package_uncompressed_bytes": 182300660,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T14:02:29.007070+00:00",
       "create_requested_at": "2026-11-06T14:02:42.778214+00:00",
       "instance_id": "512067075162792171",
       "created_at": "2026-11-06T06:02:44.680-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "c9c5a8272a4ac73bf81d05777a62497fa0fdf77b872f42ed6aaf5b3b691aeb19"
+      "archive_sha256": "c9c5a8272a4ac73bf81d05777a62497fa0fdf77b872f42ed6aaf5b3b691aeb19",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2219.210246324539,
+        "finished_at": "2026-11-06T14:40:52.902525+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "-c",
+          "import sys,json,hashlib,platform,datetime\nfrom pathlib import Path\nroot=Path.cwd();sys.path[:0]=[str(root),str(root/'scripts')]\nimport torch,numpy\nimport local_return_feedback_portable_run as runner\nimport local_return_feedback_portable_evaluate as evaluator\nprotocol_path=root/'docs/research/local_return_feedback_portable_protocol.json'\nprotocol_sha='4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19'\nassert hashlib.sha256(protocol_path.read_bytes()).hexdigest()==protocol_sha\ntorch.set_num_threads(2)\nbefore=evaluator.global_rng_snapshot()\nfrozen=json.loads(protocol_path.read_text());assert frozen.pop('frozen_utc');assert runner.protocol()==frozen\nplan,bank,_=evaluator.load_bank()\nassert runner.tree_equal(before,evaluator.global_rng_snapshot())\nargs=sys.argv[1:];out=Path(args[args.index('--out')+1]).parent\nrecord=dict(passed=True,utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),protocol_sha256=protocol_sha,\n bank_sha256=bank['sha256'],bank_tensor_schema_exact=True,source_and_input_hashes_exact=True,\n origin_validation_sha256=evaluator.ORIGIN_SHA256,global_cpu_cuda_mps_rng_unchanged=True,\n policy_initialized=False,policy_forward=False,environment_step=False,optimizer_step=False,\n python=sys.version,torch=str(torch.__version__),numpy=numpy.__version__,machine=platform.machine(),system=platform.system())\n(out/'portable_bank_runtime_check.json').write_text(json.dumps(record,indent=2)+'\\n')\nprint(json.dumps(record),flush=True)\ndel plan,before\nsys.argv=['scripts/local_return_feedback_portable_run.py']+args\nrunner.main()\n",
+          "--condition",
+          "gc100",
+          "--actor-mode",
+          "reset_actor",
+          "--device",
+          "cuda",
+          "--out",
+          "results/ring_feedback_acquisition_portable/gc100_reset_actor/experiment",
+          "--max-seconds",
+          "12600"
+        ],
+        "package_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002"
+      },
+      "collected_at": "2026-11-06T14:41:39.497104+00:00",
+      "collected_bytes": 360927882,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-feedback-grid-reset-02",
+      "actual_upper_bound_usd": 0.8297,
+      "absence_verified_at": "2026-11-06T14:42:34.152708+00:00"
     },
     {
       "name": "ring-20261105-feedback-pgc-retain-02",
@@ -7482,13 +7534,39 @@
       ],
       "package_manifest_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002",
       "package_uncompressed_bytes": 182300660,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T14:03:21.186913+00:00",
       "create_requested_at": "2026-11-06T14:03:33.542908+00:00",
       "instance_id": "1184775222776062168",
       "created_at": "2026-11-06T06:03:35.118-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "1d70c1da4af30015868f16d20921e45e66696be5901e3a79c2cd689a492658bf"
+      "archive_sha256": "1d70c1da4af30015868f16d20921e45e66696be5901e3a79c2cd689a492658bf",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2243.570869207382,
+        "finished_at": "2026-11-06T14:42:08.018054+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "-c",
+          "import sys,json,hashlib,platform,datetime\nfrom pathlib import Path\nroot=Path.cwd();sys.path[:0]=[str(root),str(root/'scripts')]\nimport torch,numpy\nimport local_return_feedback_portable_run as runner\nimport local_return_feedback_portable_evaluate as evaluator\nprotocol_path=root/'docs/research/local_return_feedback_portable_protocol.json'\nprotocol_sha='4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19'\nassert hashlib.sha256(protocol_path.read_bytes()).hexdigest()==protocol_sha\ntorch.set_num_threads(2)\nbefore=evaluator.global_rng_snapshot()\nfrozen=json.loads(protocol_path.read_text());assert frozen.pop('frozen_utc');assert runner.protocol()==frozen\nplan,bank,_=evaluator.load_bank()\nassert runner.tree_equal(before,evaluator.global_rng_snapshot())\nargs=sys.argv[1:];out=Path(args[args.index('--out')+1]).parent\nrecord=dict(passed=True,utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),protocol_sha256=protocol_sha,\n bank_sha256=bank['sha256'],bank_tensor_schema_exact=True,source_and_input_hashes_exact=True,\n origin_validation_sha256=evaluator.ORIGIN_SHA256,global_cpu_cuda_mps_rng_unchanged=True,\n policy_initialized=False,policy_forward=False,environment_step=False,optimizer_step=False,\n python=sys.version,torch=str(torch.__version__),numpy=numpy.__version__,machine=platform.machine(),system=platform.system())\n(out/'portable_bank_runtime_check.json').write_text(json.dumps(record,indent=2)+'\\n')\nprint(json.dumps(record),flush=True)\ndel plan,before\nsys.argv=['scripts/local_return_feedback_portable_run.py']+args\nrunner.main()\n",
+          "--condition",
+          "pgc33",
+          "--actor-mode",
+          "retained_actor",
+          "--device",
+          "cuda",
+          "--out",
+          "results/ring_feedback_acquisition_portable/pgc33_retained_actor/experiment",
+          "--max-seconds",
+          "12600"
+        ],
+        "package_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002"
+      },
+      "collected_at": "2026-11-06T14:43:07.506552+00:00",
+      "collected_bytes": 360651032,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-retain-02",
+      "actual_upper_bound_usd": 0.8451,
+      "absence_verified_at": "2026-11-06T14:44:08.915765+00:00"
     },
     {
       "name": "ring-20261105-feedback-pgc-reset-02",
@@ -7713,13 +7791,39 @@
       ],
       "package_manifest_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002",
       "package_uncompressed_bytes": 182300660,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-06T14:04:11.754246+00:00",
       "create_requested_at": "2026-11-06T14:04:23.923291+00:00",
       "instance_id": "4195522017094557830",
       "created_at": "2026-11-06T06:04:25.898-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "10e818c7a01c7474ddeaf4c6f92cd46dc6b73d6486eb4135b97b3fa8e9a53438"
+      "archive_sha256": "10e818c7a01c7474ddeaf4c6f92cd46dc6b73d6486eb4135b97b3fa8e9a53438",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 2266.512135744095,
+        "finished_at": "2026-11-06T14:43:21.204386+00:00",
+        "command": [
+          "/usr/bin/python3",
+          "-c",
+          "import sys,json,hashlib,platform,datetime\nfrom pathlib import Path\nroot=Path.cwd();sys.path[:0]=[str(root),str(root/'scripts')]\nimport torch,numpy\nimport local_return_feedback_portable_run as runner\nimport local_return_feedback_portable_evaluate as evaluator\nprotocol_path=root/'docs/research/local_return_feedback_portable_protocol.json'\nprotocol_sha='4d5afa22d93e9f3a238768049dddd522e2db158fa3dc067ba0b605702f4a1f19'\nassert hashlib.sha256(protocol_path.read_bytes()).hexdigest()==protocol_sha\ntorch.set_num_threads(2)\nbefore=evaluator.global_rng_snapshot()\nfrozen=json.loads(protocol_path.read_text());assert frozen.pop('frozen_utc');assert runner.protocol()==frozen\nplan,bank,_=evaluator.load_bank()\nassert runner.tree_equal(before,evaluator.global_rng_snapshot())\nargs=sys.argv[1:];out=Path(args[args.index('--out')+1]).parent\nrecord=dict(passed=True,utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),protocol_sha256=protocol_sha,\n bank_sha256=bank['sha256'],bank_tensor_schema_exact=True,source_and_input_hashes_exact=True,\n origin_validation_sha256=evaluator.ORIGIN_SHA256,global_cpu_cuda_mps_rng_unchanged=True,\n policy_initialized=False,policy_forward=False,environment_step=False,optimizer_step=False,\n python=sys.version,torch=str(torch.__version__),numpy=numpy.__version__,machine=platform.machine(),system=platform.system())\n(out/'portable_bank_runtime_check.json').write_text(json.dumps(record,indent=2)+'\\n')\nprint(json.dumps(record),flush=True)\ndel plan,before\nsys.argv=['scripts/local_return_feedback_portable_run.py']+args\nrunner.main()\n",
+          "--condition",
+          "pgc33",
+          "--actor-mode",
+          "reset_actor",
+          "--device",
+          "cuda",
+          "--out",
+          "results/ring_feedback_acquisition_portable/pgc33_reset_actor/experiment",
+          "--max-seconds",
+          "12600"
+        ],
+        "package_sha256": "ffbd10a344199ba5ab0bb793c985dad00c5046b9597582563da1e6bd32316002"
+      },
+      "collected_at": "2026-11-06T14:44:41.467408+00:00",
+      "collected_bytes": 363007002,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-reset-02",
+      "actual_upper_bound_usd": 0.867,
+      "absence_verified_at": "2026-11-06T14:46:02.787974+00:00"
     }
   ]
 }
