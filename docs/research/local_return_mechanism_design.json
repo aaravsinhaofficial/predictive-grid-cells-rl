@@ -1,0 +1,319 @@
+{
+  "version": "conditional_local_return_mechanism_design_v1",
+  "status": "Proposed design for review; no new neural outcomes, wrapper execution or training changes",
+  "created_utc": "2026-11-06T10:48:30.401770+00:00",
+  "training_protocol_sha256": "0768cb770943c41a5dc44773abd450f9978f9f54ed6f7fedb2e504a71a125038",
+  "behavior_protocol_sha256": "4c7ba90dd79c8c0b5f8ac13ba89e4a7d6ed5bf0287556982ade07f911fc16e48",
+  "final_behavior_gate": {
+    "bank": "final_hard",
+    "denominator_per_model": 256,
+    "intact_variant": "blind_native",
+    "erasure_variant": "blind_reset_after_glimpse",
+    "minimum_intact_success_fraction": 0.65,
+    "minimum_intact_successes": 167,
+    "minimum_erasure_cost_fraction": 0.15,
+    "minimum_paired_success_count_difference": 39,
+    "qualifier": "Descriptivepilot gate,not a significance test. Atleastonepopulation must qualify before expensive dynamics; bothmodels/allfixedendpoints retained. IfonlyGridqualifies,retain this outcome.",
+    "no_qualifying_model": "Stop automatic geometry/extension; inspect learning and report fixedpilot failure"
+  },
+  "execution_gate": "Both fixed finals independently audited; at least one population passes frozen numeric hard gate with valid physical checks and all128originalhardbank certificates. Numericgate remains separatelyreported. No automatic expensivegeometry or continuation if neither passes.",
+  "checkpoint": {
+    "conditions": [
+      "gc100",
+      "pgc33"
+    ],
+    "original_seed": 1,
+    "updates": 4096,
+    "trials": 131072,
+    "completed_stages": 4,
+    "completed": true,
+    "selection": "Exact final.pt only; actual final routing and hashes validated by complete independent training audit; no metadata rewriting"
+  },
+  "history": {
+    "bank": "final_hard",
+    "bank_sha256": "c90ad38bff3f1364398925ef08abda9136ef5cc04b2d39c7ace38b5ce6b60524",
+    "contexts": [
+      0,
+      1
+    ],
+    "dense_headings": 768,
+    "causal_subset": "indices0,4,...,764 (192)",
+    "anchor": "Original firstheading per context",
+    "original_subset": "Every48th denseheading corresponds to original16; preserve literal sealedangles there or record finiteprecision mismatch",
+    "delay_updates": 60,
+    "delay_override": "Prespecified controlled maximum within final30\u201360training support; record originalbankdelay; reindex FREE tapes at new globalfreeindex",
+    "preserved": [
+      "endpoint",
+      "goal",
+      "pickup_angle",
+      "duration_a",
+      "duration_b",
+      "turn_a",
+      "turn_b",
+      "land_pos",
+      "stripe_phase",
+      "full160clock motor/action/state tapes"
+    ],
+    "initial_state": "h=c=0,pa=-1,pr=0 as task; setup pickup excluded",
+    "source": "Frozen task.prepare_batch/task.collect plus read-only LSTMhooks; no context replacements",
+    "noise": {
+      "state": 0,
+      "preparation_motor": 0,
+      "free_native_motor_v": 0.03,
+      "free_native_motor_r": 0.15
+    },
+    "physics": "Existing>.01m preparatoryclearance,no forcedhits,endpoint snap<1e-5m; retain failedfamily"
+  },
+  "timing": {
+    "pre_cue": "State entering inputg=schedule.glimpse, after finalprobe action; replace onlyh/c, recipientinput/physics unchanged",
+    "cue": "Actualendpoint observationtravel/velocity before postprobe brake; previousactionFORWARD",
+    "state0": "Aftercue input beforeLEFT1",
+    "state60": "After60LEFTactions and firstFREEinput; firstFREEaction usespi(h) directly",
+    "common_input": "Single1x1287 blackCNN/ordinaryendpoint/nativegoal/LEFT/zero-reward input withinmodel",
+    "free": "30nativeactions,29additional recurrent updates afterstate60, carryvr60; terminatefirsthit; matchedglobalclockdraws"
+  },
+  "cues": [
+    "native",
+    "ordinary",
+    "plus60",
+    "minus60"
+  ],
+  "cue_scope": "Only predictive CURRENTindices change; goal/blackembedding/pa/pr unchanged; Grid exactsham",
+  "coordinates": {
+    "state": "All512(h,c)",
+    "primary_phase": "Actual probeendpoint traveldirection verifiedagainstbodyheading",
+    "other_phases": [
+      "actual bodyheading throughLEFT",
+      "egocentric goalbearing"
+    ],
+    "ambiguity": "Within onefixedgoalcontext, heading and egocentricbearing are related coordinates, not uniquelyidentified semanticcodes",
+    "physical_turn": "Native simulatedangularinertia; do not substitute asymptoticrotmax*time"
+  },
+  "primary_geometry": {
+    "helper": "lstm_continued_heading_memory.analyze_branch",
+    "gates": "lstm_continued_heading_memory.geometry_gates unchanged",
+    "times": [
+      0,
+      1,
+      5,
+      15,
+      30,
+      45,
+      60
+    ],
+    "anchors": [
+      15,
+      30
+    ],
+    "primary_comparison": [
+      30,
+      60
+    ],
+    "arc_samples": 384,
+    "metrics": [
+      "raw512",
+      "fixed nativepostcue h/cblockRMS"
+    ],
+    "all_contexts_and_cues": true,
+    "exact_primary_thresholds": {
+      "radius_retention_at30_min": 0.05,
+      "max_edge_over_radius_max": 0.1,
+      "nonlocal_distance_p10_over_radius_min": 0.05,
+      "invariance_residual_p90_over_radius_max": 0.05,
+      "phase_coverage_min": 0.8,
+      "degree_error_max_exclusive": 0.1,
+      "backward_edge_fraction_max": 0.05,
+      "radial_normal_gain_median_max": 0.5,
+      "radial_over_tangent_gain_median_max": 0.5
+    }
+  },
+  "observable_secondary": {
+    "helper": "lstm_endogenous_observable_flow.observable_probe unchanged",
+    "anchor": 15,
+    "evolution": 30,
+    "offsets": [
+      0,
+      5,
+      10,
+      15
+    ],
+    "latest": 60,
+    "maps": [
+      "All256futurehiddenoutputs",
+      "Fixed sixaction-centered learnedlogits; no fit/normalization"
+    ],
+    "perturbation_scales": "Raw and per-cue t0h/cblockRMS exactlyas priorobservableadapters; do not silently substitute primarysharedscale",
+    "centering": [
+      "noncentered",
+      "phase-familymeanremoved"
+    ],
+    "interpretation": "Qualifyingobservablefactor labeled separately; no fitteddecoder candidate",
+    "conditional_rescue": {
+      "when": "Either prespecifiedfixedobservablemapqualifies",
+      "anchors": [
+        15,
+        30,
+        45
+      ],
+      "offsets": [
+        0,
+        5,
+        10,
+        15
+      ],
+      "latest": 60,
+      "maps": "Same qualifying1024hiddenor24centeredlogit map, exactcenteringconvention; no newfit/normalization/coordinate/gate",
+      "references": [
+        "densecorrectcueunperturbed",
+        "denseowncueunperturbed"
+      ],
+      "retain": [
+        "fullstatemetrics",
+        "actualactorprobabilities",
+        "nativenavigation"
+      ],
+      "implementation": "Prospectiveplan; implementandexecuteonlyaftercandidate"
+    }
+  },
+  "interventions": {
+    "phase": "Actualcompleteprecue h/c substitution\u00b164denseindices=\u00b130degrees; fixedrecipientphysics/input",
+    "pre_cue": [
+      "none",
+      "plus30",
+      "minus30",
+      "radial_plus",
+      "radial_minus",
+      "isotropic_plus",
+      "isotropic_minus"
+    ],
+    "kick": "Existingstate_edits,\u00b12percentcurveradius; radialprojectedofftangent; isotropicmatchednorm",
+    "constructions": [
+      "raw",
+      "nativepostcueblockRMS"
+    ],
+    "reset": "Immediately after nativecue,eraseh/c; fixedLEFTpreventsactorpaencoding beforefree",
+    "invalid": "Keep unperturbed; mark undefinedkick/readout individually; neverinventdirection",
+    "factorial": "Everydefinededit\u00d7all4cues; plusnativepostcueerase; no favorablephase selection",
+    "late_controls": "Unchanged geometry/observableprobes supplylater radial recovery; native-navigationperturbations are pre-cueonly"
+  },
+  "phase_repair": {
+    "times": [
+      0,
+      1,
+      5,
+      15,
+      30,
+      45,
+      60
+    ],
+    "references": [
+      "unperturbedcorrectnativecuefamily",
+      "owncue unperturbedfamily"
+    ],
+    "metrics": [
+      "semanticphaseerror",
+      "signedbias/concentration",
+      "offcurve distance/radius",
+      "phasecoverage",
+      "actorprobabilityTV"
+    ],
+    "contrast": "Retain direct nativeversusordinary lategains, unperturbedcueeffects and difference-in-differences subtractingeachcue unperturbedcost. Reportabsolutephaseerror/behavior with interaction; wrongcue directions andresetcarriage retained.",
+    "collapse": "Collapse/offcurve nearestangle is not repair"
+  },
+  "navigation": {
+    "implementation": "Unchanged float32 task.collect with state-edit prehook and postcue-resetposthook; no surrogateactor/physics",
+    "phases": 192,
+    "free_updates": 30,
+    "inputs": "Heldordinaryendpoint code,blackRGB,nativesavedgoal,actualpreviousaction,pr0untilterminal",
+    "tapes": "Sealedcontextfullclockmotor/action columns repeatedacrossdensephasesandbranches; sliceusingnewdelay60freeindex",
+    "metrics": [
+      "pairedsuccessdifference",
+      "firstactionprobabilities",
+      "firstactiongoalwardprogress",
+      "totalprogress",
+      "path",
+      "actualactions"
+    ],
+    "retention": "Allphases and failures,firsthitstop,neverselectunperturbedsuccesses",
+    "precision": "Exact no-op native float32 timing; separately retain absolute3e-4 status, pointwiseatol3e-4+rtol2e-6*abs(native) engineering consistency, h/cerrors/amplitudes and mean/maxvectorerror dividedbyraw/RMSdirectionfamilyradius. No criterion changes. Numericalfailure remains unresolved; no replacement."
+  },
+  "comparisons": {
+    "acute": "Identicalrecipient stateandinputexceptprescribedcurrentcue,withinfrozennetwork",
+    "population": "Samephysicalcontexts,ownnativegoalcodeandblackCNNembedding; notautomaticallybyteidenticalcrossmodels",
+    "conditional_crossed_input": "Onlyif a literalcommon-inputrecurrenceclaim needsit: feed eachof2nativexvectors to bothnets fromownfamilies; retainbothbackgrounds,notfavorableselection",
+    "causal_scope": "Onepulsechangesstate,notweights/subsequentcommontransitionlaw; distinguishphaseanchor,transverseattractionandbehavior"
+  },
+  "candidate_followup": {
+    "spectrum": "All512Jacobian atfourquartercircle phases andanchors15/30; finite-timeproducts through60; tangent/radial/worsttransverse andnonnormal amplification; Floquet onlyafterverifiedperiod",
+    "pathway": "Ifusefulpersistentrepair present, focusedcandidate-update/output-gate predictiveinput localization; noautomaticexpansion",
+    "native_precision": "Anypositivecandidate must reproduce unchangedcriteria withactual nativefloat32LSTMtransitions beforemechanisticclaim; near-saturatedfloat32gates can change recurrence. Implement and validate this conditional assay before executing it."
+  },
+  "validation_required": [
+    "Noophooknativeidentity",
+    "pre/postcue andfirstFREE indexing",
+    "cueonlyallowedCURRENTslots",
+    "Gridshams",
+    "exactorboundedsealed16headingreplay",
+    "phaseeditretainsphysicalrecipient",
+    "delay60fullclocktapealignment",
+    "goal/brake/forcedhitchecks",
+    "postcueeraseidentity",
+    "firsthitterminal",
+    "syntheticrotatingring/shrinkingplane/silentoutput criteriaunchanged"
+  ],
+  "inference": "Pilotoneoriginalseedpair; contexts/angles/cuesnotindependenttrainedmodels. Newtaskadaptation withfreshmatchedreadouts,notretroactiveoriginalagentproof.",
+  "source_sha256": {
+    "scripts/local_goal_return_training.py": "000a83106949781d7b83e1ffb4811cfdd5fca6cd44ff50c4ed6de13e137f7dde",
+    "scripts/local_goal_return_training_evaluate.py": "dfe054db9c31da53cc5138064d307afefac375eaa70cb9fa4404f5b179e1ddb1",
+    "scripts/local_goal_return_training_run.py": "cb9fed599cb6aab07bc96eb4e08d96ec8f74e39d78a52927edef1de7e10ecbbd",
+    "scripts/local_goal_return_training_certificate.py": "382af123209ef2a90c9fef2674a8c89854161dcdc70eedf6360dc61be43c2876",
+    "scripts/certify_local_goal_return.py": "83b6ccef847fb8296319f08de1649d3b8613b43e2e70b1e11ea767352809d53c",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_endogenous_observable_flow.py": "a910f3f0822dcf6fff952b633d0d4e173136947dc75c7266a66861ea89b227d5",
+    "scripts/lstm_reorientation_causal_navigation.py": "e269d66f5e8614d3080e61dc91e9e93c46e6749954fc69cdae72780235386891",
+    "scripts/lstm_actor_logit_observable.py": "24db5cfaf97d47b748b7a6c94bedc40b03213ccc6cc27efba177d46f6da464ad",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+  },
+  "function_source_sha256": {
+    "geometry_gates": "f562714bc67158c2315a972706b91731bc24c29c6cf97a89b87897e20c38fe7c",
+    "observable_probe": "f64a4f08b27789ac22637b4ac46aa08e1434c71b9956ddf4734eb2ff5a0d7ffc",
+    "state_edits": "3d32d973cee0d651ca877ad7f945dd1ff28a69c8bbe5c7e27548c9bd7de2ae2b"
+  },
+  "literature": [
+    {
+      "title": "Back to the Continuous Attractor",
+      "url": "https://arxiv.org/html/2408.00109v2",
+      "use": "Task-timescale slowring, transverse dynamics, LSTM discreteflow; noiseoffanalysis afternoisetraining"
+    },
+    {
+      "title": "Remapping in a recurrent neural network model of navigation and context inference",
+      "url": "https://elifesciences.org/articles/86943",
+      "use": "Input-specific fullstateJacobian/eigenvector interpretation"
+    },
+    {
+      "title": "Reward-based training of recurrent neural networks for cognitive and value-based tasks",
+      "url": "https://elifesciences.org/articles/21492",
+      "use": "Reward-only workingmemory andbehavior-firstmechanisticinterpretation"
+    }
+  ],
+  "dense_opportunity_controls": {
+    "headings": 192,
+    "contexts": [
+      0,
+      1
+    ],
+    "controllers": [
+      "uniform",
+      "headingawareanalysisplanner"
+    ],
+    "certificate": "Unchangedcertify() on actualpostcue-reset firstFREEinput/state/pose/bodymotors plusglobaltapesliceafterdelay60",
+    "opposite_pairs_per_context": 96,
+    "retention": "Everycase/failedcertificate; descriptiveopportunityonly, no contextselection ornewcandidategate; original16headingbankcertificate doesnotautomaticallytransfer"
+  },
+  "review_updates": "Root implementation review: densecounterfactualopportunity/certificate, directplusinteractioncontrasts, nativefloat32versusdouble relativeerror, pre-cuenavigationkicks only, conditionalobservable-rescueanchors fixed prospectively."
+}

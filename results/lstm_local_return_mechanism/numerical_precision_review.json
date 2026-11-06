@@ -1,0 +1,35 @@
+{
+  "reviewed_utc": "2026-11-06T10:55:08.507561+00:00",
+  "reviewer": "endogenous_ring_audit",
+  "recommendation": "Approve pointwise absolute-plus-relative numerical consistency check before trained outcomes, with unchanged ring gates and mandatory native-precision replication of positives",
+  "new_neural_execution": false,
+  "evidence_path": "results/local_goal_return_design/native_family_validation.json",
+  "evidence_sha256": "2ae81c5bfaa44989275a7a53207e84da49603857bafa91072cea3badc2d8b90b",
+  "proposed_cross_dtype_guard": {
+    "atol": 0.0003,
+    "rtol": 2e-06,
+    "reference": "float64 common-input trajectory; compare each coordinate of actualfloat32 firstFREE state",
+    "scope": "Numerical-consistency validation, not timing identity or an attractor criterion",
+    "limitation": "Engineering tolerance; not a rigorous forward-error bound for arbitrary recurrent weights"
+  },
+  "reasoning": [
+    "Exact same-batch float32 replay separately establishes correct update indexing/input handling in unit validation.",
+    "An absolute-only threshold depends on state amplitude; c can accumulate while h is bounded.",
+    "Noiseless trial starts with h/czero and at most100updates precede the firstFREE state. LSTM gate bounds imply |c|\u2264100 and |h|\u22641 up to roundoff, so the relative term adds at mostabout2e-4 in c and2e-6 in h.",
+    "Float32 gate saturation can differ genuinely from float64; a passed comparison alone does not guarantee identical stability/Jacobian behavior."
+  ],
+  "preserve_reports": [
+    "Maximum absolute error and old3e-4 absolute-only pass status",
+    "Separate h and c error magnitudes and state maxima",
+    "Raw/RMS direction-family radii and error/radius ratios",
+    "Every context including a failed numerical validation; no replacement"
+  ],
+  "unchanged_scientific_gates": true,
+  "positive_requirement": "Any positive geometry candidate must reproduce unchanged full-state/observable criteria using actual nativefloat32 LSTM recurrence and exact float32 weights before a mechanistic claim; classify unresolved numerical discrepancies explicitly.",
+  "failure_interpretation": "Numerical validation unresolved, not a negative attractor result.",
+  "sources_reviewed": {
+    "scripts/lstm_local_return_family.py": "5f2b41d1a7b4c4f2e44145ead7f4e2a218d2ae08fa6ff4b66d2c9da9f4bf9e90",
+    "scripts/lstm_local_return_mechanism.py": "312589a9dcfd5e00462dedf465c01015b53f548939b4bae395b69a470d049137",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "reviewer": "endogenous_ring_audit",
+  "utc": "2026-11-06T10:59:54.913326+00:00",
+  "status": "Final independent pre-freeze review passed including both actual native architecture causal smokes",
+  "source_sha256": {
+    "scripts/lstm_local_return_family.py": "5f2b41d1a7b4c4f2e44145ead7f4e2a218d2ae08fa6ff4b66d2c9da9f4bf9e90",
+    "tests/test_lstm_local_return_family.py": "361b6d4cc70ad31486f2d4eba1f96f25e7e5623e202645b30b332fb621d3dc7e",
+    "scripts/lstm_local_return_causal.py": "d5d7a37eb8bc8c78e43f9a2a3f0e05d32c67dc53cbb6b34d422ea337d198620a",
+    "tests/test_lstm_local_return_causal.py": "64fe806d60ce466c50f9f524f22616bb299582818326c773f95b80aec25bba43",
+    "scripts/lstm_local_return_mechanism.py": "f28f8c83f8e150be01e6b5519afbf36d5427c88077a4a4c8cadad54a7d94ce9c",
+    "tests/test_lstm_local_return_mechanism.py": "d3b068008cefcfe1c41b90c8850eb71d567f424c58eabaa50362dda60196dd4c",
+    "scripts/check_local_return_native_causal.py": "2c268eb0fc9d50af4db07258b433cdbe4dd1adcafe8ccb4a505b5fc57b0d3a4c"
+  },
+  "test_command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest -q tests/test_lstm_local_return_family.py tests/test_lstm_local_return_causal.py tests/test_lstm_local_return_mechanism.py",
+  "tests_passed": 15,
+  "completed_model_neural_outcomes_run": 0,
+  "checks": [
+    "Exact sealed-bank context/tape identities and config preflight without neural execution",
+    "TinyPolicy/native-physics same-batch exact cue-to-60-update replay in both populations",
+    "Actual last forward-probe travel phase and firstFREE physical heading; phase-derived quantities never enter the agent",
+    "Fixed common delay input and native savedgoal, only current PGC slots altered",
+    "Correct firstFREE timing; actor consumes h60 without duplicate recurrent update",
+    "Sparse arbitrary phase slicing and declared batch-shape numerical tolerance",
+    "Pre-cue causal h/c-only intervention with recipient cue/physics unchanged",
+    "Post-cue reset erases prior edits",
+    "Reindexed192-family tape certificate does not borrow original16-heading certificate",
+    "Complete paired-model behavior gate and no favorable-stage selection"
+  ],
+  "suggested_reporting": "Implemented: causal error relative to family radius/edit size; pointwise cross-dtype guard and unchanged original ring criteria; nativefloat32 replication mandatory for positives.",
+  "frozen_training_sources_edited": false,
+  "previous_review_sha256": "586210caed39790d6a86f907006e93e762d55dd2bb98ab86bd307900fdfcd601",
+  "native_causal_validation_sha256": "94f2276ec9bb3deed16e1e7941199429f635a9f6d70ccd0a47d82ae4f0692e94",
+  "native_causal_summary": [
+    {
+      "condition": "gc100",
+      "precue_error": 0.0,
+      "cue_input_error": 0.0,
+      "first_free_batch_replay_error": 0.0,
+      "actor_error": 0.0
+    },
+    {
+      "condition": "pgc33",
+      "precue_error": 0.0,
+      "cue_input_error": 0.0,
+      "first_free_batch_replay_error": 0.0,
+      "actor_error": 0.0
+    }
+  ],
+  "remaining_blockers": [],
+  "numerical_precision_review_sha256": "dbdc1d0b0df52354603d822d3817293df5b020678cee435e506f68d1a3abcb64",
+  "latest_source_review": [
+    "Cross-dtype guard scales by actual native state, preserves old absolute status and h/c bounds; no ring criterion changed.",
+    "Unresolved collection/numerical failures retain their exact input plan/family and are not counted as negative ring evidence.",
+    "Causal swap uses pre-cue nativeh/c only; same recipientcue, physics, fullclock tapes and state60 timing verified.",
+    "Reset and donor controls verified on both native architectures with different192-versus160batch shapes."
+  ]
+}
