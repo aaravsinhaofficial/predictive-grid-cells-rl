@@ -1,0 +1,130 @@
+{
+  "version": "blind_reorientation_reward_only_v1",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "model_seed": 1,
+  "original_frames": 1000000000,
+  "parent": "Original1B checkpoint, independent of prior25M/75M arms",
+  "objective": "Original navigation reward only, all original network weights trainable; no angle/ring target, decoder loss or hand-written action controller during free navigation",
+  "unchanged": "Square geometry, uniform goals, original maps/RGB renderer, goal radius/reward, six motor actions, native saved-goal code, CNN/LSTM256/actor/critic architecture",
+  "timing": {
+    "visible": 15,
+    "independent_labelled_turn_blocks": 2,
+    "each_turn_min": 5,
+    "each_turn_max": 10,
+    "forward_probe": 4,
+    "endpoint_glimpse": "First input of delay block, not an extra update",
+    "delay_action": "Constant left, action0; previous action always records actually applied action",
+    "delay_maxima": [
+      4,
+      15,
+      30,
+      60
+    ],
+    "delay_minimum_rule": "ceil(stage_max/2)",
+    "free_blind_updates": 30,
+    "maximum_event_updates": 129,
+    "brakes": "Zero vf/vs/vr at first blind turn, immediately before forward probe, and after probe before first delay action",
+    "interrupts": "Actual reward interrupts any event, refreshes native saved goal and returns to visible waiting; done clears saved goal/known state",
+    "admission": "After first reward, at most1 event per160-update BPTT segment and8/90s episode; require129 updates left in both segment and episode; ordinary native visible navigation while waiting; recurrent state persists across segments",
+    "schedule_rng": "Private per-slot per-episode8-event banks, event-index paired across evaluation branches; two independent turn labels/durations and one delay quantile"
+  },
+  "inputs": {
+    "blind_rgb": "All zero through original CNN",
+    "blind_current": "Ordinary position-only512-slot snapshot held from first blind turn, updated at actual endpoint of fourth forward action; one native endpoint pulse during first delay input",
+    "native_goal": "Continuous native512-slot snapshot of actual last goal pickup, including predictive component",
+    "preserved": "Actual previous action and clipped reward; physical motor noise, walls and goal respawn",
+    "no_extra_input": true
+  },
+  "learning": {
+    "n_envs": 32,
+    "bptt": 160,
+    "original_bptt": 100,
+    "all_summed_losses_scale": 0.625,
+    "credit_window_reason": "Complete worst-case129-update event stays within one differentiable recurrent unroll",
+    "forced_actions": "Mask policy-gradient AND entropy on forced turns/probe/delay; train critic normally; retain recurrent gradients through forced steps",
+    "warmup_updates": 200,
+    "warmup_learning_rate": 0.0,
+    "warmup_exposure_frames": 4096000,
+    "optimizer": "New original RMSProp,200zero-LR accumulator warmup, then original learning rate; no resumed optimizer",
+    "updates_per_stage": 489,
+    "learning_frames_per_stage": 10014720,
+    "total_learning_frames": 40058880,
+    "action_repeat": 4,
+    "noise": {
+      "sigma_h": 0.02,
+      "sigma_c": 0.02,
+      "seed": 146205,
+      "timing": "Independent additive h/c Gaussian after LSTM before actor/critic only on actual black-input updates",
+      "replay": "Store and replay identical eps through BPTT; separate bootstrap draw; noise RNG saved",
+      "tuning": "Fixed0.02 absolute units, no outcome-based tuning"
+    }
+  },
+  "seeds": {
+    "training": 146201,
+    "environment": 146201001,
+    "clock": 146203,
+    "evaluation": 148201
+  },
+  "evaluation": {
+    "episodes": 64,
+    "n_envs": 32,
+    "max_delay": 60,
+    "clean": true,
+    "endpoints": "Before warmup and after every fixed stage; retain all four stages and final",
+    "variants": [
+      "blind_native",
+      "blind_ordinary",
+      "blind_plus60",
+      "blind_minus60",
+      "blind_reset_after_glimpse",
+      "blind_reset_every_blind",
+      "seen_native",
+      "seen_ordinary",
+      "seen_plus60",
+      "seen_minus60",
+      "seen_reset_after_glimpse",
+      "seen_reset_every_blind"
+    ],
+    "continuous_vision": "Restore RGB only; preserve forced actions, held ordinary snapshots and pulse/reset intervention",
+    "cue_control": "Replace only169 predictive current slots by ordinary values, or rotate actual endpoint travel direction/velocity by+60/-60degrees; saved goal unchanged; Grid controls exact identities",
+    "resets": "Reset after processing endpoint glimpse, before next input; or before every scheduled blind input. Matching resets in continuously visible controls",
+    "metrics": "Whole-episode score and per-event free-window hits/progress/path/updates; forced hits/walls; admission/wait/cap/interruption/full-window coverage counts; actual probe speed/displacement/travel-versus-heading/wall contacts and all three pre/post brakes, with no outcome-based exclusion",
+    "pairing": "Shared slot/episode/event plans and physics/action draws; actual outcome-driven later window onset may differ",
+    "reset_scope": "h/c carryover only; actual previous actions/rewards, external saved goal and spatial snapshot, and physical history remain"
+  },
+  "interpretation": "Prospective same-agent reward-trained memory mechanism under a newly necessary blind reorientation task; not retrospective proof of a ring in original1B agents. Positive behavioral memory and PGC effects motivate fixed full-state geometry/causal stabilization tests.",
+  "selection": "Prespecified fixed frame budgets, no stage selection or adaptive stopping for positive results",
+  "budget": {
+    "workers": 2,
+    "accelerator": "T4",
+    "worker_guard": "DELETE after2hours",
+    "process_max_seconds": 6600,
+    "reservation_usd": 5.625,
+    "cumulative_user_budget_usd": 500.0,
+    "launch": "Separate explicit root authorization after source tests, independent review and frozen protocol"
+  },
+  "source_sha256": {
+    "scripts/rl_blind_reorientation.py": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb",
+    "scripts/rl_blind_reorientation_train.py": "31dc3c685cb23e9ff38df2d429060c1cc883a2a6b1bac85da4f3f5f7fb889d70",
+    "tests/test_rl_blind_reorientation.py": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/rl_visual_memory_noise.py": "d74a225f3b9ae6b2bf868464feca7f3215ed8d09dbf51e194a23b9086a715fc4",
+    "scripts/rl_visual_memory_extend.py": "11e511f106e1ca478d5c03bb2a7dc7814d994ec6b468c8b6fb050faeaddbf3ba",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "original_asset_sha256": {
+    "models/gc100/gc100_lstm_s1_1000M.json": "ab880a70a64533b809a9b9ccb2c1998443720d96f9aab9393bc2d84c7a4e68c7",
+    "models/gc100/gc100_lstm_s1_1000M.pt": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+    "models/pgc33/pgc33_lstm_s1_1000M.json": "d1b61fcd89c6864d2db8174c73f761830d7c3e48355ded26950acf72a7b23b39",
+    "models/pgc33/pgc33_lstm_s1_1000M.pt": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94"
+  },
+  "frozen_at": "2026-11-06T06:25:00.725311+00:00"
+}

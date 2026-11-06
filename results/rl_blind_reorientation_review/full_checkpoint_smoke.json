@@ -1,0 +1,166 @@
+{
+  "test_only": true,
+  "torch_version": "2.10.0",
+  "fixture": "Two CPU environments,600-update episode cap, original full CNN/LSTM checkpoint, synthetic known-goal initialization solely to exercise event,160-step noisy rollout/replay/backward at zero learning rate; not an experiment arm",
+  "source_sha256": {
+    "scripts/rl_blind_reorientation.py": "c7de234e39e0172f98712d6cadffdcfc14da4149c47b4e56a3c5691d6adfa1bb",
+    "scripts/rl_blind_reorientation_train.py": "eb76a81e9e0e40000ed579d4e9fe51ca8a42a2520b2245c50fde8594da85dbbe",
+    "tests/test_rl_blind_reorientation.py": "edbf00cc538777e65a28e9c0b5200ad6c5ffc20f688deff8a2e6153b505c7ef9"
+  },
+  "results": [
+    {
+      "condition": "gc100",
+      "seconds": 1.0590436658822,
+      "policy_unchanged_zero_lr": true,
+      "checkpoint_sha256": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+      "metrics": {
+        "loss": 1.4143590927124023,
+        "value_loss": 4.097978115081787,
+        "entropy": 0.0949338972568512,
+        "grad_norm": 14.419177055358887,
+        "replay_error": 2.86102294921875e-06,
+        "free_policy_fraction": 0.596875011920929
+      },
+      "schedule": {
+        "admitted": [
+          2
+        ],
+        "completed": [
+          2
+        ],
+        "interrupted_reward": [
+          0
+        ],
+        "interrupted_done": [
+          0
+        ],
+        "wait_segment": [
+          101
+        ],
+        "wait_cap": [
+          0
+        ],
+        "wait_episode": [
+          0
+        ],
+        "coverage_violations": [
+          0
+        ],
+        "phase_update_counts": [
+          [
+            101,
+            30,
+            17,
+            15,
+            8,
+            89,
+            60
+          ]
+        ]
+      },
+      "probe_audit": {
+        "pulses": [
+          2.0
+        ],
+        "probe_wall_updates": [
+          0.0
+        ],
+        "endpoint_speed_sum": [
+          0.46790143847465515
+        ],
+        "absolute_heading_error_rad_sum": [
+          0.07860254496335983
+        ],
+        "probe_displacement_sum": [
+          0.08365781605243683
+        ],
+        "forced_goal_hits": [
+          0.0
+        ],
+        "free_goal_hits": [
+          0.0
+        ],
+        "scheduled_blind_updates": [
+          189.0
+        ]
+      }
+    },
+    {
+      "condition": "pgc33",
+      "seconds": 1.0726585409138352,
+      "policy_unchanged_zero_lr": true,
+      "checkpoint_sha256": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "metrics": {
+        "loss": 4.574609756469727,
+        "value_loss": 8.469579696655273,
+        "entropy": 0.07336404919624329,
+        "grad_norm": 33.685489654541016,
+        "replay_error": 2.1457672119140625e-06,
+        "free_policy_fraction": 0.596875011920929
+      },
+      "schedule": {
+        "admitted": [
+          2
+        ],
+        "completed": [
+          2
+        ],
+        "interrupted_reward": [
+          0
+        ],
+        "interrupted_done": [
+          0
+        ],
+        "wait_segment": [
+          101
+        ],
+        "wait_cap": [
+          0
+        ],
+        "wait_episode": [
+          0
+        ],
+        "coverage_violations": [
+          0
+        ],
+        "phase_update_counts": [
+          [
+            101,
+            30,
+            17,
+            15,
+            8,
+            89,
+            60
+          ]
+        ]
+      },
+      "probe_audit": {
+        "pulses": [
+          2.0
+        ],
+        "probe_wall_updates": [
+          0.0
+        ],
+        "endpoint_speed_sum": [
+          0.46790143847465515
+        ],
+        "absolute_heading_error_rad_sum": [
+          0.07860254496335983
+        ],
+        "probe_displacement_sum": [
+          0.08365781605243683
+        ],
+        "forced_goal_hits": [
+          0.0
+        ],
+        "free_goal_hits": [
+          0.0
+        ],
+        "scheduled_blind_updates": [
+          189.0
+        ]
+      }
+    }
+  ]
+}

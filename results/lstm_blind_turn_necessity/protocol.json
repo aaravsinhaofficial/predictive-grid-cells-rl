@@ -1,0 +1,50 @@
+{
+  "version": "blind_turn_information_necessity_v1",
+  "purpose": "Design diagnostic only; no training, cloud launch, reward change, learned decoder, ring fitting or action teacher",
+  "models": "Original Grid/PGC seeds1\u20132; context0; same independently saved native recurrent context and actual goal/room per model",
+  "timeline": {
+    "visible_observations": 15,
+    "visible_physics_updates": 14,
+    "blind_prefix_updates": 14,
+    "blind_prefix_pair_actions": [
+      0,
+      1
+    ],
+    "optional_probe_updates": 4,
+    "probe_action": 2,
+    "common_suffix": [
+      0,
+      1,
+      0
+    ]
+  },
+  "control": "Pure-turn history variant shares initial position. Probe/glimpse variant chooses actual starts to reach one common endpoint; numerical snap must be<1e-5m. Explicit vf/vs/vr brakes before each forced segment; common suffix starts at identical zero motor state. All final1287inputs and last3inputs must match byte-for-byte, with identical finalposition,motorstate,goal,pa,pr.",
+  "ceiling": "Expected signed goalward displacement over one actual native update for all6actions; maximum mean across paired headings is best common-action ceiling, mean per-heading maximum is phase-aware ceiling. No ceiling action is executed by policy training or supplied as a label.",
+  "success": "Input/motor/goal identities plus distinct best phase actions and phase-aware advantage>1e-4m. Original actor performance is reported separately and never required to pass the information audit.",
+  "source_sha256": {
+    "scripts/lstm_blind_turn_necessity.py": "954e175bb530e15c1bf41df351c3cb50ac7c54614adffa84c7b1da7c0db7f62a",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+  },
+  "input_sha256": {
+    "gc100_s1": {
+      "checkpoint": "e069c03fe0910e9bb7f47d7f414c8b4ca6cea5ee4afc8ac14141995ebf8ea9bb",
+      "context": "31362ab43d72a45f2d99335be21c6137b9a145dcd249cf0c53e7746ac80ce127"
+    },
+    "gc100_s2": {
+      "checkpoint": "11778ab967f25f0c2832e5b0f5cc1e906ff48fe7f69de6ad595aa057a88e3972",
+      "context": "4ce5282b5c52be596ba1c7cee6b1711477730fa36c4ec6ba055fff38145465e7"
+    },
+    "pgc33_s1": {
+      "checkpoint": "c7f7ddce520373aa92e013dabf9b8ecd97111d6b50c1371f79de3df1e0806b94",
+      "context": "6a420d04c5cc7235799c65cf8b172a40566cee32869fa0a10dddc3c3d0000d1e"
+    },
+    "pgc33_s2": {
+      "checkpoint": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+      "context": "9b64f22af4045fca767cf9d5c856d108081cc7f02be7433e2f59222238c91513"
+    }
+  }
+}

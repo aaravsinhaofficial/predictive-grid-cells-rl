@@ -1,0 +1,15 @@
+{
+  "frozen_at": "2026-11-06T06:27:02.937487+00:00",
+  "training_protocol_sha256": "2fa78ec55fe7eefb3dcfd5eacf73e3a703bbf6a2c479fe9a3158f4b6604fa267",
+  "source_sha256": {
+    "scripts/summarize_blind_reorientation.py": "1b0b73bec0f366e36908b657b7e7520e4ecd939ccb24da69c962edf73fc291ff",
+    "tests/test_summarize_blind_reorientation.py": "c8d665ef876a201314e14bb23b8f9bd1d775eb0bbb3ca7dad914aa07c38c2e10"
+  },
+  "primary": "Number of free-window goal hits per original evaluation episode, retaining all zero-event and zero-discovery episodes.",
+  "secondary": "Free-window progress and path length per original episode; descriptive per100free-update rates; whole-episode score, forced hits, event admissions and probe/brake telemetry.",
+  "contrasts": "Within each network and vision branch: native minus ordinary, wrong+60, wrong-60, reset_after_glimpse, reset_every_blind. Positive native-minus-ordinary suggests predictive pulse usefulness; positive native-minus-reset suggests useful recurrent carryover. Neither contrast alone identifies circular dynamics.",
+  "uncertainty": "10000 paired bootstrap resamples of32environment slots, each retaining2episodes; fixed RNGseed148207. Descriptive95% intervals conditional on the checkpoint, no population-level or multiplicity-adjusted significance claim.",
+  "endpoints": "Baseline and all four fixed stages; final endpoint primary for follow-up, no favorable checkpoint selection.",
+  "scope": "One preselected original training-seed pair, trained in a prospective memory task. Mechanistic geometry/pulse/phase/behavior analysis separately frozen before results.",
+  "tests": "Three tests pass: zero-event denominator, window-partition invariance, unmatched/duplicated episode rejection."
+}

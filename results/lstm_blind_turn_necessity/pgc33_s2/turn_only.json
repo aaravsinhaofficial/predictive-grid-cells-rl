@@ -1,0 +1,161 @@
+{
+  "condition": "pgc33",
+  "seed": 2,
+  "kind": "turn_only",
+  "checkpoint": "/Users/aaravsinha/predictive-grid-cells-rl/models/pgc33/pgc33_lstm_s2_1000M.pt",
+  "checkpoint_sha256": "6ebd02586f02de37e4543be68f966affb44d62eb0ccedb49d1944b69dbc41f73",
+  "context_sha256": "9b64f22af4045fca767cf9d5c856d108081cc7f02be7433e2f59222238c91513",
+  "source_sha256": "954e175bb530e15c1bf41df351c3cb50ac7c54614adffa84c7b1da7c0db7f62a",
+  "audits": {
+    "final_input_byte_identical": true,
+    "last_three_inputs_byte_identical": true,
+    "final_position_byte_identical": true,
+    "final_motor_byte_identical": true,
+    "saved_goal_unchanged": true,
+    "final_previous_actions": [
+      0,
+      0
+    ],
+    "final_previous_rewards": [
+      0.0,
+      0.0
+    ],
+    "final_motor_state": [
+      [
+        0.0,
+        0.0,
+        0.42263495922088623
+      ],
+      [
+        0.0,
+        0.0,
+        0.42263495922088623
+      ]
+    ],
+    "final_input_sha256": [
+      "f0574dc61c8761e070a0fc428c4c95ec371b67024931d74dc73ec3c31c04a478",
+      "f0574dc61c8761e070a0fc428c4c95ec371b67024931d74dc73ec3c31c04a478"
+    ],
+    "final_heading_degrees": [
+      -137.36122131347656,
+      41.02405548095703
+    ],
+    "heading_separation_degrees": 178.3852799872736,
+    "endpoint_snap_max_m": 0.0,
+    "probe_body_minus_mdir_deg": null,
+    "final_observation_index": 31,
+    "suffix_start_index": 29,
+    "cue_index": null,
+    "nominal_probe_displacement_m": 0.0,
+    "initial_positions": [
+      [
+        -0.24124731123447418,
+        -0.30271103978157043
+      ],
+      [
+        -0.24124731123447418,
+        -0.30271103978157043
+      ]
+    ],
+    "endpoint": [
+      -0.24124731123447418,
+      -0.30271103978157043
+    ],
+    "native_physics_noise": "Disabled in this deterministic information/alias audit; no trained policy or physics parameter changed on disk"
+  },
+  "action_names": [
+    "turn_left",
+    "turn_right",
+    "forward",
+    "backward",
+    "strafe_left",
+    "strafe_right"
+  ],
+  "progress_by_branch_action_m": [
+    [
+      0.0,
+      0.0,
+      -0.005432030186057091,
+      0.005432030186057091,
+      0.0005682609044015408,
+      -0.0005682609044015408
+    ],
+    [
+      0.0,
+      0.0,
+      0.0054458798840641975,
+      -0.0054458798840641975,
+      -0.0004149631131440401,
+      0.0004149631131440401
+    ]
+  ],
+  "ceilings": {
+    "common_action_progress_m": 7.664889562875032e-05,
+    "phase_aware_progress_m": 0.005438955035060644,
+    "phase_aware_advantage_m": 0.005362306139431894,
+    "best_common_action": 4,
+    "best_phase_actions": [
+      3,
+      2
+    ]
+  },
+  "original_actor_branches": {
+    "retained_native": {
+      "expected_progress_m": [
+        -4.151932841978123e-07,
+        2.3141582516927883e-07
+      ],
+      "mean_expected_progress_m": -9.188872951426674e-08,
+      "probabilities": [
+        [
+          0.9992744326591492,
+          1.270154825760983e-07,
+          8.004797678040632e-07,
+          1.1030561353209123e-07,
+          2.3377010904823692e-07,
+          0.0007242748397402465
+        ],
+        [
+          0.999448835849762,
+          1.0823969631701402e-07,
+          6.935355827408785e-07,
+          9.573003723062357e-08,
+          2.0356004881705303e-07,
+          0.000550036143977195
+        ]
+      ],
+      "probability_rows_byte_identical": false,
+      "difference_from_common_action_ceiling_m": -7.674078435826459e-05,
+      "reset_before_observation": null
+    },
+    "reset_at_final_decision": {
+      "expected_progress_m": [
+        -1.5778741726535372e-06,
+        1.1815793641289929e-06
+      ],
+      "mean_expected_progress_m": -1.9814740426227218e-07,
+      "probabilities": [
+        [
+          0.9973583817481995,
+          5.3052785915497225e-06,
+          2.5059658582904376e-05,
+          5.209546998230508e-06,
+          9.500604392087553e-06,
+          0.002596424426883459
+        ],
+        [
+          0.9973583817481995,
+          5.3052785915497225e-06,
+          2.5059658582904376e-05,
+          5.209546998230508e-06,
+          9.500604392087553e-06,
+          0.002596424426883459
+        ]
+      ],
+      "probability_rows_byte_identical": true,
+      "difference_from_common_action_ceiling_m": -7.68470430330126e-05,
+      "reset_before_observation": 31
+    }
+  },
+  "interpretation": "The ceiling gap is an information-requirement audit, not a trained performance claim. Oracle actions are never supplied to the network, rewards, or controller. Original checkpoint responses are descriptive transfer tests; these models were not trained on this proposed task."
+}

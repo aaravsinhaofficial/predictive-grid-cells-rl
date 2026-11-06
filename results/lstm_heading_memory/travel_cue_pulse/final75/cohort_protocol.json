@@ -1,0 +1,80 @@
+{
+  "frozen_at": "2026-11-06T06:31:47.097509+00:00",
+  "cases": [
+    {
+      "arm": "v2",
+      "condition": "gc100",
+      "context": 0,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-long-grid-01/final.pt",
+      "states": "results/lstm_final75_memory/v2/gc100/travel/gc100_s1/context0_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v2_gc100_context0"
+    },
+    {
+      "arm": "v2",
+      "condition": "gc100",
+      "context": 1,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-long-grid-01/final.pt",
+      "states": "results/lstm_final75_memory/v2/gc100/travel/gc100_s1/context1_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v2_gc100_context1"
+    },
+    {
+      "arm": "v2",
+      "condition": "pgc33",
+      "context": 0,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-long-pgc-01/final.pt",
+      "states": "results/lstm_final75_memory/v2/pgc33/travel/pgc33_s1/context0_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v2_pgc33_context0"
+    },
+    {
+      "arm": "v2",
+      "condition": "pgc33",
+      "context": 1,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-long-pgc-01/final.pt",
+      "states": "results/lstm_final75_memory/v2/pgc33/travel/pgc33_s1/context1_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v2_pgc33_context1"
+    },
+    {
+      "arm": "v3",
+      "condition": "gc100",
+      "context": 0,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-noise-grid-01/final.pt",
+      "states": "results/lstm_final75_memory/v3/gc100/travel/gc100_s1/context0_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v3_gc100_context0"
+    },
+    {
+      "arm": "v3",
+      "condition": "gc100",
+      "context": 1,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-noise-grid-01/final.pt",
+      "states": "results/lstm_final75_memory/v3/gc100/travel/gc100_s1/context1_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v3_gc100_context1"
+    },
+    {
+      "arm": "v3",
+      "condition": "pgc33",
+      "context": 0,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-noise-pgc-01/final.pt",
+      "states": "results/lstm_final75_memory/v3/pgc33/travel/pgc33_s1/context0_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v3_pgc33_context0"
+    },
+    {
+      "arm": "v3",
+      "condition": "pgc33",
+      "context": 1,
+      "checkpoint": "results/ring_cloud_artifacts/ring-20261105-vision-noise-pgc-01/final.pt",
+      "states": "results/lstm_final75_memory/v3/pgc33/travel/pgc33_s1/context1_states.npz",
+      "output": "results/lstm_heading_memory/travel_cue_pulse/final75/v3_pgc33_context1"
+    }
+  ],
+  "selection": "All four fixed75.072M final models, both prespecified native travel contexts each, regardless of ring-candidate outcome. No checkpoint/context selection by pulse effect.",
+  "method": "Exact previously frozen travel_cue_pulse_v1. 192uniform physical phases, fullstate\u00b130degree substitution at1s; ordinary, singlecorrect, singlewrong\u00b160, sustainedcorrect cue controls; primary at4s. Raw and h/c-scaled geometry retained.",
+  "scope": "Secondary pulse diagnostic; later stationary-turn cue refers to stored actual travel direction, not a newly measured body heading. No ring claim from cue response alone.",
+  "validation": "Each incoming state archive checkpoint hash must equal supplied fixed final checkpoint; final75 wrapper validates budgets/provenance. Runtime hashes retained separately once artifacts exist.",
+  "aggregation": "Model-specific contexts averaged within model. Models from v2/v3 share original training seed1; arms are not independent seed replications.",
+  "source_sha256": {
+    "scripts/lstm_travel_cue_pulse.py": "c173fe0ed1502ed42eda74ec8e74bf35bcc709cf75e848956dc299f300916693",
+    "scripts/lstm_final75_memory.py": "ced817ddcc9d3ea1e4cbf3dd96d6b323bee63a3f3853a15d54b9f709e6da535e",
+    "scripts/plot_lstm_travel_cue_pulse.py": "9eb8515904437569cdd79d8f8937e509df0ceb7623b45bb705b6fcfe5e43d72e"
+  },
+  "base_protocol_sha256": "d2bed8d22ba57dbaa59e36a1a10cb2f609a06f1b50d036915045fdb7e87160f3"
+}
