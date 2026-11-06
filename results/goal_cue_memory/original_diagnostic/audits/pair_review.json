@@ -1,0 +1,87 @@
+{
+  "version": "goal_cue_memory_original_diagnostic_pair_review_v1",
+  "created_utc": "2026-11-06T16:09:10.593322+00:00",
+  "passed": true,
+  "complete": true,
+  "protocol_sha256": "2d9386fad85f9774d80ced37d7d6220d6bb75c682879684511a0da4d4bb04125",
+  "rows": [
+    {
+      "condition": "gc100",
+      "audit_sha256": "91a0711e5820e15ded3d630e9f6739cb85a7c9cadfa137862b2501ee86a936e3",
+      "audit_path": "results/goal_cue_memory/original_diagnostic/audits/gc100.json",
+      "passed": true,
+      "complete": true,
+      "original_policy_unchanged": true,
+      "context_branch_records": 176,
+      "branch_successes": {
+        "brief_native": 65,
+        "continuous": 186,
+        "brief_ordinary": 65,
+        "no_cue": 67,
+        "brief_reset": 67,
+        "donor_plus90": 68,
+        "donor_minus90": 65,
+        "continuous_reset": 184,
+        "wrong_plus90": 68,
+        "wrong_minus90": 65,
+        "self_swap": 65
+      },
+      "trials_per_branch": 256,
+      "valid_trials": 2816,
+      "descriptive_memory_screen": {
+        "eligible": true,
+        "native_success_threshold": 167,
+        "reset_cost_threshold": 39,
+        "native_successes": 65,
+        "reset_cost": -2,
+        "passed": false
+      }
+    },
+    {
+      "condition": "pgc33",
+      "audit_sha256": "2b9db2e5afbe1c6e26a3a1bb25d159a415d034d08e1a0d506aa16bd82a0b0091",
+      "audit_path": "results/goal_cue_memory/original_diagnostic/audits/pgc33.json",
+      "passed": true,
+      "complete": true,
+      "original_policy_unchanged": true,
+      "context_branch_records": 176,
+      "branch_successes": {
+        "brief_native": 52,
+        "continuous": 236,
+        "brief_ordinary": 50,
+        "no_cue": 45,
+        "brief_reset": 47,
+        "donor_plus90": 50,
+        "donor_minus90": 49,
+        "continuous_reset": 235,
+        "wrong_plus90": 50,
+        "wrong_minus90": 49,
+        "self_swap": 52
+      },
+      "trials_per_branch": 256,
+      "valid_trials": 2816,
+      "descriptive_memory_screen": {
+        "eligible": true,
+        "native_success_threshold": 167,
+        "reset_cost_threshold": 39,
+        "native_successes": 52,
+        "reset_cost": 5,
+        "passed": false
+      }
+    }
+  ],
+  "all_valid_trials": 5632,
+  "exploratory_registered_after_qualification": true,
+  "single_original_seed_pair": true,
+  "no_learning": true,
+  "parent_training_gate_still_failed": true,
+  "wrong_cue_donor_consistency": {
+    "path": "results/goal_cue_memory/original_diagnostic/audits/donor_equivalence.json",
+    "sha256": "5bf3f6d2c9b05991188734006223d7c9559e0505a2065f081ec2884aac02a501",
+    "exact_pairs": 64,
+    "prescribed_pairs": 64,
+    "interpretation": "Implementation consistency, not independent scientific replication."
+  },
+  "interpretation": "In this fixed task, the large PGC advantage occurs with the goal cue continuously available. Brief-cue performance approaches the no-cue/reset controls; no useful-memory screen passes. This exploratory comparison retains all conditions and does not reopen training or automatically nominate a ring attractor.",
+  "scope": "Original actor/CNN/LSTM with common archived fresh critic and no learning. Brief ordinary-goal replacement tests predictive channels during initial encoding; it does not isolate their contribution throughout continuous-cue navigation."
+}
