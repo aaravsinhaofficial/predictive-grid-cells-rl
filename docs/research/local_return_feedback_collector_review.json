@@ -1,0 +1,28 @@
+{
+  "status": "independent_collector_review_passed_unfrozen",
+  "reviewer": "endogenous_ring_audit",
+  "reviewed_utc": "2026-11-06T13:07:53.574467+00:00",
+  "source_sha256": {
+    "scripts/local_return_feedback.py": "dc10e1cddf1e619e9f379939fbcfeb5769fe9d7fc59c18284200453668023ce2",
+    "tests/test_local_return_feedback.py": "b6b1bcdc4d34f4b1a50a5332ee248403165a71fa083aa9302ed073262637791a",
+    "docs/research/local_return_feedback_acquisition_spec_v2.md": "b4b87ea91c66738a37fc659afefd5e38391ae943307783dff6f64e6031d08e93"
+  },
+  "checks": [
+    "Public collector supplies fresh native RGB and current code on every active input throughout preparation and FREE. Source uses the actual preceding observation, including pre-brake endpoint displacement velocity.",
+    "No special endpoint cue, no midtrial h/c reset, and no state noise. Actual previous action is supplied and firstFREE input is processed once.",
+    "Unchanged prepare_batch, motor/noise tapes, braking, physical transition order, first-hit stopping, native reward clipping and terminal bootstrap semantics. Disabled observation branch exactly matches frozen clean collector in synthetic tests.",
+    "Actual RGB/currentcode/goal/pa/pr/zero noise and masks are retained for unchanged full recurrent replay. Actor/entropy remain FREE-only; critic all-active; no feature detachment.",
+    "All CNN/LSTM/pi/v parameters trainable and optimizer membership checked. Synthetic tests show finite nonzero component gradients and a real feature/recurrence optimizer update.",
+    "Initialization composes exact original nonheads and retained/reset actor with archived untrained critic, validates file/tensor hashes and preserves global RNG in the synthetic asset fixture."
+  ],
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 /opt/anaconda3/bin/python -m pytest tests/test_local_return_feedback.py -q",
+    "passed": 8,
+    "scope": "Private synthetic policies/plans, synthetic temporary checkpoint assets and native physics only; no actual study checkpoint, sealed study bank, learned outcome or training/cloud job."
+  },
+  "scope_limits": [
+    "The stream/optimizer test checks private generator restoration and one synthetic full-network update; it does not establish serialized policy+optimizer+runtime next-update equivalence. Exact full-runtime resume remains pending in the future runner.",
+    "No real incoming-policy evaluation or production-shape timing/memory validation occurred. Source is not frozen and this review is not a launch authorization."
+  ],
+  "blocking_issues": []
+}
