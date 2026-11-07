@@ -1,0 +1,30 @@
+{
+  "complete": true,
+  "created_utc": "2026-11-07T13:45:46.241969+00:00",
+  "scope": "New operational wrapper only; private synthetic checkpoint/artifact fixtures and a disposable timeout child. No policy/environment forward, trained endpoint, cloud operation, or frozen source edit.",
+  "source_sha256": {
+    "scripts/run_simple_memory_analysis.py": "bf5c64b40d2429d8cc2e5a784e3e0ea21ae51250e433b61f0ba41e32021e0f24",
+    "tests/test_run_simple_memory_analysis.py": "30a5dba952f672f3dada3090022f7bb9535c9737c9ade1dc43c7742b51fd15db"
+  },
+  "frozen_analysis_protocol_sha256": "cd15bb8465e9429e7280327b03f8410d9d1ac46bfbd2b1a22765edd4f3a88fae",
+  "frozen_analysis_sources_verified": 41,
+  "frozen_training_sources_verified": 8,
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_run_simple_memory_analysis.py",
+    "passed": 12,
+    "seconds": 1.04
+  },
+  "guarantees": [
+    "CPU-only endpoint authentication before any subprocess",
+    "Fixed five-stage argv and unchanged scientific settings",
+    "Shared maximum3000-second monotonic deadline and process-group timeout",
+    "Early dependencies and exact training T4/Torch/CUDA/cuDNN agreement",
+    "Partial artifacts preserved without automatic retry",
+    "Portable relocated pipeline validation",
+    "Negative, zero-context and unqualified scientific outputs retained without favorable-score completion gates"
+  ],
+  "limitations": [
+    "No CUDA worker or real final-model execution has occurred in this validation.",
+    "Runtime gate will reject a worker with a different software/GPU stack; it never installs dependencies."
+  ]
+}
