@@ -1,0 +1,26 @@
+{
+  "complete": true,
+  "scope": "Independent source and synthetic-test review of standalone saved-data reporting for the rejected-equivalence counterbalanced run; no model execution or scientific gate change.",
+  "source_sha256": {
+    "scripts/audit_native_turn_counterbalanced_readout.py": "0df62bacf4195e772db314effa906f70fd68128e743d13ca3732f063415d9dc7",
+    "scripts/report_native_turn_counterbalanced_readout.py": "fa82019be0e96a6b024350087c3242cdeb6efe06427dd73ae521adafe4454d2a",
+    "tests/test_native_turn_counterbalanced_report.py": "718b2863081c9ed484415c0a3f8ea5179e4cc588bcbd314d0e5c58418bda9a8e"
+  },
+  "tests": {
+    "command": "PYTHONPATH=\"$PWD\" OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_counterbalanced_report.py",
+    "passed": 7,
+    "seconds": 9.15
+  },
+  "scientific_run_complete": false,
+  "old16_equivalence": "rejected",
+  "checks": [
+    "All 1,536 families and 196,608 rows remain; the exact 12 old16 failed-equivalence keys cannot be omitted or promoted.",
+    "Auditor independently recomputes actor probabilities and own-cohort physics from saved h, static heads, terminal motor/pose and native equations.",
+    "Actual PA labels and complete target ordering independently verify old LEFT/RIGHT half-circle assignment, with permutation/label corruption tests.",
+    "All shared h/c/centered-logit/probability discrepancies and failure keys remain, including data-derived c-failure count.",
+    "Both exit-1 attempts and logs remain bound; descriptive report completion is separate from rejected scientific status.",
+    "All prefixes/endpoints/modes/branches/contexts are retained; signed assignment/sampling comparisons and observed precision limitations remain explicit.",
+    "No recurrent/CNN/environment/optimization execution in audit/report; no ring or causal qualification."
+  ],
+  "production_report_not_yet_run_at_review": true
+}

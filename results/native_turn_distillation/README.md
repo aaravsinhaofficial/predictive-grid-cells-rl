@@ -12,6 +12,8 @@ We trained four copies of the existing navigation agents: Grid and PGC + grid, e
 
 A second saved-output control found that averaging within the earlier left/right turn groups preserves **89%** of the noisy PGC model's small first-step effect. Those groups are associated with heading halves in the paired test. [Turn-history control and all conditions](../native_turn_imitation_prefix/README.md).
 
+A separate full-circle description gives both turn histories equal weight at every heading. The noisy PGC model's mean first-step progress is **0.00364 mm**, compared with **0.01047 mm** under the earlier heading-to-history assignment on the same dense samples. This is a **65% reduction**. The two complete turn-history circles have opposite signed averages. All cases remain in this description; its attempted equivalence to the old sparse histories failed in one Grid visual context and remains explicitly rejected. [Figures, all conditions and the mismatch diagnosis](../native_turn_counterbalanced_readout/report/README.md).
+
 Whole-episode navigation also failed to improve consistently. These scores come from the modified blind-turn task, using one original seed pair and 16 evaluation episodes per condition.
 
 | Blind navigation score | Original | Clean training | Training with state noise |
