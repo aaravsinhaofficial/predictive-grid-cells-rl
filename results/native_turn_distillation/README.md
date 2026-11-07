@@ -19,7 +19,9 @@ Whole-episode navigation also failed to improve consistently. These scores come 
 | Grid | 61.25 | 65.63 | 60.00 |
 | PGC + grid | 70.00 | 69.38 | 58.75 |
 
-**What this suggests:** the continuation changed action selection and strengthened a small history signal in the PGC model. This training recipe did not turn the predictive cue into an effective memory-repair signal. Every fixed final checkpoint proceeds to the same geometry tests, including models with weak behavioral results.
+**What this suggests:** the continuation changed action selection and strengthened a small history signal in the PGC model. This training recipe did not turn the predictive cue into an effective memory-repair signal.
+
+**The geometry tests are complete for all six checkpoints.** The networks retain differences between heading histories while their whole activity pattern moves away from its starting curve. None passed every ring-geometry check at the original 128-heading resolution. A separate, prospectively specified 1,024-heading follow-up is examining cases where spacing was the only failed check. [Simple geometry figures and all conditions](../native_turn_geometry/report_all/README.md).
 
 For cue removal, we changed only the 169 predictive entries in the **current** spatial code to their ordinary-grid values. The saved goal code stayed native. State erasure zeroed both hidden and cell state at the specified boundary. No ring, angle label or circular loss was supplied during learning.
 

@@ -1,0 +1,42 @@
+{
+  "condition": "pgc33",
+  "kind": "geometry_pipeline",
+  "source_commit": "4ac55dfb",
+  "started_utc": "2026-11-06T23:57:50.069493+00:00",
+  "no_cloud": true,
+  "stages": [
+    {
+      "stage": "prepare",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/native_turn_geometry.py",
+        "--prepare",
+        "--condition",
+        "pgc33"
+      ],
+      "external_timeout_seconds": 1800,
+      "started_utc": "2026-11-06T23:57:50.069817+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-11-07T00:04:10.113564+00:00",
+      "monotonic_seconds": 380.04206941719167
+    },
+    {
+      "stage": "original_geometry",
+      "command": [
+        "/opt/anaconda3/bin/python",
+        "scripts/native_turn_geometry.py",
+        "--condition",
+        "pgc33",
+        "--endpoint",
+        "original"
+      ],
+      "external_timeout_seconds": 7200,
+      "started_utc": "2026-11-07T00:04:10.114176+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-11-07T00:15:37.137826+00:00",
+      "monotonic_seconds": 687.0001594161149
+    }
+  ],
+  "complete": true,
+  "finished_utc": "2026-11-07T00:15:37.139793+00:00"
+}
