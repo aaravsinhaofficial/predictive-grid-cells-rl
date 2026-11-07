@@ -46,6 +46,37 @@ def primary(row):
     return row['window_updates'] == (2 if row['regime'] != 'left' and row['observable'] == 'full_state' else 3)
 
 
+def expected_row_keys():
+    keys = set()
+    for context in range(16):
+        for prefix in (0, 1):
+            for kind in ('turn_only', 'probe_glimpse'):
+                for branch in ('native', 'ordinary', 'pre_cue_reset_native', 'pre_cue_reset_ordinary'):
+                    for regime in ('left', 'fb_B', 'fb_F'):
+                        for observable in ('full_state', 'all_hidden', 'all_actor'):
+                            full = observable == 'full_state'
+                            for value in ((3, 8, 15, 30, 60) if regime == 'left' else (2, 14, 30, 60)):
+                                window = value if regime == 'left' or full else value+1
+                                evolution = window if full else window-1
+                                for metric in ('raw', 'h_c_RMS'):
+                                    for centered in ((False,) if full else (False, True)):
+                                        keys.add((context, prefix, kind, branch, regime, window, evolution,
+                                                  observable, metric, centered))
+    assert len(keys) == 33280
+    return keys
+
+
+def check_cohort(summary, validation, failure, report_directory):
+    endpoints = ['original'] if report_directory == 'report_original' else ['original', 'clean', 'noise']
+    expected = {(c, e) for c in ('gc100', 'pgc33') for e in endpoints}
+    actual = [(r['condition'], r['endpoint']) for r in validation['models']]
+    assert summary['scope'] == endpoints and len(actual) == len(set(actual)) == len(expected)
+    assert set(actual) == expected and summary['models'] == len(expected)
+    assert summary['raw_rows'] == failure['raw_rows'] == 33280*len(expected)
+    assert len(summary['primary']) == 9*len(expected) and len(failure['groups']) == 130*len(expected)
+    assert len(validation['inputs']) == 2 and {r['condition'] for r in validation['inputs']} == {'gc100', 'pgc33'}
+
+
 def counts(rows):
     sets = Counter(tuple(sorted(k for k, v in r['gates'].items() if not v)) for r in rows)
     return dict(cases=len(rows), pass_all=sum(not f for f in (tuple(k for k, v in r['gates'].items() if not v) for r in rows)),
@@ -81,7 +112,8 @@ def audit(report_directory, visual_review=False):
     assert summary['source_sha256'] == validation['source_sha256'] == sha(ROOT/'scripts/report_native_turn_geometry.py')
     assert failure['source_sha256'] == sha(ROOT/'scripts/report_native_turn_geometry_failures.py')
     assert summary['geometry_protocol_sha256'] == sha(ROOT/'docs/research/native_turn_geometry_protocol.json')
-    assert summary['scope'] == (['original'] if report_directory == 'report_original' else ['original', 'clean', 'noise'])
+    check_cohort(summary, validation, failure, report_directory)
+    expected_keys = expected_row_keys()
     manifest = read(out/'artifacts.json')
     for name, record in manifest.items():
         assert name == Path(name).name and not (out/name).is_symlink()
@@ -95,7 +127,9 @@ def audit(report_directory, visual_review=False):
         c, endpoint = record['condition'], record['endpoint']; folder = BASE/c/endpoint
         assert record['complete'] and sha(folder/'summary.json') == record['summary_sha256']
         data = read(folder/'summary.json'); rows = data['rows']
+        assert data['complete'] and (data['condition'], data['endpoint']) == (c, endpoint)
         assert len(rows) == len({tuple(r[k] for k in KEYS) for r in rows}) == record['rows'] == record['unique_keys'] == 33280
+        assert {tuple(r[k] for k in KEYS) for r in rows} == expected_keys
         total += len(rows); normals += sum(r['normal_test_run'] for r in rows)
         necessary += sum(all(r['gates'].values()) for r in rows)
         for name, entry in data['artifacts'].items():

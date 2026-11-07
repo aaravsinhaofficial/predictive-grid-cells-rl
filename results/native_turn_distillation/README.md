@@ -4,7 +4,13 @@ We trained four copies of the existing navigation agents: Grid and PGC + grid, e
 
 **The policies became better at matching their teachers. Useful direction memory remained small.** The strongest first-choice result was the noise-trained PGC model: **0.0102 mm** toward the goal, compared with about **1 mm** for its teacher. Replacing the predictive cue with ordinary grid code left **0.0097 mm**. Erasing the RNN state at the choice removed this small effect. Erasing it before the cue and then restoring the correct predictive input did not recover useful progress.
 
-![First-choice effects with the teacher scale shown](report/first_choice.png)
+**Why did imitation improve?** More than 99% of that improvement came from matching the teacher's average action mixture within each test context. The contribution from matching different histories was tiny. This is an exact breakdown of the saved action probabilities.
+
+![Average action choices account for almost all imitation improvement](../native_turn_imitation_decomposition/imitation_decomposition.png)
+
+[First-choice movement figure, with the teacher scale shown](report/first_choice.png) · [Simple explanation of the breakdown](../native_turn_imitation_decomposition/README.md)
+
+A second saved-output control found that averaging within the earlier left/right turn groups preserves **89%** of the noisy PGC model's small first-step effect. Those groups are associated with heading halves in the paired test. [Turn-history control and all conditions](../native_turn_imitation_prefix/README.md).
 
 Whole-episode navigation also failed to improve consistently. These scores come from the modified blind-turn task, using one original seed pair and 16 evaluation episodes per condition.
 
