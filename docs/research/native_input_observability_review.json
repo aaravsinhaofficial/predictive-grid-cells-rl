@@ -1,0 +1,32 @@
+{
+  "complete": true,
+  "prospective": true,
+  "original_model_queries_executed": false,
+  "scientific_launch_authorized_by_this_review": false,
+  "draft_sha256": "38867a6f052e01716620595c23d0be9985ca02063bb65cff1ba46bd63fe14aa2",
+  "source_sha256": {
+    "scripts/native_input_observability.py": "3685983fb906430a3e9c3a813d345b67982f19d3d261dc42cb751b9901f72e06",
+    "tests/test_native_input_observability.py": "97022c1c89633801c983dd62d9c37286ade85805a9a47e2dcdb802b3cd5b9fb5",
+    "tests/test_native_input_observability_review.py": "1f9eefce7a2bb2b88ede8bd9f50faa4df06999ff0f9247f112e0a1f4e42129ed",
+    "docs/research/native_input_observability_minimal_plan.md": "a9e708632dd5e922594908693d8133ea073cf95fa98915f9a4adc97db1fe6fad"
+  },
+  "independent_tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. /opt/anaconda3/bin/python -m pytest -q tests/test_native_input_observability.py tests/test_native_input_observability_review.py",
+    "passed": 11,
+    "seconds": 0.85,
+    "scope": "Synthetic recurrent systems and private fixture physics only"
+  },
+  "reviewed_checks": [
+    "Truthful executed native actions and exact common complete query input; any hit/wall/end/reward or goal mismatch remains unavailable.",
+    "Saved retention arrays and original LEFT/F/B clocks preserved; query copies never replace retention.",
+    "Factorized six-action response agrees with six independent LSTMCell calls at 1e-12; input profiles remain unscaled probabilities.",
+    "All sixteen contexts, both prefixes and kinds, four branches, all aliases and fixed windows retained.",
+    "Old twenty-normal, both-sign, raw/RMS, bounded physical construction and recovery criteria preserved.",
+    "Phase-only and invisible responses labeled separately; insufficient transverse visibility is inconclusive, not recovered or failed transverse dynamics.",
+    "Held-out equivalence uses initial discovery labels; no refit and no constant held-out response rescue of a wrong retained discovery phase.",
+    "Fixed independent original-only weights, frozen source/asset hashes, no optimizer, no cloud.",
+    "Separate 1800-second screen and 3600-second conditional caps; explicit completed/pending IDs, no selective retries."
+  ],
+  "interpretation": "Conservative observed-response candidate screen. Functional quotient equivalence and full-state attraction are distinct; no new quotient nomination gate. Any positive still needs physical-phase/behavior/cue-repair validation.",
+  "created_utc": "2026-11-07T01:57:31.029991+00:00"
+}
