@@ -1,0 +1,78 @@
+{
+  "complete": true,
+  "passed": true,
+  "reviewer": "independent rl_memory_training agent",
+  "reviewed_utc": "2026-11-07T00:34:19.289270+00:00",
+  "source_sha256": {
+    "scripts/native_turn_geometry_resolution.py": "24eec21413238a08270e87017f65a68c88b1ff33765514cc2ea2f13f8f3b1429",
+    "tests/test_native_turn_geometry_resolution.py": "9b8232d34228b46c633f947ffc4f2265db51aebe2be9b8769bba3dda6a5f801e",
+    "tests/test_native_turn_geometry_resolution_controls.py": "c2c28f116b50738b691d2b37247dc4feb8edac2ac2d712ab42b9b72550c43248",
+    "docs/research/native_turn_geometry_resolution_proposal.md": "a6ed25eb8a1c10e28e54c81e7a483d5a9eeaf2469e15180bb3098bc4f90da1b3",
+    "docs/research/native_turn_geometry_resolution_protocol_draft.json": "2507ea376129c905f44b7f7dcf7c75d963d54f651e8c4fe4edfbb381b7a040ce",
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "docs/research/native_turn_geometry_protocol.json": "78fb6f3e6d0e3573af1ddfa577f370fa2ced121c294189a863f011ef063e1f50",
+    "docs/research/native_turn_distillation_protocol.json": "ac37ba336f79299ed285c4bb0ef126296e5f8d46aee795e431d58544aab06c42"
+  },
+  "scope": "Source and focused synthetic/private physical controls only; no trained-policy evaluation, optimization, native outcome generation, protocol freeze, or cloud action.",
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_geometry_resolution.py tests/test_native_turn_geometry_resolution_controls.py",
+    "passed": 12,
+    "failed": 0,
+    "seconds": 18.82
+  },
+  "checks": [
+    "All spacing-only rows selected mechanically with the mandatory other-metric row, explicit shams and excluded failure counts.",
+    "1024 genuine physical input histories use the unchanged prepare_family helper; nested256/512/1024 samples select actual states and never interpolate hidden states.",
+    "Shared128 headings, physical histories, goal/code/action/reward and common future inputs require exact identity; only CNN embedding differences use the declared1e-5 absolute tolerance.",
+    "Prepared-input manifest binds to archived source summary; original bank/census/source closure and original/fixed-final checkpoint provenance are authenticated; every changed checkpoint reconstructs its own complete native prefix.",
+    "Original geometry and recovery helpers are reused unchanged; both512 and1024 must pass plus initial/evolved polygon convergence within0.005 initial radius.",
+    "Eight equal physical-angle anchors span the circle at both densities; all20 normal directions, both signs and tangent controls remain; legal hidden-state bounded followups and inconclusive outcomes are retained.",
+    "Raw and h/c-RMS recovery conjunction remains mandatory; forward/backward sections remain distinct.",
+    "Complete cohort ledgers and partial artifacts are retained on timeout; no selective retry or silent row/density deletion.",
+    "Positive steep-ring, finest-only rejection, shrinking-plane and collapsed-point controls, midpoint-wiggle convergence, physical-input and alias/timeout regressions pass."
+  ],
+  "resolved_pre_freeze_findings": [
+    {
+      "issue": "Exact-sham canonical key omitted regime and could mix F/B sections.",
+      "resolution": "attach_shams uses source family, regime and row key; distinct-section regression passes."
+    },
+    {
+      "issue": "Prepared-input summary and trained terminal policy digest needed explicit cross-artifact links.",
+      "resolution": "load_policy asserts input_summary_sha256, complete/condition/protocol/config/original checkpoint and terminal final_policy_hash."
+    }
+  ],
+  "original_cohort_counts": {
+    "gc100": {
+      "source_rows": 33280,
+      "spacing_only_rows": 324,
+      "mandatory_metric_control_rows": 0,
+      "selected_rows": 324,
+      "numerical_rows": 162,
+      "exact_sham_rows": 162,
+      "excluded_rows": 32956,
+      "physical_families": 26,
+      "branch_families": 26,
+      "regime_families": 52
+    },
+    "pgc33": {
+      "source_rows": 33280,
+      "spacing_only_rows": 212,
+      "mandatory_metric_control_rows": 0,
+      "selected_rows": 212,
+      "numerical_rows": 162,
+      "exact_sham_rows": 50,
+      "excluded_rows": 33068,
+      "physical_families": 22,
+      "branch_families": 36,
+      "regime_families": 69
+    }
+  },
+  "remaining_limitations": [
+    "This is a targeted discretization check on a declared subset, not an exhaustive search over all possible angular state families.",
+    "Hidden/actor factor candidates do not by themselves establish a full-state autonomous ring or useful causal memory.",
+    "Actual refined outcomes and measured resource throughput remain pending root-authorized execution."
+  ],
+  "no_blocking_findings": true,
+  "no_scientific_source_edits_by_reviewer": true,
+  "no_new_trained_model_rollout": true
+}

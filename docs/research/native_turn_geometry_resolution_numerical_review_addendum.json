@@ -1,0 +1,52 @@
+{
+  "complete": true,
+  "passed": true,
+  "no_blocking_findings": true,
+  "reviewer": "independent rl_memory_training agent",
+  "reviewed_utc": "2026-11-07T00:36:59.415727+00:00",
+  "previous_review": {
+    "path": "docs/research/native_turn_geometry_resolution_independent_review.json",
+    "sha256": "0ddccb93b80c60bdd36fac78602da350d55e2d7e820513494707aa3d6cb33c24",
+    "preserved_unchanged": true
+  },
+  "scope": "Current-byte clearance addendum following root-requested stricter numerical provenance checks; no trained-model outcomes or cloud/optimization execution.",
+  "current_source_sha256": {
+    "scripts/native_turn_geometry_resolution.py": "e56a0f007f37501131e2573613ce202d52089a6ff367eba821924a9c1a4112d7",
+    "tests/test_native_turn_geometry_resolution.py": "405aa5b71f30d71eeefb6e7a23e94023592e063b0fe237340526da9913b581c4",
+    "tests/test_native_turn_geometry_resolution_controls.py": "c2c28f116b50738b691d2b37247dc4feb8edac2ac2d712ab42b9b72550c43248",
+    "docs/research/native_turn_geometry_resolution_proposal.md": "0541b1644077a19b4fe17a706d92cd88bd3aa5172c2a255c26c1ca582f80e9be",
+    "docs/research/native_turn_geometry_resolution_protocol_draft.json": "ab94d8cbb64bfedbe4fcd3c3c9f63f9fc2c6e82be2d8d8669f2cb8f37c355158"
+  },
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_geometry_resolution.py tests/test_native_turn_geometry_resolution_controls.py",
+    "passed": 13,
+    "failed": 0,
+    "seconds": 19.54
+  },
+  "numerical_guard": {
+    "purpose": "Shared128-heading numerical provenance only; never a relaxed geometry/recovery criterion.",
+    "coordinate_check": "For every coordinate, max_phase absolute error <=1e-8 +1e-5*max_phase absolute coarse coordinate.",
+    "shape_check": "Separately for h and c, subtract each family common mean; max_phase row-RMS difference <=1e-8 +0.001*coarse angular RMS.",
+    "no_phase_alignment_or_fitting": true,
+    "reported": [
+      "coordinate errors and scaled tolerance",
+      "total error RMS",
+      "angular RMS",
+      "centered RMS and max-row RMS",
+      "common mean RMS/max shift",
+      "normalized angular error"
+    ],
+    "corruption_regression": "With a1e6 common cell baseline, hidden angular distortion and new cell angular variation each fail despite passing the coordinate-relative test; common hidden offset corruption fails coordinate check; small rounding perturbation passes."
+  },
+  "unchanged_scientific_checks": [
+    "Existing geometry_screen/finite_probe and bounded h rules imported unchanged.",
+    "Both512 and1024 necessary geometry and all20 signed normal directions at all8 physical anchors required.",
+    "Maximum polygon discrepancy stays0.005 initial radius; raw/RMS conjunction stays required.",
+    "All original selection, exact-sham, provenance, timeout/no-retry checks in previous review remain valid."
+  ],
+  "draft_hashes_current": true,
+  "old_frozen_sources_unchanged": true,
+  "new_refinement_outcomes_executed": false,
+  "protocol_frozen_by_reviewer": false,
+  "study_launch_authority": "root only"
+}
