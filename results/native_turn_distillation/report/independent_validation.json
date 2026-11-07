@@ -1,0 +1,934 @@
+{
+  "complete": true,
+  "protocol_sha256": "ac37ba336f79299ed285c4bb0ef126296e5f8d46aee795e431d58544aab06c42",
+  "producer_sha256": "541b858880bda88c9933725d2deaebaadc201d5e3e4a8b1fa4df36fac5c7ef47",
+  "audit_source_sha256": "d08aced7e29524260c850cd6abcc00c45901bb53a239737be2fff27aab77ff9e",
+  "independent_helper_source_sha256": {
+    "scripts/audit_native_turn_original_memory_outputs.py": "3ac4d374bf2bbcd3fe3192533d867dc3e30496303f679152606e34b19011bfcc",
+    "scripts/audit_native_turn_distillation_baselines.py": "aacdc77b6e86206198e3d1fabbe7e439bd45939918b4d3d04e7712fee1038ee0"
+  },
+  "report_summary_sha256": "493986072afb2b58ba76111821c08483bf91efc9b4b0acfbc30223c046d01f60",
+  "endpoint_summary_sha256": {
+    "gc100/clean": "bc87faceec89d1b73bc06be88c3662319d34c9ec9559872d401a6820e790ba3e",
+    "gc100/noise": "8ccec870d537e7a2619a42d8ec5b65c15d9a0f127603b3279ae0ba9dc9d48385",
+    "pgc33/clean": "986fb0b61281f9322f5056d849698d1c21fbea8985c60b48e4b902889bcd0d2e",
+    "pgc33/noise": "28f3467f83b6b6b6330990daea4716619cd3e66d3806951abc945cc23169a77d"
+  },
+  "execution_sha256": {
+    "gc100/clean": "d2dea1621c4f604b27f270a2cbef719cef3e7b6ba88cd6583d6bdc4e19091694",
+    "gc100/noise": "2ab2dbac878d9dc65f76c2e1499d6d23ac89d6d067879b5f8bcf7f5304306884",
+    "pgc33/clean": "2a42e152fdf8cf315018a6d4a1f404038eaf361fcacb694964eaa86e814cc061",
+    "pgc33/noise": "b675b0fa576a02426318983d7c32cb6cd61f38762974e73cd7a583ef45183d0d"
+  },
+  "models": {
+    "gc100": {
+      "original": {
+        "paired": {
+          "summary_sha256": "2c5ab743786f81103abf33db877ce8f2a4012fd9667778a0d14270326d82e99d",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "135d90ded4b4f2d82cd6a7f5ef345b852fb4ea43cd50fcf9cc64f2604c8b0637",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "2b0c98457822022f35894dabd614b0269df2fbcc49bbc64c96e90a78b3a78b16"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            137,
+            206,
+            262,
+            382,
+            -1,
+            471,
+            -1,
+            244,
+            920,
+            363,
+            18,
+            457,
+            723,
+            669,
+            79,
+            88
+          ],
+          "exact_grid_cue_shams": true,
+          "exposure": {
+            "seen_native": {
+              "choice": 276,
+              "other_control": 18745,
+              "forced": 2579
+            },
+            "seen_reset_every_choice": {
+              "choice": 282,
+              "other_control": 18648,
+              "forced": 2670
+            },
+            "blind_native": {
+              "choice": 270,
+              "other_control": 18797,
+              "forced": 2533
+            },
+            "blind_ordinary": {
+              "choice": 270,
+              "other_control": 18797,
+              "forced": 2533
+            },
+            "blind_reset_every_choice": {
+              "choice": 267,
+              "other_control": 18797,
+              "forced": 2536
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 267,
+              "other_control": 18797,
+              "forced": 2536
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 282,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 267,
+            "blind_ordinary_reset_every_choice": 267
+          }
+        },
+        "baseline_bindings": {
+          "complete": true,
+          "summary_sha256": "bc2929a91a109b16705c623592e1248a019e391a5c5cb85c19539e7325d074ea",
+          "live_sha256": "cd7436a843217fe352d901fdad2de04c9b63965f91144b4aaa08fea3a709d97f",
+          "execution_sha256": "38e584b9af30c2a2e7167ea25fc988e5cd7dd8f239a46c7c002103f26bf875af",
+          "source_commit": "4ac55dfb",
+          "episodes": 96,
+          "variants": {
+            "seen_native": {
+              "mean_score": 71.25,
+              "exposure": {
+                "choice": 276,
+                "other_control": 18745,
+                "forced": 2579
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 1140.0,
+              "teacher_kl_sum": {
+                "choice": 0.4938922035565474,
+                "other_control": 0.370727923432575,
+                "forced": 1.84691989583701
+              },
+              "cue_pulses": 92.0
+            },
+            "seen_reset_every_choice": {
+              "mean_score": 74.375,
+              "exposure": {
+                "choice": 282,
+                "other_control": 18648,
+                "forced": 2670
+              },
+              "choice_erasure_count": 282,
+              "reward_total": 1190.0,
+              "teacher_kl_sum": {
+                "choice": 136.94556660474473,
+                "other_control": 176.06273118527074,
+                "forced": 32.994215068295674
+              },
+              "cue_pulses": 94.0
+            },
+            "blind_native": {
+              "mean_score": 61.25,
+              "exposure": {
+                "choice": 270,
+                "other_control": 18797,
+                "forced": 2533
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 980.0,
+              "teacher_kl_sum": {
+                "choice": 755.6589298033289,
+                "other_control": 232.4080437769809,
+                "forced": 9439.490003892224
+              },
+              "cue_pulses": 90.0
+            },
+            "blind_ordinary": {
+              "mean_score": 61.25,
+              "exposure": {
+                "choice": 270,
+                "other_control": 18797,
+                "forced": 2533
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 980.0,
+              "teacher_kl_sum": {
+                "choice": 755.6589298033289,
+                "other_control": 232.4080437769809,
+                "forced": 9439.490003892224
+              },
+              "cue_pulses": 90.0
+            },
+            "blind_reset_every_choice": {
+              "mean_score": 71.875,
+              "exposure": {
+                "choice": 267,
+                "other_control": 18797,
+                "forced": 2536
+              },
+              "choice_erasure_count": 267,
+              "reward_total": 1150.0,
+              "teacher_kl_sum": {
+                "choice": 596.9610179433657,
+                "other_control": 217.00246669174712,
+                "forced": 9069.425280066935
+              },
+              "cue_pulses": 91.0
+            },
+            "blind_ordinary_reset_every_choice": {
+              "mean_score": 71.875,
+              "exposure": {
+                "choice": 267,
+                "other_control": 18797,
+                "forced": 2536
+              },
+              "choice_erasure_count": 267,
+              "reward_total": 1150.0,
+              "teacher_kl_sum": {
+                "choice": 596.9610179433657,
+                "other_control": 217.00246669174712,
+                "forced": 9069.425280066935
+              },
+              "cue_pulses": 91.0
+            }
+          },
+          "first_discovery_steps_common_to_all_branches": [
+            137,
+            206,
+            262,
+            382,
+            -1,
+            471,
+            -1,
+            244,
+            920,
+            363,
+            18,
+            457,
+            723,
+            669,
+            79,
+            88
+          ],
+          "exact_grid_cue_shams": true,
+          "no_model_execution": true
+        }
+      },
+      "clean": {
+        "paired": {
+          "summary_sha256": "3a925acfe73e504496d8eed9b592cb429fb90ece489735858bacce136f525f21",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "ae4088df7d65a4b2a484cf7cc896f789e03f48ef27db7e212dc02c3f820b1ca5",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "6d8a7b006534f0315b691ff9e0bb70a23fc33d281fd5470a6fb1ec892fb685fd"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            137,
+            203,
+            248,
+            938,
+            -1,
+            466,
+            -1,
+            245,
+            601,
+            413,
+            18,
+            675,
+            713,
+            377,
+            75,
+            87
+          ],
+          "exact_grid_cue_shams": true,
+          "exposure": {
+            "seen_native": {
+              "choice": 276,
+              "other_control": 18706,
+              "forced": 2618
+            },
+            "seen_reset_every_choice": {
+              "choice": 279,
+              "other_control": 18687,
+              "forced": 2634
+            },
+            "blind_native": {
+              "choice": 282,
+              "other_control": 18634,
+              "forced": 2684
+            },
+            "blind_ordinary": {
+              "choice": 282,
+              "other_control": 18634,
+              "forced": 2684
+            },
+            "blind_reset_every_choice": {
+              "choice": 282,
+              "other_control": 18652,
+              "forced": 2666
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 282,
+              "other_control": 18652,
+              "forced": 2666
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 279,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 282,
+            "blind_ordinary_reset_every_choice": 282
+          }
+        },
+        "first_choice_training_probe": {
+          "update": 2,
+          "sha256": "021c995d524b3465ed307a40c3201deb1a97dc1da479bbca5b62015ea4e60a11",
+          "weighted_choice_control_KL_recomputed": true,
+          "preserved_goal_action_reward_inputs": true,
+          "private_noise_counts_and_cell_impulses_checked": true
+        },
+        "recurrent_tensor_changes_l2": {
+          "lstm.weight_ih": 2.42780316697037,
+          "lstm.weight_hh": 0.9952080031481011,
+          "lstm.bias_ih": 0.07753158363318638,
+          "lstm.bias_hh": 0.07753160643556842
+        },
+        "updates": 180,
+        "episode_completions": 192,
+        "choice_exposures": 3286,
+        "control_exposures": 227625,
+        "no_choice_batches": 8,
+        "calendar_seconds": 1128.642759,
+        "acquisition_monotonic_seconds": 825.337361959042,
+        "evaluation_monotonic_seconds": 303.1511879169848
+      },
+      "noise": {
+        "paired": {
+          "summary_sha256": "505cf0ff208c13e81ec6a3233d3afe60ec26b738292402f92aea2b0707d99b4e",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "0bb73385278fb22cfde49ad54ca7d6ebb2fa589948cf4213f65ebc2a4f6543ca",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "4cd90710e6d3a6ba312d9ab95a080d6a383358b1669dd4635f758293e62d460d"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            137,
+            206,
+            254,
+            398,
+            -1,
+            470,
+            -1,
+            255,
+            520,
+            -1,
+            18,
+            445,
+            446,
+            376,
+            75,
+            88
+          ],
+          "exact_grid_cue_shams": true,
+          "exposure": {
+            "seen_native": {
+              "choice": 279,
+              "other_control": 18725,
+              "forced": 2596
+            },
+            "seen_reset_every_choice": {
+              "choice": 282,
+              "other_control": 18661,
+              "forced": 2657
+            },
+            "blind_native": {
+              "choice": 285,
+              "other_control": 18604,
+              "forced": 2711
+            },
+            "blind_ordinary": {
+              "choice": 285,
+              "other_control": 18604,
+              "forced": 2711
+            },
+            "blind_reset_every_choice": {
+              "choice": 276,
+              "other_control": 18724,
+              "forced": 2600
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 276,
+              "other_control": 18724,
+              "forced": 2600
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 282,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 276,
+            "blind_ordinary_reset_every_choice": 276
+          }
+        },
+        "first_choice_training_probe": {
+          "update": 2,
+          "sha256": "f7f70c585b8481fd5da16f0fd71db80f6ebc890aea93287445716f4d4dc99ede",
+          "weighted_choice_control_KL_recomputed": true,
+          "preserved_goal_action_reward_inputs": true,
+          "private_noise_counts_and_cell_impulses_checked": true
+        },
+        "recurrent_tensor_changes_l2": {
+          "lstm.weight_ih": 2.4191194750542557,
+          "lstm.weight_hh": 0.9737924603910051,
+          "lstm.bias_ih": 0.07822511659654577,
+          "lstm.bias_hh": 0.0782251175985866
+        },
+        "updates": 180,
+        "episode_completions": 192,
+        "choice_exposures": 3166,
+        "control_exposures": 228744,
+        "no_choice_batches": 8,
+        "calendar_seconds": 1094.123738,
+        "acquisition_monotonic_seconds": 763.7720411249902,
+        "evaluation_monotonic_seconds": 330.2000878751278
+      }
+    },
+    "pgc33": {
+      "original": {
+        "paired": {
+          "summary_sha256": "7d4ae7198d419ebb2e45b22c46dffd39ec4023d974877b87fb43218c02b3d599",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "562d41b403fc68eaf4f95f0f5de03e107be6f0cf371f3ec1a528e1bcf3ef4cea",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "ef28cc74351a16e81e2d6d11231f70aca9c81372fc64fc3c267c0b13874763f4"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            -1,
+            214,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            399,
+            212,
+            96,
+            18,
+            389,
+            204,
+            1078,
+            53,
+            87
+          ],
+          "exact_grid_cue_shams": false,
+          "exposure": {
+            "seen_native": {
+              "choice": 157,
+              "other_control": 19892,
+              "forced": 1551
+            },
+            "seen_reset_every_choice": {
+              "choice": 153,
+              "other_control": 19960,
+              "forced": 1487
+            },
+            "blind_native": {
+              "choice": 174,
+              "other_control": 19767,
+              "forced": 1659
+            },
+            "blind_ordinary": {
+              "choice": 174,
+              "other_control": 19767,
+              "forced": 1659
+            },
+            "blind_reset_every_choice": {
+              "choice": 177,
+              "other_control": 19746,
+              "forced": 1677
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 177,
+              "other_control": 19746,
+              "forced": 1677
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 153,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 177,
+            "blind_ordinary_reset_every_choice": 177
+          }
+        },
+        "baseline_bindings": {
+          "complete": true,
+          "summary_sha256": "a380a6634f73c71e4ede06c53aeab7be86dbf3c7c44e86324ae22db65697011b",
+          "live_sha256": "bd58bd5abbc8a89b13038897cf82f6afb08b6eca592485aa6a6c70ae260cad98",
+          "execution_sha256": "9fcb15f4188d1eedb61ee9441663477af2d4dcd2a0269b839693735bde8f49ae",
+          "source_commit": "4ac55dfb",
+          "episodes": 96,
+          "variants": {
+            "seen_native": {
+              "mean_score": 75.0,
+              "exposure": {
+                "choice": 157,
+                "other_control": 19892,
+                "forced": 1551
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 1200.0,
+              "teacher_kl_sum": {
+                "choice": 8.402821122126682,
+                "other_control": 27.778356398060318,
+                "forced": 94.51007252741265
+              },
+              "cue_pulses": 53.0
+            },
+            "seen_reset_every_choice": {
+              "mean_score": 69.375,
+              "exposure": {
+                "choice": 153,
+                "other_control": 19960,
+                "forced": 1487
+              },
+              "choice_erasure_count": 153,
+              "reward_total": 1110.0,
+              "teacher_kl_sum": {
+                "choice": 71.63465655621258,
+                "other_control": 203.32976842377875,
+                "forced": 79.71870290062283
+              },
+              "cue_pulses": 51.0
+            },
+            "blind_native": {
+              "mean_score": 70.0,
+              "exposure": {
+                "choice": 174,
+                "other_control": 19767,
+                "forced": 1659
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 1120.0,
+              "teacher_kl_sum": {
+                "choice": 717.6275244546275,
+                "other_control": 172.36556631558142,
+                "forced": 8700.84754169149
+              },
+              "cue_pulses": 58.0
+            },
+            "blind_ordinary": {
+              "mean_score": 70.0,
+              "exposure": {
+                "choice": 174,
+                "other_control": 19767,
+                "forced": 1659
+              },
+              "choice_erasure_count": 0,
+              "reward_total": 1120.0,
+              "teacher_kl_sum": {
+                "choice": 717.8680850180588,
+                "other_control": 172.6856071185957,
+                "forced": 8702.02025667467
+              },
+              "cue_pulses": 58.0
+            },
+            "blind_reset_every_choice": {
+              "mean_score": 69.375,
+              "exposure": {
+                "choice": 177,
+                "other_control": 19746,
+                "forced": 1677
+              },
+              "choice_erasure_count": 177,
+              "reward_total": 1110.0,
+              "teacher_kl_sum": {
+                "choice": 447.3322205932709,
+                "other_control": 390.93007100772064,
+                "forced": 7361.325075014138
+              },
+              "cue_pulses": 59.0
+            },
+            "blind_ordinary_reset_every_choice": {
+              "mean_score": 69.375,
+              "exposure": {
+                "choice": 177,
+                "other_control": 19746,
+                "forced": 1677
+              },
+              "choice_erasure_count": 177,
+              "reward_total": 1110.0,
+              "teacher_kl_sum": {
+                "choice": 447.3322205932709,
+                "other_control": 390.93007100772064,
+                "forced": 7351.917916252212
+              },
+              "cue_pulses": 59.0
+            }
+          },
+          "first_discovery_steps_common_to_all_branches": [
+            -1,
+            214,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            399,
+            212,
+            96,
+            18,
+            389,
+            204,
+            1078,
+            53,
+            87
+          ],
+          "exact_grid_cue_shams": false,
+          "no_model_execution": true
+        }
+      },
+      "clean": {
+        "paired": {
+          "summary_sha256": "db04284e74dc38263022615d5ad6dc532bee0b99fc3187dd103cfb3e33d8a16e",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "a773fc1a1460a28d0165fe6568f6e914ffa78856775c7c9e62967c90d2fe1604",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "9a90590ba8f4b817726a6fa443af39096a47fc0afd4ecc478556d5ae1299ba4c"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            850,
+            214,
+            434,
+            -1,
+            -1,
+            -1,
+            -1,
+            188,
+            215,
+            81,
+            18,
+            389,
+            153,
+            1053,
+            66,
+            88
+          ],
+          "exact_grid_cue_shams": false,
+          "exposure": {
+            "seen_native": {
+              "choice": 201,
+              "other_control": 19529,
+              "forced": 1870
+            },
+            "seen_reset_every_choice": {
+              "choice": 189,
+              "other_control": 19652,
+              "forced": 1759
+            },
+            "blind_native": {
+              "choice": 210,
+              "other_control": 19435,
+              "forced": 1955
+            },
+            "blind_ordinary": {
+              "choice": 207,
+              "other_control": 19453,
+              "forced": 1940
+            },
+            "blind_reset_every_choice": {
+              "choice": 216,
+              "other_control": 19353,
+              "forced": 2031
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 216,
+              "other_control": 19353,
+              "forced": 2031
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 189,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 216,
+            "blind_ordinary_reset_every_choice": 216
+          }
+        },
+        "first_choice_training_probe": {
+          "update": 2,
+          "sha256": "eeadabd42ebdd8c6526e6136228bd833aa7ce94d032c894330caa1ac639a2811",
+          "weighted_choice_control_KL_recomputed": true,
+          "preserved_goal_action_reward_inputs": true,
+          "private_noise_counts_and_cell_impulses_checked": true
+        },
+        "recurrent_tensor_changes_l2": {
+          "lstm.weight_ih": 2.871858451150789,
+          "lstm.weight_hh": 1.1623663754307558,
+          "lstm.bias_ih": 0.09831342488612471,
+          "lstm.bias_hh": 0.09831341961438832
+        },
+        "updates": 180,
+        "episode_completions": 192,
+        "choice_exposures": 2524,
+        "control_exposures": 234545,
+        "no_choice_batches": 7,
+        "calendar_seconds": 1135.751001,
+        "acquisition_monotonic_seconds": 831.437354166992,
+        "evaluation_monotonic_seconds": 304.1614415422082
+      },
+      "noise": {
+        "paired": {
+          "summary_sha256": "750e8030309b7072b1b0c8bdd1195cca66bb1ad38b7f4f2b6d97a369c8c88fa5",
+          "cases": 4096,
+          "pairs": 2048,
+          "context_mode_files": 32,
+          "policy_hash": "ed1cc4bf06871e1ff4783d52eab4c89693b6e2728f95b70cf7937bd131e52583",
+          "all_cue_reset_shams": true,
+          "raw_targets_and_physics_equal_original": true,
+          "identical_choice_inputs": true,
+          "exact_input_group_floors_recomputed": true,
+          "prefix_report_sha256": "6c7530bb1050ad233782896918ee1e00921ad1631d14a7e5b57df06eed99f4ac"
+        },
+        "live": {
+          "episodes": 96,
+          "branches": 6,
+          "updates_per_branch": 21600,
+          "first_discovery_steps_common_to_all_branches": [
+            -1,
+            209,
+            -1,
+            822,
+            -1,
+            -1,
+            -1,
+            208,
+            207,
+            81,
+            18,
+            846,
+            150,
+            1089,
+            66,
+            88
+          ],
+          "exact_grid_cue_shams": false,
+          "exposure": {
+            "seen_native": {
+              "choice": 183,
+              "other_control": 19659,
+              "forced": 1758
+            },
+            "seen_reset_every_choice": {
+              "choice": 174,
+              "other_control": 19759,
+              "forced": 1667
+            },
+            "blind_native": {
+              "choice": 201,
+              "other_control": 19461,
+              "forced": 1938
+            },
+            "blind_ordinary": {
+              "choice": 201,
+              "other_control": 19461,
+              "forced": 1938
+            },
+            "blind_reset_every_choice": {
+              "choice": 181,
+              "other_control": 19676,
+              "forced": 1743
+            },
+            "blind_ordinary_reset_every_choice": {
+              "choice": 181,
+              "other_control": 19676,
+              "forced": 1743
+            }
+          },
+          "choice_erasures": {
+            "seen_native": 0,
+            "seen_reset_every_choice": 174,
+            "blind_native": 0,
+            "blind_ordinary": 0,
+            "blind_reset_every_choice": 181,
+            "blind_ordinary_reset_every_choice": 181
+          }
+        },
+        "first_choice_training_probe": {
+          "update": 2,
+          "sha256": "37f66bdc81daa43a7d9a3fc7bf03f76c73c4230695794f3dab97e1a6d3822628",
+          "weighted_choice_control_KL_recomputed": true,
+          "preserved_goal_action_reward_inputs": true,
+          "private_noise_counts_and_cell_impulses_checked": true
+        },
+        "recurrent_tensor_changes_l2": {
+          "lstm.weight_ih": 2.8763680060051264,
+          "lstm.weight_hh": 1.1292102710301375,
+          "lstm.bias_ih": 0.09675587578897617,
+          "lstm.bias_hh": 0.09675586266809601
+        },
+        "updates": 180,
+        "episode_completions": 192,
+        "choice_exposures": 2591,
+        "control_exposures": 233974,
+        "no_choice_batches": 4,
+        "calendar_seconds": 1070.614545,
+        "acquisition_monotonic_seconds": 740.1095884998795,
+        "evaluation_monotonic_seconds": 330.3948604161851
+      }
+    }
+  },
+  "paired_cases": 24576,
+  "paired_pairs": 12288,
+  "live_episode_rows": 576,
+  "maximum_numeric_errors": {
+    "physical_displacement": 6.475015679879847e-10,
+    "student_softmax": 2.061016052268272e-08,
+    "case_kl": 3.552713678800501e-15,
+    "case_progress": 8.673617379884035e-19,
+    "case_alignment": 0.0,
+    "pair_kl": 1.7763568394002505e-15,
+    "pair_progress": 6.505213034913027e-19,
+    "pair_ceiling": 0.0,
+    "pair_advantage": 6.505213034913027e-19,
+    "pair_tv": 2.7755575615628914e-17,
+    "pair_teacher_js": 3.469446951953614e-16,
+    "pair_teacher_tv": 2.220446049250313e-16,
+    "rotated_cue_analytic": 2.086162567138672e-06,
+    "group_mixture": 2.220446049250313e-16,
+    "group_case_kl": 6.661338147750939e-16,
+    "group_floor": 3.3306690738754696e-16,
+    "group_minimum": 3.3306690738754696e-16,
+    "group_variant_kl": 8.881784197001252e-16,
+    "group_improvement": 8.881784197001252e-16,
+    "weighted_floor": 5.551115123125783e-17,
+    "probe_choice_kl": 1.589759790476819e-07,
+    "probe_control_kl": 1.6099991782467238e-09,
+    "probe_weighted_kl": 1.9160585207345093e-07,
+    "probe_reward_phases": 0.0,
+    "probe_cell_noise": 6.906688213348389e-06,
+    "probe_noise_rms": 8.848239571590533e-10,
+    "probe_noise_mean": 3.383320290595293e-10
+  },
+  "final_private_stream_equality": {
+    "action_rng": true,
+    "mixture_rng": true,
+    "event_tapes": true
+  },
+  "figures_visual_review": {
+    "complete": true
+  },
+  "report_artifact_sha256": {
+    "README.md": {
+      "sha256": "33f55ddc9ab9ca6693ef9a301b0b9404d12fd39176c53fd3d33f8e454d6bb7ea",
+      "bytes": 17410
+    },
+    "cue_controls.pdf": {
+      "sha256": "1240d358bee9a143b0e33071efcc3930c0e7be9ba5a6bd951e7531523b94fc27",
+      "bytes": 13170
+    },
+    "cue_controls.png": {
+      "sha256": "da918c45218502a46c4c884eb6b93f0dbf58a8545e7a5e0bf98d442fb27fb204",
+      "bytes": 66792
+    },
+    "first_choice.pdf": {
+      "sha256": "b71869431175fa569261ac718a04312f431c31296556cc1a9f2f3267eb8f1c3e",
+      "bytes": 16069
+    },
+    "first_choice.png": {
+      "sha256": "945c6472cbc741ebbdbbc7d681d0f0523444b29fc274152a6d0fc8514fb6de3b",
+      "bytes": 139116
+    },
+    "learning.pdf": {
+      "sha256": "9fb2ee9058afdcb78587256a8971025ae05624d6b4af4cee3b5027d02efc1412",
+      "bytes": 26366
+    },
+    "learning.png": {
+      "sha256": "f8ea68bd10fd784bf9ea8db2cfaa4e01408f4ee262ecff4955c7e3374ca52ec2",
+      "bytes": 244710
+    },
+    "live_erasure.pdf": {
+      "sha256": "d479b7436bee90e82c955b623f86e1c0119492cff3b3bfa36f393fda1a32c076",
+      "bytes": 13480
+    },
+    "live_erasure.png": {
+      "sha256": "0bc7de974c20755cc14aa47b63fb80e2bc0b8cb12c869c18827fe4cda26deba0",
+      "bytes": 56030
+    },
+    "presentation_validation.json": {
+      "sha256": "0c9f1f62542beb25ac0da51d5b2c12ff7d0b193bd2c4be465ccdb5ca0ace008f",
+      "bytes": 1322
+    },
+    "summary.json": {
+      "sha256": "493986072afb2b58ba76111821c08483bf91efc9b4b0acfbc30223c046d01f60",
+      "bytes": 1416181
+    }
+  },
+  "no_new_rollout": true,
+  "no_model_or_environment_execution": true,
+  "no_optimization": true,
+  "procedure": [
+    "Recompute every saved paired case and pair from raw probabilities, true six-action displacement, teacher targets and exact altered-input tapes.",
+    "Recompute all exact-input-group information floors, cue rotations, reset arrays, population/turn-only shams, aggregate means and teacher mismatches.",
+    "Independently recompute live episode statistics and reconcile phase/exposure/reward/erasure clocks for every branch; first discovery is matched within each endpoint.",
+    "Check all stage/final weights, exact frozen tensors, optimizer step counts, loss accounting, private-noise masks and the archived first-choice training batch.",
+    "Bind every producer/source/input/terminal/report/figure hash; no scientific rollout or recurrent replay."
+  ],
+  "limitations": [
+    "Live policies have saved episode/clock/KL totals rather than full per-update logits; live KL is reconciled from saved sums, not independently replayed.",
+    "Only the archived first-choice training batch retains all inputs and logits; other updates are checked from complete scalar accounting and frozen source.",
+    "One original seed pair. Cross-population differences combine initial weights and teachers; no population-level significance or ring claim."
+  ]
+}
