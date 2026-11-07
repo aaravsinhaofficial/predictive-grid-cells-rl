@@ -102,6 +102,32 @@ def technical_row(text):
     return result
 
 
+def technical_viability(plan, job, record, status, metric, now=None):
+    """Use filtered health metrics; enforce throughput after the existing 2M-frame warmup.
+
+    The first-wave speed threshold applies only before promotion. Later checks
+    reserve 600 seconds for completion/sync within the original provider deadline.
+    """
+    assert all(math.isfinite(value) for value in metric.values()), 'Nonfinite training health metric'
+    assert 0 <= metric['frames'] <= 1_000_000_000 and metric['fps'] > 0
+    now = time.time() if now is None else now
+    deadline = dt.datetime.fromisoformat(record['provider_deadline_utc'])
+    assert deadline.tzinfo is not None, 'Provider deadline must be timezone-aware'
+    remaining = max(0, 1_000_000_000-metric['frames'])/metric['fps']
+    available = deadline.timestamp()-now
+    result = dict(observed_frames=metric['frames'], observed_cumulative_fps=metric['fps'],
+                  provider_deadline_utc=record['provider_deadline_utc'], checked_at_utc=dt.datetime.fromtimestamp(now, dt.timezone.utc).isoformat(),
+                  projected_training_seconds=remaining, completion_sync_reserve_seconds=600,
+                  available_seconds=available, margin_seconds=available-remaining-600,
+                  throughput_warmup_frames=2_000_000,
+                  projection_enforced=metric['frames'] >= 2_000_000)
+    if result['projection_enforced']:
+        if job['name'] in plan['design']['first_jobs'] and not status.get('technical_gate_passed'):
+            assert metric['fps'] >= plan['hardware']['minimum_training_fps'], f'{job["name"]}: initial technical throughput gate failed'
+        assert result['margin_seconds'] >= 0, f'{job["name"]}: projected training plus 600s completion reserve exceeds original provider deadline'
+    return result
+
+
 def matching_record(job, record, manifest, instance_id=None, protocol_path=PROTOCOL):
     assert record.get('instance_id') and re.fullmatch(r'[0-9]+', str(record['instance_id'])), 'Unbound instance ID; explicit root reconciliation required'
     assert instance_id is None or str(record['instance_id']) == str(instance_id), 'Bound instance ID changed; explicit root reconciliation required'
@@ -170,25 +196,22 @@ def cycle(plan, state, protocol_hash, protocol_path=PROTOCOL):
         done = cat(record['gcs_prefix']+'/DONE.json')
         if done:
             status.update(finish(job, json.loads(done), protocol_hash))
+            if name in plan['design']['first_jobs']:
+                status.update(technical_gate_passed=True, technical_gate_basis='validated_1B_completion')
+            continue
         metric = technical_row(cat(record['gcs_prefix']+'/outputs/'+Path(job['trainer_output_dir']).name+'/metrics_000.jsonl', True))
-        if done and metric is None:
-            path = Path(status['summary_path']).parent/'metrics_000.jsonl'
-            if path.is_file():
-                with path.open('rb') as stream:
-                    stream.seek(max(0, path.stat().st_size-65536)); metric = technical_row(stream.read().decode())
         if metric:
             status['technical'] = metric
+            vm = cloud.describe(record['name'], record['zone'])
+            assert vm is not None, f'{name}: cannot use stale metrics from an absent VM'
+            cloud.validate_identity(record, vm)
+            assert vm['status'] == 'RUNNING', f'{name}: technical monitoring requires a RUNNING VM'
+            status['deadline_feasibility'] = technical_viability(plan, job, record, status, metric)
             if name in plan['design']['first_jobs'] and metric['frames'] >= 2_000_000:
-                if not done:
-                    vm = cloud.describe(record['name'], record['zone'])
-                    assert vm is not None, f'{name}: cannot promote stale metrics from an absent VM'
-                    cloud.validate_identity(record, vm)
-                    assert vm['status'] == 'RUNNING', f'{name}: technical gate requires a RUNNING VM'
-                assert metric['fps'] >= plan['hardware']['minimum_training_fps'], f'{name}: technical throughput gate failed'
+                if not status.get('technical_gate_passed'):
+                    status['technical_gate_basis'] = 'initial_throughput_and_original_deadline'
                 status['technical_gate_passed'] = True
-        if done and name in plan['design']['first_jobs'] and not status.get('technical_gate_passed'):
-            raise RuntimeError(f'{name}: completed artifact lacks a usable terminal technical metric')
-        if not done and ('actual_upper_bound_usd' in record or time.time() > dt.datetime.fromisoformat(record['provider_deadline_utc']).timestamp()+90):
+        if 'actual_upper_bound_usd' in record or time.time() > dt.datetime.fromisoformat(record['provider_deadline_utc']).timestamp()+90:
             raise RuntimeError(f'{name}: worker closed/expired without DONE; no retry')
     gate = all(state['jobs'].get(name, {}).get('technical_gate_passed') for name in plan['design']['first_jobs'])
     for job in plan['jobs']:

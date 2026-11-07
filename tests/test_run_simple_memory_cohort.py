@@ -115,6 +115,71 @@ def test_slow_first_worker_halts_before_more_launches(tmp_path):
         launch.assert_not_called()
 
 
+def test_promoted_worker_can_slow_when_original_deadline_still_fits(tmp_path):
+    plan = cohort(); ledger = tmp_path/'ledger.json'; job = plan['jobs'][0]
+    data = {'runs': [record(j) for j in plan['jobs'][:4]]}; ledger.write_text(json.dumps(data))
+    state = {'jobs': {job['name']: {'technical_gate_passed': True}}}
+    row = metric(frames=400_000_000, fps=11000)
+    def cat(uri, tail=False):
+        return json.dumps(row)+'\n' if tail and '/'+job['name']+'/' in uri else None
+    with mock.patch.object(supervisor.cloud, 'LEDGER', ledger), mock.patch.object(supervisor.cloud, 'launch') as launch, \
+         mock.patch.object(supervisor.cloud, 'describe', return_value=running_vm()), mock.patch.object(supervisor, 'cat', side_effect=cat):
+        supervisor.cycle(plan, state, 'protocol')
+        launch.assert_not_called()
+    check = state['jobs'][job['name']]['deadline_feasibility']
+    assert check['margin_seconds'] > 0 and check['completion_sync_reserve_seconds'] == 600
+    assert state['jobs'][job['name']]['technical_gate_passed']
+    assert check['provider_deadline_utc'] == data['runs'][0]['provider_deadline_utc']
+    assert json.loads(ledger.read_text()) == data
+
+
+def test_promoted_worker_that_cannot_fit_deadline_halts_without_launch(tmp_path):
+    plan = cohort(); ledger = tmp_path/'ledger.json'; job = plan['jobs'][0]
+    records = [record(j) for j in plan['jobs'][:4]]
+    records[0]['provider_deadline_utc'] = (dt.datetime.now(dt.timezone.utc)+dt.timedelta(hours=1)).isoformat()
+    ledger.write_text(json.dumps({'runs': records}))
+    state = {'jobs': {job['name']: {'technical_gate_passed': True}}}
+    with mock.patch.object(supervisor.cloud, 'LEDGER', ledger), mock.patch.object(supervisor.cloud, 'launch') as launch, \
+         mock.patch.object(supervisor.cloud, 'describe', return_value=running_vm()), \
+         mock.patch.object(supervisor, 'cat', side_effect=lambda uri, tail=False: json.dumps(metric(frames=400_000_000))+'\n' if tail else None):
+        with pytest.raises(AssertionError, match='original provider deadline'):
+            supervisor.cycle(plan, state, 'protocol')
+        launch.assert_not_called()
+    assert json.loads(ledger.read_text()) == {'runs': records}
+
+
+@pytest.mark.parametrize('vm', [None, dict(running_vm(), status='TERMINATED'), dict(running_vm(), id='456')])
+def test_promoted_worker_still_requires_exact_running_instance(tmp_path, vm):
+    plan = cohort(); ledger = tmp_path/'ledger.json'; job = plan['jobs'][0]
+    ledger.write_text(json.dumps({'runs': [record(j) for j in plan['jobs'][:4]]}))
+    state = {'jobs': {job['name']: {'technical_gate_passed': True}}}
+    with mock.patch.object(supervisor.cloud, 'LEDGER', ledger), mock.patch.object(supervisor.cloud, 'launch') as launch, \
+         mock.patch.object(supervisor.cloud, 'describe', return_value=vm), \
+         mock.patch.object(supervisor, 'cat', side_effect=lambda uri, tail=False: json.dumps(metric(frames=400_000_000, fps=11000))+'\n' if tail else None):
+        with pytest.raises((AssertionError, RuntimeError)):
+            supervisor.cycle(plan, state, 'protocol')
+        launch.assert_not_called()
+
+
+def test_projection_uses_original_warmup_and_fixed_completion_reserve():
+    plan = cohort(); job = plan['jobs'][0]; rec = record(job)
+    now = dt.datetime.fromisoformat(rec['provider_deadline_utc']).timestamp()-3600
+    parse = lambda row: supervisor.technical_row(json.dumps(row)+'\n')
+    early = supervisor.technical_viability(plan, job, rec, {}, parse(metric(frames=12800, fps=100)), now=now)
+    assert not early['projection_enforced'] and early['throughput_warmup_frames'] == 2_000_000
+    assert early['margin_seconds'] < 0
+    # 30M / 10K FPS takes 3,000 seconds, leaving exactly the fixed 600-second reserve.
+    check = supervisor.technical_viability(plan, job, rec, {'technical_gate_passed': True},
+                                          parse(metric(frames=970_000_000, fps=10000)), now=now)
+    assert check['margin_seconds'] == 0 and check['projection_enforced']
+    with pytest.raises(AssertionError, match='original provider deadline'):
+        supervisor.technical_viability(plan, job, rec, {'technical_gate_passed': True},
+                                       parse(metric(frames=970_000_000, fps=10000)), now=now+1)
+    bad = parse(metric()); bad['loss'] = float('nan')
+    with pytest.raises(AssertionError, match='Nonfinite'):
+        supervisor.technical_viability(plan, job, rec, {}, bad, now=now)
+
+
 @pytest.mark.parametrize('vm', [None, dict(running_vm(), status='TERMINATED'), dict(running_vm(), id='456')])
 def test_stale_gcs_metrics_cannot_pass_gate(tmp_path, vm):
     plan = cohort(); ledger = tmp_path/'ledger.json'
@@ -159,24 +224,22 @@ def test_absolute_protocol_path_is_rejected_even_if_it_resolves_locally():
 
 
 @pytest.mark.parametrize('remote_metric,local_metric', [(True, False), (False, True), (False, False)])
-def test_done_artifact_is_processed_after_provider_deletion(tmp_path, remote_metric, local_metric):
+def test_done_artifact_is_processed_after_provider_deletion_without_fps_gate(tmp_path, remote_metric, local_metric):
     plan = cohort(); ledger = tmp_path/'ledger.json'; job = plan['jobs'][0]
     ledger.write_text(json.dumps({'runs': [record(j) for j in plan['jobs'][:4]]}))
     folder = tmp_path/'collected'; folder.mkdir()
     if local_metric: (folder/'metrics_000.jsonl').write_text(json.dumps(metric())+'\n')
     def cat(uri, tail=False):
         if '/'+job['name']+'/' not in uri: return None
-        return json.dumps(metric())+'\n' if tail and remote_metric else (None if tail else '{"exit_code":0}')
+        assert not tail, 'Validated completion must not depend on later metrics reads'
+        return '{"exit_code":0}'
     state = {'jobs': {}}
     with mock.patch.object(supervisor.cloud, 'LEDGER', ledger), mock.patch.object(supervisor.cloud, 'describe', return_value=None) as describe, \
          mock.patch.object(supervisor.cloud, 'launch') as launch, mock.patch.object(supervisor, 'cat', side_effect=cat), \
          mock.patch.object(supervisor, 'finish', return_value={'complete': True, 'summary_path': str(folder/'summary.json')}) as finish:
-        if remote_metric or local_metric:
-            supervisor.cycle(plan, state, 'protocol')
-            assert state['jobs'][job['name']]['complete'] and state['jobs'][job['name']]['technical_gate_passed']
-        else:
-            with pytest.raises(RuntimeError, match='usable terminal technical metric'):
-                supervisor.cycle(plan, state, 'protocol')
+        supervisor.cycle(plan, state, 'protocol')
+        assert state['jobs'][job['name']]['complete'] and state['jobs'][job['name']]['technical_gate_passed']
+        assert state['jobs'][job['name']]['technical_gate_basis'] == 'validated_1B_completion'
         finish.assert_called_once(); describe.assert_not_called(); launch.assert_not_called()
 
 
