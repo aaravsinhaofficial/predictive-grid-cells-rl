@@ -1,0 +1,33 @@
+{
+  "complete": true,
+  "saved_summary_and_CSV_review_only": true,
+  "no_model_or_environment_execution": true,
+  "created_utc": "2026-11-07T01:53:58.356886+00:00",
+  "procedure_source": "from pathlib import Path\nimport json,csv,hashlib,datetime\nR=Path('/Users/aaravsinha/predictive-grid-cells-rl');B=R/'results/native_turn_geometry_resolution';O=B/'original_recovery_supplement'\nread=lambda p:json.loads(p.read_text());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\ns=read(O/'summary.json');source=read(B/'pgc33/original/summary.json');rows=list(csv.DictReader((O/'all_directions.csv').open()));keys=('context','prefix','kind','branch','regime','window_updates','evolution_updates','observable','centered','metric')\nassert len(rows)==336\nlookup={tuple(str(r[k])for k in keys):r for r in source['rows'] if r['normal_test_run']};assert len(lookup)==8\nmaxerr=0.;seen=set()\nfor row in rows:\n key=tuple(row[k]for k in keys);r=lookup[key];rec=r['recovery'][row['density']];follow=rec['bounded_followups'];q=follow[-1]['result']if follow else rec['nominal'];d=next(x for x in q['directions'] if x['name']==row['direction']);stats=q['tangent_total_gain']if row['direction']=='tangent'else d['normal_gain'];uid=key+(row['density'],row['direction']);assert uid not in seen;seen.add(uid)\n for a,b in [('gain_median','median'),('gain_p10','p10'),('gain_p90','p90')]:maxerr=max(maxerr,abs(float(row[a])-stats[b]));assert float(row[a])==stats[b]\n assert float(row['normal_informative_fraction'])==d['normal_informative_fraction']\n assert float(row['informative_pair_fraction'])==d['informative_pair_fraction']\n assert int(row['leakage_count'])==d['factor_leakage_count']==0\n assert row['method']==(follow[-1]['method']if follow else'nominal')\n if row['direction']!='tangent':assert float(row['normal_over_tangent_median'])==d['normal_over_tangent_gain']['median'] and row['direction_passes']==str(d['passes'])\n assert q['physical_conclusive'] and q['physical_status']=='failed_recovery' and q['hidden_bound_excess_count']==0\nfor p,h in s['inputs'].items():assert sha(R/p)==h\nassert sha(R/'scripts/report_native_turn_original_recovery.py')==s['source_sha256']\nchanges=[]\nfor r in rows:\n if r['density']=='1024':\n  a=next(x for x in rows if x['density']=='512' and all(x[k]==r[k] for k in (*keys,'direction')));changes.append(abs(float(r['gain_median'])-float(a['gain_median'])))\nassert max(changes)==s['max_512_1024_change_of_direction_median']\ngroups={'hidden_only':['hidden_only'],'cell_only':['cell_only'],'random_full':[f'random_full_{i:02d}'for i in range(16)],'full_radial':['full_radial'],'cell_radial':['cell_radial'],'tangent_total':['tangent']}\nfor metric,gs in s['median_gain_ranges_1024'].items():\n for group,rng in gs.items():\n  v=[float(r['gain_median'])for r in rows if r['metric']==metric and r['density']=='1024' and r['direction']in groups[group]];assert [min(v),max(v)]==rng\np=read(O/'compact_presentation.json');assert p['complete'] and p['plotted_case_direction_medians']==168\nfor rel,h in p['protected_artifacts_unchanged'].items():assert sha(R/rel)==h\nassert sha(R/p['archived_original_readme']['path'])==p['archived_original_readme']['sha256']\nassert sha(O/'README.md')==p['revised_readme_sha256']\nfor name,h in p['outputs'].items():assert sha(O/name)==h\nrecord=dict(complete=True,saved_summary_and_CSV_review_only=True,no_model_or_environment_execution=True,created_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),procedure_source=Path(__file__).read_text(),procedure_sha256=sha(Path(__file__)),summary_sha256=sha(O/'summary.json'),full_array_validation_sha256=sha(B/'report_original/validation.json'),source_sha256=s['source_sha256'],compact_source_sha256=sha(R/'scripts/plot_native_turn_original_recovery_compact.py'),rows_independently_matched=336,physically_conclusive_probes=16,maximum_numeric_difference=maxerr,all_medians_ranges_and_density_differences_exact=True,figure_visual_review=dict(compact=True,detailed=True,no_clipping=True,all_168_density1024_case_direction_medians_retained=True),scope='One original PGC context after pre-cue reset; actor-output off-curve response, not h/c norm return; no ring qualification.',artifacts={x.name:sha(x)for x in O.iterdir()if x.is_file()and x.name not in ('artifacts.json','independent_review.json')})\n(O/'independent_review.json').write_text(json.dumps(record,indent=2)+'\\n');(O/'artifacts.json').write_text(json.dumps({x.name:dict(sha256=sha(x),bytes=x.stat().st_size)for x in sorted(O.iterdir())if x.is_file()and x.name!='artifacts.json'},indent=2)+'\\n');print('PASS',len(rows),maxerr,sha(O/'independent_review.json'))\n",
+  "procedure_sha256": "e91ab9359c94a61f327e0806f7a0d3c82301ce3f3e71434bbfea96c27a7bac24",
+  "summary_sha256": "5d58a50b10a95efa4b58ef4cc170fc48a15f433da710837f7f794d7b686f2dd0",
+  "full_array_validation_sha256": "5beb6bd32488b1127ab01eccfb8c95d874b8bc0809470a4f63922aef710f7f73",
+  "source_sha256": "522965c89298fb178b16cbebe625807fc23dc7542e309b81f7dd75abe4089c77",
+  "compact_source_sha256": "f0341faf7f9aef6ea3fc4eb8e6e7cef36949578e444036e2294f6991c27a333e",
+  "rows_independently_matched": 336,
+  "physically_conclusive_probes": 16,
+  "maximum_numeric_difference": 0.0,
+  "all_medians_ranges_and_density_differences_exact": true,
+  "figure_visual_review": {
+    "compact": true,
+    "detailed": true,
+    "no_clipping": true,
+    "all_168_density1024_case_direction_medians_retained": true
+  },
+  "scope": "One original PGC context after pre-cue reset; actor-output off-curve response, not h/c norm return; no ring qualification.",
+  "artifacts": {
+    "summary.json": "5d58a50b10a95efa4b58ef4cc170fc48a15f433da710837f7f794d7b686f2dd0",
+    "recovery_gains.png": "95b923300a042f76b43f30659e81ee54e8ed5a09f2f07847359f443e793d3449",
+    "recovery_gains.pdf": "e01a9c18c067c9a36257a6f773b11ca8fe436414bde0f4af368f2d6d2db80d7a",
+    "compact_presentation.json": "3dc3210bf6f5e7cf1a2228804d44623079e8317c1a5da370e15942ec229ea106",
+    "recovery_compact.pdf": "3aca6b1b47f805cb234624514d09c4a1e03491267740aa61efd4077327f4ca4b",
+    "README.md": "cb53d2c0cbb83f22e4d81d599454cff10b9dfb0bf37180de2f3ccfb999503f7b",
+    "recovery_compact.png": "5ad42e16cd23becd7f9f3226e438c137c49428ba48da906d8cd628395d339329",
+    "all_directions.csv": "1f149a9cfad32dad723398af3ecceaefeefa9efdae177295dba5242b55383a90"
+  }
+}
