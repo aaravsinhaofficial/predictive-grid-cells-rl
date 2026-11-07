@@ -8521,6 +8521,886 @@
       "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-opt",
       "actual_upper_bound_usd": 0.2005,
       "absence_verified_at": "2026-11-07T13:01:18.988293+00:00"
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-native-s1",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:32:09+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-native-s1",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "gc100",
+        "--seed",
+        "1",
+        "--code_seed",
+        "1",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "0",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/gc100/native/seed1",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/gc100/native",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:02:09+00:00",
+      "create_requested_at": "2026-11-07T13:02:11.934145+00:00",
+      "instance_id": "8981684914349055930",
+      "created_at": "2026-11-07T05:02:13.989-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "7c3995824d2b7ebff5e26c9ab6e977cbc08a79b33c47fd93ce3182c014435bc2"
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-blackout-s1",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:32:37+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-blackout-s1",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "gc100",
+        "--seed",
+        "1",
+        "--code_seed",
+        "1",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "60",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/gc100/blackout/seed1",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/gc100/blackout",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:02:37+00:00",
+      "create_requested_at": "2026-11-07T13:02:40.715768+00:00",
+      "instance_id": "6365241797412822941",
+      "created_at": "2026-11-07T05:02:42.808-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "ffdbf2460868ea8bda45278f609bcec3b6e76fe77d3145dd8b111ee658e6f733"
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-native-s1",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:33:06+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-native-s1",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "pgc33",
+        "--seed",
+        "1",
+        "--code_seed",
+        "1",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "0",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/pgc33/native/seed1",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/pgc33/native",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:03:06+00:00",
+      "create_requested_at": "2026-11-07T13:03:08.708681+00:00",
+      "instance_id": "8445511307469430625",
+      "created_at": "2026-11-07T05:03:10.668-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "f3956b551477416f3e22c0f93cc1e4bbc906880366daf201f6befcf2d6690167"
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-blackout-s1",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:33:33+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-blackout-s1",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "pgc33",
+        "--seed",
+        "1",
+        "--code_seed",
+        "1",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "60",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/pgc33/blackout/seed1",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/pgc33/blackout",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:03:33+00:00",
+      "create_requested_at": "2026-11-07T13:03:36.355333+00:00",
+      "instance_id": "2980090931396648773",
+      "created_at": "2026-11-07T05:03:38.324-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "0d4e8f1ced8132a9eca9c57af702424a04ec5335adac6811a8dfe459cc697515"
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-native-s2",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:40:16+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-native-s2",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "gc100",
+        "--seed",
+        "2",
+        "--code_seed",
+        "2",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "0",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/gc100/native/seed2",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/gc100/native",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:10:16+00:00",
+      "create_requested_at": "2026-11-07T13:10:18.805577+00:00",
+      "instance_id": "4625298293231099347",
+      "created_at": "2026-11-07T05:10:20.727-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "93dbca3df8bced535cc765a2200269dd48257892c4a06db848eea1dace57fc70"
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-blackout-s2",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:41:06+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-blackout-s2",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "gc100",
+        "--seed",
+        "2",
+        "--code_seed",
+        "2",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "60",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/gc100/blackout/seed2",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/gc100/blackout",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:11:06+00:00",
+      "create_requested_at": "2026-11-07T13:11:10.006326+00:00",
+      "instance_id": "2681117579317255552",
+      "created_at": "2026-11-07T05:11:11.992-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "461f8ae73ada920f87f17a59894b2f00914fd5af311580e1a5ed4aa228e4ac11"
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-native-s2",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:41:38+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-native-s2",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "pgc33",
+        "--seed",
+        "2",
+        "--code_seed",
+        "2",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "0",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/pgc33/native/seed2",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/pgc33/native",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:11:38+00:00",
+      "create_requested_at": "2026-11-07T13:11:40.713007+00:00",
+      "instance_id": "5178157882415422817",
+      "created_at": "2026-11-07T05:11:42.711-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "e9ae364b27c360f4a1c7992c2adae7bc6ffb48bee7be38df8c1227c983aeefa1"
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-blackout-s2",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "duration_seconds": 91800,
+      "reserved_usd": 32.1875,
+      "provider_deadline_utc": "2026-11-08T14:42:11+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-blackout-s2",
+      "command": [
+        "python",
+        "-m",
+        "code.train_memory",
+        "--cond",
+        "pgc33",
+        "--seed",
+        "2",
+        "--code_seed",
+        "2",
+        "--frames",
+        "1000000000",
+        "--task_max_gap",
+        "60",
+        "--task_ramp_frames",
+        "200000000",
+        "--task_visible_steps",
+        "15",
+        "--policy",
+        "lstm",
+        "--encoder_norm",
+        "layernorm",
+        "--lr",
+        "0.0003",
+        "--rms_eps",
+        "0.00001",
+        "--n_envs",
+        "32",
+        "--rollout",
+        "100",
+        "--device",
+        "cuda:0",
+        "--threads",
+        "2",
+        "--protocol",
+        "docs/research/simple_memory_training_protocol.json",
+        "--out",
+        "results/ring_simple_memory/pgc33/blackout/seed2",
+        "--tf32",
+        "0"
+      ],
+      "output_dir": "results/ring_simple_memory/pgc33/blackout",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        }
+      ],
+      "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
+      "package_uncompressed_bytes": 166019,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-07T13:12:11+00:00",
+      "create_requested_at": "2026-11-07T13:12:14.574557+00:00",
+      "instance_id": "1061080461004152159",
+      "created_at": "2026-11-07T05:12:16.493-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "8129a4859d4e1a9daf3abd809a1faf3872700ee3138d35bf0336393b851dba7b"
     }
   ]
 }

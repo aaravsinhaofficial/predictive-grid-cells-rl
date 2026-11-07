@@ -21,8 +21,10 @@ We will ask three simple questions:
 2. **Do predictive cells help that memory?** Replace current predictive activity with ordinary grid activity, then compare retention, recovery, and navigation.
 3. **What form does the memory take?** Examine activity and perturb the complete recurrent state. A ring needs a continuous family of memories that survives without cues and recovers from disturbances.
 
-The run target is 16 models, each trained for exactly 1B environment frames. The cumulative cloud ceiling is **$600**, including previous recorded research spending. A short GPU test checks speed and exact restart behavior before full training. Every worker has an enforced deletion deadline.
+The run target is 16 models, each trained for exactly 1B environment frames. The cumulative cloud ceiling is **$600**, including previous recorded research spending. The GPU test passed speed and exact restart checks. Every worker has an enforced deletion deadline.
 
-**Status: implementation and technical validation; no new 1B results yet.** The experiment tests whether a useful ring emerges. Its outcome will be reported as measured.
+**Training started November 7, 2026. Eight models are running; eight more are queued.** Each run takes roughly one day, so the two waves should take about two days if throughput holds. The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
+
+There are no completed 1B results yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
 
 [Full protocol](../../docs/research/simple_memory_training_protocol.json) · [Cloud plan](../../docs/research/simple_memory_cloud_plan.json)

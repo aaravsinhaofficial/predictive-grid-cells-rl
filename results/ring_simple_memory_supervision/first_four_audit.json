@@ -1,0 +1,311 @@
+{
+  "complete": true,
+  "read_only_audit": true,
+  "started_at": "2026-11-07T13:12:34.550582+00:00",
+  "completed_at": "2026-11-07T13:12:53.083640+00:00",
+  "source_commit": "016229d3f15c71ad63a5f86813219fe3807e7815",
+  "plan_sha256": "4167358962ec5e30caa4cbd9151f0a1adb44ba1f733150a7d2667d776d7bd360",
+  "protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "scope": "First four seed-1 jobs only; no model/environment execution, cloud mutation, reward inspection or outcome-based configuration. Temporary checkpoint downloads removed.",
+  "method": "Recomputed hashes of each initial checkpoint and every sorted policy tensor; checked initial counters/config and frozen source/protocol; checked uploaded provenance, last complete technical metrics, immutable live instance identity and RUNNING state. GCS reads use scoped serial cloud.run.",
+  "minimum_frames": 2000000,
+  "minimum_training_fps": 11200,
+  "all_four_identical_initial_policy": true,
+  "shared_initial_policy_sha256": "641713dcd1bf9706959d5e1de333438d4643d5db80ff7a0c7f2b6626987bc2a3",
+  "jobs": [
+    {
+      "name": "ring-20261105-simplemem-gc100-native-s1",
+      "checked_at": "2026-11-07T13:12:52.425551+00:00",
+      "zone": "us-central1-a",
+      "instance_id": "8981684914349055930",
+      "live_status": "RUNNING",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-native-s1",
+      "initial_checkpoint_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-native-s1/outputs/seed1/initial.pt",
+      "initial_checkpoint_sha256": "204ae983632ec4379c74e0a207d7b88433b62d1da0cbcb232e02ac14ee8d3e1c",
+      "initial_checkpoint_bytes": 15078069,
+      "initial_policy_sha256_recomputed": "641713dcd1bf9706959d5e1de333438d4643d5db80ff7a0c7f2b6626987bc2a3",
+      "initial_policy_recorded_hash_matches": true,
+      "initial_frames": 0,
+      "initial_updates": 0,
+      "config": {
+        "cond": "gc100",
+        "seed": 1,
+        "code_seed": 1,
+        "task_max_gap": 0,
+        "frames": 1000000000,
+        "tf32": 0
+      },
+      "hardware_and_runtime": {
+        "torch_version": "2.9.1+cu129",
+        "cuda_version": "12.9",
+        "cudnn_version": 91002,
+        "cuda_device_name": "Tesla T4",
+        "cuda_capability": [
+          7,
+          5
+        ],
+        "cudnn_tf32": false,
+        "matmul_tf32": false,
+        "deterministic_algorithms": true
+      },
+      "protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+      "source_sha256": {
+        "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+        "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+        "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+      },
+      "source_protocol_and_config_match": true,
+      "metrics_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-native-s1/outputs/seed1/metrics_000.jsonl",
+      "technical": {
+        "frames": 3366400,
+        "updates": 263,
+        "fps": 11332.606907889203,
+        "loss": 2.0571236610412598,
+        "grad_norm": 2.1968796253204346,
+        "replay_logit_max_error": 1.1920928955078125e-07,
+        "replay_value_max_error": 5.029141902923584e-08
+      },
+      "numerical_and_throughput_pass": true,
+      "done_present": false
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-blackout-s1",
+      "checked_at": "2026-11-07T13:12:48.792003+00:00",
+      "zone": "us-central1-b",
+      "instance_id": "6365241797412822941",
+      "live_status": "RUNNING",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-blackout-s1",
+      "initial_checkpoint_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-blackout-s1/outputs/seed1/initial.pt",
+      "initial_checkpoint_sha256": "ccbe4d5adf17304d4e5691dd02447962b584087280696cec575a88def1197d25",
+      "initial_checkpoint_bytes": 15078069,
+      "initial_policy_sha256_recomputed": "641713dcd1bf9706959d5e1de333438d4643d5db80ff7a0c7f2b6626987bc2a3",
+      "initial_policy_recorded_hash_matches": true,
+      "initial_frames": 0,
+      "initial_updates": 0,
+      "config": {
+        "cond": "gc100",
+        "seed": 1,
+        "code_seed": 1,
+        "task_max_gap": 60,
+        "frames": 1000000000,
+        "tf32": 0
+      },
+      "hardware_and_runtime": {
+        "torch_version": "2.9.1+cu129",
+        "cuda_version": "12.9",
+        "cudnn_version": 91002,
+        "cuda_device_name": "Tesla T4",
+        "cuda_capability": [
+          7,
+          5
+        ],
+        "cudnn_tf32": false,
+        "matmul_tf32": false,
+        "deterministic_algorithms": true
+      },
+      "protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+      "source_sha256": {
+        "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+        "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+        "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+      },
+      "source_protocol_and_config_match": true,
+      "metrics_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-gc100-blackout-s1/outputs/seed1/metrics_000.jsonl",
+      "technical": {
+        "frames": 3545600,
+        "updates": 277,
+        "fps": 11971.100218148413,
+        "loss": 0.03140132874250412,
+        "grad_norm": 0.08656284958124161,
+        "replay_logit_max_error": 1.7881393432617188e-07,
+        "replay_value_max_error": 5.21540641784668e-08
+      },
+      "numerical_and_throughput_pass": true,
+      "done_present": false
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-native-s1",
+      "checked_at": "2026-11-07T13:12:51.964897+00:00",
+      "zone": "us-central1-a",
+      "instance_id": "8445511307469430625",
+      "live_status": "RUNNING",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-native-s1",
+      "initial_checkpoint_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-native-s1/outputs/seed1/initial.pt",
+      "initial_checkpoint_sha256": "0c71a872aa481de9b643de1a42deedf893c8adbaa6e6f98a3c094bf5744cefbe",
+      "initial_checkpoint_bytes": 15078069,
+      "initial_policy_sha256_recomputed": "641713dcd1bf9706959d5e1de333438d4643d5db80ff7a0c7f2b6626987bc2a3",
+      "initial_policy_recorded_hash_matches": true,
+      "initial_frames": 0,
+      "initial_updates": 0,
+      "config": {
+        "cond": "pgc33",
+        "seed": 1,
+        "code_seed": 1,
+        "task_max_gap": 0,
+        "frames": 1000000000,
+        "tf32": 0
+      },
+      "hardware_and_runtime": {
+        "torch_version": "2.9.1+cu129",
+        "cuda_version": "12.9",
+        "cudnn_version": 91002,
+        "cuda_device_name": "Tesla T4",
+        "cuda_capability": [
+          7,
+          5
+        ],
+        "cudnn_tf32": false,
+        "matmul_tf32": false,
+        "deterministic_algorithms": true
+      },
+      "protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+      "source_sha256": {
+        "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+        "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+        "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+      },
+      "source_protocol_and_config_match": true,
+      "metrics_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-native-s1/outputs/seed1/metrics_000.jsonl",
+      "technical": {
+        "frames": 3584000,
+        "updates": 280,
+        "fps": 12106.057243935562,
+        "loss": 8.349128723144531,
+        "grad_norm": 11.796506881713867,
+        "replay_logit_max_error": 2.384185791015625e-07,
+        "replay_value_max_error": 7.82310962677002e-08
+      },
+      "numerical_and_throughput_pass": true,
+      "done_present": false
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-blackout-s1",
+      "checked_at": "2026-11-07T13:12:53.069968+00:00",
+      "zone": "us-central1-b",
+      "instance_id": "2980090931396648773",
+      "live_status": "RUNNING",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-blackout-s1",
+      "initial_checkpoint_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-blackout-s1/outputs/seed1/initial.pt",
+      "initial_checkpoint_sha256": "ae1cba758172bccfa14aa8f1f0dd4084ae02c4c6457541f65c6fac38399010cd",
+      "initial_checkpoint_bytes": 15078069,
+      "initial_policy_sha256_recomputed": "641713dcd1bf9706959d5e1de333438d4643d5db80ff7a0c7f2b6626987bc2a3",
+      "initial_policy_recorded_hash_matches": true,
+      "initial_frames": 0,
+      "initial_updates": 0,
+      "config": {
+        "cond": "pgc33",
+        "seed": 1,
+        "code_seed": 1,
+        "task_max_gap": 60,
+        "frames": 1000000000,
+        "tf32": 0
+      },
+      "hardware_and_runtime": {
+        "torch_version": "2.9.1+cu129",
+        "cuda_version": "12.9",
+        "cudnn_version": 91002,
+        "cuda_device_name": "Tesla T4",
+        "cuda_capability": [
+          7,
+          5
+        ],
+        "cudnn_tf32": false,
+        "matmul_tf32": false,
+        "deterministic_algorithms": true
+      },
+      "protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+      "source_sha256": {
+        "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+        "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+        "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+      },
+      "source_protocol_and_config_match": true,
+      "metrics_uri": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-pgc33-blackout-s1/outputs/seed1/metrics_000.jsonl",
+      "technical": {
+        "frames": 3353600,
+        "updates": 262,
+        "fps": 11336.323522873045,
+        "loss": -0.1832197606563568,
+        "grad_norm": 0.6915748119354248,
+        "replay_logit_max_error": 1.7881393432617188e-07,
+        "replay_value_max_error": 6.332993507385254e-08
+      },
+      "numerical_and_throughput_pass": true,
+      "done_present": false
+    }
+  ],
+  "supervisor_status_sha256": "c4dba0606ee57383d2380b5ed86078c4003e160ee5b73e4399afdf847ebb9033",
+  "supervisor_updated_at": "2026-11-07T13:12:41.315857+00:00",
+  "supervisor_recorded_gates": {
+    "ring-20261105-simplemem-gc100-native-s1": true,
+    "ring-20261105-simplemem-gc100-blackout-s1": true,
+    "ring-20261105-simplemem-pgc33-native-s1": true,
+    "ring-20261105-simplemem-pgc33-blackout-s1": true
+  },
+  "supervisor_launches_observed": [
+    "ring-20261105-simplemem-gc100-native-s1",
+    "ring-20261105-simplemem-gc100-blackout-s1",
+    "ring-20261105-simplemem-pgc33-native-s1",
+    "ring-20261105-simplemem-pgc33-blackout-s1",
+    "ring-20261105-simplemem-gc100-native-s2",
+    "ring-20261105-simplemem-gc100-blackout-s2",
+    "ring-20261105-simplemem-pgc33-native-s2",
+    "ring-20261105-simplemem-pgc33-blackout-s2"
+  ],
+  "seed2_launch_verification": {
+    "checked_at": "2026-11-07T13:13:28.727877+00:00",
+    "supervisor_status_sha256": "cfa53bcc407d64b90c3f2420829cbd27f3981e2affaa00c76b1d31e8a5cb1b26",
+    "supervisor_updated_at": "2026-11-07T13:13:01.416673+00:00",
+    "total_cohort_workers_launched": 8,
+    "jobs": [
+      {
+        "name": "ring-20261105-simplemem-gc100-native-s2",
+        "instance_id": "4625298293231099347",
+        "zone": "us-central1-a",
+        "status": "RUNNING",
+        "launch_observed_at": "2026-11-07T13:11:06.709332+00:00"
+      },
+      {
+        "name": "ring-20261105-simplemem-gc100-blackout-s2",
+        "instance_id": "2681117579317255552",
+        "zone": "us-central1-b",
+        "status": "RUNNING",
+        "launch_observed_at": "2026-11-07T13:11:38.357878+00:00"
+      },
+      {
+        "name": "ring-20261105-simplemem-pgc33-native-s2",
+        "instance_id": "5178157882415422817",
+        "zone": "us-central1-a",
+        "status": "RUNNING",
+        "launch_observed_at": "2026-11-07T13:12:11.827170+00:00"
+      },
+      {
+        "name": "ring-20261105-simplemem-pgc33-blackout-s2",
+        "instance_id": "1061080461004152159",
+        "zone": "us-central1-b",
+        "status": "RUNNING",
+        "launch_observed_at": "2026-11-07T13:12:41.314779+00:00"
+      }
+    ]
+  }
+}
