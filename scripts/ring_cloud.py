@@ -27,9 +27,10 @@ LEDGER = ROOT / "docs/research/ring_cloud_budget.json"
 PROJECT = "connectome-ai-research"
 BUCKET = "connectome-ai-research-popcode"
 PREFIX = "ring-20261105"
+NEW_RUN_PREFIX = PREFIX + "-simplemem"
 IMAGE = "pytorch-2-9-cu129-ubuntu-2204-nvidia-580-v20261029"
 RATE = 1.25
-BUDGET = 500.0
+BUDGET = 600.0
 ANCILLARY_RESERVE = 25.0
 GIB = 1024 ** 3
 
@@ -39,7 +40,10 @@ def now():
 
 
 def run(cmd, *, check=True, timeout=180):
-    p = subprocess.run(cmd, text=True, capture_output=True, timeout=timeout)
+    options = {}
+    if cmd[:2] == ["gcloud", "storage"]:
+        options["env"] = dict(os.environ, CLOUDSDK_STORAGE_PROCESS_COUNT="1", CLOUDSDK_STORAGE_THREAD_COUNT="1")
+    p = subprocess.run(cmd, text=True, capture_output=True, timeout=timeout, **options)
     if check and p.returncode:
         raise RuntimeError(f"Command failed: {shlex.join(cmd)}\n{p.stderr[-3000:]}")
     return p
@@ -106,20 +110,45 @@ def package_files(extra, include_only=False):
     return files, size
 
 
-WORKER = r'''import datetime, json, os, pathlib, signal, subprocess, sys, threading, time
+WORKER_TIMING = r'''import datetime, time
+CHECKPOINT_GRACE_SECONDS = 60
+SYNC_DRAIN_SECONDS = 120
+FINAL_SYNC_SECONDS = 240
+DEADLINE_BUFFER_SECONDS = 10
+
+def remaining_seconds(deadline, current_time=None):
+    current_time = time.time() if current_time is None else current_time
+    stamp = datetime.datetime.fromisoformat(deadline.replace('Z', '+00:00'))
+    if stamp.utcoffset() is None:
+        raise ValueError('Provider deadline must include its UTC offset')
+    return stamp.timestamp() - current_time
+
+def training_seconds(deadline, current_time=None):
+    reserve = CHECKPOINT_GRACE_SECONDS + SYNC_DRAIN_SECONDS + FINAL_SYNC_SECONDS
+    return max(0.0, remaining_seconds(deadline, current_time) - reserve)
+'''
+
+WORKER = WORKER_TIMING + r'''
+import json, os, pathlib, signal, subprocess, sys, threading
 root = pathlib.Path('/work/ring_repo')
 cfg = json.loads((root / '.ring_job.json').read_text())
+deadline = cfg['provider_deadline_utc']
 out = root / cfg['output_dir']
 out.mkdir(parents=True, exist_ok=True)
 stop = threading.Event()
 sync_lock = threading.Lock()
+def bounded_timeout(limit):
+    available = remaining_seconds(deadline) - DEADLINE_BUFFER_SECONDS
+    if available <= 0:
+        raise TimeoutError('Provider deletion deadline leaves no upload time')
+    return min(limit, available)
 def sync():
     with sync_lock:
         size = sum(p.stat().st_size for p in out.rglob('*') if p.is_file())
         if size > 5 * 1024**3:
             raise RuntimeError('Artifact tree exceeds 5 GiB safety bound')
         subprocess.run(['gsutil', '-m', 'rsync', '-r', str(out), cfg['gcs_output']],
-                       check=True, timeout=120)
+                       check=True, timeout=bounded_timeout(120))
 def periodic():
     while not stop.wait(300):
         try: sync()
@@ -130,27 +159,40 @@ cmd = cfg['command'][:]
 if cmd[0] in ('python', 'python3'): cmd[0] = sys.executable
 env = dict(os.environ, PYTHONUNBUFFERED='1', OMP_NUM_THREADS='2', MKL_NUM_THREADS='2')
 started = time.time()
+available_at_start = remaining_seconds(deadline, started)
+checkpoint_requested_at = None
 with (out / 'worker.log').open('a', buffering=1) as log:
-    proc = subprocess.Popen(cmd, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT,
-                            start_new_session=True)
-    try:
-        code = proc.wait(timeout=max(30, cfg['duration_seconds'] - 240))
-    except subprocess.TimeoutExpired:
-        os.killpg(proc.pid, signal.SIGTERM)
-        try: proc.wait(timeout=15)
-        except subprocess.TimeoutExpired:
-            os.killpg(proc.pid, signal.SIGKILL)
-            proc.wait()
+    available = training_seconds(deadline)
+    if available <= 0:
+        log.write('SKIPPED: startup consumed the training window; preserving upload margin\n')
         code = 124
+    else:
+        proc = subprocess.Popen(cmd, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT,
+                                start_new_session=True, pass_fds=(9,))
+        try:
+            code = proc.wait(timeout=training_seconds(deadline))
+        except subprocess.TimeoutExpired:
+            stop.set()
+            checkpoint_requested_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+            os.killpg(proc.pid, signal.SIGTERM)
+            try: proc.wait(timeout=bounded_timeout(CHECKPOINT_GRACE_SECONDS))
+            except subprocess.TimeoutExpired:
+                os.killpg(proc.pid, signal.SIGKILL)
+                proc.wait()
+            code = 124
 stop.set()
-thread.join(timeout=125)
+thread.join(timeout=min(SYNC_DRAIN_SECONDS,
+                        max(0.0, remaining_seconds(deadline) - FINAL_SYNC_SECONDS)))
 result = dict(exit_code=code, elapsed_seconds=time.time()-started,
               finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              provider_deadline_utc=deadline, remaining_seconds_at_worker_start=available_at_start,
+              checkpoint_requested_at=checkpoint_requested_at,
+              final_sync_reserve_seconds=FINAL_SYNC_SECONDS,
               command=cmd, package_sha256=cfg['package_manifest_sha256'])
 (out / 'WORKER_RESULT.json').write_text(json.dumps(result, indent=2)+'\n')
 sync()
 subprocess.run(['gsutil', 'cp', str(out / 'WORKER_RESULT.json'),
-                cfg['gcs_prefix']+'/DONE.json'], check=True, timeout=60)
+                cfg['gcs_prefix']+'/DONE.json'], check=True, timeout=bounded_timeout(60))
 # Do not shut down here: a stopped VM may retain its boot disk. Root collects and
 # deletes promptly; the independent Compute Engine DELETE deadline remains active.
 while True: time.sleep(30)
@@ -177,6 +219,13 @@ def validate_identity(r, vm):
 def startup_script(r, archive_hash):
     source = shlex.quote(r["gcs_prefix"] + "/package.tar.gz")
     setup = ("#!/bin/bash\nset -euo pipefail\n"
+             "mkdir -p /run/lock\n"
+             "exec 9>/run/lock/ring-worker.lock\n"
+             "if ! flock -n 9; then echo 'STARTUP_SKIPPED: existing worker or trainer holds lock'; exit 0; fi\n"
+             "mkdir -p /work\n"
+             "if [ -e /work/.ring-startup-attempted ]; then "
+             "echo 'STARTUP_SKIPPED: prior attempt exists; explicit checkpoint recovery on a new worker required'; exit 0; fi\n"
+             "date -u +%FT%TZ > /work/.ring-startup-attempted\n"
              "exec > >(tee -a /var/log/ring-worker-startup.log) 2>&1\n"
              "mkdir -p /work/ring_repo\ncd /work/ring_repo\n"
              f"gsutil cp {source} /work/package.tar.gz\n"
@@ -193,10 +242,12 @@ def startup_script(r, archive_hash):
 
 
 def plan(args):
-    name = args.name or PREFIX + "-" + dt.datetime.now(dt.timezone.utc).strftime("%H%M%S")
+    name = args.name or NEW_RUN_PREFIX + "-" + dt.datetime.now(dt.timezone.utc).strftime("%H%M%S")
     check_name(name)
-    if not 0.25 <= args.hours <= 24:
-        raise ValueError("Each launch must have a 0.25 to 24 hour provider-enforced deadline.")
+    if not name.startswith(NEW_RUN_PREFIX + "-"):
+        raise ValueError(f"New workers must use the {NEW_RUN_PREFIX}- namespace.")
+    if not 0.25 <= args.hours <= 25.5:
+        raise ValueError("Each launch must have a 0.25 to 25.5 hour provider-enforced deadline.")
     if args.machine not in ("g2-standard-4", "g2-standard-8", "e2-standard-8", "n1-standard-8"):
         raise ValueError("Only price-audited G2, E2-8, or N1-8 plus one T4 are allowed.")
     if args.zone not in ("us-central1-a", "us-central1-b", "us-central1-c"):
@@ -211,11 +262,14 @@ def plan(args):
     manifest = [{"path": str(p.relative_to(ROOT)), "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
                 for p in files]
     manifest_hash = hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()
+    reserved_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+    deadline = reserved_at + dt.timedelta(seconds=int(args.hours * 3600))
     return dict(name=name, zone=args.zone, machine=args.machine,
                 duration_seconds=int(args.hours * 3600), reserved_usd=round((args.hours + .25) * RATE, 4),
+                provider_deadline_utc=deadline.isoformat(),
                 gcs_prefix=f"gs://{BUCKET}/{PREFIX}/{name}", command=command,
                 output_dir=output, package_manifest=manifest, package_manifest_sha256=manifest_hash,
-                package_uncompressed_bytes=size, status="reserved", reserved_at=now())
+                package_uncompressed_bytes=size, status="reserved", reserved_at=reserved_at.isoformat())
 
 
 def launch(args):
@@ -228,7 +282,7 @@ def launch(args):
         if len(active) >= data["max_active_workers"]:
             raise ValueError("Active-worker limit reached; finish/collect/delete the pilot first.")
         if committed(data) + r["reserved_usd"] > BUDGET:
-            raise ValueError("Cumulative actual upper bounds + reservations exceed $500.")
+            raise ValueError(f"Cumulative actual upper bounds + reservations exceed ${BUDGET:g}.")
         if describe(r["name"], r["zone"]) is not None:
             raise ValueError("VM name already exists in cloud; no changes made.")
         data["runs"].append(r)
@@ -266,7 +320,7 @@ def launch(args):
                    "--maintenance-policy=" + ("MIGRATE" if r['machine'].startswith('e2-') else "TERMINATE"),
                    "--no-restart-on-failure", "--reservation-affinity=none",
                    "--provisioning-model=STANDARD", "--instance-termination-action=DELETE",
-                   f"--max-run-duration={r['duration_seconds']}s", "--scopes=storage-rw",
+                   f"--termination-time={r['provider_deadline_utc']}", "--scopes=storage-rw",
                    f"--labels=study={PREFIX},purpose=ring-attractor",
                    f"--metadata-from-file=startup-script={startup}", "--format=json", "--quiet"]
             if r['machine']=='n1-standard-8':
@@ -285,7 +339,10 @@ def launch(args):
                          termination_timestamp=vm.get("scheduling", {}).get("terminationTimestamp"),
                          archive_sha256=archive_hash)
                 schedule = vm.get("scheduling", {})
-                if schedule.get("instanceTerminationAction") != "DELETE" or not schedule.get("maxRunDuration"):
+                actual_deadline = schedule.get("terminationTime")
+                if (schedule.get("instanceTerminationAction") != "DELETE" or not actual_deadline
+                        or dt.datetime.fromisoformat(actual_deadline.replace("Z", "+00:00"))
+                        != dt.datetime.fromisoformat(r["provider_deadline_utc"])):
                     raise RuntimeError("VM scheduling verification failed. Reservation held; delete this exact worker now.")
             print(json.dumps({k: v for k, v in r.items() if k != "package_manifest"}, indent=2))
 

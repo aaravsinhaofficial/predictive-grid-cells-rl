@@ -1,7 +1,7 @@
 {
   "study": "ring-20261105",
   "project": "connectome-ai-research",
-  "budget_usd": 500.0,
+  "budget_usd": 600.0,
   "reserved_rate_usd_per_hour": 1.25,
   "ancillary_reserve_usd": 25.0,
   "max_active_workers": 8,
@@ -7824,6 +7824,703 @@
       "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-feedback-pgc-reset-02",
       "actual_upper_bound_usd": 0.867,
       "absence_verified_at": "2026-11-06T14:46:02.787974+00:00"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-t4-a",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:05:39+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-t4-a",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "677616093e698481518cf5a52abbc85028f62b8ae1014059d3d0ddd1c57487b8"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b",
+      "package_uncompressed_bytes": 169239,
+      "status": "DELETED",
+      "reserved_at": "2026-11-07T12:35:39+00:00",
+      "create_requested_at": "2026-11-07T12:35:43.596483+00:00",
+      "instance_id": "4900323165366035918",
+      "created_at": "2026-11-07T04:35:45.638-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "8be23cb11a95a67a93bce2301ebb47e536189b921e8470f12fb673a28c9d7940",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 357.0245797634125,
+        "finished_at": "2026-11-07T12:42:53.246646+00:00",
+        "provider_deadline_utc": "2026-11-07T13:05:39+00:00",
+        "remaining_seconds_at_worker_start": 1722.7779476642609,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "scripts/simple_memory_gpu_preflight.py",
+          "--out",
+          "results/ring_simple_memory_preflight/technical",
+          "--device",
+          "cuda:0",
+          "--max-seconds",
+          "600"
+        ],
+        "package_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b"
+      },
+      "collected_at": "2026-11-07T12:46:03.418973+00:00",
+      "collected_bytes": 49253638,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-t4-a",
+      "actual_upper_bound_usd": 0.2358,
+      "absence_verified_at": "2026-11-07T12:47:04.779398+00:00"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-l4-a",
+      "zone": "us-central1-a",
+      "machine": "g2-standard-4",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:09:37+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-l4-a",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "677616093e698481518cf5a52abbc85028f62b8ae1014059d3d0ddd1c57487b8"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b",
+      "package_uncompressed_bytes": 169239,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-07T12:39:37+00:00",
+      "create_requested_at": "2026-11-07T12:39:40.761583+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-a zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-a\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-a' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-l4-b",
+      "zone": "us-central1-b",
+      "machine": "g2-standard-4",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:10:32+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-l4-b",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "677616093e698481518cf5a52abbc85028f62b8ae1014059d3d0ddd1c57487b8"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b",
+      "package_uncompressed_bytes": 169239,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-07T12:40:32+00:00",
+      "create_requested_at": "2026-11-07T12:40:35.645567+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-b zone. Consider trying your request in the us-central1-a\n      zone(s), which currently has capacity to accommodate your request. Alternatively,\n      you can try your request again with a different VM hardware configuration or\n      at a later time. For more information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-b\n      zonesAvailable: us-central1-a\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-b' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-l4-c",
+      "zone": "us-central1-c",
+      "machine": "g2-standard-4",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:11:10+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-l4-c",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "677616093e698481518cf5a52abbc85028f62b8ae1014059d3d0ddd1c57487b8"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b",
+      "package_uncompressed_bytes": 169239,
+      "status": "DELETED",
+      "reserved_at": "2026-11-07T12:41:10+00:00",
+      "create_requested_at": "2026-11-07T12:41:13.751304+00:00",
+      "instance_id": "8865173042997928580",
+      "created_at": "2026-11-07T04:41:15.539-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "0f081286ff5953713a102142219bd4fbd1779f983e34bd6054d63e0070bd9b95",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 9.897778987884521,
+        "finished_at": "2026-11-07T12:42:16.452798+00:00",
+        "provider_deadline_utc": "2026-11-07T13:11:10+00:00",
+        "remaining_seconds_at_worker_start": 1743.4449927806854,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "scripts/simple_memory_gpu_preflight.py",
+          "--out",
+          "results/ring_simple_memory_preflight/technical",
+          "--device",
+          "cuda:0",
+          "--max-seconds",
+          "600"
+        ],
+        "package_sha256": "180434002e6963ff91b60f8dfd6a467c05ed94d1bf24cfe6a1b4e41f57d0ae4b"
+      },
+      "collected_at": "2026-11-07T12:44:35.490284+00:00",
+      "collected_bytes": 24572549,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-l4-c",
+      "actual_upper_bound_usd": 0.0901,
+      "absence_verified_at": "2026-11-07T12:45:34.991326+00:00"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-fp32",
+      "zone": "us-central1-c",
+      "machine": "g2-standard-4",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:15:33+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-fp32",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "8879026ba098e451828f41967174910ef48df63ddd255996a7fca4015821b5bc"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "e6ceffe01c2c640ec0fcd501850adf226abf71b5978ad07115385b435d87d3aa",
+      "package_uncompressed_bytes": 169239,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-07T12:45:33+00:00",
+      "create_requested_at": "2026-11-07T12:45:38.899076+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-c zone, because of gpu_availability root cause(s).\n      Consider trying your request in the us-central1-a zone(s), which currently has\n      capacity to accommodate your request. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-c\n      zonesAvailable: us-central1-a\n    reason: gpu_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-c' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-fp32-a",
+      "zone": "us-central1-a",
+      "machine": "g2-standard-4",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:16:30+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-fp32-a",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "8879026ba098e451828f41967174910ef48df63ddd255996a7fca4015821b5bc"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "e6ceffe01c2c640ec0fcd501850adf226abf71b5978ad07115385b435d87d3aa",
+      "package_uncompressed_bytes": 169239,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-07T12:46:30+00:00",
+      "create_requested_at": "2026-11-07T12:47:09.226731+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-a zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-4\n      zone: us-central1-a\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-a' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-simplemem-fp32-g28-a",
+      "zone": "us-central1-a",
+      "machine": "g2-standard-8",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:18:25+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-fp32-g28-a",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "8879026ba098e451828f41967174910ef48df63ddd255996a7fca4015821b5bc"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "1ba444e47238aad856d526b617ec5485d3f43bdb70c0597beb69ebc3d94ec715"
+        }
+      ],
+      "package_manifest_sha256": "e6ceffe01c2c640ec0fcd501850adf226abf71b5978ad07115385b435d87d3aa",
+      "package_uncompressed_bytes": 169239,
+      "status": "launch_failed",
+      "reserved_at": "2026-11-07T12:48:25+00:00",
+      "create_requested_at": "2026-11-07T12:48:28.658941+00:00",
+      "actual_upper_bound_usd": 0.0,
+      "failure": "ERROR: (gcloud.compute.instances.create) Could not fetch resource:\n---\ncode: ZONE_RESOURCE_POOL_EXHAUSTED_WITH_DETAILS\nerrorDetails:\n- help:\n    links:\n    - description: Troubleshooting documentation\n      url: https://cloud.google.com/compute/docs/resource-error\n- localizedMessage:\n    locale: en-US\n    message: A g2-standard-8 VM instance with 1 nvidia-l4 accelerator(s) is currently\n      unavailable in the us-central1-a zone. Alternatively, you can try your request\n      again with a different VM hardware configuration or at a later time. For more\n      information, see the troubleshooting documentation.\n- errorInfo:\n    domain: compute.googleapis.com\n    metadatas:\n      attachment: nvidia-l4:1\n      vmType: g2-standard-8\n      zone: us-central1-a\n      zonesAvailable: ''\n    reason: resource_availability\nmessage: The zone 'projects/connectome-ai-research/zones/us-central1-a' does not have\n  enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT,\n  sub-state:STOCKOUT, resource type:compute)'.\n\n"
+    },
+    {
+      "name": "ring-20261105-simplemem-preflight-opt",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-07T13:21:36+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-preflight-opt",
+      "command": [
+        "python",
+        "scripts/simple_memory_gpu_preflight.py",
+        "--out",
+        "results/ring_simple_memory_preflight/technical",
+        "--device",
+        "cuda:0",
+        "--max-seconds",
+        "600"
+      ],
+      "output_dir": "results/ring_simple_memory_preflight",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/analyze.py",
+          "sha256": "76333e4a7f2e88a48ac0c5864c628515396fd08946caa59a67cfde2b2a137468"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/evaluate.py",
+          "sha256": "ae89a4a0866ddb7743e7ff97d2b201a3cd1c9550c9ffcd10c6476f0934967aa6"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/validate_codes.py",
+          "sha256": "37a580eab6e334bec93b6d56f1ed358e6abe82cbd4e810e85a6825f3b2d684f0"
+        },
+        {
+          "path": "scripts/simple_memory_gpu_preflight.py",
+          "sha256": "99bb0fa4b29929322387e5a07beef9461a79279a782547a930f76225994b273f"
+        }
+      ],
+      "package_manifest_sha256": "584e38f867bd796cd3c5074ab575ebad4dc9e33d294adefbd2a29cb18e80ca3f",
+      "package_uncompressed_bytes": 171690,
+      "status": "DELETED",
+      "reserved_at": "2026-11-07T12:51:36+00:00",
+      "create_requested_at": "2026-11-07T12:51:39.601545+00:00",
+      "instance_id": "8875275347243999282",
+      "created_at": "2026-11-07T04:51:41.580-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "0bd5e4da4ac3a4003dae34034c4af467aa83dd855439dfdad349cb27f6f32559",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 341.0901229381561,
+        "finished_at": "2026-11-07T12:58:25.995284+00:00",
+        "provider_deadline_utc": "2026-11-07T13:21:36+00:00",
+        "remaining_seconds_at_worker_start": 1731.0948600769043,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "scripts/simple_memory_gpu_preflight.py",
+          "--out",
+          "results/ring_simple_memory_preflight/technical",
+          "--device",
+          "cuda:0",
+          "--max-seconds",
+          "600"
+        ],
+        "package_sha256": "584e38f867bd796cd3c5074ab575ebad4dc9e33d294adefbd2a29cb18e80ca3f"
+      },
+      "collected_at": "2026-11-07T13:00:17.960047+00:00",
+      "collected_bytes": 49254370,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-opt",
+      "actual_upper_bound_usd": 0.2005,
+      "absence_verified_at": "2026-11-07T13:01:18.988293+00:00"
     }
   ]
 }

@@ -1,0 +1,154 @@
+{
+  "recorded_at_utc": "2026-11-07T11:56:32.052118+00:00",
+  "authorization": {
+    "reported_user_request": "New simple native Grid/PGC full-policy memory training, target 1B environment frames per model; user supplied a $600 compute credit.",
+    "source": "Parent-agent explicit authorization in this session: raise BUDGET and ledger budget_usd together to 600, preserving all 51 previous records and reservations.",
+    "cumulative_ceiling_usd": 600.0,
+    "previous_spending_is_not_reset": true,
+    "billable_launch_authorized_after_credentials_and_frozen_source_checks": true,
+    "this_update_creates_cloud_resources": false
+  },
+  "ledger": {
+    "path": "docs/research/ring_cloud_budget.json",
+    "old_sha256": "dd0af6a62b66d9d48f5804231427f086be8ffad36f4d54cc2d7f8b228b9bb442",
+    "new_sha256": "2b765540d35ecc7981e40b3c556e80aa2c1079580f740713cf1a29f2c33512f2",
+    "old_budget_usd": 500.0,
+    "new_budget_usd": 600.0,
+    "only_changed_field": "budget_usd",
+    "prior_records": 51,
+    "prior_records_sha256": "575d2174fb2f1e0b8af0232e1b6c6ab42f30c0a874c03bfe05a348f5ab869154",
+    "prior_closed_vm_bound_usd": 46.1726,
+    "existing_ancillary_reserve_usd": 25.0,
+    "prior_committed_upper_bound_usd": 71.1726,
+    "remaining_upper_bound_usd": 528.8274,
+    "active_reservations": 0,
+    "hourly_reservation_usd": 1.25,
+    "additional_per_launch_allowance_hours": 0.25,
+    "max_active_workers": 8
+  },
+  "prices": {
+    "verified_date_utc": "2026-11-07",
+    "region": "us-central1",
+    "currency": "USD",
+    "provisioning": "on demand",
+    "g2_standard_4_l4_included_per_hour": 0.706832276,
+    "g2_standard_8_l4_included_per_hour": 0.853624312,
+    "n1_standard_8_host_per_hour": 0.379998,
+    "t4_gpu_per_hour": 0.35,
+    "n1_standard_8_plus_t4_per_hour": 0.729998,
+    "balanced_boot_disk_100_gib_per_hour": 0.0136986,
+    "sources": [
+      "https://cloud.google.com/products/compute/pricing/accelerator-optimized?hl=en",
+      "https://cloud.google.com/products/compute/pricing/general-purpose?hl=en",
+      "https://cloud.google.com/products/compute/gpus-pricing?hl=en",
+      "https://cloud.google.com/compute/disks-image-pricing"
+    ],
+    "rates_are_not_an_invoice": true
+  },
+  "planning": {
+    "target_environment_frames_per_model": 1000000000,
+    "historical_lstm_frames_per_second": 13000,
+    "historical_source": "docs/LOG.md, October 22 LSTM extension entry",
+    "candidate_max_seed_pairs": 8,
+    "models_per_seed_pair": 2,
+    "candidate_requires_measured_frames_per_second_at_least": 12000,
+    "candidate_requires_live_quota_and_capacity": true,
+    "one_24h_worker_reservation_usd": 30.3125,
+    "sixteen_worker_reservations_usd": 485.0,
+    "cumulative_candidate_envelope_usd": 556.1726,
+    "remaining_candidate_contingency_usd": 43.8274,
+    "not_a_throughput_or_completion_promise": true,
+    "slower_throughput_requires_smaller_declared_cohort_or_bounded_resume": true
+  },
+  "runtime_guards": {
+    "new_worker_name_prefix": "ring-20261105-simplemem-",
+    "existing_records_and_management_names_preserved": true,
+    "maximum_requested_hours": 24,
+    "provider_termination_action": "DELETE",
+    "deadline_mode": "Explicit absolute termination-time, identical in uploaded job config and provider scheduling response. The clock begins at planning before package upload, so preparation and boot reduce available training time.",
+    "checkpoint_sigterm_grace_seconds": 60,
+    "periodic_upload_drain_seconds": 120,
+    "final_upload_reserve_seconds": 240,
+    "no_training_if_remaining_seconds_at_most": 420,
+    "output_limit_gib": 5,
+    "package_limit_gib": 2,
+    "automatic_boot_disk_delete": true,
+    "no_restart_on_failure": true,
+    "trainer_must_save_complete_resumable_state_on_sigterm": true,
+    "provider_docs": "https://docs.cloud.google.com/compute/docs/instances/limit-vm-runtime"
+  },
+  "access_audit": {
+    "current_gcloud_access": "Reauthentication required; no live inventory or quota confirmation possible at this update.",
+    "project": "connectome-ai-research",
+    "unrelated_instance_to_leave_untouched": "instance-20261008-004847",
+    "cloud_resources_created_or_modified": false
+  },
+  "implementation": {
+    "source": "scripts/ring_cloud.py",
+    "tests": "tests/test_ring_cloud.py",
+    "source_commit": "Assigned later by root after review; no commit performed by this authorization update.",
+    "sha256": {
+      "scripts/ring_cloud.py": "8f08c4c4efb70c8547ca153dbd5016109414e6a2f27b3dda137e0560e1d0adb8",
+      "tests/test_ring_cloud.py": "4e326610a9c66d603c46b8b8d7fd5b59d3153733c19a3840d7942f5bd38d8905"
+    }
+  },
+  "validation": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_ring_cloud.py",
+    "passed": 13,
+    "elapsed_seconds": 0.43,
+    "cloud_requests_in_tests": 0,
+    "covers": [
+      "budget overrun refused before cloud mutation",
+      "51-record preservation under locked ceiling update",
+      "absolute deadline including delayed boot and expired windows",
+      "24-hour maximum and simplemem launch namespace",
+      "CPU/GPU startup distinction",
+      "replaced-instance and foreign-label rejection",
+      "closed-cost accounting remains stable",
+      "embedded worker compiles",
+      "startup lock before package extraction and one-shot guard before retry",
+      "orphan trainer retains inherited FD9 flock after worker releases it",
+      "serial storage subprocess environment without global or compute-command mutation"
+    ]
+  },
+  "followup": {
+    "user_reported_reauthenticated": true,
+    "live_access_verified_at_utc": "2026-11-07T12:04:05.728966+00:00",
+    "current_plan": "docs/research/simple_memory_cloud_plan.json",
+    "current_design": "Four seeds crossed with two populations and two training observation schedules; sixteen models. This supersedes the early eight-pair planning shorthand.",
+    "private_gpu_preflight_requested": "ring-20261105-simplemem-preflight-t4-a",
+    "preflight_reservation_usd": 0.9375
+  },
+  "operational_revisions": [
+    {
+      "at_utc": "2026-11-07T12:39:28.153120+00:00",
+      "change": "Startup flock FD9 held across package/execution and inherited by trainer; persistent one-shot sentinel blocks a second startup attempt after all original processes exit. No automatic resume.",
+      "previous_source_sha256": {
+        "scripts/ring_cloud.py": "f9a9682917bb79991c8ce6261854d017a196ed99d32755d5aa08d55ce60b548f",
+        "tests/test_ring_cloud.py": "7b229df4933174e89c46d909a72a4a059af2123172778a2ab11a5b5879e2db55"
+      },
+      "source_sha256": {
+        "scripts/ring_cloud.py": "e654094180c4a0f086e09f82b3a523543adb376f8e0ac7c8b848092f3e19eaea",
+        "tests/test_ring_cloud.py": "9355d688014a4d822f826494a421ee6327ea2dab4a900db3a65f35fe03e86901"
+      },
+      "tests_passed": 12,
+      "test_seconds": 0.43,
+      "original_T4_preflight_uses_its_already_archived_worker_source": true
+    },
+    {
+      "at_utc": "2026-11-07T12:45:19.070222+00:00",
+      "change": "Scope CLOUDSDK_STORAGE_PROCESS_COUNT=1 and CLOUDSDK_STORAGE_THREAD_COUNT=1 to gcloud storage subprocesses only; preserves parent environment and unrelated compute commands.",
+      "previous_source_sha256": {
+        "scripts/ring_cloud.py": "e654094180c4a0f086e09f82b3a523543adb376f8e0ac7c8b848092f3e19eaea",
+        "tests/test_ring_cloud.py": "9355d688014a4d822f826494a421ee6327ea2dab4a900db3a65f35fe03e86901"
+      },
+      "source_sha256": {
+        "scripts/ring_cloud.py": "8f08c4c4efb70c8547ca153dbd5016109414e6a2f27b3dda137e0560e1d0adb8",
+        "tests/test_ring_cloud.py": "4e326610a9c66d603c46b8b8d7fd5b59d3153733c19a3840d7942f5bd38d8905"
+      },
+      "focused_cloud_tests": 13,
+      "combined_cloud_supervisor_tests": 21,
+      "combined_test_seconds": 0.41
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "status": "independent_local_cpu_and_mocked_supervisor_review_passed",
+  "created_utc": "2026-11-07T12:34:00.627431+00:00",
+  "review_scope": "Native task inputs/restart/evaluation, bounded cohort supervisor and launcher, and all16 candidate command/config/package identities. No final-model scientific outcome is claimed.",
+  "test_evidence": {
+    "command": "python -m pytest -q tests/test_simple_memory_independent.py tests/test_run_simple_memory_cohort.py tests/test_ring_cloud.py",
+    "exit_code": 0,
+    "passed": 51,
+    "failed": 0,
+    "reported_duration_seconds": 2.64,
+    "terminal_summary": "51 passed in 2.64s",
+    "backend": "CPU; cloud/provider calls mocked in supervisor/launcher tests",
+    "study_training_launched": false,
+    "cloud_instances_launched_by_reviewer": 0
+  },
+  "verified": [
+    "Exactly 15 visible observations after a native hit; sampled full blackout lengths obey ceil(D/2)..D at D=1,2,3,7,60.",
+    "No darkness before discovery; terminal reward clears knowledge and renews visibility.",
+    "D=0 is always visible without clock RNG draws; curriculum reaches exactly60 at200M frames and does not extend an in-progress gap.",
+    "Private clock leaves global torch, NumPy and Python RNG states unchanged and repeats duration draws across paired evaluation groups.",
+    "Clock restoration reproduces a long mixed event stream and does not alias saved clock tensors.",
+    "Pure gate zeros the full RGB/current512-cell input while preserving source tensors and visible values.",
+    "Clock and gate do not alter native dynamics, reward, render output, image/motor noise or environment RNG under the same action tape.",
+    "Matched Grid/PGC populations have identical phases/wavevectors and ordinary-cell values; de-shifting PGC equals the independent Grid code exactly.",
+    "Matched seeds initialize identical policy parameters and provide no extra velocity/heading inputs.",
+    "Online actor, recurrent replay and bootstrap use identical gates and preserve native saved goal, previous action and clipped reward semantics.",
+    "Bootstrap/replay do not advance the sensory clock or consume the first blind observation.",
+    "Terminal pickup clears goal, previous action/reward and both recurrent states before the next policy input.",
+    "Complete training restart reproduces subsequent actions/logits, losses, optimizer parameters, simulator state and all saved RNG states through native episode resets.",
+    "Restoration does not let optimizer updates mutate the saved checkpoint object.",
+    "Zero-gap collection matches an independent direct native policy/environment loop bitwise, including actions, rewards, bootstrap and environment/action RNG streams.",
+    "Behavioral evaluation preserves model weights and first-discovery pairing; Grid substitutions are exact shams; onset/every-blind-step erasure counts agree with their definitions.",
+    "After TF32default0 and Categorical(validate_args=False), the direct native-loop equivalence and complete restart tests remain exact.",
+    "Supervisor requires bound immutable instance IDs and portable output/protocol paths matching each frozen job.",
+    "The full not-yet-launched cohort reservation must fit the cumulative ledger budget before another launch.",
+    "Metric-only first-four promotion requires the expected live RUNNING VM; reward outcomes do not enter the technical gate.",
+    "Valid terminal DONE artifacts are processed before live-VM checks, including provider-deleted workers; missing remote terminal metrics fall back to collected files or halt explicitly.",
+    "Terminal completion checks actual saved checkpoint/runtime/summary frames, decision counters, provenance and model condition/seed/map-seed/gap against the job.",
+    "All16 candidate CLI configurations match the current protocol, explicitly use TF32=0, and reproduce the exact package manifest.",
+    "The launcher accepts25.5h hard provider deadlines, rejects25.51h, retains eight-worker and cumulative600USD guards, and budgets the16-worker cohort at515USD."
+  ],
+  "resolved_findings": [
+    {
+      "finding": "Optimizer load_state_dict could alias CPU tensors from the in-memory saved checkpoint.",
+      "resolution": "Trainer now clones the optimizer tree before loading; exact restart and snapshot immutability both pass."
+    },
+    {
+      "finding": "Evaluator CLI initially requested ckpt_final.pt while the new trainer writes final.pt.",
+      "resolution": "Default changed to final.pt; evaluator source hashes now include native model/environment/code dependencies."
+    },
+    {
+      "finding": "Unbound reserved records could be treated as owned live workers.",
+      "resolution": "Supervisor requires an immutable recorded instance ID, compares it on restart, and validates live VM identity for technical promotion."
+    },
+    {
+      "finding": "Worker --out/--protocol arguments were not tied to artifact/protocol routing.",
+      "resolution": "Exact values and portable relative paths are required."
+    },
+    {
+      "finding": "Per-launch budget checks alone could strand a partially launched cohort.",
+      "resolution": "The whole remaining cohort reservation is checked against the current committed ledger before each launch."
+    },
+    {
+      "finding": "Terminal summary metadata alone did not certify the specific saved arm or actual frame counter.",
+      "resolution": "Collected configuration and final checkpoint/runtime counters/provenance are validated."
+    },
+    {
+      "finding": "Live status checks before DONE rejected valid completed artifacts after provider deletion.",
+      "resolution": "Terminal artifact validation now precedes metric-only live promotion, with local terminal-metric fallback and explicit missing-metric failure."
+    }
+  ],
+  "limits_and_pending_checks": [
+    "This reviewer ran local CPU and mocked cloud tests; final CUDA numerical/throughput proof is root-owned and is not certified by these CPU tests.",
+    "The candidate protocol/plan are still draft_pending_final_gpu_confirmation; final status/source freeze and scientific launches remain root-owned.",
+    "Recurrent erasure removes broad history rather than a selected angular variable; reward-triggered exposure may diverge across behavior branches.",
+    "Implementation verification establishes no learned-memory benefit, PGC advantage or ring geometry."
+  ],
+  "source_sha256": {
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "scripts/evaluate_simple_memory.py": "4da31fa41811db35512cc71a5e06d32dbc139b45b8d2926aa327e09dc08f77d0",
+    "tests/test_simple_memory_independent.py": "054afb186dd357072f359470c7c1dd9112b98cd81c8f43d6d1df9421f3f965e2",
+    "scripts/run_simple_memory_cohort.py": "58eaa9c10e2cfddca4a3d19171996a541c5eb5a0a5a953129084c6f92b4d5218",
+    "scripts/ring_cloud.py": "b60f7d189e8e2a39e95776c98a60dbd987f8b48241693f3b8d74ed25afaf5e9e",
+    "tests/test_run_simple_memory_cohort.py": "a5d7fb5787c77544a4e1908a12f14b528ec77fc7dc150d9c00e9d174c92f030d",
+    "tests/test_ring_cloud.py": "ce8d5301a1d90b6ce485f2d92247f42da5d1b91c2302c0df34dcaa6fef822cb4"
+  },
+  "draft_protocol_review": {
+    "path": "docs/research/simple_memory_training_protocol.json",
+    "sha256": "a443eb35e6bbf5b81a1e46af2501962e6ecd57567f343e9c5fcd036cb65278ea",
+    "status_at_review": "draft_pending_final_gpu_confirmation",
+    "behavior_and_cohort_match_implementation": true,
+    "cohort": {
+      "conditions": [
+        "gc100",
+        "pgc33"
+      ],
+      "task_max_gaps": [
+        0,
+        60
+      ],
+      "seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": 16,
+      "frames_per_model": 1000000000,
+      "updates_per_model": 78125
+    },
+    "clarifications_resolved": [
+      "Primary comparison identifies blackout-trained models explicitly.",
+      "Ring structure and predictive stabilization are separately defined.",
+      "Autonomous assays require complete input constant over time and identical across branches."
+    ],
+    "unresolved_design_or_implementation_blockers": [],
+    "final_gpu_confirmation_and_status_freeze_pending": true
+  },
+  "prior_reviews": [
+    {
+      "created_utc": "2026-11-07T12:34:00.627431+00:00",
+      "test_evidence": {
+        "command": "python -m pytest -q tests/test_simple_memory_independent.py",
+        "exit_code": 0,
+        "passed": 17,
+        "failed": 0,
+        "reported_duration_seconds": 2.22,
+        "terminal_summary": "17 passed in 2.22s",
+        "backend": "CPU",
+        "study_training_launched": false,
+        "cloud_instances_launched": 0
+      },
+      "source_sha256": {
+        "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+        "code/train_memory.py": "677616093e698481518cf5a52abbc85028f62b8ae1014059d3d0ddd1c57487b8",
+        "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+        "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+        "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+        "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+        "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+        "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+        "scripts/evaluate_simple_memory.py": "aac345b5518decaf980db1cd73cb60d502c83a0c0669f336932bc3f43c76a33a",
+        "tests/test_simple_memory_independent.py": "054afb186dd357072f359470c7c1dd9112b98cd81c8f43d6d1df9421f3f965e2"
+      },
+      "draft_protocol_review": {
+        "path": "docs/research/simple_memory_training_protocol.json",
+        "sha256": "092de175976caaa3c84fcac37dbca8933b2bb4f357deb258fcd6592b46ed10c2",
+        "status_at_review": "draft_pending_gpu_technical_preflight",
+        "behavior_and_cohort_match_implementation": true,
+        "cohort": {
+          "conditions": [
+            "gc100",
+            "pgc33"
+          ],
+          "task_max_gaps": [
+            0,
+            60
+          ],
+          "seeds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "models": 16,
+          "frames_per_model": 1000000000,
+          "updates_per_model": 78125
+        },
+        "budget_arithmetic": {
+          "prior_upper_bound_usd": 71.1726,
+          "sixteen_24_hour_reservations_with_launch_allowances_usd": 485.0,
+          "half_hour_preflight_with_launch_allowance_usd": 0.9375,
+          "total_upper_bound_usd": 557.1101,
+          "remaining_to_600_usd": 42.8899
+        },
+        "clarifications_sent_to_owner": [
+          "Specify that the first primary PGC-minus-Grid score contrast uses blackout-trained models.",
+          "Separate general ring-structure criteria from the additional causal predictive-cue and behavioral criteria; a ring need not depend on a predictive population advantage.",
+          "An autonomous-attractor claim requires complete future inputs fixed in the dynamical assay; ordinary blackout trials still contain action/reward/goal inputs."
+        ],
+        "gpu_technical_preflight_and_final_source_freeze_pending": true,
+        "clarifications_resolved": [
+          "Primary comparison identifies blackout-trained models explicitly.",
+          "Ring structure and predictive stabilization are separately defined.",
+          "Autonomous assays require the complete input to be constant over time and identical across branches; changing/periodic sequences are labeled driven."
+        ],
+        "unresolved_design_or_implementation_blockers": []
+      }
+    }
+  ],
+  "updated_utc": "2026-11-07T12:57:11.184523+00:00",
+  "candidate_cloud_plan_review": {
+    "path": "docs/research/simple_memory_cloud_plan.json",
+    "sha256": "d1f759d5b01f7c92841b808583ca504a6b73e804e3c56ea7259bdb7b25bfea85",
+    "status_at_review": "draft_pending_final_gpu_confirmation",
+    "read_only_all16_cli_config_manifest_and_budget_checks_passed": true,
+    "cloud_requests_made_by_this_plan_review": 0,
+    "hours_per_worker": 25.5,
+    "maximum_concurrency": 8,
+    "first_four_minimum_fps": 11200,
+    "reservation_rate_usd_per_hour": 1.25,
+    "per_launch_allowance_hours": 0.25,
+    "cohort_reservations_usd": 515.0,
+    "existing_ledger_commitment_including_active_pilot_usd": 72.436,
+    "full_cumulative_reservation_usd": 587.436,
+    "remaining_to_600_usd": 12.564,
+    "throughput_arithmetic": {
+      "seconds_available_after_600s_overhead": 91200,
+      "minimum_fps_for_1B_within_that_window": 10964.912280701754,
+      "minutes_remaining_at_11200fps_after_600s_overhead": 31.904761904761834
+    }
+  }
+}

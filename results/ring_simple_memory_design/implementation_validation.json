@@ -1,0 +1,43 @@
+{
+  "complete": true,
+  "utc": "2026-11-07T12:50:13.971415+00:00",
+  "scope": "CPU implementation tests only; private synthetic fixtures, no study training or cloud",
+  "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=\"$PWD\" /opt/anaconda3/bin/python -m pytest -q tests/test_memory_task.py tests/test_train_memory.py tests/test_simple_memory_independent.py",
+  "tests_passed": 30,
+  "seconds": 3.67,
+  "python": "3.12.7",
+  "torch": "2.10.0",
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "cuda_tested": false,
+  "source_sha256": {
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "tests/test_memory_task.py": "52c354d3e733bf9f1e6c4bc01b1e695f7b38df9763985a98ed929fc973cc9a2d",
+    "tests/test_train_memory.py": "52cadc0f96da0e40f5ac48c094c12e9a2b11bc9b8d0cc16001d800b6e4e1f0e8",
+    "tests/test_simple_memory_independent.py": "054afb186dd357072f359470c7c1dd9112b98cd81c8f43d6d1df9421f3f965e2"
+  },
+  "checks": [
+    "Exact 15 visible observations, private uniform gap durations and zero-gap native control",
+    "All 512 current-code slots and RGB gated without mutation; goal/action/reward unchanged",
+    "Native rendering, motor/image randomness and physical/reward/reset behavior preserved",
+    "Online, differentiable replay and bootstrap receive the same masked inputs",
+    "Native 256-LSTM/SI-CNN nonzero optimizer update and bitwise checkpoint/resume",
+    "Complete runtime, private/global RNG and optimizer snapshots immutable after restore",
+    "Matched Grid/PGC initialization and all policy weights trainable",
+    "Real SIGTERM exits 143 after safe optimizer boundary and atomically checkpoints full runtime",
+    "CLI exact resume preserves raw interrupted logs and supplied checkpoint bytes",
+    "Exact frame endpoint via shortened final rollout",
+    "Frozen source/config/cohort/population/map-seed/clock-seed guards",
+    "Categorical validation elision: native actor/replay shapes have bitwise-identical probabilities/actions/log-probabilities/entropy/gradients/RNG; fixture preserves global RNG"
+  ],
+  "gpu_requirement": "This record covers CPU checks only. Separate post-optimization CUDA categorical equivalence, exact checkpoint/resume and production-shape throughput preflight remain required before study launch.",
+  "previous_validation": {
+    "path": "results/ring_simple_memory_design/implementation_validation_initial.json",
+    "sha256": "47883fa765678e2c7493845d0777c99607b135bb941969743620585025226c45"
+  },
+  "changes_since_initial_validation": [
+    "Default TF32 disabled by root after L4 batch-size numerical preflight failure; numerical tolerance unchanged",
+    "Both Categorical call sites pass validate_args=False; no normalization/sampling/loss/optimizer algorithm change",
+    "Independent tests include terminal-hit and evaluation sham/reset integrations"
+  ]
+}

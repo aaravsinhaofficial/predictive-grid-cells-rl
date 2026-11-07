@@ -1,0 +1,111 @@
+{
+  "created_utc": "2026-11-07T13:01:15.422784+00:00",
+  "purpose": "Technical validation only; private seed90731 and forced-known clocks. No scientific training outcome used for configuration selection.",
+  "complete": true,
+  "hardware": {
+    "hostname": "ring-20261105-simplemem-preflight-opt",
+    "platform": "Linux-6.8.0-1070-gcp-x86_64-with-glibc2.35",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "numpy": "2.2.6",
+    "torch": "2.9.1+cu129",
+    "cuda": "12.9",
+    "cudnn": 91002,
+    "device": "cuda:0",
+    "gpu_name": "Tesla T4",
+    "gpu_total_memory_bytes": 15636037632,
+    "compute_capability": [
+      7,
+      5
+    ],
+    "multiprocessors": 40,
+    "nvidia_smi": {
+      "exit_code": 0,
+      "stdout": "Tesla T4, 580.178.04, 15360 MiB",
+      "stderr": ""
+    }
+  },
+  "cases": {
+    "gc100": {
+      "frames_per_second": 12078.585435431076,
+      "expected_1B_training_hours": 22.997542159444443,
+      "exact_disk_resume": true,
+      "same_2M_final_policy_as_original_implementation": true,
+      "final_policy_sha256": "8cfa50c23bb17d8c7f393843088473016bf6d45128d52f57d5abf654b008254c",
+      "max_replay_logit_error": 4.470348358154297e-08,
+      "max_replay_value_error": 9.5367431640625e-07
+    },
+    "pgc33": {
+      "frames_per_second": 12046.594523118672,
+      "expected_1B_training_hours": 23.058614386388886,
+      "exact_disk_resume": true,
+      "same_2M_final_policy_as_original_implementation": true,
+      "final_policy_sha256": "c5a5e3743c0909df420d46ec81f1ae3cc7d977be7b323a294477969e18934d2b",
+      "max_replay_logit_error": 5.960464477539063e-08,
+      "max_replay_value_error": 9.5367431640625e-07
+    }
+  },
+  "categorical_equivalence": {
+    "complete": true,
+    "cases": [
+      {
+        "shape": [
+          32,
+          6
+        ],
+        "bitwise_equal": true,
+        "compared_leaves": 8
+      },
+      {
+        "shape": [
+          100,
+          32,
+          6
+        ],
+        "bitwise_equal": true,
+        "compared_leaves": 8
+      }
+    ],
+    "global_rng_restored": true,
+    "private_seed": 90731,
+    "compared": [
+      "normalized logits",
+      "probabilities",
+      "sampled actions",
+      "log probability",
+      "entropy",
+      "logit gradients",
+      "CPU RNG",
+      "CUDA RNG"
+    ],
+    "scientific_settings_changed": false
+  },
+  "raw_reports": {
+    "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-opt/technical/summary.json": "1a5d1ab1c2009f91df3c7d0d9443c31a516436fc93a73fb942fd4d22039bda76",
+    "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-t4-a/technical/summary.json": "8a252b599e888bcaf0d6ea928670eecf202b112cf82405a2cafbab926c4d62ce",
+    "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-l4-c/technical/summary.json": "32760dd8b60966ff3f66917b8c65203d2393990625c57b235ca1720b9f3e8536"
+  },
+  "source_sha256": {
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "scripts/simple_memory_gpu_preflight.py": "99bb0fa4b29929322387e5a07beef9461a79279a782547a930f76225994b273f"
+  },
+  "selected_machine": "n1-standard-8",
+  "worker_limit_hours": 25.5,
+  "first_four_minimum_training_fps": 11200,
+  "cohort": {
+    "models": 16,
+    "seeds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "frames_per_model": 1000000000
+  }
+}

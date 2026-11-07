@@ -1,0 +1,28 @@
+# Give the agent a reason to remember
+
+The agent plays the same navigation task as before. The one change is simple: after finding the goal, its view and current grid code sometimes disappear for **2–4 seconds**. Remembering where it was can help it navigate between views.
+
+![Example input schedule; design illustration, not a result](task.png)
+
+| Training task | Grid only | PGC + grid |
+|---|---|---|
+| Inputs always available | 4 seeds × 1B frames | 4 seeds × 1B frames |
+| Brief sensory blackouts | 4 seeds × 1B frames | 4 seeds × 1B frames |
+
+Each seed starts with identical network weights across the four conditions. The full network learns from navigation reward. The maps, actions, movement noise, reward, and stored goal code stay the same.
+
+After a goal pickup, the agent sees normally for one second. It then alternates brief views with blackouts. Blackouts grow gradually over the first 200M frames. Before the first goal discovery, everything stays visible.
+
+**During a blackout:** the image and all 512 current grid-code entries are zero. The LSTM still receives the stored goal, its previous action, and its previous reward. No extra movement or direction information is supplied.
+
+We will ask three simple questions:
+
+1. **Does it learn to remember?** Erase the LSTM's hidden and cell states and measure the navigation cost, with the same erasure in a visible control.
+2. **Do predictive cells help that memory?** Replace current predictive activity with ordinary grid activity, then compare retention, recovery, and navigation.
+3. **What form does the memory take?** Examine activity and perturb the complete recurrent state. A ring needs a continuous family of memories that survives without cues and recovers from disturbances.
+
+The run target is 16 models, each trained for exactly 1B environment frames. The cumulative cloud ceiling is **$600**, including previous recorded research spending. A short GPU test checks speed and exact restart behavior before full training. Every worker has an enforced deletion deadline.
+
+**Status: implementation and technical validation; no new 1B results yet.** The experiment tests whether a useful ring emerges. Its outcome will be reported as measured.
+
+[Full protocol](../../docs/research/simple_memory_training_protocol.json) · [Cloud plan](../../docs/research/simple_memory_cloud_plan.json)
