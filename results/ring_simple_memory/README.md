@@ -25,6 +25,8 @@ The run target is 16 models, each trained for exactly 1B environment frames. The
 
 **Training started November 7, 2026. Eight models are running; eight more are queued.** Each run takes roughly one day, so the two waves should take about two days if throughput holds. The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
 
+**Progress at 16:05 UTC on November 7:** all eight active models have passed 100M frames, reaching approximately 119–129M each. A local connection outage stopped the monitoring process; the cloud training continued. Monitoring resumed after checking worker identities, fresh progress, frozen code, and the budget. See the [recovery record](../ring_simple_memory_supervision/recovery_20261107T160447Z.json).
+
 There are no completed 1B results yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
 
 The analysis methods are now fixed, with **68 private control tests passing**. We will measure PCA activity variance, remembered direction, recovery after a state disturbance, and navigation after a single correct or misleading predictive cue. These checks have been tested on private fixtures; trained-model findings come after the runs finish.
