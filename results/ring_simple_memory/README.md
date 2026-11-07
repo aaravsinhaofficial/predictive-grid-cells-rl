@@ -27,4 +27,6 @@ The run target is 16 models, each trained for exactly 1B environment frames. The
 
 There are no completed 1B results yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
 
-[Full protocol](../../docs/research/simple_memory_training_protocol.json) · [Cloud plan](../../docs/research/simple_memory_cloud_plan.json)
+The analysis methods are now fixed, with **68 private control tests passing**. We will measure PCA activity variance, remembered direction, recovery after a state disturbance, and navigation after a single correct or misleading predictive cue. These checks have been tested on private fixtures; trained-model findings come after the runs finish.
+
+[Training protocol](../../docs/research/simple_memory_training_protocol.json) · [Analysis protocol](../../docs/research/simple_memory_analysis_protocol.json) · [Cloud plan](../../docs/research/simple_memory_cloud_plan.json)

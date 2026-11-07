@@ -1,0 +1,29 @@
+{
+  "complete": true,
+  "created_utc": "2026-11-07T13:12:43.144089+00:00",
+  "scope": "Private CPU fixtures, including randomly initialized native CNN/LSTM; no original or final trained policy execution.",
+  "tests_passed": 6,
+  "seconds": 2.27,
+  "source_sha256": {
+    "scripts/collect_simple_memory_states.py": "a5d65d79d9e2a2f4cebc0bc1c13ef31bf1eda14bf78fd21d504534aaa3b2bd64",
+    "tests/test_collect_simple_memory_states.py": "486c418bce923f7c761222ce720dac72938edb6da3c5f5ea9a1de1b2a1d72fb5"
+  },
+  "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=\"$PWD\" /opt/anaconda3/bin/python -m pytest -q tests/test_collect_simple_memory_states.py",
+  "python": "3.12.7",
+  "torch": "2.10.0",
+  "uniform_samples_per_model": 57600,
+  "uniform_array_bytes_excluding_small_maps_and_layouts": 125337600,
+  "artifact_byte_cap": 200000000,
+  "checks": [
+    "After-input h/c and before-action physical/input labels agree with an independent native trace",
+    "Native evaluator blind-branch episode statistics and counts match; Grid current substitution remains exact sham",
+    "Uniform stride subsampling matches full private trace with no onset-dependent extra rows",
+    "All episode-boundary h/c, goal, action, reward and known flags reset correctly",
+    "Four deterministic distinct slot/episode onset snapshots restore exact recurrent input, action draw and native next physical transition",
+    "Selected-slot preceding visible histories contain only actual known/visible same-episode observations",
+    "Actual randomly initialized native SI-CNN/256-LSTM visible-prefix replay meets fixed numerical bounds",
+    "NPZ/PT storage is lossless with tensor schema and file hashes; nonempty destinations rejected",
+    "Fewer than four eligible onsets reported honestly; deadline cannot produce complete output",
+    "Numerically unfaithful prefix replay is retained with qualified=false; native uniform state samples stay valid and no extra history is invented"
+  ]
+}
