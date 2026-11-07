@@ -1,0 +1,36 @@
+{
+  "complete": true,
+  "status": "storage_only_addendum_cleared_for_parent_owned_freeze",
+  "created_utc": "2026-11-07T01:16:30.358218+00:00",
+  "prior_review_sha256": "91af3883d1d1cf839652278131ef6abc7ec40f3ba1a9b39bf61986bddcf22910",
+  "preserved_reviewed_artifact_sha256": {
+    "results/native_turn_counterbalanced_readout_design/reviewed_before_storage.py": "e3d9dfdcb0b2da1a69547ed0a667ea43400a62271bed6aeaaed8ad036f340bd0",
+    "results/native_turn_counterbalanced_readout_design/reviewed_before_storage_test.py": "6f3b516f535af3f0a6e87d39023b973ad103ce7dd32439805a3f7d409de0ffb3",
+    "results/native_turn_counterbalanced_readout_design/reviewed_before_storage_plan.md": "e4f6132001bbfdfe99a0d5424a4b4685502b52c0d8a28f118110d770bc6d5b91",
+    "results/native_turn_counterbalanced_readout_design/reviewed_before_storage_draft.json": "85d296976e0d34805d325a001d295a7702fc24a1d501dcae10c4101e2a620c80"
+  },
+  "source_sha256": {
+    "scripts/native_turn_counterbalanced_readout.py": "deab7a3af764be6d49c4379db1d9ed6d2b9eb8ac0cd3ceef98d767d4db1daae0",
+    "tests/test_native_turn_counterbalanced_readout.py": "b54feaa1dfa087ee27f3fd5a24a929397deab2df262e314b8fda051473c99bbe",
+    "docs/research/native_turn_counterbalanced_readout_plan.md": "393f24eebac10e7bbf8c58c5486ab9f165773e3412a412ca9a116734e18aed7c",
+    "docs/research/native_turn_counterbalanced_readout_protocol_draft.json": "10c82119c6f825ea3bbb9cc2decf51c47c73f3e3d5c8775646b13354c7b885c5"
+  },
+  "tests": {
+    "passed": 7,
+    "seconds": 1.63,
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_counterbalanced_readout.py"
+  },
+  "findings": [
+    "Only storage layout changed: three existing per-phase score lists move losslessly to named float64 arrays in the existing per-family compressed NPZ.",
+    "Family scores are evaluated once and retain identical scalar aggregates, full family count, phase count, aliases and numerical checks.",
+    "Detailed shared-angle checks move unchanged into a separate compact JSON whose SHA and record count are bound by summary.json and the complete artifact manifest.",
+    "The preserved pre-storage source/test/plan/draft exactly match the original independent review hashes.",
+    "The added test verifies every moved value is retained, with no numeric conversion loss."
+  ],
+  "no_scoring_formula_change": true,
+  "no_tolerance_change": true,
+  "no_denominator_change": true,
+  "no_trained_policy_execution": true,
+  "no_physics_bank_generation": true,
+  "no_readout_score_run": true
+}

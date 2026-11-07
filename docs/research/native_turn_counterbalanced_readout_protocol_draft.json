@@ -1,0 +1,82 @@
+{
+  "version": "counterbalanced_saved_turn_readout_v1",
+  "conditions": [
+    "gc100",
+    "pgc33"
+  ],
+  "endpoints": [
+    "original",
+    "clean",
+    "noise"
+  ],
+  "contexts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "prefix_actions": [
+    0,
+    1
+  ],
+  "kinds": [
+    "turn_only",
+    "probe_glimpse"
+  ],
+  "branches": [
+    "native",
+    "ordinary",
+    "pre_cue_reset_native",
+    "pre_cue_reset_ordinary"
+  ],
+  "phases": 128,
+  "expected_physics_families": 128,
+  "expected_neural_families": 1536,
+  "expected_case_rows": 196608,
+  "state_archive": "left/baseline_states.npz:t8",
+  "state_semantics": "State AFTER eighth common LEFT input; this input is the first-choice observation. Do not feed it again.",
+  "physics": "Actual native one-update six-action outcomes from the recorded choice heading/endpoint/travel direction, zero vf/vs/vr after the declared choice brake, native episode clock; image and motor noise zero as in the controlled preflight.",
+  "geometry": "Both fixed LEFT and fixed RIGHT prefixes independently cover the full 360-degree circle. Every context, mode, branch and endpoint is included regardless of prior geometry or behavioral results.",
+  "static_readout": "Float64 retained original actor on archived float64 h. No LSTM/CNN/policy rollout. Assert actor weights exactly equal at all endpoints.",
+  "checks": "Compare actual prefix labels and angle matches to prior 16-case histories. Validate shared inputs, h/c, actor probabilities/logits and six-action physics at every shared angle. Failures retained and whole run incomplete; no dropped cases or adaptive tolerance.",
+  "numerical_provenance_tolerances": {
+    "angle_rad": 3e-05,
+    "position_m": 1e-06,
+    "direction": 3e-05,
+    "embedding": 1e-05,
+    "current_code": 3e-05,
+    "hidden": 0.0001,
+    "cell_atol": 0.0001,
+    "cell_rtol": 1e-05,
+    "centered_logits": 0.001,
+    "probability": 0.0001,
+    "action_progress_m": 1e-07,
+    "action_alignment_rad": 5e-05,
+    "action_endpoint_m": 1e-06
+  },
+  "statistics": "Equal weight for all128 phases and both prefixes per context; also retain each prefix separately. Expected signed goalward displacement, actual six-action angle alignment, antipodal policy TV, and averaged-policy counterfactual progress. No p-values, success gate, ring criterion or claim that facing the goal is an optimal action.",
+  "no_recurrent_execution": true,
+  "no_optimization": true,
+  "no_cloud": true,
+  "scope": "One original seed per population; all original/clean/noise endpoints. Exploratory analysis specified after the prefix-associated result; no new readout scores observed before source/protocol seal.",
+  "status": "draft_implementation_only_not_authorized_for_scores",
+  "source_sha256": {
+    "scripts/native_turn_counterbalanced_readout.py": "deab7a3af764be6d49c4379db1d9ed6d2b9eb8ac0cd3ceef98d767d4db1daae0",
+    "tests/test_native_turn_counterbalanced_readout.py": "b54feaa1dfa087ee27f3fd5a24a929397deab2df262e314b8fda051473c99bbe",
+    "scripts/decompose_native_turn_prefix.py": "1a7d03222ff54269e5968fe5184754dfcecee224a9e1f504c3363810301f1ba9",
+    "scripts/decompose_native_turn_imitation.py": "2330fdb4403e35784257cf69b24d9005f5755487fdfdbe0c5acf7203a5686be6",
+    "docs/research/native_turn_counterbalanced_readout_plan.md": "393f24eebac10e7bbf8c58c5486ab9f165773e3412a412ca9a116734e18aed7c"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "complete": true,
+  "reviewer": "independent nonlinear-ring audit agent",
+  "created_utc": "2026-11-07T01:15:01.333037+00:00",
+  "status": "cleared_for_parent_owned_freeze_and_complete_cohort_run",
+  "source_sha256": {
+    "scripts/native_turn_counterbalanced_readout.py": "e3d9dfdcb0b2da1a69547ed0a667ea43400a62271bed6aeaaed8ad036f340bd0",
+    "tests/test_native_turn_counterbalanced_readout.py": "6f3b516f535af3f0a6e87d39023b973ad103ce7dd32439805a3f7d409de0ffb3",
+    "docs/research/native_turn_counterbalanced_readout_plan.md": "e4f6132001bbfdfe99a0d5424a4b4685502b52c0d8a28f118110d770bc6d5b91",
+    "docs/research/native_turn_counterbalanced_readout_protocol_draft.json": "85d296976e0d34805d325a001d295a7702fc24a1d501dcae10c4101e2a620c80",
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "scripts/native_turn_teacher_preflight.py": "4a27e5383f7bfb2caea5c3cff90d741ac78b731c9ccd7ed39ce6da91e26d26a0",
+    "scripts/native_turn_original_memory.py": "f412bc69b0495acacd2cb262270eeb4d4e35e426eaa51bbf3f4fa1bbd2557b9f",
+    "scripts/decompose_native_turn_prefix.py": "1a7d03222ff54269e5968fe5184754dfcecee224a9e1f504c3363810301f1ba9",
+    "scripts/decompose_native_turn_imitation.py": "2330fdb4403e35784257cf69b24d9005f5755487fdfdbe0c5acf7203a5686be6"
+  },
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_native_turn_counterbalanced_readout.py",
+    "passed": 6,
+    "seconds": 1.83
+  },
+  "scope": [
+    "Static actor only; no LSTM/CNN transition or optimization in this analysis.",
+    "LEFT t8 is the post-eighth-LEFT-input, post-first-choice-input recurrent state; no duplicated input.",
+    "Physical archive ends at cue/prefix reference: reuse only position and last-travel direction; use recorded choice heading, reference clock plus eight, and exactly zero post-brake motors.",
+    "Native action_progress rejects goal/wall/end events; physical-bank failure leaves the run incomplete and preserves the full planned cohort/progress record.",
+    "Eight shared headings per prefix are matched by all actual prefix action labels and angles, not row parity.",
+    "Explicit original-family aliases are resolved only within the same physical family and LEFT regime, and remain in the full denominator.",
+    "Checkpoint, preparation, own-prefix replay, paired summary/raw artifacts and unchanged original actor bytes are bound before readout.",
+    "All 1536 neural families, 196608 phase rows and 128 physical banks are fixed; aggregate coverage rejects missing or duplicate context/prefix rows.",
+    "Shared float64-versus-float32 discrepancies and their expected-progress error bounds are saved; numerical tolerances are compatibility checks rather than scientific significance gates.",
+    "First-choice input is required byte-identical across both prefixes and modes within each context."
+  ],
+  "schema_checks": [
+    "Inspected actual completed independent-validation JSON key structure only; models[condition][endpoint].paired.summary_sha256 and endpoint_summary_sha256 routes agree.",
+    "Frozen preflight raw physical schema includes pos, hd, mdir, vf, vs, vr, goal and t; first_update_physics and paired state/logit/probability fields match the new reader."
+  ],
+  "interpretation": [
+    "Phase-averaged policy is an arithmetic counterfactual, not an actual state-erasure intervention.",
+    "This static readout measures actor access/use over a counterbalanced full circle; it does not itself measure recurrent attraction.",
+    "Effects near shared-case numerical discrepancy bounds must retain that precision context; no p-value or outcome-selection gate is introduced."
+  ],
+  "no_trained_policy_execution": true,
+  "no_physical_bank_generation": true,
+  "no_readout_scores_computed": true,
+  "no_frozen_source_edits": true
+}
