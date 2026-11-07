@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "created_utc": "2026-11-07T13:53:49.057215+00:00",
+  "scope": "Report implementation and private synthetic fixtures; no trained-model outcomes inspected or generated.",
+  "source_sha256": {
+    "scripts/report_simple_memory.py": "22d8d0e7919283dce52e697f26ebe529c96853892c4fdb947738b8ecb17eae27",
+    "tests/test_report_simple_memory.py": "f7ef1557ac08917ee6480e97fc21763cca02e772d33bcfeae40f22ef186806a8",
+    "scripts/run_simple_memory_analysis.py": "bf5c64b40d2429d8cc2e5a784e3e0ea21ae51250e433b61f0ba41e32021e0f24",
+    "docs/research/simple_memory_analysis_protocol.json": "cd15bb8465e9429e7280327b03f8410d9d1ac46bfbd2b1a22765edd4f3a88fae"
+  },
+  "final_test": {
+    "command": "python -m pytest -q tests/test_report_simple_memory.py",
+    "passed": 13,
+    "seconds": 5.41
+  },
+  "prior_integration_test": {
+    "command": "python -m pytest -q tests/test_report_simple_memory.py tests/test_run_simple_memory_analysis.py",
+    "passed": 25,
+    "seconds": 6.16,
+    "scope": "Before final caption and report-metadata-only edits."
+  },
+  "visual_review": {
+    "fixture_only": true,
+    "inspected": [
+      "behavior figure",
+      "per-context geometry and recovery figure"
+    ],
+    "result": "Legible layouts; all test figures remained in pytest temporary directories."
+  },
+  "final_changes": [
+    "Positive plain-language captions describe each measurement and its scope.",
+    "Report metadata explicitly records the existing t15 reference cuts: radius / sqrt(512) >= 0.0001 and phase coverage >= 0.8."
+  ],
+  "frozen_scientific_protocol_unchanged": true,
+  "aggregation_unit": "Four paired training seeds; repeated contexts, episodes, phases and action tapes remain within-seed measurements.",
+  "missing_results": "Explicit missing/invalid/unqualified counts; no zero imputation."
+}
