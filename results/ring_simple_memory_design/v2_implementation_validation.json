@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "complete": true,
+  "scope": "Private CPU synthetic initialization/update, checkpoint migration and saved-endpoint authentication only. No archived study checkpoint executed; no cloud actions.",
+  "checked_utc": "2026-11-08T18:15:44.333526+00:00",
+  "source_sha256": {
+    "code/train_memory_v2.py": "f7feb9d607880beb55e02d98c9431e5d6e5f064d36ca9dd963114e5202b53c2f",
+    "tests/test_train_memory_v2.py": "139590d414a25cb90ef3feb7ae3fb5043ebd93f5ebd12abaf2538639a5404377",
+    "code/simple_memory_replay_guard.py": "d2cc6b24294954e933c35c4b1bbb77d7ec1cfceada404cc36ef113ef949e2ff1",
+    "tests/test_simple_memory_replay_guard.py": "518c735013d926976ef996727631a7f722414e4db80c18c728e682ba3b7ebe66",
+    "scripts/simple_memory_endpoint.py": "1dcad83512cead4f828cd830bb81c9556d68c46630cd5c7f23c7b1be83bcb98c",
+    "tests/test_train_memory.py": "52cadc0f96da0e40f5ac48c094c12e9a2b11bc9b8d0cc16001d800b6e4e1f0e8"
+  },
+  "original_training_protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "original_training_source_sha256": {
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+  },
+  "original_training_sources_unchanged": true,
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_simple_memory_replay_guard.py tests/test_train_memory_v2.py tests/test_train_memory.py",
+    "passed": 37,
+    "seconds": 4.9
+  },
+  "independent_review": {
+    "agent": "/root/causal_design_review",
+    "passed": true,
+    "tests_passed": 37,
+    "test_seconds": 4.29,
+    "findings": [],
+    "scope": "Read-only v2 provenance/lineage/main and unchanged learning math review, plus independent joint private test execution."
+  },
+  "controls": [
+    "AST identity of original train_update after excluding only the replaced verification statements and additive guard telemetry",
+    "Original-pass real guard update gives identical original metrics and policy/optimizer/environment/private/global RNG payload",
+    "Strict original-proof parent restore and complete typed payload digest equality before and after migration",
+    "Private migrated continuation retains original initialization bytes, every parent seed-directory raw log, accepted-update cutoff and rolled-back rows",
+    "Fresh v2 SIGTERM checkpoint and exact same-version resume preserve prior attempt bytes and shortened final endpoint",
+    "Checkpoint schema1 and scientific configuration remain identical to original; truthful v2 provenance contains full source union, base proof, amendment and lineage hashes",
+    "Unimplemented guard test refuses before environment/RNG initialization or output creation",
+    "Guard rejection retains JSON technical evidence and re-raises without checkpointing partial collected runtime",
+    "Endpoint authentication accepts private genuine fresh/migrated outputs and rejects source/manifest/initial/producer/logical-ID/parent-log/migration-payload corruption",
+    "Guard focused controls verify bounded fallback, unchanged original learning arithmetic, corrupt-input/reset rejection, output/encoder/probability ceilings and no RNG mutation"
+  ],
+  "remaining": [
+    "Prospective frozen amendment and explicit16-model bindings are owned by root.",
+    "Exact T4 numerical validation on all four failed checkpoints and the approved GPU private controls is separate; this record does not claim GPU validation."
+  ],
+  "evidence_scope": "parent_evidence copies all seed-directory JSON/JSONL/log files plus initial/resume/config/provenance. Original top-level worker.log stays in the preserved original artifact tree; amendment/archive must retain its incident hash linkage.",
+  "gpu_validation_claimed": false,
+  "cloud_actions": 0,
+  "archived_study_updates_executed_locally": 0
+}

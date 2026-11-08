@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/ring_repo/code/train_memory.py", line 370, in <module>
+    raise SystemExit(main())
+  File "/work/ring_repo/code/train_memory.py", line 339, in main
+    metrics, episodes = train_update(policy, opt, source, runtime, cfg, min(cfg['rollout'], left))
+  File "/work/ring_repo/code/train_memory.py", line 221, in train_update
+    torch.testing.assert_close(logits.detach(), online, rtol=1e-4, atol=1e-5)
+  File "/usr/local/lib/python3.10/dist-packages/torch/testing/_comparison.py", line 1589, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 1 / 19200 (0.0%)
+Greatest absolute difference: 2.288818359375e-05 at index (44, 29, 5) (up to 1e-05 allowed)
+Greatest relative difference: 0.008590315468609333 at index (44, 29, 5) (up to 0.0001 allowed)

@@ -23,18 +23,22 @@ We will ask three simple questions:
 
 The run target is 16 models, each trained for exactly 1B environment frames. The cumulative cloud ceiling is **$600**, including previous recorded research spending. The GPU test passed speed and exact restart checks. Every worker has an enforced deletion deadline.
 
-**Training started November 7, 2026. Eight models were launched; eight more are queued.** The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
+**Training started November 7, 2026. As of November 8, four models have completed exactly 1B frames, four stopped at a numerical check, and eight await launch.** The completed checkpoints and saved restart states have been downloaded and authenticated. All original workers have been deleted. See the [checkpoint verification](../ring_simple_memory_recovery_inventory/collection/checkpoint_counters.json), [current inventory](../ring_simple_memory_recovery_inventory/inventory.json), and [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
 
-**One run needs a technical diagnosis.** PGC + grid, blackout, seed 1 stopped at 348M frames when two calculations of the same LSTM outputs differed by about 0.00005. Its complete restart state at 345.6M frames is preserved. See the [failure record](../ring_simple_memory_design/replay_failure_20261107.json).
+**Four runs need the same technical diagnosis.** Two calculations of the same LSTM outputs differed slightly beyond the numerical check's tolerance. The first failure was PGC + grid, blackout, seed 1 at 348M frames; its complete restart state at 345.6M frames is preserved. Grid, native, seed 2 and PGC + grid, native, seeds 1 and 2 later stopped at the same check. See the [first failure record](../ring_simple_memory_design/replay_failure_20261107.json) and [additional failure records](../ring_simple_memory_recovery_inventory/inventory.json).
 
-The [diagnostic](../../docs/research/simple_memory_replay_diagnostic_protocol.json) is prepared and passed 12 private tests. It will replay the saved updates and locate where the two calculations first diverge. It has not run on the trained checkpoint yet.
+The [GPU diagnostic](../ring_cloud_artifacts/ring-20261105-simplemem-replaydiag-s1/diagnostic/summary.json) reproduced the first interruption exactly after replaying all 188 saved updates. The difference starts when images are processed in different batch sizes: tiny rounding differences grow through the LSTM. Using the same batch size made both calculations match exactly, with and without gradients. The diagnostic worker has been collected and deleted; its conservative recorded cost was **$0.17**.
+
+A narrowly bounded consistency-check amendment is being prepared and tested. It preserves the original learning calculations and keeps the original failed-run evidence. Training continuation has not started yet.
 
 Cloud monitoring now checks whether each running job can finish before its original deletion deadline. The [operational amendment](../../docs/research/operational_amendments/20261107_monitor_recovery/amendment.json) preserves the earlier monitoring files and documents the change. Scientific training and analysis methods remain frozen.
 
-There are no completed 1B results yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
+The four completed runs have not undergone scientific analysis yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
 
 The analysis methods are now fixed, with **68 private control tests passing**. We will measure PCA activity variance, remembered direction, recovery after a state disturbance, and navigation after a single correct or misleading predictive cue. These checks have been tested on private fixtures; trained-model findings come after the runs finish.
 
 The follow-up plan waits for all sixteen verified 1B checkpoints, then evaluates eight Grid/PGC pairs. Each evaluation worker has a one-hour deletion deadline. Every diagnostic or continuation must fit the live **$600 cumulative ceiling**, including earlier research spending. The orchestration and recovery code passed **71 private tests**.
+
+The newly discovered failures require four continuations. We checked Google's component prices and the completed workers' deletion records, retaining a generous cost allowance. With future reservation rates unchanged, the revised [full-study planning envelope](../ring_simple_memory_recovery_inventory/recovery_budget_envelope.json) is about **$583**, including the four continuations, eight fresh training runs, and eight paired analyses. Continuation still depends on validating the numerical check.
 
 [Training protocol](../../docs/research/simple_memory_training_protocol.json) · [Analysis protocol](../../docs/research/simple_memory_analysis_protocol.json) · [Training cloud plan](../../docs/research/simple_memory_cloud_plan.json) · [Evaluation cloud plan](../../docs/research/simple_memory_followup_plan.json)

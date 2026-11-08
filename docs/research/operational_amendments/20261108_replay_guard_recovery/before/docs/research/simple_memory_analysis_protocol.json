@@ -1,0 +1,440 @@
+{
+  "schema": 1,
+  "status": "frozen",
+  "name": "Simple memory: activity, conditional state geometry, cue repair and navigation",
+  "scope": "Prospective analysis of the already-frozen16-model study. Numerical implementations and68 private control tests passed before any scientific trained-model activity or behavioral outcomes were inspected. Training technical health and initialization hashes were checked; no reward or ring outcome selected this design.",
+  "training_protocol": "docs/research/simple_memory_training_protocol.json",
+  "cohort": {
+    "populations": [
+      "gc100",
+      "pgc33"
+    ],
+    "training_task_max_gaps": [
+      0,
+      60
+    ],
+    "training_seeds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "checkpoint": "Authenticated final.pt at exactly 1000000000 frames and 78125 updates; require matching config, policy, checkpoint, frozen training protocol and source hashes.",
+    "rule": "Report all 16 prescribed models and every selected context, including missing, ineligible, numerically unqualified and failed assays. Never replace a context, model, seed, angular label, action regime or horizon after seeing neural or behavioral outcomes. No hidden-state transfer between different trained networks."
+  },
+  "questions_kept_separate": [
+    "How is activity variance distributed across neurons and episodes?",
+    "Which physical angular variables can a simple held-out readout recover?",
+    "Does a reachable conditional closed family persist and attract nearby states under a specified input law?",
+    "Does a brief correct predictive cue repair a specific state error better than ordinary or wrong predictive cues?",
+    "Does the same state/cue intervention improve subsequent native navigation?"
+  ],
+  "native_collection": {
+    "api": "scripts/collect_simple_memory_states.py:load_final, collect, verify_visible_prefix, save_arrays",
+    "episodes_per_model": 128,
+    "n_envs": 32,
+    "environment_seed": 741022,
+    "max_gap": 60,
+    "stride": 3,
+    "episode_decisions": 1350,
+    "uniform_rows_per_model": 57600,
+    "state": "Float32 h and c AFTER the current policy input and BEFORE the sampled physical action; position, heading, last travel direction, velocity, goal and previous action/reward refer to that same pre-action instant. Action/reward/hit/done label the following transition.",
+    "phase": "Unknown-goal, known-visible and known-blind labels; one-based phase_age, so first blind input is age 1. Uniform episode steps 0,3,...,1347 are retained independently of success or phase.",
+    "contexts_per_model": 4,
+    "context_selection": "Consider only the FIRST native blackout of each episode, in chronological step then ascending slot order. Select the first four passing the fixed physical/input eligibility rules in conditional_family.physical_eligibility, from these128 episodes. Mark an episode considered even when its first onset is rejected, so a later blackout cannot substitute. No artificial goal hits. Keep fewer than four if insufficient physical candidates exist. Once four are selected, no replacement for replay, neural geometry, repair or behavioral failure.",
+    "candidate_ledger": "Record every considered first-onset candidate: episode/slot/step, selected or skipped status, every failed physical/input rule and numerical wall/goal/respawn clearance. State explicitly when selection closes after the fourth accepted candidate; later onsets are not searched. Physical/input eligibility may use known/hit/done history needed to define the prefix, but never neural activity values, replay error, decoder/geometry results, reward score or future behavior.",
+    "context_comparison_limit": "Selection is applied separately to each model's native behavior, so physical contexts need not match across models. State/cue contrasts within a saved context are paired causal interventions; differences in conditional-family averages across trained models also reflect their selected native contexts. Report physical context descriptors and do not interpret those cross-model averages alone as a common-context causal difference in recurrent weights.",
+    "context_archive": "Full original-batch runtime BEFORE the first blind input, including physical environment and RNG, raw observation, incoming h/c, goal, PA/PR, clock and private action sampler. Save only the selected slot's preceding 15 actual known-visible observations, actual input fields, incoming/after h/c, physical poses and events, plus original batch size and slot. Also retain the next min(150, remaining episode) actual native decisions from the existing rollout: exact selected-slot input and physics digests, incoming/after h/c, actions, probabilities, rewards and events. These independently validate the no-edit/no-pulse continuation; they add no new policy/environment steps.",
+    "prefix_replay": {
+      "steps": 15,
+      "rtol": 0.0001,
+      "atol": 1e-05,
+      "method": "Replay the archived inputs from the archived initial h/c, repeating the selected slot to the original batch shape. Measure h and c errors at every step. Report bitwise equality only if checked. A failed or nonfinite prefix is unqualified for family interventions, while the valid uniform native trace remains available. Never add extra unobserved warmup steps."
+    },
+    "budgets": "Collector already caps combined lossless arrays and contexts at 200 MB/model; no complete RGB movies. Provenance includes analysis source hashes and device/numerical settings."
+  },
+  "activity_covariance_and_eigenvectors": {
+    "source_apis": [
+      "scripts/lstm_eigenspectra.py:covariances, eigen, spectral_summary, subspace",
+      "scripts/lstm_eigenspectra.py:split_stability"
+    ],
+    "primary_activity": "Raw 256-dimensional h; c and concatenated h/c are supplementary. Use float64 accumulation. Do not normalize each neuron in the primary analysis.",
+    "primary_rows": "All uniform native rows. Repeat descriptively within known-visible and known-blind rows, retaining actual counts rather than balancing away behavioral differences.",
+    "exact_decomposition": {
+      "definitions": "For selected rows x_e,t, n_e is each episode's count, mu_e its mean, N=sum(n_e), and mu=sum(n_e*mu_e)/N. S_total=sum((x-mu)(x-mu)^T), S_within=sum((x-mu_e)(x-mu_e)^T), S_between=sum(n_e*(mu_e-mu)(mu_e-mu)^T). Divide all three by the SAME N. S_total=S_within+S_between; no future episode mean is ever used for an action or causal intervention.",
+      "relative_frobenius_identity_tolerance": 1e-10,
+      "between_fraction": "trace(S_between)/trace(S_total)",
+      "raw_and_episode_centered_pca": "Diagonalize C_total and C_within separately; report each ordered eigenvalue spectrum and variance fraction using its own trace, while also retaining absolute variance. The difference in normalized PCA shares is not itself a recurrent-dynamics measure."
+    },
+    "outputs": [
+      "All covariance eigenvalues, cumulative explained variance, top-10 fraction, participation ratio, entropy effective rank and dimensions for 90% variance.",
+      "Within-model principal angles/mean squared overlap of top-10 total, within and between subspaces; cap K by numerical rank using lambda > 1e-10*lambda_max. Report eigenvalue gaps and avoid interpretation of individual nearly degenerate eigenvectors.",
+      "Within-model top-10 subspace reproducibility from one prespecified episode split: even versus odd episode_id, with independent centering and eigendecomposition.",
+      "Centered actor map A=(I-11^T/6)W_pi: trace(A C_between A^T)/trace(A C_total A^T), and top-10 covariance-mode contribution to centered actor-logit variance. This is alignment with action scores, not a causal performance test."
+    ],
+    "zero_variance": "Return null/undefined with an explicit count for zero-trace, zero-rank or zero-denominator metrics; do not replace them with a favorable numerical value.",
+    "cross_network_limit": "Compare scalar spectra and within-model alignments across trained agents. Raw eigenvector dot products between different networks have no established common neural coordinate meaning. No cross-network Procrustes fit is used to manufacture overlap."
+  },
+  "native_angular_readouts": {
+    "template": "scripts/lstm_ring_probe.py:fit_decoder, decode; use its sin/cos ridge method, but replace row-label shuffling with the fixed episode-preserving null below and restrict fitting to visible rows.",
+    "targets": {
+      "body_heading": "wrap(body_heading)",
+      "last_travel_direction": "atan2(travel_dir_y,travel_dir_x); this is the native retained last sufficient displacement direction, not necessarily current body heading or instantaneous motion",
+      "egocentric_goal_bearing": "wrap(atan2(goal_y-pos_y,goal_x-pos_x)-body_heading)"
+    },
+    "features": [
+      "h",
+      "concatenated_h_c"
+    ],
+    "groups": "Whole episode_id; fixed fold = episode_id modulo 5. No row from a held-out episode enters fitting or feature scaling.",
+    "training_rows": "Known-visible rows from the other four folds only; all three angular targets use the same rows. No PCA feature search and no nonlinear decoder.",
+    "standardization": "Training-fold coordinate mean and population standard deviation only; constant-coordinate scale is 1. Fit an intercept.",
+    "ridge_alpha": 10.0,
+    "constant_baseline": {
+      "fit": "For each target/fold compute m=mean([cos(theta),sin(theta)]) using only the SAME known-visible training rows as ridge. The constant angle is atan2(m_y,m_x). Keep this angle fixed for all held-out visible/blind-age rows; never estimate a new baseline on test labels or each blind-age bin.",
+      "comparison": "Report circular MAE and cosine accuracy for both ridge and constant-angle predictors. Convert each defined predicted angle into a unit vector u_hat; unit-vector MSE is mean(||u_hat-[cos(theta),sin(theta)]||^2). On the exact same evaluated rows report MSE_constant-MSE_ridge and R2_vs_constant=1-MSE_ridge/MSE_constant. This is an out-of-sample improvement over a train-fold constant angular predictor, not variance explained by recurrent dynamics.",
+      "undefined": "If ||m||<1e-8, the constant angle is undefined and angular-baseline comparisons are null. If MSE_constant<=1e-12, R2 is null. Report every undefined prediction and row/episode denominator. For unit-angle comparison use only rows with both predictions defined and give the retained fraction; do not hide attrition.",
+      "all_row_regression_check": "Also report mean squared error of the raw two-component ridge output versus the unit-vector target on all finite held-out rows, using m itself as the constant vector baseline. Its improvement and1-MSE_ridge/MSE_constant remain defined when the mean angle or a predicted angle is undefined, except for a zero baseline denominator. Keep this explicitly labeled sin/cos regression R2, distinct from unit-angle R2.",
+      "reason": "A navigator may usually face its goal, so a nearly constant goal-bearing prediction can have low MAE without reading neural information. The episode-rotated null alone does not rule out that explanation. Require improvement over this fixed constant baseline when describing useful angular information."
+    },
+    "outputs": [
+      "Held-out circular MAE in degrees and mean cos(predicted-minus-true angle), pooled and averaged equally over episodes.",
+      "Visible and blind-age bins 1-15,16-30,31-45,46-60, including row/episode counts and true-label resultant. The visible-trained decoder stays fixed within a fold for every blind-age bin.",
+      "Predicted sin/cos vector norm, with norm below 1e-8 marked undefined and counted rather than silently choosing angle zero."
+    ],
+    "null": {
+      "seed": 741023,
+      "replicates": 20,
+      "method": "For each replicate and episode draw one uniform angle offset in [0,2pi), add it to every training label in that episode, refit using identical features/folds, and evaluate against the unchanged held-out physical labels. Use the same offset table across models and targets. This preserves within-episode temporal angular structure while removing a consistent global angular label alignment; show the whole null range, not a parametric chance assumption."
+    },
+    "interpretation": "Decoding establishes accessible information and transfer from visible to blind periods. It is not a ring detector, and none of these decoder weights defines the conditional family, its phase, or a state intervention."
+  },
+  "conditional_family": {
+    "status": "New thin native-prefix adapter, to be tested before final data; numerical geometry functions are reused unchanged.",
+    "templates": [
+      "scripts/lstm_travel_memory_probe.py:prepare_travel_family, path_clearance (rendering and physical-clearance concepts only)",
+      "scripts/lstm_continued_heading_memory.py:prepare_heading_family (input concatenation and actual saved starting state only)",
+      "code/common.py:CodeSource",
+      "code/env.py:Arena.render"
+    ],
+    "phases": 768,
+    "phi": "phi_j=2*pi*j/768 for j=0,...,767; do not append a duplicate endpoint. Also evaluate phi=2*pi solely as a numerical closure check against phi=0.",
+    "preparation": "Replay exactly the 15 archived visible updates from the same archived incoming h/c. For phi, rotate every archived prefix position around the actual first-blind endpoint p_star: p_t(phi)=p_star+R_phi*(p_t-p_star). Rotate body heading, travel direction and world velocity together. Preserve room/landmarks, goal center, native saved goal vector, actual PA/PR and action tape. Re-render images and recompute the actual population code at each transformed pose. This is an open-loop sensory-history intervention, not a claim that the policy would choose those same actions at every phi.",
+    "noise": "For each archived visible frame, compute clean native render C0 and effective residual e=observed_RGB-C0. Use clip(C_phi+e,0,1) at every phi. This preserves the observed frame at phi=0 and couples image perturbations across angles; it does NOT reconstruct an unobserved pre-clipping Gaussian draw. Record this explicit counterfactual image construction.",
+    "physical_eligibility": {
+      "tolerance": 1e-05,
+      "rules": [
+        "All15 archived observations are known-visible in one episode, with unchanged native goal vector and goal position, and no hit/done in their15 following transitions. Replay error and all h/c values are excluded from candidate selection; replay is checked only after physical selection is fixed.",
+        "Include the first-blind endpoint when computing r_max=max_t ||p_t-p_star||. Require abs(p_star_j)+r_max < arena_half-wall_margin-tolerance on both axes, so every rigid rotation avoids the wall clamp.",
+        "Require ||goal-p_star||-r_max > goal_radius+tolerance, so every rotated prefix avoids the goal disk.",
+        "Because this is the first blackout in that episode, the prefix begins after a native pickup/respawn. Require ||goal-p_star||-||p_first-p_star|| >= goal_radius+0.1-tolerance so every rotated starting pose is an allowed native respawn location.",
+        "All saved/transformed physical and input fields must be finite. Verify transformed displacement and heading increments preserve the actual tape up to the stated tolerance; flag any original clamp/discontinuity. Neural state finiteness/faithfulness is a later numerical qualification, never a selection criterion. Never snap a path or modify motor state to rescue an ineligible context."
+      ],
+      "failure": "Before the four contexts are selected, record and skip physically ineligible first-onset candidates and continue chronologically to the next episode's first onset. Once selected, retain every context, including later replay/neural failures, without replacement. Selection uses only the prespecified physical/input rules; it never uses neural radius, shape, recovery, readout, replay error, behavioral success or future outcomes."
+    },
+    "state_timing": "z_0(phi) is full [h,c] after the last visible recurrent update and before the first blind update. phi=0 must match the archived native onset incoming h/c at rtol1e-4, atol1e-5; also report Euclidean mismatch relative to family radius. Closure phi=2*pi versus0 uses the same bound. Do not process the first blind input twice in a later behavioral fork.",
+    "meaning": "This tests a family of histories that ends at a common physical position and saved goal, with varied real angular pose/motion history. Body heading, last travel direction and egocentric goal bearing covary in this construction; the family alone cannot decide which variable the network represents. No averaged angle-bin point cloud or PCA circle is used."
+  },
+  "dynamics": {
+    "state": "All 512 recurrent coordinates z=[h,c], not just h or a fitted 2-D projection.",
+    "primary_constant_input": {
+      "definition": "x=concat(encoder(all-zero RGB), all512-current-code zeros, the actual fixed native goal vector, the actual last visible PA, reward0). Hold EVERY element constant over time and identical across family phases and perturbations. Verify the onset PR is0. The encoder of black RGB need not be zero.",
+      "reference_updates": 30,
+      "future_updates": 30,
+      "total_neural_updates": 60,
+      "total_seconds": 4,
+      "trajectory_updates": [
+        0,
+        1,
+        5,
+        15,
+        30,
+        45,
+        60
+      ],
+      "future_probe_updates": [
+        1,
+        15,
+        30
+      ],
+      "interpretation": "A specified constant-input autonomous recurrence, not native closed-loop navigation. Repeating the actual PA is a legitimate input clamp but can drive position-related state; failure of fixed full-state invariance is not proof that all angular memory is absent. PA=-1 is an episode-start symbol and is never substituted as a supposed rest action."
+    },
+    "secondary_forward_backward_cycle": {
+      "source_apis": [
+        "scripts/native_turn_geometry.py:trajectory, finite_probe",
+        "tests/test_native_turn_geometry_controls.py:two_section_system"
+      ],
+      "pa_cycle": [
+        2,
+        3
+      ],
+      "other_inputs": "The same black RGB embedding, all-current zeros, fixed saved goal and reward0 as primary. Only PA alternates.",
+      "reference_cycles": 15,
+      "future_cycles": 15,
+      "total_neural_updates": 60,
+      "total_seconds": 4,
+      "sampling": "The two-step map is F_backward(F_forward(z)); compare only the section immediately before the next forward input. Report cycle counts and neural-update counts. Probe 1, 7 and15 cycles after the15-cycle reference. Never pool the two alternating sections.",
+      "interpretation": "A driven/stroboscopic test with two native action symbols, not autonomous dynamics or an assertion of exactly zero physical displacement. No environment motion is imposed by this neural assay. It is the only additional input regime; do not search six action clamps or arbitrary sequences."
+    },
+    "metrics": {
+      "primary": "Raw Euclidean full-state coordinates.",
+      "sensitivity": "One fixed block-RMS scale from z_0: s_h=sqrt(mean(h^2)), s_c=sqrt(mean(c^2)), each floored at1e-8 and repeated256 times. Hold this scale fixed at all later times, for all perturbed states and cue branches. Report raw and scaled results separately; no evolving recentering or renormalization to make contraction disappear."
+    },
+    "geometry": {
+      "apis": [
+        "scripts/lstm_heading_curve_flow.py:curve_geometry, nearest_closed_segments, uniform_arc_samples, phase_transport, invariance_probe",
+        "scripts/lstm_continued_heading_memory.py:geometry_gates"
+      ],
+      "arc_probes": 384,
+      "perturbation": "Plus/minus tangent-orthogonal radial perturbations of 0.02 times full-family radius, sampled uniformly in full-state arc length. Measure distance to the time-matched evolving unperturbed family, not return to the original phase point.",
+      "threshold_source": "Exactly the nine numerical gates in lstm_continued_heading_memory.geometry_gates at reference30/future30, plus the existing absolute-resolution safeguard from native_turn_geometry/report_native_turn_geometry.independent_gates.",
+      "gates": {
+        "reference_radius_retention_from_z0_min": 0.05,
+        "reference_radius_per_sqrt_dimension_min": 0.0001,
+        "max_edge_over_reference_radius_max": 0.1,
+        "nonlocal_distance_over_radius_p10_min": 0.05,
+        "future_distance_to_fixed_reference_over_radius_p90_max": 0.05,
+        "future_phase_coverage_min": 0.8,
+        "absolute_winding_degree_minus_one_max_strict": 0.1,
+        "backward_edge_fraction_max": 0.05,
+        "radial_normal_gain_median_max": 0.5,
+        "radial_over_tangent_gain_median_max": 0.5
+      },
+      "classification": "A context/regime is a conditional ring candidate only if every gate passes in both raw and fixed block-RMS coordinates and numerical controls pass. Report all individual gates and continuous values. This is a finite-horizon candidate screen, not a theorem of an asymptotic attractor. Raw-only/RMS-only results remain explicit metric-sensitive results.",
+      "invalid_kicks": "Record every proposed h value outside[-1,1], zero/near-zero normal direction and actual kick norm. Do not silently clip or omit them. The unbounded radial screen may be displayed, but conditional ring nomination additionally requires zero hidden-bound excess and zero degenerate radial directions. The separately bounded broad-normal check remains informative, but it does not rescue failed or nonphysical radial qualification."
+    },
+    "broad_normal_check": {
+      "source_apis": [
+        "scripts/native_turn_geometry.py:make_perturbations, bound_perturbations, finite_probe",
+        "scripts/lstm_endogenous_curve_recovery.py:advance, decomposition"
+      ],
+      "anchors": 8,
+      "anchor_indices": [
+        0,
+        96,
+        192,
+        288,
+        384,
+        480,
+        576,
+        672
+      ],
+      "seed": 741024,
+      "random_normal_directions": 3,
+      "directions": "Three fixed seeded Gaussian directions per anchor projected off the full-state local tangent, plus full radial, cell radial, hidden-only normal, cell-only normal, and tangent control; both signs. Each nominal kick is0.02 reference radius in the chosen metric. The fixed cell-radial control was added before data inspection to reuse the existing validated make_perturbations/bound_perturbations block-purity construction unchanged; seven named normal directions plus one tangent control, with no direction search.",
+      "hidden_bounds": "Use one shared amplitude multiplier min(1,0.9*minimum hidden-bound margin/nominal |delta_h|) for the whole context/regime/metric probe, as in bound_perturbations(method='shared'); record the multiplier and actual vectors. No clipping fallback or direction search. If multiplier=0 or actual normal distances are below1e-4 reference radius, the affected check is unqualified, not passed.",
+      "assessment": "For each named normal direction require at least80% valid signed anchor probes, median remaining off-family distance/initial off-family distance <=0.5, and median normal gain/paired tangent gain <=0.5 at the same30-update horizon. Require all named normals to pass for the additional tested-normal-recovery label. Report tangent gain, phase shift and all per-anchor values. Three random directions and targeted block/radial directions do not exhaust511 normal dimensions.",
+      "jvp": "Use the exact full-LSTM tangent/JVP to separate induced phase displacement from transverse error; this is a check on the finite probes, not a replacement for them. No all-direction stability claim."
+    },
+    "numerical_validation": "Native float32 family construction and all behavioral interventions; float64 geometry and analytic derivative diagnostics. Any candidate must also pass a native-float32 recurrent transition adapter with the same settings. Compare numerical disagreement with radius and kick norm, report it and withhold candidate qualification if mismatch exceeds1% of either meaningful scale. The native h bound is valid; the old |c|<=number_of_probe_updates bound is invalid because these states already contain history."
+  },
+  "local_recurrent_spectra": {
+    "source_apis": [
+      "scripts/lstm_local_dynamics_spectra.py:local_jacobian, autograd_check",
+      "scripts/lstm_endogenous_curve_recovery.py:advance"
+    ],
+    "points": "For each qualified original context, phi=0 at z_0 and z_30 in the primary constant-input branch; no favorable eigenmode or phase selection. Up to128 matrices across16models. Secondary cycle spectra use only z_30 and the correctly ordered two-step derivative if the secondary regime is executed.",
+    "matrix": "Full512x512 derivative of the next state with respect to[h,c], holding the specified full input fixed. For the cycle use J_backward(F_forward(z))*J_forward(z), never reversed order or both factors at the same state.",
+    "outputs": [
+      "All complex eigenvalues, ordered moduli, spectral radius, fractions with |lambda|>1 and>1.01, and all singular values.",
+      "Top10 right eigenvectors with their eigenvalue residuals and complex-conjugate pairing; compare the span of real/imaginary parts with the same-family tangent. Also report top10 right singular-vector tangent overlap and largest singular value, separately in raw and fixed block-RMS coordinates.",
+      "Treat nearly equal eigenvalues as a subspace, not a stable named neuron pattern. Record eigenvector conditioning/non-normality; eigenvalue modulus below1 does not exclude transient amplification."
+    ],
+    "checks": "At each model's first available point, compare the analytic full Jacobian to autograd at maximum absolute error<1e-10 in float64. Check every retained eigenpair residual and the exact similarity transform J_scaled=D^-1*J*D. Eigenvalues should be invariant to this fixed coordinate scaling; singular values need not be.",
+    "interpretation": "These are local derivatives of a clamped recurrence. They are distinct from activity-covariance eigenvalues and cannot alone establish global stability, a ring, memory use or navigation benefit. No eigenvalue threshold is used to nominate contexts."
+  },
+  "native_occupancy": {
+    "purpose": "A strict passive check of broad native occupancy beyond the exact initialization point. phi=0 replay agreement establishes a genuine native anchor/reachability check; it is not broad held-out occupancy. Selective state/cue interventions at that native anchor can provide narrower causal evidence even when this passive coverage test is unqualified.",
+    "data": "Uniform native rows in the same context episode but from later blackouts, strictly after the original onset plus60 decisions. Exclude every row of the elicitation prefix and original blackout. No additional collection or search for substitute contexts.",
+    "compatibility_rules": [
+      "Same room/goal episode and physical goal position, with exactly the same archived goal-pickup position/direction/velocity tuple as the last known sampled row before the context onset; known-blind, reward-input0 and PA equal to the primary fixed PA. This strict pickup-provenance match guarantees the same deterministic native cached goal message while avoiding cross-backend last-bit differences from recomputing its512 entries. It may reject equal messages reached through different pickup tuples; it can only reduce passive support.",
+      "Position within0.05 world units of the onset endpoint; speed magnitude within0.05 world units/second of onset; wrapped(body_heading-travel_angle) within5degrees of the onset offset. Do not require a preferred absolute angle.",
+      "Compare a row of blind age a to the unperturbed primary family z_a, using exact saved ages1..60. Full-state distances use fixed raw/RMS scales; no per-row translation, rotation, fitted affine correction or averaged states."
+    ],
+    "report": "For every context report the number of compatible rows, distinct later blackout intervals, physical travel-angle coverage, full-state nearest-family residual/radius, nearest-family phase versus physical phase, and all matching tolerances.",
+    "support_rule": {
+      "minimum_rows": 32,
+      "minimum_distinct_later_blackouts": 2,
+      "minimum_physical_angle_coverage": 0.8,
+      "maximum_residual_over_radius_p90": 0.05,
+      "maximum_semantic_phase_mae_degrees": 15,
+      "qualification": "Require both raw and RMS residual criteria and sufficient physical coverage. The5% geometry distance and80% coverage reuse the existing family criteria; row count, physical matching tolerances and15degree semantic error are new prespecified support rules, not literature-validated universal definitions."
+    },
+    "failure_language": "Too few compatible native states means broad passive native occupancy is untested in this dataset; the80% angle coverage plus fixed goal/nearby position criteria may be rare for effective navigators. A conditional ring and selective causal effects at authentic native anchors can pass while this check is unqualified. Failure of a global fixed-family match cannot rule out a goal/position-dependent manifold that moves during navigation. Without this support, restrict the claim to the tested conditional family and native intervention contexts; do not claim broad ring occupancy throughout ordinary navigation."
+  },
+  "acute_cue_repair": {
+    "source_apis": [
+      "scripts/lstm_travel_cue_pulse.py:initial_edits, semantic_nearest, run_dynamics, analyze",
+      "scripts/lstm_reorientation_causal_navigation.py:state_edits, phase_metrics"
+    ],
+    "family_rows": 192,
+    "row_indices": "Every fourth member of the fixed768-phase family; no phase optimization.",
+    "start": "Primary z_0, immediately before first blind input, so the same state edit can be tested in native navigation. This is distinct from the30-update geometry reference.",
+    "state_edits": [
+      "none",
+      "family_phi_plus30_degrees",
+      "family_phi_minus30_degrees",
+      "matched_random_normal_plus",
+      "matched_random_normal_minus"
+    ],
+    "state_edit_definition": "Substitute genuine full[h,c] donor states from phi+/-30degrees. Random normal seed741025, projected off the z_0 tangent, has norm equal to the mean of the two donor-displacement norms in the fixed RMS metric. Use both signs, preserve actual recipient physical state, and log bounds. If the random pair violates hidden bounds, mark that control unqualified; do not clip, shrink donor edits or choose another direction. Donor edits themselves remain genuine LSTM states.",
+    "cue_branches": [
+      "no_pulse",
+      "ordinary_current_pulse",
+      "correct_native_current_pulse",
+      "wrong_plus60_predictive_current_pulse",
+      "wrong_minus60_predictive_current_pulse"
+    ],
+    "pulse": "One recurrent update at t=1 (1/15 second). RGB stays black. Ordinary pulse is the same full ordinary512-cell code at the recipient's true position. Correct native pulse changes only the predictive slots relative to ordinary. Wrong pulses rotate only the predictive activity's true native last-travel-direction argument by+/-60degrees; all ordinary entries and position are identical. Saved goal, PA/PR and every other input are unchanged. At t>=2 return all512current entries to zero.",
+    "grid_sham": "For gc100, ordinary/correct/wrong pulses must be exact-identical tensors and trajectories. No-pulse differs because it supplies zero current code.",
+    "post_pulse_input": "The same primary constant full-input law through t=60; no sustained cue and no added visual restoration branch.",
+    "sample_updates": [
+      0,
+      1,
+      5,
+      15,
+      30,
+      60
+    ],
+    "primary_repair_update": 15,
+    "primary_repair_metric": "Fixed block-RMS full-state nearest-family phase error. Report the same errors and off-family distances in raw full-state coordinates as a prespecified sensitivity; raw_correct_reference/raw_own_reference do not introduce extra branches or a separate optimized claim threshold.",
+    "measures": "At each time compare edited states with the unedited correct-pulse full-state family using nearest_closed_segments and physical-phase interpolation; also report own-cue unedited-reference error. Show phase error, wrong-cue signed bias, full-state off-family distance/radius, coverage, family radius and actor-probability total variation. Average the two donor signs before model-level contrasts. A collapsed family or unqualified geometric reference cannot count as phase repair.",
+    "contrasts": [
+      "Ordinary-pulse phase error minus correct-pulse phase error, averaged over+/-30degree donor edits.",
+      "Mean of the two wrong-pulse phase errors minus correct-pulse phase error, averaged over donor signs.",
+      "Each contrast's donor-edit effect minus its no-edit effect, to distinguish error correction from a generic cue-induced shift."
+    ],
+    "meaning": "This intervenes on state and predictive input while holding trained weights fixed. A pulse changes the state, not the recurrent transition weights. Persistent cue influence, phase repair, off-family recovery and improved navigation are separate claims. No sustained-PGC branch during the blackout is used to redefine the learned task."
+  },
+  "behavioral_link": {
+    "existing_primary_evaluation": "The frozen training protocol's scripts/evaluate_simple_memory.py evaluation remains the primary128-episode test: native scores, onset/every-blind h/c erasure with matched visible controls, and current-PGC-to-ordinary swaps. Those show broad memory/current-input dependence and are not alone angular-ring causality.",
+    "targeted_forks": {
+      "source_apis": [
+        "code/train_memory.py:capture_runtime, restore_runtime",
+        "scripts/evaluate_simple_memory.py:evaluate",
+        "scripts/lstm_local_return_causal.py:collect_intervention (hook timing only)"
+      ],
+      "contexts": "The same four first physically eligible native onset snapshots and only their subsequently prefix-qualified families; no replacement for replay or geometry results. Run the specified causal tests without requiring successful passive broad-occupancy coverage, and report their narrower native-anchor scope.",
+      "recipient_phase": 0,
+      "branches": "Exactly the5state-edits x5cue-branches specified above, using genuine z_0 donors and the actual recipient onset inputs. All other slots in the original32-environment batch are unchanged controls; only the selected slot contributes the targeted score.",
+      "future_tapes_per_context": 4,
+      "tape_definition": "Tape0 restores the exact archived private environment, action and clock RNG states. Tapes1..3 use fixed private future-stream seeds 741030+1000*training_seed+100*context_index+10*tape_index+stream_index, with stream_index0 environment,1 action,2 clock. Use the same seed formula across population/training arms. Branches within each tape share random streams. These are repeated future draws for one native context, not independent trained-agent replicates.",
+      "horizon_decisions": 150,
+      "stop": "Stop the selected slot at min150 decisions or its native episode termination, whichever comes first. Do not reset the recipient state or start a fresh episode. Apply the one-update cue then resume the actual native observation clock, learned actor, noise, goal updates, actions and rewards.",
+      "primary_targeted_outcome": "Native accumulated navigation reward over the fixed available post-intervention window, averaged over tapes then contexts within each model. Report exact durations, known/blind exposure, hit count and time to first subsequent hit with censoring.",
+      "secondary": "Distance-to-goal change until first hit or horizon, first-update actor probabilities, and held-out native readout error using the decoder fold that excluded this context episode. Do not apply a fixed constant-input family phase label to later freely moving states without compatibility checks.",
+      "contrasts": [
+        "Correct pulse minus ordinary pulse score, averaged over+/-30degree donor edits.",
+        "Correct pulse minus mean wrong-pulse score, averaged over donor signs.",
+        "Each score contrast under donor edits minus the corresponding contrast in the no-edit branches."
+      ],
+      "validation": "The no-edit/no-pulse tape0 branch must reproduce the observer-free native continuation at every compared input/state/action/reward/physics step within the fixed execution tolerance; exact action/reward equality is required. Grid pulse shams must be exact. Log actual state deltas, cue-slot masks, saved-goal identity, all no-op errors, every h-bound excess and later visibility divergence. Failure blocks causal interpretation, not descriptive collection."
+    },
+    "claim_rule": "Predictive stabilization at the tested native anchors requires independently qualified conditional retention/recovery plus correct-versus-ordinary and correct-versus-wrong improvements in the specified state-error metric, and concordant behavioral intervention effects. Broad passive occupancy is a separate requirement only for a broader claim that this ring is occupied throughout ordinary navigation. Report all four trained-seed effects; do not declare proof from one successful context. If behavior changes without qualified ring geometry, describe useful predictive information/state repair without an attractor claim. If the conditional family passes but behavior does not improve, do not claim that family explains navigation."
+  },
+  "aggregation_and_figures": {
+    "independent_unit": "Training seed, n=4 paired across all four population x training-task arms. Episodes, contexts, phases, perturbations and future tapes are nested repeated measurements. First average equally over valid prespecified contexts within each model; show denominators and every missing context. Also report the number passing out of4 selected, with unqualified shown separately from failed.",
+    "planned_factorial_effects": [
+      "PGC-minus-Grid within blackout-trained models.",
+      "Blackout-trained minus native-trained within each population.",
+      "Interaction: (PGC-Grid)blackout-trained minus(PGC-Grid)native-trained."
+    ],
+    "statistics": "Show all four seed effects, paired mean and t-based95% interval explicitly as small-sample descriptive uncertainty. If an exact sign-flip p is reported, enumerate all16 sign assignments; its minimum two-sided value is0.125. No phase/episode p-values or significance-star claims. Missing models/contexts are not silently imputed. Mechanism outputs are prospective secondary analyses; the frozen behavioral primary endpoints remain unchanged.",
+    "simple_figures": [
+      "Pooled versus episode-centered cumulative PCA spectra and one paired-dot plot of between-episode variance.",
+      "Held-out angular error versus blind age, with train-fold constant-angle baseline, improvement over that baseline and shuffled-null band; clearly label each of the three physical targets.",
+      "For each prespecified context, a display-only fixed PCA projection of the full family and full-state distance/phase-retention curves. Show failed/collapsed examples, with no averaged across-context ring picture.",
+      "Local recurrent eigenvalues in the complex plane plus singular-value spectrum, labeled local fixed-input derivatives.",
+      "Correct, ordinary and wrong cue effects on state error beside their matched navigation-score effects, with all four seeds."
+    ],
+    "text": "Minimal labels in figures; explanations in captions/readme use plain language. Clearly distinguish covariance, information, dynamics and behavior."
+  },
+  "controls_and_release_checks": {
+    "required_existing_positive": "results/ring_nonlinear_design/published_benchmark_1000s/old_assay_comparison.json and README.md, produced by scripts/published_ssm_ring_report.py: the published learned256-neuron ring passed the same full-state geometric core. Reuse the archived known result; no new positive-control training.",
+    "required_private_tests": [
+      "tests/test_lstm_heading_curve_flow.py: genuine ring, shrinking plane, collapsed point, folded line and full-state off-plane errors.",
+      "tests/test_lstm_endogenous_curve_recovery.py: analytic LSTM/JVP, sheared ring and expanding normal direction.",
+      "tests/test_native_turn_geometry_controls.py: two distinct forward/backward sections, wrong-section safeguards, period-two point, shrinking circular sections, correct chain rule and bounded-kick reporting.",
+      "tests/test_published_ssm_ring_benchmark.py: full-state distance and no artificial closed chord for an open branch.",
+      "New adapter tests on private random policies only: exact archived-prefix and phi0 replay, all-phase physical clearances,2pi closure, ordinary/correct/wrong allowed-slot differences, Grid shams, no blind-observation double processing, no-op native fork, frozen full input, and no action dependence on future diagnostic data."
+    ],
+    "mandatory_negative": "A shrinking circle/plane must fail fixed-family invariance and relative normal-versus-tangent recovery even when its projection remains circular. Time-matched recovery alone cannot qualify it as a ring. Likewise, an input-locked period-two point cannot pass the driven cycle test.",
+    "freeze": "Frozen after root review and68 passing private tests. source_sha256 includes the local import closure of the analysis runners and tested controls. All scientific CLIs verify the frozen manifest before final-model execution. Any amendment must be dated, preserve this version and declare which outcomes were already seen.",
+    "cost": "No optimization or model search. At most64 native contexts, each768 family members,60 neural updates per input regime;384 arc probes and8 broad-normal anchors. Cue analysis uses192 members. Targeted behavior is at most16models*4contexts*4tapes*25branches*150=960000 selected-slot decisions, plus original batch-shape control slots. Run in bounded batches and within the remaining cumulative$600 ledger; do not launch cloud analysis without the existing budget guard.",
+    "interpretation_limits": [
+      "The sensory-blackout task may teach useful memory without a one-dimensional ring.",
+      "A conditional closed state family is narrower evidence than an attractor used across ordinary navigation.",
+      "Four seeds provide limited statistical resolution; absence of a consistent advantage is not proof of equality.",
+      "Failure of this fixed15-step history family or constant-input assay does not exclude other histories, moving manifolds, distributed memories or useful recurrent computations.",
+      "No cue-specific benefit does not imply no ring; no ring does not imply no useful predictive computation."
+    ]
+  },
+  "frozen_at_utc": "2026-11-07T13:37:04.201643+00:00",
+  "source_sha256": {
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "scripts/analyze_simple_memory_activity.py": "f1981244c586515b3d278d788edfeed1bd81d3f6159ef10791b5699bee83373a",
+    "scripts/analyze_simple_memory_dynamics.py": "9e2f029bbd8ba5574356348e08949f50b0d384ff69ca45381d3b22e07a34d78a",
+    "scripts/collect_simple_memory_states.py": "0274e69e227f5ea2eef129ea2a80a246e5d22c3b309833dddbfccaf88a31300b",
+    "scripts/evaluate_simple_memory.py": "4da31fa41811db35512cc71a5e06d32dbc139b45b8d2926aa327e09dc08f77d0",
+    "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
+    "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
+    "scripts/lstm_endogenous_curve_recovery.py": "65c11a5d3473db6be13ea0e7edd7501a166b7fe6b5fc6d09b9b0cc2ff2ac5799",
+    "scripts/lstm_goal_bearing_manifold.py": "0a9ece814c006e721e13b73c846619e102f3baab744c691fac3ce7a819f032f7",
+    "scripts/lstm_heading_current_release.py": "0804062acf1b11e0e066a3346a32681797df20c8acac1a70620fba73c1e27f70",
+    "scripts/lstm_heading_curve_flow.py": "91feb1980ed7687f15d9a61ac92952e1e9f035d12945880a4a82e6cd8b8ce10d",
+    "scripts/lstm_heading_memory_probe.py": "2cfa29779296e55263882c02867c780d2f651d941fa32656316d187df81b6393",
+    "scripts/lstm_local_dynamics_spectra.py": "fac51f41cc51ba62656afdfdb4a8afbcb6f730fa28faf3b28ee5f5562544ea80",
+    "scripts/lstm_travel_cue_pulse.py": "c173fe0ed1502ed42eda74ec8e74bf35bcc709cf75e848956dc299f300916693",
+    "scripts/native_turn_geometry.py": "74b3e0965ff97c9915532f1cf769c1cea2183cdb2a7b821c2e93ae12fa5edf7f",
+    "scripts/native_turn_original_memory.py": "f412bc69b0495acacd2cb262270eeb4d4e35e426eaa51bbf3f4fa1bbd2557b9f",
+    "scripts/native_turn_teacher_preflight.py": "4a27e5383f7bfb2caea5c3cff90d741ac78b731c9ccd7ed39ce6da91e26d26a0",
+    "scripts/plot_lstm_heading_memory.py": "e79e13efa210e824fb42946ef898155b122d89dbd634036eb493b60fe9383191",
+    "scripts/refine_lstm_goal_bearing_manifold.py": "d0c37633f9d9afd5fff03085e642ea606d9d1577e6c65fbd72f01b3be6c9f642",
+    "scripts/rl_goal_memory.py": "dc11bbe76f2cd8dd1db3fb61bcf8fb2f8d6f96bb9d6d2689c5ee6c1709eb2147",
+    "scripts/rl_visual_memory.py": "76d2fbdfe16be02dd9632713a6149a0cf06426d6ca447a94a863918295f0d8bc",
+    "scripts/simple_memory_behavior_readout.py": "aa38a63fce81d69e20398d0275e089e5bd83ddde3bf0b1995b5919151a2d0023",
+    "scripts/simple_memory_family.py": "15d260419468291a6ece465f25068ebc42563880e2c026bf43f3157ec4125917",
+    "scripts/simple_memory_interventions.py": "3a1ee67bc925701f013d2d6145824e40952c577d0788724d03386b2f087d06bb",
+    "scripts/summarize_lstm_code_swap.py": "9ea7508b93bc6ef774b9afbe43aea2fc9f7f79a3ca2128b624e19349c77c1978",
+    "tests/test_analyze_simple_memory_activity.py": "ce25b4c2532f91b31574447e8d79df2c0fe6b308c78558b96bc6aaef035bdbbb",
+    "tests/test_analyze_simple_memory_dynamics.py": "68f488372f2fc70b8040af8770f797068f1c65903073e7dd75735838f19f9c06",
+    "tests/test_collect_simple_memory_states.py": "3228db25f01206da9fd267f1a912e83d666cc3e7f28b38a5ea4c2bd7caf60285",
+    "tests/test_lstm_endogenous_curve_recovery.py": "dd04a8d1eae2cdde55db2ecfdfd71ac4a434d19d51a81573decfffc1d002433b",
+    "tests/test_lstm_heading_curve_flow.py": "87a5476f2959819838ea417adde21d63c59615eb38f07d68df149532e3e88205",
+    "tests/test_native_turn_geometry_controls.py": "fe087002bacf791dea0adb7a191f70642015e57b6f4c873b8641dcae160c9d4e",
+    "tests/test_published_ssm_ring_benchmark.py": "068d461026250b0fa492465cefaf79f92360902754f48e211f743ecd90f85355",
+    "tests/test_simple_memory_behavior_readout.py": "f83413c39f02686f308dae27b4331c47e7e1458c4c42c5fc444b215c757a6d60",
+    "tests/test_simple_memory_family.py": "30979135d6f45403d03d7a3659bb7f00d7a670f86aee80c3ec4e49cc58f79341",
+    "tests/test_simple_memory_interventions.py": "4193b8acfcd38c855cb77b01ad6f913c25b910924048d9a05466c417fdb268b7"
+  },
+  "validation_artifacts_sha256": {
+    "results/ring_simple_memory_design/analysis_validation.json": "626157362b17b6bdebdd7096458628ef65b287c2b9217d2f24983abc9a733833",
+    "results/ring_simple_memory_design/state_collector_validation.json": "176db45200066ee9c8b5bfac9d94bc8e5c0f214b1f579fa393c2f48fa8047f08",
+    "results/ring_simple_memory_design/family_private_benchmark.json": "60b9f76885216e0e7735d699e18e17a713c85101dc26b8266c479b7f92a546aa",
+    "results/ring_nonlinear_design/published_benchmark_1000s/old_assay_comparison.json": "97dbd53f97afe8f5535d75aa7f0058987d6117c10e9ed327a6bb8c99c302c435"
+  },
+  "freeze_review": {
+    "agents": [
+      "root",
+      "causal_design_review",
+      "rl_memory_training",
+      "ring_new_literature"
+    ],
+    "private_tests_passed": 68,
+    "scientific_outcomes_inspected": false,
+    "training_sources_unchanged": true
+  },
+  "execution_order": [
+    "scripts/evaluate_simple_memory.py",
+    "scripts/collect_simple_memory_states.py",
+    "scripts/analyze_simple_memory_activity.py",
+    "scripts/analyze_simple_memory_dynamics.py",
+    "scripts/simple_memory_interventions.py"
+  ]
+}

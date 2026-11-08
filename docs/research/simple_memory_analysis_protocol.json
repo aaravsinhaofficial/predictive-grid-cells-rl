@@ -369,7 +369,7 @@
       "No cue-specific benefit does not imply no ring; no ring does not imply no useful predictive computation."
     ]
   },
-  "frozen_at_utc": "2026-11-07T13:37:04.201643+00:00",
+  "frozen_at_utc": "2026-11-08T18:19:37.092276+00:00",
   "source_sha256": {
     "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
     "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
@@ -378,9 +378,9 @@
     "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
     "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
     "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
-    "scripts/analyze_simple_memory_activity.py": "f1981244c586515b3d278d788edfeed1bd81d3f6159ef10791b5699bee83373a",
+    "scripts/analyze_simple_memory_activity.py": "cb8d613cb951c364a3cc302fd8c89c3db0f08a9f5bcf44fa1faeb7f30cf42560",
     "scripts/analyze_simple_memory_dynamics.py": "9e2f029bbd8ba5574356348e08949f50b0d384ff69ca45381d3b22e07a34d78a",
-    "scripts/collect_simple_memory_states.py": "0274e69e227f5ea2eef129ea2a80a246e5d22c3b309833dddbfccaf88a31300b",
+    "scripts/collect_simple_memory_states.py": "453f74089cb123b48650ec3573ae678c7c0ec8eb7d99a2afd440063fd9a11d21",
     "scripts/evaluate_simple_memory.py": "4da31fa41811db35512cc71a5e06d32dbc139b45b8d2926aa327e09dc08f77d0",
     "scripts/lstm_code_swap.py": "0bbc61f495d1e927f60f8b5848ac7769dc6790e12775d06c02607935c1b26cd8",
     "scripts/lstm_continued_heading_memory.py": "11a849690119e66ddc82a32591dc4259df9ab35ee20ab3d69de6c627018048d2",
@@ -411,13 +411,19 @@
     "tests/test_published_ssm_ring_benchmark.py": "068d461026250b0fa492465cefaf79f92360902754f48e211f743ecd90f85355",
     "tests/test_simple_memory_behavior_readout.py": "f83413c39f02686f308dae27b4331c47e7e1458c4c42c5fc444b215c757a6d60",
     "tests/test_simple_memory_family.py": "30979135d6f45403d03d7a3659bb7f00d7a670f86aee80c3ec4e49cc58f79341",
-    "tests/test_simple_memory_interventions.py": "4193b8acfcd38c855cb77b01ad6f913c25b910924048d9a05466c417fdb268b7"
+    "tests/test_simple_memory_interventions.py": "4193b8acfcd38c855cb77b01ad6f913c25b910924048d9a05466c417fdb268b7",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "code/train_memory_v2.py": "f7feb9d607880beb55e02d98c9431e5d6e5f064d36ca9dd963114e5202b53c2f",
+    "code/simple_memory_replay_guard.py": "d2cc6b24294954e933c35c4b1bbb77d7ec1cfceada404cc36ef113ef949e2ff1",
+    "scripts/simple_memory_endpoint.py": "1dcad83512cead4f828cd830bb81c9556d68c46630cd5c7f23c7b1be83bcb98c",
+    "tests/test_train_memory_v2.py": "139590d414a25cb90ef3feb7ae3fb5043ebd93f5ebd12abaf2538639a5404377"
   },
   "validation_artifacts_sha256": {
     "results/ring_simple_memory_design/analysis_validation.json": "626157362b17b6bdebdd7096458628ef65b287c2b9217d2f24983abc9a733833",
     "results/ring_simple_memory_design/state_collector_validation.json": "176db45200066ee9c8b5bfac9d94bc8e5c0f214b1f579fa393c2f48fa8047f08",
     "results/ring_simple_memory_design/family_private_benchmark.json": "60b9f76885216e0e7735d699e18e17a713c85101dc26b8266c479b7f92a546aa",
-    "results/ring_nonlinear_design/published_benchmark_1000s/old_assay_comparison.json": "97dbd53f97afe8f5535d75aa7f0058987d6117c10e9ed327a6bb8c99c302c435"
+    "results/ring_nonlinear_design/published_benchmark_1000s/old_assay_comparison.json": "97dbd53f97afe8f5535d75aa7f0058987d6117c10e9ed327a6bb8c99c302c435",
+    "results/ring_simple_memory_design/producer_authentication_validation.json": "f6a3be9dbd3791a357c8678919fd16d4bc908682279d62cc751e9e183cf1baf6"
   },
   "freeze_review": {
     "agents": [
@@ -436,5 +442,17 @@
     "scripts/analyze_simple_memory_activity.py",
     "scripts/analyze_simple_memory_dynamics.py",
     "scripts/simple_memory_interventions.py"
-  ]
+  ],
+  "original_frozen_at_utc": "2026-11-07T13:37:04.201643+00:00",
+  "authentication_amendment": {
+    "parent_analysis_protocol_sha256": "cd15bb8465e9429e7280327b03f8410d9d1ac46bfbd2b1a22765edd4f3a88fae",
+    "preserved_parent": "docs/research/operational_amendments/20261108_replay_guard_recovery/before/docs/research/simple_memory_analysis_protocol.json",
+    "guard_amendment": "docs/research/simple_memory_guard_amendment.json",
+    "guard_amendment_sha256": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938",
+    "scope": "Authenticate the explicit v1/v2 producer assignments and exact parent migration. Original scientific methods, cohort, seeds, sampling, perturbations, thresholds, endpoints and aggregation remain identical.",
+    "scientific_outcomes_seen": false,
+    "four_retained_producers": 1,
+    "twelve_continued_or_fresh_producers": 2,
+    "private_validation": "results/ring_simple_memory_design/producer_authentication_validation.json"
+  }
 }

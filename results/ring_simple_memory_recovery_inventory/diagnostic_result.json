@@ -1,0 +1,60 @@
+{
+  "scope": "Training numerical diagnostic, not a ring or navigation result",
+  "summary_path": "results/ring_cloud_artifacts/ring-20261105-simplemem-replaydiag-s1/diagnostic/summary.json",
+  "summary_sha256": "31460f383bbc13e4f76eaaa1d8a74973cf7f441296371e79a284a1e124c77669",
+  "accepted_updates_reconstructed": 188,
+  "original_failure_reproduced": true,
+  "source_and_input_closure_unchanged": true,
+  "paths": {
+    "A_original_chunk_grad": {
+      "encoder_max_abs_error": 3.337860107421875e-06,
+      "logit_max_abs_error": 5.206465721130371e-05,
+      "value_max_abs_error": 1.043081283569336e-06,
+      "all_measured_tensors_bitwise_equal_to_actor": false,
+      "original_logit_assert_passed": false
+    },
+    "B_same_batch_no_grad": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    },
+    "C_same_batch_grad": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    },
+    "B32_encoder_grad_only": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    },
+    "B32_recurrent_grad_only": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    },
+    "D_actor_embedding_no_grad": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    },
+    "D_actor_embedding_grad": {
+      "encoder_max_abs_error": 0.0,
+      "logit_max_abs_error": 0.0,
+      "value_max_abs_error": 0.0,
+      "all_measured_tensors_bitwise_equal_to_actor": true,
+      "original_logit_assert_passed": true
+    }
+  },
+  "conclusion": "CNN batch shape introduces rounding; identical batch sizes or captured actor embeddings remove all measured replay differences on the reconstructed failure. Grad-mode changes have no observed forward effect."
+}

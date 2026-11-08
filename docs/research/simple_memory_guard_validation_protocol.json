@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "frozen",
+  "frozen_utc": "2026-11-08T18:18:14.298593+00:00",
+  "maximum_seconds": 900,
+  "amendment_path": "docs/research/simple_memory_guard_amendment.json",
+  "amendment_sha256": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938",
+  "source_sha256": {
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/simple_memory_replay_guard.py": "d2cc6b24294954e933c35c4b1bbb77d7ec1cfceada404cc36ef113ef949e2ff1",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "code/train_memory_v2.py": "f7feb9d607880beb55e02d98c9431e5d6e5f064d36ca9dd963114e5202b53c2f",
+    "scripts/diagnose_simple_memory_replay.py": "6670eb96a059e338b75765fac060cc629782145c2a0dcad25cc86e038f28233e",
+    "scripts/validate_simple_memory_guard.py": "7cad919b5852ebbc7840b9a8ed8e00507428025992acfdb791c9e658ed2f28ce",
+    "tests/test_simple_memory_replay_guard.py": "518c735013d926976ef996727631a7f722414e4db80c18c728e682ba3b7ebe66",
+    "tests/test_train_memory_v2.py": "139590d414a25cb90ef3feb7ae3fb5043ebd93f5ebd12abaf2538639a5404377",
+    "tests/test_validate_simple_memory_guard.py": "a0c0881dac5aaaf1142303dc270292221659d4273abca56d9045bf505a7bff11"
+  },
+  "cases": [
+    {
+      "logical_run_id": "pgc33/blackout/seed1",
+      "run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+      "start_update": 27000,
+      "last_successful_update": 27188,
+      "diagnostic_boundary": "results/ring_cloud_artifacts/ring-20261105-simplemem-replaydiag-s1/diagnostic/reconstructed_boundary.pt",
+      "diagnostic_boundary_sha256": "e06eb85a6b01f0be712cb794feb1e96a4eb8a0ff43da105808766d6b2576f18f"
+    },
+    {
+      "logical_run_id": "gc100/native/seed2",
+      "run": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2",
+      "start_update": 66800,
+      "last_successful_update": 66845
+    },
+    {
+      "logical_run_id": "pgc33/native/seed1",
+      "run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1",
+      "start_update": 44600,
+      "last_successful_update": 44684
+    },
+    {
+      "logical_run_id": "pgc33/native/seed2",
+      "run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2",
+      "start_update": 68800,
+      "last_successful_update": 68858
+    }
+  ],
+  "required_total_accepted_updates": 375,
+  "required_corruption_controls": [
+    "rgb",
+    "code",
+    "goal",
+    "initial_h",
+    "initial_c",
+    "reset",
+    "large_logits",
+    "large_values",
+    "large_embeddings"
+  ],
+  "required_result": "All375 accepted updates exact; known188 full boundary exact; all4 original faults recur; guarded fault gradients/full training payload/RNG exactly match original arithmetic; all9 deliberate corruptions rejected; input/source bytes preserved.",
+  "scientific_endpoint_outputs_allowed": false,
+  "local_validation": {
+    "joint_tests_passed": 76,
+    "harness_final_tests_passed": 4,
+    "joint_seconds": 5.4,
+    "harness_final_seconds": 0.93
+  },
+  "review": "Independent reviews found original update arithmetic preserved; added complete source/input closure and mandatory188 boundary375update checks before this freeze."
+}

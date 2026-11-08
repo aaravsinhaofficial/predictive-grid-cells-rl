@@ -326,6 +326,12 @@ def authenticate(run, states, protocol_path):
     cfg = json.loads((run/'config.json').read_text())
     terminal = json.loads((run/'summary.json').read_text())
     proof = json.loads((run/'provenance.json').read_text())
+    producer_evidence = dict(producer_version=1)
+    if proof.get('provenance_version') == 2:
+        from scripts.simple_memory_endpoint import validate_v2_provenance
+        producer_evidence = validate_v2_provenance(run, cfg, proof, root=ROOT)
+    else:
+        assert 'provenance_version' not in proof, 'Unknown training producer version'
     saved = torch.load(run/'final.pt', map_location='cpu', weights_only=False)
     assert terminal['complete'] and terminal['frames'] == saved['frames'] == cfg['frames'] == 1_000_000_000
     assert saved['updates'] == terminal['updates'] == 78125
@@ -359,7 +365,7 @@ def authenticate(run, states, protocol_path):
         final_checkpoint_sha256=terminal['final_sha256'], final_policy_sha256=saved['policy_sha256'],
         analysis_protocol_sha256=sha(protocol_path), training_protocol_sha256=proof['protocol_sha256'],
         collection_summary_sha256=sha(states/'summary.json'), states_sha256=sha(states/'states.npz'),
-        producer_sha256=sha(__file__))
+        producer_sha256=sha(__file__), **producer_evidence)
 
 
 def plot(summary, out):

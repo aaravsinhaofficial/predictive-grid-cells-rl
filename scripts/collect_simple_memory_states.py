@@ -351,6 +351,12 @@ def load_final(run, device='cpu', threads=2):
     cfg = json.loads((run/'config.json').read_text())
     summary = json.loads((run/'summary.json').read_text())
     proof = json.loads((run/'provenance.json').read_text())
+    producer_evidence = dict(producer_version=1)
+    if proof.get('provenance_version') == 2:
+        from scripts.simple_memory_endpoint import validate_v2_provenance
+        producer_evidence = validate_v2_provenance(run, cfg, proof, root=ROOT)
+    else:
+        assert 'provenance_version' not in proof, 'Unknown training producer version'
     saved = torch.load(run/'final.pt', map_location='cpu', weights_only=False)
     assert summary['complete'] and summary['frames'] == saved['frames'] == cfg['frames'] == 1_000_000_000
     assert saved['updates'] == summary['updates'] == 78125
@@ -368,7 +374,7 @@ def load_final(run, device='cpu', threads=2):
     return policy, cfg, dict(checkpoint_sha256=sha(run/'final.pt'), config_sha256=sha(run/'config.json'),
         terminal_summary_sha256=sha(run/'summary.json'), training_provenance_sha256=sha(run/'provenance.json'),
         training_protocol_sha256=proof['protocol_sha256'], checkpoint_frames=saved['frames'],
-        checkpoint_updates=saved['updates'], policy_sha256=saved['policy_sha256'])
+        checkpoint_updates=saved['updates'], policy_sha256=saved['policy_sha256'], **producer_evidence)
 
 
 def authenticate_analysis_protocol(path):

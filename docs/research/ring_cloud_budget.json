@@ -8624,13 +8624,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:02:09+00:00",
       "create_requested_at": "2026-11-07T13:02:11.934145+00:00",
       "instance_id": "8981684914349055930",
       "created_at": "2026-11-07T05:02:13.989-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "7c3995824d2b7ebff5e26c9ab6e977cbc08a79b33c47fd93ce3182c014435bc2"
+      "archive_sha256": "7c3995824d2b7ebff5e26c9ab6e977cbc08a79b33c47fd93ce3182c014435bc2",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:47.557770+00:00",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 90801.28500413895,
+        "finished_at": "2026-11-08T14:16:33.530034+00:00",
+        "provider_deadline_utc": "2026-11-08T14:32:09+00:00",
+        "remaining_seconds_at_worker_start": 91736.754986763,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "gc100",
+          "--seed",
+          "1",
+          "--code_seed",
+          "1",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "0",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/gc100/native/seed1",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:18.607428+00:00",
+      "collected_bytes": 421783993,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s1",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-gc100-native-s1.json",
+      "collection_receipt_sha256": "faab26a2ff40beb08b8d6cb747c74e843815f0fdc0705bb053da2bd58d2f4b6d",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:33:10.194468Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-gc100-blackout-s1",
@@ -8734,13 +8803,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:02:37+00:00",
       "create_requested_at": "2026-11-07T13:02:40.715768+00:00",
       "instance_id": "6365241797412822941",
       "created_at": "2026-11-07T05:02:42.808-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "ffdbf2460868ea8bda45278f609bcec3b6e76fe77d3145dd8b111ee658e6f733"
+      "archive_sha256": "ffdbf2460868ea8bda45278f609bcec3b6e76fe77d3145dd8b111ee658e6f733",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:49.019467+00:00",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 84265.88992762566,
+        "finished_at": "2026-11-08T12:28:04.271051+00:00",
+        "provider_deadline_utc": "2026-11-08T14:32:37+00:00",
+        "remaining_seconds_at_worker_start": 91738.61888813972,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "gc100",
+          "--seed",
+          "1",
+          "--code_seed",
+          "1",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "60",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/gc100/blackout/seed1",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:18.419919+00:00",
+      "collected_bytes": 424233003,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-blackout-s1",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-gc100-blackout-s1.json",
+      "collection_receipt_sha256": "5d2e713fd18ec1f63c70fbf4cd20f42500ac06d21c6186545f808f27f24e9330",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:33:38.818139Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-pgc33-native-s1",
@@ -8844,13 +8982,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:03:06+00:00",
       "create_requested_at": "2026-11-07T13:03:08.708681+00:00",
       "instance_id": "8445511307469430625",
       "created_at": "2026-11-07T05:03:10.668-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "f3956b551477416f3e22c0f93cc1e4bbc906880366daf201f6befcf2d6690167"
+      "archive_sha256": "f3956b551477416f3e22c0f93cc1e4bbc906880366daf201f6befcf2d6690167",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:50.412870+00:00",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 47480.49617481232,
+        "finished_at": "2026-11-08T02:15:27.393514+00:00",
+        "provider_deadline_utc": "2026-11-08T14:33:06+00:00",
+        "remaining_seconds_at_worker_start": 91739.10267615318,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "pgc33",
+          "--seed",
+          "1",
+          "--code_seed",
+          "1",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "0",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/pgc33/native/seed1",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:28.182957+00:00",
+      "collected_bytes": 223940559,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-pgc33-native-s1.json",
+      "collection_receipt_sha256": "330a1bddb30102f9e3732de583672e1a21ccf879bef5a5152077d7b635edb553",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:34:09.085810Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-pgc33-blackout-s1",
@@ -9120,13 +9327,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:10:16+00:00",
       "create_requested_at": "2026-11-07T13:10:18.805577+00:00",
       "instance_id": "4625298293231099347",
       "created_at": "2026-11-07T05:10:20.727-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "93dbca3df8bced535cc765a2200269dd48257892c4a06db848eea1dace57fc70"
+      "archive_sha256": "93dbca3df8bced535cc765a2200269dd48257892c4a06db848eea1dace57fc70",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:51.956394+00:00",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 74855.13693261147,
+        "finished_at": "2026-11-08T09:59:19.463623+00:00",
+        "provider_deadline_utc": "2026-11-08T14:40:16+00:00",
+        "remaining_seconds_at_worker_start": 91711.67332792282,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "gc100",
+          "--seed",
+          "2",
+          "--code_seed",
+          "2",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "0",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/gc100/native/seed2",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:38.615139+00:00",
+      "collected_bytes": 328575983,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-gc100-native-s2.json",
+      "collection_receipt_sha256": "e75006e56c15bbec7d7f3d58ad8fe659e814b6006d6342b0ec9229656b4090af",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:41:21.693951Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-gc100-blackout-s2",
@@ -9230,13 +9506,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:11:06+00:00",
       "create_requested_at": "2026-11-07T13:11:10.006326+00:00",
       "instance_id": "2681117579317255552",
       "created_at": "2026-11-07T05:11:11.992-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "461f8ae73ada920f87f17a59894b2f00914fd5af311580e1a5ed4aa228e4ac11"
+      "archive_sha256": "461f8ae73ada920f87f17a59894b2f00914fd5af311580e1a5ed4aa228e4ac11",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:53.362434+00:00",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 84992.69377088547,
+        "finished_at": "2026-11-08T12:48:47.392333+00:00",
+        "provider_deadline_utc": "2026-11-08T14:41:06+00:00",
+        "remaining_seconds_at_worker_start": 91731.30145549774,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "gc100",
+          "--seed",
+          "2",
+          "--code_seed",
+          "2",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "60",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/gc100/blackout/seed2",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:45.889321+00:00",
+      "collected_bytes": 424422795,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-blackout-s2",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-gc100-blackout-s2.json",
+      "collection_receipt_sha256": "a3529e82c57227ca18c96132193c1d9c5782a5f960d8e17209d1ff0b81b2f932",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:42:00.404430Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-pgc33-native-s2",
@@ -9340,13 +9685,82 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:11:38+00:00",
       "create_requested_at": "2026-11-07T13:11:40.713007+00:00",
       "instance_id": "5178157882415422817",
       "created_at": "2026-11-07T05:11:42.711-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "e9ae364b27c360f4a1c7992c2adae7bc6ffb48bee7be38df8c1227c983aeefa1"
+      "archive_sha256": "e9ae364b27c360f4a1c7992c2adae7bc6ffb48bee7be38df8c1227c983aeefa1",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:54.795973+00:00",
+      "worker_result": {
+        "exit_code": 1,
+        "elapsed_seconds": 76750.94027519226,
+        "finished_at": "2026-11-08T10:31:55.688297+00:00",
+        "provider_deadline_utc": "2026-11-08T14:41:38+00:00",
+        "remaining_seconds_at_worker_start": 91733.25199818611,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "pgc33",
+          "--seed",
+          "2",
+          "--code_seed",
+          "2",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "0",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/pgc33/native/seed2",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:00:51.738531+00:00",
+      "collected_bytes": 330482543,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-pgc33-native-s2.json",
+      "collection_receipt_sha256": "ca8ee7396020592561c3785f27c7198bca155f70d70e152718ea05ee5a7223a2",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:42:38.720221Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
     },
     {
       "name": "ring-20261105-simplemem-pgc33-blackout-s2",
@@ -9450,13 +9864,433 @@
       ],
       "package_manifest_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b",
       "package_uncompressed_bytes": 166019,
-      "status": "RUNNING",
+      "status": "DELETED",
       "reserved_at": "2026-11-07T13:12:11+00:00",
       "create_requested_at": "2026-11-07T13:12:14.574557+00:00",
       "instance_id": "1061080461004152159",
       "created_at": "2026-11-07T05:12:16.493-08:00",
       "termination_timestamp": null,
-      "archive_sha256": "8129a4859d4e1a9daf3abd809a1faf3872700ee3138d35bf0336393b851dba7b"
+      "archive_sha256": "8129a4859d4e1a9daf3abd809a1faf3872700ee3138d35bf0336393b851dba7b",
+      "actual_upper_bound_usd": 25.75,
+      "absence_verified_at": "2026-11-08T17:58:56.594195+00:00",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 84773.50301480293,
+        "finished_at": "2026-11-08T12:46:09.956549+00:00",
+        "provider_deadline_utc": "2026-11-08T14:42:11+00:00",
+        "remaining_seconds_at_worker_start": 91734.54647827148,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "-m",
+          "code.train_memory",
+          "--cond",
+          "pgc33",
+          "--seed",
+          "2",
+          "--code_seed",
+          "2",
+          "--frames",
+          "1000000000",
+          "--task_max_gap",
+          "60",
+          "--task_ramp_frames",
+          "200000000",
+          "--task_visible_steps",
+          "15",
+          "--policy",
+          "lstm",
+          "--encoder_norm",
+          "layernorm",
+          "--lr",
+          "0.0003",
+          "--rms_eps",
+          "0.00001",
+          "--n_envs",
+          "32",
+          "--rollout",
+          "100",
+          "--device",
+          "cuda:0",
+          "--threads",
+          "2",
+          "--protocol",
+          "docs/research/simple_memory_training_protocol.json",
+          "--out",
+          "results/ring_simple_memory/pgc33/blackout/seed2",
+          "--tf32",
+          "0"
+        ],
+        "package_sha256": "e29265412c657371a31df426bc53d8d6fd3e95b9d1255367baa378ac76e6374b"
+      },
+      "collected_at": "2026-11-08T18:01:00.969490+00:00",
+      "collected_bytes": 424143111,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s2",
+      "collection_receipt_path": "results/ring_simple_memory_recovery_inventory/collection/ring-20261105-simplemem-pgc33-blackout-s2.json",
+      "collection_receipt_sha256": "65b59df1fb4bab4c1859b911b2722b942394609a29edc46f08e3ab195668c3bb",
+      "closed_cost_reconciliation": {
+        "recorded_utc": "2026-11-08T18:03:46.561465+00:00",
+        "prior_actual_upper_bound_usd": 32.1875,
+        "verified_list_price_usd_per_hour": 0.7486965999999999,
+        "conservative_closed_rate_usd_per_hour": 1.0,
+        "duration_bound_hours": 25.75,
+        "confirmed_deletion_completed_at": "2026-11-08T14:43:01.658824Z",
+        "evidence_path": "results/ring_simple_memory_recovery_inventory/closed_cost_evidence.json",
+        "evidence_sha256": "8727261e9ccc0ee168d326ea7d5440dbfec309b326913c62eb4a35150f20aedb",
+        "basis": "Verified component list prices, exact completed deletion and absent auto-delete disk; not an invoice. Ancillary and future reservation rates unchanged."
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-replaydiag-s1",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-08T18:29:13+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-replaydiag-s1",
+      "command": [
+        "python",
+        "scripts/diagnose_simple_memory_replay.py",
+        "--run",
+        "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+        "--manifest",
+        "docs/research/simple_memory_replay_diagnostic_protocol.json",
+        "--out",
+        "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1/diagnostic",
+        "--max-seconds",
+        "900"
+      ],
+      "output_dir": "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "docs/research/simple_memory_replay_diagnostic_protocol.json",
+          "sha256": "daa3e2c98e915611f5f36f9af6dbca783742db5da0a9ffac1ef4e8ac60fabd71"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/attempt_000.json",
+          "sha256": "a07983c2f944b9a3fcdf644e52b88f60669aa76cebb4c3004f7ff338ed3c7685"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/config.json",
+          "sha256": "8abb9876264427e3c0612d3d90491af295b58af27af212e8a4c55c4625806295"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/metrics_000.jsonl",
+          "sha256": "4649eac6af90e597b54092779d943f16f180759bc052eddde539d7255f76cdc0"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/provenance.json",
+          "sha256": "6925bafa5260900443a2026a2907926a6f1193d31004121d69904bcf4c8e5197"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/resume.pt",
+          "sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c"
+        },
+        {
+          "path": "results/ring_simple_memory_design/replay_diagnostic_validation.json",
+          "sha256": "82177c41da7d649ae5a3546edd0cf50cf2bc0b9a61a6633f9932ae1744e58d28"
+        },
+        {
+          "path": "scripts/diagnose_simple_memory_replay.py",
+          "sha256": "6670eb96a059e338b75765fac060cc629782145c2a0dcad25cc86e038f28233e"
+        },
+        {
+          "path": "tests/test_diagnose_simple_memory_replay.py",
+          "sha256": "b81875f898c274aee5abd784803901bf0292234fe826aded20daf760746c903d"
+        }
+      ],
+      "package_manifest_sha256": "b2fddb0716087b36e693195e7e6cd0bf15912ad9b2e9b6d8d5d8c52878e4be2f",
+      "package_uncompressed_bytes": 45344453,
+      "status": "DELETED",
+      "reserved_at": "2026-11-08T17:59:13+00:00",
+      "create_requested_at": "2026-11-08T17:59:19.653759+00:00",
+      "instance_id": "512473688308516502",
+      "created_at": "2026-11-08T09:59:21.385-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "7d3239a2a057672912bc91c548a9408945bd57dc36d5bd5943b0290806b7f397",
+      "worker_result": {
+        "exit_code": 0,
+        "elapsed_seconds": 239.57316327095032,
+        "finished_at": "2026-11-08T18:05:22.356579+00:00",
+        "provider_deadline_utc": "2026-11-08T18:29:13+00:00",
+        "remaining_seconds_at_worker_start": 1670.2165977954865,
+        "checkpoint_requested_at": null,
+        "final_sync_reserve_seconds": 240,
+        "command": [
+          "/usr/bin/python3",
+          "scripts/diagnose_simple_memory_replay.py",
+          "--run",
+          "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+          "--manifest",
+          "docs/research/simple_memory_replay_diagnostic_protocol.json",
+          "--out",
+          "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1/diagnostic",
+          "--max-seconds",
+          "900"
+        ],
+        "package_sha256": "b2fddb0716087b36e693195e7e6cd0bf15912ad9b2e9b6d8d5d8c52878e4be2f"
+      },
+      "collected_at": "2026-11-08T18:06:25.975470+00:00",
+      "collected_bytes": 579144045,
+      "local_artifacts": "results/ring_cloud_artifacts/ring-20261105-simplemem-replaydiag-s1",
+      "actual_upper_bound_usd": 0.168,
+      "absence_verified_at": "2026-11-08T18:07:25.225006+00:00"
+    },
+    {
+      "name": "ring-20261105-simplemem-guardcheck-v2",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "duration_seconds": 1800,
+      "reserved_usd": 0.9375,
+      "provider_deadline_utc": "2026-11-08T18:48:14+00:00",
+      "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-guardcheck-v2",
+      "command": [
+        "python",
+        "scripts/validate_simple_memory_guard.py",
+        "--manifest",
+        "docs/research/simple_memory_guard_validation_protocol.json",
+        "--out",
+        "results/ring_simple_memory_guard_validation/all_four/validation",
+        "--max-seconds",
+        "900"
+      ],
+      "output_dir": "results/ring_simple_memory_guard_validation/all_four",
+      "package_manifest": [
+        {
+          "path": "code/__init__.py",
+          "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+        },
+        {
+          "path": "code/codes.py",
+          "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+        },
+        {
+          "path": "code/common.py",
+          "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+        },
+        {
+          "path": "code/env.py",
+          "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+        },
+        {
+          "path": "code/memory_task.py",
+          "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+        },
+        {
+          "path": "code/nets.py",
+          "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+        },
+        {
+          "path": "code/simple_memory_replay_guard.py",
+          "sha256": "d2cc6b24294954e933c35c4b1bbb77d7ec1cfceada404cc36ef113ef949e2ff1"
+        },
+        {
+          "path": "code/train.py",
+          "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+        },
+        {
+          "path": "code/train_memory.py",
+          "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+        },
+        {
+          "path": "code/train_memory_v2.py",
+          "sha256": "f7feb9d607880beb55e02d98c9431e5d6e5f064d36ca9dd963114e5202b53c2f"
+        },
+        {
+          "path": "docs/research/simple_memory_guard_amendment.json",
+          "sha256": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938"
+        },
+        {
+          "path": "docs/research/simple_memory_guard_validation_protocol.json",
+          "sha256": "f70851418ab58421fb06f2ed5e151de1558726f5b5c420a71ec6827cf8ad7d4f"
+        },
+        {
+          "path": "docs/research/simple_memory_training_protocol.json",
+          "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/attempt_000.json",
+          "sha256": "15d5d65cabd13755ffd200404c5d47497b6d917a2a813fa9d35aff08d7a00216"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/config.json",
+          "sha256": "435e33ea7340fc7bfb4f2663ca1cf3a0d04a1851c360a8db328d4517a7acfbd1"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/episodes_000.jsonl",
+          "sha256": "eea6d0149fa94d0c9b33dcc3e6894ba627d3f6a58b0bd8d0a01d40732fc7ae5e"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/initial.pt",
+          "sha256": "cace13a62d499607ffc6468f71c053a3d15a3bf29730513cc593f8a97cf24cbc"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/metrics_000.jsonl",
+          "sha256": "dd5a52fee9e1072397b6e30c796c052e5fa886a76a34bc54e042f72af976dea9"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/provenance.json",
+          "sha256": "e81339625a26e6332c74bf4b4d1deb02f5b970fb3c865d92c9f755dc8ac51ded"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2/resume.pt",
+          "sha256": "e9c61e50079c2508e03f132b9da4497a65d9e914ea04b8c7ca40ddd0d02c18e3"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/attempt_000.json",
+          "sha256": "a07983c2f944b9a3fcdf644e52b88f60669aa76cebb4c3004f7ff338ed3c7685"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/config.json",
+          "sha256": "8abb9876264427e3c0612d3d90491af295b58af27af212e8a4c55c4625806295"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/episodes_000.jsonl",
+          "sha256": "01465d2f4afc1a4c7877410f47f5de7d137d318357fbfaeaa46186d0237f26b9"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/initial.pt",
+          "sha256": "ae1cba758172bccfa14aa8f1f0dd4084ae02c4c6457541f65c6fac38399010cd"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/metrics_000.jsonl",
+          "sha256": "4649eac6af90e597b54092779d943f16f180759bc052eddde539d7255f76cdc0"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/provenance.json",
+          "sha256": "6925bafa5260900443a2026a2907926a6f1193d31004121d69904bcf4c8e5197"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/resume.pt",
+          "sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/attempt_000.json",
+          "sha256": "d1c3605b8493fe78f9a591df77e3ff5d6517ca2b7e0608c58c30983cb9a099fb"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/config.json",
+          "sha256": "dfe945a9a9a7632b4c42eba7da61a14d3a27667558cb5a2511d079804c10e33c"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/episodes_000.jsonl",
+          "sha256": "fbf3a4e5473ccf6c4c1904e281a9e7a37cfef48571b2dbe350ad667e1c87b929"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/initial.pt",
+          "sha256": "0c71a872aa481de9b643de1a42deedf893c8adbaa6e6f98a3c094bf5744cefbe"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/metrics_000.jsonl",
+          "sha256": "9181aa6aacf3d72e33e464e026cb8b45cb464e9af9d2c9c0906f919be453a507"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/provenance.json",
+          "sha256": "4897065fab5fd7b53fb514730120ead1441feb28e00fddbed2bd89bbb2e85937"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1/resume.pt",
+          "sha256": "e076da5600d9e44a644566dd840ba591abb81a523ee55cdcc8ff75dc95802a10"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/attempt_000.json",
+          "sha256": "8ae14b39335ce1fe08d9d173d1b51af38a924c299188a2e69b8635443440a20b"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/config.json",
+          "sha256": "de89bb8c669791bbf93b5f738aaacdd6422607c9e57c309875193ce62f682c3f"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/episodes_000.jsonl",
+          "sha256": "1a1959cf3d669601ea62a945df2850631600eeba7d44eb7d98fec6761ccc7874"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/initial.pt",
+          "sha256": "a248583fe3eba258fdd29e3e96057b3b5be6f075dbea63515bd8c3991c14a716"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/metrics_000.jsonl",
+          "sha256": "edfb3e705d87aa641818d1bab2060ae0b29156404e2485e07399721065212fc4"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/provenance.json",
+          "sha256": "0a6407ceec44ea9bcd92130dadae701d1dfebda6066929c598f02f577394451e"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2/resume.pt",
+          "sha256": "eb5bb1db4f2e5e3b7354d126533ce558c781d1859ea393808e0d69bf7e6aa338"
+        },
+        {
+          "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-replaydiag-s1/diagnostic/reconstructed_boundary.pt",
+          "sha256": "e06eb85a6b01f0be712cb794feb1e96a4eb8a0ff43da105808766d6b2576f18f"
+        },
+        {
+          "path": "scripts/diagnose_simple_memory_replay.py",
+          "sha256": "6670eb96a059e338b75765fac060cc629782145c2a0dcad25cc86e038f28233e"
+        },
+        {
+          "path": "scripts/validate_simple_memory_guard.py",
+          "sha256": "7cad919b5852ebbc7840b9a8ed8e00507428025992acfdb791c9e658ed2f28ce"
+        },
+        {
+          "path": "tests/test_simple_memory_replay_guard.py",
+          "sha256": "518c735013d926976ef996727631a7f722414e4db80c18c728e682ba3b7ebe66"
+        },
+        {
+          "path": "tests/test_train_memory_v2.py",
+          "sha256": "139590d414a25cb90ef3feb7ae3fb5043ebd93f5ebd12abaf2538639a5404377"
+        },
+        {
+          "path": "tests/test_validate_simple_memory_guard.py",
+          "sha256": "a0c0881dac5aaaf1142303dc270292221659d4273abca56d9045bf505a7bff11"
+        }
+      ],
+      "package_manifest_sha256": "e9f6786578c1a26cc7b0c957ed0efffa304b685814ac5e714a5a2ede111772d6",
+      "package_uncompressed_bytes": 402823205,
+      "status": "RUNNING",
+      "reserved_at": "2026-11-08T18:18:14+00:00",
+      "create_requested_at": "2026-11-08T18:18:44.339490+00:00",
+      "instance_id": "3186274607424144362",
+      "created_at": "2026-11-08T10:18:45.656-08:00",
+      "termination_timestamp": null,
+      "archive_sha256": "1991b52d2835b193ec6db4286fc060d9fecb7bc9ce14edb2d16187452f14c925"
     }
   ]
 }

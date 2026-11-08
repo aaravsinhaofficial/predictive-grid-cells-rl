@@ -1,0 +1,475 @@
+{
+  "recorded_at_utc": "2026-11-08T18:03:04.884277+00:00",
+  "scope": "Read-only list-price reconstruction for seven provider-deleted initial scientific VMs; eighth PGC blackout seed1 remains at existing conservative bound. Excludes active diagnostic and all future jobs.",
+  "invoice_available": false,
+  "billing_export_search": {
+    "project_billing_enabled": true,
+    "project_local_accessible_bigquery_datasets": 0,
+    "scope_limitation": "No project-local export found; no claim about other billing-export projects or final invoiced amounts."
+  },
+  "ledger_sha256_at_read": "3dd8395a48703c4ea8a69ff73390af30969f370a3cdbbd35bd06340063dafbb6",
+  "no_ledger_or_cloud_resource_mutation": true,
+  "currency": "USD",
+  "price_components_per_hour": {
+    "n1_standard_8_host": 0.379998,
+    "one_t4": 0.35,
+    "balanced_100_gib": 0.0136986,
+    "one_external_ipv4": 0.005,
+    "deep_learning_image_license": 0
+  },
+  "total_list_price_per_hour": 0.7486965999999999,
+  "price_sources": {
+    "host": "https://cloud.google.com/products/compute/pricing/general-purpose?hl=en",
+    "gpu": "https://cloud.google.com/products/compute/gpus-pricing?hl=en",
+    "disk": "https://cloud.google.com/compute/disks-image-pricing",
+    "ipv4": "https://cloud.google.com/vpc/network-pricing",
+    "image": "https://cloud.google.com/deep-learning-vm/pricing",
+    "unit_and_billing_rules": "https://cloud.google.com/products/compute/pricing",
+    "storage": "https://cloud.google.com/storage/pricing"
+  },
+  "host_page_evidence": {
+    "retrieved_at_utc": "2026-11-08T18:03:04.884277+00:00",
+    "sha256": "e1e19491e8654f22c8d4bbe11604c77848a428a5c843be984b0f0e5fb7659788",
+    "bytes": 35396198,
+    "row_excerpt": "n1-standard-8 8 30 GiB $0.379998 / 1 hour $0.27359856 / 1 hour $0.20519892 / 1 hour $0.23939 / 1 hour $0.17101 / 1 hour n1-standard-16 16 60 GiB $0.759996 / 1 hour $0.54719712 / 1 hour $0.41039784 / 1",
+    "prior_same_region_rate_record": "docs/research/simple_memory_cloud_authorization.json"
+  },
+  "image": {
+    "creationTimestamp": "2026-10-29T02:44:14.435-07:00",
+    "diskSizeGb": "100",
+    "id": "4043216931976555393",
+    "licenses": [
+      "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-dlvm",
+      "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-gvnic",
+      "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-py310",
+      "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-gpu-pytorch-2-9",
+      "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-ubuntu-2204"
+    ],
+    "name": "pytorch-2-9-cu129-ubuntu-2204-nvidia-580-v20261029"
+  },
+  "image_license_interpretation": "Pinned DLVM Ubuntu22.04/PyTorch2.9 image; official DLVM pricing states images are free. No Ubuntu Pro, Windows, RHEL or virtual-workstation license is present. License REST metadata descriptions verified; chargesUse absent, not used alone to infer price.",
+  "unit_interpretation": "Google pricing defines disk size in binary GiB despite the GCE API sizeGb/CLI 100GB spelling; charge the full provisioned 100 GiB.",
+  "duration_interpretation": "Charge from creation through completed provider deletion, not training exit. Proposed 25.75h includes the existing 15-minute allowance; all actual deletion completions fall inside this bound.",
+  "selected_disk_inventory_absent": true,
+  "selected_workers": [
+    {
+      "name": "ring-20261105-simplemem-gc100-native-s1",
+      "instance_id": "8981684914349055930",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:02:13.989-08:00",
+      "provider_deadline_utc": "2026-11-08T14:32:09+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:33:10.194468Z",
+      "deletion_seconds_after_deadline": 61.194468,
+      "creation_to_deletion_hours": 25.51561263,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.103452422998057
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-blackout-s1",
+      "instance_id": "6365241797412822941",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:02:42.808-08:00",
+      "provider_deadline_utc": "2026-11-08T14:32:37+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:33:38.818139Z",
+      "deletion_seconds_after_deadline": 61.818139,
+      "creation_to_deletion_hours": 25.515558371944447,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.103411800176342
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-native-s1",
+      "instance_id": "8445511307469430625",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:03:10.668-08:00",
+      "provider_deadline_utc": "2026-11-08T14:33:06+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:34:09.085810Z",
+      "deletion_seconds_after_deadline": 63.08581,
+      "creation_to_deletion_hours": 25.516227169444445,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.10391252659068
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-native-s2",
+      "instance_id": "4625298293231099347",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:10:20.727-08:00",
+      "provider_deadline_utc": "2026-11-08T14:40:16+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:41:21.693951Z",
+      "deletion_seconds_after_deadline": 65.693951,
+      "creation_to_deletion_hours": 25.516935264166666,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.104442674701684
+    },
+    {
+      "name": "ring-20261105-simplemem-gc100-blackout-s2",
+      "instance_id": "2681117579317255552",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:11:11.992-08:00",
+      "provider_deadline_utc": "2026-11-08T14:41:06+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:42:00.404430Z",
+      "deletion_seconds_after_deadline": 54.40443,
+      "creation_to_deletion_hours": 25.51344789722222,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.101831694927426
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-native-s2",
+      "instance_id": "5178157882415422817",
+      "zone": "us-central1-a",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:11:42.711-08:00",
+      "provider_deadline_utc": "2026-11-08T14:41:38+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:42:38.720221Z",
+      "deletion_seconds_after_deadline": 60.720221,
+      "creation_to_deletion_hours": 25.515558116944444,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.103411609258707
+    },
+    {
+      "name": "ring-20261105-simplemem-pgc33-blackout-s2",
+      "instance_id": "1061080461004152159",
+      "zone": "us-central1-b",
+      "machine": "n1-standard-8",
+      "created_at": "2026-11-07T05:12:16.493-08:00",
+      "provider_deadline_utc": "2026-11-08T14:42:11+00:00",
+      "confirmed_deletion_completed_at": "2026-11-08T14:43:01.658824Z",
+      "deletion_seconds_after_deadline": 50.658824,
+      "creation_to_deletion_hours": 25.51254606222222,
+      "disk_size_gib": 100,
+      "disk_type": "pd-balanced",
+      "disk_auto_delete_evidence": "results/ring_simple_memory_supervision/live_budget_audit_20261107T134003Z.json",
+      "disk_absent_now": true,
+      "prior_ledger_closed_bound_usd": 32.1875,
+      "proposed_closed_bound_usd": 25.75,
+      "hourly_closed_bound_usd": 1.0,
+      "billed_duration_bound_hours": 25.75,
+      "list_price_reconstruction_through_delete_usd": 19.101156494129164
+    }
+  ],
+  "deletion_audit_command": [
+    "gcloud",
+    "logging",
+    "read",
+    "timestamp>=\"2026-11-08T14:25:00Z\" AND timestamp<=\"2026-11-08T15:10:00Z\" AND resource.type=\"gce_instance\" AND resource.labels.instance_id=(\"8981684914349055930\" OR \"6365241797412822941\" OR \"8445511307469430625\" OR \"4625298293231099347\" OR \"2681117579317255552\" OR \"5178157882415422817\" OR \"1061080461004152159\")",
+    "--project",
+    "connectome-ai-research",
+    "--limit=200",
+    "--format=json"
+  ],
+  "deletion_audit_events": [
+    {
+      "timestamp": "2026-11-08T14:43:01.658824Z",
+      "instance_id": "1061080461004152159",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-pgc33-blackout-s2",
+      "operation": {
+        "id": "systemevent-1794057138637-65faf7a748bdd-1c2c9fa7-ba16c468",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:42:38.720221Z",
+      "instance_id": "5178157882415422817",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-pgc33-native-s2",
+      "operation": {
+        "id": "systemevent-1794057104700-65faf786eb2c7-3f59d0dc-69545505",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:42:12.280295Z",
+      "instance_id": "1061080461004152159",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-pgc33-blackout-s2",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794057138637-65faf7a748bdd-1c2c9fa7-ba16c468",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:42:00.404430Z",
+      "instance_id": "2681117579317255552",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-gc100-blackout-s2",
+      "operation": {
+        "id": "systemevent-1794057073956-65faf769997c2-461beabb-ee1ff952",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:41:39.226492Z",
+      "instance_id": "5178157882415422817",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-pgc33-native-s2",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794057104700-65faf786eb2c7-3f59d0dc-69545505",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:41:21.693951Z",
+      "instance_id": "4625298293231099347",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-gc100-native-s2",
+      "operation": {
+        "id": "systemevent-1794057022563-65faf738965b2-0a2593e5-b3b0fd6e",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:41:07.243961Z",
+      "instance_id": "2681117579317255552",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-gc100-blackout-s2",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794057073956-65faf769997c2-461beabb-ee1ff952",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:40:17.223281Z",
+      "instance_id": "4625298293231099347",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-gc100-native-s2",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794057022563-65faf738965b2-0a2593e5-b3b0fd6e",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:34:09.085810Z",
+      "instance_id": "8445511307469430625",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-pgc33-native-s1",
+      "operation": {
+        "id": "systemevent-1794056592759-65faf59eb1c9d-8c8ed907-16ffa7e6",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:33:38.818139Z",
+      "instance_id": "6365241797412822941",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-gc100-blackout-s1",
+      "operation": {
+        "id": "systemevent-1794056564320-65faf58392890-cbaf019c-bf361703",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:33:10.194468Z",
+      "instance_id": "8981684914349055930",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-gc100-native-s1",
+      "operation": {
+        "id": "systemevent-1794056536807-65faf56955a00-331a374f-a1f23271",
+        "last": true,
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:33:07.208848Z",
+      "instance_id": "8445511307469430625",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-pgc33-native-s1",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794056592759-65faf59eb1c9d-8c8ed907-16ffa7e6",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:32:38.323298Z",
+      "instance_id": "6365241797412822941",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-b/instances/ring-20261105-simplemem-gc100-blackout-s1",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794056564320-65faf58392890-cbaf019c-bf361703",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    },
+    {
+      "timestamp": "2026-11-08T14:32:10.247813Z",
+      "instance_id": "8981684914349055930",
+      "method": "compute.instances.deferredDelete",
+      "resource": "projects/connectome-ai-research/zones/us-central1-a/instances/ring-20261105-simplemem-gc100-native-s1",
+      "operation": {
+        "first": true,
+        "id": "systemevent-1794056536807-65faf56955a00-331a374f-a1f23271",
+        "producer": "compute.instances.deferredDelete"
+      },
+      "status": {
+        "message": "Instance deleted by Compute Engine."
+      }
+    }
+  ],
+  "storage_audit": {
+    "bucket_region": "US-CENTRAL1",
+    "class": "STANDARD",
+    "soft_delete_retention_seconds": 604800,
+    "live_scientific_prefix_bytes": 2730482172,
+    "soft_deleted_scientific_prefix_bytes": 120409232544,
+    "soft_deleted_objects": 7575,
+    "per_model_soft_deleted": {
+      "gc100-native-s1": {
+        "objects": 1201,
+        "bytes": 20217788226
+      },
+      "gc100-blackout-s1": {
+        "objects": 1113,
+        "bytes": 18956451208
+      },
+      "pgc33-native-s1": {
+        "objects": 624,
+        "bytes": 7810787228
+      },
+      "pgc33-blackout-s1": {
+        "objects": 395,
+        "bytes": 4058585189
+      },
+      "gc100-native-s2": {
+        "objects": 988,
+        "bytes": 15191636197
+      },
+      "gc100-blackout-s2": {
+        "objects": 1121,
+        "bytes": 19208941297
+      },
+      "pgc33-native-s2": {
+        "objects": 1012,
+        "bytes": 15799295283
+      },
+      "pgc33-blackout-s2": {
+        "objects": 1121,
+        "bytes": 19165747916
+      }
+    },
+    "standard_us_central1_usd_per_gib_hour": 2.7397e-05,
+    "cost_if_all_current_soft_deleted_bytes_charged_full_seven_days_usd": 0.516145576716716,
+    "cost_if_all_current_live_bytes_retained_30_days_usd": 0.05016201589975923,
+    "single_complete_live_download_to_us_usd_at_point12_per_gib": 0.30515516236424445,
+    "same_region_vm_bucket_transfer": "free under official same-location rules",
+    "limits": "Bytes are current saved-object inventory, not invoice usage history. Repeated downloads, operations, prior-study data, logging and future storage must still be covered."
+  },
+  "proposal": {
+    "apply_only_to_seven_named_closed_workers": true,
+    "leave_eighth_existing_bound_usd": 11.2405,
+    "leave_all_future_reservation_rate_usd_per_hour": 1.25,
+    "leave_ancillary_reserve_usd": 25,
+    "old_seven_bound_usd": 225.3125,
+    "new_seven_bound_usd": 180.25,
+    "released_reserve_usd": 45.0625,
+    "closed_rate_margin_above_list_price_fraction": 0.3356545228067018,
+    "previous_full_scope_estimate_including_diagnostic_four_resumes_usd": 622.0764047619048,
+    "reconciled_same_scope_estimate_usd": 577.0139047619048,
+    "remaining_below_600_usd": 22.98609523809523,
+    "important": "Four-resume duration estimate still needs exact checkpoint counters and selected runtime caps; this is not authority to exceed the user ceiling."
+  },
+  "omitted_or_separate_charges": [
+    "Cloud Storage object storage including soft-deleted overwritten checkpoints",
+    "Cloud Storage API requests and internet download egress",
+    "Any logging/monitoring charges outside their included allowances",
+    "Other prior-study ancillary consumption; retain the existing $25 reserve",
+    "Applicable tax or non-USD billing currency effects are not visible without invoice; do not present this as a final invoice."
+  ],
+  "discounts_assumed": false,
+  "unrelated_resources_excluded": true
+}

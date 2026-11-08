@@ -20,7 +20,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_PROTOCOL = ROOT/'docs/research/simple_memory_analysis_protocol.json'
-ANALYSIS_SHA256 = 'cd15bb8465e9429e7280327b03f8410d9d1ac46bfbd2b1a22765edd4f3a88fae'
+ANALYSIS_SHA256 = '156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e'
 STAGES = ('behavior', 'states', 'activity', 'dynamics', 'interventions')
 PRODUCERS = dict(zip(STAGES, ('scripts/evaluate_simple_memory.py',
     'scripts/collect_simple_memory_states.py', 'scripts/analyze_simple_memory_activity.py',
@@ -72,7 +72,8 @@ def check_sources(manifest, root, required=()):
         require(sha(local_path(root, name)) == digest, f'Changed source: {name}')
 
 
-def authenticate_run(run, *, root=ROOT, analysis_protocol=None, expected_analysis_sha256=ANALYSIS_SHA256):
+def authenticate_run(run, *, root=ROOT, analysis_protocol=None, expected_analysis_sha256=ANALYSIS_SHA256,
+                     amendment_path=None):
     """CPU-only endpoint authentication; returns portable, JSON-safe evidence.
 
     Alternate root/protocol/hash arguments support isolated private fixtures and
@@ -102,7 +103,13 @@ def authenticate_run(run, *, root=ROOT, analysis_protocol=None, expected_analysi
     require(cfg['clock_seed'] == cfg['seed']*cohort['clock_seed_multiplier']+cohort['clock_seed_offset'], 'Clock seed changed')
     require(cfg['tf32'] == 0, 'FP32 configuration changed')
     require(proof['protocol_sha256'] == sha(training_path), 'Training protocol binding changed')
-    require(proof['source_sha256'] == training['source_sha256'], 'Training source closure changed')
+    if proof.get('provenance_version') == 2:
+        from scripts.simple_memory_endpoint import validate_v2_provenance
+        producer_evidence = validate_v2_provenance(run, cfg, proof, root=root, amendment_path=amendment_path)
+    else:
+        require('provenance_version' not in proof, 'Unknown training producer version')
+        require(proof['source_sha256'] == training['source_sha256'], 'Training source closure changed')
+        producer_evidence = dict(producer_version=1)
     require(proof['deterministic_algorithms'] is True and proof['cudnn_benchmark'] is False and
             proof['cudnn_tf32'] is False and proof['matmul_tf32'] is False, 'Training precision changed')
     final_hash = sha(run/'final.pt')
@@ -128,6 +135,7 @@ def authenticate_run(run, *, root=ROOT, analysis_protocol=None, expected_analysi
         policy_sha256=h.hexdigest(), config_sha256=sha(run/'config.json'),
         terminal_summary_sha256=sha(run/'summary.json'), training_provenance_sha256=sha(run/'provenance.json'),
         training_protocol_sha256=sha(training_path), analysis_protocol_sha256=sha(protocol_path),
+        **producer_evidence,
         training_runtime={key:proof[key] for key in ('torch_version','cuda_version','cudnn_version',
                                                     'cuda_device_name','cuda_capability')})
 

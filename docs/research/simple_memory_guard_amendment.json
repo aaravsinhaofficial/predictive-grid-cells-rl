@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "status": "frozen",
+  "kind": "simple_memory_replay_guard_amendment",
+  "frozen_utc": "2026-11-08T18:16:49.782848+00:00",
+  "parent_protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "source_sha256": {
+    "code/train_memory.py": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3",
+    "code/memory_task.py": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0",
+    "code/common.py": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52",
+    "code/env.py": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d",
+    "code/nets.py": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e",
+    "code/codes.py": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2",
+    "code/__init__.py": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a",
+    "code/train.py": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca",
+    "code/train_memory_v2.py": "f7feb9d607880beb55e02d98c9431e5d6e5f064d36ca9dd963114e5202b53c2f",
+    "code/simple_memory_replay_guard.py": "d2cc6b24294954e933c35c4b1bbb77d7ec1cfceada404cc36ef113ef949e2ff1"
+  },
+  "numerical_runtime": {
+    "torch_version": "2.9.1+cu129",
+    "cuda_version": "12.9",
+    "cudnn_version": 91002,
+    "cuda_device_name": "Tesla T4",
+    "cuda_capability": [
+      7,
+      5
+    ],
+    "deterministic_algorithms": true,
+    "cudnn_benchmark": false,
+    "cudnn_tf32": false,
+    "matmul_tf32": false
+  },
+  "guard": {
+    "id": "cnn_batch_roundoff_v1",
+    "status": "frozen",
+    "rtol": 0.0001,
+    "atol": 1e-05,
+    "encoder_absolute_max": 1e-05,
+    "raw_logit_absolute_max": 0.0001
+  },
+  "run_bindings": {
+    "gc100/native/seed1": {
+      "kind": "v1_completed",
+      "logical_job_name": "ring-20261105-simplemem-gc100-native-s1",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s1/seed1",
+      "original_provenance_sha256": "57a99391672562e1198f9becffeabd4cf09f9d8b7d2b8b7af5ca86e3a4fd5d64",
+      "final_checkpoint_sha256": "ad633e6ca8c142f9dc747d430d8099ff2c0bb79859a7eab28168511226b87836"
+    },
+    "gc100/native/seed2": {
+      "kind": "v1_resume",
+      "logical_job_name": "ring-20261105-simplemem-gc100-native-s2",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/seed2",
+      "original_provenance_sha256": "e81339625a26e6332c74bf4b4d1deb02f5b970fb3c865d92c9f755dc8ac51ded",
+      "parent_evidence_sha256": {
+        "attempt_000.json": "15d5d65cabd13755ffd200404c5d47497b6d917a2a813fa9d35aff08d7a00216",
+        "config.json": "435e33ea7340fc7bfb4f2663ca1cf3a0d04a1851c360a8db328d4517a7acfbd1",
+        "episodes_000.jsonl": "eea6d0149fa94d0c9b33dcc3e6894ba627d3f6a58b0bd8d0a01d40732fc7ae5e",
+        "initial.pt": "cace13a62d499607ffc6468f71c053a3d15a3bf29730513cc593f8a97cf24cbc",
+        "metrics_000.jsonl": "dd5a52fee9e1072397b6e30c796c052e5fa886a76a34bc54e042f72af976dea9",
+        "provenance.json": "e81339625a26e6332c74bf4b4d1deb02f5b970fb3c865d92c9f755dc8ac51ded",
+        "resume.pt": "e9c61e50079c2508e03f132b9da4497a65d9e914ea04b8c7ca40ddd0d02c18e3"
+      },
+      "parent_checkpoint_sha256": "e9c61e50079c2508e03f132b9da4497a65d9e914ea04b8c7ca40ddd0d02c18e3",
+      "last_logged_update": 66845,
+      "restored_frames": 855040000,
+      "restored_updates": 66800,
+      "original_worker_log": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-native-s2/worker.log",
+        "sha256": "0b9e27d17d5cba91c6b510a6ac972b0442362d6f246d8bf405bb5015fc5274a1"
+      }
+    },
+    "gc100/native/seed3": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-gc100-native-s3"
+    },
+    "gc100/native/seed4": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-gc100-native-s4"
+    },
+    "gc100/blackout/seed1": {
+      "kind": "v1_completed",
+      "logical_job_name": "ring-20261105-simplemem-gc100-blackout-s1",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-blackout-s1/seed1",
+      "original_provenance_sha256": "8a7b2a5e14cb6fb014b5282672114f1d528608e659be8655a724e0b5e71906dc",
+      "final_checkpoint_sha256": "fc6b121c6ef2d35505d6ed73ddeb59a4653c75ec93b1ce5022020c2ad7445bb7"
+    },
+    "gc100/blackout/seed2": {
+      "kind": "v1_completed",
+      "logical_job_name": "ring-20261105-simplemem-gc100-blackout-s2",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-gc100-blackout-s2/seed2",
+      "original_provenance_sha256": "341a6e7e374e8bed021885c23db519b38eadb666dc804d324bb66d414fdcf231",
+      "final_checkpoint_sha256": "612f75c7daadb429cc48d5f1d26ccb0218638f95eb816b121485e69a69965b81"
+    },
+    "gc100/blackout/seed3": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-gc100-blackout-s3"
+    },
+    "gc100/blackout/seed4": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-gc100-blackout-s4"
+    },
+    "pgc33/native/seed1": {
+      "kind": "v1_resume",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-native-s1",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/seed1",
+      "original_provenance_sha256": "4897065fab5fd7b53fb514730120ead1441feb28e00fddbed2bd89bbb2e85937",
+      "parent_evidence_sha256": {
+        "attempt_000.json": "d1c3605b8493fe78f9a591df77e3ff5d6517ca2b7e0608c58c30983cb9a099fb",
+        "config.json": "dfe945a9a9a7632b4c42eba7da61a14d3a27667558cb5a2511d079804c10e33c",
+        "episodes_000.jsonl": "fbf3a4e5473ccf6c4c1904e281a9e7a37cfef48571b2dbe350ad667e1c87b929",
+        "initial.pt": "0c71a872aa481de9b643de1a42deedf893c8adbaa6e6f98a3c094bf5744cefbe",
+        "metrics_000.jsonl": "9181aa6aacf3d72e33e464e026cb8b45cb464e9af9d2c9c0906f919be453a507",
+        "provenance.json": "4897065fab5fd7b53fb514730120ead1441feb28e00fddbed2bd89bbb2e85937",
+        "resume.pt": "e076da5600d9e44a644566dd840ba591abb81a523ee55cdcc8ff75dc95802a10"
+      },
+      "parent_checkpoint_sha256": "e076da5600d9e44a644566dd840ba591abb81a523ee55cdcc8ff75dc95802a10",
+      "last_logged_update": 44684,
+      "restored_frames": 570880000,
+      "restored_updates": 44600,
+      "original_worker_log": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s1/worker.log",
+        "sha256": "cee356b5ee9b1a6630b3b63bad0c23f7bfcd1c1948d9f43d8d0a4d673bb6b928"
+      }
+    },
+    "pgc33/native/seed2": {
+      "kind": "v1_resume",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-native-s2",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/seed2",
+      "original_provenance_sha256": "0a6407ceec44ea9bcd92130dadae701d1dfebda6066929c598f02f577394451e",
+      "parent_evidence_sha256": {
+        "attempt_000.json": "8ae14b39335ce1fe08d9d173d1b51af38a924c299188a2e69b8635443440a20b",
+        "config.json": "de89bb8c669791bbf93b5f738aaacdd6422607c9e57c309875193ce62f682c3f",
+        "episodes_000.jsonl": "1a1959cf3d669601ea62a945df2850631600eeba7d44eb7d98fec6761ccc7874",
+        "initial.pt": "a248583fe3eba258fdd29e3e96057b3b5be6f075dbea63515bd8c3991c14a716",
+        "metrics_000.jsonl": "edfb3e705d87aa641818d1bab2060ae0b29156404e2485e07399721065212fc4",
+        "provenance.json": "0a6407ceec44ea9bcd92130dadae701d1dfebda6066929c598f02f577394451e",
+        "resume.pt": "eb5bb1db4f2e5e3b7354d126533ce558c781d1859ea393808e0d69bf7e6aa338"
+      },
+      "parent_checkpoint_sha256": "eb5bb1db4f2e5e3b7354d126533ce558c781d1859ea393808e0d69bf7e6aa338",
+      "last_logged_update": 68858,
+      "restored_frames": 880640000,
+      "restored_updates": 68800,
+      "original_worker_log": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-native-s2/worker.log",
+        "sha256": "f332d7d0ef1a6029b0c5e27431695bb33ccb41425384753c8a8e5daf34981309"
+      }
+    },
+    "pgc33/native/seed3": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-native-s3"
+    },
+    "pgc33/native/seed4": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-native-s4"
+    },
+    "pgc33/blackout/seed1": {
+      "kind": "v1_resume",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-blackout-s1",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+      "original_provenance_sha256": "6925bafa5260900443a2026a2907926a6f1193d31004121d69904bcf4c8e5197",
+      "parent_evidence_sha256": {
+        "attempt_000.json": "a07983c2f944b9a3fcdf644e52b88f60669aa76cebb4c3004f7ff338ed3c7685",
+        "config.json": "8abb9876264427e3c0612d3d90491af295b58af27af212e8a4c55c4625806295",
+        "episodes_000.jsonl": "01465d2f4afc1a4c7877410f47f5de7d137d318357fbfaeaa46186d0237f26b9",
+        "initial.pt": "ae1cba758172bccfa14aa8f1f0dd4084ae02c4c6457541f65c6fac38399010cd",
+        "metrics_000.jsonl": "4649eac6af90e597b54092779d943f16f180759bc052eddde539d7255f76cdc0",
+        "provenance.json": "6925bafa5260900443a2026a2907926a6f1193d31004121d69904bcf4c8e5197",
+        "resume.pt": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c"
+      },
+      "parent_checkpoint_sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c",
+      "last_logged_update": 27188,
+      "restored_frames": 345600000,
+      "restored_updates": 27000,
+      "original_worker_log": {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/worker.log",
+        "sha256": "4e23fac2dc38021f9f443b85c8b7821185f7dc3d2e052128563a87342a07ab57"
+      }
+    },
+    "pgc33/blackout/seed2": {
+      "kind": "v1_completed",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-blackout-s2",
+      "original_run": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s2/seed2",
+      "original_provenance_sha256": "81677108c1cac078a1967d4329eeee490a4d9e71b96cf5782a2a3cfb36e8f479",
+      "final_checkpoint_sha256": "ef6b6a451a54a4867f643e846b5a117b37e3d4bdf0751f631a097e5a7637a0f6"
+    },
+    "pgc33/blackout/seed3": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-blackout-s3"
+    },
+    "pgc33/blackout/seed4": {
+      "kind": "v2_fresh",
+      "logical_job_name": "ring-20261105-simplemem-pgc33-blackout-s4"
+    }
+  },
+  "observed_before_freeze": {
+    "scientific_activity_navigation_outcomes": false,
+    "technical_failures": "All four original replay assertion records and checkpoint counters; exact GPU reconstruction of PGC blackout seed1 only.",
+    "diagnostic_summary_sha256": "31460f383bbc13e4f76eaaa1d8a74973cf7f441296371e79a284a1e124c77669"
+  },
+  "change": "Only the consistency-check acceptance rule and explicit provenance/continuation handling change. CNN batch shape, actor sampling, loss, backward pass, gradients, optimizer and scientific configuration retain the original computations.",
+  "continuation_release_rule": "No cohort continuation before the separately frozen GPU validation passes all four registered faults and the recovery plan pins its result.",
+  "private_validation": {
+    "path": "results/ring_simple_memory_design/v2_implementation_validation.json",
+    "sha256": "425fa09fa5a16de2b260eb2f6a487da8e916ca3a5bb6af414cec547f900ab2e0"
+  }
+}

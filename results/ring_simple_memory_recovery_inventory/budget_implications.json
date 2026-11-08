@@ -1,0 +1,38 @@
+{
+  "created_at_utc": "2026-11-08T17:56:30.887803+00:00",
+  "ledger_sha256": "57d6a080aa11839ecce189b30d1d94e6d7e6d840c66d233a391b53c3e9f447c9",
+  "ledger_runs": 67,
+  "scope": "Conservative ledger envelope and throughput-based recovery planning, not a provider bill or authorization to launch. Logged frames are upper bounds on the counters of an earlier saved resume checkpoint; no checkpoint contents were loaded.",
+  "cohort": {
+    "planned": 16,
+    "exact_1B_complete": 4,
+    "failed": 4,
+    "never_launched": 8
+  },
+  "remaining_frames_from_last_successful_logs": {
+    "ring-20261105-simplemem-pgc33-native-s1": 428044800,
+    "ring-20261105-simplemem-gc100-native-s2": 144384000,
+    "ring-20261105-simplemem-pgc33-native-s2": 118617600,
+    "ring-20261105-simplemem-pgc33-blackout-s1": 651993600
+  },
+  "total_remaining_failed_frames": 1343040000,
+  "checkpoint_counters_verified": false,
+  "checkpoint_evidence": "Per-job read-only checkpoint_listing.txt files; resume.pt exists for every newly failed run. Root owns collection and checkpoint authentication.",
+  "budget": {
+    "closed_actual_upper_usd": 57.9395,
+    "still_reserved_usd": 225.3125,
+    "ancillary_usd": 25.0,
+    "queued_training_usd": 257.5,
+    "queued_analysis_usd": 12.5,
+    "base_full16_envelope_usd": 578.252,
+    "available_usd": 21.748,
+    "new_half_hour_diagnostic_reservation_usd": 0.9375,
+    "single_17h_resume_reservation_usd": 21.5625,
+    "base_plus_new_diagnostic_plus_single17h_usd": 600.752,
+    "planning_fps": 11200.0,
+    "four_recovery_compute_hours_at_planning_fps": 33.30952380952381,
+    "four_recovery_reservation_at_that_throughput_before_additional_setup_margin_usd": 42.88690476190476,
+    "base_plus_new_diagnostic_plus_four_recoveries_estimate_usd": 622.0764047619048,
+    "interpretation": "The $599.8145 single-resume estimate excludes a separate diagnostic and the three additional failed models. The current $1.25/hour guard does not cover the full fixed cohort with all four continuations at the planning throughput. New recovery caps need a revised full-cohort cost calculation after diagnostics and authenticated saved counters."
+  }
+}
