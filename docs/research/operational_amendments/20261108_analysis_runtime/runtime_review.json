@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "created_utc": "2026-11-08T20:49:13.504679+00:00",
+  "scope": "Prospective operational runtime review; no trained outcomes, scientific assays, cloud launches or scientific source/settings changes.",
+  "conclusion": "A two-hour worker and shared6600-second pair runner provide justified funded margin; complete pipeline runtime has not been measured.",
+  "source_sha256": {
+    "scripts/run_simple_memory_analysis.py": "1f12e0061734526b13c524ee7748846dc7765c377107d175afb7f1157ab8302c",
+    "tests/test_run_simple_memory_analysis.py": "6a75605f1c6773be63ecb8e9ec2163b4ee6410ee307a6c54ecae88ca10f1976c"
+  },
+  "preserved_source_sha256": {
+    "scripts/run_simple_memory_analysis.py": "adbd5041be3d746f6ac29e16907c0a95c542a58bc6672845ad7514368bfeda8c",
+    "tests/test_run_simple_memory_analysis.py": "30a5dba952f672f3dada3090022f7bb9535c9737c9ade1dc43c7742b51fd15db"
+  },
+  "per_pair_maximum_workload": {
+    "models": 2,
+    "sequential_stages": 10,
+    "evaluation": {
+      "episodes_per_variant_per_model": 128,
+      "variants": 8,
+      "original_envs_per_variant": 32,
+      "batched_envs": 256,
+      "decisions_per_episode": 1350,
+      "sequential_batches_per_model": 5400,
+      "physical_frames": 11059200,
+      "source": "scripts/evaluate_simple_memory.py:evaluate"
+    },
+    "collection": {
+      "episodes_per_model": 128,
+      "batch": 32,
+      "samples_per_model": 57600,
+      "sequential_batches_per_model": 5400,
+      "physical_frames": 1382400,
+      "source": "scripts/collect_simple_memory_states.py:collect"
+    },
+    "native_forks": {
+      "contexts_per_model": 4,
+      "future_tapes_per_context": 4,
+      "state_edits": 5,
+      "cue_options": 5,
+      "decisions_per_branch": 150,
+      "original_batch": 32,
+      "sequential_full_batch_steps": 120000,
+      "physical_frames": 15360000,
+      "source": "scripts/simple_memory_interventions.py:behavioral_forks,native_fork",
+      "execution": "Branches run sequentially, preserve original batch32, and copy/hash CPU traces each step. Invalid normal edits or native terminal steps may reduce actual work; budget assumes full prescribed scope."
+    },
+    "total_native_physical_frames": 27801600,
+    "total_native_sequential_batches": 141600,
+    "family_builds": {
+      "count": 16,
+      "phases": 768,
+      "actual_visible_history_updates": 15,
+      "source": "scripts/simple_memory_family.py:build_family; dynamics and intervention CLIs each rebuild the same selected families"
+    },
+    "dynamics": {
+      "contexts": 8,
+      "input_regimes": 2,
+      "full_state_dimensions": 512,
+      "neural_horizon": 60,
+      "arc_probes": 384,
+      "normal_anchors": 8,
+      "source": "scripts/analyze_simple_memory_dynamics.py:analyze_family",
+      "conditional_work": "A passing float64 geometry screen also triggers complete native-float32 confirmation; broad occupancy is checked when native rows are available."
+    },
+    "cue_repair": {
+      "contexts": 8,
+      "updates": 60,
+      "queried_times": [
+        0,
+        1,
+        5,
+        15,
+        30,
+        60
+      ],
+      "edited_phase_samples": 192,
+      "reference_phases": 768,
+      "separate_LSTM_calls": 14400,
+      "nearest_full_state_segment_queries": 4800,
+      "source": "scripts/simple_memory_interventions.py:cue_repair; scripts/lstm_heading_curve_flow.py:nearest_closed_segments"
+    },
+    "activity": {
+      "saved_rows_per_model": 57600,
+      "covariance_eigendecompositions": 162,
+      "maximum_covariance_dimensions": 512,
+      "cholesky_fits": 20,
+      "null_replicates": 20,
+      "source": "scripts/analyze_simple_memory_activity.py:analyze_arrays,covariance_analysis,fit_episode_readouts",
+      "execution": "CPU BLAS limited to2 threads; all target/null right-hand sides share one Cholesky per fold."
+    }
+  },
+  "measured_evidence": [
+    {
+      "path": "results/ring_simple_memory_design/family_private_benchmark.json",
+      "sha256": "60b9f76885216e0e7735d699e18e17a713c85101dc26b8266c479b7f92a546aa",
+      "seconds": 28.677293666871265,
+      "family_seconds": 13.690021083923057,
+      "dynamics_seconds": 14.659909584093839,
+      "hardware": "macOS-26.6-arm64-arm-64bit",
+      "torch_threads": 1,
+      "original_batch_size": 4,
+      "scope": "One private768-phase/full512-state family+dynamics, not full native forks, cue repair, full activity, or full paired pipeline."
+    },
+    {
+      "path": "results/ring_simple_memory_design/state_collector_validation.json",
+      "scope": "Private behavioral integration:2 tapes x25 branches x3 decisions, original batch4. Correctness fixture only; not a full production runtime measurement."
+    },
+    {
+      "paths": [
+        "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-opt/technical/gc100/throughput.json",
+        "results/ring_cloud_artifacts/ring-20261105-simplemem-preflight-opt/technical/pgc33/throughput.json"
+      ],
+      "frames": 2000000,
+      "seconds": [
+        165.582303548,
+        166.02202358199997
+      ],
+      "hardware": "Tesla T4; original training batch32",
+      "scope": "Private training throughput only, not measured inference/fork/analysis runtime."
+    }
+  ],
+  "projection_not_measurement": {
+    "basis": "Illustrative11000-12000 physical frames/s from training; evaluation omits learning and may be faster, while fork tracing/hashing adds different overhead. Family/cue/CPU algebra/serialization/authentication excluded from native-frame proxy.",
+    "rows": [
+      {
+        "proxy_frames_per_second": 11000,
+        "native_frames_seconds": 2527.418181818182,
+        "native_frames_minutes": 42.123636363636365,
+        "remaining_2900_seconds": 372.5818181818181,
+        "remaining_6600_seconds": 4072.581818181818
+      },
+      {
+        "proxy_frames_per_second": 12000,
+        "native_frames_seconds": 2316.8,
+        "native_frames_minutes": 38.61333333333334,
+        "remaining_2900_seconds": 583.1999999999998,
+        "remaining_6600_seconds": 4283.2
+      }
+    ]
+  },
+  "operational_decision": {
+    "old_worker_hours": 1,
+    "old_prescribed_runner_seconds": 2900,
+    "new_worker_hours": 2,
+    "new_runner_ceiling_seconds": 6600,
+    "analysis_jobs": 8,
+    "extra_reserved_usd_at_1_25_per_hour": 10,
+    "root_supplied_full_scope_before_usd": 581.0782,
+    "root_supplied_full_scope_after_usd": 591.0782,
+    "cumulative_user_cap_usd": 600,
+    "budget_scope": "Arithmetic on root-supplied reservation envelope, not a new live-ledger audit.",
+    "runtime_scope": "Shared pair deadline and child process-group timeout remain enforced; no retry, no cohort/context/branch reduction, and no completion timing guarantee."
+  },
+  "implementation_validation": {
+    "command": "python -m pytest -q tests/test_run_simple_memory_analysis.py",
+    "passed": 19,
+    "seconds": 1.07,
+    "tests": "Existing12 retained;7 added parameter cases reject invalid cap values and test exact shared limit/final overrun. Existing relocation test extended for6600 boundary and oversized/elapsed records.",
+    "unchanged_function_AST_checks": [
+      "sha",
+      "read",
+      "utc",
+      "require",
+      "atomic_json",
+      "local_path",
+      "check_sources",
+      "authenticate_run",
+      "validate_runtime_versions",
+      "probe_runtime",
+      "artifact",
+      "stage_path",
+      "validate_stage",
+      "command",
+      "run_child"
+    ],
+    "scientific_commands_authentication_and_child_timeout_unchanged": true
+  },
+  "remaining_timing_gap": "Full production-size native forks and cue repair lack a direct timing measurement; prospective extra headroom addresses this without new workers or outcome-based task reduction."
+}

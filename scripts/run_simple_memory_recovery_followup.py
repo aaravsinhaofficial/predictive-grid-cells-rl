@@ -26,8 +26,8 @@ from scripts import run_simple_memory_followup as original
 from scripts import run_simple_memory_recovery as recovery
 from scripts.run_simple_memory_cohort import cat, save, sha
 
-PLAN = ROOT/'docs/research/simple_memory_recovery_followup_plan.json'
-RECOVERY_PLAN = ROOT/'docs/research/simple_memory_recovery_plan.json'
+PLAN = ROOT/'docs/research/simple_memory_recovery_followup_runtime_plan.json'
+RECOVERY_PLAN = ROOT/'docs/research/simple_memory_recovery_runtime_plan.json'
 TRAINING_STATUS = ROOT/'results/ring_simple_memory_recovery_supervision/status.json'
 ANALYSIS_PROTOCOL = ROOT/'docs/research/simple_memory_analysis_protocol.json'
 ORIGINAL_PLAN = ROOT/'docs/research/simple_memory_followup_plan.json'
@@ -37,6 +37,10 @@ OPERATIONS = ('scripts/run_simple_memory_recovery_followup.py',
     'scripts/run_simple_memory_analysis.py', 'scripts/simple_memory_endpoint.py',
     'scripts/ring_cloud.py', 'scripts/run_simple_memory_cohort.py',
     'tests/test_run_simple_memory_recovery_followup.py')
+WORKER_HOURS = 2
+RUNNER_MAX_SECONDS = 6600
+WORKER_RESERVATION_USD = (WORKER_HOURS + .25) * 1.25  # Existing rate and upload allowance.
+TOTAL_ANALYSIS_RESERVATION_USD = 8 * WORKER_RESERVATION_USD
 
 
 def local(name):
@@ -65,8 +69,9 @@ def draft_plan(recovery_path=RECOVERY_PLAN):
         training_protocol_sha256=sha(local(analysis['training_protocol'])),
         amendment_sha256=recovery_plan['bindings']['amendment']['sha256'],
         operational_source_sha256={p: sha(ROOT/p) for p in OPERATIONS},
-        cumulative_ceiling_usd=600, per_worker_hours=1, runner_max_seconds=2900,
-        max_active_workers=8, total_analysis_reservation_usd=12.5,
+        cumulative_ceiling_usd=600, per_worker_hours=WORKER_HOURS, runner_max_seconds=RUNNER_MAX_SECONDS,
+        per_worker_reservation_usd=WORKER_RESERVATION_USD,
+        max_active_workers=8, total_analysis_reservation_usd=TOTAL_ANALYSIS_RESERVATION_USD,
         worker_sources=['scripts/run_simple_memory_analysis.py', 'scripts/simple_memory_endpoint.py'],
         jobs=template['jobs'],
         readiness=dict(analysis_authentication_manifest_frozen=False, independent_operational_review=False),
@@ -106,11 +111,12 @@ def validated_plan(path=PLAN):
     assert plan['jobs'] == template['jobs'], 'Original eight paired analysis jobs/settings changed'
     assert len(plan['jobs']) == len({j['name'] for j in plan['jobs']}) == 8
     assert {(j['seed'],j['task']) for j in plan['jobs']} == {(s,t) for s in (1,2,3,4) for t in ('native','blackout')}
-    assert plan['per_worker_hours'] == 1 and plan['runner_max_seconds'] == 2900
-    assert plan['max_active_workers'] == 8 and plan['total_analysis_reservation_usd'] == 8*1.5625 == 12.5
+    assert plan['per_worker_hours'] == WORKER_HOURS and plan['runner_max_seconds'] == RUNNER_MAX_SECONDS
+    assert plan['per_worker_reservation_usd'] == WORKER_RESERVATION_USD == 2.8125
+    assert plan['max_active_workers'] == 8 and plan['total_analysis_reservation_usd'] == TOTAL_ANALYSIS_RESERVATION_USD == 22.5
     reservations = {r['name']:r for r in recovered['other_reservations'] if r['purpose'] == 'analysis'}
     assert set(reservations) == {j['name'] for j in plan['jobs']}
-    assert all(r['reserved_usd'] == 1.5625 for r in reservations.values())
+    assert all(r['reserved_usd'] == WORKER_RESERVATION_USD for r in reservations.values())
     assert {n for j in plan['jobs'] for n in j['training_jobs'].values()} == {r['logical_name'] for r in recovered['models']}
     for job in plan['jobs']:
         assert job['name'] == f"ring-20261105-simplemem-analysis-{job['task']}-s{job['seed']}"
@@ -250,8 +256,14 @@ def launch_args(plan, recovered, job, expected):
     include = static_files(plan,recovered)
     for condition,name in job['training_jobs'].items():
         include += [str(base/condition/p) for p in required_inputs(local(base/condition),expected[name])]
-    return argparse.Namespace(name=job['name'],machine=job['machine'],zone=job['zone'],hours=1,
+    return argparse.Namespace(name=job['name'],machine=job['machine'],zone=job['zone'],hours=plan['per_worker_hours'],
         output_dir=str(base),command=shlex.join(command),include=sorted(set(include)),include_only=True)
+
+
+def check_worker_limits(record):
+    """The prepared reservation and existing immutable worker must agree."""
+    assert record['duration_seconds'] == WORKER_HOURS * 3600 == 7200
+    assert record['reserved_usd'] == WORKER_RESERVATION_USD == 2.8125
 
 
 def match_record(plan, recovered, job, expected, record, instance_id=None):
@@ -261,7 +273,7 @@ def match_record(plan, recovered, job, expected, record, instance_id=None):
     for key in ('name','machine','zone','output_dir'): assert record[key] == getattr(args,key)
     assert record['command'] == shlex.split(args.command)
     assert record['gcs_prefix'] == f'gs://{cloud.BUCKET}/{cloud.PREFIX}/{args.name}'
-    assert record['duration_seconds'] == 3600 and record['reserved_usd'] == 1.5625
+    check_worker_limits(record)
     manifest = {x['path']:x['sha256'] for x in record['package_manifest']}
     assert set(manifest) == set(args.include)
     check_files(manifest)
@@ -333,7 +345,7 @@ def cycle(plan, recovered, state):
         staged = stage_inputs(plan,recovered,job,endpoints,authenticated)
         args = launch_args(plan,recovered,job,authenticated)
         prepared = cloud.plan(args)
-        assert prepared['reserved_usd'] == 1.5625 and prepared['duration_seconds'] == 3600
+        check_worker_limits(prepared)
         with contextlib.redirect_stdout(io.StringIO()): cloud.launch(args)
         record = cloud.record(json.loads(cloud.LEDGER.read_text()),job['name'])
         match_record(plan,recovered,job,authenticated,record)

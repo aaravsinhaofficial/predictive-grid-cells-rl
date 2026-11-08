@@ -132,7 +132,7 @@ def fixture(tmp_path, monkeypatch):
             ('analysis_registry',registry),('validation_protocol',vp),('validation_cloud_plan',vc)]},
         gpu_release=dict(status='complete',worker_name=s.VALIDATION_NAME,instance_id='987',summary_path=report_path,summary_sha256=s.sha(tmp_path/report_path),
             done_path=done_path,done_sha256=s.sha(tmp_path/done_path)),
-        models=models,other_reservations=[dict(r,purpose='analysis',reserved_usd=1.5625) for r in jobs]+
+        models=models,other_reservations=[dict(r,purpose='analysis',reserved_usd=2.8125) for r in jobs]+
             [dict(name=s.VALIDATION_NAME,purpose='validation',reserved_usd=.9375,expected_worker=expected,instance_id='987')])
     path=tmp_path/'docs/research/simple_memory_recovery_plan.json';dump(path,plan)
     def cloud_plan(args):
@@ -154,8 +154,15 @@ def test_complete_registry_and_full_reservations(fixture):
     plan,path=fixture
     assert s.validate(path)['models']==plan['models']
     bound=s.ensure_budget(plan,json.loads(s.cloud.LEDGER.read_text()))
-    assert bound['not_yet_launched_reserved_usd']==318.4375
-    assert bound['full_scope_upper_usd']==pytest.approx(582.5645)
+    assert bound['not_yet_launched_reserved_usd']==328.4375
+    assert bound['full_scope_upper_usd']==pytest.approx(592.5645)
+
+
+def test_old_one_hour_reservation_cannot_fund_two_hour_analysis(fixture):
+    plan,path=fixture
+    plan['other_reservations'][0]['reserved_usd']=1.5625
+    dump(path,plan)
+    with pytest.raises(AssertionError):s.validate(path)
 
 
 @pytest.mark.parametrize('fault',['partial','sources','inputs','three_cases','wrong_count','missing_fault',

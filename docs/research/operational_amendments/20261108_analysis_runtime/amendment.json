@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "status": "frozen",
+  "created_utc": "2026-11-08T20:50:15.008099+00:00",
+  "reason": "Reserve enough execution time for the full unchanged pair workload before any scientific evaluations; no full-pipeline timing guarantee.",
+  "runtime_review": {
+    "path": "docs/research/operational_amendments/20261108_analysis_runtime/runtime_review.json",
+    "sha256": "d8982d981d4fa0b78aad5ca1b403b14e3c943ab1a2155ba1d7c8c648aa8212f2"
+  },
+  "validation": {
+    "path": "docs/research/operational_amendments/20261108_analysis_runtime/validation.json",
+    "sha256": "1afe7d948578a942cff9b0359f909ee770b582cd49b62421f595b0d094c73513"
+  },
+  "changes": {
+    "per_worker_hours": [
+      1,
+      2
+    ],
+    "runner_max_seconds": [
+      2900,
+      6600
+    ],
+    "per_worker_reservation_usd": [
+      1.5625,
+      2.8125
+    ],
+    "eight_worker_reservation_usd": [
+      12.5,
+      22.5
+    ]
+  },
+  "new_full_scope_budget": {
+    "committed_usd": 439.8282,
+    "not_yet_launched_reserved_usd": 151.25,
+    "full_scope_upper_usd": 591.0781999999999
+  },
+  "preservation": {
+    "path": "docs/research/operational_amendments/20261108_analysis_runtime/preservation.json",
+    "sha256": "dc1ee7ea1eb6a4ba53b5c311bce397902520515c5e0d98d08563b62aa3d3519d"
+  },
+  "changed_source_sha256": {
+    "scripts/run_simple_memory_analysis.py": "1f12e0061734526b13c524ee7748846dc7765c377107d175afb7f1157ab8302c",
+    "scripts/run_simple_memory_recovery.py": "9874dbfabf0ef6355bee3607b7b568c06466a46e4d9469307ff8318e10318f60",
+    "scripts/run_simple_memory_recovery_followup.py": "f485564210a01149432f9b4c8eb8f17d5ffdf717f4df68a2c6114ee84392ec0e",
+    "tests/test_run_simple_memory_analysis.py": "6a75605f1c6773be63ecb8e9ec2163b4ee6410ee307a6c54ecae88ca10f1976c",
+    "tests/test_run_simple_memory_recovery.py": "bea6845530f3bde288866f35e9c3cfc22aa2e76563482c5b6e2e90ab822e2107",
+    "tests/test_run_simple_memory_recovery_followup.py": "c984a5677102df4a305365e20d5db7e22b53b08fc39a774aaaf8f703de9b2329"
+  },
+  "unchanged": {
+    "training_workers_and_deadlines": true,
+    "all16_training_jobs_and_packages": true,
+    "eight_analysis_pairs": true,
+    "all_scientific_sources": true,
+    "analysis_protocol_sha256": "156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e",
+    "no_scientific_outcomes_seen": true
+  },
+  "restart_rule": "Retain original16 model records and all8 active worker IDs; change only local controller bindings/budget and process records after validation. No launch/retry/deletion solely for this amendment."
+}

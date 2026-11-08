@@ -16,7 +16,8 @@ def plan():
                 output_dir=f'results/ring_simple_memory_analysis/seed{seed}_{kind}',
                 training_jobs={c:f'ring-20261105-simplemem-{c}-{kind}-s{seed}' for c in ('gc100','pgc33')}))
     return dict(jobs=jobs,recovery_plan_sha256='plan',recovery_supervisor_sha256='supervisor',
-        per_worker_hours=1,runner_max_seconds=2900,max_active_workers=8,total_analysis_reservation_usd=12.5)
+        per_worker_hours=2,runner_max_seconds=6600,per_worker_reservation_usd=2.8125,
+        max_active_workers=8,total_analysis_reservation_usd=22.5)
 
 
 def recovery_plan(p):
@@ -30,7 +31,7 @@ def recovery_plan(p):
             models.append(dict(logical_name=name,name=physical,mode=mode,condition=condition,seed=job['seed'],
                 task_max_gap=job['task_max_gap'],run_dir=f'results/ring_cloud_artifacts/{name}/seed{job["seed"]}',
                 trainer_output_dir=f'results/new/{physical}/seed{job["seed"]}',reserved_usd=10.))
-    return dict(models=models,other_reservations=[dict(name=j['name'],purpose='analysis',reserved_usd=1.5625) for j in p['jobs']]+[
+    return dict(models=models,other_reservations=[dict(name=j['name'],purpose='analysis',reserved_usd=2.8125) for j in p['jobs']]+[
         dict(name='private-validation',purpose='validation',reserved_usd=.9375)])
 
 
@@ -150,7 +151,7 @@ def test_fixed_worker_command_has_all_v2_inputs_and_no_extra_cases(tmp_path,monk
     for c,name in job['training_jobs'].items():expected[name]=input_fixture(tmp_path/job['output_dir']/c,2,'v1_resume')
     args=task.launch_args(p,r,job,expected);argv=task.shlex.split(args.command)
     assert argv[:3]==['python','scripts/run_simple_memory_analysis.py','--runs']
-    assert argv[-2:]==['--max-seconds','2900'] and args.hours==1 and args.include_only
+    assert argv[-2:]==['--max-seconds','6600'] and args.hours==2 and args.include_only
     assert len(args.include)==len(set(args.include))
     assert all(not Path(n).is_absolute() and '..' not in Path(n).parts for n in args.include)
     for c in ('gc100','pgc33'):
@@ -158,15 +159,58 @@ def test_fixed_worker_command_has_all_v2_inputs_and_no_extra_cases(tmp_path,monk
         assert str(Path(job['output_dir'])/c/'migration_boundary.pt') in args.include
 
 
+def test_immutable_worker_matching_requires_new_duration_reserve_and_command(tmp_path,monkeypatch):
+    monkeypatch.setattr(task,'ROOT',tmp_path)
+    p=plan();r=recovery_plan(p);job=p['jobs'][0];expected={}
+    source=tmp_path/'scripts/run_simple_memory_analysis.py';source.parent.mkdir();source.write_text('private runner')
+    monkeypatch.setattr(task,'static_files',lambda *a:['scripts/run_simple_memory_analysis.py'])
+    for c,name in job['training_jobs'].items():
+        expected[name]=input_fixture(tmp_path/job['output_dir']/c,2,'v1_resume')
+    args=task.launch_args(p,r,job,expected)
+    record={k:getattr(args,k) for k in ('name','machine','zone','output_dir')}
+    record.update(instance_id='12345',command=task.shlex.split(args.command),duration_seconds=7200,reserved_usd=2.8125,
+        gcs_prefix=f'gs://{task.cloud.BUCKET}/{task.cloud.PREFIX}/{args.name}',
+        package_manifest=[dict(path=n,sha256=task.sha(tmp_path/n)) for n in args.include])
+    task.match_record(p,r,job,expected,record,'12345')
+    for field,value in [('duration_seconds',3600),('duration_seconds',7201),('reserved_usd',1.5625),
+                        ('reserved_usd',2.8126),('instance_id','54321')]:
+        changed=copy.deepcopy(record);changed[field]=value
+        with pytest.raises(AssertionError):task.match_record(p,r,job,expected,changed,'12345')
+    changed=copy.deepcopy(record);changed['command'][-1]='2900'
+    with pytest.raises(AssertionError):task.match_record(p,r,job,expected,changed,'12345')
+
+
+@pytest.mark.parametrize('prepared',[
+    dict(duration_seconds=3600,reserved_usd=1.5625),
+    dict(duration_seconds=7200,reserved_usd=1.5625),
+    dict(duration_seconds=7201,reserved_usd=2.8125),
+])
+def test_prepared_runtime_or_reserve_mismatch_blocks_cloud_launch(tmp_path,monkeypatch,prepared):
+    p=plan();r=recovery_plan(p)
+    expected={n:{} for j in p['jobs'] for n in j['training_jobs'].values()}
+    f=tmp_path/'status.json';f.write_text(json.dumps(dict(models={n:dict(endpoint={}) for n in expected})))
+    monkeypatch.setattr(task,'TRAINING_STATUS',f)
+    monkeypatch.setattr(task,'training_endpoints',lambda *a:{})
+    monkeypatch.setattr(task,'authenticate_endpoints',lambda *a:expected)
+    ledger=tmp_path/'ledger.json';ledger.write_text(json.dumps(dict(runs=[])))
+    monkeypatch.setattr(task.cloud,'LEDGER',ledger)
+    monkeypatch.setattr(task.recovery,'ensure_budget',lambda *a:{'full_scope_upper_usd':599})
+    monkeypatch.setattr(task,'stage_inputs',lambda *a:{})
+    monkeypatch.setattr(task,'launch_args',lambda *a:object())
+    monkeypatch.setattr(task.cloud,'plan',lambda *a:prepared)
+    monkeypatch.setattr(task.cloud,'launch',lambda *a:pytest.fail('Mismatched prepared plan must never launch'))
+    with pytest.raises(AssertionError):task.cycle(p,r,dict(jobs={}))
+
+
 def test_budget_helper_accounts_for_unlaunched_training_and_validation_too():
     p=plan();r=recovery_plan(p)
     ledger=dict(ancillary_reserve_usd=0,runs=[dict(name='past',actual_upper_bound_usd=470,reserved_usd=470)])
-    # 12 future training*10 + 8 analyses*1.5625 + validation.9375 exceeds600.
+    # 12 future training*10 + 8 analyses*2.8125 + validation.9375 exceeds600.
     with pytest.raises(AssertionError,match='remaining training'):
         task.recovery.ensure_budget(r,ledger)
-    ledger['runs'][0]['actual_upper_bound_usd']=460
+    ledger['runs'][0]['actual_upper_bound_usd']=450
     assert task.recovery.ensure_budget(r,ledger)['full_scope_upper_usd']==pytest.approx(593.4375)
-    ledger['runs'].append(dict(name=p['jobs'][0]['name'],reserved_usd=1.5625))
+    ledger['runs'].append(dict(name=p['jobs'][0]['name'],reserved_usd=2.8125))
     assert task.recovery.ensure_budget(r,ledger)['full_scope_upper_usd']==pytest.approx(593.4375)
 
 
@@ -234,9 +278,21 @@ def test_frozen_plan_binds_new_analysis_and_recovery_versions(tmp_path,monkeypat
     with pytest.raises(AssertionError):task.validated_plan(path)
 
 
+def test_runtime_draft_preserves_exact_eight_jobs_with_prospective_limits(tmp_path,monkeypatch):
+    _,p,r,_=frozen_fixture(tmp_path,monkeypatch)
+    recovery_path=tmp_path/'docs/research/recovery.json';recovery_path.write_text(json.dumps(r))
+    draft=task.draft_plan(recovery_path)
+    assert draft['status']=='draft' and not any(draft['readiness'].values())
+    assert draft['jobs']==p['jobs'] and len(draft['jobs'])==8
+    assert draft['per_worker_hours']==2 and draft['runner_max_seconds']==6600
+    assert draft['per_worker_reservation_usd']==2.8125 and draft['total_analysis_reservation_usd']==22.5
+    assert draft['max_active_workers']==8 and draft['cumulative_ceiling_usd']==600
+
+
 def test_fixed_pair_or_budget_cannot_be_changed_by_new_plan(tmp_path,monkeypatch):
     path,p,r,_=frozen_fixture(tmp_path,monkeypatch)
-    for key,value in [('runner_max_seconds',3001),('per_worker_hours',2),('max_active_workers',9),('total_analysis_reservation_usd',1.5625)]:
+    for key,value in [('runner_max_seconds',2900),('runner_max_seconds',6601),('per_worker_hours',1),
+                      ('per_worker_reservation_usd',1.5625),('max_active_workers',9),('total_analysis_reservation_usd',12.5)]:
         changed=copy.deepcopy(p);changed[key]=value;path.write_text(json.dumps(changed))
         with pytest.raises(AssertionError):task.validated_plan(path)
     changed=copy.deepcopy(p);changed['jobs'][0]['seed']=99;path.write_text(json.dumps(changed))

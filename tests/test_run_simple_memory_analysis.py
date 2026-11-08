@@ -132,6 +132,33 @@ def test_timeout_records_failure_and_does_not_start_next_stage(tmp_path):
     assert (tmp_path/'pipeline_logs/0_behavior.log').read_text()=='before timeout'
 
 
+@pytest.mark.parametrize('limit',[0,-1,6600.001,float('inf'),float('nan')])
+def test_global_limit_rejects_invalid_budget_before_authentication(tmp_path,limit):
+    def forbidden(*args,**kwargs):pytest.fail('Invalid budget must not authenticate or execute')
+    out=tmp_path/'pipeline.json'
+    with pytest.raises(ValueError,match='Global budget'):
+        runner.run_pipeline([tmp_path/'gc100'],out,limit,authenticate=forbidden,execute=forbidden)
+    assert not out.exists()
+
+
+@pytest.mark.parametrize('final_overrun',[0.,.001])
+def test_two_models_share_6600_second_limit_including_final_checks(tmp_path,final_overrun):
+    runs=[tmp_path/'gc100',tmp_path/'pgc33']
+    for run in runs:run.mkdir()
+    ticks=[0.];timeouts=[]
+    def execute(argv,log,timeout,**kwargs):
+        timeouts.append(timeout);log.write_text('private fixed stage')
+        ticks[0]+=660+ (final_overrun if len(timeouts)==10 else 0)
+        return dict(exit_code=0,timed_out=False,seconds=660)
+    p=runner.run_pipeline(runs,tmp_path/'pipeline.json',6600,
+        authenticate=lambda *a,**k:{},validate=lambda *a,**k:{'complete':True},
+        execute=execute,clock=lambda:ticks[0],runtime_probe=lambda e:{})
+    assert timeouts==[6600-660*i for i in range(10)]
+    assert p['max_seconds']==6600 and p['complete']==(final_overrun==0)
+    assert all(set(record['stages'])==set(runner.STAGES) for record in p['runs'])
+    if final_overrun:assert 'final authentication' in p['error']['message']
+
+
 def test_subprocess_timeout_kills_child_and_retains_output(tmp_path):
     result=runner.run_child([sys.executable,'-c',"import time; print('retained',flush=True); time.sleep(10)"],tmp_path/'child.log',.3)
     assert result['timed_out'] and result['exit_code']!=0
@@ -227,5 +254,16 @@ def test_relocated_pipeline_reauthenticates_relative_paths(tmp_path,monkeypatch)
     relocated=tmp_path/'downloaded';shutil.copytree(run.parent,relocated)
     monkeypatch.setattr(runner,'authenticate_run',auth);monkeypatch.setattr(runner,'validate_stage',validate)
     assert runner.verify_pipeline(relocated,root=root)['stages']==5
+    # Relocated verification uses the same amended ceiling and rejects both an
+    # oversized requested envelope and a result exceeding its accepted envelope.
+    record=runner.read(relocated/'pipeline.json')
+    record.update(max_seconds=6600,seconds=6600)
+    put(relocated/'pipeline.json',record)
+    assert runner.verify_pipeline(relocated,root=root)['stages']==5
+    for change in ({'max_seconds':6600.001},{'seconds':6600.001}):
+        put(relocated/'pipeline.json',dict(record,**change))
+        with pytest.raises(ValueError,match='deadline record'):
+            runner.verify_pipeline(relocated,root=root)
+    put(relocated/'pipeline.json',record)
     (relocated/'gc100/states.fixture').write_text('changed')
     with pytest.raises(AssertionError):runner.verify_pipeline(relocated,root=root)

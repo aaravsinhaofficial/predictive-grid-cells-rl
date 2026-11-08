@@ -21,6 +21,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_PROTOCOL = ROOT/'docs/research/simple_memory_analysis_protocol.json'
 ANALYSIS_SHA256 = '156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e'
+MAX_SECONDS = 6600
 STAGES = ('behavior', 'states', 'activity', 'dynamics', 'interventions')
 PRODUCERS = dict(zip(STAGES, ('scripts/evaluate_simple_memory.py',
     'scripts/collect_simple_memory_states.py', 'scripts/analyze_simple_memory_activity.py',
@@ -319,12 +320,12 @@ def run_child(argv, log, timeout, *, root=ROOT):
             raise
 
 
-def run_pipeline(runs, out, max_seconds=3000, *, root=ROOT, authenticate=authenticate_run,
+def run_pipeline(runs, out, max_seconds=MAX_SECONDS, *, root=ROOT, authenticate=authenticate_run,
                  validate=validate_stage, execute=run_child, clock=time.monotonic, runtime_probe=probe_runtime):
     root, out = Path(root).resolve(), Path(out).resolve()
     runs = [Path(p).resolve() for p in runs]
     require(1 <= len(runs) <= 2 and len(set(runs)) == len(runs), 'Supply one or two distinct run paths')
-    require(0 < max_seconds <= 3000, 'Global budget must be in (0,3000] seconds')
+    require(0 < max_seconds <= MAX_SECONDS, f'Global budget must be in (0,{MAX_SECONDS}] seconds')
     require(all(p.is_relative_to(out.parent) for p in runs), 'Runs must be within the pipeline output parent for portable collection')
     require(not out.exists(), 'Preserve previous pipeline records; choose a new output path')
     started = clock()
@@ -392,7 +393,7 @@ def verify_pipeline(pair_output_dir, *, root=ROOT, pipeline_name='pipeline.json'
     require(p.get('complete') is True and p['analysis_protocol_sha256']==ANALYSIS_SHA256, 'Pipeline incomplete/protocol changed')
     require(p['runner_sha256']==sha(__file__), 'Pipeline runner changed')
     validate_runtime_versions(p['runtime_preflight'],[r['endpoint'] for r in p['runs']])
-    require(0 < p['max_seconds'] <= 3000 and p['seconds'] <= p['max_seconds'], 'Pipeline deadline record')
+    require(0 < p['max_seconds'] <= MAX_SECONDS and p['seconds'] <= p['max_seconds'], 'Pipeline deadline record')
     require(1 <= len(p['runs']) <= 2 and len({r['run'] for r in p['runs']})==len(p['runs']), 'Pipeline run cohort')
     for record in p['runs']:
         run=local_path(base,record['run']); endpoint=authenticate_run(run,root=root)
@@ -411,7 +412,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runs',type=Path,nargs='+',required=True)
     parser.add_argument('--out',type=Path,required=True)
-    parser.add_argument('--max-seconds',type=float,default=3000)
+    parser.add_argument('--max-seconds',type=float,default=MAX_SECONDS)
     args=parser.parse_args(argv)
     def interrupted(signum, frame): raise InterruptedError(f'Worker received signal {signum}; partial evidence retained')
     signal.signal(signal.SIGTERM,interrupted)

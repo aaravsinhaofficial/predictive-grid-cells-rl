@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "complete": true,
+  "created_utc": "2026-11-08T20:52:54.899952+00:00",
+  "scope": "Independent local-only operational amendment review; no cloud operations, model assays or scientific-outcome inspection.",
+  "checks": {
+    "preserved_artifacts": 16,
+    "all_preserved_bytes_and_hashes_match": true,
+    "analysis_protocol_unchanged": true,
+    "scientific_source_hashes_unchanged": 46,
+    "original_plans_unchanged": true,
+    "ledger_unchanged": true,
+    "training_rows_and_packages_unchanged": 16,
+    "analysis_job_records_unchanged": 8,
+    "old_controller_pids_absent": [
+      "83089",
+      "83676"
+    ],
+    "same_eight_numeric_worker_ids": {
+      "ring-20261105-simplemem-pgc33-native-s1": "87276925346447740",
+      "ring-20261105-simplemem-pgc33-blackout-s1": "600581575131595099",
+      "ring-20261105-simplemem-gc100-native-s2": "7521594907876458811",
+      "ring-20261105-simplemem-pgc33-native-s2": "2589352373224570581",
+      "ring-20261105-simplemem-gc100-native-s3": "1057444616571027131",
+      "ring-20261105-simplemem-gc100-blackout-s3": "4148734228216774296",
+      "ring-20261105-simplemem-pgc33-native-s3": "5035009637508546175",
+      "ring-20261105-simplemem-pgc33-blackout-s3": "7723173859269901893"
+    },
+    "real_plan_validators_passed_with_cloud_operations_blocked": true
+  },
+  "tests": {
+    "command": "/opt/anaconda3/bin/python -m pytest -q tests/test_run_simple_memory_analysis.py tests/test_run_simple_memory_recovery.py tests/test_run_simple_memory_recovery_followup.py",
+    "passed": 76,
+    "seconds": 1.55,
+    "scope": "Private synthetic operational tests only. Root separately ran89 including reporter tests."
+  },
+  "budget": {
+    "committed_usd": 439.8282,
+    "remaining_training_usd": 128.75,
+    "remaining_analysis_usd": 22.5,
+    "remaining_other_usd": 0,
+    "cumulative_upper_usd": 591.0782,
+    "ceiling_usd": 600,
+    "headroom_usd": 8.9218,
+    "analysis_names_previously_launched": 0
+  },
+  "runtime": {
+    "provider_seconds": 7200,
+    "application_cap_seconds": 6600,
+    "outer_shutdown_and_upload_reserve_seconds": 420,
+    "provider_deadline_takes_precedence": true,
+    "full_application_cap_available_only_if_setup_at_most_seconds": 180,
+    "completion_not_guaranteed": true
+  },
+  "controllers": [
+    {
+      "kind": "training",
+      "pid": 88051,
+      "process_command_exact": true,
+      "status_sha256_at_review": "c67096ef4ea90fb601c9350f2d4f39b09d9a2a9667225451e61a688c22e0cc5d",
+      "status_updated_utc": "2026-11-08T20:52:36.720733+00:00",
+      "preserved_record_digest_verified": true,
+      "changes_after_restart": {
+        "ring-20261105-simplemem-pgc33-native-s1": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-pgc33-blackout-s1": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-gc100-native-s2": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-pgc33-native-s2": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-gc100-native-s3": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-gc100-blackout-s3": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-pgc33-native-s3": [
+          "technical"
+        ],
+        "ring-20261105-simplemem-pgc33-blackout-s3": [
+          "technical"
+        ]
+      },
+      "halted": false
+    },
+    {
+      "kind": "analysis",
+      "pid": 88054,
+      "process_command_exact": true,
+      "status_sha256_at_review": "eb39a92bde2ff7751b110410e9c32100b7bdec64a9b0224674c4b0b999f86237",
+      "status_updated_utc": "2026-11-08T20:52:17.906286+00:00",
+      "preserved_record_digest_verified": true,
+      "changes_after_restart": {},
+      "halted": false
+    }
+  ],
+  "duplicate_prevention": "Same output-directory locks and exact existing logical/physical names retained. All8 numeric IDs agree with preserved state. No analysis ledger names or cached analysis jobs exist. Existing immutable identity checks and no-retry policy remain unchanged.",
+  "source_sha256": {
+    "scripts/run_simple_memory_analysis.py": "1f12e0061734526b13c524ee7748846dc7765c377107d175afb7f1157ab8302c",
+    "scripts/run_simple_memory_recovery.py": "9874dbfabf0ef6355bee3607b7b568c06466a46e4d9469307ff8318e10318f60",
+    "scripts/run_simple_memory_recovery_followup.py": "f485564210a01149432f9b4c8eb8f17d5ffdf717f4df68a2c6114ee84392ec0e",
+    "tests/test_run_simple_memory_analysis.py": "6a75605f1c6773be63ecb8e9ec2163b4ee6410ee307a6c54ecae88ca10f1976c",
+    "tests/test_run_simple_memory_recovery.py": "bea6845530f3bde288866f35e9c3cfc22aa2e76563482c5b6e2e90ab822e2107",
+    "tests/test_run_simple_memory_recovery_followup.py": "c984a5677102df4a305365e20d5db7e22b53b08fc39a774aaaf8f703de9b2329"
+  },
+  "evidence_sha256": {
+    "docs/research/operational_amendments/20261108_analysis_runtime/preservation.json": "dc1ee7ea1eb6a4ba53b5c311bce397902520515c5e0d98d08563b62aa3d3519d",
+    "docs/research/operational_amendments/20261108_analysis_runtime/amendment.json": "baffdf8e9d2ce8c49f3507a4410429e3d4d2d7f85de5dad2eadc10b510d268cf",
+    "docs/research/operational_amendments/20261108_analysis_runtime/runtime_review.json": "d8982d981d4fa0b78aad5ca1b403b14e3c943ab1a2155ba1d7c8c648aa8212f2",
+    "docs/research/operational_amendments/20261108_analysis_runtime/validation.json": "1afe7d948578a942cff9b0359f909ee770b582cd49b62421f595b0d094c73513",
+    "docs/research/operational_amendments/20261108_analysis_runtime/controller_migration.json": "8713cd16bd7c3997110d621c0a6b9b9835482cbe8a1e2a68b843d8c53e7501ca",
+    "docs/research/simple_memory_recovery_runtime_plan.json": "9321e017486e213b31a7b69f988e1d7e716d0c5789e86c26a42bc7425343dec6",
+    "docs/research/simple_memory_recovery_followup_runtime_plan.json": "9400f8dbffa218cac17ba5ac4387a8e6ac42113c10b386efbff6fe0a1b94c46d",
+    "docs/research/simple_memory_analysis_protocol.json": "156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e"
+  },
+  "issues": [],
+  "conclusion": "No blocking issue found. Prospective runtime-only amendment and status migration retain the scientific cohort within the cumulative600USD ceiling."
+}

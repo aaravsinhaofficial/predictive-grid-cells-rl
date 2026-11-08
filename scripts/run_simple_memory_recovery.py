@@ -190,7 +190,7 @@ def validate(plan_path):
         assert prepared['reserved_usd'] == row['reserved_usd'] == round((row['provider_hours']+.25)*1.25, 4)
     extras = plan['other_reservations']
     assert len(extras) == len({r['name'] for r in extras}) == 9
-    assert sum(r['purpose'] == 'analysis' and r['reserved_usd'] == 1.5625 for r in extras) == 8
+    assert sum(r['purpose'] == 'analysis' and r['reserved_usd'] == 2.8125 for r in extras) == 8
     assert sum(r['purpose'] == 'validation' and r['reserved_usd'] == .9375 for r in extras) == 1
     assert not set(attempts) & {r['name'] for r in extras}
     registry = json.loads(local(bindings['analysis_registry']['path']).read_text())
@@ -342,7 +342,7 @@ def cycle(plan, state):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--plan', default='docs/research/simple_memory_recovery_plan.json')
+    p.add_argument('--plan', default='docs/research/simple_memory_recovery_runtime_plan.json')
     p.add_argument('--out', default='results/ring_simple_memory_recovery_supervision')
     p.add_argument('--max-hours', type=float, default=72)
     args = p.parse_args(argv); assert 0 < args.max_hours <= 72
