@@ -35,7 +35,7 @@ The [four-run GPU validation](../ring_cloud_artifacts/ring-20261105-simplemem-gu
 
 **Training recovery started November 8.** The four completed models are retained. Four interrupted models resume from their exact saved states, and eight fresh models retain their original 1B targets. The [recovery plan](../../docs/research/simple_memory_recovery_host_plan.json) runs at most eight workers at a time. An automatic [follow-up controller](../../docs/research/simple_memory_recovery_followup_host_plan.json) waits for all sixteen authenticated finals before running the eight original paired analyses.
 
-All four resumed models have now passed their original failing updates. The four fresh seed-3 models started with exactly identical network weights. These are checks that the experiment is running as intended; navigation, memory and ring results come after training and evaluation.
+All four resumed models have now passed their original failing updates. The four fresh seed-3 models started with exactly identical network weights. The two Grid seed-4 conditions also have [exactly matching initial weights](../ring_simple_memory_recovery_inventory/seed4_blackout_startup.json), and both pass their deadline checks. These checks confirm the intended setup; navigation, memory and ring results come after training and evaluation.
 
 Cloud monitoring now checks whether each running job can finish before its original deletion deadline. The [operational amendment](../../docs/research/operational_amendments/20261107_monitor_recovery/amendment.json) preserves the earlier monitoring files and documents the change. Scientific training and analysis methods remain frozen.
 
