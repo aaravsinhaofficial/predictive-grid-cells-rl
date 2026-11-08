@@ -23,14 +23,16 @@ We will ask three simple questions:
 
 The run target is 16 models, each trained for exactly 1B environment frames. The cumulative cloud ceiling is **$600**, including previous recorded research spending. The GPU test passed speed and exact restart checks. Every worker has an enforced deletion deadline.
 
-**Training started November 7, 2026. Eight models are running; eight more are queued.** Each run takes roughly one day, so the two waves should take about two days if throughput holds. The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
+**Training started November 7, 2026. Eight models were launched; eight more are queued.** The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
 
-**Progress at 16:05 UTC on November 7:** all eight active models have passed 100M frames, reaching approximately 119–129M each. A local connection outage stopped the monitoring process; the cloud training continued. Monitoring resumed after checking worker identities, fresh progress, frozen code, and the budget. See the [recovery record](../ring_simple_memory_supervision/recovery_20261107T160447Z.json).
+**One run needs a technical diagnosis.** PGC + grid, blackout, seed 1 stopped at 348M frames when two calculations of the same LSTM outputs differed by about 0.00005. Its complete restart state at 345.6M frames is preserved. We are reproducing the exact failed update before continuing. See the [failure record](../ring_simple_memory_design/replay_failure_20261107.json).
+
+Cloud monitoring now checks whether each running job can finish before its original deletion deadline. The [operational amendment](../../docs/research/operational_amendments/20261107_monitor_recovery/amendment.json) preserves the earlier monitoring files and documents the change. Scientific training and analysis methods remain frozen.
 
 There are no completed 1B results yet. The experiment tests whether memory pressure produces useful recurrent structure and whether predictive cues help preserve or repair it. A ring is a hypothesis to test.
 
 The analysis methods are now fixed, with **68 private control tests passing**. We will measure PCA activity variance, remembered direction, recovery after a state disturbance, and navigation after a single correct or misleading predictive cue. These checks have been tested on private fixtures; trained-model findings come after the runs finish.
 
-The follow-up plan waits for all sixteen verified 1B checkpoints, then evaluates eight Grid/PGC pairs. Each evaluation worker has a one-hour deletion deadline. The conservative combined budget is **$599.20**, including earlier recorded research spending. Its launch and artifact checks passed another **29 private tests**.
+The follow-up plan waits for all sixteen verified 1B checkpoints, then evaluates eight Grid/PGC pairs. Each evaluation worker has a one-hour deletion deadline. Every diagnostic or continuation must fit the live **$600 cumulative ceiling**, including earlier research spending. The orchestration and recovery code passed **71 private tests**.
 
 [Training protocol](../../docs/research/simple_memory_training_protocol.json) · [Analysis protocol](../../docs/research/simple_memory_analysis_protocol.json) · [Training cloud plan](../../docs/research/simple_memory_cloud_plan.json) · [Evaluation cloud plan](../../docs/research/simple_memory_followup_plan.json)
