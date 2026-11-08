@@ -145,6 +145,100 @@ def test_stage_authenticates_both_source_and_relocated_complete_lineage(tmp_path
     with pytest.raises(AssertionError,match='Staged evidence'):task.stage_inputs(p,r,job,endpoints,expected)
 
 
+def test_host_continuation_proof_is_checked_staged_and_packaged_without_endpoint_changes(tmp_path,monkeypatch):
+    monkeypatch.setattr(task,'ROOT',tmp_path)
+    p=plan();r=recovery_plan(p)
+    job=next(j for j in p['jobs'] if j['seed']==4 and j['task']=='native')
+    endpoints={};expected={};models={m['logical_name']:m for m in r['models']}
+    for condition,name in job['training_jobs'].items():
+        endpoints[name]=tmp_path/'source'/condition
+        expected[name]=input_fixture(endpoints[name],2,'v2_fresh')
+    name=job['training_jobs']['gc100'];source=endpoints[name]
+    evidence=('attempt_000.json','interrupted_000.json','metrics_000.jsonl','episodes_000.jsonl',
+              'attempt_001.json','resume_input_001.pt')
+    for filename in evidence:(source/filename).write_text('private continuation '+filename)
+    pinned={filename:task.sha(source/filename) for filename in evidence}
+    models[name]['continuation']={'private_expected':pinned}
+    calls=[]
+    def continuation(model,folder):
+        calls.append((model['logical_name'],Path(folder)))
+        proof=model.get('continuation',{}).get('private_expected',{})
+        for filename,digest in proof.items():assert task.sha(Path(folder)/filename)==digest
+        return proof.copy()
+    monkeypatch.setattr(task.recovery,'continuation_inputs',continuation)
+    monkeypatch.setattr(task.recovery,'authenticate',lambda model,folder,recovered:expected[model['logical_name']])
+    monkeypatch.setattr(task,'static_files',lambda *args:[])
+    original=copy.deepcopy(expected)
+    manifests=task.stage_inputs(p,r,job,endpoints,expected)
+    target=tmp_path/job['output_dir']/'gc100'
+    assert set(manifests['gc100'])==set(task.INPUTS)|{'initial.pt','lineage.json'}|set(evidence)
+    assert set(manifests['pgc33'])==set(task.INPUTS)|{'initial.pt','lineage.json'}
+    assert all((target/f).read_bytes()==(source/f).read_bytes() for f in evidence)
+    assert (name,source) in calls and (name,target) in calls
+    args=task.launch_args(p,r,job,expected)
+    assert all(str(Path(job['output_dir'])/'gc100'/f) in args.include for f in evidence)
+    assert expected==original
+    (target/'resume_input_001.pt').write_text('changed')
+    with pytest.raises(AssertionError):task.launch_args(p,r,job,expected)
+    with pytest.raises(AssertionError,match='Staged evidence'):
+        task.stage_inputs(p,r,job,endpoints,expected)
+
+
+def test_host_continuation_input_merge_rejects_missing_conflicting_and_nonlocal_proof(tmp_path,monkeypatch):
+    folder=tmp_path/'run';endpoint=input_fixture(folder,2,'v2_fresh')
+    model={'continuation':{'private_fixture':True}}
+    for proof,error in (({},'Missing continuation'),({'final.pt':'wrong'},'Conflicting continuation')):
+        monkeypatch.setattr(task.recovery,'continuation_inputs',lambda *a,proof=proof:proof)
+        with pytest.raises(AssertionError,match=error):task.required_model_inputs(model,folder,endpoint)
+    monkeypatch.setattr(task.recovery,'continuation_inputs',lambda *a:{'../escape':'wrong'})
+    with pytest.raises(ValueError,match='Nonlocal'):task.required_model_inputs(model,folder,endpoint)
+
+
+@pytest.mark.parametrize('damage',['missing','changed'])
+def test_downloaded_continuation_damage_blocks_completion_and_cached_promotion(tmp_path,monkeypatch,damage):
+    monkeypatch.setattr(task,'ROOT',tmp_path)
+    p=plan();r=recovery_plan(p);job=next(j for j in p['jobs'] if j['seed']==4 and j['task']=='native')
+    logical=job['training_jobs']['gc100']
+    model=next(m for m in r['models'] if m['logical_name']==logical)
+    model['continuation']={'private_fixture':True}
+    folder=tmp_path/'results/ring_cloud_artifacts'/job['name']
+    (folder/'gc100').mkdir(parents=True)
+    proof_file=folder/'gc100'/'resume_input_001.pt';proof_file.write_text('private exact resumed payload')
+    expected_sha=task.sha(proof_file)
+    def check(model,run):
+        if not model.get('continuation'):return {}
+        assert task.sha(Path(run)/'resume_input_001.pt')==expected_sha
+        return {'resume_input_001.pt':expected_sha}
+    monkeypatch.setattr(task.recovery,'continuation_inputs',check)
+    proof=task.collected_continuation_inputs(r,job,folder)
+    assert proof=={'gc100':{'resume_input_001.pt':expected_sha}}
+    (folder/'pipeline.json').write_text('private complete pipeline')
+    record=dict(name=job['name'],instance_id='123',gcs_prefix='gs://private')
+    ledger=tmp_path/'ledger.json';ledger.write_text(json.dumps({'runs':[record]}))
+    monkeypatch.setattr(task.cloud,'LEDGER',ledger)
+    monkeypatch.setattr(task,'match_record',lambda *a:None)
+    monkeypatch.setattr(task,'verify_pair',lambda *a:{'complete':True})
+    result=dict(complete=True,local_artifacts=str(folder.relative_to(tmp_path)),
+        pipeline_sha256=task.sha(folder/'pipeline.json'),verification={'complete':True})
+    cached=dict(authenticated_training_endpoints={},jobs={job['name']:dict(result,
+        instance_id='123',inputs={},continuation_input_sha256=proof)})
+    task.verify_completed_cache(p,r,cached)
+    if damage=='missing':proof_file.unlink()
+    else:proof_file.write_text('corrupt payload')
+    with pytest.raises((AssertionError,FileNotFoundError)):task.verify_completed_cache(p,r,cached)
+    expected={m['logical_name']:{} for m in r['models']}
+    status=tmp_path/'training.json';status.write_text(json.dumps({'models':{n:{'endpoint':{}} for n in expected}}))
+    monkeypatch.setattr(task,'TRAINING_STATUS',status)
+    monkeypatch.setattr(task,'training_endpoints',lambda *a:{})
+    monkeypatch.setattr(task,'authenticate_endpoints',lambda *a:expected)
+    monkeypatch.setattr(task,'cat',lambda *a:json.dumps({'exit_code':0}))
+    monkeypatch.setattr(task,'finish',lambda *a:result.copy())
+    monkeypatch.setattr(task.cloud,'launch',lambda *a:pytest.fail('Invalid downloaded proof must not promote/launch'))
+    state={'jobs':{}}
+    with pytest.raises((AssertionError,FileNotFoundError)):task.cycle(p,r,state)
+    assert not state['jobs'][job['name']].get('complete')
+
+
 def test_fixed_worker_command_has_all_v2_inputs_and_no_extra_cases(tmp_path,monkeypatch):
     monkeypatch.setattr(task,'ROOT',tmp_path);p=plan();r=recovery_plan(p);job=p['jobs'][0];expected={}
     monkeypatch.setattr(task,'static_files',lambda *a:['scripts/run_simple_memory_analysis.py','code/nets.py'])

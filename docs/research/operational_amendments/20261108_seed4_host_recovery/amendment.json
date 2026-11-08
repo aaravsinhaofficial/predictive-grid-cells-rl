@@ -1,0 +1,32 @@
+{
+  "status": "frozen",
+  "created_utc": "2026-11-08T21:55:45.326659+00:00",
+  "purpose": "One early full-state continuation after measured worker throughput failed the original deadline projection",
+  "logical_model": "gc100/native/seed4",
+  "original_worker": "ring-20261105-simplemem-gc100-native-s4",
+  "original_instance_id": "2749035052516857068",
+  "new_worker": "ring-20261105-simplemem-gc100-native-s4-r1",
+  "cutoff_frames": 9996800,
+  "cutoff_updates": 781,
+  "original_worker_cost_upper_usd": 0.4632,
+  "full_scope_upper_usd": 590.2512,
+  "cumulative_ceiling_usd": 600,
+  "maximum_active_workers": 8,
+  "provider_hours": 25.5,
+  "scientific_changes": false,
+  "all15other_model_rows_unchanged": true,
+  "analysis_jobs": 8,
+  "analysis_provider_hours": 2,
+  "analysis_runner_limit_seconds": 6600,
+  "preservation": "preservation.json",
+  "cutoff_audit": "cutoff_audit.json",
+  "closure": "closure.json",
+  "independent_review": "independent_operational_review.json",
+  "private_tests_passed": 76,
+  "plans": {
+    "docs/research/simple_memory_recovery_host_plan.json": "9a185514d49ddc1cd7dc47a9622077fd5115cab2e2a323ac11f6f0dbdedf3720",
+    "docs/research/simple_memory_recovery_followup_host_plan.json": "7e77238590c75bc3fa6248a7de4f6dbf4fe757e974db9252925f814a551395a3"
+  },
+  "interpretation": "The original worker was slower. A small CPU-only probe was also slower but does not isolate the entire throughput difference. This is an operational attempt, with no scientific result selection.",
+  "retry_rule": "No automatic further attempt; renewed measured deadline projection remains enforced."
+}

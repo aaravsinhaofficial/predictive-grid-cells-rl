@@ -4,8 +4,10 @@ import contextlib
 import copy
 import datetime as dt
 import json
+import hashlib
 from pathlib import Path
 import shlex
+import shutil
 from unittest import mock
 import sys
 import types
@@ -84,7 +86,8 @@ def fixture(tmp_path, monkeypatch):
                 models.append(row)
     dump(tmp_path/oldpath,dict(status='frozen',jobs=old));dump(tmp_path/envelope,dict(continuations=cont))
     amended=json.loads((tmp_path/amendment).read_text())
-    amended.update(parent_protocol_sha256=s.sha(tmp_path/protocol),guard={'id':'private_fixture_guard','status':'frozen'},run_bindings={})
+    amended.update(parent_protocol_sha256=s.sha(tmp_path/protocol),guard={'id':'private_fixture_guard','status':'frozen'},
+                   numerical_runtime={'torch_version':'private-fixture'},run_bindings={})
     for r in models:
         key=f'{r["condition"]}/{"native" if r["task_max_gap"]==0 else "blackout"}/seed{r["seed"]}'
         binding={'kind':{'retained_v1':'v1_completed','resume_v2':'v1_resume','fresh_v2':'v2_fresh'}[r['mode']],
@@ -371,3 +374,163 @@ def test_metric_only_promotion_requires_live_exact_vm(fixture,monkeypatch,vm):
     with mock.patch.object(s.cloud,'launch') as launch:
         with pytest.raises((AssertionError,RuntimeError)):s.cycle(plan,{'models':{}})
         launch.assert_not_called()
+
+
+def host_fixture(plan):
+    """Tiny saved tensors only; no model, optimizer step or environment."""
+    import torch
+    from code import train_memory_v2 as producer
+    row=next(r for r in plan['models'] if r['logical_name']==s.HOST_LOGICAL)
+    row['name']=row['logical_name']+'-r1'
+    row['worker_output_dir']='results/ring_simple_memory_v2/gc100/native'
+    row['trainer_output_dir']=row['worker_output_dir']+'/seed4'
+    row['start_frames']=25600
+    source=s.ROOT/f'results/ring_cloud_artifacts/{s.HOST_LOGICAL}/seed4';source.mkdir(parents=True)
+    cfg=dict(cond='gc100',seed=4,code_seed=4,task_max_gap=0)
+    amendment_path=s.ROOT/plan['bindings']['amendment']['path'];amendment=json.loads(amendment_path.read_text())
+    amendment['numerical_runtime']={'torch_version':'private-fixture'};dump(amendment_path,amendment)
+    plan['bindings']['amendment']['sha256']=s.sha(amendment_path)
+    for model in plan['models']:
+        if model['mode']!='retained_v1': model['package_manifest'][plan['bindings']['amendment']['path']]=s.sha(amendment_path)
+    proof=dict(provenance_version=2,producer_module='code.train_memory_v2',source_sha256=amendment['source_sha256'],
+        amendment_sha256=s.sha(amendment_path),protocol_sha256=plan['bindings']['protocol']['sha256'],
+        logical_run_id='gc100/native/seed4',torch_version='private-fixture',
+        config_sha256=hashlib.sha256(json.dumps(cfg,sort_keys=True).encode()).hexdigest())
+    initial=dict(schema=1,policy={'weight':torch.tensor([.2,.4])},optimizer={'state':{}},
+        runtime={'counters':dict(frames=0,updates=0,decisions=0),'rng':torch.tensor([1,2,3],dtype=torch.uint8)},
+        config=cfg,frames=0,updates=0,policy_training=True,policy_sha256='private-policy',provenance=proof)
+    lineage=dict(kind='v2_fresh',logical_run_id='gc100/native/seed4',restored_frames=0,restored_updates=0,
+        initial_payload_sha256=producer.payload_digest(initial))
+    dump(source/'lineage.json',lineage);proof['lineage_sha256']=s.sha(source/'lineage.json')
+    dump(source/'config.json',cfg);dump(source/'provenance.json',proof)
+    torch.save(initial,source/'initial.pt');shutil.copyfile(source/'initial.pt',source/'resume_input_000.pt')
+    saved=copy.deepcopy(initial);saved.update(frames=25600,updates=2)
+    saved['runtime']['counters']=dict(frames=25600,updates=2,decisions=6400)
+    saved['optimizer']['state']={0:{'step':torch.tensor(2.),'square_avg':torch.tensor([.1,.2])}}
+    torch.save(saved,source/'resume.pt')
+    attempt=dict(attempt=0,complete=False,exit_code=143,restored_frames=0,restored_updates=0,
+        final_frames=25600,final_updates=2,resume_sha256_after=s.sha(source/'resume.pt'),
+        resume_sha256=s.sha(source/'resume_input_000.pt'),lineage_sha256=proof['lineage_sha256'])
+    dump(source/'attempt_000.json',attempt);dump(source/'interrupted_000.json',attempt)
+    (source/'metrics_000.jsonl').write_text(''.join(json.dumps(dict(attempt=0,updates=i,frames=i*12800,decisions=i*3200,replay_guard={'accepted':True}))+'\n' for i in (1,2)))
+    (source/'episodes_000.jsonl').write_text('')
+    result=source.parent/'WORKER_RESULT.json';dump(result,dict(exit_code=143,package_sha256='old-package'))
+    files={p.name:s.sha(p) for p in source.iterdir()}
+    row['continuation']=dict(kind='explicit_v2_host_recovery',source_worker_name=s.HOST_LOGICAL,
+        source_instance_id=s.HOST_INSTANCE_ID,source_run=str(source.relative_to(s.ROOT)),source_files_sha256=files,
+        source_worker_result=dict(path=str(result.relative_to(s.ROOT)),sha256=s.sha(result)),
+        resume_sha256=files['resume.pt'],resume_payload_sha256=producer.payload_digest(saved),
+        source_attempt=0,attempt=1,start_frames=25600,start_updates=2)
+    target=s.ROOT/row['trainer_output_dir'];shutil.copytree(source,target)
+    row['package_manifest'].update({row['trainer_output_dir']+'/'+n:h for n,h in files.items()})
+    argv=row['train_argv'];argv[argv.index('--out')+1]=row['trainer_output_dir'];argv.append('--resume')
+    row['plan_argv']=['python','scripts/ring_cloud.py','plan','--name',row['name'],'--machine','n1-standard-8',
+        '--zone','us-central1-a','--hours','25.5','--output-dir',row['worker_output_dir'],
+        '--command',shlex.join(argv),'--include-only']
+    for name in row['package_manifest']:row['plan_argv']+=['--include',name]
+    return row,source,target
+
+
+def test_registered_host_resume_preserves_inputs_and_scientific_argv(fixture):
+    plan,_=fixture;row,source,target=host_fixture(plan)
+    s.validate_continuation(row,plan)
+    args=s.launch_args(row,plan)
+    assert args.name==s.HOST_LOGICAL+'-r1' and args.hours==25.5
+    assert row['mode']=='fresh_v2' and row['train_argv'][-1]=='--resume'
+    assert row['start_frames']==25600 and s.expected_attempt(row)==1
+    assert s.sha(source/'resume.pt')==s.sha(target/'resume.pt')
+    (target/'resume.pt').write_bytes(b'changed copied checkpoint')
+    with pytest.raises(AssertionError):s.validate_continuation(row,plan)
+
+
+def test_complete_host_plan_keeps_fifteen_other_models_and_roles(fixture):
+    plan,path=fixture
+    original={r['logical_name']:copy.deepcopy(r) for r in plan['models'] if r['logical_name']!=s.HOST_LOGICAL}
+    row,_,_=host_fixture(plan);dump(path,plan)
+    assert s.validate(path)['models']==plan['models']
+    assert {r['logical_name']:r for r in plan['models'] if r['logical_name']!=s.HOST_LOGICAL}==original
+    assert {m:sum(r['mode']==m for r in plan['models']) for m in s.MODES}==s.MODES
+
+
+@pytest.mark.parametrize('fault',['identity','worker_id','attempt','cutoff','payload','source_checkpoint','log_cutoff','rejected'])
+def test_host_resume_requires_exact_bound_single_attempt(fixture,fault):
+    plan,_=fixture;row,source,target=host_fixture(plan);c=row['continuation']
+    if fault=='identity':row['logical_name']='another-model'
+    elif fault=='worker_id':c['source_instance_id']='999'
+    elif fault=='attempt':c['attempt']=2
+    elif fault=='cutoff':c['start_updates']=3
+    elif fault=='payload':c['resume_payload_sha256']='0'*64
+    elif fault=='source_checkpoint':(source/'resume.pt').write_bytes(b'changed source checkpoint')
+    elif fault=='log_cutoff':
+        (source/'metrics_000.jsonl').write_text('{}\n');shutil.copyfile(source/'metrics_000.jsonl',target/'metrics_000.jsonl')
+    elif fault=='rejected':dump(source/'rejected_update_000.json',{'accepted':False})
+    with pytest.raises(AssertionError):s.validate_continuation(row,plan)
+
+
+def test_resume_flag_without_registered_host_metadata_is_rejected(fixture):
+    plan,_=fixture;row=next(r for r in plan['models'] if r['mode']=='fresh_v2')
+    row['train_argv'].append('--resume');row['plan_argv'][row['plan_argv'].index('--command')+1]=shlex.join(row['train_argv'])
+    with pytest.raises(AssertionError,match='explicit host'):s.launch_args(row,plan)
+
+
+def test_host_budget_requires_closed_original_identity_and_retains_cost(fixture):
+    plan,_=fixture;row,source,_=host_fixture(plan);ledger=json.loads(s.cloud.LEDGER.read_text())
+    old=dict(name=s.HOST_LOGICAL,instance_id=s.HOST_INSTANCE_ID,status='DELETED',collected_at='private',
+        actual_upper_bound_usd=.5,reserved_usd=32.1875,local_artifacts=str(source.parent.relative_to(s.ROOT)),
+        worker_result=json.loads((source.parent/'WORKER_RESULT.json').read_text()))
+    with pytest.raises(AssertionError,match='missing'):s.ensure_budget(plan,ledger)
+    ledger['runs'].append(old);assert s.ensure_budget(plan,ledger)['full_scope_upper_usd']==pytest.approx(593.0645)
+    for key,value in [('status','RUNNING'),('instance_id','999'),('actual_upper_bound_usd',1.01),('collected_at',None)]:
+        changed=copy.deepcopy(ledger);changed['runs'][-1][key]=value
+        with pytest.raises(AssertionError):s.ensure_budget(plan,changed)
+
+
+def final_host_fixture(row,target):
+    c=row['continuation'];shutil.copyfile(target/'resume.pt',target/'resume_input_001.pt')
+    # The canonical final resume role may change; the input checkpoint may not.
+    (target/'resume.pt').write_bytes(b'legitimate final mutable checkpoint')
+    proof=json.loads((target/'provenance.json').read_text())
+    dump(target/'attempt_001.json',dict(attempt=1,producer_version=2,logical_run_id='gc100/native/seed4',
+        complete=True,exit_code=0,lineage_sha256=proof['lineage_sha256'],restored_frames=c['start_frames'],
+        restored_updates=c['start_updates'],final_frames=s.TARGET,final_updates=78125,
+        resume_input='resume_input_001.pt',resume_sha256=c['resume_sha256']))
+    dump(target/'summary.json',dict(attempt_records=['attempt_000.json','attempt_001.json']))
+
+
+def test_final_continuation_manifest_is_portable_and_pins_supplied_checkpoint(fixture,tmp_path):
+    plan,_=fixture;row,source,target=host_fixture(plan);final_host_fixture(row,target)
+    manifest=s.continuation_inputs(row,target)
+    assert 'resume.pt' not in manifest and {'resume_input_001.pt','attempt_001.json','interrupted_000.json','metrics_000.jsonl'}<=set(manifest)
+    relocated=tmp_path/'relocated';relocated.mkdir()
+    for name in manifest:shutil.copyfile(target/name,relocated/name)
+    shutil.rmtree(source)
+    assert s.continuation_inputs(row,relocated)==manifest
+    (relocated/'resume_input_001.pt').write_bytes(b'changed input')
+    with pytest.raises(AssertionError):s.continuation_inputs(row,relocated)
+
+
+def test_host_metric_clock_requires_attempt1_and_uses_only_new_frames(fixture):
+    plan,_=fixture;row,_,_=host_fixture(plan);rec=record(row)
+    m=metric(row);m['attempt']=1
+    got=s.technical(json.dumps(m)+'\n',row,rec)
+    assert got['new_frames']==2_009_600 and got['attempt']==1
+    m['attempt']=0
+    with pytest.raises(AssertionError):s.technical(json.dumps(m)+'\n',row,rec)
+
+
+def test_host_cycle_reads_attempt1_log_without_retry(fixture,monkeypatch):
+    plan,_=fixture;row,_,_=host_fixture(plan)
+    dump(s.cloud.LEDGER,dict(ancillary_reserve_usd=25,runs=[record(row)]))
+    monkeypatch.setattr(s,'authenticate',lambda *a,**k:{})
+    seen=[]
+    def cat(uri,tail=False):
+        seen.append(uri)
+        if tail:
+            assert uri.endswith('/seed4/metrics_001.jsonl')
+            m=metric(row);m['attempt']=1;return json.dumps(m)+'\n'
+    monkeypatch.setattr(s,'cat',cat)
+    monkeypatch.setattr(s.cloud,'describe',lambda *a:None)
+    with mock.patch.object(s.cloud,'launch') as launch:
+        with pytest.raises(AssertionError,match='Absent VM'):s.cycle(plan,{'models':{}})
+        launch.assert_not_called()
+    assert any(n.endswith('metrics_001.jsonl') for n in seen)

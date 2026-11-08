@@ -3,6 +3,7 @@ import argparse
 import contextlib
 import datetime as dt
 import fcntl
+import hashlib
 import io
 import json
 import math
@@ -22,6 +23,8 @@ MODES = {'retained_v1': 4, 'resume_v2': 4, 'fresh_v2': 8}
 VALIDATION_NAME = 'ring-20261105-simplemem-guardcheck-v2'
 CORRUPTIONS = {'rgb', 'code', 'goal', 'initial_h', 'initial_c', 'reset',
                'large_logits', 'large_values', 'large_embeddings'}
+HOST_LOGICAL = 'ring-20261105-simplemem-gc100-native-s4'
+HOST_INSTANCE_ID = '2749035052516857068'
 
 
 def local(value):
@@ -36,6 +39,130 @@ def check_hashes(manifest, required=()):
     assert isinstance(manifest, dict) and manifest and set(required) <= set(manifest), 'Missing hash manifest entries'
     for name, digest in manifest.items():
         assert sha(local(name)) == digest, f'Changed frozen input: {name}'
+
+
+def continuation(row):
+    """Exactly one prospectively registered host move; never an automatic retry."""
+    if 'continuation' not in row: return None
+    c = row['continuation']
+    assert isinstance(c, dict) and c['kind'] == 'explicit_v2_host_recovery'
+    assert row['logical_name'] == HOST_LOGICAL and row['mode'] == 'fresh_v2'
+    assert (row['condition'], row['seed'], row['task_max_gap']) == ('gc100', 4, 0)
+    assert row['name'] == HOST_LOGICAL+'-r1'
+    assert c['source_worker_name'] == HOST_LOGICAL and str(c['source_instance_id']) == HOST_INSTANCE_ID
+    assert c['source_run'] == f'results/ring_cloud_artifacts/{HOST_LOGICAL}/seed4'
+    assert row['trainer_output_dir'] == 'results/ring_simple_memory_v2/gc100/native/seed4'
+    assert row['worker_output_dir'] == 'results/ring_simple_memory_v2/gc100/native'
+    assert c['source_attempt'] == 0 and c['attempt'] == 1
+    assert 0 < c['start_frames'] == row['start_frames'] < TARGET
+    assert c['start_frames'] == c['start_updates']*12800
+    assert isinstance(c['source_files_sha256'], dict) and c['source_files_sha256']
+    assert c['resume_sha256'] == c['source_files_sha256']['resume.pt']
+    assert re.fullmatch('[0-9a-f]{64}', c['resume_payload_sha256'])
+    return c
+
+
+def expected_attempt(row):
+    c = continuation(row)
+    return c['attempt'] if c else 0
+
+
+def _relative_file(folder, name):
+    relative = Path(name)
+    assert not relative.is_absolute() and '..' not in relative.parts
+    path = Path(folder)/relative
+    assert path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(Path(folder).resolve())
+    return path
+
+
+def validate_continuation(row, plan):
+    """CPU metadata/hash validation of the exact stopped input and its copy."""
+    c = continuation(row)
+    if c is None: return
+    import torch
+    from code import train_memory_v2 as producer
+    source, target = local(c['source_run']), local(row['trainer_output_dir'])
+    files = c['source_files_sha256']
+    required = {'config.json', 'provenance.json', 'lineage.json', 'initial.pt', 'resume.pt',
+                'resume_input_000.pt', 'attempt_000.json', 'interrupted_000.json',
+                'metrics_000.jsonl', 'episodes_000.jsonl'}
+    assert required <= set(files)
+    assert set(files) == {str(p.relative_to(source)) for p in source.rglob('*') if p.is_file()}
+    assert not any(Path(n).name.startswith('rejected_update_') for n in files)
+    assert 'final.pt' not in files and 'summary.json' not in files
+    assert {n for n in files if Path(n).name.startswith('attempt_')} == {'attempt_000.json'}
+    for name, digest in files.items():
+        assert sha(_relative_file(source, name)) == sha(_relative_file(target, name)) == digest
+        assert row['package_manifest'].get(row['trainer_output_dir']+'/'+name) == digest
+    worker = c['source_worker_result']
+    assert worker['path'] == f'results/ring_cloud_artifacts/{HOST_LOGICAL}/WORKER_RESULT.json'
+    check_hashes({worker['path']:worker['sha256']})
+    assert json.loads(local(worker['path']).read_text())['exit_code'] == 143, 'Host move requires an orderly SIGTERM checkpoint'
+    cfg, proof, lineage, attempt = (json.loads((source/n).read_text()) for n in
+        ('config.json', 'provenance.json', 'lineage.json', 'attempt_000.json'))
+    scientific = {k:v for k,v in cfg.items() if k != 'population'}
+    amendment = json.loads(local(plan['bindings']['amendment']['path']).read_text())
+    assert (cfg['cond'], cfg['seed'], cfg['code_seed'], cfg['task_max_gap']) == ('gc100', 4, 4, 0)
+    assert proof['provenance_version'] == 2 and proof['producer_module'] == 'code.train_memory_v2'
+    assert proof['source_sha256'] == amendment['source_sha256'] and proof['amendment_sha256'] == plan['bindings']['amendment']['sha256']
+    assert proof['protocol_sha256'] == plan['bindings']['protocol']['sha256']
+    assert proof['logical_run_id'] == lineage['logical_run_id'] == 'gc100/native/seed4'
+    assert proof['config_sha256'] == hashlib.sha256(json.dumps(scientific,sort_keys=True).encode()).hexdigest()
+    assert {k:proof[k] for k in amendment['numerical_runtime']} == amendment['numerical_runtime']
+    assert sha(source/'lineage.json') == proof['lineage_sha256'] == attempt['lineage_sha256']
+    assert lineage['kind'] == 'v2_fresh' and lineage['restored_frames'] == lineage['restored_updates'] == 0
+    assert not lineage.get('parent_evidence_sha256') and 'parent_checkpoint_sha256' not in lineage
+    saved = torch.load(source/'resume.pt', map_location='cpu', weights_only=False)
+    initial = torch.load(source/'initial.pt', map_location='cpu', weights_only=False)
+    assert saved['config'] == initial['config'] == scientific and saved['provenance'] == initial['provenance'] == proof
+    assert (saved['frames'], saved['updates']) == (c['start_frames'], c['start_updates'])
+    assert all(saved['runtime']['counters'][k] == v for k,v in
+        dict(frames=c['start_frames'], updates=c['start_updates'], decisions=c['start_frames']//4).items())
+    assert producer.payload_digest(saved) == c['resume_payload_sha256']
+    assert initial['frames'] == initial['updates'] == 0 and producer.payload_digest(initial) == lineage['initial_payload_sha256']
+    assert attempt == json.loads((source/'interrupted_000.json').read_text())
+    assert attempt['attempt'] == 0 and not attempt['complete'] and attempt['exit_code'] == 143
+    assert attempt['restored_frames'] == attempt['restored_updates'] == 0
+    assert (attempt['final_frames'], attempt['final_updates']) == (c['start_frames'], c['start_updates'])
+    assert attempt['resume_sha256_after'] == c['resume_sha256']
+    assert sha(source/'resume_input_000.pt') == attempt['resume_sha256']
+    text = (source/'metrics_000.jsonl').read_text(); assert text.endswith('\n')
+    metrics = [json.loads(line) for line in text.splitlines() if line.strip()]
+    assert len(metrics) == c['start_updates']
+    for i,m in enumerate(metrics,1):
+        assert (m['attempt'],m['updates'],m['frames'],m['decisions']) == (0,i,i*12800,i*3200)
+        assert m['replay_guard']['accepted'] is True
+
+
+def continuation_inputs(row, folder):
+    """Portable final-attempt evidence; no reads from the original source folder."""
+    c = continuation(row)
+    if c is None: return {}
+    import torch
+    from code import train_memory_v2 as producer
+    folder = Path(folder)
+    result = {n:h for n,h in c['source_files_sha256'].items() if n != 'resume.pt'}
+    for name,digest in result.items(): assert sha(_relative_file(folder,name)) == digest
+    supplied = _relative_file(folder,'resume_input_001.pt')
+    assert sha(supplied) == c['resume_sha256']
+    saved = torch.load(supplied,map_location='cpu',weights_only=False)
+    assert producer.payload_digest(saved) == c['resume_payload_sha256']
+    assert (saved['frames'],saved['updates']) == (c['start_frames'],c['start_updates'])
+    attempt_path = _relative_file(folder,'attempt_001.json'); attempt = json.loads(attempt_path.read_text())
+    proof = json.loads((folder/'provenance.json').read_text())
+    assert saved['provenance'] == proof
+    assert attempt['attempt'] == 1 and attempt['producer_version'] == 2 and attempt['logical_run_id'] == 'gc100/native/seed4'
+    assert attempt['complete'] is True and attempt['exit_code'] == 0
+    assert attempt['lineage_sha256'] == proof['lineage_sha256']
+    assert (attempt['restored_frames'],attempt['restored_updates']) == (c['start_frames'],c['start_updates'])
+    assert (attempt['final_frames'],attempt['final_updates']) == (TARGET,78125)
+    assert attempt['resume_input'] == supplied.name and attempt['resume_sha256'] == c['resume_sha256']
+    summary_path = _relative_file(folder,'summary.json')
+    assert json.loads(summary_path.read_text())['attempt_records'] == ['attempt_000.json','attempt_001.json']
+    assert {p.name for p in folder.glob('attempt_*.json')} == {'attempt_000.json','attempt_001.json'}
+    assert not list(folder.glob('rejected_update_*.json')) and not (folder/'interrupted_001.json').exists()
+    result.update({supplied.name:sha(supplied),attempt_path.name:sha(attempt_path),summary_path.name:sha(summary_path)})
+    return result
 
 
 def validate_release(plan, amendment):
@@ -91,7 +218,8 @@ def launch_args(row, plan):
     assert set(args.include) == set(row['package_manifest'])
     argv = row['train_argv']
     assert shlex.split(args.command) == argv and argv[:3] == ['python', '-m', 'code.train_memory_v2']
-    assert '--resume' not in argv, 'A recovery attempt never silently resumes/retries an existing attempt'
+    c = continuation(row)
+    assert argv.count('--resume') == int(c is not None), 'Only the explicit host continuation may resume'
     expected = {'--cond': row['condition'], '--seed': row['seed'], '--code_seed': row['seed'],
         '--task_max_gap': row['task_max_gap'], '--frames': TARGET, '--out': row['trainer_output_dir'],
         '--protocol': plan['bindings']['protocol']['path'], '--amendment': plan['bindings']['amendment']['path']}
@@ -100,7 +228,7 @@ def launch_args(row, plan):
         assert row['name'] == row['logical_name']+'-r1'
     else:
         assert row['mode'] == 'fresh_v2' and '--parent-run' not in argv
-        assert row['name'] == row['logical_name']
+        assert row['name'] == row['logical_name']+('-r1' if c else '')
     for flag, value in expected.items():
         assert argv.count(flag) == 1 and argv[argv.index(flag)+1] == str(value), f'Changed launch argument {flag}'
     for path in (args.output_dir, row['trainer_output_dir'], expected['--protocol'], expected['--amendment']):
@@ -139,6 +267,7 @@ def validate(plan_path):
     assert {(r['condition'], r['seed'], r['task_max_gap']) for r in models} == {
         (c, s, g) for c in ('gc100', 'pgc33') for s in range(1, 5) for g in (0, 60)}
     assert {m: sum(r['mode'] == m for r in models) for m in MODES} == MODES
+    assert sum('continuation' in r for r in models) <= 1
     attempts = [r['name'] for r in models if r['mode'] != 'retained_v1']
     assert len(attempts) == len(set(attempts)) == 12
     assert len({r['trainer_output_dir'] for r in models if r['mode'] != 'retained_v1'}) == 12
@@ -146,6 +275,7 @@ def validate(plan_path):
     expected_ids = {f'{r["condition"]}/{"native" if r["task_max_gap"] == 0 else "blackout"}/seed{r["seed"]}' for r in models}
     assert set(registered) == expected_ids
     for row in models:
+        c = continuation(row)
         original_row = old[row['logical_name']]
         assert all(row[k] == original_row[k] for k in ('condition', 'seed', 'task_max_gap'))
         expected_mode = 'resume_v2' if row['logical_name'] in continuations else ('fresh_v2' if row['seed'] >= 3 else 'retained_v1')
@@ -162,7 +292,7 @@ def validate(plan_path):
             assert row['artifacts_sha256'][row['run_dir']+'/final.pt'] == registered_row['final_checkpoint_sha256']
             assert row['start_frames'] == TARGET
             continue
-        assert row['start_frames'] == (continuations[row['logical_name']]['saved_frames'] if row['mode'] == 'resume_v2' else 0)
+        assert row['start_frames'] == (continuations[row['logical_name']]['saved_frames'] if row['mode'] == 'resume_v2' else c['start_frames'] if c else 0)
         if row['mode'] == 'resume_v2':
             assert row['parent_run'] == registered_row['original_run']
             parent = local(row['parent_run'])
@@ -178,12 +308,14 @@ def validate(plan_path):
             assert row['provider_hours'] == 25.5 and not row.get('parent_artifacts_sha256')
         check_hashes(row['package_manifest'], ('code/train_memory_v2.py', bindings['protocol']['path'], bindings['amendment']['path']))
         assert all(row['package_manifest'].get(k) == v for k, v in row.get('parent_artifacts_sha256', {}).items())
+        validate_continuation(row,plan)
         args = launch_args(row, plan)
         # Preserve every scientific flag/value from the original frozen cohort.
         expected = list(original_row['train_argv']); expected[2] = 'code.train_memory_v2'
         expected[expected.index('--out')+1] = row['trainer_output_dir']
         expected += ['--amendment', bindings['amendment']['path']]
         if row['mode'] == 'resume_v2': expected += ['--parent-run', row['parent_run']]
+        if c: expected += ['--resume']
         assert row['train_argv'] == expected, 'Scientific training argv changed'
         prepared = cloud.plan(args)
         assert {e['path']: e['sha256'] for e in prepared['package_manifest']} == row['package_manifest']
@@ -216,6 +348,7 @@ def authenticate(row, folder, plan):
     assert endpoint['frames'] == TARGET and endpoint['updates'] == 78125 and endpoint['decisions'] == 250_000_000
     expected = 1 if row['mode'] == 'retained_v1' else 2
     assert endpoint['producer_version'] == expected, 'Wrong producer version for logical endpoint'
+    continuation_inputs(row,folder)
     return endpoint
 
 
@@ -223,6 +356,16 @@ def ensure_budget(plan, ledger):
     records = {r['name']: r for r in ledger['runs']}
     assert len(records) == len(ledger['runs']), 'Duplicate attempt name in ledger'
     pending = [r for r in plan['models'] if r['mode'] != 'retained_v1']+plan['other_reservations']
+    for row in plan['models']:
+        c = continuation(row)
+        if c is None: continue
+        assert c['source_worker_name'] in records, 'Original host missing from ledger'
+        old = records[c['source_worker_name']]
+        assert str(old.get('instance_id')) == str(c['source_instance_id']), 'Original host ID changed'
+        assert old.get('status') == 'DELETED' and old.get('collected_at'), 'Original host must be collected and closed before continuation'
+        assert 0 <= old.get('actual_upper_bound_usd',float('inf')) <= 1, 'Original host closeout exceeds the authorized envelope'
+        assert old.get('local_artifacts') == str(Path(c['source_run']).parent)
+        assert old.get('worker_result') == json.loads(local(c['source_worker_result']['path']).read_text())
     for row in pending:
         if row['name'] in records:
             existing = records[row['name']]
@@ -256,7 +399,7 @@ def technical(text, row, record, now=None):
     keys = ('frames', 'updates', 'fps', 'seconds', 'attempt', 'loss', 'grad_norm', 'replay_logit_max_error', 'replay_value_max_error')
     m = {k: raw[k] for k in keys}
     assert all(math.isfinite(v) for v in m.values()), 'Nonfinite technical metric'
-    assert row['start_frames'] < m['frames'] <= TARGET and m['fps'] > 0 and m['seconds'] > 0 and m['attempt'] == 0
+    assert row['start_frames'] < m['frames'] <= TARGET and m['fps'] > 0 and m['seconds'] > 0 and m['attempt'] == expected_attempt(row)
     assert m['frames'] == m['updates']*12800, 'Absolute original training counters changed'
     delta = m['frames']-row['start_frames']
     assert math.isclose(m['fps'], delta/m['seconds'], rel_tol=1e-9), 'FPS must describe this physical attempt only'
@@ -311,7 +454,7 @@ def cycle(plan, state):
         done = cat(rec['gcs_prefix']+'/DONE.json')
         if done:
             status.update(finish(row, json.loads(done), plan)); continue
-        text = cat(rec['gcs_prefix']+'/outputs/'+Path(row['trainer_output_dir']).name+'/metrics_000.jsonl', True)
+        text = cat(rec['gcs_prefix']+'/outputs/'+Path(row['trainer_output_dir']).name+f'/metrics_{expected_attempt(row):03d}.jsonl', True)
         m = technical(text, row, rec)
         if m:
             vm = cloud.describe(rec['name'], rec['zone'])
@@ -342,7 +485,7 @@ def cycle(plan, state):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--plan', default='docs/research/simple_memory_recovery_runtime_plan.json')
+    p.add_argument('--plan', default='docs/research/simple_memory_recovery_host_plan.json')
     p.add_argument('--out', default='results/ring_simple_memory_recovery_supervision')
     p.add_argument('--max-hours', type=float, default=72)
     args = p.parse_args(argv); assert 0 < args.max_hours <= 72

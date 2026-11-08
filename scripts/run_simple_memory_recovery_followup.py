@@ -26,8 +26,8 @@ from scripts import run_simple_memory_followup as original
 from scripts import run_simple_memory_recovery as recovery
 from scripts.run_simple_memory_cohort import cat, save, sha
 
-PLAN = ROOT/'docs/research/simple_memory_recovery_followup_runtime_plan.json'
-RECOVERY_PLAN = ROOT/'docs/research/simple_memory_recovery_runtime_plan.json'
+PLAN = ROOT/'docs/research/simple_memory_recovery_followup_host_plan.json'
+RECOVERY_PLAN = ROOT/'docs/research/simple_memory_recovery_host_plan.json'
 TRAINING_STATUS = ROOT/'results/ring_simple_memory_recovery_supervision/status.json'
 ANALYSIS_PROTOCOL = ROOT/'docs/research/simple_memory_analysis_protocol.json'
 ORIGINAL_PLAN = ROOT/'docs/research/simple_memory_followup_plan.json'
@@ -211,6 +211,20 @@ def required_inputs(run, endpoint):
     return {name:sha(checked_file(run,name)) for name in sorted(names)}
 
 
+def required_model_inputs(model, run, endpoint):
+    """Portable model inputs plus the explicitly authorized host-attempt proof."""
+    from scripts.simple_memory_endpoint import checked_file
+    manifest = required_inputs(run, endpoint)
+    continuation = recovery.continuation_inputs(model, run)
+    assert isinstance(continuation, dict)
+    assert not model.get('continuation') or continuation, 'Missing continuation evidence'
+    for name, digest in continuation.items():
+        assert name not in manifest or manifest[name] == digest, 'Conflicting continuation input digest'
+        assert sha(checked_file(run, name)) == digest, 'Changed continuation input'
+        manifest[name] = digest
+    return dict(sorted(manifest.items()))
+
+
 def static_files(plan, recovered):
     analysis = json.loads(ANALYSIS_PROTOCOL.read_text())
     training = json.loads(local(analysis['training_protocol']).read_text())
@@ -231,7 +245,7 @@ def stage_inputs(plan, recovered, job, endpoints, expected):
         assert endpoint == expected[name], 'Final identity changed before staging'
         target = local(job['output_dir'])/condition
         target.mkdir(parents=True,exist_ok=True)
-        manifest = required_inputs(source,endpoint)
+        manifest = required_model_inputs(models[name],source,endpoint)
         for filename,digest in manifest.items():
             dest = target/filename; dest.parent.mkdir(parents=True,exist_ok=True)
             assert dest.resolve().is_relative_to(target.resolve()), 'Nonlocal staging path'
@@ -244,7 +258,7 @@ def stage_inputs(plan, recovered, job, endpoints, expected):
                 tmp.replace(dest)
         # Independently authenticate the relocated copies, not just source hashes.
         assert recovery.authenticate(models[name],target,recovered) == endpoint
-        assert required_inputs(target,endpoint) == manifest
+        assert required_model_inputs(models[name],target,endpoint) == manifest
         manifests[condition] = manifest
     return manifests
 
@@ -254,8 +268,9 @@ def launch_args(plan, recovered, job, expected):
     command = ['python','scripts/run_simple_memory_analysis.py','--runs',str(base/'gc100'),str(base/'pgc33'),
                '--out',str(base/'pipeline.json'),'--max-seconds',str(plan['runner_max_seconds'])]
     include = static_files(plan,recovered)
+    models = {row['logical_name']:row for row in recovered['models']}
     for condition,name in job['training_jobs'].items():
-        include += [str(base/condition/p) for p in required_inputs(local(base/condition),expected[name])]
+        include += [str(base/condition/p) for p in required_model_inputs(models[name],local(base/condition),expected[name])]
     return argparse.Namespace(name=job['name'],machine=job['machine'],zone=job['zone'],hours=plan['per_worker_hours'],
         output_dir=str(base),command=shlex.join(command),include=sorted(set(include)),include_only=True)
 
@@ -285,6 +300,18 @@ finish = original.finish
 verify_pair = original.verify_pair
 
 
+def collected_continuation_inputs(recovered, job, folder):
+    """Retain physical-attempt evidence after download, outside shared endpoints."""
+    models = {row['logical_name']:row for row in recovered['models']}
+    proof = {}
+    for condition, name in job['training_jobs'].items():
+        if models[name].get('continuation'):
+            evidence = recovery.continuation_inputs(models[name], Path(folder)/condition)
+            assert evidence, 'Missing collected continuation evidence'
+            proof[condition] = evidence
+    return proof
+
+
 def verify_completed_cache(plan, recovered, state):
     ledger = json.loads(cloud.LEDGER.read_text())
     for job in plan['jobs']:
@@ -296,6 +323,7 @@ def verify_completed_cache(plan, recovered, state):
         assert folder.resolve() == (ROOT/'results/ring_cloud_artifacts'/job['name']).resolve()
         assert sha(folder/'pipeline.json') == status['pipeline_sha256']
         assert verify_pair(folder,job,status['inputs']) == status['verification']
+        assert collected_continuation_inputs(recovered,job,folder) == status.get('continuation_input_sha256',{}), 'Collected continuation proof changed'
 
 
 def cycle(plan, recovered, state):
@@ -330,7 +358,9 @@ def cycle(plan, recovered, state):
         assert status['inputs'] == inputs
         done = cat(record['gcs_prefix']+'/DONE.json')
         if done:
-            status.update(finish(job,json.loads(done),inputs)); continue
+            result = finish(job,json.loads(done),inputs)
+            result['continuation_input_sha256'] = collected_continuation_inputs(recovered,job,local(result['local_artifacts']))
+            status.update(result); continue
         vm = cloud.describe(record['name'],record['zone'])
         if vm is not None:
             cloud.validate_identity(record,vm)
