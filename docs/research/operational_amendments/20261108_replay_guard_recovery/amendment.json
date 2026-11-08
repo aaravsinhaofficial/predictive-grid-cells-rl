@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-11-08T18:32:13.923145+00:00",
+  "purpose": "Resume the original fixed16-model1B cohort after a verified batch-shape rounding false alarm, and retain the frozen scientific analyses.",
+  "original_training_source_and_protocol_unchanged": true,
+  "scientific_analysis_methods_unchanged": true,
+  "cohort": {
+    "retained_v1_finals": 4,
+    "exact_v2_continuations": 4,
+    "fresh_v2_models": 8,
+    "frames_per_model": 1000000000
+  },
+  "numerical_change": "Original actor sampling, CNN batch shape, recurrent replay, loss, backward and RMSprop arithmetic remain unchanged. A logit-only consistency-check failure enters a bounded detached replay check; learning tensors are never replaced.",
+  "provenance_change": "Every v2 producer declares the guard source and amendment. Resumes retain the original initialization, all bound parent evidence and exact full-state migration. Rolled-back parent log rows remain present with an explicit cutoff.",
+  "analysis_authentication_change": {
+    "changed_functions": [
+      "collect_simple_memory_states.load_final",
+      "analyze_simple_memory_activity.authenticate",
+      "run_simple_memory_analysis.authenticate_run"
+    ],
+    "unchanged_other_functions": 42,
+    "ast_evidence": "results/ring_simple_memory_design/producer_authentication_amendment_ast.json",
+    "scientific_outcomes_inspected": false
+  },
+  "gpu_release": {
+    "summary_path": "results/ring_cloud_artifacts/ring-20261105-simplemem-guardcheck-v2/validation/summary.json",
+    "summary_sha256": "70220d3a566a241797d886ec9586f71d477c90b3995e91c8ea5d5e82956ed28c",
+    "all_four_faults_passed": true,
+    "accepted_updates_reconstructed": 375,
+    "full_state_gradients_rng_exact": true,
+    "all_input_bytes_preserved": true,
+    "sources_unchanged": true
+  },
+  "plans": {
+    "docs/research/simple_memory_recovery_plan.json": "b29b959cb6d037a563a92d55ec11ca3a16cce8d92e94314239d8fcd2fbb270f2",
+    "docs/research/simple_memory_recovery_followup_plan.json": "536f49ca36291383bf3c5f8f8d94bf3b1b05d101cae2aefb4ea54b6cc9114064",
+    "docs/research/simple_memory_guard_amendment.json": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938",
+    "docs/research/simple_memory_analysis_protocol.json": "156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e"
+  },
+  "controller_records": [
+    "results/ring_simple_memory_recovery_supervision/process.json",
+    "results/ring_simple_memory_recovery_analysis_supervision/process.json"
+  ],
+  "budget": {
+    "committed_usd": 306.0782,
+    "not_yet_launched_reserved_usd": 275.0,
+    "full_scope_upper_usd": 581.0781999999999
+  },
+  "cost_reconciliation": "results/ring_simple_memory_recovery_inventory/closed_cost_reconciliation.json",
+  "automatic_retry_policy": "No automatic retry or substitution after a worker, endpoint or scientific-analysis failure. Every launched resource retains its own provider DELETE deadline."
+}

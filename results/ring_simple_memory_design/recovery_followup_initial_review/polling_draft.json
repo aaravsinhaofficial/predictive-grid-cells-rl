@@ -1,0 +1,143 @@
+{
+  "status": "draft",
+  "purpose": "Bounded analysis of all sixteen authenticated original/recovery endpoints.\n\nOperational adapter only. No training or analysis algorithm is changed. The\noriginal four completed producers and twelve guard-versioned producers retain\nseparate truthful provenance. No analysis launches until ALL sixteen are final;\nno failed or expired analysis attempt is automatically retried.\n",
+  "recovery_plan_path": "docs/research/simple_memory_recovery_plan.json",
+  "recovery_plan_sha256": "b29b959cb6d037a563a92d55ec11ca3a16cce8d92e94314239d8fcd2fbb270f2",
+  "recovery_supervisor_sha256": "0b84e5a1639cd14ece3462ee9832bb067d686c7e7b20df4c3587952a0692dbb0",
+  "original_followup_plan_sha256": "3461b84f2712b45ae97ae899f37e965ab7d329f591ad686b33ce1c4d5679fa65",
+  "analysis_protocol_sha256": "156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e",
+  "training_protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "amendment_sha256": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938",
+  "operational_source_sha256": {
+    "scripts/run_simple_memory_recovery_followup.py": "8f559f78ad8aa9b4df43bd81f73a18d75432bc2554c563b6e427200b93048dc5",
+    "scripts/run_simple_memory_recovery.py": "0b84e5a1639cd14ece3462ee9832bb067d686c7e7b20df4c3587952a0692dbb0",
+    "scripts/run_simple_memory_followup.py": "8c5b9e28cde59f5858d2e11542f5a70044f70ee7542bb761769f001a8a9690bd",
+    "scripts/run_simple_memory_analysis.py": "adbd5041be3d746f6ac29e16907c0a95c542a58bc6672845ad7514368bfeda8c",
+    "scripts/simple_memory_endpoint.py": "1dcad83512cead4f828cd830bb81c9556d68c46630cd5c7f23c7b1be83bcb98c",
+    "scripts/ring_cloud.py": "b60f7d189e8e2a39e95776c98a60dbd987f8b48241693f3b8d74ed25afaf5e9e",
+    "scripts/run_simple_memory_cohort.py": "6364f47a5878e33f06fd837114ade8525b9ed911367a5f3824d4cee0763e486a",
+    "tests/test_run_simple_memory_recovery_followup.py": "02c0251218c4bdd9bc56c58a6a38a95b318378f71ad92a25d8066a1692bed7b3"
+  },
+  "cumulative_ceiling_usd": 600,
+  "per_worker_hours": 1,
+  "runner_max_seconds": 2900,
+  "max_active_workers": 8,
+  "total_analysis_reservation_usd": 12.5,
+  "worker_sources": [
+    "scripts/run_simple_memory_analysis.py",
+    "scripts/simple_memory_endpoint.py"
+  ],
+  "jobs": [
+    {
+      "name": "ring-20261105-simplemem-analysis-native-s1",
+      "seed": 1,
+      "task": "native",
+      "task_max_gap": 0,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-a",
+      "output_dir": "results/ring_simple_memory_analysis/seed1_native",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-native-s1",
+        "pgc33": "ring-20261105-simplemem-pgc33-native-s1"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-blackout-s1",
+      "seed": 1,
+      "task": "blackout",
+      "task_max_gap": 60,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-b",
+      "output_dir": "results/ring_simple_memory_analysis/seed1_blackout",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-blackout-s1",
+        "pgc33": "ring-20261105-simplemem-pgc33-blackout-s1"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-native-s2",
+      "seed": 2,
+      "task": "native",
+      "task_max_gap": 0,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-a",
+      "output_dir": "results/ring_simple_memory_analysis/seed2_native",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-native-s2",
+        "pgc33": "ring-20261105-simplemem-pgc33-native-s2"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-blackout-s2",
+      "seed": 2,
+      "task": "blackout",
+      "task_max_gap": 60,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-b",
+      "output_dir": "results/ring_simple_memory_analysis/seed2_blackout",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-blackout-s2",
+        "pgc33": "ring-20261105-simplemem-pgc33-blackout-s2"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-native-s3",
+      "seed": 3,
+      "task": "native",
+      "task_max_gap": 0,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-a",
+      "output_dir": "results/ring_simple_memory_analysis/seed3_native",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-native-s3",
+        "pgc33": "ring-20261105-simplemem-pgc33-native-s3"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-blackout-s3",
+      "seed": 3,
+      "task": "blackout",
+      "task_max_gap": 60,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-b",
+      "output_dir": "results/ring_simple_memory_analysis/seed3_blackout",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-blackout-s3",
+        "pgc33": "ring-20261105-simplemem-pgc33-blackout-s3"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-native-s4",
+      "seed": 4,
+      "task": "native",
+      "task_max_gap": 0,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-a",
+      "output_dir": "results/ring_simple_memory_analysis/seed4_native",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-native-s4",
+        "pgc33": "ring-20261105-simplemem-pgc33-native-s4"
+      }
+    },
+    {
+      "name": "ring-20261105-simplemem-analysis-blackout-s4",
+      "seed": 4,
+      "task": "blackout",
+      "task_max_gap": 60,
+      "machine": "n1-standard-8",
+      "zone": "us-central1-b",
+      "output_dir": "results/ring_simple_memory_analysis/seed4_blackout",
+      "training_jobs": {
+        "gc100": "ring-20261105-simplemem-gc100-blackout-s4",
+        "pgc33": "ring-20261105-simplemem-pgc33-blackout-s4"
+      }
+    }
+  ],
+  "readiness": {
+    "analysis_authentication_manifest_frozen": false,
+    "independent_operational_review": false
+  },
+  "budget_rule": "Before each launch use recovery.ensure_budget with the live ledger: all remaining training, validation and eight analysis reservations must fit cumulative $600.",
+  "input_rule": "All16 finals authenticate before launch. Stage base four inputs; v2 also initial/lineage, and resumed v2 migration boundary plus every bound parent-evidence file. Preserve original evidence and failed attempts.",
+  "retry_rule": "One immutable worker identity per original fixed analysis job; no retry after failed/expired/missing terminal evidence. No scientific-positive selection."
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "complete": true,
+  "checked_utc": "2026-11-08T18:24:44.860853+00:00",
+  "scope": "Operational source/private fixture review and real-draft static-file inspection only; no model/environment execution, model input staging, cloud API or ledger mutation.",
+  "source_sha256": {
+    "scripts/run_simple_memory_recovery_followup.py": "b5b159517925b1e86320fd4b1df7b94e29974a00c79fa0907c10a447c591d491",
+    "tests/test_run_simple_memory_recovery_followup.py": "f96ffe8219e178c1621734c864b76b1250e675ee631f4fa7cbb6623d39f91b3b",
+    "scripts/run_simple_memory_recovery.py": "0b84e5a1639cd14ece3462ee9832bb067d686c7e7b20df4c3587952a0692dbb0",
+    "tests/test_run_simple_memory_recovery.py": "7a46cf094c7f8dba073229e3344299f2bb91da5e08c0258b6c209e3b1a7424bc",
+    "scripts/run_simple_memory_followup.py": "8c5b9e28cde59f5858d2e11542f5a70044f70ee7542bb761769f001a8a9690bd",
+    "tests/test_run_simple_memory_followup.py": "f4ac15c7aa253a668c5f37fb4e49610e78547cf4ebcfd06ab80398156330b0ee",
+    "scripts/run_simple_memory_analysis.py": "adbd5041be3d746f6ac29e16907c0a95c542a58bc6672845ad7514368bfeda8c",
+    "scripts/simple_memory_endpoint.py": "1dcad83512cead4f828cd830bb81c9556d68c46630cd5c7f23c7b1be83bcb98c",
+    "scripts/ring_cloud.py": "b60f7d189e8e2a39e95776c98a60dbd987f8b48241693f3b8d74ed25afaf5e9e"
+  },
+  "analysis_protocol_sha256": "156e8798fa2d94bc5e4478a0f4958335ddea51088907f1c307434624a51a3d7e",
+  "draft_plan_path": "docs/research/simple_memory_recovery_followup_plan.json",
+  "draft_plan_sha256_at_review": "0b81a1e74d2b4302fd79598c426ae6d4cb4eaf83a147e9ed23f109873914518e",
+  "tests": {
+    "passed": 66,
+    "seconds": 0.47,
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_run_simple_memory_recovery_followup.py tests/test_run_simple_memory_followup.py tests/test_run_simple_memory_recovery.py"
+  },
+  "independent_review": {
+    "agent": "/root/causal_design_review",
+    "passed": true,
+    "tests_passed": 66,
+    "test_seconds": 0.46,
+    "blocking_findings": []
+  },
+  "static_package_check": {
+    "members": 55,
+    "bytes": 822263,
+    "all_paths_exist": true,
+    "analysis_source_and_evidence_hashes_match": true,
+    "model_inputs_staged": false
+  },
+  "invariants": [
+    "All16 exact1B original/recovery endpoints required and authenticated before any of8analysis workers",
+    "Fixed original pair names/settings/output paths; provider DELETE1hour, runner2900seconds, reservation1.5625USD each",
+    "Truthful v1/v2 identity and complete v2 initial/lineage/migration/bound parent-evidence copied without modifying originals",
+    "Copied endpoint and parent evidence reauthenticated after relocation",
+    "Budget helper covers all remaining training, guard validation and8analysis reservations within cumulative600USD",
+    "No automatic retry for failed, expired, identity-mismatched or missing-terminal analysis attempt",
+    "Unchanged original terminal collect/verify/delete and pipeline validators reused without global rebinding",
+    "Completion never requires a positive neural/behavioral finding"
+  ],
+  "execution_authorized_by_this_record": false,
+  "cloud_calls": 0,
+  "ledger_writes": 0,
+  "remaining": "Root must freeze recovery plan after successful GPU guard validation, refresh recovery-plan/source bindings in this explicit draft, and freeze followup readiness. This record does not authorize a launch."
+}

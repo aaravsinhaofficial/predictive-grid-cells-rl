@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "complete": true,
+  "recorded_utc": "2026-11-08T18:29:19.172269+00:00",
+  "purpose": "Root-requested operational efficiency change only: avoid repeated checkpoint/package reads while waiting for all16 finals.",
+  "source_sha256": {
+    "scripts/run_simple_memory_recovery_followup.py": "8f559f78ad8aa9b4df43bd81f73a18d75432bc2554c563b6e427200b93048dc5",
+    "tests/test_run_simple_memory_recovery_followup.py": "02c0251218c4bdd9bc56c58a6a38a95b318378f71ad92a25d8066a1692bed7b3"
+  },
+  "previous_validation_sha256": "cfc99697b093f2af7244c7f050585fe17676c740e6d154cb1da9eb90684cc09f",
+  "preserved_previous_source_sha256": {
+    "results/ring_simple_memory_design/recovery_followup_initial_review/plan.json": "0b81a1e74d2b4302fd79598c426ae6d4cb4eaf83a147e9ed23f109873914518e",
+    "results/ring_simple_memory_design/recovery_followup_initial_review/run_simple_memory_recovery_followup.py": "b5b159517925b1e86320fd4b1df7b94e29974a00c79fa0907c10a447c591d491",
+    "results/ring_simple_memory_design/recovery_followup_initial_review/test_run_simple_memory_recovery_followup.py": "f96ffe8219e178c1621734c864b76b1250e675ee631f4fa7cbb6623d39f91b3b"
+  },
+  "draft_plan_sha256": "68fb4d821ee14e9278f96a72956e531bb68de67889694fe9d1988039651a75cc",
+  "owner_tests": {
+    "passed": 15,
+    "seconds": 0.11
+  },
+  "independent_review": {
+    "agent": "/root/causal_design_review",
+    "passed": true,
+    "tests_passed": 15,
+    "seconds": 0.1
+  },
+  "checks": [
+    "Full recovery and package validation runs once at supervisor startup.",
+    "Waiting polls hash immutable plan, source, protocol, amendment, validation JSON and GPU summary/DONE bindings without parent/checkpoint payload reads.",
+    "Full endpoint/source and copied-lineage authentication before pair staging/launch is unchanged.",
+    "Focused regressions reject changed plan/source and verify only one full startup validation invocation."
+  ],
+  "plan_status": "draft",
+  "readiness_false": true,
+  "source_changes_only_in_new_operational_controller": true,
+  "scientific_source_changes": 0,
+  "model_runs": 0,
+  "cloud_calls": 0,
+  "ledger_writes": 0
+}

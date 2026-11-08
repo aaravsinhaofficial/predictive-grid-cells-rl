@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "complete": true,
+  "review_passed": true,
+  "reviewed_utc": "2026-11-08T18:27:30.535936+00:00",
+  "scope": "Independent read-only source/real-draft JSON semantic review. No supervisor validation/cycle, test suite, checkpoint forward, cloud command, launch or ledger mutation executed.",
+  "source_sha256": {
+    "scripts/run_simple_memory_recovery.py": "0b84e5a1639cd14ece3462ee9832bb067d686c7e7b20df4c3587952a0692dbb0",
+    "tests/test_run_simple_memory_recovery.py": "7a46cf094c7f8dba073229e3344299f2bb91da5e08c0258b6c209e3b1a7424bc"
+  },
+  "draft_plan_sha256": "9ea18c3c7481a858c4c5b4421a761f0b6838c021471430970222cd8bff8c226b",
+  "draft_status": "draft",
+  "original_protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "amendment_sha256": "d048e1696d6d970a7b8487b61f58596180a16045156aa53e367f19c6ce239938",
+  "validation_protocol_sha256": "f70851418ab58421fb06f2ed5e151de1558726f5b5c420a71ec6827cf8ad7d4f",
+  "logical_models": 16,
+  "retained_v1": 4,
+  "resumed_v2": 4,
+  "fresh_v2": 8,
+  "distinct_new_trainer_output_directories": 12,
+  "all_new_scientific_argv_match_original": true,
+  "retained_final_hashes_match_amendment": true,
+  "parent_evidence_maps_match_amendment": true,
+  "continuations": [
+    {
+      "logical_run_id": "pgc33/native/seed1",
+      "saved_frames": 570880000,
+      "saved_updates": 44600,
+      "last_logged_update": 44684,
+      "rollback_updates": 84,
+      "parent_checkpoint_sha256": "e076da5600d9e44a644566dd840ba591abb81a523ee55cdcc8ff75dc95802a10",
+      "provider_hours": 11.5,
+      "reserved_usd": 14.6875
+    },
+    {
+      "logical_run_id": "pgc33/blackout/seed1",
+      "saved_frames": 345600000,
+      "saved_updates": 27000,
+      "last_logged_update": 27188,
+      "rollback_updates": 188,
+      "parent_checkpoint_sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c",
+      "provider_hours": 17.5,
+      "reserved_usd": 22.1875
+    },
+    {
+      "logical_run_id": "gc100/native/seed2",
+      "saved_frames": 855040000,
+      "saved_updates": 66800,
+      "last_logged_update": 66845,
+      "rollback_updates": 45,
+      "parent_checkpoint_sha256": "e9c61e50079c2508e03f132b9da4497a65d9e914ea04b8c7ca40ddd0d02c18e3",
+      "provider_hours": 4.25,
+      "reserved_usd": 5.625
+    },
+    {
+      "logical_run_id": "pgc33/native/seed2",
+      "saved_frames": 880640000,
+      "saved_updates": 68800,
+      "last_logged_update": 68858,
+      "rollback_updates": 58,
+      "parent_checkpoint_sha256": "eb5bb1db4f2e5e3b7354d126533ce558c781d1859ea393808e0d69bf7e6aa338",
+      "provider_hours": 3.75,
+      "reserved_usd": 5.0
+    }
+  ],
+  "gpu_release_semantics": {
+    "all_four_registered_failures": true,
+    "total_accepted_updates": 375,
+    "known_boundary_updates": 188,
+    "exact_full_payload_and_gradients": true,
+    "required_corruption_controls": [
+      "rgb",
+      "code",
+      "goal",
+      "initial_h",
+      "initial_c",
+      "reset",
+      "large_logits",
+      "large_values",
+      "large_embeddings"
+    ],
+    "source_and_input_preservation_required": true,
+    "DONE_exit0_and_exact_package_required": true,
+    "physical_worker_identity_reserved": true,
+    "actual_GPU_result_reviewed": false
+  },
+  "deadline_review": {
+    "fresh_hours": 25.5,
+    "continuation_hours": [
+      17.5,
+      11.5,
+      4.25,
+      3.75
+    ],
+    "attempt_local_fps": true,
+    "warmup_new_frames": 2000000,
+    "completion_reserve_seconds": 600,
+    "absolute_provider_deadlines": true,
+    "automatic_extension": false
+  },
+  "budget_review": {
+    "four_continuations_usd": 47.5,
+    "eight_fresh_usd": 257.5,
+    "eight_analysis_usd": 12.5,
+    "guard_validation_usd": 0.9375,
+    "pending_future_total_usd": 318.4375,
+    "latest_recorded_full_scope_usd": 581.795,
+    "live_budget_rechecked_before_every_launch": true,
+    "live_costs_independently_refreshed": false
+  },
+  "blocking_findings": [],
+  "notes": [
+    "Worker output parent directories repeat across seeds only inside separate VMs; all12 trainer subdirectories and worker/GCS names are distinct, with include-only packages.",
+    "Provider DELETE deadlines protect cloud budget independently of local supervisor suspension.",
+    "GPU release remains pending in this draft. Semantic review is not a successful GPU-result claim or launch authorization."
+  ],
+  "cloud_calls": 0,
+  "ledger_writes": 0,
+  "source_mutations": 0
+}
