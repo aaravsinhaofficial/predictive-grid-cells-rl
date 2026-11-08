@@ -1,0 +1,151 @@
+{
+  "status": "frozen_read_only_plan; requires fresh cloud authentication and live/budget revalidation before launch",
+  "recorded_utc": "2026-11-08T05:23:43.749535+00:00",
+  "diagnostic_protocol_sha256": "daa3e2c98e915611f5f36f9af6dbca783742db5da0a9ffac1ef4e8ac60fabd71",
+  "launch_args": {
+    "name": "ring-20261105-simplemem-replaydiag-s1",
+    "machine": "n1-standard-8",
+    "zone": "us-central1-a",
+    "hours": 0.5,
+    "output_dir": "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1",
+    "command": "python scripts/diagnose_simple_memory_replay.py --run results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1 --manifest docs/research/simple_memory_replay_diagnostic_protocol.json --out results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1/diagnostic --max-seconds 900",
+    "include": [
+      "scripts/diagnose_simple_memory_replay.py",
+      "tests/test_diagnose_simple_memory_replay.py",
+      "code/train_memory.py",
+      "code/memory_task.py",
+      "code/common.py",
+      "code/env.py",
+      "code/nets.py",
+      "code/codes.py",
+      "code/__init__.py",
+      "code/train.py",
+      "docs/research/simple_memory_training_protocol.json",
+      "docs/research/simple_memory_replay_diagnostic_protocol.json",
+      "results/ring_simple_memory_design/replay_diagnostic_validation.json",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/resume.pt",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/config.json",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/provenance.json",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/metrics_000.jsonl",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/attempt_000.json"
+    ],
+    "include_only": true
+  },
+  "diagnostic_command_argv": [
+    "python",
+    "scripts/diagnose_simple_memory_replay.py",
+    "--run",
+    "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+    "--manifest",
+    "docs/research/simple_memory_replay_diagnostic_protocol.json",
+    "--out",
+    "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1/diagnostic",
+    "--max-seconds",
+    "900"
+  ],
+  "prepared_cloud_plan": {
+    "name": "ring-20261105-simplemem-replaydiag-s1",
+    "zone": "us-central1-a",
+    "machine": "n1-standard-8",
+    "duration_seconds": 1800,
+    "reserved_usd": 0.9375,
+    "provider_deadline_utc": "2026-11-08T05:53:43+00:00",
+    "gcs_prefix": "gs://connectome-ai-research-popcode/ring-20261105/ring-20261105-simplemem-replaydiag-s1",
+    "command": [
+      "python",
+      "scripts/diagnose_simple_memory_replay.py",
+      "--run",
+      "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1",
+      "--manifest",
+      "docs/research/simple_memory_replay_diagnostic_protocol.json",
+      "--out",
+      "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1/diagnostic",
+      "--max-seconds",
+      "900"
+    ],
+    "output_dir": "results/ring_simple_memory_replay_diagnostic/pgc33_blackout_s1",
+    "package_manifest": [
+      {
+        "path": "code/__init__.py",
+        "sha256": "7182419eab3d6998cfe1ad1d4478f88ca87f5868e496a56d95871f6b9498c13a"
+      },
+      {
+        "path": "code/codes.py",
+        "sha256": "c2f083126a45b80ac8374f6e0469229c44dfcf7f101675a1406dc7342611e4c2"
+      },
+      {
+        "path": "code/common.py",
+        "sha256": "4d9330e031077e84c171a8d2bd8eeb41568d17b82c360d6c4122215fa32ffc52"
+      },
+      {
+        "path": "code/env.py",
+        "sha256": "fe6a9fe5669e5e79f2b21a207db27c663a85025dcb7adabea65da0a5bc7c530d"
+      },
+      {
+        "path": "code/memory_task.py",
+        "sha256": "8dd95c341c4e6e19fe1db7b6a5534e1e1da9eb68c9599c9a75e4fe1fbda830a0"
+      },
+      {
+        "path": "code/nets.py",
+        "sha256": "50f63d5484c8a82b66ce293f017e32643e321c822c66fb771f64b41044ff7f5e"
+      },
+      {
+        "path": "code/train.py",
+        "sha256": "00388b7dbad8c163eac1bce437a8b50c6a78d72a7770d071b22964ef5cef57ca"
+      },
+      {
+        "path": "code/train_memory.py",
+        "sha256": "0e47079147e925fe7f1d3232b87c9de1e24cd053241c12070379984712c675d3"
+      },
+      {
+        "path": "docs/research/simple_memory_replay_diagnostic_protocol.json",
+        "sha256": "daa3e2c98e915611f5f36f9af6dbca783742db5da0a9ffac1ef4e8ac60fabd71"
+      },
+      {
+        "path": "docs/research/simple_memory_training_protocol.json",
+        "sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3"
+      },
+      {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/attempt_000.json",
+        "sha256": "a07983c2f944b9a3fcdf644e52b88f60669aa76cebb4c3004f7ff338ed3c7685"
+      },
+      {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/config.json",
+        "sha256": "8abb9876264427e3c0612d3d90491af295b58af27af212e8a4c55c4625806295"
+      },
+      {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/metrics_000.jsonl",
+        "sha256": "4649eac6af90e597b54092779d943f16f180759bc052eddde539d7255f76cdc0"
+      },
+      {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/provenance.json",
+        "sha256": "6925bafa5260900443a2026a2907926a6f1193d31004121d69904bcf4c8e5197"
+      },
+      {
+        "path": "results/ring_cloud_artifacts/ring-20261105-simplemem-pgc33-blackout-s1/seed1/resume.pt",
+        "sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c"
+      },
+      {
+        "path": "results/ring_simple_memory_design/replay_diagnostic_validation.json",
+        "sha256": "82177c41da7d649ae5a3546edd0cf50cf2bc0b9a61a6633f9932ae1744e58d28"
+      },
+      {
+        "path": "scripts/diagnose_simple_memory_replay.py",
+        "sha256": "6670eb96a059e338b75765fac060cc629782145c2a0dcad25cc86e038f28233e"
+      },
+      {
+        "path": "tests/test_diagnose_simple_memory_replay.py",
+        "sha256": "b81875f898c274aee5abd784803901bf0292234fe826aded20daf760746c903d"
+      }
+    ],
+    "package_manifest_sha256": "b2fddb0716087b36e693195e7e6cd0bf15912ad9b2e9b6d8d5d8c52878e4be2f",
+    "package_uncompressed_bytes": 45344453,
+    "status": "reserved",
+    "reserved_at": "2026-11-08T05:23:43+00:00"
+  },
+  "ledger_sha256_at_plan": "57d6a080aa11839ecce189b30d1d94e6d7e6d840c66d233a391b53c3e9f447c9",
+  "full_study_upper_bound_with_diagnostic_usd": 579.1895,
+  "cumulative_ceiling_usd": 600,
+  "replacement_not_reserved_or_launched": true,
+  "cloud_mutations_performed": false
+}

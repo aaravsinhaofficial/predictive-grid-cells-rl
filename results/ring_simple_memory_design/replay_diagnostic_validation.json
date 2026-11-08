@@ -1,0 +1,40 @@
+{
+  "implementation_complete": true,
+  "diagnostic_executed": false,
+  "created_utc": "2026-11-08T05:22:55.032218+00:00",
+  "source_sha256": {
+    "scripts/diagnose_simple_memory_replay.py": "6670eb96a059e338b75765fac060cc629782145c2a0dcad25cc86e038f28233e",
+    "tests/test_diagnose_simple_memory_replay.py": "b81875f898c274aee5abd784803901bf0292234fe826aded20daf760746c903d"
+  },
+  "frozen_training_protocol_sha256": "d0751695c0b89aa718754c7a72f7ada35467ea27c751cab6a6d27eab0095b8f3",
+  "frozen_training_sources_unchanged": 8,
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /opt/anaconda3/bin/python -m pytest -q tests/test_diagnose_simple_memory_replay.py",
+    "passed": 12,
+    "seconds": 2.12,
+    "scope": "Private random native-policy CPU fixtures only"
+  },
+  "independent_review": {
+    "reviewer": "/root/causal_design_review",
+    "approved": true,
+    "passed": 12,
+    "seconds": 2.51,
+    "source_hashes_match": true,
+    "no_remaining_issue": true
+  },
+  "planned_scope": {
+    "resume_sha256": "ebda7dfbabf5a268711d167321548af1e1aca0dc1c622f86bd3a073651a6a83c",
+    "start_update": 27000,
+    "last_successful_update": 27188,
+    "failed_update": 27189,
+    "maximum_seconds": 900,
+    "accepted_original_updates_reconstructed": 188,
+    "failing_optimizer_updates": 0,
+    "subsequent_optimizer_updates": 0
+  },
+  "limitations": [
+    "No trained-policy update, real reconstruction or GPU/cloud execution occurred during this validation.",
+    "A failed original logit check in the diagnostic does not alone establish the identical archived failure signature or a precision-only cause.",
+    "Any earlier reconstruction/input/reset mismatch halts attribution and retains partial evidence; no automatic continuation or tolerance change follows."
+  ]
+}

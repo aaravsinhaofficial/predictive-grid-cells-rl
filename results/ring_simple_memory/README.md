@@ -25,7 +25,9 @@ The run target is 16 models, each trained for exactly 1B environment frames. The
 
 **Training started November 7, 2026. Eight models were launched; eight more are queued.** The first four passed numerical checks and started from exactly identical network weights. See the [launch audit](../ring_simple_memory_supervision/first_four_audit.json).
 
-**One run needs a technical diagnosis.** PGC + grid, blackout, seed 1 stopped at 348M frames when two calculations of the same LSTM outputs differed by about 0.00005. Its complete restart state at 345.6M frames is preserved. We are reproducing the exact failed update before continuing. See the [failure record](../ring_simple_memory_design/replay_failure_20261107.json).
+**One run needs a technical diagnosis.** PGC + grid, blackout, seed 1 stopped at 348M frames when two calculations of the same LSTM outputs differed by about 0.00005. Its complete restart state at 345.6M frames is preserved. See the [failure record](../ring_simple_memory_design/replay_failure_20261107.json).
+
+The [diagnostic](../../docs/research/simple_memory_replay_diagnostic_protocol.json) is prepared and passed 12 private tests. It will replay the saved updates and locate where the two calculations first diverge. It has not run on the trained checkpoint yet.
 
 Cloud monitoring now checks whether each running job can finish before its original deletion deadline. The [operational amendment](../../docs/research/operational_amendments/20261107_monitor_recovery/amendment.json) preserves the earlier monitoring files and documents the change. Scientific training and analysis methods remain frozen.
 
