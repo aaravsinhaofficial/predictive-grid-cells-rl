@@ -108,7 +108,7 @@ def main():
       if os.path.exists(p):
         orig[(c, s)] = read_episodes(p)
   ft_last = min([v[0].max() for v in ft.values()] + [last]) if ft else 0
-  ft_last = np.floor(ft_last / BIN) * BIN
+  ft_last = np.floor((ft_last + 0.5e6) / BIN) * BIN
   for c in CONDS:
     # single rooms from scratch: one curve per room, then mean and SEM over rooms
     S['curves'][f'scratch_room/{c}'] = summarize([binned(*ep[r['name']][:2], last) for r in runs
@@ -158,7 +158,9 @@ def main():
       own = {c: [score(names[f'{c}scr{e}_lstm_s{ENVS.index(e) % 8 + 1}'], env_rooms(e)) for e in rooms_ok] for c in CONDS}
       fam = {c: [score(names[f'{c}scr{e}_lstm_s{ENVS.index(e) % 8 + 1}'], ['open']) for e in rooms_ok] for c in CONDS}
       eff = {c: [peff(names[f'{c}scr{e}_lstm_s{ENVS.index(e) % 8 + 1}'], [x for x in env_rooms(e) if not x.endswith('+R')] or ['open+R']) for e in rooms_ok] for c in CONDS}
+      unseen = [i for i, e in enumerate(rooms_ok) if e != 'R']
       T['single_rooms'] = dict(rooms=rooms_ok, own_room=paired(own['gc100'], own['pgc33']), familiar_room=paired(fam['gc100'], fam['pgc33']),
+                               familiar_room_unseen=paired([fam['gc100'][i] for i in unseen], [fam['pgc33'][i] for i in unseen]),
                                path_eff=paired(eff['gc100'], eff['pgc33']),
                                per_room={e: dict(gc=own['gc100'][i], pgc=own['pgc33'][i], seed=ENVS.index(e) % 8 + 1) for i, e in enumerate(rooms_ok)})
     mix = {}
@@ -166,7 +168,8 @@ def main():
       for s in (1, 2):
         n = f'{c}scrmix_lstm_s{s}'
         if n in names:
-          mix[f'{c}_s{s}'] = dict(changed=score(names[n], CHANGED), familiar=score(names[n], ['open']))
+          mix[f'{c}_s{s}'] = dict(changed=score(names[n], CHANGED), familiar=score(names[n], ['open']),
+                                  rooms=float(np.mean([score(names[n], env_rooms(e)) for e in ENVS])))
     T['mixture'] = mix
     # the original training in the familiar room at the same number of frames (training score, last 25 M frames; 8 seeds)
     def win(v):
@@ -248,7 +251,7 @@ def main():
     line(axs[2], f'familiar_original/{c}', x, color=F.COL[c], lw=2.0, ls=(0, (4, 2)))
   for ax, t in zip(axs, ('all changed rooms', 'one room each', 'familiar room, original training')):
     ax.set_title(t, fontsize=11)
-    ax.set_xlabel('frames in these rooms (millions)')
+    ax.set_xlabel('frames of training (millions)')
     ax.yaxis.grid(True, color=F.GRID, lw=0.6)
     ax.set_xlim(0, max(float(x.max()) if len(x) else 1, float(xf.max()) if len(xf) else 1))
     ax.set_ylim(0, None)
