@@ -58,7 +58,7 @@ That gave 21 changed conditions: the 10 layouts played both ways, plus the origi
 
 ## 6. What were the results?
 
-**When the room first changed**, both groups lost about 77 % of their score. They found the hidden goal about equally often on the first search. Once they knew where it was, predictive agents made 17 % more return trips per 1,000 steps. When the goal moved, they also spent longer looking in its old spot.
+**When the room first changed**, both groups lost about 77 % of their score. They found the hidden goal about equally often on the first search. Once they knew where it was, predictive agents made 17 % more return trips per 1,000 steps. When the goal moved, they also spent longer looking in its old spot - this may suggest they have difficulty "forgetting", which is a double edged sword imo.
 
 ![scores](figures/rooms_scores.png)
 
