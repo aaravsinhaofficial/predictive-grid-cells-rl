@@ -129,9 +129,17 @@ def main():
 
   def scr_mark():            # the latest frame mark at which every single-room pair has been tested
     T = SC.get('tests', {})
-    ok = [m for m in sorted(T, key=int) if len(T[m].get('single_rooms', {}).get('rooms', [])) == 11]
+    ok = [m for m in sorted(T, key=int) if len(T[m].get('single_rooms', {}).get('rooms', [])) >= int(os.environ.get('ROOM_SCR_MIN', 11))]
     return ok[-1] if ok else None
   helpers['scr_mark'] = scr_mark
+
+  def scr_ref():             # the fine-tuned state closest in changed-room frames to the from-scratch mark
+    m_ = int(scr_mark() or 0)
+    return '1500M' if (m_ >= 400 and '1500M' in SC.get('finetuned_reference', {})) else '1250M'
+  helpers['scr_ref'] = scr_ref
+  helpers['scr_ref_m'] = lambda: int(scr_ref()[:-1]) - 1000
+  helpers['SR'] = lambda: SC['tests'][scr_mark()]['single_rooms']          # single-room block at the reported mark
+  helpers['ST'] = lambda: SC['tests'][scr_mark()]
 
   def scr_room_table(mark=None):   # one row per room: from scratch (own room) and the pretrained agents in that room
     mark = mark or scr_mark()

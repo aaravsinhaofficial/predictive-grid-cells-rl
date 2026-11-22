@@ -168,6 +168,20 @@ def main():
         if n in names:
           mix[f'{c}_s{s}'] = dict(changed=score(names[n], CHANGED), familiar=score(names[n], ['open']))
     T['mixture'] = mix
+    # the original training in the familiar room at the same number of frames (training score, last 25 M frames; 8 seeds)
+    def win(v):
+      fr, ret, _ = v
+      m_ = (fr > (mark - 25) * 1e6) & (fr <= mark * 1e6)
+      return float(ret[m_].mean())
+    seeds8 = [s for s in range(1, 9) if all((c, s) in orig for c in CONDS)]
+    if seeds8:
+      T['familiar_original'] = paired([win(orig[('gc100', s)]) for s in seeds8], [win(orig[('pgc33', s)]) for s in seeds8])
+    # the same window of the from-scratch training scores, paired by room
+    rooms_tr = [e for e in ENVS if all(f'{c}scr{e}_lstm_s{ENVS.index(e) % 8 + 1}' in ep and
+                                       ep[f'{c}scr{e}_lstm_s{ENVS.index(e) % 8 + 1}'][0].max() >= mark * 1e6 for c in CONDS)]
+    if len(rooms_tr) >= 2:
+      T['scratch_training'] = dict(rooms=rooms_tr, stat=paired([win(ep[f'gc100scr{e}_lstm_s{ENVS.index(e) % 8 + 1}']) for e in rooms_tr],
+                                                               [win(ep[f'pgc33scr{e}_lstm_s{ENVS.index(e) % 8 + 1}']) for e in rooms_tr]))
     S['tests'][str(mark)] = T
   # the fine-tuned agents in the same rooms (8 seeds), for the reference columns
   ref = {}
