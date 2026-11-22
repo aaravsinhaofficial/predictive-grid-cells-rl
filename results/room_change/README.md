@@ -4,7 +4,7 @@
 
 **What we did.** The sixteen LSTM + vision agents of the main study (8 seeds; 100 % grid cells, or grid + 33 % predictive grid cells; 1 B frames in the open room) were tested with frozen weights in changed versions of their room: a wall with one door, an obstacle, both, and a goal that moves in mid-episode. All sixteen were then trained for another 250 M frames in the changed rooms and tested again, and once more after 500 M frames. Two references: the same extra frames in the familiar room (2 seeds per code), and agents trained from scratch in the changed rooms (one pair per room).
 
-**In short.** None of the six planned tests is significant. In changed rooms the PGC agents score more on average: by 3.0 points when frozen, 4.8 after the planned 250 M frames of fine-tuning (p = 0.37) and 8.5 after 500 M (p = 0.11), a lead that eight seeds cannot tell from zero. Unplanned comparisons give three leads still to be confirmed: a larger PGC gain with fine-tuning (p = 0.072 over 500 M frames), activity that stays more concentrated in the PGC agents (first 10 components: +2.3 points after 250 M frames, +3.3 after 500 M, +5.9 before), and more time spent at a moved goal's old place.
+**In short.** None of the six planned tests is significant. In changed rooms the PGC agents score more on average: by 3.0 points when frozen, 4.8 after the planned 250 M frames of fine-tuning (p = 0.37) and 8.5 after 500 M (p = 0.11), a lead that eight seeds cannot tell from zero. Unplanned comparisons give three leads still to be confirmed: a larger PGC gain with fine-tuning (p = 0.072 over 500 M frames), activity that stays more concentrated in the PGC agents (first 10 components: +2.3 points after 250 M frames, +3.3 after 500 M, +5.9 before), and more time spent at a moved goal's old place. Among agents trained from scratch in the changed rooms the PGC agents show no lead (−3.0 ± 2.9 over 11 rooms after 450 M frames, one seed per room).
 
 **The numbers.** Scores are goals × 10 per 90 s episode. Pairs of numbers are always grid first, then PGC. Differences are PGC − grid, mean ± SEM over the 8 seeds, paired; p values are uncorrected paired t-tests.
 
@@ -26,7 +26,7 @@
 4. **After fine-tuning the first 10 principal components hold 2 to 3 points more of the variance in the PGC agents, against 6 points before; at the planned 250 M checkpoint the difference is not significant.** At 1 B the share is higher in the PGC agent of every seed, in the familiar room (46.4 % and 52.3 %) and just as much in the changed rooms (46.8 % and 52.5 %). After 250 M frames of fine-tuning the difference is +2.3 ± 1.1 points (p = 0.075, PGC higher in 7/8 seeds; p = 0.014 without the seed whose grid agent collapsed during fine-tuning), and after 500 M frames +3.3 ± 0.9 points (p = 0.010, 8/8 seeds). These are the familiar-room replay; in the changed-room replay the difference is +2.1 ± 1.2 (p = 0.14) and +2.2 ± 0.8 points (p = 0.032). The difference shrank as the PGC share fell in all eight agents (by 3.4 ± 0.5 points at 1.5 B), while the grid share moved less (−0.8 ± 0.6).
 5. **After a goal move the PGC agents spend more time at the old place.** Agents that know the goal keep returning to where it was. In the open room the frozen PGC agents spend more of that time there (share of time near the old goal minus the share in a control zone: grid 0.58, PGC 0.71, p = 0.007), and both codes find the moved goal about equally rarely (in 5.1 % and 4.3 % of episodes). After fine-tuning both codes stay less. The PGC agents tend to stay longer after 250 M frames (grid 0.25, PGC 0.35, p = 0.098) and stay longer after 500 M (grid 0.31, PGC 0.40, p = 0.019). They find the moved goal less often after 250 M frames (grid 28 %, PGC 20 % of episodes, p = 0.13) and about as often after 500 M (16 % and 17 %, p = 0.87); neither difference is significant.
 6. **The predictive cells are used in the changed rooms.** Silencing the 169 predictive cells of a PGC agent costs more than silencing 169 random grid cells: +3.1 ± 0.6 points in the changed rooms before fine-tuning (p < 0.001), +1.9 ± 0.5 after 250 M frames (p = 0.004) and +4.3 ± 0.7 after 500 M (p < 0.001).
-7. **Trained from scratch in one room alone, agents score higher there than the fine-tuned agents; trained from scratch on the mixture, they score about as much or less; and from scratch the PGC agents are not ahead.** After 400 M frames in one room they score 47.4 (grid) and 42.5 (PGC) in that room, against 28.9 and 37.3 for the agents that came from the familiar room and trained 500 M frames on the mixture, about a tenth of them in each layout. Agents trained from scratch on the mixture score 23.4 and 27.1 in the same rooms (2 seeds). Among the one-room agents PGC − grid is −4.9 ± 2.9 over 11 rooms (p = 0.13, PGC higher in 2 rooms; one seed per room).
+7. **Trained from scratch in one room alone, agents score higher there than the fine-tuned agents; trained from scratch on the mixture, they score about as much or less; and from scratch the PGC agents show no lead.** After 450 M frames in one room they score 47.7 (grid) and 44.7 (PGC) in that room, against 28.9 and 37.3 for the agents that came from the familiar room and trained 500 M frames on the mixture, about a tenth of them in each layout. Agents trained from scratch on the mixture score 30.7 and 28.3 in the same rooms (2 seeds). Among the one-room agents PGC − grid is −3.0 ± 2.9 over 11 rooms (p = 0.33, PGC higher in 4 rooms; one seed per room).
 
 **The planned tests.** Six comparisons were fixed in advance: one for the frozen 1 B agents and five for the 250 M checkpoint, none for 1.5 B (section 10). None is significant, with or without the correction for six tests. The p values below 0.05 in points 2 to 6, and everything at 1.5 B, come from other, uncorrected comparisons: read them as leads, not as confirmed effects.
 
@@ -304,24 +304,24 @@ At 1.5 B the changed-room score of the four reference agents has moved by −0.6
 
 *Figure 7. Training score against frames of training. Solid: agents trained 1 B frames in the familiar room first (8 seeds), during their fine-tuning on the mixture. Dashed: agents trained from scratch. Left: the mixture of the 21 changed-room conditions (from scratch: 2 seeds). Middle: one room each (dashed: 11 rooms, one grid and one PGC agent per room, all frames in that room; solid: the same rooms within the mixture, where each layout gets about a tenth of the frames). Right: the original training in the familiar room (8 seeds). Bands: SEM over seeds, or over the 11 rooms for the dashed lines in the middle.*
 
-For each of the ten changed layouts and for the open room with a moving goal, one grid and one PGC agent were trained from scratch in that room alone (in a layout the goal is fixed in half of the episodes and moved in the other half). That is 11 pairs, with seeds rotating over 1 to 8. Two more pairs were trained from scratch on the mixture that the fine-tuned agents saw. Hyperparameters are those of the original agents. These runs were started later than the fine-tuning. The tables use their frozen test at 400 M frames. The 22 single-room runs stop at about 450 M frames (budget; they can be resumed), and the four mixture runs go on to about 1.25 B.
+For each of the ten changed layouts and for the open room with a moving goal, one grid and one PGC agent were trained from scratch in that room alone (in a layout the goal is fixed in half of the episodes and moved in the other half). That is 11 pairs, with seeds rotating over 1 to 8. Two more pairs were trained from scratch on the mixture that the fine-tuned agents saw. Hyperparameters are those of the original agents. These runs were started later than the fine-tuning. The tables use their frozen test at 450 M frames. The 22 single-room runs stop at about 450 M frames (budget; they can be resumed), and the four mixture runs go on to about 1.25 B.
 
 Frozen test in the agent's own room (score, mean of goal fixed and goal moved), next to the pretrained agents in that same room:
 
 | room | seed | from scratch: grid | from scratch: PGC | pretrained, frozen: grid, PGC | pretrained + 250 M: grid, PGC | pretrained + 500 M: grid, PGC |
 |---|---|---|---|---|---|---|
-| D1 | 1 | 14.4 | 14.1 | 17.4, 20.3 | 18.6, 23.2 | 21.8, 29.6 |
-| D2 | 2 | 50.1 | 47.9 | 13.1, 13.8 | 22.7, 26.6 | 24.4, 31.9 |
-| D3 | 3 | 32.8 | 12.4 | 10.8, 12.1 | 21.0, 26.4 | 22.5, 29.9 |
-| D4 | 4 | 56.1 | 63.6 | 17.6, 21.1 | 21.3, 26.8 | 24.6, 31.5 |
-| O1 | 5 | 60.1 | 59.2 | 27.6, 31.3 | 41.3, 46.6 | 41.7, 51.5 |
-| O2 | 6 | 48.3 | 54.6 | 38.9, 47.8 | 40.2, 48.8 | 43.1, 58.7 |
-| O3 | 7 | 50.5 | 50.3 | 41.3, 45.2 | 39.1, 44.4 | 40.9, 48.9 |
-| DO1 | 8 | 53.7 | 30.2 | 10.9, 12.9 | 17.3, 21.0 | 17.5, 26.4 |
-| DO2 | 1 | 54.9 | 51.0 | 9.6, 11.3 | 18.0, 21.5 | 20.6, 28.6 |
-| DO3 | 2 | 54.6 | 48.0 | 11.7, 12.3 | 17.4, 20.9 | 19.7, 25.6 |
-| open room, goal moves | 3 | 46.0 | 36.4 | 52.6, 56.7 | 42.6, 45.1 | 40.8, 48.2 |
-| **mean of the 11 rooms** | | **47.4** | **42.5** | **22.9, 25.9** | **27.2, 31.9** | **28.9, 37.3** |
+| D1 | 1 | 21.2 | 11.3 | 17.4, 20.3 | 18.6, 23.2 | 21.8, 29.6 |
+| D2 | 2 | 50.9 | 49.8 | 13.1, 13.8 | 22.7, 26.6 | 24.4, 31.9 |
+| D3 | 3 | 28.8 | 12.2 | 10.8, 12.1 | 21.0, 26.4 | 22.5, 29.9 |
+| D4 | 4 | 57.7 | 63.3 | 17.6, 21.1 | 21.3, 26.8 | 24.6, 31.5 |
+| O1 | 5 | 57.5 | 52.1 | 27.6, 31.3 | 41.3, 46.6 | 41.7, 51.5 |
+| O2 | 6 | 51.0 | 59.8 | 38.9, 47.8 | 40.2, 48.8 | 43.1, 58.7 |
+| O3 | 7 | 50.5 | 58.0 | 41.3, 45.2 | 39.1, 44.4 | 40.9, 48.9 |
+| DO1 | 8 | 53.6 | 32.8 | 10.9, 12.9 | 17.3, 21.0 | 17.5, 26.4 |
+| DO2 | 1 | 53.5 | 57.9 | 9.6, 11.3 | 18.0, 21.5 | 20.6, 28.6 |
+| DO3 | 2 | 52.7 | 52.2 | 11.7, 12.3 | 17.4, 20.9 | 19.7, 25.6 |
+| open room, goal moves | 3 | 47.5 | 42.5 | 52.6, 56.7 | 42.6, 45.1 | 40.8, 48.2 |
+| **mean of the 11 rooms** | | **47.7** | **44.7** | **22.9, 25.9** | **27.2, 31.9** | **28.9, 37.3** |
 
 Paired comparison of the two codes (over rooms for the from-scratch agents, over seeds for the pretrained ones):
 
@@ -329,15 +329,16 @@ Paired comparison of the two codes (over rooms for the from-scratch agents, over
 |---|---|---|---|---|---|
 | from scratch, 250 M frames in that room alone | 41.6 | 38.7 | −2.9 ± 3.2 | 0.39 | 5/11 rooms |
 | from scratch, 400 M frames in that room alone | 47.4 | 42.5 | −4.9 ± 2.9 | 0.13 | 2/11 rooms |
+| from scratch, 450 M frames in that room alone | 47.7 | 44.7 | −3.0 ± 2.9 | 0.33 | 4/11 rooms |
 | trained 1 B frames in the familiar room, frozen | 22.9 | 25.9 | +3.0 ± 2.7 | 0.29 | 6/8 seeds |
 | the same agents + 250 M frames on the mixture of changed rooms | 27.2 | 31.9 | +4.7 ± 4.9 | 0.37 | 5/8 seeds |
 | the same agents + 500 M frames on the mixture | 28.9 | 37.3 | +8.4 ± 4.5 | 0.10 | 7/8 seeds |
 
-**Trained in one room alone, an agent scores about twice as much there as the fine-tuned agents in the door rooms it has learned; elsewhere the difference is smaller, absent or reversed.** After 400 M frames in its room, a from-scratch agent scores 47.4 (grid) and 42.5 (PGC) on average, against 28.9 and 37.3 for the agents that had 1 B frames in the familiar room and then 500 M frames on the mixture. The difference is largest in the rooms with a door wall (rows D and DO of the table). Some agents had not, or only partly, learned their room in that time (own-room score below 35): D1 (grid 14.4, PGC 14.1); D3 (grid 32.8, PGC 12.4); DO1 (PGC 30.2). D1 has its door in the middle of a central wall.
+**Trained in one room alone, an agent scores about twice as much there as the fine-tuned agents in the door rooms it has learned; elsewhere the difference is smaller, absent or reversed.** After 450 M frames in its room, a from-scratch agent scores 47.7 (grid) and 44.7 (PGC) on average, against 28.9 and 37.3 for the agents that had 1 B frames in the familiar room and then 500 M frames on the mixture. The difference is largest in the rooms with a door wall (rows D and DO of the table). Some agents had not, or only partly, learned their room in that time (own-room score below 35): D1 (grid 21.2, PGC 11.3); D3 (grid 28.8, PGC 12.2); DO1 (PGC 32.8). D1 has its door in the middle of a central wall.
 
-**This is a reference level, not a matched comparison.** The from-scratch agent has spent all its frames in its one room; the fine-tuned agent has spent about a tenth of its fine-tuning frames in any one layout (2 of 21 episodes; 1 of 21 for the open room with a moving goal). The matched comparison is the mixture (below): agents trained from scratch on it score 23.4 (grid) and 27.1 (PGC) in these 11 rooms, against 28.9 and 37.3 for the fine-tuned agents: about as much or less, and far below the one-room agents. So the higher scores go with training in one room alone, not with starting from scratch. A change of room costs the from-scratch agents too: in the open room, the ten pairs that had never seen it score 34.6 (grid) and 27.2 (PGC) on average.
+**This is a reference level, not a matched comparison.** The from-scratch agent has spent all its frames in its one room; the fine-tuned agent has spent about a tenth of its fine-tuning frames in any one layout (2 of 21 episodes; 1 of 21 for the open room with a moving goal). The matched comparison is the mixture (below): agents trained from scratch on it score 30.7 (grid) and 28.3 (PGC) in these 11 rooms, against 28.9 and 37.3 for the fine-tuned agents: about as much or less, and far below the one-room agents. So the higher scores go with training in one room alone, not with starting from scratch. A change of room costs the from-scratch agents too: in the open room, the ten pairs that had never seen it score 32.0 (grid) and 29.8 (PGC) on average.
 
-**From scratch, the PGC agents are not ahead in the changed rooms.** PGC − grid is −4.9 ± 2.9 over the 11 rooms (p = 0.13; 95 % CI −11.5 to +1.7; PGC higher in 2 of 11 rooms), and −1.2 ± 2.1 over the 8 rooms that both agents of the pair have learned. For comparison, the lead of the pretrained agents in the same rooms is +3.0 frozen and +8.4 after 500 M frames of fine-tuning. Each room has one pair of agents with one seed, so room and seed cannot be separated. In the original training in the familiar room the PGC agents were ahead at the same number of frames by +10.6 ± 3.8 in the training score (p = 0.028, 8 seeds); the one-room agents are at −1.6 ± 2.8 on the same measure.
+**From scratch, the PGC agents show no lead in the changed rooms.** PGC − grid is −3.0 ± 2.9 over the 11 rooms (p = 0.33; 95 % CI −9.5 to +3.6; PGC higher in 4 of 11 rooms), and +1.8 ± 2.0 over the 8 rooms that both agents of the pair have learned. For comparison, the lead of the pretrained agents in the same rooms is +3.0 frozen and +8.4 after 500 M frames of fine-tuning. Each room has one pair of agents with one seed, so room and seed cannot be separated. In the original training in the familiar room the PGC agents were ahead at the same number of frames by +11.3 ± 3.4 in the training score (p = 0.013, 8 seeds); the one-room agents are at −2.6 ± 3.1 on the same measure.
 
 The mixture, all 21 changed-room conditions (two seeds per code, shown as seed 1, seed 2):
 
@@ -345,11 +346,13 @@ The mixture, all 21 changed-room conditions (two seeds per code, shown as seed 1
 |---|---|---|---|---|
 | from scratch on the mixture, 250 M frames | 27.6, 26.6 | 24.5, 29.1 | 38.9, 32.0 | 39.2, 30.2 |
 | from scratch on the mixture, 400 M frames | 16.1, 30.0 | 25.6, 28.3 | 33.1, 32.0 | 42.6, 24.7 |
+| from scratch on the mixture, 450 M frames | 29.5, 31.8 | 26.3, 30.1 | 35.4, 30.8 | 43.1, 25.0 |
+| from scratch on the mixture, 475 M frames | 31.3, 31.9 | 25.7, 31.5 | 42.4, 31.6 | 41.8, 32.2 |
 | trained 1 B frames in the familiar room, frozen | 23.3, 34.0 | 20.6, 21.2 | 94.0, 112.5 | 91.5, 109.6 |
 | the same agents + 250 M frames on the mixture | 21.2, 45.5 | 23.7, 28.1 | 64.5, 82.6 | 73.7, 61.0 |
 | the same agents + 500 M frames on the mixture | 22.6, 49.4 | 28.2, 35.8 | 55.8, 91.0 | 76.5, 76.0 |
 
-**For the mixture, a billion frames in the familiar room gave a head start of 150 to 200 M frames; after that the from-scratch agents score about as much as the pretrained agents or less.** The pretrained agents started at 21.5 and 24.4 without any training in the changed rooms, a level the from-scratch agents needed 150 to 200 M frames to reach (Figure 7, left). After 250 M frames on the mixture the from-scratch agents score 27.6 and 26.6 (grid) and 24.5 and 29.1 (PGC), against means of 26.5 and 31.3 for the eight pretrained agents of each code after 250 M frames of fine-tuning. After 400 M frames they score 16.1 and 30.0 (grid) and 25.6 and 28.3 (PGC); the pretrained agents after 500 M frames of fine-tuning score 21.2 to 49.4 (grid, mean 28.3) and 27.0 to 55.3 (PGC, mean 36.8). What the pretrained agents keep is the familiar room, which the from-scratch agents met only in the moved-goal episodes. With two seeds per code this is a description, not a test; later rows of the table are added as the mixture runs go on.
+**For the mixture, a billion frames in the familiar room gave a head start of 150 to 200 M frames; after that the from-scratch agents score about as much as the pretrained agents or less.** The pretrained agents started at 21.5 and 24.4 without any training in the changed rooms, a level the from-scratch agents needed 150 to 200 M frames to reach (Figure 7, left). After 250 M frames on the mixture the from-scratch agents score 27.6 and 26.6 (grid) and 24.5 and 29.1 (PGC), against means of 26.5 and 31.3 for the eight pretrained agents of each code after 250 M frames of fine-tuning. After 450 M frames they score 29.5 and 31.8 (grid) and 26.3 and 30.1 (PGC); the pretrained agents after 500 M frames of fine-tuning score 21.2 to 49.4 (grid, mean 28.3) and 27.0 to 55.3 (PGC, mean 36.8). What the pretrained agents keep is the familiar room, which the from-scratch agents met only in the moved-goal episodes. With two seeds per code this is a description, not a test; later rows of the table are added as the mixture runs go on.
 
 ## 10. The six planned tests
 
