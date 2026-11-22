@@ -141,6 +141,26 @@ def main():
   helpers['SR'] = lambda: SC['tests'][scr_mark()]['single_rooms']          # single-room block at the reported mark
   helpers['ST'] = lambda: SC['tests'][scr_mark()]
 
+  LEARNED = 35.0             # own-room score below which a from-scratch agent counts as not (fully) having learned its room
+
+  def scr_unlearned():       # 'D1 (grid 14.4, PGC 14.1); D3 (PGC 12.4) ...': agents below LEARNED in their own room
+    out = []
+    for e, v in SR()['per_room'].items():
+      low = [f'{lab} {n(v[k])}' for k, lab in (('gc', 'grid'), ('pgc', 'PGC')) if v[k] < LEARNED]
+      if low:
+        out.append(('the open room with a moving goal' if e == 'R' else e) + ' (' + ', '.join(low) + ')')
+    return '; '.join(out) if out else 'none'
+  helpers['scr_unlearned'] = scr_unlearned
+
+  def scr_learned():         # PGC - grid over the rooms that both agents of the pair have learned (one-sample statistic)
+    d = [v['pgc'] - v['gc'] for v in SR()['per_room'].values() if v['gc'] >= LEARNED and v['pgc'] >= LEARNED]
+    m_ = sum(d) / len(d)
+    sem = (sum((x - m_) ** 2 for x in d) / (len(d) - 1) / len(d)) ** 0.5
+    return f'{sg(m_)} ± {n(sem)} over the {len(d)} rooms'
+  helpers['scr_learned'] = scr_learned
+  helpers['SR'] = lambda: SC['tests'][scr_mark()]['single_rooms']
+  SR = helpers['SR']
+
   def scr_room_table(mark=None):   # one row per room: from scratch (own room) and the pretrained agents in that room
     mark = mark or scr_mark()
     if mark is None:
