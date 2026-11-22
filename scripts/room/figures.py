@@ -1,7 +1,7 @@
 """Figures of the room-change experiment (reads results/room_change/summary.json and
 results_room/eval/*.npz; writes results/room_change/figures/*.png and .svg).
 
-  python -m scripts.room.figures [--only layouts,scores,finetune,pca,gap,paths]
+  python -m scripts.room.figures [--only layouts,gallery,scores,finetune,pca,gap,paths]
 """
 import argparse
 import glob
@@ -18,7 +18,7 @@ from matplotlib import font_manager as fm  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from code.env import (BOX_COLOR, HELDOUT_LAYOUTS, PART_COLOR, TRAIN_LAYOUTS, WALL_COLORS,  # noqa: E402
+from code.env import (BOX_COLOR, HELDOUT_LAYOUTS, PART_COLOR, ROOMS, TRAIN_LAYOUTS, WALL_COLORS,  # noqa: E402
                       room_spec)
 
 for f in glob.glob(os.path.expanduser('~/.local/share/fonts/Times*.TTF')):
@@ -90,6 +90,84 @@ def fig_layouts(out):
     ax.axis('off')
     ax.set_title(n, fontsize=10, color=INK, pad=3)
   save(fig, out, 'rooms_layouts')
+
+
+def view_pose(layout):
+  """Where the camera of the room gallery stands: (x, y, heading in degrees), facing the new wall and / or the obstacle."""
+  wall, box = ROOMS[layout]
+  if wall is None and box is None:
+    return -0.5, 0.0, 0.0
+  if box is None:                       # one wall with a door: on the larger side, 1 m from the wall, looking at the door
+    axis, off, door = wall
+    side = -1.0 if off >= 0 else 1.0
+    t = -0.45 if door > 0 else 0.45
+    p, target = ((off + side, door + t), (off, door)) if axis == 'x' else ((door + t, off + side), (door, off))
+  elif wall is None:                    # one obstacle: 1.05 m away, on the side of the room centre
+    o = np.array(box, float)
+    u = -o / np.linalg.norm(o) if np.linalg.norm(o) > 0.1 else np.array([-1.0, -1.0]) / math.sqrt(2)
+    p, target = tuple(np.clip(o + 1.05 * u, -1.05, 1.05)), tuple(o)
+  else:                                 # both: on the obstacle's side of the wall, door and obstacle both in view
+    axis, off, door = wall
+    o = np.array(box, float)
+    d = np.array((off, door) if axis == 'x' else (door, off), float)
+    k = 0 if axis == 'x' else 1
+    side = np.sign(o[k] - off)
+    boxes = [b for b in room_spec(layout)['boxes'] if abs(b[0]) < 50]
+    best = None
+    for x in np.arange(-1.05, 1.051, 0.05):
+      for y in np.arange(-1.05, 1.051, 0.05):
+        q = np.array([x, y])
+        if np.sign(q[k] - off) != side or abs(q[k] - off) < 0.3:
+          continue
+        if any(b[0] - 0.2 < x < b[1] + 0.2 and b[2] - 0.2 < y < b[3] + 0.2 for b in boxes):
+          continue
+        dd, do = np.linalg.norm(d - q), np.linalg.norm(o - q)
+        sep = abs((math.atan2(*(d - q)[::-1]) - math.atan2(*(o - q)[::-1]) + math.pi) % (2 * math.pi) - math.pi)
+        if dd < 0.7 or do < 0.7 or not math.radians(20) <= sep <= math.radians(60):
+          continue
+        sc = -abs(dd - 1.3) - abs(do - 1.2) - 0.3 * abs(sep - math.radians(40))
+        if best is None or sc > best[0]:
+          best = (sc, q, (d - q) / dd + (o - q) / do)
+    p, target = tuple(best[1]), tuple(best[1] + best[2])
+  return p[0], p[1], math.degrees(math.atan2(target[1] - p[1], target[0] - p[0]))
+
+
+def fig_gallery(out):
+  """Every room from above and through the agent's eyes (the environment's own renderer, 84 x 84 pixels, 90 degree view).
+  Three images: the open room with the door layouts and the goal move; the obstacle and door + obstacle layouts;
+  the layouts never used for training."""
+  import torch
+  from code.env import ArenaEnv
+  dev = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+  sets = [('rooms_env_doors', ['open', 'D1', 'D2', 'D3', 'D4', '+R']),
+          ('rooms_env_obstacles', ['O1', 'O2', 'O3', 'DO1', 'DO2', 'DO3']),
+          ('rooms_env_new', list(HELDOUT_LAYOUTS))]
+  for name, rooms in sets:
+    fig, axs = plt.subplots(2, len(rooms), figsize=(1.75 * len(rooms), 3.75), squeeze=False)
+    for j, n in enumerate(rooms):
+      top, bot = axs[0][j], axs[1][j]
+      bot.axis('off')
+      if n == '+R':                     # the goal moves: old place dashed, new place filled
+        draw_room(top, 'open')
+        top.add_patch(plt.Circle((-0.55, 0.45), 0.30, fill=False, ec=INK2, lw=1.0, ls=(0, (3, 2))))
+        top.add_patch(plt.Circle((0.55, -0.5), 0.30, color='#1baf7a', lw=0))
+        top.annotate('', xy=(0.33, -0.3), xytext=(-0.33, 0.25), arrowprops=dict(arrowstyle='->', color=INK2, lw=1.0))
+        top.set_title('goal moves (+R)', fontsize=10, color=INK, pad=3)
+        continue
+      x, y, hd = view_pose(n)
+      draw_room(top, n)
+      for da in (-45.0, 45.0):          # the two edges of the 90 degree field of view
+        a = math.radians(hd + da)
+        top.plot([x, x + 0.5 * math.cos(a)], [y, y + 0.5 * math.sin(a)], color=INK2, lw=0.8, solid_capstyle='round')
+      top.scatter([x], [y], s=16, color=INK, zorder=5, lw=0)
+      top.set_title(n, fontsize=10, color=INK, pad=3)
+      env = ArenaEnv(1, device=dev, seed=1, rooms=None if n == 'open' else [n], img_noise=0.0)
+      env.reset_all()
+      env.pos[0] = torch.tensor((x, y), device=dev, dtype=env.pos.dtype)
+      env.hd[0] = math.radians(hd)
+      bot.imshow(env.render()[0].permute(1, 2, 0).cpu().numpy(), interpolation='nearest')
+    fig.subplots_adjust(wspace=0.08, hspace=0.06)
+    save(fig, out, name)
 
 
 def bars(ax, st_by_group, groups, ticks, ylabel=None, legend=False):
@@ -302,7 +380,7 @@ def main():
   ap.add_argument('--summary', default=os.path.join(ROOT, 'results', 'room_change', 'summary.json'))
   ap.add_argument('--eval_dir', default=os.path.join(ROOT, 'results_room', 'eval'))
   ap.add_argument('--out', default=os.path.join(ROOT, 'results', 'room_change', 'figures'))
-  ap.add_argument('--only', default='layouts,scores,finetune,pca,gap,paths')
+  ap.add_argument('--only', default='layouts,gallery,scores,finetune,pca,gap,paths')
   ap.add_argument('--path_seed', type=int, default=1)
   ap.add_argument('--path_env', type=int, default=0)
   args = ap.parse_args()
@@ -311,6 +389,8 @@ def main():
   S = json.load(open(args.summary)) if os.path.exists(args.summary) else None
   if 'layouts' in only:
     fig_layouts(args.out)
+  if 'gallery' in only:
+    fig_gallery(args.out)
   if S and 'scores' in only:
     fig_scores(S, args.out)
   if S and 'finetune' in only:

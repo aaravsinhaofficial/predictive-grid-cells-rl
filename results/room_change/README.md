@@ -4,6 +4,10 @@
 
 **What we did.** The sixteen LSTM + vision agents of the main study (8 seeds; 100 % grid cells, or grid + 33 % predictive grid cells; 1 B frames in the open room) were tested with frozen weights in changed versions of their room: a wall with one door, an obstacle, both, and a goal that moves in mid-episode. All sixteen were then trained for another 250 M frames in the changed rooms and tested again, and once more after 500 M frames. Two references: the same extra frames in the familiar room (2 seeds per code), and agents trained from scratch in the changed rooms (one pair per room).
 
+![rooms](figures/rooms_layouts.png)
+
+*Figure 1a. The rooms. Top: floor plans. **open** is the familiar room. **D1–D4** add a wall with one 0.6 m door, **O1–O3** one 0.5 m obstacle, **DO1–DO3** both. **H1–H3** are never used for training. **+R** means the goal jumps to a new place, unannounced, halfway through the episode. Bottom: what the agent sees in four of the rooms. Every room is shown larger in Figure 1b.*
+
 **In short.** None of the six planned tests is significant. In changed rooms the PGC agents score more on average: by 3.0 points when frozen, 4.8 after the planned 250 M frames of fine-tuning (p = 0.37) and 8.5 after 500 M (p = 0.11), a lead that eight seeds cannot tell from zero. Unplanned comparisons give three leads still to be confirmed: a larger PGC gain with fine-tuning (p = 0.072 over 500 M frames), activity that stays more concentrated in the PGC agents (first 10 components: +2.3 points after 250 M frames, +3.3 after 500 M, +5.9 before), and more time spent at a moved goal's old place. Among agents trained from scratch in the changed rooms the PGC agents show no lead (−3.0 ± 2.9 over 11 rooms after 450 M frames, one seed per room).
 
 **The numbers.** Scores are goals × 10 per 90 s episode. Pairs of numbers are always grid first, then PGC. Differences are PGC − grid, mean ± SEM over the 8 seeds, paired; p values are uncorrected paired t-tests.
@@ -34,9 +38,13 @@
 
 ## The rooms
 
-![rooms](figures/rooms_layouts.png)
+![the familiar room, the door layouts and a goal move](figures/rooms_env_doors.png)
 
-*Figure 1. Top: floor plans. **open** is the familiar room. **D1–D4** add a wall with one 0.6 m door, **O1–O3** one 0.5 m obstacle, **DO1–DO3** both. **H1–H3** are never used for training. **+R** means the goal jumps to a new place, unannounced, halfway through the episode. Bottom: what the agent sees in four of the rooms.*
+![the obstacle layouts and the door + obstacle layouts](figures/rooms_env_obstacles.png)
+
+<img src="figures/rooms_env_new.png" alt="the layouts never used for training" width="50%">
+
+*Figure 1b. Every room from above and through the agent's eyes. Top rows: the dot is where the agent stands, and the two lines are the edges of its 90° view. Bottom rows: what it sees from there, drawn by the environment at the agent's own resolution (84 × 84 pixels). First image: the familiar room, the four door layouts, and a goal move. Second: the three obstacle layouts and the three door + obstacle layouts. Third: the three layouts never used for training.*
 
 Everything else is the task of the main study ([main README](../../README.md)): a 2.5 m room, one hidden goal per 90 s episode, +10 for reaching it, then a teleport to a random pose while the goal stays. The four outer walls keep their colours and their per-episode stripes and landmarks; the new wall is grey and the obstacle purple. Walls and the obstacle block movement (the agent slides along them) and sight. The grid and predictive codes are computed from the agent's true position exactly as before, so a predictive cell near a wall reads its map 20 cm ahead even when that point lies behind the wall.
 
