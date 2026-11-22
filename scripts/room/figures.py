@@ -61,32 +61,139 @@ def draw_room(ax, layout, lw=2.2):
                                  color=[x * 0.8 for x in PART_COLOR] if k < 2 else BOX_COLOR))
 
 
-def fig_layouts(out):
+GOAL, GOAL_R, EYE = '#1baf7a', 0.30, 0.45      # goal colour, goal radius (m), renderer: wall half-height x depth
+
+
+def goal_outline(g, k=72):
+  """Points on the rim of the goal disc centred at g (the floor where the goal counts as reached), cut at the outer walls."""
+  a = np.linspace(0.0, 2.0 * math.pi, k)
+  return np.clip(np.stack([g[0] + GOAL_R * np.cos(a), g[1] + GOAL_R * np.sin(a)], 1), -HALF, HALF)
+
+
+def seen(pts, x, y, hd, boxes):
+  """Which floor points the camera at (x, y, hd) sees: inside the 90 degree view, in the image, not behind a wall."""
+  _, _, b, d = to_view(pts, x, y, hd)
+  cam = np.array([x, y])
+  return np.array([abs(bi) <= math.radians(45) and di >= EYE and not blocked(cam, p, boxes)
+                   for p, bi, di in zip(pts, b, d)])
+
+
+def blocked(c, p, boxes):
+  """Does the straight line from c to p pass through one of the boxes (new wall segments, obstacle)?"""
+  d = p - c
+  for b in boxes:
+    t0, t1 = 0.0, 1.0
+    for k in (0, 1):
+      lo, hi = b[2 * k], b[2 * k + 1]
+      if abs(d[k]) < 1e-12:
+        if not lo <= c[k] <= hi:
+          t0, t1 = 1.0, 0.0
+        continue
+      u, v = (lo - c[k]) / d[k], (hi - c[k]) / d[k]
+      t0, t1 = max(t0, min(u, v)), min(t1, max(u, v))
+    if t0 < t1:
+      return True
+  return False
+
+
+def to_view(pts, x, y, hd, fov=90.0, W=84):
+  """Floor points -> pixel coordinates of the first-person view, as the raycast renderer places them: the column is
+  linear in the bearing, the row of a floor point at perpendicular depth d is that of a wall's foot at that depth."""
+  b = np.arctan2(pts[:, 1] - y, pts[:, 0] - x) - math.radians(hd)
+  b = (b + math.pi) % (2.0 * math.pi) - math.pi
+  d = np.hypot(pts[:, 0] - x, pts[:, 1] - y) * np.cos(b)
+  f = math.radians(fov)
+  return (f / 2.0 - b) / f * W - 0.5, (EYE / d + 1.0) / 2.0 * W - 0.5, b, d
+
+
+def example_goals(layout, x, y, hd, n=1, inside=True):
+  """n example goal centres for a room, drawn by the environment's rule (uniform over the floor, a goal radius clear
+  of the new wall and the obstacle; a moved goal at least 1 m from the old one), keeping the first draws whose whole
+  centre and nearly all of whose rim are seen from (x, y, hd); inside=True also keeps the whole disc off the outer walls
+  (for a clearer picture), and is dropped for a room where no such draw is seen."""
+  from code.env import RELOC_MIN
+  boxes = [b for b in room_spec(layout)['boxes'] if abs(b[0]) < 50]
+  rng = np.random.default_rng(list(layout.encode()))
+  lim, cam, out = HALF - 0.08, np.array([x, y]), []
+  for _ in range(200000):
+    g = rng.uniform(-lim, lim, 2)
+    if any(b[0] - GOAL_R < g[0] < b[1] + GOAL_R and b[2] - GOAL_R < g[1] < b[3] + GOAL_R for b in boxes):
+      continue
+    if any(np.linalg.norm(g - o) < RELOC_MIN for o in out) or not 0.8 <= np.linalg.norm(g - cam) <= 1.8:
+      continue
+    if inside and np.abs(g).max() > HALF - GOAL_R:
+      continue
+    if not seen(g[None], x, y, hd, boxes)[0] or seen(goal_outline(g, 36), x, y, hd, boxes).mean() < 0.85:
+      continue
+    out.append(g)
+    if len(out) == n:
+      return out
+  if inside:
+    return example_goals(layout, x, y, hd, n, inside=False)
+  raise RuntimeError(f'no example goal in view for {layout}')
+
+
+def draw_goal(ax, g, moved_from=False):
+  """Goal disc on a floor plan (filled), or the place a goal moved away from (dashed rim)."""
+  clip = plt.Rectangle((-HALF, -HALF), 2 * HALF, 2 * HALF, transform=ax.transData, visible=False)
+  ax.add_patch(clip)
+  c = (plt.Circle(g, GOAL_R, fill=False, ec=INK2, lw=1.0, ls=(0, (3, 2)), zorder=4) if moved_from
+       else plt.Circle(g, GOAL_R, color=GOAL, lw=0, alpha=0.85, zorder=4))
+  ax.add_patch(c)
+  c.set_clip_path(clip)
+
+
+def draw_goal_view(ax, g, x, y, hd, layout, moved_from=False):
+  """The rim of the goal disc where it lies on the floor of the first-person view (the agent itself cannot see it);
+  parts hidden behind a wall or the obstacle are left out."""
+  pts = goal_outline(g)
+  u, v, _, _ = to_view(pts, x, y, hd)
+  hide = ~seen(pts, x, y, hd, [b for b in room_spec(layout)['boxes'] if abs(b[0]) < 50])
+  u, v = np.where(hide, np.nan, u), np.where(hide, np.nan, v)
+  ax.plot(u, v, color='white' if moved_from else GOAL, lw=1.3, ls=(0, (2.5, 1.5)) if moved_from else '-',
+          solid_capstyle='round', zorder=5)
+  ax.set_xlim(-0.5, 83.5)
+  ax.set_ylim(83.5, -0.5)
+
+
+def draw_move(ax, old, new):
+  """Old place (dashed), new place (filled) and an arrow from one to the other."""
+  draw_goal(ax, old, moved_from=True)
+  draw_goal(ax, new)
+  d = (new - old) / np.linalg.norm(new - old)
+  ax.annotate('', xy=tuple(new - 1.1 * GOAL_R * d), xytext=tuple(old + 1.1 * GOAL_R * d),
+              arrowprops=dict(arrowstyle='->', color=INK2, lw=1.0), zorder=5)
+
+
+def render_view(layout, x, y, hd):
   import torch
   from code.env import ArenaEnv
+  dev = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+  env = ArenaEnv(1, device=dev, seed=1, rooms=None if layout == 'open' else [layout], img_noise=0.0)
+  env.reset_all()
+  env.pos[0] = torch.tensor((x, y), device=dev, dtype=env.pos.dtype)
+  env.hd[0] = math.radians(hd)
+  return env.render()[0].permute(1, 2, 0).cpu().numpy()
+
+
+def fig_layouts(out):
   names = ['open'] + list(TRAIN_LAYOUTS) + list(HELDOUT_LAYOUTS)
   fig = plt.figure(figsize=(10.5, 5.6))
   gs = fig.add_gridspec(3, 8, height_ratios=[1, 1, 1.5], hspace=0.28, wspace=0.12)
   for i, n in enumerate(names):
     ax = fig.add_subplot(gs[i // 8, i % 8])
     draw_room(ax, n)
+    draw_goal(ax, example_goals(n, *view_pose(n))[0])
     ax.set_title(n, fontsize=10, color=INK, pad=3)
   ax = fig.add_subplot(gs[1, 6])          # goal relocation
   draw_room(ax, 'open')
-  ax.add_patch(plt.Circle((-0.55, 0.45), 0.30, fill=False, ec=INK2, lw=1.0, ls=(0, (3, 2))))
-  ax.add_patch(plt.Circle((0.55, -0.5), 0.30, color='#1baf7a', lw=0))
-  ax.annotate('', xy=(0.33, -0.3), xytext=(-0.33, 0.25), arrowprops=dict(arrowstyle='->', color=INK2, lw=1.0))
+  draw_move(ax, *example_goals('open', *view_pose('open'), n=2))
   ax.set_title('+R', fontsize=10, color=INK, pad=3)
-  dev = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-  views = [('open', (-0.5, 0.0), 0), ('D1', (-0.8, -0.6), 20), ('O1', (-0.9, -0.9), 45), ('DO2', (-0.8, -0.8), 60)]
-  for j, (n, pos, hd) in enumerate(views):
-    env = ArenaEnv(1, device=dev, seed=1, rooms=None if n == 'open' else [n], img_noise=0.0)
-    env.reset_all()
-    env.pos[0] = torch.tensor(pos, device=dev)
-    env.hd[0] = math.radians(hd)
-    img = env.render()[0].permute(1, 2, 0).cpu().numpy()
+  for j, n in enumerate(('open', 'D1', 'O1', 'DO2')):
+    x, y, hd = view_pose(n)
     ax = fig.add_subplot(gs[2, 2 * j:2 * j + 2])
-    ax.imshow(img, interpolation='nearest')
+    ax.imshow(render_view(n, x, y, hd), interpolation='nearest')
+    draw_goal_view(ax, example_goals(n, x, y, hd)[0], x, y, hd, n)
     ax.axis('off')
     ax.set_title(n, fontsize=10, color=INK, pad=3)
   save(fig, out, 'rooms_layouts')
@@ -133,12 +240,9 @@ def view_pose(layout):
 
 
 def fig_gallery(out):
-  """Every room from above and through the agent's eyes (the environment's own renderer, 84 x 84 pixels, 90 degree view).
-  Three images: the open room with the door layouts and the goal move; the obstacle and door + obstacle layouts;
-  the layouts never used for training."""
-  import torch
-  from code.env import ArenaEnv
-  dev = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+  """Every room from above and through the agent's eyes (the environment's own renderer, 84 x 84 pixels, 90 degree view),
+  with one example goal. Three images: the open room with the door layouts and the goal move; the obstacle and
+  door + obstacle layouts; the layouts never used for training."""
   sets = [('rooms_env_doors', ['open', 'D1', 'D2', 'D3', 'D4', '+R']),
           ('rooms_env_obstacles', ['O1', 'O2', 'O3', 'DO1', 'DO2', 'DO3']),
           ('rooms_env_new', list(HELDOUT_LAYOUTS))]
@@ -147,25 +251,24 @@ def fig_gallery(out):
     for j, n in enumerate(rooms):
       top, bot = axs[0][j], axs[1][j]
       bot.axis('off')
-      if n == '+R':                     # the goal moves: old place dashed, new place filled
-        draw_room(top, 'open')
-        top.add_patch(plt.Circle((-0.55, 0.45), 0.30, fill=False, ec=INK2, lw=1.0, ls=(0, (3, 2))))
-        top.add_patch(plt.Circle((0.55, -0.5), 0.30, color='#1baf7a', lw=0))
-        top.annotate('', xy=(0.33, -0.3), xytext=(-0.33, 0.25), arrowprops=dict(arrowstyle='->', color=INK2, lw=1.0))
-        top.set_title('goal moves (+R)', fontsize=10, color=INK, pad=3)
-        continue
-      x, y, hd = view_pose(n)
-      draw_room(top, n)
+      layout = 'open' if n == '+R' else n
+      x, y, hd = view_pose(layout)
+      draw_room(top, layout)
       for da in (-45.0, 45.0):          # the two edges of the 90 degree field of view
         a = math.radians(hd + da)
         top.plot([x, x + 0.5 * math.cos(a)], [y, y + 0.5 * math.sin(a)], color=INK2, lw=0.8, solid_capstyle='round')
       top.scatter([x], [y], s=16, color=INK, zorder=5, lw=0)
-      top.set_title(n, fontsize=10, color=INK, pad=3)
-      env = ArenaEnv(1, device=dev, seed=1, rooms=None if n == 'open' else [n], img_noise=0.0)
-      env.reset_all()
-      env.pos[0] = torch.tensor((x, y), device=dev, dtype=env.pos.dtype)
-      env.hd[0] = math.radians(hd)
-      bot.imshow(env.render()[0].permute(1, 2, 0).cpu().numpy(), interpolation='nearest')
+      top.set_title('goal moves (+R)' if n == '+R' else n, fontsize=10, color=INK, pad=3)
+      bot.imshow(render_view(layout, x, y, hd), interpolation='nearest')
+      if n == '+R':                     # the goal moves: old place dashed, new place filled
+        old, new = example_goals('open', x, y, hd, n=2)
+        draw_move(top, old, new)
+        draw_goal_view(bot, old, x, y, hd, layout, moved_from=True)
+        draw_goal_view(bot, new, x, y, hd, layout)
+      else:
+        g = example_goals(layout, x, y, hd)[0]
+        draw_goal(top, g)
+        draw_goal_view(bot, g, x, y, hd, layout)
     fig.subplots_adjust(wspace=0.08, hspace=0.06)
     save(fig, out, name)
 
