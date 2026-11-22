@@ -1,8 +1,8 @@
 """Fill the numbers of the room-change write-up from results/room_change/summary.json.
 
-results/room_change/README.template.md holds the text; every number is a
-placeholder {{...}} evaluated against the summary, so the README cannot drift
-from the data. Helpers (st = a paired statistic of the summary):
+results/room_change/README.template.md (the short version) and DETAILS.template.md
+(the full write-up) hold the text; every number is a placeholder {{...}} evaluated
+against the summary, so neither page can drift from the data. Helpers (st = a paired statistic of the summary):
 
   S                         the summary (dict);  X['excl3'] the summary of a sensitivity analysis;
                             SC = scratch.json (from-scratch reference runs)
@@ -16,7 +16,7 @@ from the data. Helpers (st = a paired statistic of the summary):
   row(label, x)   a table row  | label | grid | PGC | difference | p | k/n |
   n(value, digits)  plain number;  pct(value) percentage
 
-  python -m scripts.room.render_readme            # writes results/room_change/README.md
+  python -m scripts.room.render_readme            # writes results/room_change/README.md and DETAILS.md
 """
 import argparse
 import glob
@@ -81,7 +81,9 @@ def main():
       trained_rooms=S['groups']['changed'], new_rooms=S['groups']['new_rooms'] + S['groups']['new_rooms_goal_moved'],
       extra=(S.get('long_m') or 0) - 1000, long_b=(S.get('long_m') or 0) / 1000.0,
       sum=sum, max=max, min=min, len=len, abs=abs, str=str, int=int, sorted=sorted, round=round, zip=zip, enumerate=enumerate,
-      range=range)
+      range=range,
+      gl=lambda x, nd=1: n(x / 10.0, nd),                  # a score as goals per episode (10 points per goal)
+      more=lambda x, nd=0: n(100.0 * (x['pgc'] / x['gc'] - 1.0), nd))   # how many per cent higher PGC is than grid
   helpers['fmt_p'] = fmt_p
 
   def conf_table():          # the planned contrasts of S['confirmatory'] as table rows
@@ -212,13 +214,21 @@ def main():
     return ', '.join(n(v, nd) for v in x[key + '_seeds'])
   helpers['seeds'] = seeds
 
+  pages = ([(args.template, args.out or os.path.join(args.dir, 'README.md'))] if args.template else
+           [(os.path.join(args.dir, t + '.template.md'), os.path.join(args.dir, t + '.md')) for t in ('README', 'DETAILS')
+            if os.path.exists(os.path.join(args.dir, t + '.template.md'))])
+  for tpl, path in pages:
+    render(tpl, path, helpers, S, X)
+
+
+def render(tpl, path, helpers, S, X):
   def sub(m):
     try:
       return str(eval(m.group(1), dict(helpers, __builtins__={})))      # helpers as globals: visible inside comprehensions
     except Exception as e:           # a number that does not exist (yet) stays visible
       return f'??[{m.group(1)}: {type(e).__name__}]'
 
-  text = open(args.template or os.path.join(args.dir, 'README.template.md')).read()
+  text = open(tpl).read()
   # optional blocks: <!--IF long--> ... <!--END--> are kept only when the summary has that state
   def block(m):
     key = m.group(1)
@@ -229,7 +239,6 @@ def main():
   text = re.sub(r'^<!--IF (\w+)-->\n(.*?)^<!--END-->\n', block, text, flags=re.S | re.M)
   text = re.sub(r'<!--IF (\w+)-->(.*?)<!--END-->', block, text, flags=re.S)
   out = re.sub(r'\{\{(.+?)\}\}', sub, text)
-  path = args.out or os.path.join(args.dir, 'README.md')
   open(path, 'w').write(out)
   missing = len(re.findall(r'\?\?', out))
   print(f'wrote {path} ({missing} unresolved placeholders)')
