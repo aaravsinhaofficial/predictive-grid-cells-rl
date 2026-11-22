@@ -197,8 +197,9 @@ def fig_pca(S, out):
   panels = [('before', 'familiar', 'familiar room, before')]
   if last:
     panels += [(last, 'familiar', f'familiar room, {tt[last]}'), (last, 'changed', f'changed rooms, {tt[last]}')]
-  fig, axs = plt.subplots(1, len(panels) + 1, figsize=(3.3 * len(panels) + 4.2, 3.3), squeeze=False,
-                          gridspec_kw=dict(width_ratios=[1] * len(panels) + [1.35]))
+  nst = sum(s_ in P for s_ in ('before', 'after', 'long'))
+  fig, axs = plt.subplots(1, len(panels) + 1, figsize=(3.3 * len(panels) + (4.2 if nst < 3 else 5.2), 3.3), squeeze=False,
+                          gridspec_kw=dict(width_ratios=[1] * len(panels) + [1.35 if nst < 3 else 1.7]))
   for ax, (state, proto, t) in zip(axs[0], panels):
     for c in ('gc100', 'pgc33'):
       cu = P[state][proto][f'cumulative_{c}']
@@ -226,7 +227,9 @@ def fig_pca(S, out):
       ax.errorbar(i + off, st[key], yerr=st[key + '_sem'], color=INK, lw=0.9, zorder=3)
       ax.scatter([i + off], [st[key]], s=42, color=COL[c], edgecolor='white', lw=1.2, zorder=4)
   ax.set_xticks(range(len(cells)))
-  ax.set_xticklabels([c[2] for c in cells], fontsize=9.5)
+  ax.set_xticklabels([short[c[0]] for c in cells], fontsize=9.5)
+  for gi, pr in enumerate(('familiar room', 'changed rooms')):      # one group label per replay
+    ax.text(gi * nst + (nst - 1) / 2, -0.115, pr, transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10.5, color=INK)
   ax.tick_params(axis='x', length=0)
   ax.set_xlim(-0.5, len(cells) - 0.5)
   ax.set_title('first 10 components', fontsize=10.5)
