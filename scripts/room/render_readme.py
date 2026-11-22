@@ -127,9 +127,10 @@ def main():
     return '\n'.join(rows)
   helpers['scr_table'] = scr_table
 
-  def scr_mark():            # the latest frame mark at which every single-room pair has been tested
+  def scr_mark():            # the latest frame mark at which every from-scratch agent has been tested
     T = SC.get('tests', {})
-    ok = [m for m in sorted(T, key=int) if len(T[m].get('single_rooms', {}).get('rooms', [])) >= int(os.environ.get('ROOM_SCR_MIN', 11))]
+    ok = [m for m in sorted(T, key=int) if len(T[m].get('single_rooms', {}).get('rooms', [])) >= int(os.environ.get('ROOM_SCR_MIN', 11))
+          and len(T[m].get('mixture', {})) == 4]          # every single-room pair and all four mixture agents tested
     return ok[-1] if ok else None
   helpers['scr_mark'] = scr_mark
 
