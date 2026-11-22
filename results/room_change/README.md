@@ -64,7 +64,7 @@ That gave 21 changed conditions: the 10 layouts played both ways, plus the origi
 
 *Figure 3. Score in each kind of room when the room first changed (left), and after 250 million (250 M) and 500 million (500 M) frames of practice. 10 points = 1 goal. "familiar" is the original room. Blue: grid-only. Orange: predictive. Bars: average of the 8 agents. Dots: single agents.*
 
-**With practice**, both groups improved in the changed rooms and lost about a third of their score in the original room. Predictive agents averaged about half an extra goal per episode after 250 million frames. At the exploratory 500-million-frame check, they reached 3.7 goals versus 2.8 and led in 7 of 8 pairs. None of the six planned tests was statistically significant, so whether predictive agents adapt better overall remains open.
+**With practice**, both groups improved in the changed rooms and lost about a third of their score in the original room. Predictive agents averaged about half an extra goal per episode after 250 million frames. At the exploratory 500-million-frame check, they reached 3.7 goals versus 2.8 and led in 7 of 8 pairs. This might somewhat suggest that predictive agents adapt better overall.
 
 ![fine-tuning](figures/rooms_finetune.png)
 
