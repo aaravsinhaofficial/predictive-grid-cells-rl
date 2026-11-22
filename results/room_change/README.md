@@ -8,7 +8,7 @@ It had 90 seconds (1,350 steps) to find an invisible goal as many times as possi
 
 ## 2. What were the two kinds of agents?
 
-Both had first-person vision and the same kind of memory network. We trained eight pairs for one billion frames each in the original open room.
+Both had first-person vision and were both the LSTM agents. We trained eight pairs for one billion frames each in the original open room.
 
 - The **grid-only agent** received spatial signals about where it was.
 - The **predictive agent** had one third of those signals replaced with signals about a spot roughly 20 cm ahead of it.
