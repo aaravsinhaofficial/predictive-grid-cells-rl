@@ -107,6 +107,7 @@ def check_resume_config(cfg, path):
   rebuilt from the requested arguments must reproduce it (same cells, PGC
   indices and shifts)."""
   old = json.load(open(path))
+  old.setdefault('rooms', 'none')      # configs written before the changed rooms existed
   bad = {k: (old.get(k), cfg.get(k)) for k in EXPERIMENT_KEYS
          if old.get(k) is not None and old.get(k) != cfg.get(k)}
   if bad:
@@ -275,9 +276,14 @@ def main(argv=None):
   prev_action = torch.full((n,), -1, dtype=torch.long, device=dev)   # -1 = none
   prev_reward = torch.zeros(n, device=dev)
   recent = dict(ret=[], goals=[], first=[], eff=[])
-  ep_f = open(os.path.join(cfg['out'], 'episodes.csv'), 'a')
+  ep_path = os.path.join(cfg['out'], 'episodes.csv')
+  ep_f = open(ep_path, 'a')
   if ep_f.tell() == 0:
-    ep_f.write('frames,update,env,ret,n_goals,first_goal_step,path_eff,path_eff_n\n')
+    ep_f.write('frames,update,env,ret,n_goals,first_goal_step,path_eff,path_eff_n,room,n_goals_post\n')
+    room_cols = True       # new files also log the room condition of each episode
+  else:
+    with open(ep_path) as f:
+      room_cols = 'room' in f.readline()
   metrics_f = open(os.path.join(cfg['out'], 'metrics.jsonl'), 'a')
   print(f'{cfg["cond"]} policy={cfg["policy"]} seed={cfg["seed"]} n_pgc={pop.n_pgc}'
         f'{" (silenced)" if cfg.get("silence_pgc") else ""}/'
@@ -352,7 +358,8 @@ def main(argv=None):
             for j in range(es['env'].numel()):
               ret, ng = float(es['ret'][j]), int(es['n_goals'][j])
               fg, pe, pen = int(es['first_goal_t'][j]), float(es['path_eff'][j]), int(es['path_eff_n'][j])
-              ep_f.write(f'{frames_done},{update},{int(es["env"][j])},{ret:.1f},{ng},{fg},{pe:.4f},{pen}\n')
+              tail = f',{env.room_names[int(es["room"][j])]},{int(es["n_goals_post"][j])}' if room_cols else ''
+              ep_f.write(f'{frames_done},{update},{int(es["env"][j])},{ret:.1f},{ng},{fg},{pe:.4f},{pen}{tail}\n')
               recent['ret'].append(ret)
               recent['goals'].append(ng)
               recent['first'].append(fg if fg >= 0 else cfg['episode_len'])

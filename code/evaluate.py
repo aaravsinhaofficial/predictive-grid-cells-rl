@@ -217,7 +217,7 @@ def main(argv=None):
                      n_envs=args.n_envs, seed=args.seed, greedy=args.greedy,
                      code_noise=args.code_noise, paired=bool(args.paired))
     res.update(ckpt=ckpt_path, frames=0 if probe == 'untrained' else ckpt_frames,
-               canonical=canonical, run=args.run, cond=cfg['cond'],
+               canonical=canonical, run=args.run, cond=cfg['cond'], rooms=cfg.get('rooms', 'none'),
                policy=cfg['policy'], vision=cfg.get('vision'), seed=cfg['seed'])
     tag = probe
     if not canonical:

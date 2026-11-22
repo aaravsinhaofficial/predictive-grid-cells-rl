@@ -47,7 +47,7 @@ EXPERIMENT_KEYS = (
     'arena_half', 'episode_len', 'action_repeat', 'v_max', 'rot_max', 'goal_radius',
     'vision', 'img_noise', 'randomize_textures', 'policy', 'conv_arch', 'nh',
     'encoder_norm', 'forward_bias', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
-    'rms_alpha', 'rms_eps', 'entropy', 'value_coef', 'grad_clip', 'reward_clip')
+    'rms_alpha', 'rms_eps', 'entropy', 'value_coef', 'grad_clip', 'reward_clip', 'rooms')
 
 
 def add_shared_args(ap: argparse.ArgumentParser):
@@ -107,6 +107,11 @@ def add_shared_args(ap: argparse.ArgumentParser):
   e.add_argument('--vision', choices=['raycast', 'heading_only', 'sighted', 'none'],
                  default='raycast')
   e.add_argument('--img_noise', type=float, default=0.02)
+  e.add_argument('--rooms', default='none',
+                 help="'none': the familiar open room; 'changed': every episode draws one "
+                      'of the changed rooms (a wall with one door, an obstacle, both, with '
+                      'or without a mid-episode goal relocation; env.CHANGED); or a comma '
+                      "list of room conditions, e.g. 'D1,O2+R'")
   e.add_argument('--randomize_textures', type=int, default=1,
                  help='1: landmark/stripe layout re-drawn every episode (paper); '
                       '0: fixed layout (a single frame then reveals position)')
@@ -157,13 +162,18 @@ def build_population(cfg, device):
       pgc_shift_frac=cfg.get('pgc_shift_frac', 0.5), cell_type=cfg.get('cell_type', 'grid'))
 
 
-def build_env(cfg, n, seed, device, stagger=True, paired=False):
+def build_env(cfg, n, seed, device, stagger=True, paired=False, rooms='cfg'):
+  """rooms='cfg' takes the run's own setting; pass a room list (or None for
+  the familiar room) to test a run somewhere else."""
+  if rooms == 'cfg':
+    rooms = cfg.get('rooms', 'none')
   return ArenaEnv(n, half=cfg['arena_half'], episode_len=cfg['episode_len'],
                   action_repeat=cfg['action_repeat'], v_max=cfg['v_max'],
                   rot_max=cfg['rot_max'], goal_radius=cfg['goal_radius'],
                   vision=cfg['vision'], img_noise=cfg['img_noise'],
                   randomize_textures=bool(cfg.get('randomize_textures', 1)),
-                  stagger=stagger, paired=paired, pair_seed=seed, seed=seed, device=device)
+                  stagger=stagger, paired=paired, pair_seed=seed, seed=seed, device=device,
+                  rooms=rooms)
 
 
 def build_policy(cfg, device):
