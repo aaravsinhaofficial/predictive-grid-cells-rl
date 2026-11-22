@@ -2,7 +2,7 @@
 
 **Question.** Predictive grid cells (PGC) help an agent reach the goal in the room it was trained in. Do they still help when that room changes?
 
-**What we did.** The sixteen LSTM + vision agents of the main study (8 seeds; 100 % grid cells, or grid + 33 % predictive grid cells; 1 B frames in the open room) were tested with frozen weights in changed versions of their room: a wall with one door, an obstacle, both, and a goal that moves in mid-episode. All sixteen were then trained for another 250 M frames in the changed rooms and tested again. Two references: the same extra frames in the familiar room (2 seeds per code), and agents trained from scratch in the changed rooms (one pair per room).
+**What we did.** The sixteen LSTM + vision agents of the main study (8 seeds; 100 % grid cells, or grid + 33 % predictive grid cells; 1 B frames in the open room) were tested with frozen weights in changed versions of their room: a wall with one door, an obstacle, both, and a goal that moves in mid-episode. All sixteen were then trained for another 250 M frames in the changed rooms and tested again, and once more after 500 M frames. Two references: the same extra frames in the familiar room (2 seeds per code), and agents trained from scratch in the changed rooms (one pair per room).
 
 **Short answers.** Scores are goals × 10 per 90 s episode. Pairs of numbers are always grid first, then PGC. Differences are PGC − grid, mean ± SEM over the 8 seeds, paired; p values are uncorrected paired t-tests.
 
@@ -11,21 +11,24 @@
 | familiar room, 1 B agents | 96.9 | 106.1 | +9.3 ± 3.3 | 0.027 |
 | changed rooms, same agents, frozen | 21.5 | 24.4 | +3.0 ± 2.8 | 0.32 |
 | changed rooms, after 250 M frames there | 26.5 | 31.3 | +4.8 ± 5.0 | 0.37 |
+| changed rooms, after 500 M frames there | 28.3 | 36.8 | +8.5 ± 4.6 | 0.11 |
 | familiar room, after 250 M frames in the changed rooms | 60.7 | 69.4 | +8.7 ± 7.7 | 0.29 |
+| familiar room, after 500 M frames in the changed rooms | 58.3 | 75.1 | +16.8 ± 8.6 | 0.093 |
 | first 10 PCs, share of variance, 1 B agents | 46.4 % | 52.3 % | +5.9 ± 0.4 points | < 0.001 |
 | first 10 PCs, after 250 M frames in the changed rooms | 46.8 % | 49.1 % | +2.3 ± 1.1 points | 0.075 |
+| first 10 PCs, after 500 M frames in the changed rooms | 45.7 % | 48.9 % | +3.3 ± 0.9 points | 0.010 |
 
 1. **A changed room costs both codes about four fifths of their score.** Frozen agents keep 22 % (grid) and 23 % (PGC) of their familiar-room score (difference +1.0 ± 2.3 percentage points). The PGC agents stay ahead on average (in 6/8 seeds), but the lead is +3.0 points instead of +9.3, and eight seeds cannot separate it from zero.
-2. **If anything of the advantage survives, it is in the returns.** Once the goal is found, PGC agents collect more goals (grid 2.86, PGC 3.35 per 1000 steps, p = 0.033) and tend to take more direct paths around the wall or obstacle (p = 0.082). No difference was found in how often or how soon the goal is first found. These are the frozen 1 B agents; after fine-tuning neither difference is significant.
-3. **Fine-tuning is slow, and whether it favours a code stays open.** After 250 M frames in the changed rooms the score there is +5.0 ± 1.4 (grid) and +6.9 ± 3.1 (PGC) points higher. The lead after fine-tuning is +4.8 (95 % CI −7.1 to +16.7). In the frozen test it changed by +1.9 ± 3.2 (p = 0.58); in the training score it grew by +3.9 ± 1.7 (p = 0.051). Both codes lose more than a third of their familiar-room score.
-4. **The PGC agents' activity is more concentrated before fine-tuning; after it the difference is weaker.** At 1 B the first 10 principal components hold more of the variance in the PGC agent of every seed, in the familiar room and just as much in the changed rooms (grid 46.8 %, PGC 52.5 %). After fine-tuning the PGC share is still higher in 7/8 seeds, but with all eight seeds the difference is less than half as large and not significant (p = 0.075); without the seed whose grid agent collapsed during fine-tuning it is about half as large (p = 0.014). In the familiar-room replay the PGC share fell in all eight agents (by 3.2 ± 0.5 points); the grid agents' share did not change on average (+0.3 ± 1.1).
-5. **After a goal move the frozen PGC agents stay longer at the old place.** Agents that know the goal keep returning to where it was. In the open room the PGC agents spend more of that time there (share of time near the old goal minus the share in a control zone: grid 0.58, PGC 0.71, p = 0.007), and both codes find the moved goal about equally rarely (in 5.1 % and 4.3 % of episodes). After fine-tuning both codes stay less, and the PGC agents still tend to stay longer (grid 0.25, PGC 0.35, p = 0.098).
-6. **The predictive cells are used in the changed rooms.** Silencing the 169 predictive cells of a PGC agent costs more than silencing 169 random grid cells: +3.1 ± 0.6 points in the changed rooms before fine-tuning and +1.9 ± 0.5 after it (both p < 0.01).
+2. **If anything of the advantage survives, it is in the returns.** Once the goal is found, PGC agents collect more goals (grid 2.86, PGC 3.35 per 1000 steps, p = 0.033) and tend to take more direct paths around the wall or obstacle (p = 0.082). No difference was found in how often or how soon the goal is first found. These are the frozen 1 B agents. After fine-tuning both differences point the same way (goal rate: p = 0.30 after 250 M frames, p = 0.099 after 500 M; path efficiency: p = 0.17 and p = 0.046).
+3. **Fine-tuning is slow, and the PGC agents tend to gain more from it.** After 250 M frames in the changed rooms the score there is +5.0 ± 1.4 (grid) and +6.9 ± 3.1 (PGC) points higher, after 500 M frames +6.9 ± 2.1 and +12.4 ± 2.7. The PGC lead is +3.0 ± 2.8 before, +4.8 ± 5.0 after 250 M and +8.5 ± 4.6 after 500 M frames (p = 0.11, PGC higher in 7/8 seeds). The larger PGC gain is borderline over the whole 500 M frames (+5.5 ± 2.6, p = 0.072) and clearer in the second half (+3.7 ± 0.9, p = 0.004). Neither was a planned test, and the planned one at 250 M showed nothing (+1.9 ± 3.2, p = 0.58). Both codes lose more than a third of their familiar-room score.
+4. **The first 10 principal components still hold more of the variance in the PGC agents after fine-tuning, by about half as much as before.** At 1 B the share is higher in the PGC agent of every seed, in the familiar room (46.4 % and 52.3 %) and just as much in the changed rooms (46.8 % and 52.5 %). After 250 M frames of fine-tuning the difference is +2.3 ± 1.1 points (p = 0.075, PGC higher in 7/8 seeds; p = 0.014 without the seed whose grid agent collapsed during fine-tuning), and after 500 M frames +3.3 ± 0.9 points (p = 0.010, 8/8 seeds). It shrank because the PGC share fell in all eight agents (by 3.4 ± 0.5 points at 1.5 B), while the grid share hardly moved (−0.8 ± 0.6).
+5. **After a goal move the PGC agents stay longer at the old place.** Agents that know the goal keep returning to where it was. In the open room the frozen PGC agents spend more of that time there (share of time near the old goal minus the share in a control zone: grid 0.58, PGC 0.71, p = 0.007), and both codes find the moved goal about equally rarely (in 5.1 % and 4.3 % of episodes). After fine-tuning both codes stay less, and the PGC agents still stay longer (after 250 M frames: grid 0.25, PGC 0.35, p = 0.098; after 500 M: grid 0.31, PGC 0.40, p = 0.019), with no reliable difference in how often the moved goal is found.
+6. **The predictive cells are used in the changed rooms.** Silencing the 169 predictive cells of a PGC agent costs more than silencing 169 random grid cells: +3.1 ± 0.6 points in the changed rooms before fine-tuning (p < 0.001), +1.9 ± 0.5 after 250 M frames (p = 0.004) and +4.3 ± 0.7 after 500 M (p < 0.001).
 7. **Trained from scratch in one room alone, agents score higher there than the fine-tuned agents; trained from scratch on the mixture, they do not.** After 250 M frames in one room they score 41.6 (grid) and 38.7 (PGC) in that room, against 27.2 and 31.9 for the agents that came from the familiar room and trained 250 M frames on the mixture, about a tenth of them in each room. Agents trained from scratch on the mixture score 27.5 and 27.1 in the same rooms (2 seeds). No PGC lead shows among the one-room agents so far (PGC − grid −2.9 ± 3.2 over 11 rooms, one seed per room), and these runs cannot exclude one.
 
-**The planned tests.** Six comparisons were fixed in advance (section 10). None is significant, with or without the correction for six tests. The p values below 0.05 in points 2, 4, 5 and 6 come from other, uncorrected comparisons: read them as leads, not as confirmed effects.
+**The planned tests.** Six comparisons were fixed in advance, all for the 250 M checkpoint (section 10). None is significant, with or without the correction for six tests. The p values below 0.05 in points 2 to 6, and everything at 1.5 B, come from other, uncorrected comparisons: read them as leads, not as confirmed effects.
 
-**In one sentence:** in changed rooms the PGC agents score 3 to 5 points more on average, which eight seeds cannot tell from zero; whether they adapt faster stays open; and before fine-tuning they spend more time at a moved goal's old place (p = 0.007, an unplanned comparison).
+**In one sentence:** in changed rooms the PGC agents score more on average, by 3 points when frozen and 8.5 points after 500 M frames of fine-tuning, a lead that eight seeds cannot yet tell from zero (p = 0.11); they tend to gain more from fine-tuning; their activity stays more concentrated, by about half as much as before; and they stay longer at a moved goal's old place.
 
 ---
 
@@ -46,6 +49,7 @@ A changed room is one of 21 conditions: the ten layouts D1–DO3, each with the 
 | before | 16 agents at 1 B frames (8 seeds × 2 codes) | frozen test in the familiar room, the 21 changed rooms and 6 never-trained rooms |
 | fine-tuning | the same 16 | training continues in the changed rooms: every episode draws one of the 21 conditions; same optimizer state and hyperparameters as before |
 | after 250 M | the 16 checkpoints at 1.25 B | the same frozen test |
+| after 500 M | the 16 checkpoints at 1.5 B | training simply went on; the same frozen test |
 | reference 1 | seeds 1 and 2 of both codes | the same extra frames in the familiar room, same tests |
 | reference 2 | new agents, one grid and one PGC per changed room | trained from scratch in that room alone; two more pairs from scratch on the mixture (section 9) |
 
@@ -72,7 +76,7 @@ Their tests of a changed environment (the last four rows) all use frozen weights
 
 ![scores](figures/rooms_scores.png)
 
-*Figure 2. Score (10 points per goal reached in 90 s) by kind of change. Left: the frozen 1 B agents. Then: after 250 M frames in the changed rooms (section 3). Bars: mean of 8 seeds; lines: SEM; dots: seeds.*
+*Figure 2. Score (10 points per goal reached in 90 s) by kind of change. Left: the frozen 1 B agents. Then: after 250 M frames in the changed rooms (section 3), and after 500 M frames. Bars: mean of 8 seeds; lines: SEM; dots: seeds.*
 
 | rooms | grid | PGC | PGC − grid | p | k/8 |
 |---|---|---|---|---|---|
@@ -96,25 +100,27 @@ Their tests of a changed environment (the last four rows) all use frozen weights
 
 ![fine-tuning](figures/rooms_finetune.png)
 
-*Figure 3. Training score during fine-tuning (5 M-frame bins; line: mean of 8 seeds, band: SEM). The x axis is total training; fine-tuning starts at 1.0 B. Top left: all 21 changed-room conditions. Top right: the reference agents that stayed in the familiar room (2 seeds). Bottom: by kind of change; "goal moved" pools all 11 conditions with a goal move.*
+*Figure 3. Training score during fine-tuning (5 M-frame bins; line: mean of 8 seeds, band: SEM). The x axis is total training; fine-tuning starts at 1.0 B, and the vertical line marks the planned end at 1.25 B. Top left: all 21 changed-room conditions. Top right: the reference agents that stayed in the familiar room (2 seeds). Bottom: by kind of change; "goal moved" pools all 11 conditions with a goal move.*
 
 | frames of fine-tuning | grid | PGC | PGC − grid | p | k/8 |
 |---|---|---|---|---|---|
 | 0–25 M | 20.8 | 24.1 | +3.3 ± 4.2 | 0.46 | 6/8 |
 | 100–125 M | 20.4 | 29.4 | +9.0 ± 4.8 | 0.11 | 7/8 |
 | 225–250 M | 24.8 | 32.1 | +7.2 ± 5.0 | 0.19 | 6/8 |
+| 350–375 M | 26.4 | 35.4 | +9.0 ± 4.7 | 0.100 | 6/8 |
+| 475–500 M | 27.8 | 35.4 | +7.6 ± 4.6 | 0.14 | 6/8 |
 
 *Training score in the changed rooms (the 21 conditions mixed), 25 M-frame windows. These are the episodes played during training, not the frozen tests.*
 
-**Adaptation is slow in both codes.** In 250 M frames, a quarter of the original training, the training score in the changed rooms rises from 20.8 to 24.8 (grid) and from 24.1 to 32.1 (PGC). In the familiar room the same agents scored about 100 in training, and none of the 16 gets back to half of that during these 250 M frames (the closest, the PGC agent of seed 4, reaches 53 of 119 in its best 25 M frames).
+**Adaptation is slow in both codes.** In 250 M frames, a quarter of the original training, the training score in the changed rooms rises from 20.8 to 24.8 (grid) and from 24.1 to 32.1 (PGC); after 500 M frames it is 27.8 and 35.4. In the familiar room the same agents scored about 100 in training, and none of the 16 gets back to half of that in the 500 M frames (the closest, the PGC agent of seed 4, reaches 58 of 119 in its best 25 M frames).
 
-**The PGC agents gain more in the training score, by a borderline margin that the frozen test does not confirm.** Their lead is +3.3 ± 4.2 in the first 25 M frames and +7.2 ± 5.0 in the last (p = 0.19 against zero). It grows by +3.9 ± 1.7 points (p = 0.051, larger gain in the PGC agent of 7/8 seeds). The frozen test of section 3, which was the planned comparison, gives +1.9 ± 3.2 (p = 0.58). Seeds differ more than codes: in the frozen test two PGC agents (seeds 4 and 7) gain about 20 points, the other fourteen agents between −3 and +12.
+**The PGC agents gain more in the training score, by a borderline margin that the frozen test does not confirm.** Their lead is +3.3 ± 4.2 in the first 25 M frames and +7.2 ± 5.0 in the last (p = 0.19 against zero). It grows by +3.9 ± 1.7 points (p = 0.051, larger gain in the PGC agent of 7/8 seeds). The frozen test of section 3, which was the planned comparison, gives +1.9 ± 3.2 (p = 0.58) at 250 M frames and +5.5 ± 2.6 (p = 0.072) at 500 M. Seeds differ more than codes: in the frozen test two PGC agents (seeds 4 and 7) gain about 20 points, the other fourteen agents between −3 and +12.
 
-**One grid agent collapsed and recovered.** The policy of the grid agent of seed 3 collapsed between 95 M and 150 M frames of fine-tuning (entropy near zero, score near 1) and then relearned; this is the dip of the blue line in Figure 3 and it widens the gap in the middle of the table. Two other agents (the PGC agents of seeds 4 and 7) had such collapses for about 1 M and 3 M frames and recovered at once. All agents are kept in all statistics. Leaving seed 3 out of both codes leaves the behavioural estimates almost unchanged (changed rooms after fine-tuning: +5.9 ± 5.7, p = 0.34; [all tables without seed 3](RESULTS_excl3.md)), but with seven seeds the borderline p values rise: the goal rate once the goal is known becomes +0.45 ± 0.21 (p = 0.072) and the growth of the training-score lead +3.7 ± 1.9 (p = 0.098). For the PCA, seed 3 matters in the other direction (section 6).
+**One grid agent collapsed and recovered.** The policy of the grid agent of seed 3 collapsed between 95 M and 150 M frames of fine-tuning (entropy near zero, score near 1) and then relearned; this is the dip of the blue line in Figure 3 and it widens the gap in the middle of the table. Two other agents (the PGC agents of seeds 4 and 7) had such collapses for about 1 M and 3 M frames and recovered at once, and the grid agent of seed 2 had one of about 12 M frames at 322 to 335 M frames of fine-tuning (the second dip of the blue line) and also recovered. All agents are kept in all statistics. Leaving seed 3 out of both codes leaves the behavioural estimates almost unchanged (changed rooms after fine-tuning: +5.9 ± 5.7, p = 0.34; [all tables without seed 3](RESULTS_excl3.md)), but with seven seeds the borderline p values rise: the goal rate once the goal is known becomes +0.45 ± 0.21 (p = 0.072) and the growth of the training-score lead +3.7 ± 1.9 (p = 0.098). For the PCA, seed 3 matters in the other direction (section 6).
 
 ## 3. After fine-tuning
 
-Frozen test of the 1.25 B checkpoints (right panel of Figure 2):
+Frozen test of the 1.25 B checkpoints (Figure 2):
 
 | rooms | grid | PGC | PGC − grid | p | k/8 |
 |---|---|---|---|---|---|
@@ -128,7 +134,7 @@ Frozen test of the 1.25 B checkpoints (right panel of Figure 2):
 
 **Both codes gain a few points in the changed rooms.** Grid 21.5 → 26.5 (+5.0 ± 1.4), PGC 24.4 → 31.3 (+6.9 ± 3.1). The gain is clearest in the rooms with a door wall (door: +5.8 ± 1.4 grid, +9.2 ± 3.1 PGC; door + obstacle: +7.4 ± 2.9, +9.8 ± 3.7). With an obstacle alone the average gain is smaller and uncertain (+2.8 ± 2.5, +4.6 ± 5.7): the room with the obstacle in the centre gains (O1: 32.8 → 47.3 grid, 37.7 → 55.4 PGC), the other two do not (O2: 47.6 → 47.2, 60.0 → 58.2; O3: 51.0 → 45.3, 55.2 → 53.2). One condition loses clearly: the open room with a moved goal (−10.0 ± 1.0, −11.6 ± 3.5), where fewer goals are collected before the goal moves (section 5).
 
-**The PGC mean is still higher, by a margin that eight seeds cannot separate from zero.** After fine-tuning the difference in the changed rooms is +4.8 (95 % CI −7.1 to +16.7), p = 0.37, PGC higher in 5/8 seeds. It depends on a few seeds: +23.8 (seed 4) and +25.6 (seed 7) against −17.4 (seed 2); the other five lie between −3.0 and +7.5. Before fine-tuning the difference was +3.0 (95 % CI −3.6 to +9.5). It changed by +1.9 (95 % CI −5.6 to +9.3), p = 0.58. Whether the predictive agents adapt faster stays open (section 2).
+**The PGC mean is still higher, by a margin that eight seeds cannot separate from zero.** After fine-tuning the difference in the changed rooms is +4.8 (95 % CI −7.1 to +16.7), p = 0.37, PGC higher in 5/8 seeds. It depends on a few seeds: +23.8 (seed 4) and +25.6 (seed 7) against −17.4 (seed 2); the other five lie between −3.0 and +7.5. Before fine-tuning the difference was +3.0 (95 % CI −3.6 to +9.5). It changed by +1.9 (95 % CI −5.6 to +9.3), p = 0.58. Whether the predictive agents adapt faster is taken up again below, with the later checkpoint.
 
 **On average both codes lose more than a third of their familiar-room score.** Grid 96.9 → 60.7, PGC 106.1 → 69.4. The two changes differ by −0.5 points (PGC − grid; 95 % CI −17.9 to +16.9, p = 0.95): eight seeds show no difference and cannot exclude a large one. The losses are more uneven among the PGC agents (5 to 64 points) than among the grid agents (28 to 52). During fine-tuning the agents still met the open room, but only in 1 of 21 episodes (the open room with a moving goal). A trade-off between gain and loss can be neither shown nor excluded: the Spearman ρ between gain and familiar-room change is +0.27 over the 16 agents (p = 0.31; a trade-off would make it negative), −0.26 within grid and +0.52 within PGC. The two PGC agents that gained most (seeds 4 and 7) lost least (−4.9 and −8.9 points).
 
@@ -148,6 +154,28 @@ The agents push less against the new surfaces (still far more than in the famili
 
 *Figure 4. One test episode of the seed-1 agents in a door room (D1) and an obstacle room (O1), before and after fine-tuning. Same start, goal (green disc) and layout for all agents; lines break where the agent is teleported after reaching the goal. An illustration, not a result.*
 
+### After 500 M frames
+
+The 250 M checkpoint was the planned end. Because time allowed, training went on, and the frozen test was repeated at 1.5 B frames.
+
+| rooms | grid | PGC | PGC − grid | p | k/8 |
+|---|---|---|---|---|---|
+| familiar | 58.3 | 75.1 | +16.8 ± 8.6 | 0.093 | 5/8 |
+| changed, all 21 | 28.3 | 36.8 | +8.5 ± 4.6 | 0.11 | 7/8 |
+| door | 24.5 | 32.7 | +8.2 ± 5.3 | 0.17 | 7/8 |
+| obstacle | 49.6 | 64.1 | +14.5 ± 8.0 | 0.11 | 7/8 |
+| door + obstacle | 20.9 | 29.4 | +8.5 ± 5.3 | 0.15 | 7/8 |
+| goal moved, open room | 40.8 | 48.2 | +7.4 ± 3.5 | 0.075 | 6/8 |
+| door / obstacle and goal moved | 24.4 | 31.4 | +6.9 ± 3.4 | 0.084 | 7/8 |
+| new rooms (never trained) | 28.6 | 36.1 | +7.4 ± 7.0 | 0.33 | 7/8 |
+
+**With twice the fine-tuning the PGC lead is larger, and still short of significance.** Grid 21.5 → 26.5 → 28.3, PGC 24.4 → 31.3 → 36.8 (before, after 250 M, after 500 M). After 500 M frames the difference is +8.5 (95 % CI −2.4 to +19.4), p = 0.11, PGC higher in 7/8 seeds; the exception is seed 2, whose grid agent is the best of its code. Against the frozen 1 B agents the gap has grown by +5.5 (95 % CI −0.6 to +11.7), p = 0.072. Between 250 M and 500 M frames it grew by +3.7 ± 0.9 (p = 0.004, larger PGC gain in 7 of 8 seeds). That last comparison is one of many unplanned ones and should be read with that in mind.
+
+**Familiar room.** Grid 96.9 → 60.7 → 58.3, PGC 106.1 → 69.4 → 75.1. At 1.5 B the difference there is +16.8 ± 8.6 (p = 0.093); the two changes from 1 B differ by +7.5 ± 8.9 (p = 0.43).
+
+**Behaviour** (changed rooms with a fixed goal; grid, PGC): pushing against a wall or the obstacle in 18 % and 15 % of steps; the goal is found in 59 % and 65 % of episodes; goals per 1000 steps once the goal is known 3.65 and 4.66 (+1.00 ± 0.53, p = 0.099); path efficiency 0.557 and 0.611 (+0.054 ± 0.022, p = 0.046).
+
+The later checkpoint was not planned, and its comparisons are not among the six of section 10.
 
 ## 4. Room by room, and rooms never trained in
 
@@ -155,7 +183,8 @@ The agents push less against the new surfaces (still far more than in the famili
 
 *Figure 5. PGC − grid score in every room (mean and SEM over 8 seeds). Left: goal fixed. Right: goal moved. H1–H3 were never used for training.*
 
-PGC has the higher mean score in 21 of the 21 changed rooms before fine-tuning and in 21 after it; in the 6 never-trained rooms, in 6 before and 5 after. No single room is significant after fine-tuning, and the rooms are not independent tests.
+PGC has the higher mean score in 21 of the 21 changed rooms before fine-tuning and in 21 after it; in the 6 never-trained rooms, in 6 before and 5 after. No single room is significant after fine-tuning, and the rooms are not independent tests. After 500 M frames PGC is ahead in 21 of the 21 changed rooms and in 6 of the 6 never-trained rooms.
+
 **Rooms never trained in (H1–H3).** Averaged over the three new layouts with a fixed goal the score did not change (−0.5 ± 1.9 grid, +0.6 ± 3.1 PGC), but the average hides two opposite moves. Of the two new rooms with a door wall, one gains (H3: 12.8 → 17.8 grid, 15.8 → 24.7 PGC) and one hardly changes (H1: 18.6 → 21.5, 19.1 → 20.9). The new obstacle room, the one closest to the open room, loses with the open-room skill (H2: 51.8 → 42.4, 62.0 → 53.1). With a moved goal the same three layouts gain +2.1 ± 0.7 (grid) and +2.5 ± 1.6 (PGC). The predictive lead in the new rooms with a fixed goal is +4.6 ± 3.1 before (p = 0.19) and +5.7 ± 6.0 after (p = 0.38).
 
 ## 5. A goal that moves
@@ -168,6 +197,8 @@ Open room, goal moved at mid-episode. Only episodes in which the agent had reach
 | before: perseveration index | 0.582 | 0.712 | +0.130 ± 0.034 | 0.007 | 7/8 |
 | after 250 M: share of episodes that find the moved goal | 0.278 | 0.201 | −0.077 ± 0.044 | 0.13 | 3/8 |
 | after 250 M: perseveration index | 0.250 | 0.347 | +0.097 ± 0.051 | 0.098 | 6/8 |
+| after 500 M: share of episodes that find the moved goal | 0.164 | 0.171 | +0.007 ± 0.041 | 0.87 | 3/8 |
+| after 500 M: perseveration index | 0.306 | 0.396 | +0.090 ± 0.030 | 0.019 | 6/8 |
 
 The perseveration index is the share of time spent within 0.45 m of the old goal, from the move until the moved goal is first reached (or the episode ends), minus the same share for a control zone of the same size on the opposite side of the room.
 
@@ -175,9 +206,11 @@ The perseveration index is the share of time spent within 0.45 m of the old goal
 
 **After fine-tuning both codes stay less at the old place.** The moved goal is found in 28 % (grid) and 20 % (PGC) of those episodes, and the index falls to 0.250 and 0.347. The PGC agents still tend to stay longer (+0.097 ± 0.051, p = 0.098) and to find the moved goal less often (−0.077 ± 0.044, p = 0.13); neither difference is significant. This is not only learned flexibility. The score in this room falls (52.6 → 42.6 grid, 56.7 → 45.1 PGC) because fewer goals are collected before the move (4.17 → 2.84 and 4.50 → 3.15 per episode), so part of the change is a weaker return to any remembered goal.
 
+After 500 M frames the two codes find the moved goal equally often (16 % and 17 % of those episodes, p = 0.87), and the PGC agents still spend more time at the old place (index 0.306 and 0.396; +0.090 ± 0.030, p = 0.019, PGC higher in 6/8 seeds).
+
 In the ten door and obstacle rooms with a goal move the difference points the same way and is weaker (index before: grid 0.226, PGC 0.277, p = 0.052; after: grid 0.140, PGC 0.200, p = 0.23).
 
-This is the one place where the predictive agents look worse. Whether their faster returns to a remembered goal in a stable room and their longer stay at an old goal have the same cause was not tested.
+At all three points in time the PGC agents spend more time at the old goal, with no measurable loss of goals after the move (goals after the move in those episodes, grid and PGC: 0.33 and 0.28 before, 0.98 and 0.78 after 250 M, 0.69 and 0.64 after 500 M; none of the differences is significant). Whether their faster returns to a remembered goal in a stable room and their longer stay at an old goal have the same cause was not tested.
 
 ## 6. PCA: do the first 10 components still explain more in the predictive agents?
 
@@ -193,18 +226,22 @@ The earlier result ([PCA spectrum of all eight seed pairs](../lstm_variable_1B/p
 | 1 B (before) | changed rooms | 0.4679 | 0.5249 | +0.0570 ± 0.0056 | < 0.001 | 8/8 |
 | +250 M in the changed rooms | familiar room | 0.4676 | 0.4908 | +0.0232 ± 0.0111 | 0.075 | 7/8 |
 | +250 M in the changed rooms | changed rooms | 0.4804 | 0.5011 | +0.0207 ± 0.0124 | 0.14 | 6/8 |
+| +500 M in the changed rooms | familiar room | 0.4565 | 0.4892 | +0.0327 ± 0.0094 | 0.010 | 8/8 |
+| +500 M in the changed rooms | changed rooms | 0.4701 | 0.4920 | +0.0219 ± 0.0082 | 0.032 | 7/8 |
 
 **Before fine-tuning the difference carries over to the changed rooms unchanged**: grid 0.468, PGC 0.525, higher in the PGC agent of 8/8 seeds. The difference in the changed-room replay minus the difference in the familiar-room replay is −0.0020 (95 % CI −0.0125 to +0.0084). The 10 strongest components are also largely the same in both kinds of room: those of the changed-room replay capture 85 % (grid) and 86 % (PGC) as much familiar-room variance as the familiar room's own 10 (p = 0.34 between codes).
 
-**After fine-tuning the difference is half as large or less and, with all eight seeds, no longer significant.** With the same replay, the first 10 components hold 46.8 % (grid) and 49.1 % (PGC) of the variance in the familiar room (+0.0232 ± 0.0111, p = 0.075, PGC higher in 7/8 seeds), and 48.0 % and 50.1 % in the changed rooms (+0.0207 ± 0.0124, p = 0.14, PGC higher in 6/8 seeds).
+**After 250 M frames of fine-tuning the difference is less than half as large and, with all eight seeds, not significant.** With the same replay, the first 10 components hold 46.8 % (grid) and 49.1 % (PGC) of the variance in the familiar room (+0.0232 ± 0.0111, p = 0.075, PGC higher in 7/8 seeds), and 48.0 % and 50.1 % in the changed rooms (+0.0207 ± 0.0124, p = 0.14, PGC higher in 6/8 seeds).
 
 **Seed 3 matters here.** The grid agent whose policy collapsed and was relearned during fine-tuning (section 2) ends with the most concentrated activity of all grid agents (0.512). Seed 3 is the only pair in which the grid agent is above the PGC agent in both replays. Without seed 3 the difference after fine-tuning is +0.0310 ± 0.0091 (p = 0.014, PGC higher in 7/7 seeds) in the familiar room and +0.0284 ± 0.0112 (p = 0.045, 6/7) in the changed rooms. That is 53 % of the 1 B difference of the same seven seeds, against 39 % with all eight. These p values are uncorrected; the planned tests (section 10) use all eight seeds.
 
-**The PGC share fell in almost every agent.** Against its own value at 1 B, the first-10 share fell in 8 of the 8 PGC agents in the familiar-room replay (−0.0324 ± 0.0047) and in 7 of 8 in the changed-room replay (−0.0238 ± 0.0065). The numbers that follow are for the familiar-room replay. The grid agents changed in both directions (−0.038 to +0.056; mean +0.0035 ± 0.0106). The difference between the codes is −0.0359 ± 0.0106 (p = 0.012). In the two reference pairs that stayed in the familiar room the PGC share rose (+0.033 and +0.016). The activity of the PGC agents is still the larger one overall (total variance of the 256 outputs: grid 17.3, PGC 22.0, p = 0.032).
+**After 500 M frames the PGC share is higher in every seed again.** The first 10 components hold 45.7 % (grid) and 48.9 % (PGC) of the variance in the familiar-room replay (+0.0327 ± 0.0094, p = 0.010, PGC higher in 8/8 seeds) and 47.0 % and 49.2 % in the changed-room replay (+0.0219 ± 0.0082, p = 0.032, PGC higher in 7/8 seeds). That is 55 % of the 1 B difference. The grid agent of seed 3 no longer stands out (0.460; without seed 3 the difference is +0.0367 ± 0.0098, p = 0.010). This checkpoint was not planned, so these p values are uncorrected.
 
-**Fine-tuning changed the 10 strongest components in both codes.** Fed the same inputs, the 10 strongest components of a fine-tuned network capture about half as much of the 1 B activity as the 1 B network's own 10 did (overlap, 1 = the same components: grid 0.50, PGC 0.55, p = 0.14 between codes). In the reference agents, which trained on in the familiar room, the overlap is 0.71 (grid) and 0.74 (PGC) (2 seeds).
+**The PGC share fell in almost every agent.** Against its own value at 1 B, the first-10 share fell in 8 of the 8 PGC agents in the familiar-room replay (−0.0324 ± 0.0047) and in 7 of 8 in the changed-room replay (−0.0238 ± 0.0065). The numbers that follow are for the familiar-room replay. The grid agents changed in both directions (−0.038 to +0.056; mean +0.0035 ± 0.0106). The difference between the codes is −0.0359 ± 0.0106 (p = 0.012). In the two reference pairs that stayed in the familiar room the PGC share rose (+0.033 and +0.016). The activity of the PGC agents is still the larger one overall (total variance of the 256 outputs: grid 17.3, PGC 22.0, p = 0.032). After 500 M frames the share has fallen in 8 of the 8 PGC agents in the familiar-room replay and in 8 of 8 in the changed-room replay (−0.0340 ± 0.0051 in the familiar-room replay, against −0.0076 ± 0.0056 for the grid agents; difference −0.0264 ± 0.0080, p = 0.013).
 
-**A more concentrated code did not adapt less.** Across agents, a higher first-10 share at 1 B did not go with a smaller gain in the changed rooms (Spearman ρ = +0.35 over the 16 agents, p = 0.18; +0.71 within grid, +0.55 within PGC; description only).
+**Fine-tuning changed the 10 strongest components in both codes.** Fed the same inputs, the 10 strongest components of a fine-tuned network capture about half as much of the 1 B activity as the 1 B network's own 10 did (overlap, 1 = the same components: grid 0.50, PGC 0.55, p = 0.14 between codes). In the reference agents, which trained on in the familiar room, the overlap is 0.71 (grid) and 0.74 (PGC) (2 seeds). After 500 M frames the overlap with 1 B is 0.48 (grid) and 0.54 (PGC).
+
+**A more concentrated code did not adapt less.** Across agents, a higher first-10 share at 1 B did not go with a smaller gain in the changed rooms (Spearman ρ = +0.35 over the 16 agents, p = 0.18; +0.71 within grid, +0.55 within PGC; description only). With the gain over 500 M frames the correlation is +0.54 (p = 0.031; +0.62 within grid, +0.64 within PGC).
 
 **The agents' own behaviour gives the same answer for the steps with the goal known.** When each agent chooses its own path, the share also depends on what the agent is doing: in the familiar room the first 10 components hold 0.69 of the variance while an agent is still searching and 0.44 once it knows the goal. Restricted to steps with the goal known, the PGC agents are again more concentrated, in the familiar room (grid 0.411, PGC 0.460; +0.048 ± 0.010, p = 0.002, PGC higher in 7/8 seeds) and in the changed rooms with a fixed goal (grid 0.448, PGC 0.483; +0.035 ± 0.010, p = 0.010, PGC higher in 7/8 seeds). Over all steps the difference is +0.032 ± 0.009 (p = 0.011) in the familiar room and +0.011 ± 0.011 (p = 0.32) in the changed rooms, where the agents are still searching in most steps.
 After fine-tuning the goal-known comparison gives grid 0.410, PGC 0.432 in the familiar room (+0.023 ± 0.012, p = 0.11, PGC higher in 6/8 seeds) and grid 0.446, PGC 0.464 in the changed rooms (+0.017 ± 0.011, p = 0.18, PGC higher in 5/8 seeds): the same direction, smaller.
@@ -219,10 +256,14 @@ Silencing cells at test time, in the PGC agents only: the 169 predictive cells, 
 | 1 B (before) | changed (21) | 24.4 | 21.6 | 24.7 | +3.1 ± 0.6 | < 0.001 |
 | +250 M | familiar | 69.4 | 57.1 | 65.7 | +8.6 ± 1.5 | < 0.001 |
 | +250 M | changed (21) | 31.3 | 29.1 | 31.0 | +1.9 ± 0.5 | 0.004 |
+| +500 M | familiar | 75.1 | 53.3 | 67.7 | +14.4 ± 1.8 | < 0.001 |
+| +500 M | changed (21) | 36.8 | 30.7 | 35.0 | +4.3 ± 0.7 | < 0.001 |
 
 The PGC-specific cost is the score with random grid cells silenced minus the score with the predictive cells silenced. Before fine-tuning the agents lean on their predictive cells in the changed rooms as well: losing them costs 3.1 points more than losing as many grid cells, on a score of 24.4.
 
 **After fine-tuning the predictive cells are still used, in both kinds of room.** Silencing them costs 1.9 points more than silencing as many grid cells in the changed rooms (p = 0.004), on a score of 31.3, and 8.6 points more in the familiar room. The cost is smaller than before fine-tuning: by 10.6 ± 3.5 points in the familiar room (p = 0.018) and by 1.2 ± 0.6 in the changed rooms (p = 0.077).
+
+After 500 M frames the PGC-specific cost is +4.3 ± 0.7 points in the changed rooms (p < 0.001), no longer smaller than before fine-tuning (change +1.2 ± 1.0), and +14.4 ± 1.8 in the familiar room (p < 0.001).
 
 ## 8. Reference: the same extra frames in the familiar room
 
@@ -233,20 +274,29 @@ Seeds 1 and 2 of both codes got the same extra frames in the familiar room inste
 | grid, seed 1 | 1 B | 94.0 | 23.3 | 28.9 |
 | grid, seed 1 | 1.25 B, all in the familiar room | 94.1 | 19.2 | 24.5 |
 | grid, seed 1 | 1.25 B, last 250 M in the changed rooms | 64.5 | 21.2 | 23.0 |
+| grid, seed 1 | 1.5 B, all in the familiar room | 99.0 | 22.7 | 31.9 |
+| grid, seed 1 | 1.5 B, last 500 M in the changed rooms | 55.8 | 22.6 | 25.2 |
 | grid, seed 2 | 1 B | 112.5 | 34.0 | 41.5 |
 | grid, seed 2 | 1.25 B, all in the familiar room | 112.0 | 37.7 | 45.7 |
 | grid, seed 2 | 1.25 B, last 250 M in the changed rooms | 82.6 | 45.5 | 51.7 |
+| grid, seed 2 | 1.5 B, all in the familiar room | 120.7 | 35.6 | 44.5 |
+| grid, seed 2 | 1.5 B, last 500 M in the changed rooms | 91.0 | 49.4 | 58.2 |
 | PGC, seed 1 | 1 B | 91.5 | 20.6 | 24.7 |
 | PGC, seed 1 | 1.25 B, all in the familiar room | 99.5 | 25.1 | 28.6 |
 | PGC, seed 1 | 1.25 B, last 250 M in the changed rooms | 73.7 | 23.7 | 28.1 |
+| PGC, seed 1 | 1.5 B, all in the familiar room | 116.0 | 22.6 | 24.7 |
+| PGC, seed 1 | 1.5 B, last 500 M in the changed rooms | 76.5 | 28.2 | 25.4 |
 | PGC, seed 2 | 1 B | 109.6 | 21.2 | 31.7 |
 | PGC, seed 2 | 1.25 B, all in the familiar room | 111.2 | 24.1 | 30.7 |
 | PGC, seed 2 | 1.25 B, last 250 M in the changed rooms | 61.0 | 28.1 | 25.0 |
+| PGC, seed 2 | 1.5 B, all in the familiar room | 107.2 | 24.6 | 31.3 |
+| PGC, seed 2 | 1.5 B, last 500 M in the changed rooms | 76.0 | 35.8 | 32.4 |
 
 **More training in the familiar room moves the changed-room score by a few points, up in three agents and down in one.** From 1 B to 1.25 B in the familiar room, the changed-room score of the four reference agents moves by −4.1 and +3.7 (grid) and +4.6 and +2.9 (PGC), +1.8 on average. That is ordinary drift between two checkpoints of one agent.
 
 **Against that drift the fine-tuning gain is small.** The same four agents, fine-tuned, gain −2.1, +11.5, +3.2 and +6.9: +4.9 on average. With two seeds per code the reference shows the size of the drift; it is not a test.
 
+At 1.5 B the changed-room score of the four reference agents has moved by −0.6 and +1.6 (grid) and +2.1 and +3.5 (PGC) from its 1 B value; the same four agents, fine-tuned for 500 M frames, by −0.7, +15.4, +7.6 and +14.6. By then three of the four fine-tuned agents have gained clearly more than the drift.
 
 ## 9. Reference: agents trained from scratch in the changed rooms
 
@@ -258,28 +308,30 @@ For each new room, one grid and one PGC agent were trained from scratch in that 
 
 Frozen test in the agent's own room (score, mean of goal fixed and goal moved), next to the pretrained agents in that same room:
 
-| room | seed | from scratch: grid | from scratch: PGC | pretrained, frozen: grid, PGC | pretrained + 250 M: grid, PGC |
-|---|---|---|---|---|---|
-| D1 | 1 | 13.9 | 14.9 | 17.4, 20.3 | 18.6, 23.2 |
-| D2 | 2 | 48.0 | 46.5 | 13.1, 13.8 | 22.7, 26.6 |
-| D3 | 3 | 28.6 | 12.5 | 10.8, 12.1 | 21.0, 26.4 |
-| D4 | 4 | 46.4 | 55.3 | 17.6, 21.1 | 21.3, 26.8 |
-| O1 | 5 | 47.7 | 52.6 | 27.6, 31.3 | 41.3, 46.6 |
-| O2 | 6 | 41.6 | 52.5 | 38.9, 47.8 | 40.2, 48.8 |
-| O3 | 7 | 45.5 | 46.2 | 41.3, 45.2 | 39.1, 44.4 |
-| DO1 | 8 | 49.8 | 24.5 | 10.9, 12.9 | 17.3, 21.0 |
-| DO2 | 1 | 46.0 | 42.6 | 9.6, 11.3 | 18.0, 21.5 |
-| DO3 | 2 | 47.0 | 44.0 | 11.7, 12.3 | 17.4, 20.9 |
-| open room, goal moves | 3 | 43.2 | 34.0 | 52.6, 56.7 | 42.6, 45.1 |
-| **mean of the 11 rooms** | | **41.6** | **38.7** | **22.9, 25.9** | **27.2, 31.9** |
+| room | seed | from scratch: grid | from scratch: PGC | pretrained, frozen: grid, PGC | pretrained + 250 M: grid, PGC | pretrained + 500 M: grid, PGC |
+|---|---|---|---|---|---|---|
+| D1 | 1 | 13.9 | 14.9 | 17.4, 20.3 | 18.6, 23.2 | 21.8, 29.6 |
+| D2 | 2 | 48.0 | 46.5 | 13.1, 13.8 | 22.7, 26.6 | 24.4, 31.9 |
+| D3 | 3 | 28.6 | 12.5 | 10.8, 12.1 | 21.0, 26.4 | 22.5, 29.9 |
+| D4 | 4 | 46.4 | 55.3 | 17.6, 21.1 | 21.3, 26.8 | 24.6, 31.5 |
+| O1 | 5 | 47.7 | 52.6 | 27.6, 31.3 | 41.3, 46.6 | 41.7, 51.5 |
+| O2 | 6 | 41.6 | 52.5 | 38.9, 47.8 | 40.2, 48.8 | 43.1, 58.7 |
+| O3 | 7 | 45.5 | 46.2 | 41.3, 45.2 | 39.1, 44.4 | 40.9, 48.9 |
+| DO1 | 8 | 49.8 | 24.5 | 10.9, 12.9 | 17.3, 21.0 | 17.5, 26.4 |
+| DO2 | 1 | 46.0 | 42.6 | 9.6, 11.3 | 18.0, 21.5 | 20.6, 28.6 |
+| DO3 | 2 | 47.0 | 44.0 | 11.7, 12.3 | 17.4, 20.9 | 19.7, 25.6 |
+| open room, goal moves | 3 | 43.2 | 34.0 | 52.6, 56.7 | 42.6, 45.1 | 40.8, 48.2 |
+| **mean of the 11 rooms** | | **41.6** | **38.7** | **22.9, 25.9** | **27.2, 31.9** | **28.9, 37.3** |
 
 Paired comparison of the two codes (over rooms for the from-scratch agents, over seeds for the pretrained ones):
 
 | agents | grid | PGC | PGC − grid | p | PGC higher in |
 |---|---|---|---|---|---|
 | from scratch, 250 M frames in that room alone | 41.6 | 38.7 | −2.9 ± 3.2 | 0.39 | 5/11 rooms |
+| from scratch, 400 M frames in that room alone (10 of 11 rooms) | 47.6 | 43.1 | −4.4 ± 3.2 | 0.20 | 2/10 rooms |
 | trained 1 B frames in the familiar room, frozen | 22.9 | 25.9 | +3.0 ± 2.7 | 0.29 | 6/8 seeds |
 | the same agents + 250 M frames on the mixture of changed rooms | 27.2 | 31.9 | +4.7 ± 4.9 | 0.37 | 5/8 seeds |
+| the same agents + 500 M frames on the mixture | 28.9 | 37.3 | +8.4 ± 4.5 | 0.10 | 7/8 seeds |
 
 **Trained in one room alone, an agent scores about twice as much there as the fine-tuned agents in the door rooms it has learned, and about the same elsewhere.** After 250 M frames in its room, a from-scratch agent scores 41.6 (grid) and 38.7 (PGC) on average, against 27.2 and 31.9 for the agents that had 1 B frames in the familiar room and then 250 M frames on the mixture. The difference is in the rooms with a door wall (rows D and DO of the table). In the three obstacle rooms the two kinds of agent score about the same, and in the open room with a moving goal the pretrained agents were ahead before any fine-tuning. Not every room was learned in that time: D1, whose door is in the middle of a central wall, by neither agent (13.9 and 14.9); D3 not by the PGC agent (12.5) and only partly by the grid agent (28.6); DO1 only partly by the PGC agent (24.5).
 
@@ -292,8 +344,10 @@ The mixture, all 21 changed-room conditions (two seeds per code, shown as seed 1
 | agents | changed rooms: grid | changed rooms: PGC | familiar room: grid | familiar room: PGC |
 |---|---|---|---|---|
 | from scratch on the mixture, 250 M frames | 27.6, 26.6 | 24.5, 29.1 | 38.9, 32.0 | 39.2, 30.2 |
+| from scratch on the mixture, 400 M frames | 16.1, 30.0 | 25.6, 28.3 | 33.1, 32.0 | 42.6, 24.7 |
 | trained 1 B frames in the familiar room, frozen | 23.3, 34.0 | 20.6, 21.2 | 94.0, 112.5 | 91.5, 109.6 |
 | the same agents + 250 M frames on the mixture | 21.2, 45.5 | 23.7, 28.1 | 64.5, 82.6 | 73.7, 61.0 |
+| the same agents + 500 M frames on the mixture | 22.6, 49.4 | 28.2, 35.8 | 55.8, 91.0 | 76.5, 76.0 |
 
 **For the mixture, a billion frames in the familiar room gave a head start; two seeds cannot show whether any lead is left.** After 250 M frames on the mixture, the from-scratch agents lie inside the range of the eight pretrained agents of their code after 250 M frames of fine-tuning (grid 19.9 to 45.5, mean 26.5; PGC 17.3 to 54.4, mean 31.3). The pretrained agents started at 21.5 and 24.4 without any training in the changed rooms, a level the from-scratch agents needed 150 to 200 M frames to reach (Figure 7, left). What the pretrained agents keep is the familiar room, which the from-scratch agents met only in the moved-goal episodes.
 
@@ -312,7 +366,7 @@ Six comparisons were fixed before the fine-tuned agents were tested; the first c
 
 None of the six is significant, before or after correction (smallest uncorrected p = 0.062, smallest corrected p = 0.38). The estimates all favour the PGC agents except the familiar-room change, but none is established: a few points of score in the changed rooms before and after fine-tuning, and a first-10 share about 2 points higher after fine-tuning, all with intervals that include zero.
 
-Every other p value in this text comes from an unplanned comparison and is uncorrected: among them the goal rate once the goal is known (section 1), the time spent at the old goal (section 5), the fall of the first-10 share in the PGC agents and the comparisons without seed 3 (section 6), and the lesion costs (section 7). The score and PCA differences at 1 B in the familiar room are the earlier results, measured again.
+Every other p value in this text comes from an unplanned comparison and is uncorrected: among them the goal rate once the goal is known (section 1), the time spent at the old goal (section 5), the fall of the first-10 share in the PGC agents and the comparisons without seed 3 (section 6), and the lesion costs (section 7). The score and PCA differences at 1 B in the familiar room are the earlier results, measured again. So does every comparison at 1.5 B, which was not a planned checkpoint: the first-10 share there (p = 0.010 and p = 0.032), the larger PGC gain between 250 M and 500 M frames (p = 0.004), path efficiency (p = 0.046) and the time at the old goal (p = 0.019).
 
 ## Methods in brief, and caveats
 

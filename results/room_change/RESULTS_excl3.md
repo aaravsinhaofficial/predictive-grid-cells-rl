@@ -268,6 +268,138 @@ grid = 100 % grid cells; PGC = grid + 33 % predictive grid cells; difference = P
 | H3 | 18.3 | 26.4 | +8.1 ± 7.5 | 0.32 | 5/7 |
 | H3+R | 16.5 | 21.0 | +4.4 ± 4.4 | 0.36 | 5/7 |
 
+## After 500 M frames in the changed rooms
+
+### Score by room type
+
+| rooms | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| familiar room | 58.0 | 76.3 | +18.3 ± 9.8 | 0.11 | 4/7 |
+| changed rooms (all 21) | 28.7 | 38.0 | +9.3 ± 5.2 | 0.13 | 6/7 |
+| door | 25.3 | 34.5 | +9.2 ± 6.1 | 0.18 | 6/7 |
+| obstacle | 49.4 | 65.7 | +16.3 ± 9.0 | 0.12 | 6/7 |
+| door + obstacle | 21.3 | 30.0 | +8.7 ± 6.2 | 0.21 | 6/7 |
+| goal moved (open room) | 40.8 | 49.0 | +8.2 ± 4.0 | 0.085 | 5/7 |
+| door / obstacle and goal moved | 24.8 | 32.4 | +7.6 ± 3.9 | 0.100 | 6/7 |
+| new rooms (never trained) | 29.1 | 37.3 | +8.2 ± 8.1 | 0.35 | 6/7 |
+| new rooms, goal moved | 22.5 | 28.2 | +5.6 ± 5.1 | 0.31 | 5/7 |
+
+### Navigation, changed rooms, goal fixed (10)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| episodes that found the goal | 0.586 | 0.648 | +0.062 ± 0.040 | 0.18 | 5/7 |
+| steps to the first goal, episodes that found it | 296 | 280 | -17 ± 18 | 0.40 | 3/7 |
+| steps to the first goal (1350 if never found) | 732 | 657 | -75 ± 48 | 0.17 | 2/7 |
+| goals per 1000 steps after the first | 3.71 | 4.82 | +1.11 ± 0.60 | 0.11 | 6/7 |
+| first find : return, ratio of steps | 1.58 | 1.70 | +0.12 ± 0.09 | 0.23 | 5/7 |
+| path efficiency of completed returns | 0.563 | 0.619 | +0.056 ± 0.026 | 0.072 | 6/7 |
+| share of steps against a wall | 0.166 | 0.126 | -0.040 ± 0.050 | 0.45 | 3/7 |
+
+### Navigation, familiar room
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| episodes that found the goal | 0.751 | 0.794 | +0.043 ± 0.080 | 0.61 | 4/7 |
+| steps to the first goal, episodes that found it | 277 | 262 | -15 ± 25 | 0.58 | 3/7 |
+| steps to the first goal (1350 if never found) | 549 | 488 | -61 ± 76 | 0.45 | 3/7 |
+| goals per 1000 steps after the first | 6.06 | 7.75 | +1.68 ± 0.61 | 0.033 | 6/7 |
+| first find : return, ratio of steps | 1.92 | 2.14 | +0.22 ± 0.24 | 0.41 | 4/7 |
+| path efficiency of completed returns | 0.570 | 0.651 | +0.081 ± 0.024 | 0.015 | 6/7 |
+| share of steps against a wall | 0.008 | 0.012 | +0.005 ± 0.011 | 0.70 | 3/7 |
+
+### Goal relocation, goal moved (open room)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 2.74 | 3.51 | +0.76 ± 0.40 | 0.10 | 4/7 |
+| goals after the move, all episodes | 1.34 | 1.39 | +0.06 ± 0.22 | 0.81 | 3/7 |
+| episodes that had found the goal before it moved | 0.674 | 0.738 | +0.064 ± 0.071 | 0.40 | 4/7 |
+| goals after the move, in those episodes | 0.68 | 0.64 | -0.05 ± 0.20 | 0.82 | 2/7 |
+| share of those episodes that found the moved goal | 0.168 | 0.173 | +0.004 ± 0.047 | 0.93 | 2/7 |
+| steps from the move to the moved goal, those episodes (675 if never) | 596 | 603 | +7 ± 18 | 0.71 | 5/7 |
+| reversal cost: steps to the moved goal / steps to the first goal | 3.03 | 2.91 | -0.11 ± 0.27 | 0.69 | 4/7 |
+| time near the old goal until the moved goal is found, share | 0.362 | 0.434 | +0.072 ± 0.029 | 0.047 | 5/7 |
+| same for the mirror-image control zone | 0.058 | 0.041 | -0.017 ± 0.015 | 0.30 | 3/7 |
+| perseveration index (old-goal zone − control zone) | 0.304 | 0.393 | +0.089 ± 0.034 | 0.040 | 5/7 |
+| mean distance to the old goal in that time (m) | 0.680 | 0.632 | -0.048 ± 0.031 | 0.17 | 2/7 |
+
+### Goal relocation, door / obstacle and goal moved
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 1.60 | 2.07 | +0.47 ± 0.31 | 0.18 | 6/7 |
+| goals after the move, all episodes | 0.89 | 1.18 | +0.29 ± 0.10 | 0.024 | 6/7 |
+| episodes that had found the goal before it moved | 0.521 | 0.588 | +0.068 ± 0.042 | 0.16 | 5/7 |
+| goals after the move, in those episodes | 0.42 | 0.57 | +0.15 ± 0.08 | 0.12 | 5/7 |
+| share of those episodes that found the moved goal | 0.151 | 0.175 | +0.024 ± 0.026 | 0.39 | 5/7 |
+| steps from the move to the moved goal, those episodes (675 if never) | 603 | 592 | -11 ± 11 | 0.34 | 2/7 |
+| reversal cost: steps to the moved goal / steps to the first goal | 2.87 | 2.80 | -0.07 ± 0.12 | 0.58 | 3/7 |
+| time near the old goal until the moved goal is found, share | 0.275 | 0.330 | +0.054 ± 0.023 | 0.056 | 6/7 |
+| same for the mirror-image control zone | 0.066 | 0.052 | -0.014 ± 0.009 | 0.15 | 2/7 |
+| perseveration index (old-goal zone − control zone) | 0.209 | 0.278 | +0.069 ± 0.028 | 0.052 | 6/7 |
+| mean distance to the old goal in that time (m) | 0.865 | 0.821 | -0.044 ± 0.037 | 0.28 | 3/7 |
+
+### Goal relocation, rooms with a goal move (11)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 1.70 | 2.20 | +0.50 ± 0.31 | 0.16 | 6/7 |
+| goals after the move, all episodes | 0.93 | 1.20 | +0.27 ± 0.09 | 0.028 | 6/7 |
+| episodes that had found the goal before it moved | 0.535 | 0.602 | +0.067 ± 0.043 | 0.17 | 5/7 |
+| goals after the move, in those episodes | 0.44 | 0.57 | +0.13 ± 0.08 | 0.15 | 5/7 |
+| share of those episodes that found the moved goal | 0.152 | 0.175 | +0.023 ± 0.026 | 0.42 | 4/7 |
+| steps from the move to the moved goal, those episodes (675 if never) | 602 | 593 | -9 ± 10 | 0.38 | 3/7 |
+| reversal cost: steps to the moved goal / steps to the first goal | 2.88 | 2.81 | -0.07 ± 0.12 | 0.57 | 3/7 |
+| time near the old goal until the moved goal is found, share | 0.283 | 0.339 | +0.056 ± 0.022 | 0.046 | 6/7 |
+| same for the mirror-image control zone | 0.065 | 0.051 | -0.015 ± 0.009 | 0.16 | 2/7 |
+| perseveration index (old-goal zone − control zone) | 0.218 | 0.288 | +0.071 ± 0.028 | 0.043 | 6/7 |
+| mean distance to the old goal in that time (m) | 0.849 | 0.804 | -0.044 ± 0.035 | 0.26 | 3/7 |
+
+### PCA of the LSTM output during the agent's own behaviour
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| variance in first 10 components, goal known, familiar room | 0.401 | 0.429 | +0.027 ± 0.009 | 0.027 | 6/7 |
+| variance in first 10 components, all steps, familiar room | 0.471 | 0.465 | -0.006 ± 0.012 | 0.64 | 2/7 |
+| share of steps with the goal known, familiar room | 0.593 | 0.638 | +0.045 ± 0.056 | 0.45 | 4/7 |
+| variance in first 10 components, goal known, changed rooms, goal fixed (10) | 0.439 | 0.457 | +0.018 ± 0.010 | 0.13 | 5/7 |
+| variance in first 10 components, all steps, changed rooms, goal fixed (10) | 0.519 | 0.504 | -0.015 ± 0.009 | 0.14 | 2/7 |
+| share of steps with the goal known, changed rooms, goal fixed (10) | 0.457 | 0.513 | +0.056 ± 0.036 | 0.17 | 5/7 |
+
+### Every room (score)
+
+| room | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| open | 58.0 | 76.3 | +18.3 ± 9.8 | 0.11 | 4/7 |
+| D1 | 23.7 | 32.9 | +9.2 ± 5.1 | 0.13 | 5/7 |
+| D1+R | 22.3 | 29.9 | +7.6 ± 2.8 | 0.033 | 6/7 |
+| D2 | 26.9 | 35.5 | +8.5 ± 6.9 | 0.26 | 5/7 |
+| D2+R | 23.4 | 30.6 | +7.2 ± 4.5 | 0.16 | 5/7 |
+| D3 | 24.0 | 32.3 | +8.3 ± 4.6 | 0.12 | 6/7 |
+| D3+R | 22.0 | 29.0 | +7.0 ± 3.9 | 0.12 | 6/7 |
+| D4 | 26.5 | 37.3 | +10.8 ± 9.1 | 0.28 | 5/7 |
+| D4+R | 22.8 | 30.8 | +7.9 ± 5.6 | 0.20 | 6/7 |
+| O1 | 48.9 | 63.6 | +14.7 ± 10.9 | 0.22 | 4/7 |
+| O1+R | 33.8 | 41.9 | +8.1 ± 4.5 | 0.12 | 5/7 |
+| O2 | 50.9 | 72.1 | +21.2 ± 7.8 | 0.035 | 6/7 |
+| O2+R | 35.5 | 47.7 | +12.2 ± 3.7 | 0.017 | 6/7 |
+| O3 | 48.3 | 61.4 | +13.0 ± 9.6 | 0.22 | 5/7 |
+| O3+R | 34.0 | 39.9 | +5.9 ± 4.8 | 0.26 | 5/7 |
+| DO1 | 19.0 | 28.9 | +9.9 ± 5.5 | 0.12 | 6/7 |
+| DO1+R | 17.2 | 24.6 | +7.4 ± 4.4 | 0.14 | 5/7 |
+| DO2 | 22.4 | 32.7 | +10.2 ± 5.7 | 0.12 | 6/7 |
+| DO2+R | 19.3 | 25.7 | +6.5 ± 4.3 | 0.18 | 5/7 |
+| DO3 | 22.4 | 28.4 | +6.0 ± 8.5 | 0.51 | 4/7 |
+| DO3+R | 18.1 | 24.2 | +6.0 ± 5.2 | 0.29 | 5/7 |
+| open+R | 40.8 | 49.0 | +8.2 ± 4.0 | 0.085 | 5/7 |
+| H1 | 20.5 | 20.5 | +0.0 ± 5.9 | 1.00 | 3/7 |
+| H1+R | 17.6 | 18.4 | +0.8 ± 4.8 | 0.87 | 4/7 |
+| H2 | 44.8 | 58.8 | +14.1 ± 10.5 | 0.23 | 6/7 |
+| H2+R | 30.7 | 39.5 | +8.7 ± 5.8 | 0.18 | 4/7 |
+| H3 | 22.0 | 32.6 | +10.6 ± 8.0 | 0.23 | 6/7 |
+| H3+R | 19.3 | 26.7 | +7.4 ± 5.3 | 0.21 | 6/7 |
+
 ## After 250 M more frames in the familiar room (seeds 1–2)
 
 ### Score by room type
@@ -400,6 +532,138 @@ grid = 100 % grid cells; PGC = grid + 33 % predictive grid cells; difference = P
 | H3 | 15.2 | 14.6 | -0.6 ± 9.8 | 0.96 | 1/2 |
 | H3+R | 15.2 | 12.2 | -3.0 ± 10.4 | 0.82 | 1/2 |
 
+## After 500 M more frames in the familiar room (seeds 1–2)
+
+### Score by room type
+
+| rooms | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| familiar room | 109.8 | 111.6 | +1.8 ± 15.2 | 0.92 | 1/2 |
+| changed rooms (all 21) | 29.2 | 23.6 | -5.6 ± 5.5 | 0.49 | 0/2 |
+| door | 21.0 | 17.4 | -3.6 ± 5.0 | 0.60 | 1/2 |
+| obstacle | 61.3 | 46.3 | -15.0 ± 10.0 | 0.37 | 0/2 |
+| door + obstacle | 18.4 | 12.4 | -6.0 ± 4.1 | 0.38 | 0/2 |
+| goal moved (open room) | 55.2 | 61.4 | +6.2 ± 5.1 | 0.44 | 2/2 |
+| door / obstacle and goal moved | 23.4 | 18.9 | -4.5 ± 4.7 | 0.51 | 1/2 |
+| new rooms (never trained) | 38.2 | 28.0 | -10.2 ± 3.0 | 0.18 | 0/2 |
+| new rooms, goal moved | 26.4 | 19.7 | -6.6 ± 1.5 | 0.14 | 0/2 |
+
+### Navigation, changed rooms, goal fixed (10)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| episodes that found the goal | 0.641 | 0.501 | -0.139 ± 0.066 | 0.28 | 0/2 |
+| steps to the first goal, episodes that found it | 317 | 350 | +33 ± 114 | 0.82 | 1/2 |
+| steps to the first goal (1350 if never found) | 681 | 848 | +167 ± 130 | 0.42 | 2/2 |
+| goals per 1000 steps after the first | 3.51 | 3.54 | +0.03 ± 0.10 | 0.81 | 1/2 |
+| first find : return, ratio of steps | 1.92 | 2.24 | +0.31 ± 0.61 | 0.70 | 1/2 |
+| path efficiency of completed returns | 0.671 | 0.651 | -0.020 ± 0.057 | 0.78 | 1/2 |
+| share of steps against a wall | 0.219 | 0.372 | +0.153 ± 0.288 | 0.69 | 1/2 |
+
+### Navigation, familiar room
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| episodes that found the goal | 0.917 | 0.790 | -0.128 ± 0.077 | 0.35 | 0/2 |
+| steps to the first goal, episodes that found it | 287 | 279 | -8 ± 5 | 0.33 | 0/2 |
+| steps to the first goal (1350 if never found) | 375 | 504 | +129 ± 79 | 0.35 | 2/2 |
+| goals per 1000 steps after the first | 10.20 | 12.04 | +1.84 ± 0.49 | 0.16 | 2/2 |
+| first find : return, ratio of steps | 3.09 | 3.49 | +0.40 ± 0.31 | 0.42 | 2/2 |
+| path efficiency of completed returns | 0.753 | 0.815 | +0.062 ± 0.022 | 0.22 | 2/2 |
+| share of steps against a wall | 0.003 | 0.001 | -0.002 ± 0.002 | 0.56 | 1/2 |
+
+### Goal relocation, goal moved (open room)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 4.69 | 4.72 | +0.03 ± 0.60 | 0.96 | 1/2 |
+| goals after the move, all episodes | 0.83 | 1.42 | +0.59 ± 0.09 | 0.099 | 2/2 |
+| episodes that had found the goal before it moved | 0.830 | 0.723 | -0.107 ± 0.072 | 0.38 | 0/2 |
+| goals after the move, in those episodes | 0.25 | 0.37 | +0.12 ± 0.01 | 0.059 | 2/2 |
+| share of those episodes that found the moved goal | 0.030 | 0.044 | +0.014 ± 0.001 | 0.023 | 2/2 |
+| steps from the move to the moved goal, those episodes (675 if never) | 656 | 647 | -9 ± 2 | 0.13 | 0/2 |
+| reversal cost: steps to the moved goal / steps to the first goal | 2.97 | 3.01 | +0.05 ± 0.07 | 0.62 | 1/2 |
+| time near the old goal until the moved goal is found, share | 0.679 | 0.815 | +0.136 ± 0.054 | 0.24 | 2/2 |
+| same for the mirror-image control zone | 0.024 | 0.037 | +0.013 ± 0.001 | 0.044 | 2/2 |
+| perseveration index (old-goal zone − control zone) | 0.655 | 0.778 | +0.123 ± 0.055 | 0.27 | 2/2 |
+| mean distance to the old goal in that time (m) | 0.438 | 0.369 | -0.069 ± 0.023 | 0.20 | 0/2 |
+
+### Goal relocation, door / obstacle and goal moved
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 1.76 | 1.29 | -0.47 ± 0.49 | 0.52 | 1/2 |
+| goals after the move, all episodes | 0.59 | 0.60 | +0.02 ± 0.02 | 0.61 | 1/2 |
+| episodes that had found the goal before it moved | 0.565 | 0.421 | -0.143 ± 0.114 | 0.43 | 0/2 |
+| goals after the move, in those episodes | 0.11 | 0.17 | +0.06 ± 0.07 | 0.56 | 1/2 |
+| share of those episodes that found the moved goal | 0.045 | 0.063 | +0.017 ± 0.041 | 0.75 | 1/2 |
+| steps from the move to the moved goal, those episodes (675 if never) | 653 | 644 | -9 ± 19 | 0.71 | 1/2 |
+| reversal cost: steps to the moved goal / steps to the first goal | 3.09 | 2.84 | -0.26 ± 0.61 | 0.75 | 1/2 |
+| time near the old goal until the moved goal is found, share | 0.338 | 0.366 | +0.028 ± 0.016 | 0.33 | 2/2 |
+| same for the mirror-image control zone | 0.049 | 0.050 | +0.001 ± 0.001 | 0.61 | 1/2 |
+| perseveration index (old-goal zone − control zone) | 0.289 | 0.316 | +0.027 ± 0.014 | 0.31 | 2/2 |
+| mean distance to the old goal in that time (m) | 0.812 | 0.781 | -0.031 ± 0.041 | 0.58 | 1/2 |
+
+### Goal relocation, rooms with a goal move (11)
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| goals before the move | 2.02 | 1.60 | -0.42 ± 0.50 | 0.55 | 1/2 |
+| goals after the move, all episodes | 0.61 | 0.68 | +0.07 ± 0.03 | 0.25 | 2/2 |
+| episodes that had found the goal before it moved | 0.589 | 0.449 | -0.140 ± 0.110 | 0.42 | 0/2 |
+| goals after the move, in those episodes | 0.12 | 0.19 | +0.07 ± 0.06 | 0.49 | 2/2 |
+| share of those episodes that found the moved goal | 0.044 | 0.061 | +0.017 ± 0.037 | 0.73 | 1/2 |
+| steps from the move to the moved goal, those episodes (675 if never) | 654 | 644 | -9 ± 17 | 0.68 | 1/2 |
+| reversal cost: steps to the moved goal / steps to the first goal | 3.08 | 2.85 | -0.23 ± 0.55 | 0.75 | 1/2 |
+| time near the old goal until the moved goal is found, share | 0.369 | 0.407 | +0.038 ± 0.019 | 0.30 | 2/2 |
+| same for the mirror-image control zone | 0.047 | 0.049 | +0.002 ± 0.001 | 0.34 | 2/2 |
+| perseveration index (old-goal zone − control zone) | 0.323 | 0.358 | +0.036 ± 0.018 | 0.30 | 2/2 |
+| mean distance to the old goal in that time (m) | 0.778 | 0.743 | -0.035 ± 0.039 | 0.54 | 1/2 |
+
+### PCA of the LSTM output during the agent's own behaviour
+
+| statistic | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| variance in first 10 components, goal known, familiar room | 0.405 | 0.479 | +0.074 ± 0.006 | 0.048 | 2/2 |
+| variance in first 10 components, all steps, familiar room | 0.444 | 0.525 | +0.081 ± 0.004 | 0.028 | 2/2 |
+| share of steps with the goal known, familiar room | 0.722 | 0.626 | -0.096 ± 0.059 | 0.35 | 0/2 |
+| variance in first 10 components, goal known, changed rooms, goal fixed (10) | 0.452 | 0.485 | +0.033 ± 0.024 | 0.40 | 2/2 |
+| variance in first 10 components, all steps, changed rooms, goal fixed (10) | 0.521 | 0.563 | +0.042 ± 0.015 | 0.23 | 2/2 |
+| share of steps with the goal known, changed rooms, goal fixed (10) | 0.495 | 0.372 | -0.124 ± 0.096 | 0.42 | 0/2 |
+
+### Every room (score)
+
+| room | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| open | 109.8 | 111.6 | +1.8 ± 15.2 | 0.92 | 1/2 |
+| D1 | 23.0 | 22.2 | -0.8 ± 9.7 | 0.95 | 1/2 |
+| D1+R | 19.1 | 16.5 | -2.6 ± 9.6 | 0.83 | 1/2 |
+| D2 | 22.4 | 15.7 | -6.6 ± 4.3 | 0.37 | 0/2 |
+| D2+R | 19.6 | 14.5 | -5.1 ± 5.7 | 0.54 | 1/2 |
+| D3 | 15.3 | 11.0 | -4.3 ± 2.5 | 0.33 | 0/2 |
+| D3+R | 17.1 | 12.1 | -5.0 ± 2.5 | 0.30 | 0/2 |
+| D4 | 23.4 | 20.8 | -2.6 ± 3.6 | 0.60 | 1/2 |
+| D4+R | 19.6 | 18.3 | -1.2 ± 4.2 | 0.82 | 1/2 |
+| O1 | 50.2 | 29.6 | -20.7 ± 16.0 | 0.42 | 0/2 |
+| O1+R | 31.4 | 22.0 | -9.4 ± 8.1 | 0.45 | 0/2 |
+| O2 | 64.1 | 53.0 | -11.1 ± 10.5 | 0.48 | 0/2 |
+| O2+R | 37.5 | 38.4 | +0.9 ± 4.6 | 0.88 | 1/2 |
+| O3 | 69.6 | 56.4 | -13.2 ± 3.5 | 0.16 | 0/2 |
+| O3+R | 40.6 | 35.3 | -5.3 ± 0.7 | 0.089 | 0/2 |
+| DO1 | 16.8 | 13.5 | -3.3 ± 1.4 | 0.26 | 0/2 |
+| DO1+R | 16.9 | 11.4 | -5.5 ± 2.8 | 0.31 | 0/2 |
+| DO2 | 17.6 | 8.9 | -8.7 ± 5.6 | 0.37 | 0/2 |
+| DO2+R | 14.6 | 8.6 | -6.0 ± 5.1 | 0.45 | 0/2 |
+| DO3 | 20.9 | 14.7 | -6.2 ± 5.3 | 0.45 | 0/2 |
+| DO3+R | 18.1 | 11.9 | -6.2 ± 3.7 | 0.35 | 0/2 |
+| open+R | 55.2 | 61.4 | +6.2 ± 5.1 | 0.44 | 2/2 |
+| H1 | 27.9 | 16.8 | -11.1 ± 7.8 | 0.39 | 0/2 |
+| H1+R | 22.4 | 14.3 | -8.1 ± 4.0 | 0.29 | 0/2 |
+| H2 | 69.0 | 52.0 | -17.0 ± 2.9 | 0.11 | 0/2 |
+| H2+R | 40.3 | 31.9 | -8.4 ± 3.1 | 0.22 | 0/2 |
+| H3 | 17.7 | 15.2 | -2.6 ± 3.9 | 0.63 | 1/2 |
+| H3+R | 16.4 | 13.0 | -3.4 ± 3.6 | 0.52 | 1/2 |
+
 ## PCA with the earlier protocol (one scripted trajectory replayed through every network)
 
 | agents | replay in | quantity | grid | PGC | difference | p | k/n |
@@ -416,12 +680,24 @@ grid = 100 % grid cells; PGC = grid + 33 % predictive grid cells; difference = P
 | 1.25 B, changed rooms | changed rooms | variance in first 10 components | 0.4740 | 0.5024 | +0.0284 ± 0.0112 | 0.045 | 6/7 |
 | 1.25 B, changed rooms | changed rooms | participation ratio | 29.97 | 26.38 | -3.58 ± 2.22 | 0.16 | 1/7 |
 | 1.25 B, changed rooms | changed rooms | total variance of the 256 outputs | 17.67 | 22.07 | +4.40 ± 2.04 | 0.074 | 6/7 |
+| 1.5 B, changed rooms | familiar room | variance in first 10 components | 0.4561 | 0.4928 | +0.0367 ± 0.0098 | 0.010 | 7/7 |
+| 1.5 B, changed rooms | familiar room | participation ratio | 32.51 | 28.45 | -4.06 ± 1.77 | 0.062 | 1/7 |
+| 1.5 B, changed rooms | familiar room | total variance of the 256 outputs | 17.84 | 23.69 | +5.85 ± 1.96 | 0.025 | 6/7 |
+| 1.5 B, changed rooms | changed rooms | variance in first 10 components | 0.4697 | 0.4955 | +0.0259 ± 0.0083 | 0.020 | 7/7 |
+| 1.5 B, changed rooms | changed rooms | participation ratio | 30.53 | 28.88 | -1.65 ± 1.46 | 0.30 | 3/7 |
+| 1.5 B, changed rooms | changed rooms | total variance of the 256 outputs | 17.91 | 22.87 | +4.96 ± 1.89 | 0.039 | 6/7 |
 | 1.25 B, familiar room (seeds 1–2) | familiar room | variance in first 10 components | 0.4635 | 0.5298 | +0.0662 ± 0.0140 | 0.13 | 2/2 |
 | 1.25 B, familiar room (seeds 1–2) | familiar room | participation ratio | 30.52 | 23.42 | -7.10 ± 1.02 | 0.090 | 0/2 |
 | 1.25 B, familiar room (seeds 1–2) | familiar room | total variance of the 256 outputs | 20.25 | 23.52 | +3.27 ± 2.60 | 0.43 | 2/2 |
 | 1.25 B, familiar room (seeds 1–2) | changed rooms | variance in first 10 components | 0.4780 | 0.5315 | +0.0535 ± 0.0081 | 0.095 | 2/2 |
 | 1.25 B, familiar room (seeds 1–2) | changed rooms | participation ratio | 28.86 | 24.04 | -4.82 ± 1.64 | 0.21 | 0/2 |
 | 1.25 B, familiar room (seeds 1–2) | changed rooms | total variance of the 256 outputs | 19.99 | 23.29 | +3.30 ± 2.33 | 0.39 | 2/2 |
+| 1.5 B, familiar room (seeds 1–2) | familiar room | variance in first 10 components | 0.4467 | 0.5233 | +0.0766 ± 0.0199 | 0.16 | 2/2 |
+| 1.5 B, familiar room (seeds 1–2) | familiar room | participation ratio | 33.67 | 23.08 | -10.59 ± 0.29 | 0.017 | 0/2 |
+| 1.5 B, familiar room (seeds 1–2) | familiar room | total variance of the 256 outputs | 20.99 | 24.53 | +3.54 ± 5.04 | 0.61 | 1/2 |
+| 1.5 B, familiar room (seeds 1–2) | changed rooms | variance in first 10 components | 0.4631 | 0.5180 | +0.0549 ± 0.0252 | 0.27 | 2/2 |
+| 1.5 B, familiar room (seeds 1–2) | changed rooms | participation ratio | 31.77 | 24.06 | -7.72 ± 2.78 | 0.22 | 0/2 |
+| 1.5 B, familiar room (seeds 1–2) | changed rooms | total variance of the 256 outputs | 20.80 | 24.49 | +3.69 ± 4.40 | 0.56 | 1/2 |
 
 Change of each agent's first-10 share against its own 1 B value:
 
@@ -429,8 +705,12 @@ Change of each agent's first-10 share against its own 1 B value:
 |---|---|---|---|---|---|
 | 1.25 B, changed rooms | familiar | -0.0040 ± 0.0086 | -0.0312 ± 0.0052 | -0.0272 ± 0.0070 | 0.008 |
 | 1.25 B, changed rooms | changed | +0.0044 ± 0.0112 | -0.0225 ± 0.0073 | -0.0269 ± 0.0108 | 0.046 |
+| 1.5 B, changed rooms | familiar | -0.0092 ± 0.0063 | -0.0307 ± 0.0045 | -0.0215 ± 0.0074 | 0.027 |
+| 1.5 B, changed rooms | changed | +0.0000 ± 0.0077 | -0.0294 ± 0.0028 | -0.0295 ± 0.0058 | 0.002 |
 | 1.25 B, familiar room (seeds 1–2) | familiar | +0.0031 ± 0.0028 | +0.0244 ± 0.0087 | +0.0213 ± 0.0115 | 0.32 |
 | 1.25 B, familiar room (seeds 1–2) | changed | +0.0059 ± 0.0041 | +0.0165 ± 0.0018 | +0.0105 ± 0.0023 | 0.14 |
+| 1.5 B, familiar room (seeds 1–2) | familiar | -0.0138 ± 0.0016 | +0.0179 ± 0.0190 | +0.0316 ± 0.0174 | 0.32 |
+| 1.5 B, familiar room (seeds 1–2) | changed | -0.0089 ± 0.0009 | +0.0030 ± 0.0158 | +0.0120 ± 0.0149 | 0.57 |
 
 ## Change over the first 250 M frames in the changed rooms (after − before), per code
 
@@ -456,6 +736,54 @@ Change of each agent's first-10 share against its own 1 B value:
 | rooms with a goal move (11) | perseveration index (old-goal zone − control zone) | -0.089 ± 0.017 | -0.083 ± 0.034 | +0.006 ± 0.037 | 0.87 |
 | new rooms (never trained) | score | -0.1 ± 2.1 | +1.9 ± 3.3 | +2.0 ± 4.0 | 0.64 |
 
+## Change over all 500 M frames (long − before), per code
+
+| rooms | statistic | grid | PGC | PGC − grid | p |
+|---|---|---|---|---|---|
+| familiar room | score | -38.6 ± 4.2 | -29.5 ± 7.7 | +9.1 ± 10.2 | 0.40 |
+| familiar room | path efficiency of completed returns | -0.128 ± 0.013 | -0.125 ± 0.018 | +0.004 ± 0.018 | 0.85 |
+| familiar room | goals per 1000 steps after the first | -3.18 ± 0.21 | -2.85 ± 0.73 | +0.33 ± 0.74 | 0.67 |
+| changed rooms (all 21) | score | +6.2 ± 2.3 | +12.9 ± 3.1 | +6.7 ± 2.7 | 0.048 |
+| changed rooms, goal fixed (10) | score | +7.3 ± 3.0 | +15.3 ± 3.8 | +8.0 ± 3.7 | 0.073 |
+| changed rooms, goal fixed (10) | path efficiency of completed returns | -0.023 ± 0.014 | -0.035 ± 0.016 | -0.013 ± 0.020 | 0.55 |
+| changed rooms, goal fixed (10) | goals per 1000 steps after the first | +0.77 ± 0.34 | +1.43 ± 0.51 | +0.65 ± 0.54 | 0.27 |
+| changed rooms, goal fixed (10) | share of steps against a wall | -0.208 ± 0.055 | -0.174 ± 0.061 | +0.034 ± 0.083 | 0.69 |
+| changed rooms, goal fixed (10) | steps to the first goal (1350 if never found) | -66 ± 25 | -121 ± 27 | -56 ± 36 | 0.18 |
+| door | score | +8.6 ± 2.6 | +15.5 ± 3.8 | +6.9 ± 3.8 | 0.12 |
+| obstacle | score | +3.7 ± 4.1 | +13.9 ± 5.1 | +10.2 ± 4.6 | 0.070 |
+| door + obstacle | score | +9.2 ± 3.6 | +16.4 ± 3.6 | +7.3 ± 3.8 | 0.10 |
+| goal moved (open room) | goals after the move, in those episodes | +0.32 ± 0.17 | +0.37 ± 0.11 | +0.06 ± 0.24 | 0.81 |
+| goal moved (open room) | share of those episodes that found the moved goal | +0.112 ± 0.029 | +0.130 ± 0.034 | +0.018 ± 0.045 | 0.70 |
+| goal moved (open room) | perseveration index (old-goal zone − control zone) | -0.263 ± 0.031 | -0.308 ± 0.042 | -0.045 ± 0.046 | 0.36 |
+| rooms with a goal move (11) | goals after the move, in those episodes | +0.21 ± 0.08 | +0.36 ± 0.11 | +0.15 ± 0.11 | 0.20 |
+| rooms with a goal move (11) | share of those episodes that found the moved goal | +0.071 ± 0.022 | +0.102 ± 0.033 | +0.031 ± 0.034 | 0.40 |
+| rooms with a goal move (11) | perseveration index (old-goal zone − control zone) | -0.042 ± 0.019 | -0.025 ± 0.025 | +0.017 ± 0.024 | 0.52 |
+| new rooms (never trained) | score | +0.1 ± 3.5 | +4.3 ± 3.4 | +4.2 ± 5.0 | 0.43 |
+
+## Change from 250 M to 500 M frames, per code
+
+| rooms | statistic | grid | PGC | PGC − grid | p |
+|---|---|---|---|---|---|
+| familiar room | score | -4.6 ± 4.0 | +3.4 ± 2.4 | +8.0 ± 3.3 | 0.051 |
+| familiar room | path efficiency of completed returns | +0.024 ± 0.017 | +0.045 ± 0.027 | +0.021 ± 0.025 | 0.42 |
+| familiar room | goals per 1000 steps after the first | -0.18 ± 0.31 | +0.42 ± 0.47 | +0.60 ± 0.56 | 0.32 |
+| changed rooms (all 21) | score | +1.3 ± 1.2 | +4.7 ± 1.2 | +3.5 ± 1.0 | 0.011 |
+| changed rooms, goal fixed (10) | score | +1.8 ± 1.6 | +5.8 ± 1.5 | +4.0 ± 1.0 | 0.008 |
+| changed rooms, goal fixed (10) | path efficiency of completed returns | +0.036 ± 0.006 | +0.034 ± 0.019 | -0.003 ± 0.018 | 0.89 |
+| changed rooms, goal fixed (10) | goals per 1000 steps after the first | +0.35 ± 0.17 | +0.65 ± 0.21 | +0.30 ± 0.24 | 0.26 |
+| changed rooms, goal fixed (10) | share of steps against a wall | -0.048 ± 0.031 | -0.029 ± 0.025 | +0.019 ± 0.040 | 0.65 |
+| changed rooms, goal fixed (10) | steps to the first goal (1350 if never found) | +11 ± 29 | -30 ± 15 | -41 ± 38 | 0.32 |
+| door | score | +2.6 ± 1.7 | +5.2 ± 1.2 | +2.6 ± 0.9 | 0.032 |
+| obstacle | score | +1.2 ± 2.6 | +6.9 ± 2.7 | +5.7 ± 2.1 | 0.037 |
+| door + obstacle | score | +1.3 ± 1.3 | +5.2 ± 1.6 | +4.0 ± 1.9 | 0.083 |
+| goal moved (open room) | goals after the move, in those episodes | -0.19 ± 0.17 | -0.09 ± 0.15 | +0.10 ± 0.24 | 0.69 |
+| goal moved (open room) | share of those episodes that found the moved goal | -0.063 ± 0.051 | -0.001 ± 0.048 | +0.061 ± 0.075 | 0.44 |
+| goal moved (open room) | perseveration index (old-goal zone − control zone) | +0.021 ± 0.014 | +0.022 ± 0.050 | +0.001 ± 0.050 | 0.98 |
+| rooms with a goal move (11) | goals after the move, in those episodes | -0.11 ± 0.07 | +0.00 ± 0.11 | +0.11 ± 0.13 | 0.41 |
+| rooms with a goal move (11) | share of those episodes that found the moved goal | -0.048 ± 0.031 | -0.014 ± 0.040 | +0.034 ± 0.051 | 0.53 |
+| rooms with a goal move (11) | perseveration index (old-goal zone − control zone) | +0.047 ± 0.013 | +0.057 ± 0.044 | +0.010 ± 0.041 | 0.81 |
+| new rooms (never trained) | score | +0.2 ± 2.3 | +2.4 ± 1.8 | +2.2 ± 1.8 | 0.27 |
+
 ## Confirmatory contrasts (pre-declared; PGC − grid; exact sign-flip p over 8 seeds, Holm-adjusted)
 
 | contrast | estimate | 95 % CI | p (t) | p (sign-flip) | p (Holm) | k/n |
@@ -469,7 +797,7 @@ Change of each agent's first-10 share against its own 1 B value:
 
 Training score in the changed rooms, last 25 M window of the planned 250 M minus the first: grid +4.4, PGC +8.2, difference +3.7 ± 1.9 (p 0.098, 6/7 seeds)
 
-PGC − grid lead in the familiar room minus the lead in the changed rooms: before +6.5 ± 3.4 (p 0.10); after +4.4 ± 5.2 (p 0.43); same +6.1 ± 6.6 (p 0.53)
+PGC − grid lead in the familiar room minus the lead in the changed rooms: before +6.5 ± 3.4 (p 0.10); after +4.4 ± 5.2 (p 0.43); same +6.1 ± 6.6 (p 0.53); long +9.0 ± 6.5 (p 0.22); same_long +7.4 ± 9.7 (p 0.59)
 
 ## Transfer table: After 250 M frames in the changed rooms
 
@@ -482,26 +810,39 @@ PGC − grid lead in the familiar room minus the lead in the changed rooms: befo
 
 Gain in the changed rooms against the change in the familiar room, Spearman over agents: gc100 rho -0.25 (p 0.59, n = 7); pgc33 rho +0.43 (p 0.34, n = 7); pooled rho +0.22 (p 0.45, n = 14)
 
+## Transfer table: After 500 M frames in the changed rooms
+
+| quantity | grid | PGC | difference | p | k/n |
+|---|---|---|---|---|---|
+| jumpstart: changed-room score before fine-tuning / familiar-room score | 0.232 | 0.238 | +0.007 ± 0.026 | 0.81 | 4/7 |
+| gain: changed-room score, later − before | 6.2 | 12.9 | +6.7 ± 2.7 | 0.048 | 5/7 |
+| backward transfer: familiar-room score, later − before | -38.6 | -29.5 | +9.1 ± 10.2 | 0.40 | 4/7 |
+| changed-room score after / familiar-room score before | 0.292 | 0.359 | +0.067 ± 0.045 | 0.19 | 6/7 |
+
+Gain in the changed rooms against the change in the familiar room, Spearman over agents: gc100 rho +0.00 (p 1.00, n = 7); pgc33 rho +0.64 (p 0.12, n = 7); pooled rho +0.46 (p 0.095, n = 14)
+
 Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc100_s1 familiar +0.0, changed -4.1; gc100_s2 familiar -0.5, changed +3.7; pgc33_s1 familiar +8.0, changed +4.6; pgc33_s2 familiar +1.6, changed +2.9
+
+Control agents (After 500 M more frames in the familiar room (seeds 1–2)): gc100_s1 familiar +4.9, changed -0.6; gc100_s2 familiar +8.1, changed +1.6; pgc33_s1 familiar +24.5, changed +2.1; pgc33_s2 familiar -2.3, changed +3.5
 
 ## Time to threshold during fine-tuning (frames, M; training score in the changed rooms, 25 M running mean)
 
 | run | familiar-room training score before | best changed-room score | 50 % reached at | 90 % reached at |
 |---|---|---|---|---|
-| gc100room_lstm_s1 | 94.1 | 22.0 | not reached | not reached |
-| gc100room_lstm_s2 | 108.4 | 45.0 | not reached | not reached |
-| gc100room_lstm_s4 | 103.2 | 28.3 | not reached | not reached |
-| gc100room_lstm_s5 | 91.7 | 23.2 | not reached | not reached |
-| gc100room_lstm_s6 | 100.9 | 23.5 | not reached | not reached |
-| gc100room_lstm_s7 | 85.3 | 21.9 | not reached | not reached |
-| gc100room_lstm_s8 | 92.4 | 23.6 | not reached | not reached |
-| pgc33room_lstm_s1 | 104.6 | 24.0 | not reached | not reached |
-| pgc33room_lstm_s2 | 108.2 | 29.4 | not reached | not reached |
-| pgc33room_lstm_s4 | 118.8 | 53.0 | not reached | not reached |
-| pgc33room_lstm_s5 | 108.9 | 28.5 | not reached | not reached |
-| pgc33room_lstm_s6 | 119.0 | 37.1 | not reached | not reached |
-| pgc33room_lstm_s7 | 114.5 | 47.4 | not reached | not reached |
-| pgc33room_lstm_s8 | 98.2 | 23.0 | not reached | not reached |
+| gc100room_lstm_s1 | 94.1 | 22.7 | not reached | not reached |
+| gc100room_lstm_s2 | 108.4 | 47.4 | not reached | not reached |
+| gc100room_lstm_s4 | 103.2 | 34.2 | not reached | not reached |
+| gc100room_lstm_s5 | 91.7 | 24.8 | not reached | not reached |
+| gc100room_lstm_s6 | 100.9 | 28.3 | not reached | not reached |
+| gc100room_lstm_s7 | 85.3 | 24.5 | not reached | not reached |
+| gc100room_lstm_s8 | 92.4 | 27.6 | not reached | not reached |
+| pgc33room_lstm_s1 | 104.6 | 26.6 | not reached | not reached |
+| pgc33room_lstm_s2 | 108.2 | 34.7 | not reached | not reached |
+| pgc33room_lstm_s4 | 118.8 | 57.6 | not reached | not reached |
+| pgc33room_lstm_s5 | 108.9 | 33.2 | not reached | not reached |
+| pgc33room_lstm_s6 | 119.0 | 39.7 | not reached | not reached |
+| pgc33room_lstm_s7 | 114.5 | 52.3 | not reached | not reached |
+| pgc33room_lstm_s8 | 98.2 | 25.9 | not reached | not reached |
 
 ## Alignment index of top-10 subspaces (scripted replay; 1 = same subspace)
 
@@ -514,6 +855,12 @@ Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc1
 | same | familiar vs changed | 0.857 | 0.844 | -0.014 ± 0.022 | 0.66 | 1/2 |
 | same | before vs same familiar | 0.709 | 0.742 | +0.032 ± 0.006 | 0.11 | 2/2 |
 | same | before vs same changed | 0.709 | 0.707 | -0.002 ± 0.019 | 0.93 | 1/2 |
+| long | familiar vs changed | 0.858 | 0.848 | -0.009 ± 0.008 | 0.26 | 3/7 |
+| long | before vs long familiar | 0.493 | 0.540 | +0.047 ± 0.041 | 0.30 | 5/7 |
+| long | before vs long changed | 0.489 | 0.529 | +0.040 ± 0.044 | 0.40 | 5/7 |
+| same_long | familiar vs changed | 0.852 | 0.850 | -0.002 ± 0.010 | 0.90 | 1/2 |
+| same_long | before vs same long familiar | 0.653 | 0.627 | -0.026 ± 0.040 | 0.63 | 1/2 |
+| same_long | before vs same long changed | 0.652 | 0.585 | -0.067 ± 0.036 | 0.31 | 0/2 |
 
 ## Variance concentration at 1 B against transfer (Spearman, description only)
 
@@ -522,6 +869,9 @@ Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc1
 | after | gc100 | 7 | rho -0.46 (p 0.29) | rho +0.79 (p 0.036) |
 | after | pgc33 | 7 | rho +0.39 (p 0.38) | rho +0.64 (p 0.12) |
 | after | pooled | 14 | rho +0.02 (p 0.93) | rho +0.47 (p 0.091) |
+| long | gc100 | 7 | rho -0.46 (p 0.29) | rho +0.86 (p 0.014) |
+| long | pgc33 | 7 | rho +0.39 (p 0.38) | rho +0.57 (p 0.18) |
+| long | pooled | 14 | rho +0.02 (p 0.93) | rho +0.60 (p 0.022) |
 
 ## Training score in the changed rooms during fine-tuning, per 25 M frames
 
@@ -537,6 +887,16 @@ Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc1
 | 1175–1200 | 25.1 | 32.5 | +7.4 ± 5.3 | 0.21 | 5/7 |
 | 1200–1225 | 25.8 | 33.2 | +7.3 ± 5.5 | 0.23 | 5/7 |
 | 1225–1250 | 26.1 | 33.4 | +7.3 ± 5.7 | 0.25 | 5/7 |
+| 1250–1275 | 26.7 | 34.5 | +7.8 ± 5.2 | 0.18 | 6/7 |
+| 1275–1300 | 27.6 | 35.5 | +7.9 ± 5.6 | 0.21 | 5/7 |
+| 1300–1325 | 26.8 | 36.5 | +9.8 ± 5.0 | 0.099 | 5/7 |
+| 1325–1350 | 24.7 | 36.5 | +11.7 ± 4.1 | 0.028 | 6/7 |
+| 1350–1375 | 27.6 | 36.4 | +8.8 ± 5.5 | 0.16 | 5/7 |
+| 1375–1400 | 27.9 | 36.3 | +8.4 ± 5.4 | 0.18 | 5/7 |
+| 1400–1425 | 28.6 | 37.4 | +8.7 ± 5.3 | 0.15 | 5/7 |
+| 1425–1450 | 28.0 | 37.2 | +9.2 ± 5.3 | 0.13 | 5/7 |
+| 1450–1475 | 27.9 | 36.6 | +8.7 ± 5.9 | 0.19 | 5/7 |
+| 1475–1500 | 28.7 | 36.6 | +7.9 ± 5.3 | 0.19 | 5/7 |
 
 ## Score as a share of the same agent's familiar-room score at 1 B
 
@@ -555,6 +915,13 @@ Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc1
 | after | goal moved (open room) | 0.445 | 0.446 | +0.001 ± 0.029 | 0.98 | 4/7 |
 | after | new rooms (never trained) | 0.294 | 0.330 | +0.037 ± 0.060 | 0.56 | 3/7 |
 | after | familiar room | 0.642 | 0.695 | +0.053 ± 0.079 | 0.53 | 4/7 |
+| long | changed rooms (all 21) | 0.292 | 0.359 | +0.067 ± 0.045 | 0.19 | 6/7 |
+| long | door | 0.258 | 0.326 | +0.068 ± 0.053 | 0.25 | 5/7 |
+| long | obstacle | 0.502 | 0.621 | +0.119 ± 0.079 | 0.18 | 6/7 |
+| long | door + obstacle | 0.211 | 0.280 | +0.069 ± 0.054 | 0.25 | 5/7 |
+| long | goal moved (open room) | 0.421 | 0.466 | +0.045 ± 0.038 | 0.28 | 5/7 |
+| long | new rooms (never trained) | 0.295 | 0.352 | +0.058 ± 0.072 | 0.45 | 5/7 |
+| long | familiar room | 0.593 | 0.727 | +0.133 ± 0.093 | 0.20 | 4/7 |
 
 ## Lesions in the grid + PGC agents (score)
 
@@ -564,8 +931,12 @@ Control agents (After 250 M more frames in the familiar room (seeds 1–2)): gc1
 | before | changed rooms (all 21) | 25.1 | 22.6 | 25.9 | +3.2 ± 0.6 | 0.002 | 7 |
 | after | familiar room | 73.0 | 60.2 | 68.7 | +8.5 ± 1.7 | 0.003 | 7 |
 | after | changed rooms (all 21) | 33.3 | 31.1 | 33.0 | +1.9 ± 0.5 | 0.013 | 7 |
+| long | familiar room | 76.3 | 54.3 | 68.9 | +14.6 ± 2.1 | < 0.001 | 7 |
+| long | changed rooms (all 21) | 38.0 | 31.8 | 36.1 | +4.3 ± 0.9 | 0.003 | 7 |
 
 Change of the PGC-specific cost, after − before: familiar room -11.4 ± 3.9 (p 0.026, lower in 6/7 agents); changed rooms (all 21) -1.3 ± 0.6 (p 0.080, lower in 5/7 agents)
+
+Change of the PGC-specific cost, long − before: familiar room -5.4 ± 4.3 (p 0.26, lower in 5/7 agents); changed rooms (all 21) +1.0 ± 1.1 (p 0.40, lower in 2/7 agents)
 
 ## Matched-budget reference (seeds 1–2): score
 
@@ -573,13 +944,21 @@ Change of the PGC-specific cost, after − before: familiar room -11.4 ± 3.9 (p
 |---|---|---|---|---|
 | gc100_s1 | 1 B | 94.0 | 23.3 | 28.9 |
 | gc100_s1 | 1.25 B, all in the familiar room | 94.1 | 19.2 | 24.5 |
+| gc100_s1 | 1.5 B, all in the familiar room | 99.0 | 22.7 | 31.9 |
 | gc100_s1 | 1.25 B, last 250 M in the changed rooms | 64.5 | 21.2 | 23.0 |
+| gc100_s1 | 1.5 B, last 500 M in the changed rooms | 55.8 | 22.6 | 25.2 |
 | gc100_s2 | 1 B | 112.5 | 34.0 | 41.5 |
 | gc100_s2 | 1.25 B, all in the familiar room | 112.0 | 37.7 | 45.7 |
+| gc100_s2 | 1.5 B, all in the familiar room | 120.7 | 35.6 | 44.5 |
 | gc100_s2 | 1.25 B, last 250 M in the changed rooms | 82.6 | 45.5 | 51.7 |
+| gc100_s2 | 1.5 B, last 500 M in the changed rooms | 91.0 | 49.4 | 58.2 |
 | pgc33_s1 | 1 B | 91.5 | 20.6 | 24.7 |
 | pgc33_s1 | 1.25 B, all in the familiar room | 99.5 | 25.1 | 28.6 |
+| pgc33_s1 | 1.5 B, all in the familiar room | 116.0 | 22.6 | 24.7 |
 | pgc33_s1 | 1.25 B, last 250 M in the changed rooms | 73.7 | 23.7 | 28.1 |
+| pgc33_s1 | 1.5 B, last 500 M in the changed rooms | 76.5 | 28.2 | 25.4 |
 | pgc33_s2 | 1 B | 109.6 | 21.2 | 31.7 |
 | pgc33_s2 | 1.25 B, all in the familiar room | 111.2 | 24.1 | 30.7 |
+| pgc33_s2 | 1.5 B, all in the familiar room | 107.2 | 24.6 | 31.3 |
 | pgc33_s2 | 1.25 B, last 250 M in the changed rooms | 61.0 | 28.1 | 25.0 |
+| pgc33_s2 | 1.5 B, last 500 M in the changed rooms | 76.0 | 35.8 | 32.4 |

@@ -204,7 +204,9 @@ def main():
     if key in ('scratch', 'noscratch'):      # from-scratch section: only when every single-room pair has a frozen test
       return m.group(2) if (helpers['scr_mark']() is not None) == (key == 'scratch') else ''
     return m.group(2) if key in S.get('stats', {}) or S.get(key) or key in X else ''
-  text = re.sub(r'<!--IF (\w+)-->\n?(.*?)<!--END-->\n?', block, text, flags=re.S)
+  # block form (markers on their own lines) first, then the inline form inside a sentence; blocks do not nest
+  text = re.sub(r'^<!--IF (\w+)-->\n(.*?)^<!--END-->\n', block, text, flags=re.S | re.M)
+  text = re.sub(r'<!--IF (\w+)-->(.*?)<!--END-->', block, text, flags=re.S)
   out = re.sub(r'\{\{(.+?)\}\}', sub, text)
   path = args.out or os.path.join(args.dir, 'README.md')
   open(path, 'w').write(out)
