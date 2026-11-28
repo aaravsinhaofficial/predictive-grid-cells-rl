@@ -399,6 +399,18 @@ def main():
         S['learned'].setdefault('scores', {}).setdefault(env, {})[str(mark)] = dict(
             codes={c: group_mean(v) for c, v in sc.items()},
             vs={ref: {c: paired(sc[c], fixed[ref]) for c in sc} for ref in ('gc100', 'u20') if ref in fixed})
+  for mark in lstm_marks:            # the same for the LSTM agents on the room mixture (50 M window)
+    sc = {}
+    for r in runs.values():
+      if r['learn'] == 2 and r['env'] == 'mix' and r['frames_done'] >= mark * M - 1.5 * M:
+        s, n = window(r['fr'], r['ret'], (mark - 50) * M, mark * M)
+        if n:
+          sc.setdefault(r['code'], {})[r['seed']] = s
+    fixed = scores_at(runs, 'mix', 'lstm', mark, 50)
+    if sc:
+      S['learned'].setdefault('scores', {}).setdefault('mix', {})[str(mark)] = dict(
+          codes={c: group_mean(v) for c, v in sc.items()},
+          vs={ref: {c: paired(sc[c], fixed[ref]) for c in sc} for ref in ('gc100', 'u20') if ref in fixed})
 
   json.dump(S, open(os.path.join(args.out, 'summary.json'), 'w'), indent=1)
 
@@ -544,7 +556,7 @@ def write_results_md(S, path):
     L.append('')
     for env, d in S['learned'].get('scores', {}).items():
       for mark, v in d.items():
-        L += [f'Scores of the agents with trainable look-aheads, {env} room, {mark} M frames: '
+        L += [f'Scores of the agents with trainable look-aheads, {dict(mix="room mixture (LSTM agents)").get(env, env + " room")}, {mark} M frames: '
               + '; '.join(f'{c} {f1(g["mean"])} ± {f1(g["sem"])} (n {g["n"]})' for c, g in v['codes'].items()) + '.', '']
   open(path, 'w').write('\n'.join(L) + '\n')
 

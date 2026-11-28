@@ -292,7 +292,7 @@ def score_panel(fig, gs_top, gs_bot, blk, codes, ref, ylabel, show_ref_lines=Tru
   axb.axhline(0, color=INK2, lw=0.8)
   for i, c in enumerate(codes):
     t = blk['vs'].get(ref, {}).get(c)
-    if c == ref or t is None or t.get('diff') is None:
+    if c in (ref, 'none') or t is None or t.get('diff') is None:
       continue
     d = np.array(t['seeds'])
     axb.scatter(np.full(len(d), i) + np.linspace(-0.16, 0.16, len(d)), d, s=11, color=colour(c), alpha=0.5, lw=0)
@@ -333,7 +333,6 @@ def curves_by(rows, env, arm, codes):
 
 
 def draw_curves(ax, data, codes, cols, labels, min_agents=3):
-  ends = []
   for c in codes:
     if c not in data:
       continue
@@ -350,16 +349,7 @@ def draw_curves(ax, data, codes, cols, labels, min_agents=3):
     x, m, s = np.array(x), np.array(m), np.array(s)
     ax.fill_between(x, m - s, m + s, color=cols[c], alpha=0.12, lw=0)
     ax.plot(x, m, color=cols[c], lw=2.0, solid_capstyle='round')
-    ends.append((m[-1], x[-1], c))
-  # direct labels at the line ends, pushed apart when they would overlap
-  ends.sort()
-  lo = None
-  span = ax.get_ylim()[1] - ax.get_ylim()[0]
-  for y, x, c in ends:
-    yy = y if lo is None else max(y, lo + 0.055 * span)
-    ax.text(x + 0.012 * (ax.get_xlim()[1] - ax.get_xlim()[0]), yy, labels[c], color=INK, fontsize=9.5, va='center')
-    ax.plot([x], [y], 'o', ms=4.5, color=cols[c])
-    lo = yy
+    ax.plot([x[-1]], [m[-1]], 'o', ms=4.5, color=cols[c])
   ax.grid(axis='y', color=GRID, lw=0.6)
   ax.set_axisbelow(True)
 
@@ -375,13 +365,13 @@ def fig_curves(S):
     xmax = max([max(d) for v in data.values() for d in v.values()] or [600])
     ax.set_xlim(0, xmax)
     ymax = max([max(d.values()) for v in data.values() for d in v.values()] or [1])
-    ax.set_ylim(0, ymax * 0.92)
+    ax.set_ylim(0, ymax * 0.95)
     draw_curves(ax, data, codes, cols, labels)
     ax.set_title(title, fontsize=11, color=INK, loc='left')
     ax.set_xlabel('training frames (million)')
     ax.set_ylabel('score')
     handles = [plt.Line2D([], [], color=cols[c], lw=2.0, label=labels[c]) for c in codes if c in data]
-    ax.legend(handles=handles, fontsize=9, loc='upper left', handlelength=1.4)
+    ax.legend(handles=handles, fontsize=9, loc='lower right', handlelength=1.4)
   save(fig, 'curves')
 
 
@@ -447,7 +437,7 @@ def fig_lstm(S):
   ax.set_xlabel('training frames (million)')
   ax.set_ylabel('score in the mix of changed rooms')
   handles = [plt.Line2D([], [], color=cols[c], lw=2.0, label=labels[c]) for c in codes if c in data]
-  ax.legend(handles=handles, fontsize=9, loc='upper left', handlelength=1.4)
+  ax.legend(handles=handles, fontsize=9, loc='lower right', handlelength=1.4)
   ax = fig.add_subplot(gs[1])
   marks = sorted([k for k in S['lstm'] if k.isdigit()], key=int)
   if marks:
@@ -473,7 +463,11 @@ def main():
   ap.add_argument('--only', default='codes,recorded,rooms,inputs,open,door,lattice,curves,learned,lstm')
   ap.add_argument('--open_mark', type=int, default=None)
   ap.add_argument('--screen_mark', type=int, default=None)
+  ap.add_argument('--dir', default=None, help='read summary.json and data/ from here and write figures/ here')
   args = ap.parse_args()
+  if args.dir:
+    global OUT
+    OUT = os.path.abspath(args.dir)
   only = set(args.only.split(','))
   if 'codes' in only:
     fig_codes()
