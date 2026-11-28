@@ -198,6 +198,10 @@ def main():
   ap.add_argument('--dest', default=None)
   ap.add_argument('--with_ckpts', action='store_true', help='collect: also the intermediate checkpoints')
   ap.add_argument('--logs_only', action='store_true', help='collect: no network states at all (interim look)')
+  ap.add_argument('--via', default=None,
+                  help="collect: 'auto' or the address of the controller VM. The controller copies the bucket to "
+                       'its disk and the files come from there over ssh, so no gcloud login is needed on this '
+                       "machine. 'auto' tries the bucket first and falls back to runs_codes/_controller/ip.txt")
   args = ap.parse_args()
   F = Fleet(args.tag, args.dest)
   only = set(args.only.split(',')) if args.only else None
@@ -346,9 +350,23 @@ def main():
       excl = '-x ".*\\.pt$" '
     tmp = os.path.join(F.dest, '_bucket')
     os.makedirs(tmp, exist_ok=True)
-    rc = subprocess.run(f'{GSUTIL} -q -m rsync -r {excl}{F.gs}/runs {tmp}', shell=True).returncode
+    rc = 1
+    if args.via in (None, 'auto'):
+      rc = subprocess.run(f'{GSUTIL} -q -m rsync -r {excl}{F.gs}/runs {tmp}', shell=True,
+                          capture_output=args.via == 'auto').returncode
+    if rc != 0 and args.via:
+      ip_file = os.path.join(ROOT, 'runs_codes', '_controller', 'ip.txt')
+      ip = open(ip_file).read().strip() if args.via == 'auto' else args.via
+      key = os.path.join(ROOT, 'runs_room', '.ssh', 'room_fleet')
+      ssh = f'ssh -i {key} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30 -o LogLevel=ERROR'
+      remote = (f'sudo mkdir -p /ctl/pull/{F.tag} && sudo gsutil -q -m rsync -r {excl}{F.gs}/runs /ctl/pull/{F.tag} '
+                f'&& sudo chmod -R a+rX /ctl/pull')
+      rc = subprocess.run(f"{ssh} roomops@{ip} '{remote}'", shell=True).returncode
+      if rc == 0:
+        rc = subprocess.run(f"set -o pipefail; {ssh} roomops@{ip} 'tar -C /ctl/pull/{F.tag} -czf - .' | "
+                            f'tar -C {tmp} -xzf -', shell=True, executable='/bin/bash').returncode
     if rc != 0:
-      raise SystemExit(f'collect {F.tag}: gsutil failed (exit {rc}); nothing copied')
+      raise SystemExit(f'collect {F.tag}: copying from the bucket failed (exit {rc}); nothing copied')
     n = 0
     for vm in sorted(os.listdir(tmp)):
       vdir = os.path.join(tmp, vm)
