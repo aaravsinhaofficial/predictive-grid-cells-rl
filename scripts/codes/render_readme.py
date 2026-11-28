@@ -14,7 +14,13 @@ Helpers (room = 'open' | 'door' | 'lstm'; mark = frames in millions):
   pct(a, b)                     how many per cent a is above b
   la(group, m)                  learned look-ahead of module m (0-3) in cm, group e.g. 'lzero_open'
   laf(group, m)                 the same as a fraction of the module spacing
+  has(room, mark, code, ...)    True when these codes have all 8 agents at that mark
+  pick(x, pos, neg, null)       one of three wordings: x clearly above zero, clearly below, or neither
+                                (Holm-corrected p for a named comparison, else the uncorrected p; 0.05)
+  row(label, room, mark, 'a - b')   one line of the table of short answers
   S, D (door_eval.json), L (lstm_rooms.json) are available as dicts.
+
+A block of lines between <!--IF expr--> and <!--END--> (each on its own line) is kept only if expr is true.
 
   python -m scripts.codes.render_readme
 """
@@ -86,7 +92,7 @@ def main():
 
   # cost: what the controller's watchers counted (list prices), per block
   costs = {}
-  for tag in ('oc', 'os', 'dr', 'tr', 'lstm', 'trl'):
+  for tag in ('oc', 'os', 'dr', 'tr', 'lstm', 'trl', 'ox', 'dx', 'lx'):
     for name in ('cost.remote.json', 'cost.json'):
       p = os.path.join(ROOT, 'runs_codes', tag, name)
       if os.path.exists(p):
@@ -96,6 +102,36 @@ def main():
         except Exception:      # noqa: BLE001
           pass
   helpers['costs'] = costs
+
+  def has(room, mark, *codes):
+    """True when every one of these codes has all 8 agents at that mark."""
+    b = S.get(room, {}).get(str(mark), {}).get('codes', {})
+    return all(c in b and b[c]['n'] >= 8 for c in codes)
+
+  def pick(x, pos, neg, null):
+    """One of three wordings for a paired comparison: clearly above zero, clearly below zero, or neither.
+    Uses the Holm-corrected p when the comparison is a named one, else the uncorrected p; threshold 0.05."""
+    pv_ = x.get('p_holm', x.get('p'))
+    if pv_ is not None and pv_ < 0.05:
+      return pos if x['diff'] > 0 else neg
+    return null
+
+  def verdict(x, pos='higher', neg='lower', null='no clear difference'):
+    return pick(x, pos, neg, null)
+
+  def row(label, room, mark, name, pos='higher', neg='lower'):
+    """One line of the table of short answers."""
+    try:
+      x = comp(room, mark, name)
+    except KeyError:
+      return f'| {label} | – | – | still running |'
+    if x.get('n', 0) < 8:
+      return f'| {label} | – | – | still running |'
+    return (f'| {label} | {sg(x["diff"])} ± {n(x["sem"])} | {x["pos"]} of {x["n"]} | '
+            f'{verdict(x, pos, neg)} |')
+  helpers.update(pick=pick, verdict=verdict, row=row)
+  refilled = opt('refilled_tests.json') or []
+  helpers.update(has=has, refilled=refilled, n_refilled=sum(len(x['tests']) for x in refilled))
 
   # ---------------------------------------------------------------- tables for the details page
   LAB = S.get('labels', {})
@@ -206,6 +242,18 @@ def main():
       out.append(f'| {title} | ' + ' | '.join(sc_) + ' | ' + ' | '.join(df_) + ' |')
     return '\n'.join(out)
 
+  def t_stats(codes, mark=300):
+    """Properties of the codes themselves (data/code_stats.json) beside the training score."""
+    C = opt('code_stats.json')
+    rows = [f'| code | score after {mark} M frames | similarity of the most alike distant places | '
+            'error of a linear readout of position |', '|---|---|---|---|']
+    for c in codes:
+      if c not in C:
+        continue
+      g = S['open'].get(str(mark), {}).get('codes', {}).get(c)
+      rows.append(f'| {lab(c)} | {pm(g) if g else "–"} | {C[c]["cos_far_p999"]:.2f} | {C[c]["xy_rmse_cm"]:.0f} cm |')
+    return '\n'.join(rows)
+
   def t_free():
     rows = ['| run | room | frames | forward, mean ± SD over cells | sideways, mean ± SD | forward mean per module (40 / 57 / 81 / 115 cm) |', '|---|---|---|---|---|---|']
     for name, v in sorted(F.items()):
@@ -215,10 +263,14 @@ def main():
     return '\n'.join(rows)
 
   helpers.update(F=F, lab=lab, pv=pv, pm=pm, t_codes=t_codes, t_named=t_named, t_learned=t_learned,
-                 t_learned_scores=t_learned_scores, t_lesions=t_lesions, t_groups=t_groups, t_free=t_free)
-  helpers['COST_LINE'] = (f'About USD {sum(costs.values()) + 12:.0f} of cloud compute at list prices '
-                          f'(spot L4 GPUs, counted by the fleet watcher, plus about USD 12 for tests, the controller '
-                          f'and data transfer), of USD 600 allowed.') if costs else '??'
+                 t_learned_scores=t_learned_scores, t_lesions=t_lesions, t_groups=t_groups, t_free=t_free,
+                 t_stats=t_stats, CS=opt('code_stats.json'))
+  planned = sum(v for k, v in costs.items() if k in ('oc', 'os', 'dr', 'tr', 'lstm', 'trl'))
+  added = sum(v for k, v in costs.items() if k in ('ox', 'dx', 'lx'))
+  helpers['COST_LINE'] = (f'About USD {planned + added + 12:.0f} of cloud compute at list prices, of USD 600 allowed: '
+                          f'USD {planned:.0f} for the planned runs, USD {added:.0f} for the runs added later, and about '
+                          f'USD 12 for tests, the controller and data transfer. Spot L4 GPUs, counted by the fleet '
+                          f'watcher.') if costs else '??'
   helpers.setdefault('DETAILS_RESULTS', '')
 
   for tpl in ('README', 'DETAILS'):
@@ -227,10 +279,21 @@ def main():
       continue
     text = open(src).read()
     bad = []
+    env = dict(helpers, __builtins__={})      # as globals, so that comprehensions inside a placeholder see the helpers
+
+    def block(m):       # <!--IF expr--> ... <!--END-->: the lines are kept only if expr is true
+      try:
+        keep = eval(m.group(1), env)
+      except Exception as e:          # noqa: BLE001
+        bad.append(f'IF {m.group(1)!r}: {type(e).__name__}: {e}')
+        keep = False
+      return m.group(2) if keep else ''
+    text = re.sub(r'<!--IF (.+?)-->\n(.*?)<!--END-->\n', block, text, flags=re.S)
+    text = re.sub(r'^EDIT_[A-Z0-9_]+\n\n?', '', text, flags=re.M)      # readings not written yet leave no trace
 
     def sub(m):
       try:
-        return str(eval(m.group(1), {'__builtins__': {}}, helpers))
+        return str(eval(m.group(1), env))
       except Exception as e:          # noqa: BLE001
         bad.append(f'{m.group(1)!r}: {type(e).__name__}: {e}')
         return '??'

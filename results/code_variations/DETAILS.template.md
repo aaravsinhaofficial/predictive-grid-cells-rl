@@ -4,6 +4,8 @@ Methods, every statistic, sources and caveats behind the [short page](README.md)
 
 The comparisons, the outcome and the training lengths were fixed in [PLAN.md](PLAN.md) before the cloud runs started (commit `799d9932`). The trainable look-ahead in the LSTM agent was added to the plan about an hour after the launch, before any result was looked at (commit `9fd6682e`). The free look-ahead per cell is not in the plan and is exploratory. Six local pilot runs in the door room (one seed, stopped at 20 M frames) and 18 short test runs came before the plan and are not counted.
 
+**Runs added after a first look (not in the plan).** Early looks at 200 and 250 M frames showed the codes with spread far ahead and still rising. Three blocks were added for that reason: the ten codes of the 300 M block continued to 600 M, and two codes (spread × 3, and Ouchi & Fujisawa with spread, shear and moved fields) in the door room and in the LSTM agents. They were started only after the planned 300 M readout had confirmed the effect. The rule, written down before that readout, was that spread × 3 must score above the grid-only code with p < 0.05. Everything these runs show is descriptive. The planned 300 M readout is not affected: it uses the scores and tests recorded before the runs were continued.
+
 ## What was run
 
 | block | room | agent | codes | agents per code | frames |
@@ -15,8 +17,11 @@ The comparisons, the outcome and the training lengths were fixed in [PLAN.md](PL
 | free look-ahead per cell | open and door | code only | 1, plus 2 control runs | 2 | 300 M |
 | LSTM agents | mix of 21 changed rooms | LSTM + first-person vision | 4 | 8 | 500 M |
 | trainable look-ahead, LSTM agents | mix of 21 changed rooms | LSTM + first-person vision | 2 starts, plus 2 control runs | 4 | 500 M |
+| added: open room, screen continued | open | code only | the same 10 | 8 | 300 M → 600 M |
+| added: door room | wall with a door + obstacle | code only | 2 | 8 | 600 M |
+| added: LSTM agents | mix of 21 changed rooms | LSTM + first-person vision | 2 | 8 | 500 M |
 
-263 training runs. All but the six "free look-ahead" runs ran on spot L4 GPUs in the cloud.
+263 planned training runs and 32 added ones. The continued runs are the same 80 runs trained further from the state saved at 300 M frames (network, optimizer and random-number state). Their episodes start afresh at that point, as they do whenever a spot machine is stopped and a run resumes. All but the six "free look-ahead" runs ran on spot L4 GPUs in the cloud.
 
 **The agent.** The code-only agent is the one of the main study in which predictive cells first showed a benefit: a feed-forward policy (two layers of 256 units) whose image shows only its heading. It has no memory and cannot see walls, so the code is its only source of position. Its inputs are the image, the code at the current place, the code remembered from the last time the goal was reached, the last action and the last reward. Training is unchanged from the main study (A2C, 32 parallel rooms, learning rate 3e-4).
 
@@ -106,8 +111,34 @@ Further comparisons, descriptive and not corrected:
 
 {{t_named('open', 300, ['gcvar3 - gc100', 'm1var - m1', 'm1 - gc100', 'two - u20', 'two - rand', 'lr30 - u20', 'p100 - u20', 'prop27 - rand', 'u20 - gc100'])}}
 
+**Is a code with spread simply more active?** No. In all 18 codes a cell has the same mean activity ({{n(CS['gc100']['mean'], 3)}}) and the same variation of activity (SD {{n(CS['gc100']['sd'], 3)}}). The table gives two properties of the codes themselves, computed from 4,500 random places without any agent (`scripts/codes/code_stats.py`, mean of the 8 seeds). Similarity is the correlation of two population vectors. "Distant" means more than 40 cm apart, and the number is the similarity of the most alike 0.1 % of such pairs. The readout is a linear fit of x and y, tested on places it was not fitted on. An error near 100 cm means that position cannot be read out linearly at all.
+
+{{t_stats(['gc100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'u20', 'mec', 'mecreal', 'p100'])}}
+
+Neither orders the scores. Moved fields make position as easy to read out linearly as spread does, and they do not help. One module with spread still mixes up distant places, and it scores highest. Which property of the codes with spread the agent uses is open.
+
 **Check against the runs of October.** The grid-only and the 20 cm code were trained in October with the same seeds and settings, on other machines. New minus old at 300 M frames: grid only {{d(blk('open', 300)['rerun_check']['gc100'])}} points ({{k(blk('open', 300)['rerun_check']['gc100'])}} agents higher), 20 cm {{d(blk('open', 300)['rerun_check']['u20'])}} ({{k(blk('open', 300)['rerun_check']['u20'])}}). A training run is not bit-reproducible across machines, so this difference is the size of pure rerun noise.
 
+<!--IF has('open', 600, 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'mecreal', 'two', 'lr30', 'p100')-->
+### Open room after 600 M frames, all 18 codes (added, not in the plan)
+
+The ten codes of the 300 M block were trained on to 600 M frames. All 18 codes against the grid-only code:
+
+{{t_codes('open', 600, ['gc100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'u20', 'prop10', 'prop27', 'mec', 'mecreal', 'gard', 'rand', 'two', 'side', 'lr30', 'p100'], 'gc100')}}
+
+The codes with predictive cells against the 20 cm code:
+
+{{t_codes('open', 600, ['u20', 'prop10', 'prop27', 'mec', 'mecreal', 'gard', 'rand', 'two', 'side', 'lr30', 'p100'], 'u20')}}
+
+The comparisons of the 300 M block again at 600 M, descriptive and not corrected:
+
+{{t_named('open', 600, ['gcvar - gc100', 'gcvar3 - gc100', 'gcvar3 - gcvar', 'gcshear - gc100', 'gcjit - gc100', 'mecreal - mec', 'm1 - gc100', 'm1var - m1', 'm1var - gc100', 'two - u20', 'two - rand', 'lr30 - u20', 'p100 - u20'])}}
+
+![all lattice codes at 600 M](figures/open_lattice_600.png)
+
+*Open room after 600 million frames, the codes of Figure 7 of the short page. Read it like that figure.*
+
+<!--END-->
 ### Door room after 600 M frames
 
 The three named comparisons, Holm-corrected together:
@@ -128,6 +159,14 @@ After 300 M frames, with the agents that get no code (3 agents, trained for 300 
 
 **Does the room change which code is better?** The difference 10 % minus 20 cm in the door room, minus the same difference in the open room, agent by agent: {{d(blk('door', 600)['room_interaction'])}} points (95 % CI {{ci(blk('door', 600)['room_interaction'])}}, {{p(blk('door', 600)['room_interaction'])}}).
 
+<!--IF has('door', 600, 'gcvar3', 'mecreal')-->
+**Spread in the door room (added, not in the plan).** Spread × 3 and the Ouchi & Fujisawa code with spread, shear and moved fields, 8 agents each, 600 M frames:
+
+{{t_codes('door', 600, ['gc100', 'gcvar3', 'u20', 'mec', 'mecreal'], 'gc100')}}
+
+{{t_named('door', 600, ['gcvar3 - gc100', 'mecreal - mec', 'mecreal - gc100'])}}
+
+<!--END-->
 **Trips through the door.** The trained agents were tested for 200 episodes in the door room. Every trip to a goal the agent had already found once was sorted by whether the start and the goal lie on the same side of the wall.
 
 {{t_groups(D, [('score', 'test score'), ('reach_same', 'goal reached, same side (share of trips)'), ('reach_door', 'goal reached, through the door (share of trips)'), ('steps_same', 'steps to the goal, same side'), ('steps_door', 'steps to the goal, through the door'), ('wall_contact', 'share of steps pushing against a wall')], ['gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'], 'u20', 2)}}
@@ -147,6 +186,13 @@ Open room, 600 M frames:
 Open room, 300 M frames:
 
 {{t_lesions('open', 300, ['gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'mecreal', 'two', 'lr30', 'p100'])}}
+
+<!--IF has('open', 600, 'gcvar3', 'm1var', 'mecreal') and 'gcvar3' in S['open']['final_test'].get('600', {}).get('codes', {})-->
+The same codes after 600 M frames (added):
+
+{{t_lesions('open', 600, ['gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'mecreal', 'two', 'lr30', 'p100'])}}
+
+<!--END-->
 
 Door room, 600 M frames:
 
@@ -180,7 +226,15 @@ After 250 M frames:
 
 {{t_codes('lstm', 250, ['gc100', 'u20', 'prop10', 'mec'], 'gc100')}}
 
-**Tests room by room.** The final networks were tested for 100 episodes in each room: the open room, the 21 rooms of the training mix, and 6 room conditions that were never trained.
+<!--IF has('lstm', 500, 'gcvar3', 'mecreal')-->
+**Spread in the LSTM agents (added, not in the plan).** Spread × 3 and the Ouchi & Fujisawa code with spread, shear and moved fields, 8 agents each, 500 M frames:
+
+{{t_codes('lstm', 500, ['gc100', 'gcvar3', 'u20', 'mec', 'mecreal'], 'gc100')}}
+
+{{t_named('lstm', 500, ['gcvar3 - gc100', 'mecreal - mec', 'mecreal - gc100'])}}
+
+<!--END-->
+**Tests room by room.** The final networks were tested for 200 episodes in each room: the open room, the 21 rooms of the training mix, and 6 room conditions that were never trained.
 
 {{t_groups(L, [('open', 'open room'), ('trained', 'the 21 training rooms'), ('door', 'rooms with a door wall'), ('obstacle', 'rooms with an obstacle'), ('both', 'rooms with both'), ('goal_moved', 'rooms with a moving goal'), ('new', 'rooms never trained')], ['gc100', 'u20', 'prop10', 'mec'], 'gc100')}}
 
@@ -217,6 +271,8 @@ After 250 M frames:
 - **Jitter size.** The 6 % field jitter is our own choice, not a measured value.
 - **Recorded look-aheads.** The two sources differ by a factor of about three. They use different animals, tasks and criteria. Both analyses leave out cells that still show a clear grid pattern at zero shift. In Ouchi & Fujisawa the rule is stricter, which probably thins out small look-aheads. That is our reading of their criteria, not a statement in the paper. In the lab analysis the smallest step is 2 cm and a fifth of the cells sit on it.
 - **Trainable look-aheads.** Each look-ahead moves by at most 1 mm per update. Over 600 M frames chance alone moves it by about 2 cm. Differences of a few centimetres between agents or starts are therefore noise. The control runs show the size of that noise.
+- **Runs added later.** The continuation to 600 M frames and the two codes added in the door room and the LSTM agents were decided after early looks at the scores. They are not planned tests.
+- **Tests run again.** A spot machine can be switched off while it writes a test result, which leaves an empty file. {{n_refilled}} of the 200-episode lesion tests were lost this way and were run again from the saved final network (`data/refilled_tests.json`). No training score is affected.
 - **Cost.** {{COST_LINE}}
 
 ## Files
@@ -236,6 +292,8 @@ After 250 M frames:
 | codes | `code/codes.py`, `code/codes_data.py` (recorded look-aheads), `scripts/codes/matrix.py` (run list) |
 | training with trainable look-aheads | `code/train.py --learn_shift` |
 | analysis, figures, this page | `scripts/codes/analyse.py`, `door_eval.py`, `extras.py`, `figures.py`, `render_readme.py` |
+| tests run again after a machine stopped | `scripts/codes/fill_tests.py`, `data/refilled_tests.json` |
+| properties of the codes themselves | `scripts/codes/code_stats.py`, `data/code_stats.json` |
 | cloud runs | `scripts/codes/fleet.py` |
 
 To train one agent: `python -m code.train --cond pgc33 --pgc_shift_rule spacing --pgc_shift_frac 0.10 --seed 1 --policy ff --vision heading_only --encoder_norm layernorm --lr 3e-4 --rms_eps 1e-5 --rooms DO1 --frames 600000000 --out <dir>` (the 10 % code in the door room). `python scripts/launch_matrix.py --matrix_json <file> --dry_run` prints the command of every run of a block written by `python -m scripts.codes.matrix <block> --out <file>`. The run directories are not in the repository.

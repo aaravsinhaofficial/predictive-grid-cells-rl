@@ -465,15 +465,19 @@ def fig_learned(S):
 # ------------------------------------------------------- 8. LSTM agents
 def fig_lstm(S):
   rows = read_csv('curves.csv')
-  cols = dict(gc100=BLUE, u20=ORANGE, prop10=TEAL, mec=VIOLET)
-  labels = dict(gc100='grid only', u20='20 cm', prop10='10 % of spacing', mec='Ouchi & Fujisawa')
+  cols = dict(gc100=BLUE, u20=ORANGE, prop10=TEAL, mec=VIOLET, gcvar3='#082a57', mecreal='#9a3412')
+  labels = dict(gc100='grid only', u20='20 cm', prop10='10 % of spacing', mec='Ouchi & Fujisawa',
+                gcvar3='spread × 3', mecreal='Ouchi & Fujisawa + all three')
   codes = ['gc100', 'u20', 'prop10', 'mec']
+  last = S['lstm'].get(str(max(S['lstm_marks'])), {}).get('codes', {})
+  codes += [c for c in ('gcvar3', 'mecreal') if last.get(c, {}).get('n', 0) >= 8]      # follow-on block lx, once complete
   data = curves_by(rows, 'mix', 'lstm', codes)
   if not data:
     print('no LSTM curves yet')
     return
-  fig = plt.figure(figsize=(9.6, 3.6))
-  gs = fig.add_gridspec(1, 2, width_ratios=[1.55, 1.0], wspace=0.42)
+  codes = [c for c in codes if c in data]
+  fig = plt.figure(figsize=(9.6 + 0.6 * max(0, len(codes) - 4), 3.6))
+  gs = fig.add_gridspec(1, 2, width_ratios=[1.55, 1.0 + 0.2 * max(0, len(codes) - 4)], wspace=0.42)
   ax = fig.add_subplot(gs[0])
   xmax = max(max(d) for v in data.values() for d in v.values())
   ymax = max(max(d.values()) for v in data.values() for d in v.values())
@@ -534,8 +538,13 @@ def main():
     fig_scores(S, 'open', low, ['gc100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'mec', 'mecreal', 'm1', 'm1var'],
                'open_lattice', ref='gc100')
     fig_scores(S, 'open', low, ['gc100', 'u20', 'two', 'lr30', 'p100'], 'open_more_shifts')
+    if 'gcvar3' in S['open'].get(str(top), {}).get('codes', {}):      # the screen codes continued (block ox)
+      fig_scores(S, 'open', top, ['gc100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'mec', 'mecreal', 'm1', 'm1var'],
+                 'open_lattice_600', ref='gc100')
   if 'door' in only:
-    fig_scores(S, 'door', top, ['none', 'gc100', 'u20', 'prop10', 'gard', 'mec', 'rand'], 'door_shifts')
+    dx = [c for c in ('gcvar3', 'mecreal')       # follow-on block dx, once complete
+          if S['door'].get(str(top), {}).get('codes', {}).get(c, {}).get('n', 0) >= 8]
+    fig_scores(S, 'door', top, ['none', 'gc100', 'u20', 'prop10', 'gard', 'mec', 'rand'] + dx, 'door_shifts')
   if 'curves' in only:
     fig_curves(S)
     fig_spread_curves(S)

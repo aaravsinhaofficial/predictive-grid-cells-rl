@@ -125,9 +125,13 @@ def load(blocks, base=BASE):
       except ValueError:
         continue
       fr, ret = read_episodes(d)
+      budget = int(cfg.get('frames', 0))
+      # A final test counts only if it was run on the network trained for the whole budget. (A continued
+      # run starts from a copy of its first block, which still holds the tests of the first budget.)
+      evals = {k: v for k, v in read_evals(d).items() if v['frames'] is None or v['frames'] >= budget - 1.5 * M}
       rec = dict(name=name, tag=tag, dir=d, code=m['code'], env=m['env'], arm=m['arm'],
-                 seed=int(m['seed']), budget=int(cfg.get('frames', 0)), fr=fr, ret=ret,
-                 frames_done=int(fr.max()) if len(fr) else 0, evals=read_evals(d),
+                 seed=int(m['seed']), budget=budget, fr=fr, ret=ret,
+                 frames_done=int(fr.max()) if len(fr) else 0, evals=evals,
                  learn=int(cfg.get('learn_shift') or 0))
       rec['evals_at'] = {rec['budget'] // M: rec['evals']}      # final tests by training budget (M frames)
       old = runs.get(name)
@@ -463,14 +467,15 @@ def main():
           w.writerow([r['name'], int(edges[k - 1] // M), int(edges[k] // M), int(m.sum()), round(float(r['ret'][m].mean()), 3)])
   with open(os.path.join(args.out, 'data', 'final_tests.csv'), 'w', newline='') as f:
     w = csv.writer(f)
-    w.writerow(['run', 'code', 'room', 'agent', 'seed', 'probe', 'score', 'path_efficiency', 'first_goal_step',
-                'returns_per_1000_steps'])
-    for r in sorted(runs.values(), key=lambda r: (r['tag'], r['name'])):
-      for probe, v in sorted(r['evals'].items()):
-        w.writerow([r['name'], r['code'], r['env'], r['arm'], r['seed'], probe, round(v['score'], 3),
-                    None if v['path_eff'] is None else round(v['path_eff'], 4),
-                    None if v['first_goal'] is None else round(v['first_goal'], 1),
-                    None if v['post_rate'] is None else round(v['post_rate'], 4)])
+    w.writerow(['run', 'code', 'room', 'agent', 'seed', 'trained_M', 'probe', 'score', 'path_efficiency',
+                'first_goal_step', 'returns_per_1000_steps'])
+    for r in sorted(runs.values(), key=lambda r: (r.get('first_tag', r['tag']), r['name'])):
+      for trained, evals in sorted(r['evals_at'].items()):
+        for probe, v in sorted(evals.items()):
+          w.writerow([r['name'], r['code'], r['env'], r['arm'], r['seed'], trained, probe, round(v['score'], 3),
+                      None if v['path_eff'] is None else round(v['path_eff'], 4),
+                      None if v['first_goal'] is None else round(v['first_goal'], 1),
+                      None if v['post_rate'] is None else round(v['post_rate'], 4)])
   with open(os.path.join(args.out, 'data', 'learned_lookaheads.csv'), 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['run', 'start', 'room', 'seed', 'frames_M', 'module1_cm', 'module2_cm', 'module3_cm', 'module4_cm'])

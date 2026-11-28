@@ -2,7 +2,24 @@
 
 **The big question.** At the meeting on 22 November we listed seven follow-ups. Six of them change something about the spatial code the agent receives. One is a check of what the network is fed. Does any change make the code better to navigate with?
 
-EDIT_SHORT_ANSWERS
+EDIT_HEADLINE
+
+| | what changed | score difference | agents higher | reading |
+|---|---|---|---|---|
+{{row('1 | look-ahead 10 % of spacing instead of 20 cm', 'open', 600, 'prop10 - u20')}}
+{{row('1 | the same in the door room', 'door', 600, 'prop10 - u20')}}
+{{row('3 | look-aheads of Ouchi & Fujisawa instead of 20 cm', 'open', 600, 'mec - u20')}}
+{{row('3 | look-aheads of the lab recordings instead of 20 cm', 'open', 600, 'gard - u20')}}
+{{row('4 | spread of spacing and orientation, as recorded', 'open', 300, 'gcvar - gc100')}}
+{{row('4 | three times that spread', 'open', 300, 'gcvar3 - gc100')}}
+{{row('4 | one module with spread instead of one module without', 'open', 300, 'm1var - m1')}}
+{{row('5 | sheared grid', 'open', 300, 'gcshear - gc100')}}
+{{row('5 | fields moved off the grid', 'open', 300, 'gcjit - gc100')}}
+{{row('6 | look-ahead 27 % of spacing instead of random', 'open', 600, 'prop27 - rand')}}
+{{row('6 | two look-ahead distances instead of one', 'open', 300, 'two - u20')}}
+{{row('6 | looking sideways instead of ahead', 'open', 600, 'side - u20')}}
+
+*The first column is the number of the follow-up. Score difference: points per episode, ± its standard error, over 8 pairs of agents. 10 points are one goal. Rows 1, 3 and the first and last row of 6 are read after 600 million frames, the others after 300 million. Open room unless stated. "No clear difference" means the difference could be chance. Follow-up 2 is a check with no score (section 2). Follow-up 7 is in section 7.*
 
 ## How do the tests work?
 
@@ -28,7 +45,11 @@ EDIT_SHORT_ANSWERS
 
 **What we did.** Each module got one look-ahead, 10 % of its grid spacing. That gives 4.0, 5.7, 8.1 and 11.5 cm. We compared this with the code used so far, which looks 20 cm ahead in every module. Figure 2 shows both.
 
-EDIT_1
+**What we found.** In the open room the 10 % code scores {{sc('open', 600, 'prop10')}} points and the 20 cm code {{sc('open', 600, 'u20')}}. That is {{d(c('open', 600, 'prop10 - u20'))}} points for the 10 % code, which is ahead in {{k(c('open', 600, 'prop10 - u20'))}} agents. The grid-only code scores {{sc('open', 600, 'gc100')}}.
+
+In the door room the 10 % code scores {{sc('door', 600, 'prop10')}} and the 20 cm code {{sc('door', 600, 'u20')}} ({{d(c('door', 600, 'prop10 - u20'))}}, ahead in {{k(c('door', 600, 'prop10 - u20'))}} agents). The grid-only code scores {{sc('door', 600, 'gc100')}}.
+
+EDIT_1_READING
 
 ![open room](figures/open_shifts.png)
 
@@ -36,7 +57,7 @@ EDIT_1
 
 ![door room](figures/door_shifts.png)
 
-*Figure 4. The same in the door room. Colours and marks as in Figure 3.*
+*Figure 4. The same in the door room. Colours and marks as in Figure 3.{{' The two codes on the right were added later. They are explained in section 4.' if has('door', 600, 'gcvar3', 'mecreal') else ''}}*
 
 ## 2. What enters the policy LSTM?
 
@@ -65,23 +86,68 @@ The whole LSTM agent has 3.0 million weights. 1.3 million of them sit on these i
 
 **What we built.** One code from each. In the Ouchi & Fujisawa code every predictive cell gets its own look-ahead, as a fraction of its grid spacing. The fractions follow a bell curve with their average and spread. In the lab code every predictive cell gets one of the 108 recorded look-aheads in centimetres. The scores of both codes are in Figures 3 and 4.
 
-EDIT_3
+**What we found.**
+
+- **Ouchi & Fujisawa code.** {{sc('open', 600, 'mec')}} points in the open room against {{sc('open', 600, 'u20')}} for the 20 cm code ({{d(c('open', 600, 'mec - u20'))}}, ahead in {{k(c('open', 600, 'mec - u20'))}} agents). In the door room {{sc('door', 600, 'mec')}} against {{sc('door', 600, 'u20')}} ({{d(c('door', 600, 'mec - u20'))}}).
+- **Lab code.** {{sc('open', 600, 'gard')}} points in the open room ({{d(c('open', 600, 'gard - u20'))}} against the 20 cm code, ahead in {{k(c('open', 600, 'gard - u20'))}} agents). In the door room {{sc('door', 600, 'gard')}} ({{d(c('door', 600, 'gard - u20'))}}).
+
+EDIT_3_READING
 
 ## 4. Does spread in spacing and orientation within a module matter?
 
 **What we did.** We started from the grid-only code, which has no predictive cells. Every cell got its own spacing and orientation, drawn from a bell curve around its module's values. The width of the curve is the one Redman et al. (2025) used to model a recorded module. It is 5 cm at 85 cm spacing (6 %) and 1° of orientation. We also tried three times that width. And we tried a code with a single module. That is the case in which the paper finds that spread helps most. Figure 2 shows example fields.
 
-EDIT_4
+**What we found.** Spread helps, and more spread helps more. All numbers are after 300 million frames.
+
+- **The recorded amount.** {{d(c('open', 300, 'gcvar - gc100'))}} points over the ideal grid, in {{k(c('open', 300, 'gcvar - gc100'))}} agents. Predictive cells add about as much at this point ({{d(c('open', 300, 'u20 - gc100'))}}).
+- **Three times as much.** {{d(c('open', 300, 'gcvar3 - gc100'))}} points, in {{k(c('open', 300, 'gcvar3 - gc100'))}} agents.
+- **One module.** Without spread a single module is the worst code we tried ({{sc('open', 300, 'm1')}} points). With spread it is the best ({{sc('open', 300, 'm1var')}}). The ideal four-module grid scores {{sc('open', 300, 'gc100')}}.
+- **With predictive cells.** The Ouchi & Fujisawa code with spread, shear and moved fields scores {{d(c('open', 300, 'mecreal - mec'))}} points more than the same code on the ideal grid, in {{k(c('open', 300, 'mecreal - mec'))}} agents. On their own, on the grid-only code, the three changes add {{sg(c('open', 300, 'gcvar - gc100')['diff'])}}, {{sg(c('open', 300, 'gcshear - gc100')['diff'])}} and {{sg(c('open', 300, 'gcjit - gc100')['diff'])}} points.
+
+**A clue to why.** Each agent is given the code of the place where it last reached the goal. At 300 million frames the agents with the most spread already rely on it. Switching it off costs {{n(S['open']['final_test']['300']['lesions']['m1var']['no_goal']['diff'])}} points with one module and spread, {{n(S['open']['final_test']['300']['lesions']['gcvar3']['no_goal']['diff'])}} with spread × 3 and {{n(S['open']['final_test']['300']['lesions']['mecreal']['no_goal']['diff'])}} with Ouchi & Fujisawa and all three. For the other codes of this figure it costs {{n(max(S['open']['final_test']['300']['lesions'][x]['no_goal']['diff'] for x in ['gcvar', 'gcshear', 'gcjit', 'm1']))}} points or less.
 
 ![lattice](figures/open_lattice.png)
 
 *Figure 7. Open room, after 300 million frames. Read it like Figure 3. Blue: no predictive cells. Orange: predictive cells. The bottom panel shows the difference to the grid-only code. "Sheared" and "jittered fields" are the two changes of section 5. "Ouchi & Fujisawa + all three" is the Ouchi & Fujisawa code with spread, shear and moved fields together.*
 
+**Does the lead last? (added after the first result, not in the plan)** The gap was still growing at 300 million frames, so we let these runs go on to 600 million.
+
+<!--IF has('open', 600, 'gcvar', 'gcvar3', 'm1', 'm1var', 'mecreal')-->
+- **The recorded amount.** {{d(c('open', 600, 'gcvar - gc100'))}} points over the ideal grid ({{sc('open', 600, 'gcvar')}} against {{sc('open', 600, 'gc100')}}), in {{k(c('open', 600, 'gcvar - gc100'))}} agents.
+- **Three times as much.** {{d(c('open', 600, 'gcvar3 - gc100'))}} points ({{sc('open', 600, 'gcvar3')}}), in {{k(c('open', 600, 'gcvar3 - gc100'))}} agents.
+- **One module.** {{sc('open', 600, 'm1')}} points without spread and {{sc('open', 600, 'm1var')}} with it.
+- **With predictive cells.** {{d(c('open', 600, 'mecreal - mec'))}} points ({{sc('open', 600, 'mecreal')}} against {{sc('open', 600, 'mec')}}), in {{k(c('open', 600, 'mecreal - mec'))}} agents.
+
+EDIT_4_READING_600
+<!--END-->
+<!--IF not has('open', 600, 'gcvar', 'gcvar3', 'm1', 'm1var', 'mecreal')-->
+*These runs are still going. The numbers will be added here.*
+<!--END-->
+
+![spread curves](figures/spread_curves.png)
+
+*Figure 8. Score during training in the open room. Left: four modules with no spread, the recorded spread, and three times as much. Middle: one module without and with spread. Right: the Ouchi & Fujisawa code on the ideal grid, and with spread, shear and moved fields. Line: average of the 8 agents. Shaded band: how uncertain that average is. Dotted line: 300 million frames, where the planned comparison was made.*
+
+**Does it hold in the door room and in the LSTM agents? (added, not in the plan)** We trained two of these codes there as well: spread × 3, and Ouchi & Fujisawa with all three.
+
+<!--IF has('door', 600, 'gcvar3', 'mecreal')-->
+- **Door room, 600 million frames.** Spread × 3 scores {{sc('door', 600, 'gcvar3')}} points against {{sc('door', 600, 'gc100')}} for the ideal grid ({{d(c('door', 600, 'gcvar3 - gc100'))}}, ahead in {{k(c('door', 600, 'gcvar3 - gc100'))}} agents). Ouchi & Fujisawa with all three scores {{sc('door', 600, 'mecreal')}} against {{sc('door', 600, 'mec')}} without ({{d(c('door', 600, 'mecreal - mec'))}}, ahead in {{k(c('door', 600, 'mecreal - mec'))}}).
+<!--END-->
+<!--IF not has('door', 600, 'gcvar3', 'mecreal')-->
+- **Door room.** *Still running. The numbers will be added here.*
+<!--END-->
+<!--IF has('lstm', 500, 'gcvar3', 'mecreal')-->
+- **LSTM agents, 500 million frames.** Spread × 3 scores {{sc('lstm', 500, 'gcvar3')}} points against {{sc('lstm', 500, 'gc100')}} for the ideal grid ({{d(c('lstm', 500, 'gcvar3 - gc100'))}}, ahead in {{k(c('lstm', 500, 'gcvar3 - gc100'))}} agents). Ouchi & Fujisawa with all three scores {{sc('lstm', 500, 'mecreal')}} against {{sc('lstm', 500, 'mec')}} without ({{d(c('lstm', 500, 'mecreal - mec'))}}, ahead in {{k(c('lstm', 500, 'mecreal - mec'))}}).
+<!--END-->
+<!--IF not has('lstm', 500, 'gcvar3', 'mecreal')-->
+- **LSTM agents.** *Still running. The numbers will be added here.*
+<!--END-->
+
 ## 5. Does deforming the grid matter?
 
 **What we did.** Two changes to the grid-only code. In the first the whole pattern is slanted along one wall (a shear), by the amount found in rats (Stensola et al. 2015). The hexagons become slightly stretched. In the second every firing field is moved a little in a random direction, by about 6 % of the grid spacing. That size is our own choice. None of the papers we read gives one. Figure 2 shows both changes. The scores are in Figure 7.
 
-EDIT_5
+**What we found.** Neither change matters. The sheared grid scores {{d(c('open', 300, 'gcshear - gc100'))}} points against the ideal grid. The true difference could plausibly lie anywhere from {{ci(c('open', 300, 'gcshear - gc100'))}}. The grid with moved fields scores {{d(c('open', 300, 'gcjit - gc100'))}} (plausibly {{ci(c('open', 300, 'gcjit - gc100'))}}). The agent navigates as well with a deformed grid as with a perfect one.
 
 ## 6. Which predictive shifts do best?
 
@@ -91,36 +157,54 @@ EDIT_5
 - **Few or many.** One distance (20 cm), two distances (10 and 30 cm), or many (the random code and the two recorded codes of section 3).
 - **Sideways.** One code looks 20 cm to the left of the direction of travel. Another looks 20 cm ahead, turned 30° to the left for half of the predictive cells and 30° to the right for the rest. Recorded grid cells sweep ahead to the left and right in a similar way, by 20° to 30° (theta sweeps, Vollan et al. 2025).
 
-The scores are in Figure 3 (27 %, random, sideways) and Figure 8 (10 and 30 cm, 30° left or right).
+The scores are in Figure 3 (27 %, random, sideways) and Figure 9 (10 and 30 cm, 30° left or right).
 
-EDIT_6
+**What we found.**
+
+- **Proportional or random.** 27 % of spacing scores {{sc('open', 600, 'prop27')}} points and random {{sc('open', 600, 'rand')}} ({{d(c('open', 600, 'prop27 - rand'))}}, 600 million frames).
+- **Few or many.** Three pairs of codes have the same average look-ahead, once as one distance and once as many. Many minus one is {{d(blk('open', 600)['many_vs_one'])}} points on average (600 million frames). Two distances against one is {{d(c('open', 300, 'two - u20'))}} (300 million).
+- **Sideways.** Looking 20 cm to the side scores {{d(c('open', 600, 'side - u20'))}} points against looking 20 cm ahead (600 million frames, ahead in {{k(c('open', 600, 'side - u20'))}} agents). Looking ahead but 30° to the left or right scores {{d(c('open', 300, 'lr30 - u20'))}} (300 million).
+- **More predictive cells.** When all 512 cells look 20 cm ahead and not just 169, the score is {{d(c('open', 300, 'p100 - u20'))}} points higher (300 million frames, in {{k(c('open', 300, 'p100 - u20'))}} agents).
+
+EDIT_6_READING
 
 ![more shifts](figures/open_more_shifts.png)
 
-*Figure 8. Open room, after 300 million frames. Read it like Figure 3. Blue: no predictive cells. Orange: predictive cells. "All cells 20 cm" is a code in which all 512 cells look 20 cm ahead.*
+*Figure 9. Open room, after 300 million frames. Read it like Figure 3. Blue: no predictive cells. Orange: predictive cells. "All cells 20 cm" is a code in which all 512 cells look 20 cm ahead.*
 
 ## 7. Do fixed codes point to a property worth training?
 
 **Fixed codes.** A fixed code does not change during training. Sections 1 and 3 to 6 compare fixed codes.
 
-EDIT_7A
+EDIT_7A_READING
 
 **A trainable code.** We tried the simplest version. Each module has one look-ahead, so there are four numbers. They are not fixed. Training adjusts them along with the agent. They start at 0 cm or at 20 cm.
 
-EDIT_7B
+**What we found.** The look-aheads at the end of training, for the modules with 40, 57, 81 and 115 cm spacing:
+
+| start | open room | door room |
+|---|---|---|
+| 0 cm | {{la('lzero_open', 0)}}, {{la('lzero_open', 1)}}, {{la('lzero_open', 2)}} and {{la('lzero_open', 3)}} cm | {{la('lzero_door', 0)}}, {{la('lzero_door', 1)}}, {{la('lzero_door', 2)}} and {{la('lzero_door', 3)}} cm |
+| 20 cm | {{la('lu20_open', 0)}}, {{la('lu20_open', 1)}}, {{la('lu20_open', 2)}} and {{la('lu20_open', 3)}} cm | {{la('lu20_door', 0)}}, {{la('lu20_door', 1)}}, {{la('lu20_door', 2)}} and {{la('lu20_door', 3)}} cm |
+
+Each cell is the average of 4 agents. In the control runs chance alone moved a look-ahead by up to {{n(max(abs(v - s0) for g, s0 in [('lzeroX_open', 0), ('lu20X_open', 20), ('lzeroX_door', 0), ('lu20X_door', 20)] for v in S['learned']['groups'][g]['mean_cm']))}} cm.
+
+EDIT_7B_READING
 
 ![learned](figures/learned_lookaheads.png)
 
-*Figure 9. The four look-aheads during training. One column per module. Top row: open room. Bottom row: door room. One line per agent. Blue: start at 0 cm, which is the grid-only code. Orange: start at 20 cm. Grey: control runs that learn from a scrambled signal. They show how far chance alone moves a look-ahead. Dotted line: 10 % of the module's spacing. Dashed line: 27 %.*
+*Figure 10. The four look-aheads during training. One column per module. Top row: open room. Bottom row: door room. One line per agent. Blue: start at 0 cm, which is the grid-only code. Orange: start at 20 cm. Grey: control runs that learn from a scrambled signal. They show how far chance alone moves a look-ahead. Dotted line: 10 % of the module's spacing. Dashed line: 27 %.*
 
 ## Do the 10 % shift and the recorded shifts help the LSTM agents in the changed rooms?
 
 This repeats follow-ups 1 and 3 in the agent of the room-change study. LSTM agents with first-person vision were trained from the start in the mix of 21 changed rooms.
 
-EDIT_LSTM
+**What we found.** After 500 million frames the scores are {{sc('lstm', 500, 'gc100')}} points for the grid-only code, {{sc('lstm', 500, 'u20')}} for 20 cm, {{sc('lstm', 500, 'prop10')}} for 10 % of spacing and {{sc('lstm', 500, 'mec')}} for Ouchi & Fujisawa. The 20 cm code is {{d(c('lstm', 500, 'u20 - gc100'))}} points from the grid-only code. The 10 % code is {{d(c('lstm', 500, 'prop10 - u20'))}} from the 20 cm code, and the Ouchi & Fujisawa code {{d(c('lstm', 500, 'mec - u20'))}}.
+
+EDIT_LSTM_READING
 
 ![lstm](figures/lstm_rooms.png)
 
-*Figure 10. LSTM agents trained from the start in the mix of 21 changed rooms of the room-change study. Blue: grid-only. Orange: 20 cm. Green: 10 % of spacing. Violet: Ouchi & Fujisawa. Left: score during training. Line: average of the 8 agents. Shaded band: how uncertain that average is. Right: score at the end. Dots: single agents. Short line: their average.*
+*Figure 11. LSTM agents trained from the start in the mix of 21 changed rooms of the room-change study. Blue: grid-only. Orange: 20 cm. Green: 10 % of spacing. Violet: Ouchi & Fujisawa.{{' Dark blue: spread × 3. Brown: Ouchi & Fujisawa with spread, shear and moved fields.' if has('lstm', 500, 'gcvar3', 'mecreal') else ''}} Left: score during training. Line: average of the 8 agents. Shaded band: how uncertain that average is. Right: score at the end. Dots: single agents. Short line: their average.*
 
 [Details and all statistics](DETAILS.md) · [All tables](RESULTS.md) · [Plan](PLAN.md)
