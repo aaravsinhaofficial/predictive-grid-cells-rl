@@ -84,6 +84,23 @@ def main():
       sum=sum, max=max, min=min, len=len, abs=abs, str=str, int=int, sorted=sorted, round=round, zip=zip,
       range=range, enumerate=enumerate, float=float)
 
+  # cost: what the controller's watchers counted (list prices), per block
+  costs = {}
+  for tag in ('oc', 'os', 'dr', 'tr', 'lstm', 'trl'):
+    for name in ('cost.remote.json', 'cost.json'):
+      p = os.path.join(ROOT, 'runs_codes', tag, name)
+      if os.path.exists(p):
+        try:
+          costs[tag] = json.load(open(p))['usd']
+          break
+        except Exception:      # noqa: BLE001
+          pass
+  helpers['costs'] = costs
+  helpers['COST_LINE'] = (f'About USD {sum(costs.values()) + 12:.0f} of cloud compute at list prices '
+                          f'(spot L4 GPUs, counted by the fleet watcher, plus about USD 12 for tests, the controller '
+                          f'and data transfer), of USD 600 allowed.') if costs else '??'
+  helpers.setdefault('DETAILS_RESULTS', '')
+
   for tpl in ('README', 'DETAILS'):
     src = os.path.join(args.dir, f'{tpl}.template.md')
     if not os.path.exists(src):

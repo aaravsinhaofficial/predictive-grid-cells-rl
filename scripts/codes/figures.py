@@ -191,11 +191,11 @@ def fig_recorded():
   cm = np.array([s for v in GARDNER_PGC_SHIFT_CM.values() for s in v], float)
   ax = axes[0]
   bins = np.arange(0, 58, 2) + 1.0
-  ax.hist(cm, bins=bins, color=BLUE, alpha=0.85, rwidth=0.86, label='lab recordings, 108 cells')
+  ax.hist(cm, bins=bins, color=TEAL, alpha=0.9, rwidth=0.86, label='lab analysis of the Gardner\nrecordings, 108 cells')
   x = np.linspace(0, 56, 300)
   scale = len(cm) * 2.0
-  ax.plot(x, scale * stats.norm.pdf(x, 22.5, 10.2), color=ORANGE, lw=2.0,
-          label='Ouchi & Fujisawa, 305 cells\n(normal curve with their mean and SD)')
+  ax.plot(x, scale * stats.norm.pdf(x, 22.5, 10.2), color=VIOLET, lw=2.0,
+          label='Ouchi & Fujisawa (bell curve with\ntheir average and spread)')
   ax.set_xlabel('look-ahead of a predictive grid cell (cm)')
   ax.set_ylabel('cells')
   ax.legend(fontsize=9, loc='upper right')
@@ -203,9 +203,9 @@ def fig_recorded():
   ax = axes[1]
   fr = np.array(GARDNER_SHIFT_FRAC)
   b = np.arange(0, 0.56, 0.025)
-  ax.hist(fr, bins=b, color=BLUE, alpha=0.85, rwidth=0.86)
+  ax.hist(fr, bins=b, color=TEAL, alpha=0.9, rwidth=0.86)
   x = np.linspace(0, 0.55, 300)
-  ax.plot(x, len(fr) * 0.025 * stats.norm.pdf(x, 0.27, 0.11), color=ORANGE, lw=2.0)
+  ax.plot(x, len(fr) * 0.025 * stats.norm.pdf(x, 0.27, 0.11), color=VIOLET, lw=2.0)
   ymax = ax.get_ylim()[1]
   for v, t in ((0.10, '10 %'), (0.27, '27 %')):
     ax.plot([v, v], [0, ymax * 0.93], color=INK2, lw=0.9)
@@ -247,8 +247,8 @@ def fig_rooms():
 
 # --------------------------------------------------------------- 4. inputs
 def fig_inputs():
-  parts = [('vision', 256, GREY), ('code, now', 512, BLUE), ('code at the goal', 512, ORANGE),
-           ('last action', 6, INK2), ('last reward', 1, INK)]
+  parts = [('vision', 256, '#a9a7a1'), ('code, now', 512, '#77756f'), ('code at the goal', 512, '#4f4e4a'),
+           ('last action', 6, INK), ('last reward', 1, INK)]
   fig, ax = plt.subplots(figsize=(8.2, 1.25))
   x = 0
   for name, n, c in parts:
