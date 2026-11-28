@@ -182,8 +182,19 @@ def main(argv=None):
   ckpt_path, ckpt_frames = pick_checkpoint(args.run, args.ckpt)
   ck = torch.load(ckpt_path, map_location='cpu')
   pop = build_population(cfg, dev)
+  stored = (cfg.get('population') or {}).get('lattice_hash')
+  if stored and stored != pop.describe()['lattice_hash']:
+    raise SystemExit(f'{args.run}: the cells rebuilt from config.json differ from the cells the run was '
+                     f'trained with (lattice_hash {pop.describe()["lattice_hash"]} != {stored})')
   if 'shift' in ck:      # learned look-ahead vectors (train.py --learn_shift)
     pop.set_shift(ck['shift'][:, 0], ck['shift'][:, 1])
+  elif 'shift_param' in ck:      # a resume state: rebuild the per-cell vectors from the parameters
+    sp = ck['shift_param']
+    if sp.dim() == 1:
+      fwd = sp[torch.as_tensor(pop.module)] * pop.is_pgc.float().cpu()
+      pop.set_shift(fwd, torch.zeros_like(fwd))
+    else:
+      pop.set_shift(sp[:, 0], sp[:, 1])
   out_dir = args.out_dir or os.path.join(args.run, 'eval')
   os.makedirs(out_dir, exist_ok=True)
   canonical = (os.path.basename(ckpt_path) == 'ckpt_final.pt' and

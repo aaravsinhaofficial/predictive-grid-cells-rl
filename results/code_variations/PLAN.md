@@ -50,3 +50,11 @@ Trained from scratch on the mixture of 21 changed rooms for 500 M frames, 8 seed
 With 8 seeds, the smallest difference found four times out of five is about 3.6 points at 300 M frames and about 5 points at 600 M. The benefit of predictive cells itself is about 3.5 points at 300 M and about 11.5 at 600 M. A code that loses half of that benefit should be visible at 600 M. Differences below about 3 points between codes that all work cannot be resolved.
 
 Two properties of the task matter when reading the results. The look-ahead point is the position plus the shift along the direction of travel, with no check for walls, so it can lie outside the room or behind a wall. And the remembered goal code is taken on the rim of the 30 cm goal zone, which ties the useful look-ahead to that size.
+
+## Added after the launch
+
+Added on 27 November, about an hour after the runs above had started and before any result was looked at.
+
+**Trainable look-ahead in the paper's agent (exploratory, no test).** The same four trainable look-aheads, one per module, in the LSTM agent with first-person vision, trained from scratch on the mixture of 21 changed rooms for 500 M frames. Two starts (0 cm and 20 cm), 4 seeds each, plus one control run per start with the gradient sign scrambled. Reported as for the code-only agent. The spread of the control runs is the yardstick for what counts as movement. If the two starts do not end at the same values, that is reported as not resolved, not as evidence for two optima.
+
+**Reading of all trainable runs.** Each look-ahead moves by at most 1 mm per update. Over 600 M frames noise alone moves it by about 2 cm. Differences of a few centimetres between runs or starts are therefore noise.

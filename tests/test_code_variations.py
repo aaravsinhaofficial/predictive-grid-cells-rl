@@ -217,13 +217,13 @@ def test_alternating_left_right_look_ahead_and_recorded_fractions():
   assert np.allclose(np.abs(lat), 0.2 * math.sin(math.radians(30)), atol=1e-6)
   assert np.allclose(p.shift.numpy()[p.pgc_idx], 0.2 * math.cos(math.radians(30)), atol=1e-6)
   from code.codes_data import GARDNER_SHIFT_FRAC
-  assert len(GARDNER_SHIFT_FRAC) == 108 and abs(np.mean(GARDNER_SHIFT_FRAC) - 0.0975) < 1e-3
+  assert len(GARDNER_SHIFT_FRAC) == 108 and abs(np.mean(GARDNER_SHIFT_FRAC) - 0.0954) < 1e-3
   cfg = dict(n_cells=512, n_modules=4, spacing_min=0.4, spacing_ratio=1.42, pgc_frac=0.33, pgc_shift=0.2,
              pgc_shift_mode='space', pgc_tau=0.5, pgc_shift_jitter=0.0, sharpness=2.0, code_seed=3,
              pgc_shift_dist='gardner_frac')
   g = build_population(cfg, 'cpu')
   f = g.shift.numpy()[g.pgc_idx] / g.spacings[g.module][g.pgc_idx]
-  assert set(np.round(f, 4)) <= set(np.round(GARDNER_SHIFT_FRAC, 4)) and abs(f.mean() - 0.0975) < 0.02
+  assert set(np.round(f, 4)) <= set(np.round(GARDNER_SHIFT_FRAC, 4)) and abs(f.mean() - 0.095) < 0.02
   # 'gardner': the recorded shifts in centimetres as they are, the same in every module
   from code.codes_data import GARDNER_SHIFT_M
   g = build_population(dict(cfg, pgc_shift_dist='gardner'), 'cpu')

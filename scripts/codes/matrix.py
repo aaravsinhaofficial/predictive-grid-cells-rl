@@ -47,6 +47,8 @@ Blocks (one cloud fleet each):
   tr    trainable look-aheads, open and door room, 600 M frames, 4 seeds (+ 4 controls)
   lstm  LSTM + first-person vision from scratch on the mixture of 21 changed
         rooms, 500 M frames, 8 seeds
+  trl   trainable look-aheads in the LSTM agent on the same mixture, 500 M
+        frames, 4 seeds (+ 2 controls)
 Agent arm 'ffb' (all blocks but lstm): feed-forward policy whose image shows the
 heading only, so the code is its only source of position.
 
@@ -129,6 +131,9 @@ def block(name):
     runs += [run(c, e, 1, 600 * M) for e in ('open', 'door') for c in ('lzeroX', 'lu20X')]
   elif name == 'lstm':
     runs = [run(c, 'mix', s, 500 * M, arm='lstm') for s in S8 for c in LSTM_CODES]
+  elif name == 'trl':
+    runs = [run(c, 'mix', s, 500 * M, arm='lstm') for s in (1, 2, 3, 4) for c in ('lzero', 'lu20')]
+    runs += [run(c, 'mix', 1, 500 * M, arm='lstm') for c in ('lzeroX', 'lu20X')]
   else:
     raise ValueError(name)
   return runs
@@ -136,7 +141,7 @@ def block(name):
 
 def main():
   ap = argparse.ArgumentParser()
-  ap.add_argument('block', choices=['oc', 'os', 'dr', 'tr', 'lstm'])
+  ap.add_argument('block', choices=['oc', 'os', 'dr', 'tr', 'lstm', 'trl'])
   ap.add_argument('--out', required=True)
   args = ap.parse_args()
   runs = block(args.block)

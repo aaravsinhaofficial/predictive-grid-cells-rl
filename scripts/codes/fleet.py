@@ -31,8 +31,11 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import shutil  # noqa: E402
 GCLOUD = os.path.expanduser('~/google-cloud-sdk/bin/gcloud')
 GSUTIL = os.path.expanduser('~/google-cloud-sdk/bin/gsutil')
+if not os.path.exists(GCLOUD):          # e.g. on the controller VM
+  GCLOUD, GSUTIL = shutil.which('gcloud') or 'gcloud', shutil.which('gsutil') or 'gsutil'
 PROJECT = 'connectome-ai-research'
 BUCKET = 'connectome-ai-research-popcode'
 IMAGE_FAMILY, IMAGE_PROJECT = 'pytorch-2-9-cu129-ubuntu-2204-nvidia-580', 'deeplearning-platform-release'
@@ -72,16 +75,16 @@ if [ ! -d runs ]; then                     # new disk: take whatever state the b
   gsutil -m rsync -r "gs://$BUCKET/codes/$TAG/runs/$VM" runs || true
 fi
 if gsutil -q stat "gs://$BUCKET/codes/$TAG/runs/$VM/DONE"; then shutdown -h now; exit 0; fi
-# Logs go to the bucket every 15 minutes, the saved network states every hour (the disk
-# survives a preemption, so the bucket copy of the states only matters if the VM is rebuilt).
-( sleep 240; gsutil -m rsync -r -x '.*\.pt$' runs "gs://$BUCKET/codes/$TAG/runs/$VM" >/dev/null 2>&1
+# Logs, the resume states and the final networks go to the bucket every 15 minutes (a VM
+# rebuilt in another zone then loses at most that much); numbered checkpoints go hourly.
+( sleep 240; gsutil -m rsync -r -x '.*ckpt_[0-9].*\.pt$' runs "gs://$BUCKET/codes/$TAG/runs/$VM" >/dev/null 2>&1
   k=0
   while true; do
     sleep 900; k=$((k + 1))
     if [ $((k % 4)) = 0 ]; then
       gsutil -m rsync -r runs "gs://$BUCKET/codes/$TAG/runs/$VM" >/dev/null 2>&1
     else
-      gsutil -m rsync -r -x '.*\.pt$' runs "gs://$BUCKET/codes/$TAG/runs/$VM" >/dev/null 2>&1
+      gsutil -m rsync -r -x '.*ckpt_[0-9].*\.pt$' runs "gs://$BUCKET/codes/$TAG/runs/$VM" >/dev/null 2>&1
     fi
   done ) &
 SYNC=$!
@@ -91,7 +94,10 @@ $PYBIN scripts/launch_matrix.py --matrix_json assign.json --runs_dir /work/runs 
 kill $SYNC
 N_OK=$(ls runs/*/eval/intact.json 2>/dev/null | wc -l)
 N_ALL=$($PYBIN -c "import json; print(len(json.load(open('assign.json'))))")
-gsutil -m rsync -r runs "gs://$BUCKET/codes/$TAG/runs/$VM"
+for i in 1 2 3 4 5 6; do
+  gsutil -m rsync -r runs "gs://$BUCKET/codes/$TAG/runs/$VM" && break
+  sleep 30
+done
 if [ "$N_OK" = "$N_ALL" ]; then
   touch DONE && gsutil cp DONE "gs://$BUCKET/codes/$TAG/runs/$VM/DONE"
 else
@@ -186,8 +192,12 @@ def main():
   ap.add_argument('--only', default=None, help='comma list of VM names')
   ap.add_argument('--budget', type=float, default=None, help='watch: USD at which the fleet is deleted')
   ap.add_argument('--poll', type=int, default=150)
+  ap.add_argument('--mirror', action='store_true',
+                  help='watch: copy fleet.log and cost.json to gs://<bucket>/codes/_controller/state/<tag>/ '
+                       'after every pass (for a watcher that runs on a cloud VM)')
   ap.add_argument('--dest', default=None)
   ap.add_argument('--with_ckpts', action='store_true', help='collect: also the intermediate checkpoints')
+  ap.add_argument('--logs_only', action='store_true', help='collect: no network states at all (interim look)')
   args = ap.parse_args()
   F = Fleet(args.tag, args.dest)
   only = set(args.only.split(',')) if args.only else None
@@ -249,6 +259,7 @@ def main():
     cost_path = os.path.join(F.dest, 'cost.json')
     cost = json.load(open(cost_path)) if os.path.exists(cost_path) else dict(usd=0.0, vm_hours=0.0)
     down = {}                      # vm -> consecutive passes it could not be started
+    kept = set()                   # finished VMs kept because the bucket copy looked incomplete
     last = time.time()
     F.log(f'watch start: budget {args.budget}, cost so far {cost["usd"]:.2f}')
     while True:
@@ -268,6 +279,9 @@ def main():
         cost['usd'] += dt * DISK_GB * DISK_PRICE
       cost['time'] = now()
       json.dump(cost, open(cost_path, 'w'))
+      if args.mirror:
+        subprocess.run(f'{GSUTIL} -q cp {cost_path} {os.path.join(F.dest, "fleet.log")} '
+                       f'gs://{BUCKET}/codes/_controller/state/{F.tag}/', shell=True, capture_output=True)
       if args.budget is not None and cost['usd'] >= args.budget:
         F.log(f'BUDGET REACHED (USD {cost["usd"]:.2f} >= {args.budget}): deleting the fleet')
         for vm, (zone, *_) in have.items():
@@ -277,6 +291,18 @@ def main():
       for vm, (zone, status, model) in sorted(have.items()):
         if vm in done or vm in failed:
           if status in ('TERMINATED', 'RUNNING'):
+            # The disk is the only other copy: delete it only when the bucket holds the final
+            # network and the test of every run of this VM.
+            have_gs = sh(f'{GSUTIL} ls "{F.gs}/runs/{vm}/*/ckpt_final.pt" "{F.gs}/runs/{vm}/*/eval/intact.json" '
+                         f'2>/dev/null', check=False).split()
+            names = {u.split('/')[-2] for u in have_gs if u.endswith('ckpt_final.pt')} & \
+                    {u.split('/')[-3] for u in have_gs if u.endswith('intact.json')}
+            lacking = [r for r in plan.get(vm, {}).get('runs', []) if r not in names]
+            if vm in done and lacking:
+              if vm not in kept:
+                F.log(f'{vm} done but the bucket lacks {lacking}: VM kept (stopped) for inspection')
+                kept.add(vm)
+              continue
             F.log(f'{vm} {"done" if vm in done else "FAILED"}: deleting')
             subprocess.run([GCLOUD, 'compute', 'instances', 'delete', vm, '--zone', zone, '--project', PROJECT,
                             '--quiet'], capture_output=True)
@@ -300,6 +326,14 @@ def main():
               z2, msg = F.create(vm, zones[k:] + zones[:k], model == 'SPOT', meta)
               F.log(f'{vm} recreated in {z2}: {msg}')
               down.pop(vm, None)
+      # A planned VM that is not listed and not finished (its recreation failed everywhere): try again.
+      for vm in sorted(plan):
+        if vm not in have and vm not in done and vm not in failed:
+          meta = dict(plan[vm], probes_file=os.path.join(F.dest, 'probes.txt'),
+                      train_args_file=os.path.join(F.dest, 'train_args.txt'))
+          k = hash(vm) % len(ZONES)
+          z2, msg = F.create(vm, ZONES[k:] + ZONES[:k], True, meta)
+          F.log(f'{vm} was missing: created in {z2}: {msg}')
       left = [vm for vm in plan if vm not in done and vm not in failed]
       if not left:
         F.log(f'all {len(plan)} VMs finished ({len(failed)} failed); estimated cost USD {cost["usd"]:.2f}')
@@ -307,10 +341,14 @@ def main():
       time.sleep(args.poll)
 
   elif args.cmd == 'collect':
-    excl = '' if args.with_ckpts else '-x ".*ckpt_[0-9].*\\.pt$" '
+    excl = '' if args.with_ckpts else '-x ".*ckpt_[0-9].*\\.pt$|.*resume\\.pt$" '
+    if args.logs_only:
+      excl = '-x ".*\\.pt$" '
     tmp = os.path.join(F.dest, '_bucket')
     os.makedirs(tmp, exist_ok=True)
-    subprocess.run(f'{GSUTIL} -q -m rsync -r {excl}{F.gs}/runs {tmp}', shell=True)
+    rc = subprocess.run(f'{GSUTIL} -q -m rsync -r {excl}{F.gs}/runs {tmp}', shell=True).returncode
+    if rc != 0:
+      raise SystemExit(f'collect {F.tag}: gsutil failed (exit {rc}); nothing copied')
     n = 0
     for vm in sorted(os.listdir(tmp)):
       vdir = os.path.join(tmp, vm)
@@ -319,7 +357,7 @@ def main():
       for run in sorted(os.listdir(vdir)):
         src = os.path.join(vdir, run)
         if os.path.isdir(src) and os.path.exists(os.path.join(src, 'config.json')):
-          sh(f'mkdir -p {F.dest}/{run} && rsync -a {src}/ {F.dest}/{run}/')
+          sh(f'mkdir -p {F.dest}/{run} && rsync -a -u {src}/ {F.dest}/{run}/')
           n += 1
     print(f'collected {n} run directories into {F.dest}')
 

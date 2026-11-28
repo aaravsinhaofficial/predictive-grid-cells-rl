@@ -6,21 +6,22 @@ recording: rat Q modules 1-2, rat R day 1 and day 2 modules 1-3, rat S module 1)
 counts as predictive when its grid score peaks at a positive spatial shift (position
 projected ahead along the direction of movement, 2 cm steps between -50 and 50 cm), the
 peak beats a shuffle and exceeds 0.3, and the grid score at zero shift is below 0.5.
-GARDNER_MODULE_SPACING_CM: mean grid spacing of each module (analysis notebooks of Redman
-et al. 2025; the day-2 recordings of rat R use the day-1 values of the same modules).
-GARDNER_SHIFT_FRAC: every shift divided by its module spacing (108 cells; mean 0.097,
-median 0.069).
+GARDNER_MODULE_SPACING_CM: median grid spacing of each module, read off Extended Data
+Fig. 2a-d of Gardner et al. (2022) (the paper gives no numbers; precision about 2 cm).
+GARDNER_SHIFT_FRAC: every shift divided by its module spacing (108 cells; mean 0.095,
+median 0.067).
+GARDNER_SHIFT_M: the shifts in metres as recorded (mean 0.083, median 0.06).
 """
 GARDNER_MODULE_SPACING_CM = {
-    'q1': 67.6,
-    'q2': 101.1,
-    'r11': 57.6,
-    'r12': 87.8,
-    'r13': 113.6,
-    'r21': 57.6,
-    'r22': 87.8,
-    'r23': 113.6,
-    's1': 55.0,
+    'q1': 71.0,
+    'q2': 102.0,
+    'r11': 60.5,
+    'r12': 89.0,
+    'r13': 126.0,
+    'r21': 57.0,
+    'r22': 84.0,
+    'r23': 117.0,
+    's1': 59.5,
 }
 GARDNER_PGC_SHIFT_CM = {
     'q1': [2, 2, 4, 4, 8, 12, 12, 12],
