@@ -4,7 +4,7 @@ import argparse
 
 import torch
 
-from code.codes import GridPopulation
+from code.codes_var import GridPopulation      # code/codes.py plus the code variations (identical with all of them off)
 from code.env import NUM_ACTIONS, ArenaEnv
 from code.nets import PolicyNet
 

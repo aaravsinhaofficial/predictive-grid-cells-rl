@@ -54,7 +54,7 @@ Every four-module code is the 512-cell population of its seed with one thing cha
 | `m1`, `m1var` | grid only, one module of 512 cells at 81 cm, without and with the `gcvar` spread | | Redman et al. 2025 |
 | `none` | no code | | floor |
 
-How each change is built (`code/codes.py`):
+How each change is built (`code/codes_var.py`):
 
 - **Look-ahead.** A predictive cell fires for the place a fixed distance ahead of the agent along its direction of travel. The remembered goal code uses the same look-aheads.
 - **Spread within a module.** Each cell draws its own spacing and orientation from a normal distribution around its module's values.
@@ -62,6 +62,7 @@ How each change is built (`code/codes.py`):
 - **Jitter.** Each cell's map is warped by a smooth random displacement field, different for every cell, with a wavelength of 1.5 to 2.5 grid spacings. The root-mean-square move of a field is 6 % of the spacing. The mean move is 5.4 %.
 - **Trainable look-ahead.** One forward distance per module, shared by the predictive cells of that module. It is trained by the same loss as the policy, with its own learning rate (1e-4). In the free version each of the 512 cells of the grid-only code has its own forward and sideways distance, starting at zero. In a control run every look-ahead gradient gets a random sign at each update, so the look-aheads move by noise alone.
 - Each change draws from its own random stream. Turning one on never alters another, and with all of them off the population is bit-identical to the one of the main study (checked on the cells and on short deterministic training runs).
+- `code/codes.py`, the population of the main study, is not changed. Earlier studies in this repository record its exact text by checksum. The variations are in `code/codes_var.py`. The cloud runs were made with the same code when it still sat in `code/codes.py` (commits `799d9932` to `9fd6682e`).
 
 ## Outcome and tests
 
@@ -272,7 +273,7 @@ After 250 M frames:
 - **Recorded look-aheads.** The two sources differ by a factor of about three. They use different animals, tasks and criteria. Both analyses leave out cells that still show a clear grid pattern at zero shift. In Ouchi & Fujisawa the rule is stricter, which probably thins out small look-aheads. That is our reading of their criteria, not a statement in the paper. In the lab analysis the smallest step is 2 cm and a fifth of the cells sit on it.
 - **Trainable look-aheads.** Each look-ahead moves by at most 1 mm per update. Over 600 M frames chance alone moves it by about 2 cm. Differences of a few centimetres between agents or starts are therefore noise. The control runs show the size of that noise.
 - **Runs added later.** The continuation to 600 M frames and the two codes added in the door room and the LSTM agents were decided after early looks at the scores. They are not planned tests.
-- **Tests run again.** A spot machine can be switched off while it writes a test result, which leaves an empty file. {{n_refilled}} of the 200-episode lesion tests were lost this way and were run again from the saved final network (`data/refilled_tests.json`). No training score is affected.
+- **Tests run again.** A spot machine can be switched off while it writes a test result, which leaves an empty file. {{n_refilled}} of the 200-episode lesion tests were lost this way and were run again from the saved final network, with the same test on a different GPU (`data/refilled_tests.json`). No training score is affected.
 - **Cost.** {{COST_LINE}}
 
 ## Files
@@ -289,11 +290,11 @@ After 250 M frames:
 | look-aheads learned per cell | `data/free_lookaheads.json` |
 | door-room trips that need the door and trips that do not | `data/door_eval.json` |
 | LSTM agents tested room by room | `data/lstm_rooms.csv` |
-| codes | `code/codes.py`, `code/codes_data.py` (recorded look-aheads), `scripts/codes/matrix.py` (run list) |
+| codes | `code/codes_var.py`, `code/codes_data.py` (recorded look-aheads), `scripts/codes/matrix.py` (run list) |
 | training with trainable look-aheads | `code/train.py --learn_shift` |
 | analysis, figures, this page | `scripts/codes/analyse.py`, `door_eval.py`, `extras.py`, `figures.py`, `render_readme.py` |
 | tests run again after a machine stopped | `scripts/codes/fill_tests.py`, `data/refilled_tests.json` |
 | properties of the codes themselves | `scripts/codes/code_stats.py`, `data/code_stats.json` |
-| cloud runs | `scripts/codes/fleet.py` |
+| cloud runs | `scripts/codes/fleet.py`, `scripts/codes/launch.py` |
 
 To train one agent: `python -m code.train --cond pgc33 --pgc_shift_rule spacing --pgc_shift_frac 0.10 --seed 1 --policy ff --vision heading_only --encoder_norm layernorm --lr 3e-4 --rms_eps 1e-5 --rooms DO1 --frames 600000000 --out <dir>` (the 10 % code in the door room). `python scripts/launch_matrix.py --matrix_json <file> --dry_run` prints the command of every run of a block written by `python -m scripts.codes.matrix <block> --out <file>`. The run directories are not in the repository.

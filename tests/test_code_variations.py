@@ -10,7 +10,7 @@ import pytest
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from code.codes import GridPopulation  # noqa: E402
+from code.codes_var import GridPopulation  # noqa: E402
 from code.common import CodeSource, build_population  # noqa: E402
 
 MEC = dict(pgc_frac=0.33, pgc_shift_dist='tnorm', pgc_shift_dist_args=[0.27, 0.11, 0.02, 0.5])
@@ -22,6 +22,29 @@ def states(B=64, seed=0):
   ang = torch.rand(B, generator=g) * 2 * math.pi
   d = torch.stack([torch.cos(ang), torch.sin(ang)], 1)
   return pos, d
+
+
+def test_pinned_files_keep_their_exact_text():
+  # Earlier studies pin these two files by SHA-256 (e.g. docs/research/heading_confirmation_sources.json).
+  # The code variations therefore live in code/codes_var.py and scripts/codes/launch.py.
+  import hashlib
+  import json
+  root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+  pinned = json.load(open(os.path.join(root, 'docs', 'research', 'heading_confirmation_sources.json')))['sources']
+  sha = lambda p: hashlib.sha256(open(os.path.join(root, p), 'rb').read()).hexdigest()   # noqa: E731
+  assert sha('code/codes.py') == pinned['code/codes.py']
+  assert sha('scripts/launch_matrix.py') == 'ee775d6ea9e529c2334fd5ba00b3895894fad33559c5d849609a8664732b4f70'
+
+
+@pytest.mark.parametrize('kw', [dict(pgc_frac=0.0), dict(pgc_frac=0.33), dict(pgc_frac=0.33, pgc_shift=0.1),
+                                dict(pgc_frac=1.0), dict(pgc_frac=0.5, n_modules=1, spacing_min=0.81)])
+def test_no_variation_is_bit_identical_to_the_pinned_module(kw):
+  from code.codes import GridPopulation as Original
+  pos, d = states(256, seed=3)
+  for seed in (1, 5):
+    a, b = Original(seed=seed, **kw), GridPopulation(seed=seed, **kw)
+    assert torch.equal(a.activity(pos, dir=d), b.activity(pos, dir=d))
+    assert np.array_equal(a.is_pgc.cpu().numpy(), b.is_pgc.cpu().numpy())
 
 
 def test_defaults_are_the_original_population():

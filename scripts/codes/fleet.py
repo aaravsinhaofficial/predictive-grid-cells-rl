@@ -89,7 +89,10 @@ if gsutil -q stat "gs://$BUCKET/codes/$TAG/runs/$VM/DONE"; then shutdown -h now;
   done ) &
 SYNC=$!
 sed -i "s#^PY = .*#PY = '$PYBIN'#" scripts/launch_matrix.py
-$PYBIN scripts/launch_matrix.py --matrix_json assign.json --runs_dir /work/runs --max_concurrent "$MAXC" \
+# scripts/codes/launch.py = scripts/launch_matrix.py with a choice of final tests. (The code archives of the
+# first fleets predate it: there the option was in scripts/launch_matrix.py itself.)
+LAUNCH=scripts/launch_matrix.py; [ -f scripts/codes/launch.py ] && LAUNCH=scripts/codes/launch.py
+$PYBIN $LAUNCH --matrix_json assign.json --runs_dir /work/runs --max_concurrent "$MAXC" \
     --no_ckpt_probes --probes "$PROBES" --train_args "$TRAIN_ARGS" 2>&1 | tee -a runs/scheduler.stdout
 kill $SYNC
 N_OK=$(ls runs/*/eval/intact.json 2>/dev/null | wc -l)

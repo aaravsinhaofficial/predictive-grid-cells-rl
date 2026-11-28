@@ -34,38 +34,7 @@ A population is fully determined by (seed, n_cells, n_modules, spacings,
 pgc_frac, pgc_shift, ...), so the SAME population (same phases/orientations)
 can be instantiated for several conditions, differing only in which cells are
 predictive -- that is what makes the gc-vs-pgc comparison within a seed paired.
-
-Code variations (all off by default; with the defaults the population is
-bit-identical to the original one). Each variation draws from its own random
-stream keyed by (seed, stream id), so switching one on never changes the
-numbers another one draws, nor the original phases / orientations / PGC
-indices:
-  shift distributions   pgc_shift_dist: every PGC gets its own look-ahead
-                        ('tnorm': a fraction of its module spacing from a
-                        truncated normal, e.g. the recorded MEC distribution;
-                        'emp': a fraction drawn from a list of recorded values;
-                        'empm': metres drawn from a list of recorded shifts;
-                        'unif': metres, uniform in a range; 'set': a few fixed
-                        distances shared out evenly within each module)
-  shift direction       pgc_shift_angle: the look-ahead points this many
-                        degrees to the left of the direction of travel
-                        (0 ahead, 90 sideways, 180 behind)
-  within-module spread  spacing_sd / orient_sd_deg: every cell's spacing and
-                        orientation are drawn from a Gaussian around its
-                        module's values
-  lattice deformation   lattice_ellip / lattice_shear: each module's lattice
-                        is stretched along a random axis (ellipticity = long /
-                        short axis of the six inner peaks) or sheared along a
-                        wall axis
-  field jitter          field_jitter: every cell's map is warped by a smooth
-                        random displacement field (RMS = field_jitter x
-                        spacing, wavelength 1.5-2.5 spacings), which moves
-                        each firing field a little in its own direction
-  learnable shifts      set_shift(): per-cell (forward, sideways) look-ahead
-                        vectors supplied from outside (code/train.py
-                        --learn_shift trains them with the policy)
 """
-import hashlib
 import math
 
 import numpy as np
@@ -80,11 +49,7 @@ class GridPopulation:
                pgc_shift_mode='space', pgc_tau=0.5, pgc_shift_jitter=0.0,
                sharpness=2.0, noise=0.0, seed=0, device='cpu',
                pgc_layout='uniform', pgc_module_weights=None,
-               pgc_shift_rule='const', pgc_shift_frac=0.5, cell_type='grid',
-               pgc_shift_dist='rule', pgc_shift_dist_args=None, pgc_shift_angle=0.0,
-               pgc_shift_angle_alt=False,
-               spacing_sd=0.0, orient_sd_deg=0.0, lattice_ellip=1.0,
-               lattice_shear=0.0, field_jitter=0.0):
+               pgc_shift_rule='const', pgc_shift_frac=0.5, cell_type='grid'):
     """pgc_layout: how the PGCs are distributed over modules --
          'uniform' (equal share per module, stratified random), 'fine' (fill
          the smallest-spacing modules first), 'coarse' (largest first),
@@ -95,27 +60,7 @@ class GridPopulation:
          shift across scales).
        cell_type: 'grid' (three-cosine hexagonal cells) or 'band' (one cosine
          along one of the module's three lattice directions, i.e. stripe /
-         band cells; predictive band cells are shifted the same way).
-       pgc_shift_dist: 'rule' (the const / spacing rule above), or a per-cell
-         distribution with parameters pgc_shift_dist_args:
-           'tnorm' [mu, sd, lo, hi]  shift = f x module spacing, f from a normal
-                                     (mu, sd) truncated to [lo, hi]
-           'emp'   [f1, f2, ...]     shift = f x module spacing, f drawn with
-                                     replacement from the list
-           'empm'  [d1, d2, ...]     shift in metres, drawn with replacement
-                                     from the list (recorded shifts as they are)
-           'unif'  [lo, hi]          shift in metres, uniform
-           'set'   [d1, d2, ...]     metres; the PGCs of each module take the
-                                     values in turn (equal shares)
-       pgc_shift_angle: degrees to the left of the direction of travel.
-       pgc_shift_angle_alt: the PGCs of each module take +angle and -angle in
-         turn (half look ahead-left, half ahead-right).
-       spacing_sd: SD of the per-cell spacing, as a fraction of the module
-         spacing; orient_sd_deg: SD of the per-cell orientation (degrees).
-       lattice_ellip: ellipticity of every module's lattice (1 = hexagonal);
-         lattice_shear: shear of every module's lattice along a wall axis.
-       field_jitter: RMS displacement of the firing fields, as a fraction of
-         the cell's spacing."""
+         band cells; predictive band cells are shifted the same way)."""
     if pgc_shift_mode not in ('space', 'time'):
       raise ValueError(f'pgc_shift_mode must be space|time, got {pgc_shift_mode!r}')
     if pgc_layout not in ('uniform', 'fine', 'coarse', 'middle', 'weights'):
@@ -124,20 +69,6 @@ class GridPopulation:
       raise ValueError(f'unknown pgc_shift_rule {pgc_shift_rule!r}')
     if cell_type not in ('grid', 'band'):
       raise ValueError(f'unknown cell_type {cell_type!r}')
-    if pgc_shift_dist not in ('rule', 'tnorm', 'emp', 'empm', 'unif', 'set'):
-      raise ValueError(f'unknown pgc_shift_dist {pgc_shift_dist!r}')
-    if pgc_shift_dist != 'rule' and pgc_shift_mode != 'space':
-      raise ValueError('pgc_shift_dist needs pgc_shift_mode space')
-    self.pgc_shift_dist = pgc_shift_dist
-    self.pgc_shift_dist_args = ([float(v) for v in pgc_shift_dist_args]
-                                if pgc_shift_dist_args is not None else None)
-    self.pgc_shift_angle = float(pgc_shift_angle)
-    self.pgc_shift_angle_alt = bool(pgc_shift_angle_alt)
-    self.spacing_sd, self.orient_sd_deg = float(spacing_sd), float(orient_sd_deg)
-    self.lattice_ellip, self.lattice_shear = float(lattice_ellip), float(lattice_shear)
-    self.field_jitter = float(field_jitter)
-    if self.lattice_ellip < 1.0:
-      raise ValueError('lattice_ellip is long / short axis and must be >= 1')
     self.pgc_layout, self.pgc_shift_rule = pgc_layout, pgc_shift_rule
     self.pgc_shift_frac, self.cell_type = float(pgc_shift_frac), cell_type
     self.pgc_module_weights = (list(map(float, pgc_module_weights))
@@ -160,14 +91,6 @@ class GridPopulation:
     self.orientation = rng.uniform(0.0, np.pi / 3.0, self.n_modules)          # [M]
     lam = self.spacings[self.module]                                          # [N]
     th = self.orientation[self.module]                                        # [N]
-    lam_module = lam                 # look-aheads are fractions of the MODULE spacing
-    if self.spacing_sd > 0 or self.orient_sd_deg > 0:
-      # Within-module spread: its own stream, one normal draw per cell and property.
-      rv = np.random.default_rng([self.seed, 202])
-      z = rv.normal(0.0, 1.0, (self.n_cells, 2))
-      lam = lam * np.clip(1.0 + self.spacing_sd * z[:, 0], 0.5, 1.5)
-      th = th + np.radians(self.orient_sd_deg) * z[:, 1]
-    self.cell_spacing, self.cell_orientation = lam, th
 
     # Wave vectors k_i (i = 0, 1, 2) at 60-degree increments.
     kmag = 4.0 * np.pi / (np.sqrt(3.0) * lam)
@@ -179,43 +102,6 @@ class GridPopulation:
     a2 = lam[:, None] * np.stack([np.cos(th + np.pi / 2), np.sin(th + np.pi / 2)], -1)
     uv = rng.uniform(0.0, 1.0, (self.n_cells, 2))
     phi = uv[:, :1] * a1 + uv[:, 1:] * a2                                     # [N,2]
-
-    # Lattice deformation, one matrix per module: x_deformed = D x, so the
-    # wave vectors become k D^-1 and the phases D phi.
-    self.deform = np.tile(np.eye(2), (self.n_modules, 1, 1))                  # [M,2,2]
-    if self.lattice_ellip != 1.0 or self.lattice_shear != 0.0:
-      rd = np.random.default_rng([self.seed, 303])
-      axis = rd.uniform(0.0, np.pi, self.n_modules)        # long axis of the ellipse
-      wall = rd.integers(0, 2, self.n_modules)             # shear along x (0) or y (1)
-      sign = rd.choice([-1.0, 1.0], self.n_modules)
-      e = np.sqrt(self.lattice_ellip)
-      for m in range(self.n_modules):
-        c, s_ = np.cos(axis[m]), np.sin(axis[m])
-        R = np.array([[c, -s_], [s_, c]])
-        D = R @ np.diag([e, 1.0 / e]) @ R.T
-        S = np.eye(2)
-        S[wall[m], 1 - wall[m]] = sign[m] * self.lattice_shear
-        self.deform[m] = S @ D
-      Dc = self.deform[self.module]                                           # [N,2,2]
-      K = np.einsum('nid,nde->nie', K, np.linalg.inv(Dc))
-      phi = np.einsum('nde,ne->nd', Dc, phi)
-
-    # Field jitter: a smooth random displacement field per cell,
-    # W(x) = sum_k A_k sin(q_k . x + psi_k), added to the position before the
-    # lattice is read. RMS |W| = field_jitter x spacing.
-    self.n_warp = 4
-    warp_A = np.zeros((self.n_cells, self.n_warp, 2))
-    warp_Q = np.zeros((self.n_cells, self.n_warp, 2))
-    warp_psi = np.zeros((self.n_cells, self.n_warp))
-    if self.field_jitter > 0:
-      rj = np.random.default_rng([self.seed, 404])
-      wl = rj.uniform(1.5, 2.5, (self.n_cells, self.n_warp)) * lam[:, None]   # wavelengths
-      qa = rj.uniform(0.0, 2 * np.pi, (self.n_cells, self.n_warp))
-      aa = rj.uniform(0.0, 2 * np.pi, (self.n_cells, self.n_warp))
-      warp_psi = rj.uniform(0.0, 2 * np.pi, (self.n_cells, self.n_warp))
-      warp_Q = (2 * np.pi / wl)[..., None] * np.stack([np.cos(qa), np.sin(qa)], -1)
-      amp = self.field_jitter * lam * np.sqrt(2.0 / self.n_warp)
-      warp_A = amp[:, None, None] * np.stack([np.cos(aa), np.sin(aa)], -1)
 
     # PGC assignment over modules according to pgc_layout.
     is_pgc = np.zeros(self.n_cells, dtype=bool)
@@ -231,7 +117,7 @@ class GridPopulation:
       is_pgc[chosen] = True
     if pgc_shift_mode == 'space':
       if self.pgc_shift_rule == 'spacing':
-        base = self.pgc_shift_frac * lam_module     # per cell: fraction of its module spacing
+        base = self.pgc_shift_frac * lam            # per cell: fraction of its module spacing
       else:
         base = np.full(self.n_cells, self.pgc_shift)
     else:
@@ -240,18 +126,7 @@ class GridPopulation:
       jit = np.exp(rng.normal(0.0, self.pgc_shift_jitter, self.n_cells))
     else:
       jit = np.ones(self.n_cells)
-    if self.pgc_shift_dist != 'rule':
-      base, jit = self._draw_shifts(is_pgc, lam_module), np.ones(self.n_cells)
     shifts = np.where(is_pgc, base * jit, 0.0)
-    # Direction of the look-ahead relative to the direction of travel.
-    ang = np.radians(self.pgc_shift_angle)
-    shifts_lat = np.zeros(self.n_cells)
-    if self.pgc_shift_angle != 0.0:
-      shifts, shifts_lat = shifts * np.cos(ang), shifts * np.sin(ang)
-      if self.pgc_shift_angle_alt:
-        for m in range(self.n_modules):
-          idx = np.where((self.module == m) & is_pgc)[0]
-          shifts_lat[idx[1::2]] *= -1.0
     # Band cells: one lattice direction per cell (3 orientations per module).
     self.band_dir = np.arange(self.n_cells) % 3
 
@@ -259,57 +134,13 @@ class GridPopulation:
     self.K = torch.as_tensor(K, **f32)                 # [N,3,2]
     self.phi = torch.as_tensor(phi, **f32)             # [N,2]
     self.shift = torch.as_tensor(shifts, **f32)        # [N] (m or s; 0 for grid cells)
-    self.shift_lat = torch.as_tensor(shifts_lat, **f32)  # [N] to the left of travel (m)
-    self.has_lat = bool(np.any(shifts_lat != 0.0))
-    self.has_warp = self.field_jitter > 0
-    self.warp_A = torch.as_tensor(warp_A, **f32)       # [N,k,2]
-    self.warp_Q = torch.as_tensor(warp_Q, **f32)       # [N,k,2]
-    self.warp_psi = torch.as_tensor(warp_psi, **f32)   # [N,k]
-    self.learned_shift = False
     self.is_pgc = torch.as_tensor(is_pgc, device=self.device)
     self._band_dir_t = torch.as_tensor(self.band_dir, dtype=torch.long, device=self.device)
     self.pgc_idx = np.where(is_pgc)[0]
     self.gc_idx = np.where(~is_pgc)[0]
     self.n_pgc = int(is_pgc.sum())
     self.has_pgc = self.n_pgc > 0
-    self._np = dict(K=K, phi=phi, shifts=shifts, is_pgc=is_pgc, shifts_lat=shifts_lat,
-                    warp_A=warp_A, warp_Q=warp_Q, warp_psi=warp_psi)
-
-  def _draw_shifts(self, is_pgc, lam_module):
-    """Per-cell look-ahead (m) under pgc_shift_dist; its own random stream,
-    one draw per cell so the values do not depend on which cells are PGCs."""
-    a, N = self.pgc_shift_dist_args, self.n_cells
-    rs = np.random.default_rng([self.seed, 101])
-    if self.pgc_shift_dist == 'tnorm':
-      mu, sd, lo, hi = a
-      f = rs.normal(mu, sd, N)
-      for _ in range(1000):                       # redraw the values outside [lo, hi]
-        bad = (f < lo) | (f > hi)
-        if not bad.any():
-          break
-        f[bad] = rs.normal(mu, sd, int(bad.sum()))
-      return f * lam_module
-    if self.pgc_shift_dist == 'emp':
-      return rs.choice(np.asarray(a, float), N, replace=True) * lam_module
-    if self.pgc_shift_dist == 'empm':
-      return rs.choice(np.asarray(a, float), N, replace=True)
-    if self.pgc_shift_dist == 'unif':
-      return rs.uniform(a[0], a[1], N)
-    # 'set': the PGCs of each module take the listed distances in turn
-    out = np.zeros(N)
-    for m in range(self.n_modules):
-      idx = np.where((self.module == m) & is_pgc)[0]
-      out[idx] = np.asarray(a, float)[np.arange(len(idx)) % len(a)]
-    return out
-
-  def set_shift(self, fwd, lat=None):
-    """Replace every cell's look-ahead vector (metres ahead, metres to the
-    left of the direction of travel). Used for learned shifts."""
-    self.shift = torch.as_tensor(fwd, dtype=torch.float32, device=self.device).detach().clone()
-    self.shift_lat = (torch.zeros_like(self.shift) if lat is None else
-                      torch.as_tensor(lat, dtype=torch.float32, device=self.device).detach().clone())
-    self.has_lat = bool((self.shift_lat != 0).any())
-    self.learned_shift = True
+    self._np = dict(K=K, phi=phi, shifts=shifts, is_pgc=is_pgc)
 
   def _module_counts(self, k_total, sizes):
     """How many PGCs each module gets under pgc_layout (sum == k_total)."""
@@ -353,40 +184,23 @@ class GridPopulation:
     return per
 
   # ------------------------------------------------------------------ core
-  def activity(self, pos, dir=None, vel=None, shift_scale=1.0, shift=None):
+  def activity(self, pos, dir=None, vel=None, shift_scale=1.0):
     """Population activity [B, N] in [0, 1].
 
     pos [B,2] allocentric position (m); dir [B,2] unit heading-of-motion
     (space mode); vel [B,2] allocentric velocity (m/s, time mode).
     shift_scale multiplies every PGC's shift (0 turns PGCs into plain grid
     cells -- the `pgc_as_gc` evaluation probe).
-    shift: optional [N,2] tensor of (forward, leftward) look-aheads that
-    replaces the stored ones (it may require grad: learnable shifts).
     """
     pos = pos.to(self.device, torch.float32)
     B = pos.shape[0]
     x = pos[:, None, :].expand(B, self.n_cells, 2)
-    if shift is not None:
-      if shift_scale != 0.0:
-        src = dir if self.pgc_shift_mode == 'space' else vel
-        if src is None:
-          raise ValueError('shifted population needs dir (space mode) or vel (time mode)')
-        src = src.to(self.device, torch.float32)
-        left = torch.stack([-src[:, 1], src[:, 0]], 1)
-        x = (x + (shift_scale * shift[:, 0])[None, :, None] * src[:, None, :]
-             + (shift_scale * shift[:, 1])[None, :, None] * left[:, None, :])
-    elif (self.has_pgc or self.learned_shift) and shift_scale != 0.0:
+    if self.has_pgc and shift_scale != 0.0:
       src = dir if self.pgc_shift_mode == 'space' else vel
       if src is None:
         raise ValueError('PGC population needs dir (space mode) or vel (time mode)')
       src = src.to(self.device, torch.float32)
       x = x + (shift_scale * self.shift)[None, :, None] * src[:, None, :]
-      if self.has_lat:
-        left = torch.stack([-src[:, 1], src[:, 0]], 1)
-        x = x + (shift_scale * self.shift_lat)[None, :, None] * left[:, None, :]
-    if self.has_warp:
-      ph = torch.einsum('bnd,nkd->bnk', x, self.warp_Q) + self.warp_psi[None]
-      x = x + torch.einsum('bnk,nkd->bnd', torch.sin(ph), self.warp_A)
     proj = torch.einsum('bnd,nid->bni', x - self.phi[None], self.K)        # [B,N,3]
     if self.cell_type == 'band':
       c = torch.cos(proj)                                                  # [B,N,3]
@@ -435,26 +249,10 @@ class GridPopulation:
         pgc_idx=[int(i) for i in self.pgc_idx],
         pgc_per_module=[int(((self.module == m) & self._np['is_pgc']).sum())
                         for m in range(self.n_modules)],
-        pgc_shift_dist=self.pgc_shift_dist, pgc_shift_dist_args=self.pgc_shift_dist_args,
-        pgc_shift_angle=self.pgc_shift_angle, pgc_shift_angle_alt=self.pgc_shift_angle_alt,
-        spacing_sd=self.spacing_sd,
-        orient_sd_deg=self.orient_sd_deg, lattice_ellip=self.lattice_ellip,
-        lattice_shear=self.lattice_shear, field_jitter=self.field_jitter,
-        lattice_hash=self.lattice_hash(),
     )
-
-  def lattice_hash(self):
-    """Fingerprint of everything that defines the cells as built (wave
-    vectors, phases, look-ahead vectors, warp); learned shifts are not
-    included. A resumed run must reproduce it."""
-    h = hashlib.sha256()
-    for k in ('K', 'phi', 'shifts', 'shifts_lat', 'warp_A', 'warp_Q', 'warp_psi'):
-      h.update(np.round(np.asarray(self._np[k], dtype=np.float64), 9).tobytes())
-    return h.hexdigest()[:16]
 
   def to(self, device):
     self.device = torch.device(device)
-    for k in ('K', 'phi', 'shift', 'shift_lat', 'is_pgc', '_band_dir_t',
-              'warp_A', 'warp_Q', 'warp_psi'):
+    for k in ('K', 'phi', 'shift', 'is_pgc', '_band_dir_t'):
       setattr(self, k, getattr(self, k).to(self.device))
     return self

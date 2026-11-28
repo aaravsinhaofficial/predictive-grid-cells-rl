@@ -20,7 +20,7 @@ from matplotlib import font_manager as fm  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from code.codes import GridPopulation  # noqa: E402
+from code.codes_var import GridPopulation  # noqa: E402
 from code.codes_data import GARDNER_PGC_SHIFT_CM, GARDNER_SHIFT_FRAC, GARDNER_SHIFT_M  # noqa: E402
 from code.env import BOX_COLOR, PART_COLOR, WALL_COLORS, room_spec  # noqa: E402
 
