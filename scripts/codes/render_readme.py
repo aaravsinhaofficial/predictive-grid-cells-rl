@@ -173,7 +173,8 @@ def main():
     return '\n'.join(rows)
 
   def t_lesions(room, budget, codes):
-    ft = S[room].get('final_test', {}).get(str(budget))
+    ft = S[room].get('final_test', {})
+    ft = ft.get(str(budget)) if str(budget) in ft else (ft if 'codes' in ft else None)   # the LSTM block has one budget
     if not ft:
       return '??'
     rows = ['| code | agents | test score ± SEM | predictive cells off, beyond 169 random cells off | look-aheads set to zero | whole code off | goal code off |',

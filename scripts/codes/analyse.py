@@ -30,11 +30,12 @@ from scipy import stats
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from scripts.codes.matrix import DOOR_CORE, LABEL, LSTM_CODES, OPEN_CORE, OPEN_SCREEN  # noqa: E402
+from scripts.codes.matrix import DOOR_CORE, LABEL, LSTM_CODES, FOLLOW_CODES, OPEN_CORE, OPEN_SCREEN  # noqa: E402
+LSTM_CODES = tuple(LSTM_CODES) + tuple(FOLLOW_CODES)
 
 BASE = os.path.join(ROOT, 'runs_codes')
 OUT = os.path.join(ROOT, 'results', 'code_variations')
-BLOCKS = ('oc', 'os', 'dr', 'tr', 'lstm', 'trl', 'free')
+BLOCKS = ('oc', 'os', 'dr', 'tr', 'lstm', 'trl', 'free', 'ox', 'dx', 'lx')   # a later block continues runs of an earlier one
 M = 1_000_000
 SPACINGS_CM = [40.0, 56.8, 80.656, 114.53]
 
@@ -124,10 +125,26 @@ def load(blocks, base=BASE):
       except ValueError:
         continue
       fr, ret = read_episodes(d)
-      runs[name] = dict(name=name, tag=tag, dir=d, code=m['code'], env=m['env'], arm=m['arm'],
-                        seed=int(m['seed']), budget=int(cfg.get('frames', 0)), fr=fr, ret=ret,
-                        frames_done=int(fr.max()) if len(fr) else 0, evals=read_evals(d),
-                        learn=int(cfg.get('learn_shift') or 0))
+      rec = dict(name=name, tag=tag, dir=d, code=m['code'], env=m['env'], arm=m['arm'],
+                 seed=int(m['seed']), budget=int(cfg.get('frames', 0)), fr=fr, ret=ret,
+                 frames_done=int(fr.max()) if len(fr) else 0, evals=read_evals(d),
+                 learn=int(cfg.get('learn_shift') or 0))
+      rec['evals_at'] = {rec['budget'] // M: rec['evals']}      # final tests by training budget (M frames)
+      old = runs.get(name)
+      if old is not None and old['budget'] < rec['budget']:
+        # The same run continued in a later block. Its history up to the first budget is kept exactly
+        # as the first block recorded it, so the readout at the first budget cannot change.
+        if not len(fr) or fr.max() <= old['budget']:
+          rec.update(fr=old['fr'], ret=old['ret'], frames_done=old['frames_done'])
+        else:
+          keep, more = old['fr'] <= old['budget'], fr > old['budget']
+          rec.update(fr=np.concatenate([old['fr'][keep], fr[more]]), ret=np.concatenate([old['ret'][keep], ret[more]]))
+          rec['frames_done'] = int(rec['fr'].max())
+        rec['evals_at'] = dict(old['evals_at'], **({rec['budget'] // M: rec['evals']} if rec['evals'] else {}))
+        rec['first_tag'] = old['tag']
+      elif old is not None:
+        continue
+      runs[name] = rec
   return runs
 
 
@@ -201,11 +218,10 @@ def final_tests(runs, env, arm, budget_m):
   """{code: {seed: {probe: score}}} for finished runs of that budget."""
   out = {}
   for r in runs.values():
-    if r['env'] != env or r['arm'] != arm or r['learn'] or 'intact' not in r['evals']:
+    ev = r['evals_at'].get(budget_m)
+    if r['env'] != env or r['arm'] != arm or r['learn'] or not ev or 'intact' not in ev:
       continue
-    if abs(r['budget'] - budget_m * M) > M:
-      continue
-    out.setdefault(r['code'], {})[r['seed']] = {k: v['score'] for k, v in r['evals'].items()}
+    out.setdefault(r['code'], {})[r['seed']] = {k: v['score'] for k, v in ev.items()}
   return out
 
 
@@ -332,12 +348,17 @@ def main():
       if mark == top:
         named = [('prop10', 'u20'), ('mec', 'u20'), ('gard', 'u20'), ('side', 'u20')]
         desc = [('prop27', 'u20'), ('prop27', 'rand'), ('rand', 'u20'), ('mec', 'prop27'), ('gard', 'prop10'),
-                ('u20', 'gc100')]
+                ('u20', 'gc100'),
+                # the screen codes, once continued to this mark (block ox; not in the plan)
+                ('gcvar', 'gc100'), ('gcvar3', 'gc100'), ('gcvar3', 'gcvar'), ('gcshear', 'gc100'), ('gcjit', 'gc100'),
+                ('mecreal', 'mec'), ('m1', 'gc100'), ('m1var', 'm1'), ('m1var', 'gc100'), ('two', 'u20'),
+                ('two', 'rand'), ('lr30', 'u20'), ('p100', 'u20')]
       else:
         named = [('gcvar', 'gc100'), ('gcshear', 'gc100'), ('gcjit', 'gc100'), ('mecreal', 'mec')]
         desc = [('prop10', 'u20'), ('mec', 'u20'), ('gard', 'u20'), ('side', 'u20'), ('prop27', 'u20'),
                 ('rand', 'u20'), ('two', 'u20'), ('lr30', 'u20'), ('p100', 'u20'), ('gcvar3', 'gc100'),
-                ('m1var', 'm1'), ('m1', 'gc100'), ('u20', 'gc100'), ('two', 'rand'), ('prop27', 'rand')]
+                ('m1var', 'm1'), ('m1', 'gc100'), ('u20', 'gc100'), ('two', 'rand'), ('prop27', 'rand'),
+                ('gcvar3', 'gcvar'), ('m1var', 'gc100')]
       blk = contrast_block(sc, named, desc)
       blk['many_vs_one'] = many_vs_one(sc)
       old = old_reference(mark)
@@ -347,7 +368,8 @@ def main():
     sc = scores_at(runs, 'door', 'ffb', mark, 25)
     if sc:
       named = [('u20', 'gc100'), ('prop10', 'u20'), ('mec', 'u20')]
-      desc = [('rand', 'u20'), ('gard', 'u20'), ('gc100', 'none'), ('u20', 'none')]
+      desc = [('rand', 'u20'), ('gard', 'u20'), ('gc100', 'none'), ('u20', 'none'),
+              ('gcvar3', 'gc100'), ('mecreal', 'mec'), ('mecreal', 'gc100')]      # block dx (not in the plan)
       blk = contrast_block(sc, named if mark == top else [], desc if mark == top else named + desc)
       blk['many_vs_one'] = None
       so = scores_at(runs, 'open', 'ffb', mark, 25)
@@ -364,7 +386,7 @@ def main():
 
   # ----- final 200-episode tests and lesions
   for env, key in (('open', 'open'), ('door', 'door')):
-    for budget in sorted({r['budget'] // M for r in runs.values() if r['env'] == env and r['arm'] == 'ffb'}):
+    for budget in sorted({b for r in runs.values() if r['env'] == env and r['arm'] == 'ffb' for b in r['evals_at']}):
       ft = final_tests(runs, env, 'ffb', budget)
       if ft:
         intact = {c: {s: ev['intact'] for s, ev in v.items()} for c, v in ft.items()}
@@ -376,7 +398,8 @@ def main():
     sc = scores_at(runs, 'mix', 'lstm', mark, 50)
     if sc:
       S['lstm'][str(mark)] = contrast_block(sc, [], [('u20', 'gc100'), ('prop10', 'u20'), ('mec', 'u20'),
-                                                      ('prop10', 'gc100'), ('mec', 'gc100')])
+                                                      ('prop10', 'gc100'), ('mec', 'gc100'),
+                                                      ('gcvar3', 'gc100'), ('mecreal', 'mec'), ('mecreal', 'gc100')])
   ft = final_tests(runs, 'mix', 'lstm', max(lstm_marks))
   if ft:
     intact = {c: {s: ev['intact'] for s, ev in v.items()} for c, v in ft.items()}

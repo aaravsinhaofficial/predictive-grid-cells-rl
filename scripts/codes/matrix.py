@@ -49,6 +49,10 @@ Blocks (one cloud fleet each):
         rooms, 500 M frames, 8 seeds
   trl   trainable look-aheads in the LSTM agent on the same mixture, 500 M
         frames, 4 seeds (+ 2 controls)
+Follow-on blocks, added after the planned 300 M readout of block os (not in the plan):
+  ox    the os runs continued from 300 M to 600 M frames
+  dx    gcvar3 and mecreal in the door room, 600 M frames, 8 seeds
+  lx    gcvar3 and mecreal in the LSTM agents on the mixture, 500 M frames, 8 seeds
 Agent arm 'ffb' (all blocks but lstm): feed-forward policy whose image shows the
 heading only, so the code is its only source of position.
 
@@ -94,6 +98,7 @@ OPEN_CORE = ('gc100', 'u20', 'prop10', 'prop27', 'mec', 'gard', 'rand', 'side')
 OPEN_SCREEN = ('two', 'lr30', 'p100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'mecreal', 'm1', 'm1var')
 DOOR_CORE = ('gc100', 'u20', 'prop10', 'mec', 'gard', 'rand')
 LSTM_CODES = ('gc100', 'u20', 'prop10', 'mec')
+FOLLOW_CODES = ('gcvar3', 'mecreal')   # follow-on blocks dx and lx: the clearest spread code and the most realistic code
 DOOR_LAYOUT = 'DO1'
 LABEL = {
     'gc100': 'grid only', 'u20': '20 cm ahead', 'prop10': '10 % of spacing',
@@ -134,6 +139,13 @@ def block(name):
   elif name == 'trl':
     runs = [run(c, 'mix', s, 500 * M, arm='lstm') for s in (1, 2, 3, 4) for c in ('lzero', 'lu20')]
     runs += [run(c, 'mix', 1, 500 * M, arm='lstm') for c in ('lzeroX', 'lu20X')]
+  # ---- added after the planned 300 M readout of the open-room screen (not in PLAN.md)
+  elif name == 'ox':      # the screen runs continued from 300 M to 600 M (same names; the VMs start from the os states)
+    runs = [run(c, 'open', s, 600 * M) for s in S8 for c in OPEN_SCREEN]
+  elif name == 'dx':      # spread x 3 and the realistic code in the door room
+    runs = [run(c, 'door', s, 600 * M) for s in S8 for c in FOLLOW_CODES]
+  elif name == 'lx':      # the same two codes in the LSTM agents on the room mixture
+    runs = [run(c, 'mix', s, 500 * M, arm='lstm') for s in S8 for c in FOLLOW_CODES]
   else:
     raise ValueError(name)
   return runs
@@ -141,7 +153,7 @@ def block(name):
 
 def main():
   ap = argparse.ArgumentParser()
-  ap.add_argument('block', choices=['oc', 'os', 'dr', 'tr', 'lstm', 'trl'])
+  ap.add_argument('block', choices=['oc', 'os', 'dr', 'tr', 'lstm', 'trl', 'ox', 'dx', 'lx'])
   ap.add_argument('--out', required=True)
   args = ap.parse_args()
   runs = block(args.block)

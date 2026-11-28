@@ -64,7 +64,135 @@ As fixed in the plan. The outcome is the training score: the mean reward per epi
 
 Comparisons are paired within seed. Named comparisons use a paired t-test with Holm correction inside their list. The exact sign-flip p is given uncorrected. Everything else is descriptive and shown with a 95 % confidence interval.
 
-{{DETAILS_RESULTS}}
+## Results
+
+In every table a positive difference means that the first code scores higher. "Agents higher" counts the agents for which it does. Scores are points per 90 s episode, ± the standard error over agents.
+
+### Open room after 600 M frames (follow-ups 1, 3 and 6)
+
+The four named comparisons, Holm-corrected together:
+
+{{t_named('open', 600, ['prop10 - u20', 'mec - u20', 'gard - u20', 'side - u20'])}}
+
+All eight codes against the 20 cm code:
+
+{{t_codes('open', 600, ['gc100', 'u20', 'prop10', 'prop27', 'mec', 'gard', 'rand', 'side'], 'u20')}}
+
+The same against the grid-only code:
+
+{{t_codes('open', 600, ['gc100', 'u20', 'prop10', 'prop27', 'mec', 'gard', 'rand', 'side'], 'gc100')}}
+
+Further comparisons, descriptive and not corrected:
+
+{{t_named('open', 600, ['prop27 - u20', 'rand - u20', 'prop27 - rand', 'mec - prop27', 'gard - prop10', 'u20 - gc100'])}}
+
+**Many distances against one.** Three pairs of codes have about the same mean look-ahead and differ in whether it is one distance per module or many: random against 20 cm, Ouchi & Fujisawa against 27 %, lab recordings against 10 %. Averaged over the three pairs, many minus one is {{d(blk('open', 600)['many_vs_one'])}} points (95 % CI {{ci(blk('open', 600)['many_vs_one'])}}, {{p(blk('open', 600)['many_vs_one'])}}, {{k(blk('open', 600)['many_vs_one'])}} agents higher).
+
+### Open room after 300 M frames (follow-ups 4, 5 and 6)
+
+The four named comparisons, Holm-corrected together:
+
+{{t_named('open', 300, ['gcvar - gc100', 'gcshear - gc100', 'gcjit - gc100', 'mecreal - mec'])}}
+
+All 18 codes against the grid-only code. The eight codes of the 600 M block are read here at 300 M:
+
+{{t_codes('open', 300, ['gc100', 'gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'u20', 'prop10', 'prop27', 'mec', 'mecreal', 'gard', 'rand', 'two', 'side', 'lr30', 'p100'], 'gc100')}}
+
+The codes with predictive cells against the 20 cm code:
+
+{{t_codes('open', 300, ['u20', 'prop10', 'prop27', 'mec', 'mecreal', 'gard', 'rand', 'two', 'side', 'lr30', 'p100'], 'u20')}}
+
+Further comparisons, descriptive and not corrected:
+
+{{t_named('open', 300, ['gcvar3 - gc100', 'm1var - m1', 'm1 - gc100', 'two - u20', 'two - rand', 'lr30 - u20', 'p100 - u20', 'prop27 - rand', 'u20 - gc100'])}}
+
+**Check against the runs of October.** The grid-only and the 20 cm code were trained in October with the same seeds and settings, on other machines. New minus old at 300 M frames: grid only {{d(blk('open', 300)['rerun_check']['gc100'])}} points ({{k(blk('open', 300)['rerun_check']['gc100'])}} agents higher), 20 cm {{d(blk('open', 300)['rerun_check']['u20'])}} ({{k(blk('open', 300)['rerun_check']['u20'])}}). A training run is not bit-reproducible across machines, so this difference is the size of pure rerun noise.
+
+### Door room after 600 M frames
+
+The three named comparisons, Holm-corrected together:
+
+{{t_named('door', 600, ['u20 - gc100', 'prop10 - u20', 'mec - u20'])}}
+
+All six codes against the 20 cm code:
+
+{{t_codes('door', 600, ['gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'], 'u20')}}
+
+The same against the grid-only code:
+
+{{t_codes('door', 600, ['gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'], 'gc100')}}
+
+After 300 M frames, with the agents that get no code (3 agents, trained for 300 M frames only):
+
+{{t_codes('door', 300, ['none', 'gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'], 'gc100')}}
+
+**Does the room change which code is better?** The difference 10 % minus 20 cm in the door room, minus the same difference in the open room, agent by agent: {{d(blk('door', 600)['room_interaction'])}} points (95 % CI {{ci(blk('door', 600)['room_interaction'])}}, {{p(blk('door', 600)['room_interaction'])}}).
+
+**Trips through the door.** The trained agents were tested for 200 episodes in the door room. Every trip to a goal the agent had already found once was sorted by whether the start and the goal lie on the same side of the wall.
+
+{{t_groups(D, [('score', 'test score'), ('reach_same', 'goal reached, same side (share of trips)'), ('reach_door', 'goal reached, through the door (share of trips)'), ('steps_same', 'steps to the goal, same side'), ('steps_door', 'steps to the goal, through the door'), ('wall_contact', 'share of steps pushing against a wall')], ['gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'], 'u20', 2)}}
+
+### Tests of the final networks and lesions
+
+Each final network was tested for 200 episodes. The lesion columns give the change of the test score when part of the code is switched off at test time. A negative number means the agent got worse.
+
+- **Predictive cells off.** The 169 predictive cells are silenced. The number is the loss beyond that of silencing 169 random cells (mean of three random sets).
+- **Look-aheads set to zero.** The predictive cells keep firing but for the agent's own place.
+- **Whole code off** and **goal code off** silence the current code or the remembered goal code.
+
+Open room, 600 M frames:
+
+{{t_lesions('open', 600, ['gc100', 'u20', 'prop10', 'prop27', 'mec', 'gard', 'rand', 'side'])}}
+
+Open room, 300 M frames:
+
+{{t_lesions('open', 300, ['gcvar', 'gcvar3', 'gcshear', 'gcjit', 'm1', 'm1var', 'mecreal', 'two', 'lr30', 'p100'])}}
+
+Door room, 600 M frames:
+
+{{t_lesions('door', 600, ['gc100', 'u20', 'prop10', 'mec', 'gard', 'rand'])}}
+
+### Trainable look-aheads (follow-up 7)
+
+Look-ahead of each module at the end of training, mean ± SEM over agents, and as a share of the module's spacing. The control runs (one per row) learn from a gradient with scrambled signs.
+
+{{t_learned(['lzero_open', 'lu20_open', 'lzeroX_open', 'lu20X_open', 'lzero_door', 'lu20_door', 'lzeroX_door', 'lu20X_door'])}}
+
+Score of the agents with a trainable code against the agents with a fixed code and the same seeds:
+
+{{t_learned_scores([('open', 600, 'lzero', 'gc100'), ('open', 600, 'lzero', 'u20'), ('open', 600, 'lu20', 'u20'), ('door', 600, 'lzero', 'gc100'), ('door', 600, 'lzero', 'u20'), ('door', 600, 'lu20', 'u20')])}}
+
+**One look-ahead vector per cell (exploratory, not in the plan).** All 512 cells of the grid-only code get their own forward and sideways look-ahead, starting at zero.
+
+{{t_free()}}
+
+### LSTM agents in the mix of changed rooms
+
+Training score after 500 M frames, against the grid-only code:
+
+{{t_codes('lstm', 500, ['gc100', 'u20', 'prop10', 'mec'], 'gc100')}}
+
+The same against the 20 cm code:
+
+{{t_codes('lstm', 500, ['gc100', 'u20', 'prop10', 'mec'], 'u20')}}
+
+After 250 M frames:
+
+{{t_codes('lstm', 250, ['gc100', 'u20', 'prop10', 'mec'], 'gc100')}}
+
+**Tests room by room.** The final networks were tested for 100 episodes in each room: the open room, the 21 rooms of the training mix, and 6 room conditions that were never trained.
+
+{{t_groups(L, [('open', 'open room'), ('trained', 'the 21 training rooms'), ('door', 'rooms with a door wall'), ('obstacle', 'rooms with an obstacle'), ('both', 'rooms with both'), ('goal_moved', 'rooms with a moving goal'), ('new', 'rooms never trained')], ['gc100', 'u20', 'prop10', 'mec'], 'gc100')}}
+
+**Lesions in the LSTM agents** (test in the training mix):
+
+{{t_lesions('lstm', 500, ['gc100', 'u20', 'prop10', 'mec'])}}
+
+**Trainable look-aheads in the LSTM agents:**
+
+{{t_learned(['lzero_mix', 'lu20_mix', 'lzeroX_mix', 'lu20X_mix'])}}
+
+{{t_learned_scores([('mix', 500, 'lzero', 'gc100'), ('mix', 500, 'lzero', 'u20'), ('mix', 500, 'lu20', 'u20')])}}
 
 ## Sources
 
