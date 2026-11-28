@@ -182,6 +182,8 @@ def main(argv=None):
   ckpt_path, ckpt_frames = pick_checkpoint(args.run, args.ckpt)
   ck = torch.load(ckpt_path, map_location='cpu')
   pop = build_population(cfg, dev)
+  if 'shift' in ck:      # learned look-ahead vectors (train.py --learn_shift)
+    pop.set_shift(ck['shift'][:, 0], ck['shift'][:, 1])
   out_dir = args.out_dir or os.path.join(args.run, 'eval')
   os.makedirs(out_dir, exist_ok=True)
   canonical = (os.path.basename(ckpt_path) == 'ckpt_final.pt' and

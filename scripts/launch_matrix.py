@@ -119,6 +119,8 @@ def main():
                   default='--encoder_norm layernorm --lr 3e-4 --rms_eps 1e-5',
                   help='extra arguments appended to every train command')
   ap.add_argument('--no_ckpt_probes', action='store_true')
+  ap.add_argument('--probes', default=FULL_PROBES,
+                  help='comma list of probes for the final evaluation of every finished run')
   ap.add_argument('--dry_run', action='store_true')
   ap.add_argument('--poll', type=float, default=30.0)
   args = ap.parse_args()
@@ -180,7 +182,7 @@ def main():
     """Probes of FULL_PROBES without a canonical eval/<probe>.json. Only these
     are evaluated, so a relaunch over finished runs adds probes that were
     appended to FULL_PROBES later without re-running (and rewriting) the rest."""
-    return [p for p in FULL_PROBES.split(',')
+    return [p for p in args.probes.split(',')
             if not os.path.exists(os.path.join(out, 'eval', f'{p}.json'))]
 
   def evaluated(out):

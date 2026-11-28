@@ -40,6 +40,20 @@ but neither ckpt_final.pt nor resume.pt (an extension interrupted during its
 warm-up) continues the same way from its latest checkpoint (mode
 'recover_weights_only') rather than restarting from zero.
 
+Learnable look-aheads (--learn_shift 1 or 2): look-ahead distances in metres,
+initialised from the population and trained by the same A2C loss as the
+policy: the rollout stores the agent's states, the update recomputes the
+current code and the goal code from them with the look-aheads as parameters,
+and the gradient reaches them through the policy's input layer.
+  1  every cell has its own (forward, sideways) vector: 2 x n_cells numbers
+  2  one forward distance per module, shared by that module's predictive
+     cells; the other cells stay plain grid cells: n_modules numbers
+They have their own learning rate (--shift_lr), are not gradient-clipped, and
+every checkpoint stores the resulting per-cell vectors ('shift', [n_cells, 2])
+and the raw parameters ('shift_param'). --shift_scramble 1 multiplies the
+look-ahead gradient by a random sign per parameter at every update: the same
+step sizes with no signal, the control for how far noise alone moves them.
+
 Example:
   python -m code.train --cond pgc33 --policy lstm --seed 1 \
       --frames 300000000 --out runs/pgc33_lstm_s1
@@ -62,7 +76,10 @@ from code.common import (EXPERIMENT_KEYS, CodeSource, add_shared_args,   # noqa:
 # pin down the cells a run was trained with; compared on --resume when present.
 POPULATION_KEYS = ('n_cells', 'n_modules', 'spacings_m', 'orientation_deg', 'pgc_idx',
                    'pgc_shift_mode', 'pgc_shift_m_per_module', 'pgc_shift_jitter',
-                   'sharpness', 'noise', 'seed', 'cell_type')
+                   'sharpness', 'noise', 'seed', 'cell_type',
+                   'pgc_shift_dist', 'pgc_shift_angle', 'pgc_shift_angle_alt', 'spacing_sd',
+                   'orient_sd_deg',
+                   'lattice_ellip', 'lattice_shear', 'field_jitter', 'lattice_hash')
 
 
 def parse_args(argv=None):
@@ -93,6 +110,13 @@ def parse_args(argv=None):
                       '--frames and no resume.pt): updates run at learning rate 0 so '
                       'the fresh RMSProp statistics are estimated on the frozen policy '
                       'before training continues (no frames or episodes are counted)')
+  t.add_argument('--learn_shift', type=int, default=0,
+                 help='1: train a (forward, sideways) look-ahead vector per cell; 2: train one '
+                      'forward look-ahead per module for its predictive cells (module docstring)')
+  t.add_argument('--shift_scramble', type=int, default=0,
+                 help='1: random sign on the look-ahead gradient at every update (noise control)')
+  t.add_argument('--shift_lr', type=float, default=1e-4,
+                 help='learning rate of the look-ahead vectors (metres per normalised step)')
   t.add_argument('--tf32', type=int, default=1,
                  help='TF32 for cuDNN convolutions (matmuls, incl. the code '
                       'lookup and the LSTM, stay full FP32)')
@@ -107,9 +131,17 @@ def check_resume_config(cfg, path):
   rebuilt from the requested arguments must reproduce it (same cells, PGC
   indices and shifts)."""
   old = json.load(open(path))
-  old.setdefault('rooms', 'none')      # configs written before the changed rooms existed
-  bad = {k: (old.get(k), cfg.get(k)) for k in EXPERIMENT_KEYS
-         if old.get(k) is not None and old.get(k) != cfg.get(k)}
+  req = dict(cfg)
+  # Keys that did not exist when older configs were written take their default
+  # on both sides, so an old run cannot be resumed with a later option switched on.
+  for k, v in (('rooms', 'none'), ('pgc_shift_dist', 'rule'), ('pgc_shift_angle', 0.0),
+               ('pgc_shift_angle_alt', 0), ('spacing_sd', 0.0), ('orient_sd_deg', 0.0),
+               ('lattice_ellip', 1.0), ('lattice_shear', 0.0), ('field_jitter', 0.0),
+               ('learn_shift', 0)):
+    old.setdefault(k, v)
+    req.setdefault(k, v)
+  bad = {k: (old.get(k), req.get(k)) for k in EXPERIMENT_KEYS
+         if old.get(k) is not None and old.get(k) != req.get(k)}
   if bad:
     raise SystemExit(f'--resume refused: config.json in {cfg["out"]} differs in '
                      f'{bad} (stored, requested)')
@@ -215,8 +247,30 @@ def main(argv=None):
   env = build_env(cfg, n, seed=cfg['seed'] * 1000 + 1, device=dev, stagger=True)
   policy = build_policy(cfg, dev)
   code_src = CodeSource(cfg, pop, dev)
-  opt = torch.optim.RMSprop(policy.parameters(), lr=cfg['lr'],
-                            alpha=cfg['rms_alpha'], eps=cfg['rms_eps'])
+  shift_param = None     # learnable look-aheads: [n_cells, 2] (forward, leftward) or [n_modules]
+  mod_idx = torch.as_tensor(pop.module, device=dev)
+  pgc_f = pop.is_pgc.float()
+
+  def cell_shift(p):
+    """Parameters -> per-cell (forward, leftward) look-aheads [n_cells, 2]."""
+    if cfg['learn_shift'] == 2:
+      fwd = p[mod_idx] * pgc_f
+      return torch.stack([fwd, torch.zeros_like(fwd)], 1)
+    return p
+
+  if cfg.get('learn_shift'):
+    if cfg['learn_shift'] == 2:      # start: mean look-ahead of each module's predictive cells
+      init = torch.stack([pop.shift[(mod_idx == m) & pop.is_pgc].mean()
+                          for m in range(pop.n_modules)])
+    else:
+      init = torch.stack([pop.shift, pop.shift_lat], 1)
+    shift_param = torch.nn.Parameter(init.clone())
+    opt = torch.optim.RMSprop([{'params': list(policy.parameters())},
+                               {'params': [shift_param], 'lr': cfg['shift_lr']}],
+                              lr=cfg['lr'], alpha=cfg['rms_alpha'], eps=cfg['rms_eps'])
+  else:
+    opt = torch.optim.RMSprop(policy.parameters(), lr=cfg['lr'],
+                              alpha=cfg['rms_alpha'], eps=cfg['rms_eps'])
   n_params = sum(p.numel() for p in policy.parameters())
   cfg['population'] = pop.describe()
   cfg['n_params'] = n_params
@@ -233,6 +287,8 @@ def main(argv=None):
     st = torch.load(resume_path, map_location='cpu')
     policy.load_state_dict(st['policy'])
     opt.load_state_dict(st['opt'])
+    if shift_param is not None:
+      shift_param.data.copy_(st['shift_param'].to(dev))
     frames_done, update = st['frames_done'], st['update']
     episodes_seen = st.get('episodes_seen', 0)
     torch.set_rng_state(st['cpu_rng'].cpu())
@@ -243,6 +299,8 @@ def main(argv=None):
   elif weights_only:
     ck = torch.load(weights_ckpt, map_location='cpu')
     policy.load_state_dict(ck['policy'])
+    if shift_param is not None and 'shift_param' in ck:
+      shift_param.data.copy_(ck['shift_param'].to(dev))
     frames_done, update = int(ck['frames']), int(ck.get('update', 0))
     episodes_seen = ck.get('episodes_seen')
     if episodes_seen is None:       # older checkpoints: count the logged episodes
@@ -267,12 +325,43 @@ def main(argv=None):
               cpu_rng=torch.get_rng_state())
     if dev.type == 'cuda':
       st['cuda_rng'] = torch.cuda.get_rng_state(dev)
+    if shift_param is not None:
+      st['shift_param'] = shift_param.detach().cpu().clone()
     torch.save(st, tmp)
     os.replace(tmp, resume_path)
 
+  def ckpt_dict():
+    d = {'policy': policy.state_dict(), 'frames': frames_done, 'update': update,
+         'episodes_seen': episodes_seen}
+    if shift_param is not None:
+      d['shift'] = cell_shift(shift_param.detach()).cpu().clone()
+      d['shift_param'] = shift_param.detach().cpu().clone()
+    return d
+
+  def shift_stats():
+    """Summary of the learned look-ahead vectors (cm)."""
+    if cfg['learn_shift'] == 2:
+      return {f'shift_fwd_m{m}': round(float(shift_param.detach()[m]) * 100.0, 4)
+              for m in range(pop.n_modules)}
+    sf, sl = shift_param.detach()[:, 0] * 100.0, shift_param.detach()[:, 1] * 100.0
+    mod = mod_idx
+    out = dict(shift_fwd_mean=float(sf.mean()), shift_fwd_sd=float(sf.std()),
+               shift_lat_mean=float(sl.mean()), shift_lat_sd=float(sl.std()),
+               shift_fwd_gt2=float((sf > 2.0).float().mean()),
+               shift_fwd_lt2=float((sf < -2.0).float().mean()))
+    for m in range(pop.n_modules):
+      out[f'shift_fwd_m{m}'] = float(sf[mod == m].mean())
+    return {k: round(v, 4) for k, v in out.items()}
+
+  if shift_param is not None:
+    cs = cell_shift(shift_param.data)
+    pop.set_shift(cs[:, 0], cs[:, 1])
   obs = env.reset_all()
   state = policy.zero_state(n, dev)
   goal_code = torch.zeros(n, cfg['n_cells'], device=dev)
+  # State at the last goal hit (learnable look-aheads recompute g* from it).
+  g_pos, g_dir, g_vel = (torch.zeros(n, 2, device=dev) for _ in range(3))
+  g_val = torch.zeros(n, device=dev)
   prev_action = torch.full((n,), -1, dtype=torch.long, device=dev)   # -1 = none
   prev_reward = torch.zeros(n, device=dev)
   recent = dict(ret=[], goals=[], first=[], eff=[])
@@ -291,8 +380,8 @@ def main(argv=None):
         f'eps={cfg["rms_eps"]} encoder_norm={cfg["encoder_norm"]}', flush=True)
 
   def set_lr(lr):
-    for g in opt.param_groups:
-      g['lr'] = lr
+    for i, g in enumerate(opt.param_groups):
+      g['lr'] = lr if i == 0 else (cfg['shift_lr'] if lr > 0 else 0.0)
 
   def param_checksum():
     with torch.no_grad():
@@ -332,6 +421,10 @@ def main(argv=None):
         roll['pr'].append(prev_reward)
         roll['extra'].append(extra)
         roll['a'].append(a)
+        if shift_param is not None:
+          for k_, v_ in (('pos', obs['pos']), ('dir', obs['dir']), ('vel', obs['vel']),
+                         ('gpos', g_pos), ('gdir', g_dir), ('gvel', g_vel), ('gval', g_val)):
+            roll.setdefault(k_, []).append(v_)
 
         obs, r_raw, done, info = env.step(a)
         if not warm:
@@ -346,10 +439,16 @@ def main(argv=None):
         if bool(hit.any()):
           g_hit = code_src.goal(info['hit_pos'], info['hit_dir'], info['hit_vel'])
           goal_code = torch.where(hit[:, None], g_hit, goal_code)
+          if shift_param is not None:
+            g_pos = torch.where(hit[:, None], info['hit_pos'], g_pos)
+            g_dir = torch.where(hit[:, None], info['hit_dir'], g_dir)
+            g_vel = torch.where(hit[:, None], info['hit_vel'], g_vel)
+            g_val = torch.where(hit, torch.ones_like(g_val), g_val)
         prev_action, prev_reward = a, r
         if bool(done.any()):
           keep = (~done).float()
           goal_code = goal_code * keep[:, None]
+          g_val = g_val * keep
           state = (state[0] * keep[:, None], state[1] * keep[:, None])
           prev_action = torch.where(done, torch.full_like(a, -1), a)
           prev_reward = prev_reward * keep
@@ -385,11 +484,25 @@ def main(argv=None):
     # Encode all T*n frames in one pass (the encoder is not recurrent), then
     # run the recurrent core step by step from the window's initial state.
     E = policy.embed(torch.cat(roll['rgb'], 0)).view(T, n, -1)
+    codes, goals = roll['code'], roll['goal']
+    if shift_param is not None:
+      # Recompute both codes from the stored states with the look-ahead vectors
+      # as parameters, so the loss gradient reaches them.
+      cs = cell_shift(shift_param)
+      codes = code_src(torch.cat(roll['pos']), torch.cat(roll['dir']), torch.cat(roll['vel']),
+                       shift=cs).view(T, n, -1)
+      goals = (code_src.goal(torch.cat(roll['gpos']), torch.cat(roll['gdir']),
+                             torch.cat(roll['gvel']), shift=cs)
+               * torch.cat(roll['gval'])[:, None]).view(T, n, -1)
+      if (update + 1) % cfg['log_every'] == 0:
+        with torch.no_grad():
+          recode_err = max(float((codes - torch.stack(roll['code'])).abs().max()),
+                           float((goals - torch.stack(roll['goal'])).abs().max()))
     st = state0
     logits_l, v_l = [], []
     for t in range(T):
       logits, v, st = policy.step_from_embedding(
-          E[t], roll['code'][t], roll['goal'][t], roll['pa'][t], roll['pr'][t], st,
+          E[t], codes[t], goals[t], roll['pa'][t], roll['pr'][t], st,
           roll['extra'][t])
       logits_l.append(logits)
       v_l.append(v)
@@ -407,7 +520,19 @@ def main(argv=None):
     opt.zero_grad(set_to_none=True)
     loss.backward()
     gn = torch.nn.utils.clip_grad_norm_(policy.parameters(), cfg['grad_clip'])
+    if shift_param is not None:
+      shift_gn = float(shift_param.grad.norm())
+      if cfg.get('shift_scramble'):
+        shift_param.grad.mul_(torch.randint(0, 2, shift_param.shape, device=dev).float() * 2 - 1)
     opt.step()
+    if shift_param is not None:
+      # The population reads the new vectors from now on; the remembered goal
+      # code is re-read with them too, so g* always is the code at the stored
+      # goal state under the current look-aheads.
+      cs = cell_shift(shift_param.data)
+      pop.set_shift(cs[:, 0], cs[:, 1])
+      with torch.no_grad():
+        goal_code = code_src.goal(g_pos, g_dir, g_vel) * g_val[:, None]
     state = (state[0].detach(), state[1].detach())
     if warm:
       # Warm-up: the step above only updated RMSProp's square_avg (lr 0). It
@@ -440,6 +565,10 @@ def main(argv=None):
       diag = policy.diagnostics(obs['rgb'], code_b, goal_code, prev_action, prev_reward,
                                 state, extra_from_obs(cfg, obs))
       rec.update({k: round(v, 4) for k, v in diag.items()})
+      if shift_param is not None:
+        rec.update(shift_stats())
+        rec['shift_grad_norm'] = round(shift_gn, 5)
+        rec['recode_err'] = round(recode_err, 7)
       print(json.dumps(rec), flush=True)
       metrics_f.write(json.dumps(rec) + '\n')
       metrics_f.flush()
@@ -447,14 +576,11 @@ def main(argv=None):
     if update % cfg['resume_every'] == 0:
       save_resume()
     if frames_done >= next_ckpt:
-      torch.save({'policy': policy.state_dict(), 'frames': frames_done,
-                  'update': update, 'episodes_seen': episodes_seen},
-                 os.path.join(cfg['out'], f'ckpt_{frames_done:010d}.pt'))
+      torch.save(ckpt_dict(), os.path.join(cfg['out'], f'ckpt_{frames_done:010d}.pt'))
       next_ckpt += cfg['ckpt_every']
 
   save_resume()
-  torch.save({'policy': policy.state_dict(), 'frames': frames_done, 'update': update,
-              'episodes_seen': episodes_seen}, final_path)
+  torch.save(ckpt_dict(), final_path)
   ep_f.close()
   metrics_f.close()
   print('done', flush=True)

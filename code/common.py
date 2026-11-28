@@ -44,6 +44,9 @@ EXPERIMENT_KEYS = (
     'pgc_shift_jitter', 'sharpness', 'code_noise', 'extra_input', 'goal_code_shift',
     'pgc_layout', 'pgc_module_weights', 'pgc_shift_rule', 'pgc_shift_frac', 'cell_type',
     'silence_pgc',
+    'pgc_shift_dist', 'pgc_shift_dist_args', 'pgc_shift_angle', 'pgc_shift_angle_alt',
+    'spacing_sd', 'orient_sd_deg',
+    'lattice_ellip', 'lattice_shear', 'field_jitter', 'learn_shift', 'shift_lr', 'shift_scramble',
     'arena_half', 'episode_len', 'action_repeat', 'v_max', 'rot_max', 'goal_radius',
     'vision', 'img_noise', 'randomize_textures', 'policy', 'conv_arch', 'nh',
     'encoder_norm', 'forward_bias', 'seed', 'n_envs', 'rollout', 'gamma', 'lr',
@@ -74,6 +77,30 @@ def add_shared_args(ap: argparse.ArgumentParser):
   g.add_argument('--pgc_shift_frac', type=float, default=0.5)
   g.add_argument('--cell_type', choices=['grid', 'band'], default='grid',
                  help="'band': stripe cells (one cosine per cell) instead of hexagonal grid cells")
+  g.add_argument('--pgc_shift_dist',
+                 choices=['rule', 'tnorm', 'emp', 'empm', 'unif', 'set', 'gardner', 'gardner_frac'],
+                 default='rule',
+                 help="per-cell look-ahead distribution (codes.py): 'tnorm' mu,sd,lo,hi and 'emp' "
+                      "f1,f2,... are fractions of the module spacing; 'unif' lo,hi, 'set' d1,d2,... "
+                      "and 'empm' d1,d2,... are metres; 'gardner' = the recorded shifts of "
+                      "codes_data.GARDNER_SHIFT_M as they are; 'gardner_frac' = the same shifts as "
+                      'fractions of their module spacing (GARDNER_SHIFT_FRAC)')
+  g.add_argument('--pgc_shift_dist_args', default=None, help='comma list (see --pgc_shift_dist)')
+  g.add_argument('--pgc_shift_angle', type=float, default=0.0,
+                 help='direction of the look-ahead, degrees to the left of the direction of '
+                      'travel (0 ahead, 90 sideways, 180 behind)')
+  g.add_argument('--pgc_shift_angle_alt', type=int, default=0,
+                 help='1: the PGCs of each module take +angle and -angle in turn')
+  g.add_argument('--spacing_sd', type=float, default=0.0,
+                 help='within-module SD of the per-cell grid spacing (fraction of module spacing)')
+  g.add_argument('--orient_sd_deg', type=float, default=0.0,
+                 help='within-module SD of the per-cell grid orientation (degrees)')
+  g.add_argument('--lattice_ellip', type=float, default=1.0,
+                 help='ellipticity of every module lattice (long / short axis; 1 = hexagonal)')
+  g.add_argument('--lattice_shear', type=float, default=0.0,
+                 help='shear of every module lattice along a wall axis')
+  g.add_argument('--field_jitter', type=float, default=0.0,
+                 help='RMS displacement of single firing fields (fraction of the spacing)')
   g.add_argument('--silence_pgc', type=int, default=0,
                  help='1: hold the PGC slots of the population at zero in the current '
                       'and the goal code under every probe, leaving the grid cells '
@@ -147,8 +174,37 @@ def resolve_cond(cfg):
   return cfg
 
 
+def shift_dist_from_cfg(cfg):
+  """(pgc_shift_dist, args list) for GridPopulation; 'gardner' expands to the
+  recorded fractions."""
+  dist = cfg.get('pgc_shift_dist') or 'rule'
+  args = cfg.get('pgc_shift_dist_args')
+  if dist == 'gardner':
+    from code.codes_data import GARDNER_SHIFT_M
+    return 'empm', list(GARDNER_SHIFT_M)
+  if dist == 'gardner_frac':
+    from code.codes_data import GARDNER_SHIFT_FRAC
+    return 'emp', list(GARDNER_SHIFT_FRAC)
+  if dist == 'rule':
+    return 'rule', None
+  if isinstance(args, str):
+    args = [float(x) for x in args.split(',') if x.strip()]
+  if not args:
+    raise ValueError(f'--pgc_shift_dist {dist} needs --pgc_shift_dist_args')
+  return dist, list(args)
+
+
 def build_population(cfg, device):
+  dist, dist_args = shift_dist_from_cfg(cfg)
   return GridPopulation(
+      pgc_shift_dist=dist, pgc_shift_dist_args=dist_args,
+      pgc_shift_angle=cfg.get('pgc_shift_angle', 0.0) or 0.0,
+      pgc_shift_angle_alt=bool(cfg.get('pgc_shift_angle_alt', 0)),
+      spacing_sd=cfg.get('spacing_sd', 0.0) or 0.0,
+      orient_sd_deg=cfg.get('orient_sd_deg', 0.0) or 0.0,
+      lattice_ellip=cfg.get('lattice_ellip', 1.0) or 1.0,
+      lattice_shear=cfg.get('lattice_shear', 0.0) or 0.0,
+      field_jitter=cfg.get('field_jitter', 0.0) or 0.0,
       n_cells=cfg['n_cells'], n_modules=cfg['n_modules'],
       spacing_min=cfg['spacing_min'], spacing_ratio=cfg['spacing_ratio'],
       pgc_frac=cfg['pgc_frac'], pgc_shift=cfg['pgc_shift'],
@@ -306,20 +362,23 @@ class CodeSource:
     d = torch.stack([torch.cos(ang), torch.sin(ang)], 1)
     return pos, d, d * self.cfg['v_max']
 
-  def _code(self, pos, dir, vel, shift_scale):
+  def _code(self, pos, dir, vel, shift_scale, shift=None):
     if self.none:
       return torch.zeros(pos.shape[0], self.n_code, device=self.device)
-    g = self.pop.activity(pos, dir=dir, vel=vel, shift_scale=shift_scale)
+    if shift is None:
+      g = self.pop.activity(pos, dir=dir, vel=vel, shift_scale=shift_scale)
+    else:      # learnable look-ahead vectors [N,2] (may require grad)
+      g = self.pop.activity(pos, dir=dir, vel=vel, shift_scale=shift_scale, shift=shift)
     return g * self.mask[None]
 
-  def __call__(self, pos, dir, vel):
+  def __call__(self, pos, dir, vel, shift=None):
     if self.no_current:
       return torch.zeros(pos.shape[0], self.n_code, device=self.device)
     if self.shuffled_current:
       pos, dir, vel = self._random_state(pos.shape[0])
-    return self._code(pos, dir, vel, self.shift_scale)
+    return self._code(pos, dir, vel, self.shift_scale, shift)
 
-  def goal(self, pos, dir, vel):
+  def goal(self, pos, dir, vel, shift=None):
     if self.no_goal:
       return torch.zeros(pos.shape[0], self.n_code, device=self.device)
     if self.fake_goal:
@@ -328,4 +387,4 @@ class CodeSource:
       pos = pos + self.goal_lookahead * dir
     elif self.goal_lookahead_tau is not None:
       pos = pos + self.goal_lookahead_tau * vel
-    return self._code(pos, dir, vel, self.goal_shift_scale)
+    return self._code(pos, dir, vel, self.goal_shift_scale, shift)
