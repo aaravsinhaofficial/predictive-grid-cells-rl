@@ -375,6 +375,52 @@ def fig_curves(S):
   save(fig, 'curves')
 
 
+def fig_spread_curves(S):
+  """Score over training for the codes with and without spread: three small panels with one y axis.
+  Blue: no predictive cells, orange: predictive cells; darker = more spread. Lines are named at their right end."""
+  rows = read_csv('curves.csv')
+  DARK, DARKER, BROWN = '#0f4a96', '#082a57', '#9a3412'
+  panels = [('four modules', [('gc100', BLUE, 'grid only'), ('gcvar', DARK, 'spread'), ('gcvar3', DARKER, 'spread × 3')]),
+            ('one module', [('m1', BLUE, 'no spread'), ('m1var', DARK, 'spread')]),
+            ('Ouchi & Fujisawa look-aheads', [('mec', ORANGE, 'ideal grid'), ('mecreal', BROWN, 'spread, shear and\nmoved fields')])]
+  fig, axes = plt.subplots(1, 3, figsize=(11.0, 3.5), sharey=True, gridspec_kw=dict(wspace=0.10))
+  ymax, xmax = 1.0, 300
+  datas = []
+  for _, lines in panels:
+    d = curves_by(rows, 'open', 'ffb', [c for c, _, _ in lines])
+    datas.append(d)
+    for v in d.values():
+      for dd in v.values():
+        ymax, xmax = max(ymax, max(dd.values())), max(xmax, max(dd))
+  for ax, (title, lines), data in zip(axes, panels, datas):
+    cols = {c: col for c, col, _ in lines}
+    draw_curves(ax, data, [c for c, _, _ in lines], cols, None)
+    ends = []
+    for c, col, lab in lines:
+      if c not in data:
+        continue
+      xs = sorted(set.union(*[set(v) for v in data[c].values()]))
+      full = [x for x in xs if sum(x in d for d in data[c].values()) >= min(3, len(data[c]))]
+      if full:
+        ends.append([np.mean([d[full[-1]] for d in data[c].values() if full[-1] in d]), full[-1] - 5, lab, col])
+    ends.sort(key=lambda e: e[0])
+    gap = 0.085 * ymax                       # keep the names apart when two lines end close together
+    for i in range(1, len(ends)):
+      ends[i].append(max(ends[i][0], ends[i - 1][-1] + gap) if len(ends[i - 1]) > 4 else max(ends[i][0], ends[i - 1][0] + gap))
+    for i, e in enumerate(ends):
+      ypos = e[4] if len(e) > 4 else e[0]
+      ax.text(e[1] + 0.02 * xmax, ypos, e[2], ha='left', va='center', fontsize=9.5, color=INK, linespacing=0.95)
+    ax.set_xlim(0, xmax * 1.36)
+    ax.set_xticks([x for x in (0, 100, 200, 300, 400, 500, 600) if x <= xmax])
+    ax.set_ylim(0, ymax * 1.02)
+    ax.set_title(title, fontsize=11, color=INK, loc='left')
+    ax.set_xlabel('training frames (million)')
+    if xmax > 320:
+      ax.axvline(300, color=GREY, lw=0.8, ls=(0, (2, 2)), zorder=0)
+  axes[0].set_ylabel('score')
+  save(fig, 'spread_curves')
+
+
 # ------------------------------------------------ 7. trainable look-aheads
 def fig_learned(S):
   rows = read_csv('learned_lookaheads.csv')
@@ -492,6 +538,7 @@ def main():
     fig_scores(S, 'door', top, ['none', 'gc100', 'u20', 'prop10', 'gard', 'mec', 'rand'], 'door_shifts')
   if 'curves' in only:
     fig_curves(S)
+    fig_spread_curves(S)
   if 'learned' in only:
     fig_learned(S)
   if 'lstm' in only:
